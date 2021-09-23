@@ -23,6 +23,9 @@
 .font-face-robotoR {
   font-family: 'RobotoR';
 }
+* {
+  scrollbar-width: none; /* Firefox implementation */
+}
 
 body {
   width: 560px;
@@ -37,6 +40,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   /* Hide scrollbar for IE, Edge and Firefox */
+  overflow: auto;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
