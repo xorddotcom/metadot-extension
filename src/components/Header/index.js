@@ -14,7 +14,7 @@ function Header(props) {
     <HeaderWrapper>
       <IconButton
         className="primary-bg-color"
-        onClick={() => console.log('go back!')}
+        onClick={() => history.goBack()}
         style={{ position: 'absolute' }}>
         <ArrowBackIcon style={{ color: 'white' }} />
       </IconButton>

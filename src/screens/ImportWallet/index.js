@@ -8,40 +8,33 @@ import Button from '../../components/Button';
 import Header from '../../components/Header';
 import { Option, OptionDiv } from './StyledComponents';
 import { colors, fonts } from '../../utils';
-import { TextField } from '@mui/material';
+import { Input } from '@mui/material';
 import { styled } from '@mui/system';
 
-const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryTextColor } = colors;
+
+const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 function ImportWallet(props) {
   const [selectedType, setSelectedType] = useState('');
 
-  // const TextArea = styled(TextField)`
-  //   width: 500px;
-  //   height: 170px;
-  //   background: '#212121';
-  //   color: ${primaryTextColor};
-  //   border-radius: 8px;
-  // `;
+  const TextArea = styled(Input)`
+    width: 500px;
+    border-radius: 8px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    color: #fafafa;
+    font-size: 16px;
+  `;
 
   const TypeSeedPhrase = () => (
     <div>
       <MainHeading className={mainHeadingfontFamilyClass}>
         Place your seed here :
       </MainHeading>
-      <TextField
-        multiline={true}
-        disabled
-        style={{
-          width: 500,
-          height: 170,
-          background: '#212121',
-          color: { primaryTextColor },
-          borderRadius: 8,
-        }}
-      />
-      {/* <TextArea multiline={true} /> */}
+      <TextArea rows={7} multiline={true} style={{ background: '#212121' }} />
     </div>
   );
 
@@ -63,10 +56,20 @@ function ImportWallet(props) {
           Select Type :{' '}
         </MainHeading>
         <OptionDiv>
-          <Option className={mainHeadingfontFamilyClass}>Seed Phrase</Option>
-          <Option className={mainHeadingfontFamilyClass}>Json File</Option>
+          <Option
+            onClick={() => setSelectedType('seed')}
+            selected={selectedType == 'seed'}
+            className={mainHeadingfontFamilyClass}>
+            Seed Phrase
+          </Option>
+          <Option
+            onClick={() => setSelectedType('json')}
+            className={mainHeadingfontFamilyClass}
+            selected={selectedType == 'json'}>
+            Json File
+          </Option>
         </OptionDiv>
-        <TypeSeedPhrase />
+        {selectedType == 'seed' && <TypeSeedPhrase />}
       </SubMainWrapperForAuthScreens>
       <div>
         <Button text="Import" handleClick={() => console.log('object')} />
