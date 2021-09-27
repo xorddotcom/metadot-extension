@@ -4,7 +4,7 @@ on:
   workflow_dispatch:	# Allows you to manually trigger workflow
   push:
     # Triggers workflow only if code is pushed to dev branch
-    branches: [ dev ]
+    branches: [ development ]
     paths:
       # Triggers workflow only if manifest content is changed
       - 'package.json'
