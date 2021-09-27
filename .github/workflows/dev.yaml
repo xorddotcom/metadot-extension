@@ -21,6 +21,7 @@ jobs:
       uses: kewisch/action-web-ext@v1
       with:
         cmd: build
+        source: public
 
     - name: 'Sign & publish'
       id: web-ext-sign
