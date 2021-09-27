@@ -7,7 +7,7 @@ on:
     branches: [ development ]
     paths:
       # Triggers workflow only if manifest content is changed
-      - 'package.json'
+      - 'manifest.json'
 
 jobs:
   Firefox:	
@@ -21,7 +21,6 @@ jobs:
       uses: kewisch/action-web-ext@v1
       with:
         cmd: build
-        source: src
 
     - name: 'Sign & publish'
       id: web-ext-sign
