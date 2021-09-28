@@ -38,7 +38,7 @@ function Welcome(props) {
           StartIcon={AddSharpIcon}
           handleClick={() => {
             console.log('clicked');
-            history.push('/dashboard');
+            history.push('/ShowSeed');
           }}
         />
         <Button
