@@ -1,53 +1,42 @@
-/* @font-face {
-  font-family: 'MyFont';
-  src: local('MyFont'), url(./assets/fonts/Roboto-Bold.ttf) format('ttf');
-  /* other formats include: 'woff2', 'truetype, 'opentype',
-                            'embedded-opentype', and 'svg' */
+/* hiding scrollbar in chrome */
+::-webkit-scrollbar {
+  opacity: 0;
+}
+/* hiding scrollbar in firefox */
+* {
+  scrollbar-width: none;
+}
 
+/* getting font family */
 @font-face {
   font-family: 'RobotoB';
   src: local('Roboto'), url('./assets/fonts/Roboto-Bold.ttf') format('truetype');
   font-weight: bold;
 }
-
 @font-face {
   font-family: 'RobotoR';
   src: local('Roboto'),
     url('./assets/fonts/Roboto-Regular.ttf') format('truetype');
 }
 
+/* creating classess for font family we just imported above */
 .font-face-robotoB {
   font-family: 'RobotoB';
 }
-
 .font-face-robotoR {
   font-family: 'RobotoR';
-}
-* {
-  scrollbar-width: none; /* Firefox implementation */
 }
 
 body {
   width: 560px;
-  height: auto;
+  /* height: 600px; */
   min-height: 600px;
   max-height: 870px;
 
   margin: 0;
   background-color: rgba(20, 20, 20);
-  /* overflow: hidden; Hide scrollbars */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  /* Hide scrollbar for IE, Edge and Firefox */
-  overflow: auto;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-
-/* Hide scrollbar for Chrome, Safari and Opera */
-body::-webkit-scrollbar {
-  display: none;
 }
 
 .primary-bg-color {

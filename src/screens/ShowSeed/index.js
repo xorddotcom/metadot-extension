@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { IndexText, SeedText, SeedWrapper } from './StyledComponents';
+
 import {
   MainHeading,
   SubHeading,
@@ -7,29 +10,37 @@ import {
 } from '../../components/CommonStyledComponents';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
-import { fonts } from '../../utils';
-import { IndexText, SeedText, SeedWrapper } from './StyledComponents';
 import WarningModal from '../../components/Modals';
+
+import { fonts } from '../../utils';
+
+import { GenerateSeedPhrase } from '../../ToolBox/accounts';
+
+import { resetAccountSlice, setSeed } from '../../redux/slices/account';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
-function ShowSeed(props) {
-  const history = useHistory();
+function ShowSeed() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const phrases = [
-    'abc',
-    'def',
-    'ghi',
-    'abc',
-    'def',
-    'ghi',
-    'abc',
-    'def',
-    'ghi',
-    'abc',
-    'def',
-    'ghi',
-  ];
+  // const [seedPhrase, setSeedPhrase] = useState('');
+
+  const { seed } = useSelector(state => state.account);
+
+  const dispatch = useDispatch();
+
+  //generate new seed for parent account
+  useEffect(() => {
+    try {
+      if (!seed) {
+        //checking whether seed needs to be created or not
+        const newSeed = GenerateSeedPhrase();
+
+        dispatch(setSeed(newSeed)); // store newSeed in redux
+      }
+    } catch (error) {
+      console.log('ERROR while generating new seed for parent account', error);
+    }
+  }, []);
 
   const SinglePhrase = ({ index, phrase }) => {
     return (
@@ -44,7 +55,10 @@ function ShowSeed(props) {
 
   return (
     <div>
-      <Header centerText="Show Seed" />
+      <Header
+        centerText="Show Seed"
+        backHandler={() => dispatch(resetAccountSlice())}
+      />
       <div style={{ paddingLeft: 20 }}>
         <MainHeading className={mainHeadingfontFamilyClass}>
           Write down your seed phrase{' '}
@@ -56,9 +70,12 @@ function ShowSeed(props) {
         </SubHeading>
       </div>
       <SubMainWrapperForAuthScreens>
-        {phrases.map((phrase, i) => (
-          <SinglePhrase index={i} key={i} phrase={phrase} />
-        ))}
+        {seed &&
+          seed
+            .split(' ')
+            .map((phrase, i) => (
+              <SinglePhrase index={i} key={i} phrase={phrase} />
+            ))}
       </SubMainWrapperForAuthScreens>
       <div>
         <Button text="Continue" handleClick={() => setIsModalOpen(true)} />

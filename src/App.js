@@ -5,9 +5,11 @@ import ImportWallet from './screens/ImportWallet';
 import ShowSeed from './screens/ShowSeed';
 import Welcome from './screens/Welcome';
 
-import './App.css';
 import CreateWallet from './screens/CreateWallet';
 import ConfirmSeed from './screens/ConfirmSeed';
+
+import './App.css';
+import Dashboard from './screens/Dashboard';
 
 function App() {
   return (
@@ -29,8 +31,12 @@ function App() {
           <Route path="/ImportWallet">
             <ImportWallet />
           </Route>
+
+          {/* Temporary screen for testing */}
+          <Route path="/dashboard">
+            <Dashboard />
+          </Route>
         </Switch>
-        {/* <Welcome /> */}
       </div>
     </Router>
   );

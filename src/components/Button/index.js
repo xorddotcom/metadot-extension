@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import './index.css';
 import { styled } from '@mui/system';
 
-function index({ StartIcon, handleClick, text, width, cancel }) {
+function index({ StartIcon, handleClick, text, width, cancel, disabled }) {
   const primaryBgColor = `radial-gradient(
       40.36% 71% at 18.57% 29%,
       rgba(255, 255, 255, 0.08) 0%,
@@ -33,11 +33,15 @@ function index({ StartIcon, handleClick, text, width, cancel }) {
         <StyledButton
           variant="contained"
           startIcon={<StartIcon />}
-          onClick={() => handleClick()}>
+          onClick={() => handleClick()}
+          disabled={disabled ? true : false}>
           {text ? text : ''}
         </StyledButton>
       ) : (
-        <StyledButton variant="contained" onClick={() => handleClick()}>
+        <StyledButton
+          variant="contained"
+          onClick={() => handleClick()}
+          disabled={disabled ? true : false}>
           {text ? text : ''}
         </StyledButton>
       )}

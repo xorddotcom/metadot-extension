@@ -5,3 +5,8 @@
 .primary-text-color {
   color: '#fafafa';
 }
+
+.App::-webkit-scrollbar {
+  /* display: none; */
+  width: 0px;
+}
