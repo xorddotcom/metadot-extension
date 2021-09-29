@@ -11,5 +11,10 @@
     "16": "logo192.png",
     "48": "logo192.png",
     "128": "logo192.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "shaheryar@xord.com"
+    }
   }
 }

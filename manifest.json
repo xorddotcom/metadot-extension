@@ -14,9 +14,7 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "xord.innovations@gmail.com",
-      "strict_min_version": "42.0",
-      "strict_max_version": "50.*"
+      "id": "shaheryar@xord.com"
     }
   }
 }
