@@ -12,9 +12,24 @@ on:
 jobs:
   Firefox:	
     runs-on: ubuntu-latest	
+    strategy:
+      matrix:
+        node-version: ['12.x']
+
 
     steps:
     - uses: actions/checkout@v2	
+    
+      # Initialize Node.js
+    - name: Install Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+      # Install project dependencies and build
+    - name: Install dependencies
+      run: npm install
+      
 
     - name: Build the code
       run: npm run build
