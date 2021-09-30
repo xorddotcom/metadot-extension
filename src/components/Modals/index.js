@@ -18,7 +18,9 @@ function WarningModal({ open, handleClose, style }) {
         <MainHeading className={mainHeadingfontFamilyClass} color="#C30707">
           Warning
         </MainHeading>
-        <SubHeading className={subHeadingfontFamilyClass}>
+        <SubHeading
+          className={subHeadingfontFamilyClass}
+          textAlignLast={'center'}>
           Please write the mnemonic down in order to ensure the backup is
           correct
         </SubHeading>
@@ -26,12 +28,12 @@ function WarningModal({ open, handleClose, style }) {
           <Button
             text="Cancel"
             cancel={true}
-            width={150}
+            width={'78%'}
             handleClick={() => handleClose()}
           />
           <Button
             text="Confirm"
-            width={150}
+            width={'78%'}
             handleClick={() => history.push('/ConfirmSeed')}
           />
         </div>

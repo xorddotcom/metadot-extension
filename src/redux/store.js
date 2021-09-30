@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import account from './slices/account';
+import { rootReducer } from './slices';
+
+import logger from 'redux-logger';
 
 export default configureStore({
-  reducer: {
-    account,
-  },
+  reducer: rootReducer,
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger),
 });

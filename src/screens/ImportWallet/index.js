@@ -7,11 +7,9 @@ import {
 import Button from '../../components/Button';
 import Header from '../../components/Header';
 import { Option, OptionDiv } from './StyledComponents';
-import { colors, fonts } from '../../utils';
+import { fonts } from '../../utils';
 import { Input } from '@mui/material';
 import { styled } from '@mui/system';
-
-const { primaryTextColor } = colors;
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -58,18 +56,18 @@ function ImportWallet(props) {
         <OptionDiv>
           <Option
             onClick={() => setSelectedType('seed')}
-            selected={selectedType == 'seed'}
+            selected={selectedType === 'seed'}
             className={mainHeadingfontFamilyClass}>
             Seed Phrase
           </Option>
           <Option
             onClick={() => setSelectedType('json')}
             className={mainHeadingfontFamilyClass}
-            selected={selectedType == 'json'}>
+            selected={selectedType === 'json'}>
             Json File
           </Option>
         </OptionDiv>
-        {selectedType == 'seed' && <TypeSeedPhrase />}
+        {selectedType === 'seed' && <TypeSeedPhrase />}
       </SubMainWrapperForAuthScreens>
       <div>
         <Button text="Import" handleClick={() => console.log('object')} />

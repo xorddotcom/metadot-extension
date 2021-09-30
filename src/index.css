@@ -27,13 +27,28 @@
   font-family: 'RobotoR';
 }
 
+html {
+  font-size: 16px;
+}
+
+@media screen and (min-width: 450px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+@media screen and (min-width: 550px) {
+  html {
+    font-size: 23px;
+  }
+}
+
 body {
-  width: 560px;
-  /* height: 600px; */
+  width: 357px;
   min-height: 600px;
   max-height: 870px;
-
-  margin: 0;
+  font-size: 16ox;
+  margin: 0 auto;
   background-color: rgba(20, 20, 20);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -57,4 +72,10 @@ body {
 
 .secondary-bg-color {
   background-color: greenyellow;
+}
+
+.btn-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

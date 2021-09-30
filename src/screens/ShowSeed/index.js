@@ -77,17 +77,17 @@ function ShowSeed() {
               <SinglePhrase index={i} key={i} phrase={phrase} />
             ))}
       </SubMainWrapperForAuthScreens>
-      <div>
+      <div className="btn-wrapper">
         <Button text="Continue" handleClick={() => setIsModalOpen(true)} />
       </div>
       <WarningModal
         open={isModalOpen}
         handleClose={() => setIsModalOpen(false)}
         style={{
-          width: 400,
+          width: '78%',
           background: '#141414',
           p: 2,
-          px: 4,
+          px: 2,
           pb: 3,
         }}
       />

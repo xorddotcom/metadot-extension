@@ -1,4 +1,4 @@
-import React, { createRef, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
@@ -9,11 +9,10 @@ import {
 } from '../../components/CommonStyledComponents';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
-import { fonts, colors } from '../../utils';
+import { fonts } from '../../utils';
 import { arrayFromSeedSentence } from '../../utils/helpers';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-const { primaryTextColor } = colors;
 
 function ConfirmSeed(props) {
   const history = useHistory();
@@ -21,17 +20,16 @@ function ConfirmSeed(props) {
   const { seed } = useSelector(state => state.account);
 
   const seedArray = arrayFromSeedSentence(seed);
-
-  const [word1, setWord1] = useState('');
-  const [word4, setWord4] = useState('');
-  const [word8, setWord8] = useState('');
-  const [word11, setWord11] = useState('');
-  const [validations, setValidations] = useState([true, true, true, true]);
-
   const phrase1 = seedArray[0];
   const phrase4 = seedArray[3];
   const phrase8 = seedArray[7];
   const phrase11 = seedArray[10];
+
+  const [word1, setWord1] = useState(phrase1);
+  const [word4, setWord4] = useState(phrase4);
+  const [word8, setWord8] = useState(phrase8);
+  const [word11, setWord11] = useState(phrase11);
+  const [validations, setValidations] = useState([true, true, true, true]);
 
   const checkWords = () => {
     const first = word1 === phrase1;
@@ -42,6 +40,8 @@ function ConfirmSeed(props) {
     setValidations([first, second, third, fourth]);
     first && second && third && fourth && history.push('/CreateWallet');
   };
+
+  console.log('object', { word1, word4, word8, word11 });
 
   return (
     <div>
@@ -97,7 +97,7 @@ function ConfirmSeed(props) {
           isCorrect={validations[3]}
         />
       </SubMainWrapperForAuthScreens>
-      <div>
+      <div className="btn-wrapper">
         <Button
           text="Continue"
           disabled={word1 && word4 && word8 && word11 ? false : true}

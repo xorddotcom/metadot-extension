@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { colors, fonts } from '../../utils';
-import { Input, InputAdornment, TextField } from '@mui/material';
+import { Input, InputAdornment } from '@mui/material';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
@@ -21,6 +21,8 @@ export const SubHeading = styled.p`
   font-size: ${subHeadingFontSize};
   color: ${secondaryTextColor};
   text-align: start;
+  text-align-last: ${props =>
+    props.textAlignLast ? props.textAlignLast : 'start'};
   padding: 0px;
   line-height: 21px;
 `;

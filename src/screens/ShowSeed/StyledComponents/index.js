@@ -6,7 +6,7 @@ const { primaryTextColor } = colors;
 
 export const SeedWrapper = styled.div`
   background-color: #212121;
-  width: 193px;
+  width: 33%;
   height: 15px;
   border-radius: 8px;
   display: flex;
@@ -21,7 +21,8 @@ export const SeedWrapper = styled.div`
 `;
 
 export const IndexText = styled.span`
-  font-size: ${mainHeadingFontSize};
+  /* font-size: ${mainHeadingFontSize}; */
+  font-size: 14px;
   opacity: 0.6;
   color: ${primaryTextColor};
   position: absolute;

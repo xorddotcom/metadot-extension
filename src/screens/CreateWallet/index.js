@@ -10,11 +10,14 @@ import {
 import Header from '../../components/Header';
 import Button from '../../components/Button';
 import { fonts } from '../../utils';
+import { useSelector } from 'react-redux';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 function CreateWallet(props) {
   const history = useHistory();
+
+  const { seed } = useSelector(state => state.account);
 
   const [walletName, setWalletName] = useState('');
   const [password, setPassword] = useState('');
@@ -38,6 +41,7 @@ function CreateWallet(props) {
   const handleContinue = () => {
     if (!validatePasswordAndConfirmPassword()) return;
 
+    console.log({ walletName, password, seed });
     //create account with walletName, password and seed by using keyring
 
     //update redux data and tracking flags accordingly
@@ -102,7 +106,7 @@ function CreateWallet(props) {
           elit. Volutpat cursus sit diam{' '}
         </SubHeading>
       </SubMainWrapperForAuthScreens>
-      <div>
+      <div className="btn-wrapper">
         <Button
           text="Continue"
           disabled={!(walletName && password && confirmPassword) && true}
