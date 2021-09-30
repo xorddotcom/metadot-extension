@@ -64,9 +64,9 @@ function ShowSeed() {
           Write down your seed phrase{' '}
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Volutpat
-          cursus sit diam Lorem ipsum dolor sit amet, consectetur adipiscing
-          elit. Volutpat cursus sit diam{' '}
+          Please write the mnemonic down in order to ensure the backup is
+          correct. Obtaining mnemonic is equivalent to owning wallet assets.
+          Don't take screenshots or copy, otherwise it may cause asset loss
         </SubHeading>
       </div>
       <SubMainWrapperForAuthScreens>

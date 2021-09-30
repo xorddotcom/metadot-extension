@@ -1,4 +1,5 @@
-import React from 'react';
+/* global chrome */
+import React, { useEffect } from 'react';
 import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
 
 import ImportWallet from './screens/ImportWallet';
@@ -12,6 +13,19 @@ import './App.css';
 import Dashboard from './screens/Dashboard';
 
 function App() {
+  //commenting temporarily due to the issue in browser api "undefined"
+  // useEffect(() => {
+  //   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+  //     chrome.tabs.sendMessage(
+  //       tabs[0].id,
+  //       { greeting: 'hello' },
+  //       function (response) {
+  //         console.log(response.farewell);
+  //       },
+  //     );
+  //   });
+  // }, []);
+
   return (
     <Router>
       <div className="App">

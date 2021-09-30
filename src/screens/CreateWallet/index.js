@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 
 import {
   MainHeading,
-  StyledMUiInput,
   SubHeading,
   SubMainWrapperForAuthScreens,
 } from '../../components/CommonStyledComponents';
@@ -11,8 +10,15 @@ import Header from '../../components/Header';
 import Button from '../../components/Button';
 import { fonts } from '../../utils';
 import { useSelector } from 'react-redux';
+import { WarningText } from './StyledComponents';
+import StyledInput from '../../components/StyledInput';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+
+const passwordErrorMessages = {
+  minimumCharacterWarning: 'Minimum 8 characters required!',
+  didnotMatchWarning: 'Password did not match!',
+};
 
 function CreateWallet(props) {
   const history = useHistory();
@@ -26,14 +32,17 @@ function CreateWallet(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const [passwordError, setPasswordError] = useState('');
+
   const validatePasswordAndConfirmPassword = () => {
-    if (password.length < 8 || confirmPassword.length < 8) {
-      alert('password should be minimum of 8 characters');
+    if (!(password === confirmPassword)) {
+      setPasswordError(passwordErrorMessages.didnotMatchWarning);
       return false;
-    } else if (!(password === confirmPassword)) {
-      alert('password did not match!');
+    } else if (password.length < 8 || confirmPassword.length < 8) {
+      setPasswordError(passwordErrorMessages.minimumCharacterWarning);
       return false;
     } else if (password === confirmPassword) {
+      setPasswordError('');
       return true;
     }
   };
@@ -62,20 +71,16 @@ function CreateWallet(props) {
         <SubHeading className={mainHeadingfontFamilyClass}>
           Wallet Name
         </SubHeading>
-        <StyledMUiInput
+        <StyledInput
           placeholder="Account 0"
           value={walletName}
-          fullWidth={true}
-          disableUnderline={true}
           className={subHeadingfontFamilyClass}
           onChange={t => setWalletName(t)}
         />
 
         <SubHeading className={mainHeadingfontFamilyClass}>Password</SubHeading>
-        <StyledMUiInput
+        <StyledInput
           placeholder="password"
-          fullWidth={true}
-          disableUnderline={true}
           className={subHeadingfontFamilyClass}
           value={password}
           onChange={t => setPassword(t)}
@@ -83,27 +88,44 @@ function CreateWallet(props) {
           typePassword={true}
           hideHandler={() => setShowPassword(!showPassword)}
           hideState={showPassword}
+          rightIcon={true}
         />
+        {passwordError === passwordErrorMessages.minimumCharacterWarning && (
+          <WarningText>
+            {passwordErrorMessages.minimumCharacterWarning}
+          </WarningText>
+        )}
+        {passwordError === passwordErrorMessages.didnotMatchWarning && (
+          <WarningText>{passwordErrorMessages.didnotMatchWarning}</WarningText>
+        )}
 
         <SubHeading className={mainHeadingfontFamilyClass}>
           Confirm Password
         </SubHeading>
-        <StyledMUiInput
+        <StyledInput
           placeholder="re-enter password"
-          fullWidth={true}
-          disableUnderline={true}
           className={subHeadingfontFamilyClass}
           value={confirmPassword}
           onChange={t => setConfirmPassword(t)}
           typePassword={true}
           hideHandler={() => setShowConfirmPassword(!showConfirmPassword)}
           hideState={showConfirmPassword}
+          rightIcon={true}
         />
+        {passwordError === passwordErrorMessages.minimumCharacterWarning && (
+          <WarningText>
+            {passwordErrorMessages.minimumCharacterWarning}
+          </WarningText>
+        )}
+        {passwordError === passwordErrorMessages.didnotMatchWarning && (
+          <WarningText>{passwordErrorMessages.didnotMatchWarning}</WarningText>
+        )}
 
         <SubHeading className={subHeadingfontFamilyClass}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Volutpat
-          cursus sit diam Lorem ipsum dolor sit amet, consectetur adipiscing
-          elit. Volutpat cursus sit diam{' '}
+          At least 8 characters, recommended to mix uppercase and lowercase
+          alphabets, numbers and symbols This password will be used as the
+          transaction password for the wallet，POLO does not save password and
+          cannot retrieve them for you. Please keep your password safe!
         </SubHeading>
       </SubMainWrapperForAuthScreens>
       <div className="btn-wrapper">

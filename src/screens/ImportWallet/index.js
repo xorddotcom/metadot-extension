@@ -17,7 +17,7 @@ function ImportWallet(props) {
   const [selectedType, setSelectedType] = useState('');
 
   const TextArea = styled(Input)`
-    width: 500px;
+    width: 89%;
     border-radius: 8px;
     padding-left: 25px;
     padding-right: 25px;
@@ -32,7 +32,12 @@ function ImportWallet(props) {
       <MainHeading className={mainHeadingfontFamilyClass}>
         Place your seed here :
       </MainHeading>
-      <TextArea rows={7} multiline={true} style={{ background: '#212121' }} />
+      <TextArea
+        rows={7}
+        multiline={true}
+        disableUnderline={true}
+        style={{ background: '#212121' }}
+      />
     </div>
   );
 
@@ -69,7 +74,7 @@ function ImportWallet(props) {
         </OptionDiv>
         {selectedType === 'seed' && <TypeSeedPhrase />}
       </SubMainWrapperForAuthScreens>
-      <div>
+      <div className="btn-wrapper">
         <Button text="Import" handleClick={() => console.log('object')} />
       </div>
     </div>

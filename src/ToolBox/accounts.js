@@ -1,7 +1,8 @@
 import keyring from '@polkadot/ui-keyring';
-import { mnemonicGenerate } from '@polkadot/util-crypto';
+import { cryptoWaitReady, mnemonicGenerate } from '@polkadot/util-crypto';
 import { Account_Type } from '../constants/onchain';
 
+//generate and return seed phrase function
 function GenerateSeedPhrase() {
   console.log('seed generation started!');
   try {
@@ -13,6 +14,7 @@ function GenerateSeedPhrase() {
   }
 }
 
+//create account from seed phrase function
 function AccountCreation({ name, password, seed }) {
   try {
     const { pair, json } = keyring.addUri(
@@ -27,4 +29,21 @@ function AccountCreation({ name, password, seed }) {
   }
 }
 
-export { GenerateSeedPhrase, AccountCreation };
+//initializing keyring module
+//need to invoke this function in background.js script
+function KeyringInitialization() {
+  cryptoWaitReady()
+    .then(() => {
+      console.log('crypto initialized');
+
+      // load all the keyring data
+      keyring.loadAll({ ss58Format: 42, type: Account_Type });
+
+      console.log('INITIALIZATION COMPLETED');
+    })
+    .catch(error => {
+      console.error('INITIALIZATION failed', error);
+    });
+}
+
+export { GenerateSeedPhrase, AccountCreation, KeyringInitialization };

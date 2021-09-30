@@ -27,9 +27,7 @@ function Welcome(props) {
           welcome to polo
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
-          The most user frinedly, non-custodial blockchain Agnostic wallet . The{' '}
-          {/* <br /> */}
-          most user frinedly, non-custodial blockchain Agnostic wallet
+          For Passionates, For Progress, For Polkadot
         </SubHeading>
       </div>
       <div className="btn-wrapper">

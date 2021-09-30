@@ -16,5 +16,10 @@
     "gecko": {
       "id": "shaheryar@xord.com"
     }
-  }
+  },
+
+  "background": {
+    "scripts": ["background-script.js"]
+  },
+  "permission": ["activeTab", "tab"]
 }
