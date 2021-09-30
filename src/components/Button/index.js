@@ -2,8 +2,13 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import './index.css';
 import { styled } from '@mui/system';
+import { dimension, fonts } from '../../utils';
 
-function index({ StartIcon, handleClick, text, width, cancel }) {
+const { _width, _height } = dimension.button;
+
+const { buttonFontSize } = fonts;
+
+function index({ StartIcon, handleClick, text, width, cancel, disabled }) {
   const primaryBgColor = `radial-gradient(
       40.36% 71% at 18.57% 29%,
       rgba(255, 255, 255, 0.08) 0%,
@@ -20,24 +25,35 @@ function index({ StartIcon, handleClick, text, width, cancel }) {
   const secondaryBgColor = '#171717';
 
   const StyledButton = styled(Button)`
-    width: ${width ? width : 282}px;
-    height: 53px;
+    width: 95%;
+    height: ${_height};
     box-shadow: 0px 0px 28px 5px rgba(136, 0, 65, 0.12);
     border-radius: 8px;
     background: ${!cancel ? primaryBgColor : secondaryBgColor};
+    font-size: ${buttonFontSize};
   `;
 
   return (
-    <div style={{ marginBottom: 10 }}>
+    <div
+      style={{
+        width: width ? width : _width,
+        marginBottom: 10,
+      }}>
       {StartIcon ? (
         <StyledButton
           variant="contained"
           startIcon={<StartIcon />}
-          onClick={() => handleClick()}>
+          onClick={() => handleClick()}
+          disabled={disabled ? true : false}
+          style={{ fontSize: buttonFontSize }}>
           {text ? text : ''}
         </StyledButton>
       ) : (
-        <StyledButton variant="contained" onClick={() => handleClick()}>
+        <StyledButton
+          variant="contained"
+          onClick={() => handleClick()}
+          disabled={disabled ? true : false}
+          style={{ fontSize: buttonFontSize }}>
           {text ? text : ''}
         </StyledButton>
       )}

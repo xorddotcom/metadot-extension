@@ -28,11 +28,11 @@ function Welcome(props) {
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
           The most user frinedly, non-custodial blockchain Agnostic wallet . The{' '}
-          <br />
+          {/* <br /> */}
           most user frinedly, non-custodial blockchain Agnostic wallet
         </SubHeading>
       </div>
-      <div>
+      <div className="btn-wrapper">
         <Button
           text="Create"
           StartIcon={AddSharpIcon}

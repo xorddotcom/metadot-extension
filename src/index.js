@@ -1,14 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './App.css';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+
+import store from './redux/store';
+
 import './assets/fonts/Roboto-Bold.ttf';
 import './assets/fonts/Roboto-Regular.ttf';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
 );

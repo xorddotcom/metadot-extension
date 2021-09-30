@@ -7,14 +7,23 @@ import { fonts } from '../../utils';
 
 const { mainHeadingfontFamilyClass } = fonts;
 
-function Header(props) {
-  const { centerText } = props;
+function Header({ centerText, backHandler }) {
   const history = useHistory();
+
+  const onBackClick = async () => {
+    if (backHandler) {
+      await backHandler();
+      history.goBack();
+    } else {
+      history.goBack();
+    }
+  };
+
   return (
     <HeaderWrapper>
       <IconButton
         className="primary-bg-color"
-        onClick={() => console.log('go back!')}
+        onClick={() => onBackClick()}
         style={{ position: 'absolute' }}>
         <ArrowBackIcon style={{ color: 'white' }} />
       </IconButton>

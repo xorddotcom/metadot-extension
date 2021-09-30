@@ -18,5 +18,8 @@ export const SubHeading = styled.p`
   font-size: ${subHeadingFontSize};
   line-height: 30px;
   text-align: center;
+  text-align-last: center;
   text-transform: capitalize;
+  width: 98%;
+  margin: 0 auto;
 `;
