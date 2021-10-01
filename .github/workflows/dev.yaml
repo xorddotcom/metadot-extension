@@ -10,54 +10,54 @@ on:
       #- 'manifest.json'
 
 jobs:
-  Firefox:	
-    runs-on: ubuntu-latest	
-    strategy:
-      matrix:
-        node-version: ['12.x']
+  # Firefox:	
+  #   runs-on: ubuntu-latest	
+  #   strategy:
+  #     matrix:
+  #       node-version: ['12.x']
 
 
-    steps:
-    - uses: actions/checkout@v2	
+  #   steps:
+  #   - uses: actions/checkout@v2	
     
-      # Initialize Node.js
-    - name: Install Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
+  #     # Initialize Node.js
+  #   - name: Install Node.js ${{ matrix.node-version }}
+  #     uses: actions/setup-node@v1
+  #     with:
+  #       node-version: ${{ matrix.node-version }}
 
-      # Install project dependencies and build
-    - name: Install dependencies
-      run: npm install
+  #     # Install project dependencies and build
+  #   - name: Install dependencies
+  #     run: npm install
       
 
-    - name: Build the code
-      run: npm run build
-      env:
-        CI: false
+  #   - name: Build the code
+  #     run: npm run build
+  #     env:
+  #       CI: false
 
-    - name: Build Extension for Firefox
-      id: web-ext-build
-      uses: kewisch/action-web-ext@v1
-      with:
-        cmd: build
-        source: build
+  #   - name: Build Extension for Firefox
+  #     id: web-ext-build
+  #     uses: kewisch/action-web-ext@v1
+  #     with:
+  #       cmd: build
+  #       source: build
 
-    - name: 'Sign & publish'
-      id: web-ext-sign
-      uses: kewisch/action-web-ext@v1
-      with:
-        cmd: sign
-        channel: unlisted
-        source: ${{ steps.web-ext-build.outputs.target }}
-        apiKey: ${{ secrets.FIREFOX_API_KEY }}
-        apiSecret: ${{ secrets.FIREFOX_CLIENT_SECRET }}
+  #   - name: 'Sign & publish'
+  #     id: web-ext-sign
+  #     uses: kewisch/action-web-ext@v1
+  #     with:
+  #       cmd: sign
+  #       channel: unlisted
+  #       source: ${{ steps.web-ext-build.outputs.target }}
+  #       apiKey: ${{ secrets.FIREFOX_API_KEY }}
+  #       apiSecret: ${{ secrets.FIREFOX_CLIENT_SECRET }}
 
-    - name: Drop artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: 'Firefox Artefacts'
-        path: ${{ steps.web-ext-sign.outputs.target }}
+  #   - name: Drop artifacts
+  #     uses: actions/upload-artifact@v2
+  #     with:
+  #       name: 'Firefox Artefacts'
+  #       path: ${{ steps.web-ext-sign.outputs.target }}
 
   Chrome:
     runs-on: ubuntu-latest
@@ -97,6 +97,7 @@ jobs:
         extension: ${{ secrets.CHROME_EXTENSION_ID }}
         zip: ./Package.zip
         client-id: ${{ secrets.CHROME_CLIENT_ID }}
+        client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
         refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
 
     - name: Drop artifacts
