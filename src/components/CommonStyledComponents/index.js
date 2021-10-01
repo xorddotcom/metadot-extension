@@ -13,7 +13,6 @@ export const MainHeading = styled.p`
   color: ${props => (props.color ? props.color : primaryTextColor)};
   line-height: 21px;
   text-align: start;
-  padding: 0px;
 `;
 
 export const SubHeading = styled.p`
@@ -23,7 +22,6 @@ export const SubHeading = styled.p`
   text-align: start;
   text-align-last: ${props =>
     props.textAlignLast ? props.textAlignLast : 'start'};
-  padding: 0px;
   line-height: 21px;
 `;
 
@@ -35,13 +33,13 @@ export const SubMainWrapperForAuthScreens = styled.div`
   justify-content: ${props =>
     props.flexDirection ? 'flex-start' : 'space-between'};
   flex-wrap: wrap;
-  width: 90%;
+  width: 100%;
   height: auto;
   min-height: 340px;
-  margin: 25px auto 100px;
+  margin: 25px auto 25px;
 `;
 
-const TextInputWrapper = styled.div`
+export const TextInputWrapper = styled.div`
   width: 100%;
   border: ${props =>
     props.isCorrect
@@ -50,43 +48,5 @@ const TextInputWrapper = styled.div`
       ? '1px solid red'
       : '0px'};
   border-radius: 8px;
+  position: relative;
 `;
-
-export const StyledMUiInput = ({
-  placeholder,
-  onChange,
-  isCorrect,
-  typePassword = false,
-  hideHandler,
-  hideState,
-}) => (
-  <TextInputWrapper isCorrect={isCorrect}>
-    <Input
-      placeholder={placeholder}
-      fullWidth={true}
-      disableUnderline={true}
-      onChange={e => onChange(e.target.value)}
-      style={{
-        paddingLeft: 25,
-        paddingTop: 13,
-        paddingBottom: 13,
-        color: primaryTextColor,
-        background: '#212121',
-        fontSize: 16,
-        borderRadius: 8,
-        height: 45,
-      }}
-      type={typePassword ? (!hideState ? 'password' : 'text') : 'text'}
-      endAdornment={
-        typePassword && (
-          <InputAdornment
-            position="start"
-            style={{ color: 'rgba(250, 250, 250, 0.8)', cursor: 'pointer' }}
-            onClick={() => hideHandler()}>
-            {!hideState ? <VisibilityOffIcon /> : <VisibilityIcon />}
-          </InputAdornment>
-        )
-      }
-    />
-  </TextInputWrapper>
-);

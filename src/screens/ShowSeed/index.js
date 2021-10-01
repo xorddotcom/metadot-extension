@@ -4,13 +4,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { IndexText, SeedText, SeedWrapper } from './StyledComponents';
 
 import {
+  AuthWrapper,
+  Header,
+  Button,
   MainHeading,
   SubHeading,
   SubMainWrapperForAuthScreens,
-} from '../../components/CommonStyledComponents';
-import Header from '../../components/Header';
-import Button from '../../components/Button';
-import WarningModal from '../../components/Modals';
+  WarningModal,
+} from '../../components';
 
 import { fonts } from '../../utils';
 
@@ -22,7 +23,6 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 function ShowSeed() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [seedPhrase, setSeedPhrase] = useState('');
 
   const { seed } = useSelector(state => state.account);
 
@@ -54,19 +54,19 @@ function ShowSeed() {
   };
 
   return (
-    <div>
+    <AuthWrapper>
       <Header
         centerText="Show Seed"
         backHandler={() => dispatch(resetAccountSlice())}
       />
-      <div style={{ paddingLeft: 20 }}>
+      <div>
         <MainHeading className={mainHeadingfontFamilyClass}>
           Write down your seed phrase{' '}
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Volutpat
-          cursus sit diam Lorem ipsum dolor sit amet, consectetur adipiscing
-          elit. Volutpat cursus sit diam{' '}
+          Please write the mnemonic down in order to ensure the backup is
+          correct. Obtaining mnemonic is equivalent to owning wallet assets.
+          Don't take screenshots or copy, otherwise it may cause asset loss
         </SubHeading>
       </div>
       <SubMainWrapperForAuthScreens>
@@ -91,7 +91,7 @@ function ShowSeed() {
           pb: 3,
         }}
       />
-    </div>
+    </AuthWrapper>
   );
 }
 

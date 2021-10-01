@@ -1,18 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+
 import { useHistory } from 'react-router-dom';
+
 import { useSelector } from 'react-redux';
+
 import {
+  AuthWrapper,
+  Header,
+  StyledInput,
+  Button,
   MainHeading,
-  StyledMUiInput,
   SubHeading,
   SubMainWrapperForAuthScreens,
-} from '../../components/CommonStyledComponents';
-import Header from '../../components/Header';
-import Button from '../../components/Button';
-import { fonts } from '../../utils';
-import { arrayFromSeedSentence } from '../../utils/helpers';
+} from '../../components';
+
+import { fonts, helpers } from '../../utils';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+const { arrayFromSeedSentence, arrayOfFourRandomNumbers } = helpers;
+const fourRandomIndexes = arrayOfFourRandomNumbers();
 
 function ConfirmSeed(props) {
   const history = useHistory();
@@ -20,33 +26,35 @@ function ConfirmSeed(props) {
   const { seed } = useSelector(state => state.account);
 
   const seedArray = arrayFromSeedSentence(seed);
-  const phrase1 = seedArray[0];
-  const phrase4 = seedArray[3];
-  const phrase8 = seedArray[7];
-  const phrase11 = seedArray[10];
+
+  let phrase1, phrase2, phrase3, phrase4;
+  phrase1 = seedArray[fourRandomIndexes[0]];
+  phrase2 = seedArray[fourRandomIndexes[1]];
+  phrase3 = seedArray[fourRandomIndexes[2]];
+  phrase4 = seedArray[fourRandomIndexes[3]];
 
   const [word1, setWord1] = useState(phrase1);
+  const [word2, setWord2] = useState(phrase2);
+  const [word3, setWord3] = useState(phrase3);
   const [word4, setWord4] = useState(phrase4);
-  const [word8, setWord8] = useState(phrase8);
-  const [word11, setWord11] = useState(phrase11);
   const [validations, setValidations] = useState([true, true, true, true]);
 
   const checkWords = () => {
     const first = word1 === phrase1;
-    const second = word4 === phrase4;
-    const third = word8 === phrase8;
-    const fourth = word11 === phrase11;
+    const second = word2 === phrase2;
+    const third = word3 === phrase3;
+    const fourth = word4 === phrase4;
 
     setValidations([first, second, third, fourth]);
     first && second && third && fourth && history.push('/CreateWallet');
   };
 
-  console.log('object', { word1, word4, word8, word11 });
+  console.log('object', { word1, word2, word3, word4 });
 
   return (
-    <div>
-      <Header centerText="Show Seed" />
-      <div style={{ paddingLeft: 20 }}>
+    <AuthWrapper>
+      <Header centerText="Confirm Seed" />
+      <div>
         <MainHeading className={mainHeadingfontFamilyClass}>
           Confirm seed phrase{' '}
         </MainHeading>
@@ -57,42 +65,38 @@ function ConfirmSeed(props) {
         </SubHeading>
       </div>
       <SubMainWrapperForAuthScreens>
-        <StyledMUiInput
+        <StyledInput
           onChange={text => setWord1(text)}
-          placeholder="Word #1"
-          fullWidth={true}
+          placeholder={`Word #${fourRandomIndexes[0] + 1}`}
           disableUnderline={true}
           value={word1}
           className={subHeadingfontFamilyClass}
           isCorrect={validations[0]}
         />
 
-        <StyledMUiInput
-          onChange={text => setWord4(text)}
-          placeholder="Word #4"
-          fullWidth={true}
+        <StyledInput
+          onChange={text => setWord2(text)}
+          placeholder={`Word #${fourRandomIndexes[1] + 1}`}
           disableUnderline={true}
-          value={word4}
+          value={word2}
           className={subHeadingfontFamilyClass}
           isCorrect={validations[1]}
         />
 
-        <StyledMUiInput
-          onChange={text => setWord8(text)}
-          placeholder="Word #8"
-          fullWidth={true}
+        <StyledInput
+          onChange={text => setWord3(text)}
+          placeholder={`Word #${fourRandomIndexes[2] + 1}`}
           disableUnderline={true}
-          value={word8}
+          value={word3}
           className={subHeadingfontFamilyClass}
           isCorrect={validations[2]}
         />
 
-        <StyledMUiInput
-          onChange={text => setWord11(text)}
-          placeholder="Word #11"
-          fullWidth={true}
+        <StyledInput
+          onChange={text => setWord4(text)}
+          placeholder={`Word #${fourRandomIndexes[3] + 1}`}
           disableUnderline={true}
-          value={word11}
+          value={word4}
           className={subHeadingfontFamilyClass}
           isCorrect={validations[3]}
         />
@@ -100,11 +104,11 @@ function ConfirmSeed(props) {
       <div className="btn-wrapper">
         <Button
           text="Continue"
-          disabled={word1 && word4 && word8 && word11 ? false : true}
+          disabled={word1 && word2 && word3 && word4 ? false : true}
           handleClick={() => checkWords()}
         />
       </div>
-    </div>
+    </AuthWrapper>
   );
 }
 

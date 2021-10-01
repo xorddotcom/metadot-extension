@@ -1,3 +1,4 @@
+/* global chrome */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
@@ -6,15 +7,22 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 
-import store from './redux/store';
+//REDUX
+import store, { persistor } from './redux/store';
 
+// REDUX-PERSIST
+import { PersistGate } from 'redux-persist/integration/react';
+
+// fonts
 import './assets/fonts/Roboto-Bold.ttf';
 import './assets/fonts/Roboto-Regular.ttf';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'),

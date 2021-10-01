@@ -7,7 +7,6 @@ const { headerHeadingFontSize } = fonts;
 export const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 20px;
 `;
 
 export const HeaderHeading = styled.h3`
