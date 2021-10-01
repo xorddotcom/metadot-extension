@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { fonts, colors } from '../../../utils';
+import { fonts, colors } from '../../../../utils';
 
 const { primaryTextColor, secondaryTextColor } = colors;
 

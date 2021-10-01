@@ -11,9 +11,9 @@ import {
   MainHeading,
   SubHeading,
   SubMainWrapperForAuthScreens,
-} from '../../components';
+} from '../../../components';
 
-import { fonts } from '../../utils';
+import { fonts } from '../../../utils';
 import { WarningText } from './StyledComponents';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;

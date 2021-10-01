@@ -4,7 +4,7 @@ import { Input } from '@mui/material';
 import { styled } from '@mui/system';
 
 import { Option, OptionDiv } from './StyledComponents';
-import { fonts } from '../../utils';
+import { fonts } from '../../../utils';
 
 import {
   AuthWrapper,
@@ -13,7 +13,7 @@ import {
   MainHeading,
   SubHeading,
   SubMainWrapperForAuthScreens,
-} from '../../components';
+} from '../../../components';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 

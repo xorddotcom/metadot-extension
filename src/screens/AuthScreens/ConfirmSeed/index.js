@@ -12,9 +12,9 @@ import {
   MainHeading,
   SubHeading,
   SubMainWrapperForAuthScreens,
-} from '../../components';
+} from '../../../components';
 
-import { fonts, helpers } from '../../utils';
+import { fonts, helpers } from '../../../utils';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { arrayFromSeedSentence, arrayOfFourRandomNumbers } = helpers;
