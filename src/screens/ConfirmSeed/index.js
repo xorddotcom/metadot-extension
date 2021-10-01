@@ -1,21 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+
 import { useHistory } from 'react-router-dom';
+
 import { useSelector } from 'react-redux';
+
 import {
+  AuthWrapper,
+  Header,
+  StyledInput,
+  Button,
   MainHeading,
   SubHeading,
   SubMainWrapperForAuthScreens,
-} from '../../components/CommonStyledComponents';
-import Header from '../../components/Header';
-import Button from '../../components/Button';
-import { fonts } from '../../utils';
-import {
-  arrayFromSeedSentence,
-  arrayOfFourRandomNumbers,
-} from '../../utils/helpers';
-import StyledInput from '../../components/StyledInput';
+} from '../../components';
+
+import { fonts, helpers } from '../../utils';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+const { arrayFromSeedSentence, arrayOfFourRandomNumbers } = helpers;
 const fourRandomIndexes = arrayOfFourRandomNumbers();
 
 function ConfirmSeed(props) {
@@ -50,9 +52,9 @@ function ConfirmSeed(props) {
   console.log('object', { word1, word2, word3, word4 });
 
   return (
-    <div>
-      <Header centerText="Show Seed" />
-      <div style={{ paddingLeft: 20 }}>
+    <AuthWrapper>
+      <Header centerText="Confirm Seed" />
+      <div>
         <MainHeading className={mainHeadingfontFamilyClass}>
           Confirm seed phrase{' '}
         </MainHeading>
@@ -106,7 +108,7 @@ function ConfirmSeed(props) {
           handleClick={() => checkWords()}
         />
       </div>
-    </div>
+    </AuthWrapper>
   );
 }
 

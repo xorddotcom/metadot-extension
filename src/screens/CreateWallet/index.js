@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { useSelector } from 'react-redux';
+
 import {
+  AuthWrapper,
+  Header,
+  StyledInput,
+  Button,
   MainHeading,
   SubHeading,
   SubMainWrapperForAuthScreens,
-} from '../../components/CommonStyledComponents';
-import Header from '../../components/Header';
-import Button from '../../components/Button';
+} from '../../components';
+
 import { fonts } from '../../utils';
-import { useSelector } from 'react-redux';
 import { WarningText } from './StyledComponents';
-import StyledInput from '../../components/StyledInput';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -60,9 +63,9 @@ function CreateWallet(props) {
   };
 
   return (
-    <div>
+    <AuthWrapper>
       <Header centerText="Create Wallet" />
-      <div style={{ paddingLeft: 20 }}>
+      <div>
         <MainHeading className={mainHeadingfontFamilyClass}>
           Authentication
         </MainHeading>
@@ -135,7 +138,7 @@ function CreateWallet(props) {
           handleClick={() => handleContinue()}
         />
       </div>
-    </div>
+    </AuthWrapper>
   );
 }
 

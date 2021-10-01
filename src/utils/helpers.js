@@ -23,4 +23,6 @@ function arrayOfFourRandomNumbers() {
   return unique_random_numbers;
 }
 
-export { arrayFromSeedSentence, arrayOfFourRandomNumbers };
+export default { arrayFromSeedSentence, arrayOfFourRandomNumbers };
+
+// export default helpers;

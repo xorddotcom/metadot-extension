@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../../components/Button';
+import { Button } from '../../components';
 import { useHistory } from 'react-router-dom';
 
 import AddSharpIcon from '@mui/icons-material/AddSharp';

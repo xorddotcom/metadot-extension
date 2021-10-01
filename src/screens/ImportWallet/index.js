@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
+
+import { Input } from '@mui/material';
+import { styled } from '@mui/system';
+
+import { Option, OptionDiv } from './StyledComponents';
+import { fonts } from '../../utils';
+
 import {
+  AuthWrapper,
+  Header,
+  Button,
   MainHeading,
   SubHeading,
   SubMainWrapperForAuthScreens,
-} from '../../components/CommonStyledComponents';
-import Button from '../../components/Button';
-import Header from '../../components/Header';
-import { Option, OptionDiv } from './StyledComponents';
-import { fonts } from '../../utils';
-import { Input } from '@mui/material';
-import { styled } from '@mui/system';
+} from '../../components';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -42,9 +46,9 @@ function ImportWallet(props) {
   );
 
   return (
-    <div>
+    <AuthWrapper>
       <Header centerText="Import Wallet" />
-      <div style={{ paddingLeft: 20 }}>
+      <div>
         <MainHeading className={mainHeadingfontFamilyClass}>
           Restore your wallet{' '}
         </MainHeading>
@@ -77,7 +81,7 @@ function ImportWallet(props) {
       <div className="btn-wrapper">
         <Button text="Import" handleClick={() => console.log('object')} />
       </div>
-    </div>
+    </AuthWrapper>
   );
 }
 
