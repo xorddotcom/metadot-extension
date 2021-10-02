@@ -52,7 +52,7 @@ jobs:
         source: ${{ steps.web-ext-build.outputs.target }}
         apiKey: ${{ secrets.FIREFOX_API_KEY }}
         apiSecret: ${{ secrets.FIREFOX_CLIENT_SECRET }}
-        apiUrlPrefix: https://addons-dev.allizom.org/api/v5
+        apiUrlPrefix: https://addons.mozilla.org/api/v5
 
     - name: Drop artifacts
       uses: actions/upload-artifact@v2
