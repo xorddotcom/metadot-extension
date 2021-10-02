@@ -11,13 +11,13 @@ import {
   SubHeading,
   SubMainWrapperForAuthScreens,
   WarningModal,
-} from '../../components';
+} from '../../../components';
 
-import { fonts } from '../../utils';
+import { fonts } from '../../../utils';
 
-import { GenerateSeedPhrase } from '../../ToolBox/accounts';
+import { GenerateSeedPhrase } from '../../../ToolBox/accounts';
 
-import { resetAccountSlice, setSeed } from '../../redux/slices/account';
+import { resetAccountSlice, setSeed } from '../../../redux/slices/account';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors, fonts } from '../../../utils';
+import { colors, fonts } from '../../../../utils';
 
 const { primaryTextColor } = colors;
 const { subHeadingFontSize } = fonts;

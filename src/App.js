@@ -2,15 +2,15 @@
 import React, { useEffect } from 'react';
 import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
 
-import ImportWallet from './screens/ImportWallet';
-import ShowSeed from './screens/ShowSeed';
-import Welcome from './screens/Welcome';
+import ImportWallet from './screens/AuthScreens/ImportWallet';
+import ShowSeed from './screens/AuthScreens/ShowSeed';
+import Welcome from './screens/AuthScreens/Welcome';
 
-import CreateWallet from './screens/CreateWallet';
-import ConfirmSeed from './screens/ConfirmSeed';
+import CreateWallet from './screens/AuthScreens/CreateWallet';
+import ConfirmSeed from './screens/AuthScreens/ConfirmSeed';
 
 import './App.css';
-import Dashboard from './screens/Dashboard';
+import Dashboard from './screens/AppScreens/Dashboard';
 
 function App() {
   //commenting temporarily due to the issue in browser api "undefined"

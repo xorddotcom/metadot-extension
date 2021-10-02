@@ -1,14 +1,14 @@
 import React from 'react';
-import { Button } from '../../components';
+import { Button } from '../../../components';
 import { useHistory } from 'react-router-dom';
 
 import AddSharpIcon from '@mui/icons-material/AddSharp';
 import DownloadIcon from '@mui/icons-material/Download';
 
-import AppLogo from '../../assets/images/Group.svg';
+import AppLogo from '../../../assets/images/Group.svg';
 
 import { MainHeading, SubHeading } from './StyledComponents';
-import { fonts } from '../../utils';
+import { fonts } from '../../../utils';
 import './index.css';
 
 const { welcomeScreenMainHeadingFontSize, subHeadingfontFamilyClass } = fonts;
