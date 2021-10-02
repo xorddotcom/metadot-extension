@@ -26,9 +26,19 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
+      - name: Cache node_modules
+        uses: actions/cache@v2.0.0
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.cache-name }}-
+            ${{ runner.os }}-node-
+            ${{ runner.os }}-
+
       # Install project dependencies and build
     - name: Install dependencies
-      run: npm install
+      run: npm install --frozen-lockfile
       
 
     - name: Build the code
