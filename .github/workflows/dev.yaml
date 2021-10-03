@@ -100,19 +100,19 @@ jobs:
       uses: TheDoctor0/zip-release@0.4.1
       with:
         filename: ./Package.zip
-        path: ./build/
+        directory: ./build
 
     - name: Drop artifacts
       uses: actions/upload-artifact@v2
       with:
         name: 'Chrome Artifacts'
-        path: ./Package.zip
+        path: ./build/Package.zip
 
-    - name: Publish to Chrome Webstore
-      uses: mnao305/chrome-extension-upload@1.1.1
-      with:
-        extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
-        file-path: ./Package.zip
-        client-id: ${{ secrets.CHROME_CLIENT_ID }}
-        client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-        refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+    # - name: Publish to Chrome Webstore
+    #   uses: mnao305/chrome-extension-upload@1.1.1
+    #   with:
+    #     extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
+    #     file-path: ./Package.zip
+    #     client-id: ${{ secrets.CHROME_CLIENT_ID }}
+    #     client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+    #     refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
