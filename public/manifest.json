@@ -1,11 +1,11 @@
 {
-  "name": "POLO",
+  "name": "Polo Wallet",
   "description": "A crypto wallet for Polkadot based chains and their parachains",
-  "version": "1.0.3",
+  "version": "0.0.1",
   "manifest_version": 2,
   "browser_action": {
     "default_popup": "index.html",
-    "default_title": "POLO"
+    "default_title": "Polo Wallet"
   },
   "icons": {
     "16": "16x16.png",
@@ -14,7 +14,7 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "shaheryar@xord.com"
+      "id": "{5f568f4f-6781-4a94-83cd-7e2a7cf1bf70}"
     }
   }
 }
