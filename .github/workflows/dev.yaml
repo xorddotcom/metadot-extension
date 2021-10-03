@@ -102,17 +102,17 @@ jobs:
         filename: ./Package.zip
         path: ./build
 
-    - name: Publish to Chrome Webstore
-      uses: SebastienGllmt/chrome-addon@v3
-      with:
-        extension: ${{ secrets.CHROME_EXTENSION_ID }}
-        zip: ./Package.zip
-        client-id: ${{ secrets.CHROME_CLIENT_ID }}
-        client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-        refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
-
     - name: Drop artifacts
       uses: actions/upload-artifact@v2
       with:
         name: 'Chrome Artifacts'
         path: ./Package.zip
+
+    - name: Publish to Chrome Webstore
+      uses: mnao305/chrome-extension-upload@1.1.1
+      with:
+        extension-id: hogefuga(${{ secrets.CHROME_EXTENSION_ID }})
+        file-path: ./Package.zip
+        client-id: ${{ secrets.CHROME_CLIENT_ID }}
+        client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+        refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
