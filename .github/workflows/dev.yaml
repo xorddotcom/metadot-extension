@@ -70,49 +70,49 @@ jobs:
         name: 'Firefox Artefacts'
         path: ${{ steps.web-ext-sign.outputs.target }}
 
-  # Chrome:
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       node-version: ['12.x']
+  Chrome:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['12.x']
 
 
-  #   steps:
-  #   - uses: actions/checkout@v2	
+    steps:
+    - uses: actions/checkout@v2	
     
-  #     # Initialize Node.js
-  #   - name: Install Node.js ${{ matrix.node-version }}
-  #     uses: actions/setup-node@v1
-  #     with:
-  #       node-version: ${{ matrix.node-version }}
+      # Initialize Node.js
+    - name: Install Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
 
-  #     # Install project dependencies and build
-  #   - name: Install dependencies
-  #     run: npm install
+      # Install project dependencies and build
+    - name: Install dependencies
+      run: npm install
       
 
-  #   - name: Build the code
-  #     run: npm run build
-  #     env:
-  #       CI: false
+    - name: Build the code
+      run: npm run build
+      env:
+        CI: false
 
-  #   - name: Pack extension
-  #     uses: TheDoctor0/zip-release@0.4.1
-  #     with:
-  #       filename: ./Package.zip
-  #       path: ./build
+    - name: Pack extension
+      uses: TheDoctor0/zip-release@0.4.1
+      with:
+        filename: ./Package.zip
+        path: ./build
 
-  #   - name: Publish to Chrome Webstore
-  #     uses: SebastienGllmt/chrome-addon@v3
-  #     with:
-  #       extension: ${{ secrets.CHROME_EXTENSION_ID }}
-  #       zip: ./Package.zip
-  #       client-id: ${{ secrets.CHROME_CLIENT_ID }}
-  #       client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-  #       refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+    - name: Publish to Chrome Webstore
+      uses: SebastienGllmt/chrome-addon@v3
+      with:
+        extension: ${{ secrets.CHROME_EXTENSION_ID }}
+        zip: ./Package.zip
+        client-id: ${{ secrets.CHROME_CLIENT_ID }}
+        client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+        refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
 
-  #   - name: Drop artifacts
-  #     uses: actions/upload-artifact@v2
-  #     with:
-  #       name: 'Chrome Artifacts'
-  #       path: ./Package.zip
+    - name: Drop artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: 'Chrome Artifacts'
+        path: ./Package.zip
