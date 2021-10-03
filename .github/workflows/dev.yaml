@@ -100,7 +100,7 @@ jobs:
       uses: TheDoctor0/zip-release@0.4.1
       with:
         filename: ./Package.zip
-        path: ./build
+        path: ./build/
 
     - name: Drop artifacts
       uses: actions/upload-artifact@v2
