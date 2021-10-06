@@ -1,4 +1,3 @@
-/* global chrome */
 import React, { useEffect } from 'react';
 import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
 
@@ -11,6 +10,7 @@ import ConfirmSeed from './screens/AuthScreens/ConfirmSeed';
 
 import './App.css';
 import Dashboard from './screens/AppScreens/Dashboard';
+import Send from './screens/AppScreens/Send';
 
 function App() {
   //commenting temporarily due to the issue in browser api "undefined"
@@ -49,6 +49,9 @@ function App() {
           {/* Temporary screen for testing */}
           <Route path="/dashboard">
             <Dashboard />
+          </Route>
+          <Route path="/Send">
+            <Send />
           </Route>
         </Switch>
       </div>

@@ -127,7 +127,7 @@ export const OptionRow = styled.div`
 export const Option = styled.div`
   width: 70px;
   height: 70px;
-
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -249,6 +249,8 @@ export const TabSection = styled.p`
   width: 48%;
   height: 33px;
 
+  cursor: pointer;
+
   font-size: 12px;
   line-height: 33px;
 
@@ -259,6 +261,6 @@ export const TabSection = styled.p`
     props.isActive === true ? '#880041' : '#292929'};
 
   color: ${primaryTextColor};
-  border-radius: 8px;
+  border-radius: 4px;
   margin: 0px;
 `;

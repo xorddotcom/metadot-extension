@@ -1,6 +1,9 @@
 import { useState } from 'react';
-import AssetCard from '../../../components/AssetCard';
+import { AssetCard, TxCard } from '../../../components';
 import { fonts } from '../../../utils';
+
+import BTCIcon from '../../../assets/images/btc.svg';
+
 import {
   AssetsAndTransactionsWrapper,
   Tabs,
@@ -35,7 +38,24 @@ function AssetsAndTransactions(props) {
           Transactions
         </TabSection>
       </Tabs>
-      <AssetCard />
+      {isTab1Active && (
+        <AssetCard
+          name="Polkadot"
+          shortName="DOT"
+          amount={0.0636}
+          amountInUsd={107.17}
+          logo={BTCIcon}
+        />
+      )}
+      {isTab2Active && (
+        <TxCard
+          name="Polkadot"
+          shortName="DOT"
+          amount={0.0636}
+          amountInUsd={107.17}
+          logo={BTCIcon}
+        />
+      )}
     </AssetsAndTransactionsWrapper>
   );
 }

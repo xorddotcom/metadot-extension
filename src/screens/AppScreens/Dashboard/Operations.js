@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { Option, OptionRow, OptionsName } from './StyledComponents';
 
@@ -12,9 +13,10 @@ import { fonts } from '../../../utils';
 const { mainHeadingfontFamilyClass } = fonts;
 
 function Operations(props) {
+  const history = useHistory();
   return (
     <OptionRow>
-      <Option>
+      <Option onClick={() => history.push('/Send')}>
         <img
           src={Send}
           alt="send icon"

@@ -14,18 +14,18 @@ import Button from '../Button';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
-function AssetCard(props) {
+function AssetCard({ name, amount, shortName, amountInUsd, logo }) {
   return (
     <AssetCardWrapper>
       <img src={BTCIcon} alt="btc icon" width="70px" height="70px" />
       <NameAndAmount>
-        <CoinName className={mainHeadingfontFamilyClass}>Bitcoin</CoinName>
+        <CoinName className={mainHeadingfontFamilyClass}>{name}</CoinName>
         <HorizontalContentDiv>
           <CoinAmount className={mainHeadingfontFamilyClass}>
-            0.0636 BTC
+            {`${amount} ${shortName}`}
           </CoinAmount>
           <EquivalentInUSDT className={subHeadingfontFamilyClass}>
-            ($107.17)
+            (${amountInUsd})
           </EquivalentInUSDT>
         </HorizontalContentDiv>
       </NameAndAmount>
