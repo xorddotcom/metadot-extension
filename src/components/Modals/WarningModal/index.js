@@ -2,10 +2,10 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
-import { MainHeading, SubHeading } from '../CommonStyledComponents';
-import Button from '../Button';
-import './index.css';
-import { fonts } from '../../utils';
+import { MainHeading, SubHeading } from '../../CommonStyledComponents';
+import Button from '../../Button';
+
+import { fonts } from '../../../utils';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -14,7 +14,7 @@ function WarningModal({ open, handleClose, style }) {
   // history.push('/ConfirmSeed');
   return (
     <Modal open={open} onClose={handleClose}>
-      <Box sx={style} className="modal-style">
+      <Box sx={style} className="warning-modal-style">
         <MainHeading className={mainHeadingfontFamilyClass} color="#C30707">
           Warning
         </MainHeading>

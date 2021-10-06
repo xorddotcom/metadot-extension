@@ -11,7 +11,11 @@ import { MainHeading, SubHeading } from './StyledComponents';
 import { fonts } from '../../../utils';
 import './index.css';
 
-const { welcomeScreenMainHeadingFontSize, subHeadingfontFamilyClass } = fonts;
+const {
+  welcomeScreenMainHeadingFontSize,
+  subHeadingfontFamilyClass,
+  mainHeadingfontFamilyClass,
+} = fonts;
 
 function Welcome(props) {
   const history = useHistory();
@@ -23,7 +27,7 @@ function Welcome(props) {
       </div>
 
       <div className="main-content">
-        <MainHeading className={welcomeScreenMainHeadingFontSize}>
+        <MainHeading className={mainHeadingfontFamilyClass}>
           welcome to polo
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>

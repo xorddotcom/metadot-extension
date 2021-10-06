@@ -1,5 +1,5 @@
 const fonts = {
-  welcomeScreenMainHeadingFontSize: '1.7rem',
+  welcomeScreenMainHeadingFontSize: '2rem',
   headerHeadingFontSize: '1.25rem',
   mainHeadingFontSize: '1.125rem',
   subHeadingFontSize: '1rem',

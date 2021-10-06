@@ -8,7 +8,16 @@ const { _width, _height } = dimension.button;
 
 const { buttonFontSize } = fonts;
 
-function index({ StartIcon, handleClick, text, width, cancel, disabled }) {
+function index({
+  StartIcon,
+  handleClick,
+  text,
+  width,
+  height,
+  fontSize,
+  cancel,
+  disabled,
+}) {
   const primaryBgColor = `radial-gradient(
       40.36% 71% at 18.57% 29%,
       rgba(255, 255, 255, 0.08) 0%,
@@ -26,7 +35,7 @@ function index({ StartIcon, handleClick, text, width, cancel, disabled }) {
 
   const StyledButton = styled(Button)`
     width: 95%;
-    height: ${_height};
+    height: ${height ? height : _height};
     box-shadow: 0px 0px 28px 5px rgba(136, 0, 65, 0.12);
     border-radius: 8px;
     background: ${!cancel ? primaryBgColor : secondaryBgColor};
@@ -37,6 +46,7 @@ function index({ StartIcon, handleClick, text, width, cancel, disabled }) {
     <div
       style={{
         width: width ? width : _width,
+        // height: height ? height : _height,
         marginBottom: 10,
       }}>
       {StartIcon ? (
@@ -53,7 +63,7 @@ function index({ StartIcon, handleClick, text, width, cancel, disabled }) {
           variant="contained"
           onClick={() => handleClick()}
           disabled={disabled ? true : false}
-          style={{ fontSize: buttonFontSize }}>
+          style={{ fontSize: fontSize ? fontSize : buttonFontSize }}>
           {text ? text : ''}
         </StyledButton>
       )}

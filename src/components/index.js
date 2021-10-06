@@ -7,7 +7,8 @@ import {
   SubMainWrapperForAuthScreens,
   TextInputWrapper,
 } from './CommonStyledComponents';
-import WarningModal from './Modals';
+import WarningModal from './Modals/WarningModal';
+import SelectNetwork from './Modals/SelectNetwork';
 import StyledInput from './StyledInput';
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -21,4 +22,5 @@ export {
   StyledInput,
   Button,
   WarningModal,
+  SelectNetwork,
 };
