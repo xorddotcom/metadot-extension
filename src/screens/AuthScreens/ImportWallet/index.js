@@ -5,6 +5,7 @@ import { styled } from '@mui/system';
 
 import { Option, OptionDiv } from './StyledComponents';
 import { fonts } from '../../../utils';
+import { Link, Redirect } from "react-router-dom";
 
 import {
   AuthWrapper,
@@ -14,11 +15,23 @@ import {
   SubHeading,
   SubMainWrapperForAuthScreens,
 } from '../../../components';
+import { useHistory } from 'react-router-dom'
+import TextField from "@material-ui/core/TextField";
+// import { AccountCreation } from '../../ToolBox/accounts'
+
+import { AccountCreation } from '../../../ToolBox/accounts';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 function ImportWallet(props) {
+  const history = useHistory();
   const [selectedType, setSelectedType] = useState('');
+  const [seedPhrase, setSeedPhrase] = useState()
+  
+  const handleChange = (input) => {
+    console.log('Import wallet from seed working', input)
+    setSeedPhrase(input)
+  }
 
   const TextArea = styled(Input)`
     width: 89%;
@@ -31,7 +44,24 @@ function ImportWallet(props) {
     font-size: 16px;
   `;
 
-  const TypeSeedPhrase = () => (
+  const handleSubmit = async () => {
+    try{
+
+      console.log('Handle click', seedPhrase)
+
+      let data = {name:"hello world", password: "password", seed: seedPhrase}  ; 
+      await AccountCreation(data)
+      console.log('Push to dashboard')
+      history.push('/dashboard')
+      // <Redirect to= '/dashboard' >
+    }catch(err){
+      console.log('Error', err)
+      throw err
+    }
+  }
+
+  const TypeSeedPhrase = () => {
+    return (
     <div>
       <MainHeading className={mainHeadingfontFamilyClass}>
         Place your seed here :
@@ -43,7 +73,8 @@ function ImportWallet(props) {
         style={{ background: '#212121' }}
       />
     </div>
-  );
+    )
+    };
 
   return (
     <AuthWrapper>
@@ -76,10 +107,15 @@ function ImportWallet(props) {
             Json File
           </Option>
         </OptionDiv>
-        {selectedType === 'seed' && <TypeSeedPhrase />}
+        {selectedType === 'seed' &&  <div>
+      <MainHeading className={mainHeadingfontFamilyClass}>
+        Place your seed here :
+      </MainHeading>
+      <TextField onChange={(e) => handleChange(e.target.value)}   rows={7} multiline={true} style={{ background: '#212121' }} />
+    </div>  }
       </SubMainWrapperForAuthScreens>
       <div className="btn-wrapper">
-        <Button text="Import" handleClick={() => console.log('object')} />
+        <Button text="Import" handleClick={handleSubmit} />
       </div>
     </AuthWrapper>
   );

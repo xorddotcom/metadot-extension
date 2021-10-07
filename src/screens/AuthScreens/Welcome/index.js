@@ -5,7 +5,9 @@ import { useHistory } from 'react-router-dom';
 import AddSharpIcon from '@mui/icons-material/AddSharp';
 import DownloadIcon from '@mui/icons-material/Download';
 
+import { useSelector, useDispatch } from 'react-redux';
 import AppLogo from '../../../assets/images/Group.svg';
+import { MemoryRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 import { MainHeading, SubHeading } from './StyledComponents';
 import { fonts } from '../../../utils';
@@ -19,6 +21,9 @@ const {
 
 function Welcome(props) {
   const history = useHistory();
+
+  const currentUser = useSelector(state => state.account);
+  console.log('Current user', currentUser)
 
   return (
     <div>

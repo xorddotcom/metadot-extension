@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 import MainCard from './MainCard';
 import Operations from './Operations';
 import AssetsAndTransactions from './AssetsAndTransactions';
+
+import { providerInitialization, getBalance } from '../../../ToolBox/services'
+// import onChainConstants from '../../../constants/onchain'
+import constants from '../../../constants/onchain'
+
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom'
+
+import { setRpcUrl } from '../../../redux/slices/account'
 
 import { fonts } from '../../../utils';
 
@@ -37,6 +46,9 @@ import MoonriverIcon from '../../../assets/images/moonriver.svg';
 import ShidenIcon from '../../../assets/images/shiden.svg';
 import PhalaIcon from '../../../assets/images/phala.svg';
 import BifrostIcon from '../../../assets/images/bifrost.svg';
+
+const { cryptoWaitReady } = require('@polkadot/util-crypto')
+const { ApiRx, WsProvider, ApiPromise, Keyring } = require('@polkadot/api')
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -123,9 +135,50 @@ const TestNetworks = [
     name: 'Phala',
     theme: '#008D77',
   },
+  {
+    name: 'Westend',
+    theme: '#015D77',
+    rpcUrl: constants.WestEndRpcUrl
+  },
 ];
 
 function Dashboard(props) {
+
+  const [chain, setChain] = useState('Polkadot')
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const currentUser = useSelector((state) => state);
+
+  const [balance, setBalance] = useState(0)
+  const [modalOpen, setModalOpen] = useState(false)
+
+  const landing = async () => {
+    console.log('Current user', currentUser)
+    try{
+
+      const api = await providerInitialization(currentUser.account.rpcUrl)
+      await api.isReady
+      
+      const balance  = await getBalance(api,currentUser.account.publicKey)
+      setBalance(balance)
+      
+      return balance
+  
+    }catch(err){
+
+      console.log('Error occurred')
+      throw err
+    }
+
+  }
+
+  useEffect(async() => {
+
+    console.log('Use effect running')
+    await landing()
+    
+  })
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   //--------State and funtions for SlectNetwork Modal
@@ -220,9 +273,44 @@ function Dashboard(props) {
       });
     } else {
       console.log('NETWORK SELECTED');
+      dispatch(setRpcUrl({ chainName: data.name, rpcUrl: data.rpcUrl }))
       selectAndGoBack(data.name);
     }
   };
+
+  const doTransaction = async () => {
+
+    console.log('Transaction starting')
+    const wsProvider = new WsProvider(
+       constants.WestEndRpcUrl
+    )
+      const api = await ApiPromise.create({provider: wsProvider})
+
+  // const api = new ApiPromise(provider)
+  
+    await api.isReady
+    const mnemonic = "merry network invest border urge mechanic shuffle minimum proud video eternal lab";
+    await cryptoWaitReady();
+    console.log('Decimals',api.registry.chainDecimals)
+    const keyring = new Keyring({ type: 'sr25519' })
+    const me = keyring.addFromUri(mnemonic);
+    console.log('Me [][]',me.address)
+  
+    const hash = await api.tx.balances
+      .transfer(
+        '5D2pr8UsTRXjmSWtYds9pcpvowH42GzF6QS74bo64fKecXhw',
+        1e10
+      )
+      .signAndSend(
+        me,(res) => {console.log('Success', res.status)}
+      ).catch((err) => {
+        console.error('Error [][][]', err)
+      })
+  
+      console.log('Hash ===>>>', hash)
+   
+  }
+  
   //--------XXXXXXXXXXXXXXX-----------
 
   return (

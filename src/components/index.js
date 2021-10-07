@@ -14,7 +14,6 @@ import SelectNetwork from './Modals/SelectNetwork';
 import ConfirmSend from './Modals/ConfirmSend';
 import StyledInput from './StyledInput';
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export {
   AuthWrapper,
   Header,

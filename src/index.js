@@ -17,11 +17,15 @@ import { PersistGate } from 'redux-persist/integration/react';
 import './assets/fonts/Roboto-Bold.ttf';
 import './assets/fonts/Roboto-Regular.ttf';
 
+import { BrowserRouter as Router } from 'react-router-dom'
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <App />
+      <PersistGate loading={null} persistor={persistor}>  
+        <Router>
+          <App />
+        </Router>
       </PersistGate>
     </Provider>
   </React.StrictMode>,

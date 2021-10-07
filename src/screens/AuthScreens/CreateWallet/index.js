@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import {
   AuthWrapper,
@@ -12,9 +12,11 @@ import {
   SubHeading,
   SubMainWrapperForAuthScreens,
 } from '../../../components';
-
+import { AccountCreation } from '../../../ToolBox/accounts';
+import { emptyReduxState, setLoggedIn, setPublicKey, setWalletPassword } from '../../../redux/slices/account';
 import { fonts } from '../../../utils';
 import { WarningText } from './StyledComponents';
+import web3 from 'web3'
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -25,6 +27,7 @@ const passwordErrorMessages = {
 
 function CreateWallet(props) {
   const history = useHistory();
+  const dispatch = useDispatch()
 
   const { seed } = useSelector(state => state.account);
 
@@ -50,16 +53,25 @@ function CreateWallet(props) {
     }
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (!validatePasswordAndConfirmPassword()) return;
 
     console.log({ walletName, password, seed });
     //create account with walletName, password and seed by using keyring
-
+    const res = await AccountCreation({ walletName, password, seed })
+    console.log('Result [][]', res)
+    // console.log('Password', password)
+    const hashedPassword = web3.utils.sha3(password)
+    // const hashedPassword =  await keccak256(password)
+    // console.log('Hashed password', hashedPassword)
+    dispatch(setLoggedIn(true))
+    dispatch(setPublicKey(res.address))
+    dispatch(setWalletPassword(hashedPassword))
+    
     //update redux data and tracking flags accordingly
 
     //navigate to dashboard on success
-    history.push('/dashboard');
+    history.push('/');
   };
 
   return (
