@@ -25,7 +25,9 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 const Send = () => {
+  // fill this state  from redux
   const [accountFrom, setAccountFrom] = useState('');
+
   const [accountTo, setAccountTo] = useState('');
   const [amount, setAmount] = useState('');
 
@@ -62,7 +64,6 @@ const Send = () => {
           </MainText>
           <StyledInput
             placeholder="Search Address"
-            fullWidth={true}
             value={accountTo}
             className={subHeadingfontFamilyClass}
             onChange={t => setAccountTo(t)}
@@ -78,7 +79,6 @@ const Send = () => {
           <StyledInput
             placeholder="Amount"
             type={'number'}
-            fullWidth={true}
             value={amount}
             className={subHeadingfontFamilyClass}
             onChange={t => {

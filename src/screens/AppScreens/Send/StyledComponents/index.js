@@ -10,13 +10,13 @@ export const MainContent = styled.div`
 export const VerticalContentDiv = styled.div`
   display: flex;
   flex-direction: column;
-  width: 99%;
+  width: 100%;
   margin-bottom: ${props => (props.mb ? props.mb : '0px')};
 `;
 
 export const HorizontalContentDiv = styled.div`
   display: flex;
-  width: 100%;
+  /* width: 100%; */
   flex-direction: row;
   align-items: center;
 `;
@@ -80,7 +80,7 @@ export const EquivalentInUSDT = styled.p`
 `;
 
 export const CalculatedAmount = styled(HorizontalContentDiv)`
-  width: 108%;
+  /* width: 108%; */
   margin-top: 5px;
 `;
 

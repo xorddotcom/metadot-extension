@@ -202,38 +202,25 @@ function Dashboard(props) {
   };
 
   const handleSelection = data => {
-    console.log('object', modalState.firstStep);
-    if (modalState.firstStep === true) {
-      console.log('mark1');
-      //Polkadot main net selection scinario
-      if (!data.moreOptions && data.name == 'Polkadot Main Network') {
-        console.log('mark2');
-        selectAndGoBack(data.name);
-        return;
-      } else if (data.moreOptions && data.name == 'Test Networks') {
-        console.log('mark5');
-        // selectAndGoBack(data.name);
-        setModalState({
-          firstStep: false,
-          renderMethod: RenderContentForAvailableNetwroks,
-          currentData: TestNetworks,
-        });
-        return;
-      } else if (data.moreOptions && data.name == 'Kusama Main Networks') {
-        console.log('mark3');
-        setModalState({
-          firstStep: false,
-          renderMethod: RenderContentForKusamaMainNetwork,
-          currentData: KusamaMainNetworks,
-        });
-      } else {
-        console.log('something not adding up, ERRO LIKE SITUATION');
-        selectAndGoBack(data.name);
-      }
+    console.log('mark1');
+    if (data.name == 'Test Networks') {
+      console.log('mark5');
+      // selectAndGoBack(data.name);
+      setModalState({
+        firstStep: false,
+        renderMethod: RenderContentForAvailableNetwroks,
+        currentData: TestNetworks,
+      });
+    } else if (data.name == 'Kusama Main Networks') {
+      console.log('mark3');
+      setModalState({
+        firstStep: false,
+        renderMethod: RenderContentForKusamaMainNetwork,
+        currentData: KusamaMainNetworks,
+      });
     } else {
-      console.log('I AM IN ELSE');
-
-      setIsModalOpen(false);
+      console.log('NETWORK SELECTED');
+      selectAndGoBack(data.name);
     }
   };
   //--------XXXXXXXXXXXXXXX-----------
