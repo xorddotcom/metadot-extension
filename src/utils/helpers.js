@@ -3,24 +3,24 @@ function arrayFromSeedSentence(seed) {
 }
 
 function arrayOfFourRandomNumbers() {
-  var limit = 4,
-    amount = 3,
-    lower_bound = 0,
-    upper_bound = 11,
-    unique_random_numbers = [];
+  let limit = 4;
+  const amount = 3;
+  const lowerBound = 0;
+  const upperBound = 11;
+  const uniqueRandomArray = [];
 
   if (amount > limit) limit = amount;
 
-  while (unique_random_numbers.length < limit) {
-    var random_number = Math.floor(
-      Math.random() * (upper_bound - lower_bound) + lower_bound,
+  while (uniqueRandomArray.length < limit) {
+    const randomNumber = Math.floor(
+      Math.random() * (upperBound - lowerBound) + lowerBound,
     );
-    if (unique_random_numbers.indexOf(random_number) == -1) {
-      unique_random_numbers.push(random_number);
+    if (uniqueRandomArray.indexOf(randomNumber) === -1) {
+      uniqueRandomArray.push(randomNumber);
     }
   }
-  console.log('RANDOM ARRAY', unique_random_numbers);
-  return unique_random_numbers;
+  console.log('RANDOM ARRAY', uniqueRandomArray);
+  return uniqueRandomArray;
 }
 
 export default { arrayFromSeedSentence, arrayOfFourRandomNumbers };

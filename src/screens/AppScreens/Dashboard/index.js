@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
@@ -6,14 +7,11 @@ import MainCard from './MainCard';
 import Operations from './Operations';
 import AssetsAndTransactions from './AssetsAndTransactions';
 
-import { providerInitialization, getBalance } from '../../../ToolBox/services'
+import { providerInitialization, getBalance } from '../../../ToolBox/services';
 // import onChainConstants from '../../../constants/onchain'
-import constants from '../../../constants/onchain'
+import constants from '../../../constants/onchain';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom'
-
-import { setRpcUrl } from '../../../redux/slices/account'
+import { setRpcUrl } from '../../../redux/slices/account';
 
 import { fonts } from '../../../utils';
 
@@ -47,8 +45,8 @@ import ShidenIcon from '../../../assets/images/shiden.svg';
 import PhalaIcon from '../../../assets/images/phala.svg';
 import BifrostIcon from '../../../assets/images/bifrost.svg';
 
-const { cryptoWaitReady } = require('@polkadot/util-crypto')
-const { ApiRx, WsProvider, ApiPromise, Keyring } = require('@polkadot/api')
+const { cryptoWaitReady } = require('@polkadot/util-crypto');
+const { WsProvider, ApiPromise, Keyring } = require('@polkadot/api');
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -138,102 +136,81 @@ const TestNetworks = [
   {
     name: 'Westend',
     theme: '#015D77',
-    rpcUrl: constants.WestEndRpcUrl
+    rpcUrl: constants.WestEndRpcUrl,
   },
 ];
 
-function Dashboard(props) {
-
-  const [chain, setChain] = useState('Polkadot')
-  const dispatch = useDispatch()
-  const history = useHistory()
+function Dashboard() {
+  // eslint-disable-next-line no-unused-vars
+  const [chain, setChain] = useState('Polkadot');
+  const dispatch = useDispatch();
+  // prettier-ignore
   const currentUser = useSelector((state) => state);
 
-  const [balance, setBalance] = useState(0)
-  const [modalOpen, setModalOpen] = useState(false)
+  // eslint-disable-next-line no-unused-vars
+  const [balance, setBalance] = useState(0);
 
   const landing = async () => {
-    console.log('Current user', currentUser)
-    try{
+    console.log('Current user', currentUser);
+    try {
+      const api = await providerInitialization(currentUser.account.rpcUrl);
+      await api.isReady;
 
-      const api = await providerInitialization(currentUser.account.rpcUrl)
-      await api.isReady
-      
-      const balance  = await getBalance(api,currentUser.account.publicKey)
-      setBalance(balance)
-      
-      return balance
-  
-    }catch(err){
+      // eslint-disable-next-line no-underscore-dangle
+      const _balance = await getBalance(api, currentUser.account.publicKey);
+      setBalance(_balance);
 
-      console.log('Error occurred')
-      throw err
+      return _balance;
+    } catch (err) {
+      console.log('Error occurred');
+      throw err;
     }
-
-  }
-
-  useEffect(async() => {
-
-    console.log('Use effect running')
-    await landing()
-    
-  })
+  };
+  // prettier-ignore
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(async () => {
+    console.log('Use effect running');
+    await landing();
+  });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  //--------State and funtions for SlectNetwork Modal
-  const handleSelectionOnKusamaMainNetwork = data => {
-    console.log('object', data);
-    selectAndGoBack(data.name);
-  };
-
-  const selectAndGoBack = network => {
-    //set selected network state to Polkadot
-    setSelectedNetwrok(network);
-
-    //set selected network to Polkadot in REDUX as well
-
-    resetState();
-    setIsModalOpen(false);
-  };
-
-  const RenderContentForAvailableNetwroks = data => {
+  // --------State and funtions for SlectNetwork Modal
+  const RenderContentForKusamaMainNetwork = (data, handleClick) => {
+    const { name, icon } = data;
     return (
       <OptionRow
-        key={data.name}
-        onClick={() => {
-          handleSelection(data);
-          //   console.log('object');
-        }}>
+        key={name}
+        onClick={() => handleClick(data)}
+      >
         <HorizontalContentDiv>
-          <PlainIcon bgColor={data.theme}></PlainIcon>
+          <img src={icon} alt="icon" />
           <OptionText className={mainHeadingfontFamilyClass}>
-            {data.name}
+            {name}
           </OptionText>
         </HorizontalContentDiv>
-        {data.moreOptions && (
-          <NextIcon>
-            <KeyboardArrowRightIcon />
-          </NextIcon>
-        )}
       </OptionRow>
     );
   };
 
-  const RenderContentForKusamaMainNetwork = data => {
+  const RenderContentForAvailableNetwroks = (data, handleClick) => {
+    const { name, theme, moreOptions } = data;
     return (
       <OptionRow
-        key={data.name}
-        onClick={() => {
-          handleSelectionOnKusamaMainNetwork(data);
-          //   console.log('object');
-        }}>
+        key={name}
+        onClick={() => handleClick(data)}
+      >
         <HorizontalContentDiv>
-          <img src={data.icon} alt="icon" />
+          <PlainIcon bgColor={theme} />
           <OptionText className={mainHeadingfontFamilyClass}>
-            {data.name}
+            {name}
           </OptionText>
         </HorizontalContentDiv>
+        {moreOptions && (
+          <NextIcon>
+            <KeyboardArrowRightIcon />
+          </NextIcon>
+        )}
       </OptionRow>
     );
   };
@@ -244,7 +221,15 @@ function Dashboard(props) {
     currentData: availableNetworks,
   });
 
-  const [selectedNetwork, setSelectedNetwrok] = useState('');
+  const selectAndGoBack = () => {
+    resetState();
+    setIsModalOpen(false);
+  };
+
+  const handleSelectionOnKusamaMainNetwork = (data) => {
+    console.log('object', data);
+    selectAndGoBack(data.name);
+  };
 
   const resetState = () => {
     setModalState({
@@ -254,18 +239,15 @@ function Dashboard(props) {
     });
   };
 
-  const handleSelection = data => {
-    console.log('mark1');
-    if (data.name == 'Test Networks') {
-      console.log('mark5');
-      // selectAndGoBack(data.name);
+  // prettier-ignore
+  const handleSelection = (data) => {
+    if (data.name === 'Test Networks') {
       setModalState({
         firstStep: false,
         renderMethod: RenderContentForAvailableNetwroks,
         currentData: TestNetworks,
       });
-    } else if (data.name == 'Kusama Main Networks') {
-      console.log('mark3');
+    } else if (data.name === 'Kusama Main Networks') {
       setModalState({
         firstStep: false,
         renderMethod: RenderContentForKusamaMainNetwork,
@@ -273,51 +255,48 @@ function Dashboard(props) {
       });
     } else {
       console.log('NETWORK SELECTED');
-      dispatch(setRpcUrl({ chainName: data.name, rpcUrl: data.rpcUrl }))
+      dispatch(setRpcUrl({ chainName: data.name, rpcUrl: data.rpcUrl }));
       selectAndGoBack(data.name);
     }
   };
 
+  // eslint-disable-next-line no-unused-vars
   const doTransaction = async () => {
+    console.log('Transaction starting');
+    const wsProvider = new WsProvider(constants.WestEndRpcUrl);
+    const api = await ApiPromise.create({ provider: wsProvider });
 
-    console.log('Transaction starting')
-    const wsProvider = new WsProvider(
-       constants.WestEndRpcUrl
-    )
-      const api = await ApiPromise.create({provider: wsProvider})
+    // const api = new ApiPromise(provider)
 
-  // const api = new ApiPromise(provider)
-  
-    await api.isReady
-    const mnemonic = "merry network invest border urge mechanic shuffle minimum proud video eternal lab";
+    await api.isReady;
+    // prettier-ignore
+    const mnemonic = 'merry network invest border urge mechanic shuffle minimum proud video eternal lab';
     await cryptoWaitReady();
-    console.log('Decimals',api.registry.chainDecimals)
-    const keyring = new Keyring({ type: 'sr25519' })
+    console.log('Decimals', api.registry.chainDecimals);
+    const keyring = new Keyring({ type: 'sr25519' });
     const me = keyring.addFromUri(mnemonic);
-    console.log('Me [][]',me.address)
-  
+    console.log('Me [][]', me.address);
+
+    // prettier-ignore
     const hash = await api.tx.balances
-      .transfer(
-        '5D2pr8UsTRXjmSWtYds9pcpvowH42GzF6QS74bo64fKecXhw',
-        1e10
-      )
-      .signAndSend(
-        me,(res) => {console.log('Success', res.status)}
-      ).catch((err) => {
-        console.error('Error [][][]', err)
+      .transfer('5D2pr8UsTRXjmSWtYds9pcpvowH42GzF6QS74bo64fKecXhw', 1e10)
+      .signAndSend(me, (res) => {
+        console.log('Success', res.status);
       })
-  
-      console.log('Hash ===>>>', hash)
-   
-  }
-  
-  //--------XXXXXXXXXXXXXXX-----------
+      .catch((err) => {
+        console.error('Error [][][]', err);
+      });
+
+    console.log('Hash ===>>>', hash);
+  };
+
+  // --------XXXXXXXXXXXXXXX-----------
 
   return (
     <Wrapper>
       <DashboardHeader>
         <LogoContainer>
-          <img src={Logo} width="30px" height="34px" />
+          <img src={Logo} width="30px" height="34px" alt="Polo Logo" />
         </LogoContainer>
 
         <NetworkContainer>
@@ -333,7 +312,7 @@ function Dashboard(props) {
           </SelectChain>
 
           <SwitchToTestnet className={subHeadingfontFamilyClass}>
-            Switch to Moonbase Testnet{' '}
+            Switch to Moonbase Testnet
           </SwitchToTestnet>
         </NetworkContainer>
 
@@ -355,6 +334,8 @@ function Dashboard(props) {
         handleClose={() => setIsModalOpen(false)}
         modalState={modalState}
         resetState={resetState}
+        handleClickForOthers={handleSelection}
+        handleClickForKusama={handleSelectionOnKusamaMainNetwork}
         style={{
           position: 'relative',
           width: '78%',

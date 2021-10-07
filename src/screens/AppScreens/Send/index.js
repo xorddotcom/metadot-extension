@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import {
   AuthWrapper,
   Button,
@@ -20,12 +21,11 @@ import {
   CenterContent,
 } from './StyledComponents';
 
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 const Send = () => {
   // fill this state  from redux
+  // eslint-disable-next-line no-unused-vars
   const [accountFrom, setAccountFrom] = useState('');
 
   const [accountTo, setAccountTo] = useState('');
@@ -40,12 +40,12 @@ const Send = () => {
       <Header centerText="Send" backHandler={() => console.log('object')} />
 
       <MainContent>
-        <MainText m={'8px'} className={mainHeadingfontFamilyClass}>
+        <MainText m="8px" className={mainHeadingfontFamilyClass}>
           From
         </MainText>
         <FromAccount>
           <HorizontalContentDiv>
-            <PlainIcon></PlainIcon>
+            <PlainIcon />
             <VerticalContentDiv>
               <MainText className={mainHeadingfontFamilyClass}>
                 Account 0
@@ -58,37 +58,39 @@ const Send = () => {
           <KeyboardArrowDownIcon />
         </FromAccount>
 
-        <VerticalContentDiv mb={'25px'}>
-          <MainText m={'8px'} className={mainHeadingfontFamilyClass}>
+        <VerticalContentDiv mb="25px">
+          <MainText m="8px" className={mainHeadingfontFamilyClass}>
             To
           </MainText>
           <StyledInput
             placeholder="Search Address"
             value={accountTo}
             className={subHeadingfontFamilyClass}
-            onChange={t => setAccountTo(t)}
-            fontSize={'14px'}
-            height={'20px'}
+            // prettier-ignore
+            onChange={(t) => setAccountTo(t)}
+            fontSize="14px"
+            height="20px"
           />
         </VerticalContentDiv>
 
         <VerticalContentDiv mb="150px">
-          <MainText m={'8px'} className={mainHeadingfontFamilyClass}>
+          <MainText m="8px" className={mainHeadingfontFamilyClass}>
             Amount
           </MainText>
           <StyledInput
             placeholder="Amount"
-            type={'number'}
+            type="number"
             value={amount}
             className={subHeadingfontFamilyClass}
-            onChange={t => {
+            // prettier-ignore
+            onChange={(t) => {
               console.log(t);
               if (t) {
                 setAmount(t);
               }
             }}
-            fontSize={'14px'}
-            height={'20px'}
+            fontSize="14px"
+            height="20px"
           />
           <CalculatedAmount>
             <EquivalentInUSDT className={subHeadingfontFamilyClass}>
@@ -101,7 +103,7 @@ const Send = () => {
         </VerticalContentDiv>
       </MainContent>
       <CenterContent>
-        <Button text={'Next'} handleClick={() => setIsSendModalOpen(true)} />
+        <Button text="Next" handleClick={() => setIsSendModalOpen(true)} />
       </CenterContent>
       <ConfirmSend
         open={isSendModalOpen}

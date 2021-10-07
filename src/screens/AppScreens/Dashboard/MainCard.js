@@ -1,4 +1,8 @@
 import React from 'react';
+
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import {
   AccountName,
   Balance,
@@ -11,17 +15,13 @@ import {
   VerticalContentDiv,
 } from './StyledComponents';
 
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-
 import NotConnected from '../../../assets/images/notConnected.svg';
 
 import { fonts } from '../../../utils';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
-function MainCard(props) {
+function MainCard() {
   return (
     <MainPanel>
       <MoreOptions>
@@ -37,7 +37,8 @@ function MainCard(props) {
       </AccountName>
       <VerticalContentDiv>
         <PublicAddress className={mainHeadingfontFamilyClass}>
-          (bnb13...txjd5){' '}
+          (bnb13...txjd5)
+          {' '}
         </PublicAddress>
         <ContentCopyIcon
           style={{
@@ -56,7 +57,8 @@ function MainCard(props) {
         </PerUnitPrice>
         <VerticalContentDiv>
           <VariationAmount className={mainHeadingfontFamilyClass}>
-            4.8 %{' '}
+            4.8 %
+            {' '}
           </VariationAmount>
           <ArrowDropUpIcon
             style={{

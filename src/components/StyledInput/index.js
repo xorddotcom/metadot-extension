@@ -17,11 +17,11 @@ const StyledInputField = styled.input`
   background-color: #212121;
   font-size: 16px;
   border-radius: 8px;
-  width: ${props => (props.fullWidth ? '100%' : '90%')};
+  width: ${(props) => (props.fullWidth ? '100%' : '90%')};
   font-family: 'RobotoR';
   border-width: 0px;
-  font-size: ${props => (props.fontSize ? props.fontSize : '16px')};
-  height: ${props => (props.height ? props.height : 'auto')};
+  font-size: ${(props) => (props.fontSize ? props.fontSize : '16px')};
+  height: ${(props) => (props.height ? props.height : 'auto')};
 `;
 
 const Icon = styled.span`
@@ -56,8 +56,8 @@ function StyledInput({
         height={height}
         fullWidth={fullWidth}
         placeholder={placeholder}
-        disableUnderline={true}
-        onChange={e => onChange(e.target.value)}
+        disableUnderline
+        onChange={(e) => onChange(e.target.value)}
         // type={
         //   typePassword
         //     ? !hideState
@@ -68,13 +68,12 @@ function StyledInput({
         //     : 'text'
         // }
         type={
-          type
-            ? type
-            : typePassword
+          // eslint-disable-next-line no-nested-ternary
+          type || (typePassword
             ? !hideState
               ? 'password'
               : 'text'
-            : 'text'
+            : 'text')
         }
       />
       {rightIcon && (

@@ -35,7 +35,7 @@ function index({
 
   const StyledButton = styled(Button)`
     width: 95%;
-    height: ${height ? height : _height};
+    height: ${height || _height};
     box-shadow: 0px 0px 28px 5px rgba(136, 0, 65, 0.12);
     border-radius: 8px;
     background: ${!cancel ? primaryBgColor : secondaryBgColor};
@@ -45,26 +45,29 @@ function index({
   return (
     <div
       style={{
-        width: width ? width : _width,
+        width: width || _width,
         // height: height ? height : _height,
         marginBottom: 10,
-      }}>
+      }}
+    >
       {StartIcon ? (
         <StyledButton
           variant="contained"
           startIcon={<StartIcon />}
           onClick={() => handleClick()}
-          disabled={disabled ? true : false}
-          style={{ fontSize: buttonFontSize }}>
-          {text ? text : ''}
+          disabled={!!disabled}
+          style={{ fontSize: buttonFontSize }}
+        >
+          {text || ''}
         </StyledButton>
       ) : (
         <StyledButton
           variant="contained"
           onClick={() => handleClick()}
-          disabled={disabled ? true : false}
-          style={{ fontSize: fontSize ? fontSize : buttonFontSize }}>
-          {text ? text : ''}
+          disabled={!!disabled}
+          style={{ fontSize: fontSize || buttonFontSize }}
+        >
+          {text || ''}
         </StyledButton>
       )}
     </div>

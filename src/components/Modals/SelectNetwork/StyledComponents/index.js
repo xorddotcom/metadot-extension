@@ -59,7 +59,7 @@ export const PlainIcon = styled.div`
   height: 25px;
   border-radius: 25px;
 
-  background: ${props => (props.bgColor ? props.bgColor : '#e6007a')};
+  background: ${(props) => (props.bgColor ? props.bgColor : '#e6007a')};
 `;
 
 export const OptionText = styled.div`

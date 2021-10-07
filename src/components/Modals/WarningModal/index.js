@@ -20,20 +20,21 @@ function WarningModal({ open, handleClose, style }) {
         </MainHeading>
         <SubHeading
           className={subHeadingfontFamilyClass}
-          textAlignLast={'center'}>
+          textAlignLast="center"
+        >
           Please write the mnemonic down in order to ensure the backup is
           correct
         </SubHeading>
         <div className="btn-row">
           <Button
             text="Cancel"
-            cancel={true}
-            width={'78%'}
+            cancel
+            width="78%"
             handleClick={() => handleClose()}
           />
           <Button
             text="Confirm"
-            width={'78%'}
+            width="78%"
             handleClick={() => history.push('/ConfirmSeed')}
           />
         </div>

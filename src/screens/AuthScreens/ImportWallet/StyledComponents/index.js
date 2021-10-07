@@ -12,7 +12,7 @@ export const OptionDiv = styled.div`
 export const Option = styled.p`
   width: 190px;
   height: 30px;
-  background-color: ${props => (props.selected ? '#2d111e' : '#212121')};
+  background-color: ${(props) => (props.selected ? '#2d111e' : '#212121')};
   margin-right: 25px;
   font-style: normal;
   font-weight: 500;

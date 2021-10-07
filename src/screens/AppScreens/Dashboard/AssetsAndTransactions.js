@@ -10,9 +10,9 @@ import {
   TabSection,
 } from './StyledComponents';
 
-const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+const { mainHeadingfontFamilyClass } = fonts;
 
-function AssetsAndTransactions(props) {
+function AssetsAndTransactions() {
   const [isTab1Active, setIsTab1Active] = useState(true);
   const [isTab2Active, setIsTab2Active] = useState(false);
 
@@ -25,7 +25,8 @@ function AssetsAndTransactions(props) {
           onClick={() => {
             setIsTab1Active(true);
             setIsTab2Active(false);
-          }}>
+          }}
+        >
           Assets
         </TabSection>
         <TabSection
@@ -34,7 +35,8 @@ function AssetsAndTransactions(props) {
           onClick={() => {
             setIsTab1Active(false);
             setIsTab2Active(true);
-          }}>
+          }}
+        >
           Transactions
         </TabSection>
       </Tabs>

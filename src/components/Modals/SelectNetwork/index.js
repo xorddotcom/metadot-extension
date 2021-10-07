@@ -1,38 +1,26 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
-import { MainHeading, SubHeading } from '../../CommonStyledComponents';
-import Button from '../../Button';
 
 import CloseIcon from '@mui/icons-material/Close';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
 import { fonts } from '../../../utils';
 
-import KusamaIcon from '../../../assets/images/kusama.svg';
-import KaruraIcon from '../../../assets/images/karura.svg';
-import MoonriverIcon from '../../../assets/images/moonriver.svg';
-import ShidenIcon from '../../../assets/images/shiden.svg';
-import PhalaIcon from '../../../assets/images/phala.svg';
-import BifrostIcon from '../../../assets/images/bifrost.svg';
-
 import {
   BackButton,
   CloseIconDiv,
-  HorizontalContentDiv,
-  NextIcon,
-  OptionRow,
-  OptionText,
-  PlainIcon,
   Title,
   TitleDiv,
 } from './StyledComponents';
 
-const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+const { mainHeadingfontFamilyClass } = fonts;
 
-function SelectNetwork({ open, handleClose, modalState, resetState, style }) {
+function SelectNetwork(props) {
+  const {
+    open, handleClose, modalState, resetState, style, handleClickForKusama, handleClickForOthers,
+  } = props;
   const { firstStep, renderMethod, currentData } = modalState;
   console.log({ firstStep, renderMethod, currentData });
 
@@ -43,7 +31,8 @@ function SelectNetwork({ open, handleClose, modalState, resetState, style }) {
           onClick={() => {
             resetState();
             handleClose();
-          }}>
+          }}
+        >
           <CloseIcon />
         </CloseIconDiv>
 
@@ -53,7 +42,8 @@ function SelectNetwork({ open, handleClose, modalState, resetState, style }) {
               onClick={() => {
                 // setSelectedNetwrok('');
                 resetState();
-              }}>
+              }}
+            >
               <KeyboardArrowLeftIcon />
             </BackButton>
           )}
@@ -63,28 +53,10 @@ function SelectNetwork({ open, handleClose, modalState, resetState, style }) {
           </Title>
         </TitleDiv>
 
-        {modalState.currentData.map(data => modalState.renderMethod(data))}
-
-        {/* <SubHeading
-          className={subHeadingfontFamilyClass}
-          textAlignLast={'center'}>
-          Please write the mnemonic down in order to ensure the backup is
-          correct
-        </SubHeading> */}
-
-        {/* <div className="btn-row">
-          <Button
-            text="Cancel"
-            cancel={true}
-            width={'78%'}
-            handleClick={() => handleClose()}
-          />
-          <Button
-            text="Confirm"
-            width={'78%'}
-            handleClick={() => history.push('/ConfirmSeed')}
-          />
-        </div> */}
+        {modalState.currentData.map((data) => {
+          const Content = data.name !== 'Polkadot Network' ? modalState.renderMethod(data, handleClickForOthers) : modalState.renderMethod(data, handleClickForKusama);
+          return Content;
+        })}
       </Box>
     </Modal>
   );

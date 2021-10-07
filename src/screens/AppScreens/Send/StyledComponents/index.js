@@ -1,3 +1,4 @@
+/* eslint-disable arrow-parens */
 import styled from 'styled-components';
 import { colors } from '../../../../utils';
 

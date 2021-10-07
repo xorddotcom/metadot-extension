@@ -1,6 +1,5 @@
 import {
   TxCardWrapper,
-  TxStatus,
   MainText,
   EquivalentInUSDT,
   HorizontalContentDiv,
@@ -10,12 +9,10 @@ import {
 import BTCIcon from '../../assets/images/btc.svg';
 import { fonts, colors } from '../../utils';
 
-import Button from '../Button';
-
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { incrementColor } = colors;
 
-function TxCard(props) {
+function TxCard() {
   return (
     <TxCardWrapper>
       <img src={BTCIcon} alt="btc icon" width="70px" height="70px" />
@@ -24,7 +21,8 @@ function TxCard(props) {
         <HorizontalContentDiv>
           <MainText
             className={mainHeadingfontFamilyClass}
-            color={incrementColor}>
+            color={incrementColor}
+          >
             Confirmed
           </MainText>
         </HorizontalContentDiv>

@@ -144,7 +144,7 @@ export const OptionsName = styled.p`
   /* identical to box height */
   text-align: center;
   margin-top: 4px;
-  color: ${props => (props.inActive ? inActiveTextColor : primaryTextColor)};
+  color: ${(props) => (props.inActive ? inActiveTextColor : primaryTextColor)};
 `;
 
 export const MoreOptions = styled.div`
@@ -257,8 +257,7 @@ export const TabSection = styled.p`
   /* identical to box height */
 
   /* Text and Icons */
-  background-color: ${props =>
-    props.isActive === true ? '#880041' : '#292929'};
+  background-color: ${(props) => (props.isActive === true ? '#880041' : '#292929')};
 
   color: ${primaryTextColor};
   border-radius: 4px;
