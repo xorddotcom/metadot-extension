@@ -12,6 +12,7 @@ import {
 import WarningModal from './Modals/WarningModal';
 import SelectNetwork from './Modals/SelectNetwork';
 import ConfirmSend from './Modals/ConfirmSend';
+import TxDetails from './Modals/TxDetails';
 import StyledInput from './StyledInput';
 
 export {
@@ -28,4 +29,5 @@ export {
   AssetCard,
   TxCard,
   ConfirmSend,
+  TxDetails,
 };

@@ -29,7 +29,7 @@ import {
 } from './StyledComponents';
 
 import Logo from '../../../assets/images/logodraft.svg';
-import { SelectNetwork } from '../../../components';
+import { SelectNetwork, TxDetails } from '../../../components';
 import {
   HorizontalContentDiv,
   NextIcon,
@@ -141,6 +141,8 @@ const TestNetworks = [
 ];
 
 function Dashboard() {
+  const [isTxDetailsModalOpen, setIsTxDetailsModalOpen] = useState(false);
+
   // eslint-disable-next-line no-unused-vars
   const [chain, setChain] = useState('Polkadot');
   const dispatch = useDispatch();
@@ -327,7 +329,9 @@ function Dashboard() {
 
       <Operations />
 
-      <AssetsAndTransactions />
+      <AssetsAndTransactions
+        handleOpenTxDetailsModal={() => setIsTxDetailsModalOpen(true)}
+      />
 
       <SelectNetwork
         open={isModalOpen}
@@ -341,6 +345,20 @@ function Dashboard() {
           width: '78%',
           background: '#141414',
           pb: 3,
+        }}
+      />
+
+      <TxDetails
+        open={isTxDetailsModalOpen}
+        handleClose={() => setIsTxDetailsModalOpen(false)}
+        style={{
+          width: '78%',
+          background: '#141414',
+          position: 'relative',
+          p: 2,
+          px: 2,
+          pb: 3,
+          // mt: 15,
         }}
       />
     </Wrapper>

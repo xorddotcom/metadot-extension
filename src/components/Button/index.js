@@ -40,6 +40,7 @@ function index({
     border-radius: 8px;
     background: ${!cancel ? primaryBgColor : secondaryBgColor};
     font-size: ${buttonFontSize};
+    text-transform: capitalize;
   `;
 
   return (

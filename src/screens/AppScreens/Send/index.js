@@ -111,11 +111,12 @@ const Send = () => {
         handleConfirm={() => console.log('invoke send tx function here !!!')}
         style={{
           width: '78%',
-          height: 300,
           background: '#141414',
+          position: 'relative',
           p: 2,
           px: 2,
           pb: 3,
+          mt: 15,
         }}
       />
     </AuthWrapper>

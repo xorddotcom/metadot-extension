@@ -12,7 +12,7 @@ import {
 
 const { mainHeadingfontFamilyClass } = fonts;
 
-function AssetsAndTransactions() {
+function AssetsAndTransactions({ handleOpenTxDetailsModal }) {
   const [isTab1Active, setIsTab1Active] = useState(true);
   const [isTab2Active, setIsTab2Active] = useState(false);
 
@@ -51,13 +51,16 @@ function AssetsAndTransactions() {
       )}
       {isTab2Active && (
         <TxCard
-          name="Polkadot"
-          shortName="DOT"
+          operation="Received"
+          status="Confirmed"
+          coin="DOT"
           amount={0.0636}
           amountInUsd={107.17}
           logo={BTCIcon}
+          handleClick={() => handleOpenTxDetailsModal()}
         />
       )}
+
     </AssetsAndTransactionsWrapper>
   );
 }

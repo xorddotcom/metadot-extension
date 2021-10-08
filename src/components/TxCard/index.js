@@ -6,34 +6,39 @@ import {
   VerticalContentDiv,
 } from './StyledComponents';
 
-import BTCIcon from '../../assets/images/btc.svg';
 import { fonts, colors } from '../../utils';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { incrementColor } = colors;
 
-function TxCard() {
+function TxCard({
+  operation, status, coin, amount, amountInUsd, logo, handleClick,
+}) {
   return (
-    <TxCardWrapper>
-      <img src={BTCIcon} alt="btc icon" width="70px" height="70px" />
+    <TxCardWrapper onClick={() => handleClick()}>
+      <img src={logo} alt="btc icon" width="70px" height="70px" />
       <VerticalContentDiv>
-        <MainText className={mainHeadingfontFamilyClass}>Received DOT</MainText>
+        <MainText className={mainHeadingfontFamilyClass}>{`${operation} ${coin}`}</MainText>
         <HorizontalContentDiv>
           <MainText
             className={mainHeadingfontFamilyClass}
             color={incrementColor}
           >
-            Confirmed
+            {status}
           </MainText>
         </HorizontalContentDiv>
       </VerticalContentDiv>
 
       <div style={{ marginLeft: 60 }}>
         <VerticalContentDiv>
-          <MainText className={mainHeadingfontFamilyClass}>0.0636 BTC</MainText>
+          <MainText className={mainHeadingfontFamilyClass}>
+            {`${amount} ${coin}`}
+          </MainText>
           <HorizontalContentDiv>
             <EquivalentInUSDT className={subHeadingfontFamilyClass}>
-              $107.17
+
+              $
+              {amountInUsd}
             </EquivalentInUSDT>
           </HorizontalContentDiv>
         </VerticalContentDiv>

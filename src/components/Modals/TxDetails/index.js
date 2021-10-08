@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import CloseIcon from '@mui/icons-material/Close';
-import Button from '../../Button';
+
 import {
   CloseIconDiv,
   HorizontalContentDiv,
@@ -11,13 +11,14 @@ import {
   SubText1,
   SubText2,
   VerticalContentDiv,
+  ViewOnPolkaScanText,
 } from './StyledComponents';
 import { fonts } from '../../../utils';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
-function ConfirmSend({
-  open, handleClose, handleConfirm, style,
+function TxDetails({
+  open, handleClose, style,
 }) {
   return (
     <Modal
@@ -32,9 +33,22 @@ function ConfirmSend({
         >
           <CloseIcon />
         </CloseIconDiv>
-        {/* this div is just for now temporarily here */}
+
         <VerticalContentDiv>
-          <MainText1 textAlign="center" className={mainHeadingfontFamilyClass}>Confirm</MainText1>
+          <MainText1 textAlign="center" className={mainHeadingfontFamilyClass}>Details</MainText1>
+
+          <HorizontalContentDiv paddingTop marginBottom>
+
+            <VerticalContentDiv>
+              <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>Status</MainText2>
+              <MainText2 successText textAlign="start" className={mainHeadingfontFamilyClass}>Received</MainText2>
+            </VerticalContentDiv>
+
+            <VerticalContentDiv>
+              <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>Date</MainText2>
+              <SubText2 textAlign="end" className={mainHeadingfontFamilyClass}>Sep 16 at 10:40 am</SubText2>
+            </VerticalContentDiv>
+          </HorizontalContentDiv>
 
           <HorizontalContentDiv>
 
@@ -87,21 +101,16 @@ function ConfirmSend({
         </VerticalContentDiv>
 
         <div className="btn-row" style={{ marginTop: 20 }}>
-          <Button
-            text="Cancel"
-            cancel
-            width="78%"
-            handleClick={() => handleClose()}
-          />
-          <Button
-            text="Confirm"
-            width="78%"
-            handleClick={() => handleConfirm()}
-          />
+          {/* <p style={{ color: '#fafafa' }}>View on Etherscan</p> */}
+          <ViewOnPolkaScanText
+            className={mainHeadingfontFamilyClass}
+          >
+            View on PolkaScan
+          </ViewOnPolkaScanText>
         </div>
       </Box>
     </Modal>
   );
 }
 
-export default ConfirmSend;
+export default TxDetails;
