@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
@@ -13,9 +13,11 @@ import constants from '../../../constants/onchain'
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom'
 
-import { setRpcUrl } from '../../../redux/slices/account'
+import { setRpcUrl, setBalance } from '../../../redux/slices/account'
 
 import { fonts } from '../../../utils';
+import RpcClass from '../../../rpc'
+import WebSocket from 'react-websocket'
 
 import {
   AccountContainer,
@@ -144,23 +146,118 @@ const TestNetworks = [
 
 function Dashboard(props) {
 
-  const [chain, setChain] = useState('Polkadot')
-  const dispatch = useDispatch()
-  const history = useHistory()
   const currentUser = useSelector((state) => state);
 
-  const [balance, setBalance] = useState(0)
+  const [chain, setChain] = useState(currentUser.account.chainName)
+  const dispatch = useDispatch()
+  const history = useHistory()
+
+  // const [balance, setBalance] = useState(0)
   const [modalOpen, setModalOpen] = useState(false)
 
+  const [tokenName, setTokenName] = useState(currentUser.account.tokenName)
+
+
+//   async function main () {
+//     console.log('Listener working')
+//   const api = await RpcClass.init(currentUser.account.rpcUrl, false)    
+
+//   let { data: { free: previousFree }, nonce: previousNonce } = await api.query.system.account(currentUser.account.publicKey);
+
+//   // console.log(`You has a balance of ${previousFree}, nonce ${previousNonce}`);
+//   // console.log(`You may leave this example running and start example 06 or transfer any value to Your account`);
+
+//   // Here we subscribe to any balance changes and update the on-screen value
+//   api.query.system.account(currentUser.account.publicKey, ({ data: { free: currentFree }, nonce: currentNonce }) => {
+//     // Calculate the delta
+//     const change = currentFree.sub(previousFree);
+//     // Only display positive value changes (Since we are pulling `previous` above already,
+//     // the initial balance change will also be zero)
+//     if (!change.isZero()) {
+//       async () => {
+
+//       const newBalance = await getBalance(api,currentUser.account.publicKey)
+//       console.log('New balance')
+//       // .then(() => setBalance(balance)).catch((err) => console.log('An error occured'))
+//         dispatch(setBalance(newBalance))
+//       previousFree = currentFree;
+//       previousNonce = currentNonce;
+//       }
+      
+//     }
+//   });
+// }
+
+// main().catch(console.error);
+
+// useEffect(() => {
+//   main()
+// })
+
+const anotherDummyFunction = async () => {
+  const bal = await getBalance(api, currentUser.account.publicKey)
+  console.log('Balance after transaction', bal)
+  dispatch(setBalance(bal))
+}
+
+const Alice = currentUser.account.publicKey
+
+async function main () {
+  console.log('Listner working', currentUser.account.public_key)
+  // Create an await for the API
+  // const api = await ApiPromise.create();
+   const wsProvider = new WsProvider(currentUser.account.rpcUrl)
+      const  api = await ApiPromise.create({provider: wsProvider})
+        await api.isReady
+        await cryptoWaitReady();
+
+  // Retrieve the initial balance. Since the call has no callback, it is simply a promise
+  // that resolves to the current on-chain value
+  let { data: { free: previousFree }, nonce: previousNonce } = await api.query.system.account(currentUser.account.publicKey);
+
+  console.log(`${Alice} has a balance of ${previousFree}, nonce ${previousNonce}`);
+  console.log(`You may leave this example running and start example 06 or transfer any value to ${Alice}`);
+
+  // Here we subscribe to any balance changes and update the on-screen value
+  api.query.system.account(Alice, ({ data: { free: currentFree }, nonce: currentNonce }) => {
+    // Calculate the delta
+    const change = currentFree.sub(previousFree);
+
+    // Only display positive value changes (Since we are pulling `previous` above already,
+    // the initial balance change will also be zero)
+    console.log('Change is zero', change)
+    if (!change.isZero()) {
+      console.log(`New balance change of ${change}, nonce ${currentNonce}`);
+      let newBalance = change / 1000000000000
+      console.log('New balance', newBalance);
+      console.log('Exact balance', newBalance + currentUser.account.balance)
+      dispatch(setBalance(newBalance + currentUser.account.balance))
+      // async () => {
+
+      // await anotherDummyFunction()
+      // }
+      previousFree = currentFree;
+      previousNonce = currentNonce;
+    }
+  });
+}
+
+main().catch(console.error);
+
   const landing = async () => {
+    console.log('Landing function running')
     console.log('Current user', currentUser)
     try{
 
-      const api = await providerInitialization(currentUser.account.rpcUrl)
-      await api.isReady
+      const api = await RpcClass.init(currentUser.account.rpcUrl, false)
       
       const balance  = await getBalance(api,currentUser.account.publicKey)
-      setBalance(balance)
+      console.log('Balance in loading', balance)
+      dispatch(setBalance(balance))
+      // setBalance(balance)
+      
+      console.log('Token name on dashboard')
+      // setTokenName(await api.registry.chainTokens)
       
       return balance
   
@@ -177,7 +274,7 @@ function Dashboard(props) {
     console.log('Use effect running')
     await landing()
     
-  })
+  },[])
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -254,7 +351,7 @@ function Dashboard(props) {
     });
   };
 
-  const handleSelection = data => {
+  const handleSelection = async (data) => {
     console.log('mark1');
     if (data.name == 'Test Networks') {
       console.log('mark5');
@@ -273,44 +370,23 @@ function Dashboard(props) {
       });
     } else {
       console.log('NETWORK SELECTED');
-      dispatch(setRpcUrl({ chainName: data.name, rpcUrl: data.rpcUrl }))
+      const api = await RpcClass.init(data.rpcUrl, true)
+      console.log('Api on dashboard', api)
+      let token = await api.registry.chainTokens
+      // chainDecimals = await api.registry.chainDecimals
+      console.log('Token name on dashboard', await api.registry.chainTokens)
+      setTokenName(await api.registry.chainTokens)
+      dispatch(setRpcUrl({ chainName: data.name, rpcUrl: data.rpcUrl, tokenName: token }))
       selectAndGoBack(data.name);
     }
   };
 
-  const doTransaction = async () => {
-
-    console.log('Transaction starting')
-    const wsProvider = new WsProvider(
-       constants.WestEndRpcUrl
-    )
-      const api = await ApiPromise.create({provider: wsProvider})
-
-  // const api = new ApiPromise(provider)
-  
-    await api.isReady
-    const mnemonic = "merry network invest border urge mechanic shuffle minimum proud video eternal lab";
-    await cryptoWaitReady();
-    console.log('Decimals',api.registry.chainDecimals)
-    const keyring = new Keyring({ type: 'sr25519' })
-    const me = keyring.addFromUri(mnemonic);
-    console.log('Me [][]',me.address)
-  
-    const hash = await api.tx.balances
-      .transfer(
-        '5D2pr8UsTRXjmSWtYds9pcpvowH42GzF6QS74bo64fKecXhw',
-        1e10
-      )
-      .signAndSend(
-        me,(res) => {console.log('Success', res.status)}
-      ).catch((err) => {
-        console.error('Error [][][]', err)
-      })
-  
-      console.log('Hash ===>>>', hash)
-   
+  const dummyFunction = () => {
+    console.log('WOkring')
+    // await getBalance()
   }
-  
+
+
   //--------XXXXXXXXXXXXXXX-----------
 
   return (
@@ -327,7 +403,8 @@ function Dashboard(props) {
 
           <SelectChain onClick={() => setIsModalOpen(true)}>
             <SelectedChain className={subHeadingfontFamilyClass}>
-              Polkadot Main Network
+              {currentUser.account.chainName}
+              {/* {chain} */}
             </SelectedChain>
             <ArrowDropDownIcon />
           </SelectChain>
@@ -344,7 +421,7 @@ function Dashboard(props) {
         </AccountContainer>
       </DashboardHeader>
 
-      <MainCard />
+      <MainCard balance={currentUser.account.balance} chainName={chain} tokenName={currentUser.account.tokenName} address={currentUser.account.publicKey} />
 
       <Operations />
 
@@ -362,6 +439,9 @@ function Dashboard(props) {
           pb: 3,
         }}
       />
+      <div style={{color:'red'}} >
+      </div>
+    <button onClick={dummyFunction} >Dummy</button>
     </Wrapper>
   );
 }

@@ -18,10 +18,19 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import NotConnected from '../../../assets/images/notConnected.svg';
 
 import { fonts } from '../../../utils';
+import { useSelector } from 'react-redux'
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
-function MainCard(props) {
+function MainCard({balance, address, tokenName, chainName}) {
+ 
+  console.log('Token name in main card', tokenName, balance);
+  const copyText = () => {
+    console.log('ENd', address)
+    navigator.clipboard.writeText(address)
+  }
+  
+
   return (
     <MainPanel>
       <MoreOptions>
@@ -45,10 +54,11 @@ function MainCard(props) {
             fontSize: 12,
             marginLeft: 10,
           }}
+          onClick={copyText}
         />
       </VerticalContentDiv>
 
-      <Balance className={mainHeadingfontFamilyClass}>24,204.16 DOT</Balance>
+      <Balance className={mainHeadingfontFamilyClass}>{balance} {tokenName}</Balance>
 
       <VerticalContentDiv>
         <PerUnitPrice className={mainHeadingfontFamilyClass}>

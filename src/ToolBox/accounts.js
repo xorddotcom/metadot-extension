@@ -24,9 +24,12 @@ function GenerateSeedPhrase() {
 
 //create account from seed phrase function
 async function AccountCreation({ name, password, seed }) {
+  console.log('In account creation')
 
   try {
     console.log('Account creation Password', password)
+    // await waitReady()
+    await cryptoWaitReady()
     const data = keyring.addUri(seed, password, { name })
     console.log('Data', data)
     return data.json

@@ -6,6 +6,7 @@ import { styled } from '@mui/system';
 import { Option, OptionDiv } from './StyledComponents';
 import { fonts } from '../../../utils';
 import { Link, Redirect } from "react-router-dom";
+import { setLoggedIn, setPublicKey } from '../../../redux/slices/account'
 
 import {
   AuthWrapper,
@@ -17,7 +18,7 @@ import {
 } from '../../../components';
 import { useHistory } from 'react-router-dom'
 import TextField from "@material-ui/core/TextField";
-// import { AccountCreation } from '../../ToolBox/accounts'
+import { useDispatch } from 'react-redux'
 
 import { AccountCreation } from '../../../ToolBox/accounts';
 
@@ -25,6 +26,7 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 function ImportWallet(props) {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [selectedType, setSelectedType] = useState('');
   const [seedPhrase, setSeedPhrase] = useState()
   
@@ -50,8 +52,14 @@ function ImportWallet(props) {
       console.log('Handle click', seedPhrase)
 
       let data = {name:"hello world", password: "password", seed: seedPhrase}  ; 
-      await AccountCreation(data)
-      console.log('Push to dashboard')
+      const res = await AccountCreation(data)
+      // dispatch(setLoggedIn(true));
+      dispatch(setPublicKey(res.address))
+      // dispatch(setWalletPassword(hashedPassword))
+      // console.log('Push to dashboard')
+      // currentUser.account.isLoggedIn &&
+      //         currentUser.account.publicKey
+      
       history.push('/dashboard')
       // <Redirect to= '/dashboard' >
     }catch(err){

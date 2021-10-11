@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
@@ -6,10 +6,16 @@ import { MainHeading, SubHeading } from '../../CommonStyledComponents';
 import Button from '../../Button';
 
 import { fonts } from '../../../utils';
+import { useSelector } from 'react-redux'
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
-function ConfirmSend({ open, handleClose, handleConfirm, style }) {
+function ConfirmSend({ open, handleClose, handleConfirm, style, accountTo, amount }) {
+  const currentUser = useSelector(state => state.account)
+  console.log('Rpc url', currentUser.rpcUrl)
+
+
+  console.log('Props', accountTo, amount);
   const history = useHistory();
   // history.push('/ConfirmSeed');
   return (
@@ -28,7 +34,7 @@ function ConfirmSend({ open, handleClose, handleConfirm, style }) {
           <Button
             text="Confirm"
             width={'78%'}
-            handleClick={() => handleConfirm()}
+            handleClick={handleConfirm}
           />
         </div>
       </Box>

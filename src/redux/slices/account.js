@@ -9,7 +9,9 @@ const initialState = {
   publicKey: '',
   walletPassword: "",
   rpcUrl: constants.Polkadot_Rpc_Url ,
-  chainName: ''
+  chainName: 'Polkadot Main Network',
+  tokenName: 'DOT',
+  balance: 0
 };
 
 export const accountSlice = createSlice({
@@ -40,9 +42,15 @@ export const accountSlice = createSlice({
       // state = initialState
     },
     setRpcUrl: (state, action) => {
+      console.log('In redux', action.payload)
       // console.log('Action in set rpc url [][]',action.payload);
       state.rpcUrl = action.payload.rpcUrl;
-      state.chainName = action.payload.chainName
+      state.chainName = action.payload.chainName;
+      state.tokenName = action.payload.tokenName
+    },
+    setBalance: (state, action) => {
+      console.log('Action payload', action.payload)
+      state.balance = action.payload;
     }
   },
 });
@@ -55,7 +63,8 @@ export const {
   setWalletPassword, 
   setLoggedIn,
   emptyReduxState,
-  setRpcUrl
+  setRpcUrl,
+  setBalance
 } = accountSlice.actions;
 
 export default accountSlice.reducer;

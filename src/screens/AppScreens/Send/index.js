@@ -7,6 +7,7 @@ import {
   StyledInput,
 } from '../../../components';
 import { fonts } from '../../../utils';
+import { useSelector } from "react-redux";
 import {
   Balance,
   FromAccount,
@@ -21,19 +22,58 @@ import {
 } from './StyledComponents';
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import RpcClass from '../../../rpc'
+const { cryptoWaitReady } = require('@polkadot/util-crypto')
+const { ApiRx, WsProvider, ApiPromise, Keyring } = require('@polkadot/api')
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 const Send = () => {
   // fill this state  from redux
-  const [accountFrom, setAccountFrom] = useState('');
+  const [accountFrom, setAccountFrom] = useState();
 
   const [accountTo, setAccountTo] = useState('');
   const [amount, setAmount] = useState('');
 
   const [isSendModalOpen, setIsSendModalOpen] = useState(false);
 
+  const currentUser = useSelector((state) => state);
+  // setAccountFrom(currentUser.account.publicKey)
+  
+
   console.log('STATE of SEND COMPONENT', { accountFrom, accountTo, amount });
+
+  const sendTransaction = async () => {
+    console.log('Current user', currentUser.account.rpcUrl);
+  
+    const api = await RpcClass.init(currentUser.account.rpcUrl, false)
+    console.log('Api', api)
+    
+    const keyring = new Keyring({ type: 'sr25519' })
+   
+    const me = keyring.addFromUri(currentUser.account.seed);
+    console.log('Me [][]',me.address)
+  
+    const hash = await api.tx.balances
+      .transfer(
+        accountTo,
+        amount * 1000000000000
+      )
+      .signAndSend(
+        me,(res) => {console.log('Success', res.status);
+        if(res.status.isInBlock){
+          console.log(`Completed at block hash #${res.status.asInBlock.toString()}`)
+        } else {
+          console.log(`Current status: ${res.status.type}`)
+        }}
+      ).catch((err) => {
+        console.error('Error [][][]', err)
+      })
+  
+      console.log('Hash ===>>>', hash)
+   
+  }
+
 
   return (
     <AuthWrapper>
@@ -104,9 +144,12 @@ const Send = () => {
         <Button text={'Next'} handleClick={() => setIsSendModalOpen(true)} />
       </CenterContent>
       <ConfirmSend
+        // accountFrom={accountFrom}
+        accountTo={accountTo}
+        amount={amount}
         open={isSendModalOpen}
         handleClose={() => setIsSendModalOpen(false)}
-        handleConfirm={() => console.log('invoke send tx function here !!!')}
+        handleConfirm={sendTransaction}
         style={{
           width: '78%',
           height: 300,

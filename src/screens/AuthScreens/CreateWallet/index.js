@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 
+import web3 from 'web3';
 import {
   AuthWrapper,
   Header,
@@ -13,10 +14,11 @@ import {
   SubMainWrapperForAuthScreens,
 } from '../../../components';
 import { AccountCreation } from '../../../ToolBox/accounts';
-import { emptyReduxState, setLoggedIn, setPublicKey, setWalletPassword } from '../../../redux/slices/account';
+import {
+  emptyReduxState, setLoggedIn, setPublicKey, setWalletPassword,
+} from '../../../redux/slices/account';
 import { fonts } from '../../../utils';
 import { WarningText } from './StyledComponents';
-import web3 from 'web3'
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -27,9 +29,9 @@ const passwordErrorMessages = {
 
 function CreateWallet(props) {
   const history = useHistory();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const { seed } = useSelector(state => state.account);
+  const { seed } = useSelector((state) => state.account);
 
   const [walletName, setWalletName] = useState('');
   const [password, setPassword] = useState('');
@@ -44,10 +46,10 @@ function CreateWallet(props) {
     if (!(password === confirmPassword)) {
       setPasswordError(passwordErrorMessages.didnotMatchWarning);
       return false;
-    } else if (password.length < 8 || confirmPassword.length < 8) {
+    } if (password.length < 8 || confirmPassword.length < 8) {
       setPasswordError(passwordErrorMessages.minimumCharacterWarning);
       return false;
-    } else if (password === confirmPassword) {
+    } if (password === confirmPassword) {
       setPasswordError('');
       return true;
     }
@@ -57,21 +59,21 @@ function CreateWallet(props) {
     if (!validatePasswordAndConfirmPassword()) return;
 
     console.log({ walletName, password, seed });
-    //create account with walletName, password and seed by using keyring
-    const res = await AccountCreation({ walletName, password, seed })
-    console.log('Result [][]', res)
+    // create account with walletName, password and seed by using keyring
+    const res = await AccountCreation({ walletName, password, seed });
+    console.log('Result [][]', res);
     // console.log('Password', password)
-    const hashedPassword = web3.utils.sha3(password)
+    const hashedPassword = web3.utils.sha3(password);
     // const hashedPassword =  await keccak256(password)
     // console.log('Hashed password', hashedPassword)
-    dispatch(setLoggedIn(true))
-    dispatch(setPublicKey(res.address))
-    dispatch(setWalletPassword(hashedPassword))
-    
-    //update redux data and tracking flags accordingly
+    dispatch(setLoggedIn(true));
+    dispatch(setPublicKey(res.address));
+    dispatch(setWalletPassword(hashedPassword));
 
-    //navigate to dashboard on success
-    history.push('/');
+    // update redux data and tracking flags accordingly
+
+    // navigate to dashboard on success
+    // history.push('/');
   };
 
   return (
@@ -90,7 +92,7 @@ function CreateWallet(props) {
           placeholder="Account 0"
           value={walletName}
           className={subHeadingfontFamilyClass}
-          onChange={t => setWalletName(t)}
+          onChange={(t) => setWalletName(t)}
         />
 
         <SubHeading className={mainHeadingfontFamilyClass}>Password</SubHeading>
@@ -98,12 +100,12 @@ function CreateWallet(props) {
           placeholder="password"
           className={subHeadingfontFamilyClass}
           value={password}
-          onChange={t => setPassword(t)}
+          onChange={(t) => setPassword(t)}
           type="password"
-          typePassword={true}
+          typePassword
           hideHandler={() => setShowPassword(!showPassword)}
           hideState={showPassword}
-          rightIcon={true}
+          rightIcon
         />
         {passwordError === passwordErrorMessages.minimumCharacterWarning && (
           <WarningText>
@@ -121,11 +123,11 @@ function CreateWallet(props) {
           placeholder="re-enter password"
           className={subHeadingfontFamilyClass}
           value={confirmPassword}
-          onChange={t => setConfirmPassword(t)}
-          typePassword={true}
+          onChange={(t) => setConfirmPassword(t)}
+          typePassword
           hideHandler={() => setShowConfirmPassword(!showConfirmPassword)}
           hideState={showConfirmPassword}
-          rightIcon={true}
+          rightIcon
         />
         {passwordError === passwordErrorMessages.minimumCharacterWarning && (
           <WarningText>

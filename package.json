@@ -11,6 +11,7 @@
     "@mui/styles": "^5.0.1",
     "@polkadot/ui-keyring": "^0.85.4",
     "@polkadot/util-crypto": "^7.4.1",
+    "@polkadot/wasm-crypto-wasm": "^4.2.1",
     "@reduxjs/toolkit": "^1.6.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -26,6 +27,7 @@
     "react-router": "^5.2.1",
     "react-router-dom": "^5.3.0",
     "react-scripts": "^4.0.3",
+    "react-websocket": "^2.1.0",
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
     "styled-components": "^5.3.1",
@@ -50,5 +52,15 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.157",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.26.1",
+    "eslint-plugin-react-hooks": "^1.7.0"
   }
 }
