@@ -1,28 +1,27 @@
-/* global chrome */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import './App.css';
 import './index.css';
+import { PersistGate } from 'redux-persist/integration/react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
+// eslint-disable-next-line import/extensions
 import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux';
 
-//REDUX
+// REDUX
 import store, { persistor } from './redux/store';
 
 // REDUX-PERSIST
-import { PersistGate } from 'redux-persist/integration/react';
 
 // fonts
 import './assets/fonts/Roboto-Bold.ttf';
 import './assets/fonts/Roboto-Regular.ttf';
 
-import { BrowserRouter as Router } from 'react-router-dom'
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>  
+      <PersistGate loading={null} persistor={persistor}>
         <Router>
           <App />
         </Router>

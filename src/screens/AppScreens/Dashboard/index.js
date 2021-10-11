@@ -1,23 +1,27 @@
-import React, { useState, useEffect, useRef } from 'react';
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-shadow */
+/* eslint-disable max-len */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-console */
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
+import WebSocket from 'react-websocket';
+// eslint-disable-next-line import/namespace
 import MainCard from './MainCard';
 import Operations from './Operations';
 import AssetsAndTransactions from './AssetsAndTransactions';
 
-import { providerInitialization, getBalance } from '../../../ToolBox/services'
+import { providerInitialization, getBalance } from '../../../ToolBox/services';
 // import onChainConstants from '../../../constants/onchain'
-import constants from '../../../constants/onchain'
+import constants from '../../../constants/onchain';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom'
-
-import { setRpcUrl, setBalance } from '../../../redux/slices/account'
+import { setRpcUrl, setBalance } from '../../../redux/slices/account';
 
 import { fonts } from '../../../utils';
-import RpcClass from '../../../rpc'
-import WebSocket from 'react-websocket'
+import RpcClass from '../../../rpc';
 
 import {
   AccountContainer,
@@ -33,7 +37,7 @@ import {
 } from './StyledComponents';
 
 import Logo from '../../../assets/images/logodraft.svg';
-import { SelectNetwork } from '../../../components';
+import { SelectNetwork, TxDetails } from '../../../components';
 import {
   HorizontalContentDiv,
   NextIcon,
@@ -49,8 +53,8 @@ import ShidenIcon from '../../../assets/images/shiden.svg';
 import PhalaIcon from '../../../assets/images/phala.svg';
 import BifrostIcon from '../../../assets/images/bifrost.svg';
 
-const { cryptoWaitReady } = require('@polkadot/util-crypto')
-const { ApiRx, WsProvider, ApiPromise, Keyring } = require('@polkadot/api')
+const { cryptoWaitReady } = require('@polkadot/util-crypto');
+const { WsProvider, ApiPromise, Keyring } = require('@polkadot/api');
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -140,197 +144,181 @@ const TestNetworks = [
   {
     name: 'Westend',
     theme: '#015D77',
-    rpcUrl: constants.WestEndRpcUrl
+    rpcUrl: constants.WestEndRpcUrl,
   },
 ];
 
-function Dashboard(props) {
+function Dashboard() {
+  const [isTxDetailsModalOpen, setIsTxDetailsModalOpen] = useState(false);
 
   const currentUser = useSelector((state) => state);
+  // eslint-disable-next-line no-unused-vars
+  const [chain, setChain] = useState(currentUser.account.chainName);
+  const dispatch = useDispatch();
 
-  const [chain, setChain] = useState(currentUser.account.chainName)
-  const dispatch = useDispatch()
-  const history = useHistory()
+  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line no-shadow
+  // eslint-disable-next-line no-unused-vars
+  const [balance, setBalance] = useState(0);
 
-  // const [balance, setBalance] = useState(0)
-  const [modalOpen, setModalOpen] = useState(false)
+  const [tokenName, setTokenName] = useState(currentUser.account.tokenName);
 
-  const [tokenName, setTokenName] = useState(currentUser.account.tokenName)
+  //   async function main () {
+  //     console.log('Listener working')
+  //   const api = await RpcClass.init(currentUser.account.rpcUrl, false)
 
+  //   let { data: { free: previousFree }, nonce: previousNonce } = await api.query.system.account(currentUser.account.publicKey);
 
-//   async function main () {
-//     console.log('Listener working')
-//   const api = await RpcClass.init(currentUser.account.rpcUrl, false)    
+  //   // console.log(`You has a balance of ${previousFree}, nonce ${previousNonce}`);
+  //   // console.log(`You may leave this example running and start example 06 or transfer any value to Your account`);
 
-//   let { data: { free: previousFree }, nonce: previousNonce } = await api.query.system.account(currentUser.account.publicKey);
+  //   // Here we subscribe to any balance changes and update the on-screen value
+  //   api.query.system.account(currentUser.account.publicKey, ({ data: { free: currentFree }, nonce: currentNonce }) => {
+  //     // Calculate the delta
+  //     const change = currentFree.sub(previousFree);
+  //     // Only display positive value changes (Since we are pulling `previous` above already,
+  //     // the initial balance change will also be zero)
+  //     if (!change.isZero()) {
+  //       async () => {
 
-//   // console.log(`You has a balance of ${previousFree}, nonce ${previousNonce}`);
-//   // console.log(`You may leave this example running and start example 06 or transfer any value to Your account`);
+  //       const newBalance = await getBalance(api,currentUser.account.publicKey)
+  //       console.log('New balance')
+  //       // .then(() => setBalance(balance)).catch((err) => console.log('An error occured'))
+  //         dispatch(setBalance(newBalance))
+  //       previousFree = currentFree;
+  //       previousNonce = currentNonce;
+  //       }
 
-//   // Here we subscribe to any balance changes and update the on-screen value
-//   api.query.system.account(currentUser.account.publicKey, ({ data: { free: currentFree }, nonce: currentNonce }) => {
-//     // Calculate the delta
-//     const change = currentFree.sub(previousFree);
-//     // Only display positive value changes (Since we are pulling `previous` above already,
-//     // the initial balance change will also be zero)
-//     if (!change.isZero()) {
-//       async () => {
+  //     }
+  //   });
+  // }
 
-//       const newBalance = await getBalance(api,currentUser.account.publicKey)
-//       console.log('New balance')
-//       // .then(() => setBalance(balance)).catch((err) => console.log('An error occured'))
-//         dispatch(setBalance(newBalance))
-//       previousFree = currentFree;
-//       previousNonce = currentNonce;
-//       }
-      
-//     }
-//   });
-// }
+  // main().catch(console.error);
 
-// main().catch(console.error);
+  // useEffect(() => {
+  //   main()
+  // })
 
-// useEffect(() => {
-//   main()
-// })
+  const Alice = currentUser.account.publicKey;
 
-const anotherDummyFunction = async () => {
-  const bal = await getBalance(api, currentUser.account.publicKey)
-  console.log('Balance after transaction', bal)
-  dispatch(setBalance(bal))
-}
+  async function main() {
+    console.log('Listner working', currentUser.account.public_key);
+    // Create an await for the API
+    // const api = await ApiPromise.create();
+    const wsProvider = new WsProvider(currentUser.account.rpcUrl);
+    const api = await ApiPromise.create({ provider: wsProvider });
+    await api.isReady;
+    await cryptoWaitReady();
 
-const Alice = currentUser.account.publicKey
+    // Retrieve the initial balance. Since the call has no callback, it is simply a promise
+    // that resolves to the current on-chain value
+    let { data: { free: previousFree }, nonce: previousNonce } = await api.query.system.account(currentUser.account.publicKey);
 
-async function main () {
-  console.log('Listner working', currentUser.account.public_key)
-  // Create an await for the API
-  // const api = await ApiPromise.create();
-   const wsProvider = new WsProvider(currentUser.account.rpcUrl)
-      const  api = await ApiPromise.create({provider: wsProvider})
-        await api.isReady
-        await cryptoWaitReady();
+    console.log(`${Alice} has a balance of ${previousFree}, nonce ${previousNonce}`);
+    console.log(`You may leave this example running and start example 06 or transfer any value to ${Alice}`);
 
-  // Retrieve the initial balance. Since the call has no callback, it is simply a promise
-  // that resolves to the current on-chain value
-  let { data: { free: previousFree }, nonce: previousNonce } = await api.query.system.account(currentUser.account.publicKey);
-
-  console.log(`${Alice} has a balance of ${previousFree}, nonce ${previousNonce}`);
-  console.log(`You may leave this example running and start example 06 or transfer any value to ${Alice}`);
-
-  // Here we subscribe to any balance changes and update the on-screen value
-  api.query.system.account(Alice, ({ data: { free: currentFree }, nonce: currentNonce }) => {
+    // Here we subscribe to any balance changes and update the on-screen value
+    api.query.system.account(Alice, ({ data: { free: currentFree }, nonce: currentNonce }) => {
     // Calculate the delta
-    const change = currentFree.sub(previousFree);
+      const change = currentFree.sub(previousFree);
 
-    // Only display positive value changes (Since we are pulling `previous` above already,
-    // the initial balance change will also be zero)
-    console.log('Change is zero', change)
-    if (!change.isZero()) {
-      console.log(`New balance change of ${change}, nonce ${currentNonce}`);
-      let newBalance = change / 1000000000000
-      console.log('New balance', newBalance);
-      console.log('Exact balance', newBalance + currentUser.account.balance)
-      dispatch(setBalance(newBalance + currentUser.account.balance))
-      // async () => {
+      // Only display positive value changes (Since we are pulling `previous` above already,
+      // the initial balance change will also be zero)
+      console.log('Change is zero', change);
+      if (!change.isZero()) {
+        console.log(`New balance change of ${change}, nonce ${currentNonce}`);
+        const newBalance = change / 1000000000000;
+        console.log('New balance', newBalance);
+        console.log('Exact balance', newBalance + currentUser.account.balance);
+        dispatch(setBalance(newBalance + currentUser.account.balance));
+        // async () => {
 
-      // await anotherDummyFunction()
-      // }
-      previousFree = currentFree;
-      previousNonce = currentNonce;
-    }
-  });
-}
-
-main().catch(console.error);
-
-  const landing = async () => {
-    console.log('Landing function running')
-    console.log('Current user', currentUser)
-    try{
-
-      const api = await RpcClass.init(currentUser.account.rpcUrl, false)
-      
-      const balance  = await getBalance(api,currentUser.account.publicKey)
-      console.log('Balance in loading', balance)
-      dispatch(setBalance(balance))
-      // setBalance(balance)
-      
-      console.log('Token name on dashboard')
-      // setTokenName(await api.registry.chainTokens)
-      
-      return balance
-  
-    }catch(err){
-
-      console.log('Error occurred')
-      throw err
-    }
-
+        // await anotherDummyFunction()
+        // }
+        previousFree = currentFree;
+        previousNonce = currentNonce;
+      }
+    });
   }
 
-  useEffect(async() => {
+  main().catch(console.error);
 
-    console.log('Use effect running')
-    await landing()
-    
-  },[])
+  const landing = async () => {
+    console.log('Landing function running');
+    console.log('Current user', currentUser);
+    try {
+      const api = await RpcClass.init(currentUser.account.rpcUrl, false);
+
+      const nbalance = await getBalance(api, currentUser.account.publicKey);
+      console.log('Balance in loading', nbalance);
+      dispatch(setBalance(nbalance));
+      // setBalance(balance)
+
+      console.log('Token name on dashboard');
+      // setTokenName(await api.registry.chainTokens)
+
+      return nbalance;
+    } catch (err) {
+      console.log('Error occurred');
+      throw err;
+    }
+  };
+
+  useEffect(async () => {
+    console.log('Use effect running');
+    await landing();
+  }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  //--------State and funtions for SlectNetwork Modal
-  const handleSelectionOnKusamaMainNetwork = data => {
+  // --------State and funtions for SlectNetwork Modal
+  const handleSelectionOnKusamaMainNetwork = (data) => {
     console.log('object', data);
     selectAndGoBack(data.name);
   };
+  // prettier-ignore
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(async () => {
+    console.log('Use effect running');
+    await landing();
+  });
 
-  const selectAndGoBack = network => {
-    //set selected network state to Polkadot
-    setSelectedNetwrok(network);
-
-    //set selected network to Polkadot in REDUX as well
-
-    resetState();
-    setIsModalOpen(false);
-  };
-
-  const RenderContentForAvailableNetwroks = data => {
+  // --------State and funtions for SlectNetwork Modal
+  const RenderContentForKusamaMainNetwork = (data, handleClick) => {
+    const { name, icon } = data;
     return (
       <OptionRow
-        key={data.name}
-        onClick={() => {
-          handleSelection(data);
-          //   console.log('object');
-        }}>
+        key={name}
+        onClick={() => handleClick(data)}
+      >
         <HorizontalContentDiv>
-          <PlainIcon bgColor={data.theme}></PlainIcon>
+          <img src={icon} alt="icon" />
           <OptionText className={mainHeadingfontFamilyClass}>
-            {data.name}
+            {name}
           </OptionText>
         </HorizontalContentDiv>
-        {data.moreOptions && (
-          <NextIcon>
-            <KeyboardArrowRightIcon />
-          </NextIcon>
-        )}
       </OptionRow>
     );
   };
 
-  const RenderContentForKusamaMainNetwork = data => {
+  const RenderContentForAvailableNetwroks = (data, handleClick) => {
+    const { name, theme, moreOptions } = data;
     return (
       <OptionRow
-        key={data.name}
-        onClick={() => {
-          handleSelectionOnKusamaMainNetwork(data);
-          //   console.log('object');
-        }}>
+        key={name}
+        onClick={() => handleClick(data)}
+      >
         <HorizontalContentDiv>
-          <img src={data.icon} alt="icon" />
+          <PlainIcon bgColor={theme} />
           <OptionText className={mainHeadingfontFamilyClass}>
-            {data.name}
+            {name}
           </OptionText>
         </HorizontalContentDiv>
+        {moreOptions && (
+          <NextIcon>
+            <KeyboardArrowRightIcon />
+          </NextIcon>
+        )}
       </OptionRow>
     );
   };
@@ -341,7 +329,10 @@ main().catch(console.error);
     currentData: availableNetworks,
   });
 
-  const [selectedNetwork, setSelectedNetwrok] = useState('');
+  const selectAndGoBack = () => {
+    resetState();
+    setIsModalOpen(false);
+  };
 
   const resetState = () => {
     setModalState({
@@ -351,18 +342,15 @@ main().catch(console.error);
     });
   };
 
+  // prettier-ignore
   const handleSelection = async (data) => {
-    console.log('mark1');
-    if (data.name == 'Test Networks') {
-      console.log('mark5');
-      // selectAndGoBack(data.name);
+    if (data.name === 'Test Networks') {
       setModalState({
         firstStep: false,
         renderMethod: RenderContentForAvailableNetwroks,
         currentData: TestNetworks,
       });
-    } else if (data.name == 'Kusama Main Networks') {
-      console.log('mark3');
+    } else if (data.name === 'Kusama Main Networks') {
       setModalState({
         firstStep: false,
         renderMethod: RenderContentForKusamaMainNetwork,
@@ -370,30 +358,54 @@ main().catch(console.error);
       });
     } else {
       console.log('NETWORK SELECTED');
-      const api = await RpcClass.init(data.rpcUrl, true)
-      console.log('Api on dashboard', api)
-      let token = await api.registry.chainTokens
+      const api = await RpcClass.init(data.rpcUrl, true);
+      console.log('Api on dashboard', api);
+      const token = await api.registry.chainTokens;
       // chainDecimals = await api.registry.chainDecimals
-      console.log('Token name on dashboard', await api.registry.chainTokens)
-      setTokenName(await api.registry.chainTokens)
-      dispatch(setRpcUrl({ chainName: data.name, rpcUrl: data.rpcUrl, tokenName: token }))
+      console.log('Token name on dashboard', await api.registry.chainTokens);
+      setTokenName(await api.registry.chainTokens);
+      dispatch(setRpcUrl({ chainName: data.name, rpcUrl: data.rpcUrl, tokenName: token }));
       selectAndGoBack(data.name);
     }
   };
 
-  const dummyFunction = () => {
-    console.log('WOkring')
-    // await getBalance()
-  }
+  // eslint-disable-next-line no-unused-vars
+  const doTransaction = async () => {
+    console.log('Transaction starting');
+    const wsProvider = new WsProvider(constants.WestEndRpcUrl);
+    const api = await ApiPromise.create({ provider: wsProvider });
 
+    // const api = new ApiPromise(provider)
 
-  //--------XXXXXXXXXXXXXXX-----------
+    await api.isReady;
+    // prettier-ignore
+    const mnemonic = 'merry network invest border urge mechanic shuffle minimum proud video eternal lab';
+    await cryptoWaitReady();
+    console.log('Decimals', api.registry.chainDecimals);
+    const keyring = new Keyring({ type: 'sr25519' });
+    const me = keyring.addFromUri(mnemonic);
+    console.log('Me [][]', me.address);
+
+    // prettier-ignore
+    const hash = await api.tx.balances
+      .transfer('5D2pr8UsTRXjmSWtYds9pcpvowH42GzF6QS74bo64fKecXhw', 1e10)
+      .signAndSend(me, (res) => {
+        console.log('Success', res.status);
+      })
+      .catch((err) => {
+        console.error('Error [][][]', err);
+      });
+
+    console.log('Hash ===>>>', hash);
+  };
+
+  // --------XXXXXXXXXXXXXXX-----------
 
   return (
     <Wrapper>
       <DashboardHeader>
         <LogoContainer>
-          <img src={Logo} width="30px" height="34px" />
+          <img src={Logo} width="30px" height="34px" alt="Polo Logo" />
         </LogoContainer>
 
         <NetworkContainer>
@@ -410,7 +422,7 @@ main().catch(console.error);
           </SelectChain>
 
           <SwitchToTestnet className={subHeadingfontFamilyClass}>
-            Switch to Moonbase Testnet{' '}
+            Switch to Moonbase Testnet
           </SwitchToTestnet>
         </NetworkContainer>
 
@@ -425,13 +437,17 @@ main().catch(console.error);
 
       <Operations />
 
-      <AssetsAndTransactions />
+      <AssetsAndTransactions
+        handleOpenTxDetailsModal={() => setIsTxDetailsModalOpen(true)}
+      />
 
       <SelectNetwork
         open={isModalOpen}
         handleClose={() => setIsModalOpen(false)}
         modalState={modalState}
         resetState={resetState}
+        handleClickForOthers={handleSelection}
+        handleClickForKusama={handleSelectionOnKusamaMainNetwork}
         style={{
           position: 'relative',
           width: '78%',
@@ -439,9 +455,20 @@ main().catch(console.error);
           pb: 3,
         }}
       />
-      <div style={{color:'red'}} >
-      </div>
-    <button onClick={dummyFunction} >Dummy</button>
+
+      <TxDetails
+        open={isTxDetailsModalOpen}
+        handleClose={() => setIsTxDetailsModalOpen(false)}
+        style={{
+          width: '78%',
+          background: '#141414',
+          position: 'relative',
+          p: 2,
+          px: 2,
+          pb: 3,
+          // mt: 15,
+        }}
+      />
     </Wrapper>
   );
 }

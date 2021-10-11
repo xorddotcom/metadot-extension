@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useSelector } from 'react-redux';
 import {
   AuthWrapper,
   Button,
@@ -7,7 +9,6 @@ import {
   StyledInput,
 } from '../../../components';
 import { fonts } from '../../../utils';
-import { useSelector } from "react-redux";
 import {
   Balance,
   FromAccount,
@@ -21,16 +22,18 @@ import {
   CenterContent,
 } from './StyledComponents';
 
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import RpcClass from '../../../rpc'
-const { cryptoWaitReady } = require('@polkadot/util-crypto')
-const { ApiRx, WsProvider, ApiPromise, Keyring } = require('@polkadot/api')
+import RpcClass from '../../../rpc';
+
+const {
+  Keyring,
+} = require('@polkadot/api');
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 const Send = () => {
   // fill this state  from redux
-  const [accountFrom, setAccountFrom] = useState();
+  // eslint-disable-next-line no-unused-vars
+  const [accountFrom, setAccountFrom] = useState('');
 
   const [accountTo, setAccountTo] = useState('');
   const [amount, setAmount] = useState('');
@@ -39,53 +42,52 @@ const Send = () => {
 
   const currentUser = useSelector((state) => state);
   // setAccountFrom(currentUser.account.publicKey)
-  
 
   console.log('STATE of SEND COMPONENT', { accountFrom, accountTo, amount });
 
   const sendTransaction = async () => {
     console.log('Current user', currentUser.account.rpcUrl);
-  
-    const api = await RpcClass.init(currentUser.account.rpcUrl, false)
-    console.log('Api', api)
-    
-    const keyring = new Keyring({ type: 'sr25519' })
-   
+
+    const api = await RpcClass.init(currentUser.account.rpcUrl, false);
+    console.log('Api', api);
+
+    const keyring = new Keyring({ type: 'sr25519' });
+
     const me = keyring.addFromUri(currentUser.account.seed);
-    console.log('Me [][]',me.address)
-  
+    console.log('Me [][]', me.address);
+
     const hash = await api.tx.balances
       .transfer(
         accountTo,
-        amount * 1000000000000
+        amount * 1000000000000,
       )
       .signAndSend(
-        me,(res) => {console.log('Success', res.status);
-        if(res.status.isInBlock){
-          console.log(`Completed at block hash #${res.status.asInBlock.toString()}`)
-        } else {
-          console.log(`Current status: ${res.status.type}`)
-        }}
+        me, (res) => {
+          console.log('Success', res.status);
+          if (res.status.isInBlock) {
+            console.log(`Completed at block hash #${res.status.asInBlock.toString()}`);
+          } else {
+            console.log(`Current status: ${res.status.type}`);
+          }
+        },
       ).catch((err) => {
-        console.error('Error [][][]', err)
-      })
-  
-      console.log('Hash ===>>>', hash)
-   
-  }
+        console.error('Error [][][]', err);
+      });
 
+    console.log('Hash ===>>>', hash);
+  };
 
   return (
     <AuthWrapper>
       <Header centerText="Send" backHandler={() => console.log('object')} />
 
       <MainContent>
-        <MainText m={'8px'} className={mainHeadingfontFamilyClass}>
+        <MainText m="8px" className={mainHeadingfontFamilyClass}>
           From
         </MainText>
         <FromAccount>
           <HorizontalContentDiv>
-            <PlainIcon></PlainIcon>
+            <PlainIcon />
             <VerticalContentDiv>
               <MainText className={mainHeadingfontFamilyClass}>
                 Account 0
@@ -98,37 +100,39 @@ const Send = () => {
           <KeyboardArrowDownIcon />
         </FromAccount>
 
-        <VerticalContentDiv mb={'25px'}>
-          <MainText m={'8px'} className={mainHeadingfontFamilyClass}>
+        <VerticalContentDiv mb="25px">
+          <MainText m="8px" className={mainHeadingfontFamilyClass}>
             To
           </MainText>
           <StyledInput
             placeholder="Search Address"
             value={accountTo}
             className={subHeadingfontFamilyClass}
-            onChange={t => setAccountTo(t)}
-            fontSize={'14px'}
-            height={'20px'}
+            // prettier-ignore
+            onChange={(t) => setAccountTo(t)}
+            fontSize="14px"
+            height="20px"
           />
         </VerticalContentDiv>
 
         <VerticalContentDiv mb="150px">
-          <MainText m={'8px'} className={mainHeadingfontFamilyClass}>
+          <MainText m="8px" className={mainHeadingfontFamilyClass}>
             Amount
           </MainText>
           <StyledInput
             placeholder="Amount"
-            type={'number'}
+            type="number"
             value={amount}
             className={subHeadingfontFamilyClass}
-            onChange={t => {
+            // prettier-ignore
+            onChange={(t) => {
               console.log(t);
               if (t) {
                 setAmount(t);
               }
             }}
-            fontSize={'14px'}
-            height={'20px'}
+            fontSize="14px"
+            height="20px"
           />
           <CalculatedAmount>
             <EquivalentInUSDT className={subHeadingfontFamilyClass}>
@@ -141,7 +145,7 @@ const Send = () => {
         </VerticalContentDiv>
       </MainContent>
       <CenterContent>
-        <Button text={'Next'} handleClick={() => setIsSendModalOpen(true)} />
+        <Button text="Next" handleClick={() => setIsSendModalOpen(true)} />
       </CenterContent>
       <ConfirmSend
         // accountFrom={accountFrom}
@@ -152,11 +156,12 @@ const Send = () => {
         handleConfirm={sendTransaction}
         style={{
           width: '78%',
-          height: 300,
           background: '#141414',
+          position: 'relative',
           p: 2,
           px: 2,
           pb: 3,
+          mt: 15,
         }}
       />
     </AuthWrapper>

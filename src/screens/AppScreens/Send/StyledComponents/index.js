@@ -1,3 +1,4 @@
+/* eslint-disable arrow-parens */
 import styled from 'styled-components';
 import { colors } from '../../../../utils';
 
@@ -16,12 +17,13 @@ export const VerticalContentDiv = styled.div`
 
 export const HorizontalContentDiv = styled.div`
   display: flex;
-  /* width: 100%; */
+  width: 100%;
   flex-direction: row;
   align-items: center;
 `;
 
 export const FromAccount = styled(HorizontalContentDiv)`
+  width: 92%;
   height: 45px;
   align-items: center;
   justify-content: space-between;
@@ -34,11 +36,11 @@ export const FromAccount = styled(HorizontalContentDiv)`
 `;
 
 export const PlainIcon = styled.div`
-  width: 25px;
-  height: 25px;
-  border-radius: 25px;
-  margin-left: 10px;
-  margin-right: 20px;
+  width: 23px;
+  height: 23px;
+  border-radius: 23px;
+  margin-left: 5px;
+  margin-right: 10px;
 
   background: ${props => (props.bgColor ? props.bgColor : '#e6007a')};
 `;

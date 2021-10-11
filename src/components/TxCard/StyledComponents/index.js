@@ -37,7 +37,7 @@ export const MainText = styled.p`
   font-size: 12px;
   line-height: 14px;
   letter-spacing: 0.01em;
-  color: ${props => (props.color ? props.color : '#ffffff')};
+  color: ${(props) => (props.color ? props.color : '#ffffff')};
   margin-top: 0px;
   margin-bottom: 3px;
   text-align: start;

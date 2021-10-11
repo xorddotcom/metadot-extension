@@ -12,7 +12,7 @@ import { fonts } from '../../../utils';
 
 const { mainHeadingfontFamilyClass } = fonts;
 
-function Operations(props) {
+function Operations() {
   const history = useHistory();
   return (
     <OptionRow>
@@ -39,7 +39,7 @@ function Operations(props) {
             marginTop: 10,
           }}
         />
-        <OptionsName className={mainHeadingfontFamilyClass} inActive={true}>
+        <OptionsName className={mainHeadingfontFamilyClass} inActive>
           Swap
         </OptionsName>
       </Option>
@@ -54,7 +54,7 @@ function Operations(props) {
             marginTop: 10,
           }}
         />
-        <OptionsName className={mainHeadingfontFamilyClass} inActive={true}>
+        <OptionsName className={mainHeadingfontFamilyClass} inActive>
           Governance
         </OptionsName>
       </Option>
@@ -69,7 +69,7 @@ function Operations(props) {
             marginTop: 10,
           }}
         />
-        <OptionsName className={mainHeadingfontFamilyClass} inActive={true}>
+        <OptionsName className={mainHeadingfontFamilyClass} inActive>
           Stake
         </OptionsName>
       </Option>

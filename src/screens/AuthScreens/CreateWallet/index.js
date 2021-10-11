@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -13,9 +12,10 @@ import {
   SubHeading,
   SubMainWrapperForAuthScreens,
 } from '../../../components';
+// eslint-disable-next-line import/namespace
 import { AccountCreation } from '../../../ToolBox/accounts';
 import {
-  emptyReduxState, setLoggedIn, setPublicKey, setWalletPassword,
+  setLoggedIn, setPublicKey, setWalletPassword,
 } from '../../../redux/slices/account';
 import { fonts } from '../../../utils';
 import { WarningText } from './StyledComponents';
@@ -27,8 +27,7 @@ const passwordErrorMessages = {
   didnotMatchWarning: 'Password did not match!',
 };
 
-function CreateWallet(props) {
-  const history = useHistory();
+function CreateWallet() {
   const dispatch = useDispatch();
 
   const { seed } = useSelector((state) => state.account);
@@ -53,6 +52,7 @@ function CreateWallet(props) {
       setPasswordError('');
       return true;
     }
+    return true;
   };
 
   const handleContinue = async () => {

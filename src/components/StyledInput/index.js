@@ -2,6 +2,7 @@ import React from 'react';
 
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 import styled from 'styled-components';
 import { TextInputWrapper } from '../CommonStyledComponents';
@@ -17,11 +18,11 @@ const StyledInputField = styled.input`
   background-color: #212121;
   font-size: 16px;
   border-radius: 8px;
-  width: ${props => (props.fullWidth ? '100%' : '90%')};
+  width: ${(props) => (props.fullWidth ? '100%' : '90%')};
   font-family: 'RobotoR';
   border-width: 0px;
-  font-size: ${props => (props.fontSize ? props.fontSize : '16px')};
-  height: ${props => (props.height ? props.height : 'auto')};
+  font-size: ${(props) => (props.fontSize ? props.fontSize : '16px')};
+  height: ${(props) => (props.height ? props.height : 'auto')};
 `;
 
 const Icon = styled.span`
@@ -35,6 +36,9 @@ const Icon = styled.span`
 function StyledInput({
   placeholder,
   onChange,
+  value,
+  rightIconCross,
+  rightIconCrossClickHandler,
   isCorrect,
 
   type,
@@ -48,16 +52,19 @@ function StyledInput({
   typePassword = false,
   hideHandler,
   hideState,
+
+  marginBottom,
 }) {
   return (
-    <TextInputWrapper isCorrect={isCorrect}>
+    <TextInputWrapper isCorrect={isCorrect} marginBottom={marginBottom || '0px'}>
       <StyledInputField
         fontSize={fontSize}
         height={height}
+        value={value}
         fullWidth={fullWidth}
         placeholder={placeholder}
-        disableUnderline={true}
-        onChange={e => onChange(e.target.value)}
+        disableUnderline
+        onChange={(e) => onChange(e.target.value)}
         // type={
         //   typePassword
         //     ? !hideState
@@ -68,19 +75,23 @@ function StyledInput({
         //     : 'text'
         // }
         type={
-          type
-            ? type
-            : typePassword
+          // eslint-disable-next-line no-nested-ternary
+          type || (typePassword
             ? !hideState
               ? 'password'
               : 'text'
-            : 'text'
+            : 'text')
         }
       />
       {rightIcon && (
         <Icon onClick={() => hideHandler()}>
           {!hideState ? <VisibilityOffIcon /> : <VisibilityIcon />}
         </Icon>
+      )}
+      {rightIconCross && (
+      <Icon onClick={() => rightIconCrossClickHandler()}>
+        <CancelIcon />
+      </Icon>
       )}
     </TextInputWrapper>
   );

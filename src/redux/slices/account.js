@@ -1,5 +1,6 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import constants from '../../constants/onchain'
+import constants from '../../constants/onchain';
 
 const initialState = {
   isAuthorized: false,
@@ -7,11 +8,11 @@ const initialState = {
   seed: '',
   isLoggedIn: false,
   publicKey: '',
-  walletPassword: "",
-  rpcUrl: constants.Polkadot_Rpc_Url ,
+  walletPassword: '',
+  rpcUrl: constants.Polkadot_Rpc_Url,
   chainName: 'Polkadot Main Network',
   tokenName: 'DOT',
-  balance: 0
+  balance: 0,
 };
 
 export const accountSlice = createSlice({
@@ -19,52 +20,52 @@ export const accountSlice = createSlice({
   initialState,
   reducers: {
     setSeed: (state, action) => {
+      // eslint-disable-next-line no-param-reassign
       state.seed = action.payload;
     },
-    resetAccountSlice: (state, action) => {
+    resetAccountSlice: (state) => {
       console.log('RESET ACCOUNT BY EMPTYING seed value');
       state.seed = '';
     },
-    setPublicKey:(state, action) => {
-      state.publicKey = action.payload
+    setPublicKey: (state, action) => {
+      state.publicKey = action.payload;
     },
     setWalletPassword: (state, action) => {
-      state.walletPassword= action.payload
+      state.walletPassword = action.payload;
     },
-    setLoggedIn:(state, action) => {
-      state.isLoggedIn = action.payload
-      
+    setLoggedIn: (state, action) => {
+      state.isLoggedIn = action.payload;
     },
-    emptyReduxState:(state,) => {
+    emptyReduxState: (state) => {
       // state.walletPassword = ""
       // state.seed = ""
-      state.publicKey = "";
+      state.publicKey = '';
       // state = initialState
     },
     setRpcUrl: (state, action) => {
-      console.log('In redux', action.payload)
+      console.log('In redux', action.payload);
       // console.log('Action in set rpc url [][]',action.payload);
       state.rpcUrl = action.payload.rpcUrl;
       state.chainName = action.payload.chainName;
-      state.tokenName = action.payload.tokenName
+      state.tokenName = action.payload.tokenName;
     },
     setBalance: (state, action) => {
-      console.log('Action payload', action.payload)
+      console.log('Action payload', action.payload);
       state.balance = action.payload;
-    }
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { 
-  setSeed, 
-  resetAccountSlice, 
-  setPublicKey, 
-  setWalletPassword, 
+export const {
+  setSeed,
+  resetAccountSlice,
+  setPublicKey,
+  setWalletPassword,
   setLoggedIn,
   emptyReduxState,
   setRpcUrl,
-  setBalance
+  setBalance,
 } = accountSlice.actions;
 
 export default accountSlice.reducer;

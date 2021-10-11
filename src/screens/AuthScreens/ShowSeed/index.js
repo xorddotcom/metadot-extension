@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
-import { IndexText, SeedText, SeedWrapper } from './StyledComponents';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import {
+  CopyText, IndexText, SeedText, SeedWrapper,
+} from './StyledComponents';
 
 import {
   AuthWrapper,
@@ -24,15 +26,15 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 function ShowSeed() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { seed } = useSelector(state => state.account);
+  const { seed } = useSelector((state) => state.account);
 
   const dispatch = useDispatch();
 
-  //generate new seed for parent account
+  // generate new seed for parent account
   useEffect(() => {
     try {
       if (!seed) {
-        //checking whether seed needs to be created or not
+        // checking whether seed needs to be created or not
         const newSeed = GenerateSeedPhrase();
 
         dispatch(setSeed(newSeed)); // store newSeed in redux
@@ -40,18 +42,17 @@ function ShowSeed() {
     } catch (error) {
       console.log('ERROR while generating new seed for parent account', error);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const SinglePhrase = ({ index, phrase }) => {
-    return (
-      <SeedWrapper>
-        <IndexText className={mainHeadingfontFamilyClass}>
-          {index + 1}
-        </IndexText>
-        <SeedText className={mainHeadingfontFamilyClass}>{phrase}</SeedText>
-      </SeedWrapper>
-    );
-  };
+  const SinglePhrase = ({ index, phrase }) => (
+    <SeedWrapper>
+      <IndexText className={mainHeadingfontFamilyClass}>
+        {index + 1}
+      </IndexText>
+      <SeedText className={mainHeadingfontFamilyClass}>{phrase}</SeedText>
+    </SeedWrapper>
+  );
 
   return (
     <AuthWrapper>
@@ -61,20 +62,27 @@ function ShowSeed() {
       />
       <div>
         <MainHeading className={mainHeadingfontFamilyClass}>
-          Write down your seed phrase{' '}
+          Write down your seed phrase
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
           Please write the mnemonic down in order to ensure the backup is
           correct. Obtaining mnemonic is equivalent to owning wallet assets.
-          Don't take screenshots or copy, otherwise it may cause asset loss
+          Dont take screenshots or copy, otherwise it may cause asset loss
         </SubHeading>
       </div>
+      {/* <HorizontalContentDiv> */}
+      <CopyText className={subHeadingfontFamilyClass}>
+        Copy Seed Phrase
+        <span width="100px" style={{ width: '200px', visibility: 'hidden' }}>A</span>
+        <ContentCopyIcon style={{ fontSize: '0.99rem', marginRight: 10 }} />
+      </CopyText>
+      {/* </HorizontalContentDiv> */}
       <SubMainWrapperForAuthScreens>
-        {seed &&
-          seed
+        {seed
+          && seed
             .split(' ')
             .map((phrase, i) => (
-              <SinglePhrase index={i} key={i} phrase={phrase} />
+              <SinglePhrase index={i} key={phrase} phrase={phrase} />
             ))}
       </SubMainWrapperForAuthScreens>
       <div className="btn-wrapper">

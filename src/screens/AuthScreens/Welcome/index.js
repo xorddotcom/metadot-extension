@@ -1,29 +1,29 @@
 import React from 'react';
-import { Button } from '../../../components';
-import { useHistory } from 'react-router-dom';
+import {
+  useHistory,
+} from 'react-router-dom';
 
 import AddSharpIcon from '@mui/icons-material/AddSharp';
 import DownloadIcon from '@mui/icons-material/Download';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import AppLogo from '../../../assets/images/Group.svg';
-import { MemoryRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { Button } from '../../../components';
 
 import { MainHeading, SubHeading } from './StyledComponents';
 import { fonts } from '../../../utils';
 import './index.css';
 
 const {
-  welcomeScreenMainHeadingFontSize,
   subHeadingfontFamilyClass,
   mainHeadingfontFamilyClass,
 } = fonts;
 
-function Welcome(props) {
+function Welcome() {
   const history = useHistory();
 
-  const currentUser = useSelector(state => state.account);
-  console.log('Current user', currentUser)
+  const currentUser = useSelector((state) => state.account);
+  console.log('Current user', currentUser);
 
   return (
     <div>

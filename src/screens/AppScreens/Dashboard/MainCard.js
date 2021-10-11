@@ -1,4 +1,8 @@
 import React from 'react';
+
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import {
   AccountName,
   Balance,
@@ -11,25 +15,20 @@ import {
   VerticalContentDiv,
 } from './StyledComponents';
 
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-
 import NotConnected from '../../../assets/images/notConnected.svg';
 
 import { fonts } from '../../../utils';
-import { useSelector } from 'react-redux'
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
-function MainCard({balance, address, tokenName, chainName}) {
- 
+function MainCard({
+  balance, address, tokenName,
+}) {
   console.log('Token name in main card', tokenName, balance);
   const copyText = () => {
-    console.log('ENd', address)
-    navigator.clipboard.writeText(address)
-  }
-  
+    console.log('ENd', address);
+    navigator.clipboard.writeText(address);
+  };
 
   return (
     <MainPanel>
@@ -38,7 +37,7 @@ function MainCard({balance, address, tokenName, chainName}) {
         <ConnectionStatus className={subHeadingfontFamilyClass}>
           Not Connected
         </ConnectionStatus>
-        <MoreVertIcon style={{ color: '#fafafa', fontSize: 29 }} />
+        <MoreVertIcon style={{ color: '#fafafa', fontSize: 24 }} />
       </MoreOptions>
 
       <AccountName className={mainHeadingfontFamilyClass}>
@@ -46,7 +45,8 @@ function MainCard({balance, address, tokenName, chainName}) {
       </AccountName>
       <VerticalContentDiv>
         <PublicAddress className={mainHeadingfontFamilyClass}>
-          (bnb13...txjd5){' '}
+          (bnb13...txjd5)
+          {' '}
         </PublicAddress>
         <ContentCopyIcon
           style={{
@@ -58,7 +58,11 @@ function MainCard({balance, address, tokenName, chainName}) {
         />
       </VerticalContentDiv>
 
-      <Balance className={mainHeadingfontFamilyClass}>{balance} {tokenName}</Balance>
+      <Balance className={mainHeadingfontFamilyClass}>
+        {balance}
+        {' '}
+        {tokenName}
+      </Balance>
 
       <VerticalContentDiv>
         <PerUnitPrice className={mainHeadingfontFamilyClass}>
@@ -66,7 +70,8 @@ function MainCard({balance, address, tokenName, chainName}) {
         </PerUnitPrice>
         <VerticalContentDiv>
           <VariationAmount className={mainHeadingfontFamilyClass}>
-            4.8 %{' '}
+            4.8 %
+            {' '}
           </VariationAmount>
           <ArrowDropUpIcon
             style={{

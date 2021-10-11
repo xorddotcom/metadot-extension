@@ -3,26 +3,45 @@ function arrayFromSeedSentence(seed) {
 }
 
 function arrayOfFourRandomNumbers() {
-  var limit = 4,
-    amount = 3,
-    lower_bound = 0,
-    upper_bound = 11,
-    unique_random_numbers = [];
+  let limit = 4;
+  const amount = 3;
+  const lowerBound = 0;
+  const upperBound = 11;
+  const uniqueRandomArray = [];
 
   if (amount > limit) limit = amount;
 
-  while (unique_random_numbers.length < limit) {
-    var random_number = Math.floor(
-      Math.random() * (upper_bound - lower_bound) + lower_bound,
+  while (uniqueRandomArray.length < limit) {
+    const randomNumber = Math.floor(
+      Math.random() * (upperBound - lowerBound) + lowerBound,
     );
-    if (unique_random_numbers.indexOf(random_number) == -1) {
-      unique_random_numbers.push(random_number);
+    if (uniqueRandomArray.indexOf(randomNumber) === -1) {
+      uniqueRandomArray.push(randomNumber);
     }
   }
-  console.log('RANDOM ARRAY', unique_random_numbers);
-  return unique_random_numbers;
+  return uniqueRandomArray;
 }
 
-export default { arrayFromSeedSentence, arrayOfFourRandomNumbers };
+function shuffleItemsWithinArray(array) {
+  let currentIndex = array.length;
+  let randomIndex;
+
+  // While there remain elements to shuffle...
+  while (currentIndex !== 0) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    // eslint-disable-next-line no-plusplus
+    currentIndex--;
+
+    // And swap it with the current element.
+    // eslint-disable-next-line no-param-reassign
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
+
+export default { arrayFromSeedSentence, arrayOfFourRandomNumbers, shuffleItemsWithinArray };
 
 // export default helpers;

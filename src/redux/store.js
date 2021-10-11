@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { rootReducer } from './slices';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 
 import {
@@ -14,11 +13,12 @@ import {
 } from 'redux-persist';
 
 import logger from 'redux-logger';
+import { rootReducer } from './slices';
 
 const persistConfig = {
   key: 'root',
   version: 1,
-  storage: storage,
+  storage,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -29,12 +29,11 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = configureStore({
   reducer: persistedReducer,
   // middleware option needs to be provided for avoiding the error. ref: https://redux-toolkit.js.org/usage/usage-guide#use-with-redux-persist
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }).concat(logger),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }).concat(logger),
 });
 
 export const persistor = persistStore(store);
