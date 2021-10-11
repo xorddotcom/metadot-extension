@@ -63,6 +63,7 @@ const availableNetworks = [
     name: 'Polkadot Main Network',
     theme: '#E6007A',
     moreOptions: false,
+    rpcUrl: constants.Polkadot_Rpc_Url,
   },
   {
     name: 'Kusama Main Networks',
@@ -159,7 +160,7 @@ function Dashboard() {
   // eslint-disable-next-line no-unused-vars
   // eslint-disable-next-line no-shadow
   // eslint-disable-next-line no-unused-vars
-  const [balance, setBalance] = useState(0);
+  // const [balance, setBalance] = useState(0);
 
   const [tokenName, setTokenName] = useState(currentUser.account.tokenName);
 
@@ -357,7 +358,7 @@ function Dashboard() {
         currentData: KusamaMainNetworks,
       });
     } else {
-      console.log('NETWORK SELECTED');
+      console.log('NETWORK SELECTED', data);
       const api = await RpcClass.init(data.rpcUrl, true);
       console.log('Api on dashboard', api);
       const token = await api.registry.chainTokens;

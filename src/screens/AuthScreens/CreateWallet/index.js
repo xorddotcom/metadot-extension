@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import web3 from 'web3';
+import { useHistory } from 'react-router-dom';
 import {
   AuthWrapper,
   Header,
@@ -29,6 +30,7 @@ const passwordErrorMessages = {
 
 function CreateWallet() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const { seed } = useSelector((state) => state.account);
 
@@ -73,7 +75,7 @@ function CreateWallet() {
     // update redux data and tracking flags accordingly
 
     // navigate to dashboard on success
-    // history.push('/');
+    history.push('/');
   };
 
   return (
