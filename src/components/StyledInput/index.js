@@ -2,6 +2,7 @@ import React from 'react';
 
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 import styled from 'styled-components';
 import { TextInputWrapper } from '../CommonStyledComponents';
@@ -35,6 +36,9 @@ const Icon = styled.span`
 function StyledInput({
   placeholder,
   onChange,
+  value,
+  rightIconCross,
+  rightIconCrossClickHandler,
   isCorrect,
 
   type,
@@ -48,12 +52,15 @@ function StyledInput({
   typePassword = false,
   hideHandler,
   hideState,
+
+  marginBottom,
 }) {
   return (
-    <TextInputWrapper isCorrect={isCorrect}>
+    <TextInputWrapper isCorrect={isCorrect} marginBottom={marginBottom || '0px'}>
       <StyledInputField
         fontSize={fontSize}
         height={height}
+        value={value}
         fullWidth={fullWidth}
         placeholder={placeholder}
         disableUnderline
@@ -80,6 +87,11 @@ function StyledInput({
         <Icon onClick={() => hideHandler()}>
           {!hideState ? <VisibilityOffIcon /> : <VisibilityIcon />}
         </Icon>
+      )}
+      {rightIconCross && (
+      <Icon onClick={() => rightIconCrossClickHandler()}>
+        <CancelIcon />
+      </Icon>
       )}
     </TextInputWrapper>
   );

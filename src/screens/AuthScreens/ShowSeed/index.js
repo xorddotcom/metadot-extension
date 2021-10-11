@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
-import { IndexText, SeedText, SeedWrapper } from './StyledComponents';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import {
+  CopyText, IndexText, SeedText, SeedWrapper,
+} from './StyledComponents';
 
 import {
   AuthWrapper,
@@ -68,6 +70,13 @@ function ShowSeed() {
           Dont take screenshots or copy, otherwise it may cause asset loss
         </SubHeading>
       </div>
+      {/* <HorizontalContentDiv> */}
+      <CopyText className={subHeadingfontFamilyClass}>
+        Copy Seed Phrase
+        <span width="100px" style={{ width: '200px', visibility: 'hidden' }}>A</span>
+        <ContentCopyIcon style={{ fontSize: '0.99rem', marginRight: 10 }} />
+      </CopyText>
+      {/* </HorizontalContentDiv> */}
       <SubMainWrapperForAuthScreens>
         {seed
           && seed

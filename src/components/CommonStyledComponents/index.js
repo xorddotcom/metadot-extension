@@ -30,8 +30,9 @@ export const SubMainWrapperForAuthScreens = styled.div`
   flex-wrap: wrap;
   width: 100%;
   height: auto;
-  min-height: 340px;
-  margin: 25px auto 25px;
+  /* min-height: 340px; */
+  height: auto;
+      margin: 25px auto 25px;
 `;
 
 export const TextInputWrapper = styled.div`
@@ -43,4 +44,5 @@ export const TextInputWrapper = styled.div`
       : '0px')};
   border-radius: 8px;
   position: relative;
+  margin-bottom:${(props) => props.marginBottom && props.marginBottom}
 `;

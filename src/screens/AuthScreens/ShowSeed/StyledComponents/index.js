@@ -34,3 +34,19 @@ export const SeedText = styled.p`
   opacity: 0.7;
   width: 100%;
 `;
+
+export const CopyText = styled.p`
+font-size: 0.99rem;
+line-height: 25px;
+height: 25px;
+text-align:start;
+color: rgba(250, 250, 250, 0.83);
+
+`;
+
+export const HorizontalContentDiv = styled.div`
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: center;
+`;
