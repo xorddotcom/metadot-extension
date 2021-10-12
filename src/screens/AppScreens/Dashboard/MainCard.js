@@ -22,7 +22,7 @@ import { fonts } from '../../../utils';
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 function MainCard({
-  balance, address, tokenName,
+  balance, address, tokenName, balanceInUsd,
 }) {
   console.log('Token name in main card', tokenName, balance);
   const copyText = () => {
@@ -66,11 +66,11 @@ function MainCard({
 
       <VerticalContentDiv>
         <PerUnitPrice className={mainHeadingfontFamilyClass}>
-          $184.02 USD
+          {balanceInUsd}
         </PerUnitPrice>
         <VerticalContentDiv>
           <VariationAmount className={mainHeadingfontFamilyClass}>
-            4.8 %
+            0 %
             {' '}
           </VariationAmount>
           <ArrowDropUpIcon

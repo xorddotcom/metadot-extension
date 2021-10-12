@@ -8,7 +8,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
-import WebSocket from 'react-websocket';
 // eslint-disable-next-line import/namespace
 import MainCard from './MainCard';
 import Operations from './Operations';
@@ -53,7 +52,7 @@ import ShidenIcon from '../../../assets/images/shiden.svg';
 import PhalaIcon from '../../../assets/images/phala.svg';
 import BifrostIcon from '../../../assets/images/bifrost.svg';
 
-const { cryptoWaitReady } = require('@polkadot/util-crypto');
+// const { cryptoWaitReady } = require('@polkadot/util-crypto');
 const { WsProvider, ApiPromise, Keyring } = require('@polkadot/api');
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
@@ -209,7 +208,7 @@ function Dashboard() {
     const wsProvider = new WsProvider(currentUser.account.rpcUrl);
     const api = await ApiPromise.create({ provider: wsProvider });
     await api.isReady;
-    await cryptoWaitReady();
+    // await cryptoWaitReady();
 
     // Retrieve the initial balance. Since the call has no callback, it is simply a promise
     // that resolves to the current on-chain value
@@ -381,7 +380,7 @@ function Dashboard() {
     await api.isReady;
     // prettier-ignore
     const mnemonic = 'merry network invest border urge mechanic shuffle minimum proud video eternal lab';
-    await cryptoWaitReady();
+    // await cryptoWaitReady();
     console.log('Decimals', api.registry.chainDecimals);
     const keyring = new Keyring({ type: 'sr25519' });
     const me = keyring.addFromUri(mnemonic);
@@ -416,7 +415,11 @@ function Dashboard() {
 
           <SelectChain onClick={() => setIsModalOpen(true)}>
             <SelectedChain className={subHeadingfontFamilyClass}>
-              {currentUser.account.chainName}
+              {
+              currentUser.account.chainName.includes('Network')
+                ? currentUser.account.chainName
+                : `${currentUser.account.chainName} Network`
+                }
               {/* {chain} */}
             </SelectedChain>
             <ArrowDropDownIcon />
@@ -434,7 +437,13 @@ function Dashboard() {
         </AccountContainer>
       </DashboardHeader>
 
-      <MainCard balance={currentUser.account.balance} chainName={chain} tokenName={currentUser.account.tokenName} address={currentUser.account.publicKey} />
+      <MainCard
+        balance={currentUser.account.balance}
+        chainName={chain}
+        tokenName={currentUser.account.tokenName}
+        address={currentUser.account.publicKey}
+        balanceInUsd="0$"
+      />
 
       <Operations />
 

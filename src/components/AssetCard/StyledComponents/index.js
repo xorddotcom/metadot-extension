@@ -4,7 +4,7 @@ import { colors } from '../../../utils';
 const { primaryTextColor } = colors;
 
 export const AssetCardWrapper = styled.div`
-  width: 90%;
+  width: 85%;
   height: 55px;
 
   background: linear-gradient(
@@ -18,10 +18,12 @@ export const AssetCardWrapper = styled.div`
 
   margin-top: 15px;
   margin-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
 
   display: flex;
   align-items: center;
-  justify-content: space-space-around;
+  justify-content: space-between;
 `;
 
 export const NameAndAmount = styled.div`
@@ -29,6 +31,7 @@ export const NameAndAmount = styled.div`
   flex-direction: column;
   /* align-items: center; */
   justify-content: center;
+  margin-left: 10px;
 `;
 
 export const CoinName = styled.p`
@@ -58,7 +61,8 @@ export const CoinAmount = styled.p`
 export const HorizontalContentDiv = styled.div`
   display: flex;
   align-items: center;
-  height: 17px;
+  justify-content: space-between;
+  height: ${(props) => (props.height ? props.height : 'auto')};
 `;
 
 export const EquivalentInUSDT = styled.p`
