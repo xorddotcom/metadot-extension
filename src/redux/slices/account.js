@@ -31,16 +31,23 @@ export const accountSlice = createSlice({
       state.publicKey = action.payload;
     },
     setWalletPassword: (state, action) => {
+      console.log('In account js redux', action.payload);
       state.walletPassword = action.payload;
     },
     setLoggedIn: (state, action) => {
       state.isLoggedIn = action.payload;
     },
     emptyReduxState: (state) => {
-      // state.walletPassword = ""
-      // state.seed = ""
+      state.walletPassword = '';
+      state.seed = '';
       state.publicKey = '';
-      // state = initialState
+      state.isLoggedIn = false;
+      state.rpcUrl = initialState.rpcUrl;
+      state.tokenName = initialState.tokenName;
+      state.balance = 0;
+      state.chainName = initialState.chainName;
+      // state = initialState;
+      // state.publicKey = "hello";
     },
     setRpcUrl: (state, action) => {
       console.log('In redux', action.payload);

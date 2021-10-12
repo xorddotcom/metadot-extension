@@ -11,11 +11,11 @@ export default class RpcInitialization {
   }
 
      static init = async (rpcUrl, changeRpcUrl) => {
-       if (api && !changeRpcUrl) {
-         // console.log('In if returing api')
+       console.log('Init function running', rpcUrl, changeRpcUrl);
+       if (rpcUrl && !changeRpcUrl) {
+         console.log('In if returing api');
          return api;
        }
-       console.log('Init function running', rpcUrl);
        // if(!rpcUrl) return api
        const wsProvider = new WsProvider(rpcUrl);
        api = await ApiPromise.create({ provider: wsProvider });

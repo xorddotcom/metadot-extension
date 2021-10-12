@@ -26,7 +26,7 @@ async function AccountCreation({ name, password, seed }) {
   try {
     console.log('Account creation Password', password);
     // await waitReady()
-    await cryptoWaitReady();
+    // await cryptoWaitReady();
     const data = keyring.addUri(seed, password, { name });
     console.log('Data', data);
     return data.json;

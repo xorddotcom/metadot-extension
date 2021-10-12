@@ -6,12 +6,13 @@ import {
 import AddSharpIcon from '@mui/icons-material/AddSharp';
 import DownloadIcon from '@mui/icons-material/Download';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import AppLogo from '../../../assets/images/Group.svg';
 import { Button } from '../../../components';
 
 import { MainHeading, SubHeading } from './StyledComponents';
 import { fonts } from '../../../utils';
+import { emptyReduxState } from '../../../redux/slices/account';
 import './index.css';
 
 const {
@@ -21,6 +22,7 @@ const {
 
 function Welcome() {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const currentUser = useSelector((state) => state.account);
   console.log('Current user', currentUser);
@@ -56,6 +58,8 @@ function Welcome() {
             history.push('/ImportWallet');
           }}
         />
+        <button type="button" onClick={() => dispatch(emptyReduxState())}>Clear redux</button>
+
       </div>
     </div>
   );

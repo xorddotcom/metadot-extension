@@ -22,8 +22,6 @@ import {
   CenterContent,
 } from './StyledComponents';
 
-import RpcClass from '../../../rpc';
-
 const {
   Keyring,
 } = require('@polkadot/api');
@@ -41,15 +39,13 @@ const Send = () => {
   const [isSendModalOpen, setIsSendModalOpen] = useState(false);
 
   const currentUser = useSelector((state) => state);
+  const { api } = currentUser.api;
   // setAccountFrom(currentUser.account.publicKey)
-
+  console.log('currentUser in send', currentUser);
   console.log('STATE of SEND COMPONENT', { accountFrom, accountTo, amount });
 
   const sendTransaction = async () => {
-    console.log('Current user', currentUser.account.rpcUrl);
-
-    const api = await RpcClass.init(currentUser.account.rpcUrl, false);
-    console.log('Api', api);
+    console.log('Api [[]]', api);
 
     const keyring = new Keyring({ type: 'sr25519' });
 

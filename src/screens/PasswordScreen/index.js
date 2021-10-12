@@ -30,8 +30,6 @@ const PasswordScreen = () => {
       alert('Please enter password');
       return false;
     }
-    console.log('current user', currentUser.walletPassword);
-    // console.log('Password', password)
     const hashedPassword = web3.utils.sha3(password);
     console.log('Hashed password', hashedPassword);
     if (hashedPassword === currentUser.walletPassword) {
@@ -72,7 +70,6 @@ const PasswordScreen = () => {
       <button
         onClick={() => {
           dispatch(emptyReduxState());
-          dispatch(setLoggedIn(false));
         }}
       >
         Clear Redux
