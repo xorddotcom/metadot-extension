@@ -17,12 +17,14 @@ import {
 
 import NotConnected from '../../../assets/images/notConnected.svg';
 
-import { fonts } from '../../../utils';
+import { fonts, helpers } from '../../../utils';
+
+const { addressModifier } = helpers;
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 function MainCard({
-  balance, address, tokenName, balanceInUsd,
+  balance, address, tokenName, balanceInUsd, accountName,
 }) {
   console.log('Token name in main card', tokenName, balance);
   const copyText = () => {
@@ -41,11 +43,11 @@ function MainCard({
       </MoreOptions>
 
       <AccountName className={mainHeadingfontFamilyClass}>
-        Account 0
+        {accountName}
       </AccountName>
       <VerticalContentDiv>
         <PublicAddress className={mainHeadingfontFamilyClass}>
-          (bnb13...txjd5)
+          {addressModifier(address)}
           {' '}
         </PublicAddress>
         <ContentCopyIcon

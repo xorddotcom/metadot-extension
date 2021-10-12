@@ -42,6 +42,12 @@ function shuffleItemsWithinArray(array) {
   return array;
 }
 
-export default { arrayFromSeedSentence, arrayOfFourRandomNumbers, shuffleItemsWithinArray };
+function addressModifier(address) {
+  return `${address.slice(0, 3)}...${address.slice(address.length - 3, address.length)}`;
+}
+
+export default {
+  arrayFromSeedSentence, arrayOfFourRandomNumbers, shuffleItemsWithinArray, addressModifier,
+};
 
 // export default helpers;

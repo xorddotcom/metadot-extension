@@ -8,6 +8,7 @@ const initialState = {
   seed: '',
   isLoggedIn: false,
   publicKey: '',
+  accountName: '',
   walletPassword: '',
   rpcUrl: constants.Polkadot_Rpc_Url,
   chainName: 'Polkadot Main Network',
@@ -29,6 +30,9 @@ export const accountSlice = createSlice({
     },
     setPublicKey: (state, action) => {
       state.publicKey = action.payload;
+    },
+    setAccountName: (state, action) => {
+      state.accountName = action.payload;
     },
     setWalletPassword: (state, action) => {
       state.walletPassword = action.payload;
@@ -61,6 +65,7 @@ export const {
   setSeed,
   resetAccountSlice,
   setPublicKey,
+  setAccountName,
   setWalletPassword,
   setLoggedIn,
   emptyReduxState,

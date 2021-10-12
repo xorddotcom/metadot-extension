@@ -90,7 +90,7 @@ const Send = () => {
             <PlainIcon />
             <VerticalContentDiv>
               <MainText className={mainHeadingfontFamilyClass}>
-                Account 0
+                {currentUser.account.accountName}
               </MainText>
               <Balance className={subHeadingfontFamilyClass}>
                 0.949494 ETH

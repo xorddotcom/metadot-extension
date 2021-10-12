@@ -16,6 +16,7 @@ import {
 // eslint-disable-next-line import/namespace
 import { AccountCreation } from '../../../ToolBox/accounts';
 import {
+  setAccountName,
   setLoggedIn, setPublicKey, setWalletPassword,
 } from '../../../redux/slices/account';
 import { fonts } from '../../../utils';
@@ -64,15 +65,14 @@ function CreateWallet() {
     // create account with walletName, password and seed by using keyring
     const res = await AccountCreation({ walletName, password, seed });
     console.log('Result [][]', res);
-    // console.log('Password', password)
+
     const hashedPassword = web3.utils.sha3(password);
-    // const hashedPassword =  await keccak256(password)
-    // console.log('Hashed password', hashedPassword)
-    dispatch(setLoggedIn(true));
-    dispatch(setPublicKey(res.address));
-    dispatch(setWalletPassword(hashedPassword));
 
     // update redux data and tracking flags accordingly
+    dispatch(setPublicKey(res.address));
+    dispatch(setAccountName(walletName));
+    dispatch(setWalletPassword(hashedPassword));
+    dispatch(setLoggedIn(true));
 
     // navigate to dashboard on success
     history.push('/');

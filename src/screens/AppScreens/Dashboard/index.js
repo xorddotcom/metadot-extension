@@ -443,6 +443,7 @@ function Dashboard() {
         tokenName={currentUser.account.tokenName}
         address={currentUser.account.publicKey}
         balanceInUsd="0$"
+        accountName={currentUser.account.accountName}
       />
 
       <Operations />
