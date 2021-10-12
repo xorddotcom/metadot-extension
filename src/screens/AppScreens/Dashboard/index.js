@@ -8,7 +8,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
-import WebSocket from 'react-websocket';
 // eslint-disable-next-line import/namespace
 import MainCard from './MainCard';
 import Operations from './Operations';
@@ -55,9 +54,8 @@ import ShidenIcon from '../../../assets/images/shiden.svg';
 import PhalaIcon from '../../../assets/images/phala.svg';
 import BifrostIcon from '../../../assets/images/bifrost.svg';
 
-const {
-  WsProvider, ApiPromise,
-} = require('@polkadot/api');
+// const { cryptoWaitReady } = require('@polkadot/util-crypto');
+const { WsProvider, ApiPromise, Keyring } = require('@polkadot/api');
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -362,12 +360,6 @@ function Dashboard() {
     }
   };
 
-  const dummyFunction = async () => {
-    console.log(currentUser);
-    const res = await getBalance(currentUser.api.api, currentUser.account.publicKey);
-    console.log('Res', res);
-  };
-
   // --------XXXXXXXXXXXXXXX-----------
 
   return (
@@ -384,7 +376,11 @@ function Dashboard() {
 
           <SelectChain onClick={() => setIsModalOpen(true)}>
             <SelectedChain className={subHeadingfontFamilyClass}>
-              {currentUser.account.chainName}
+              {
+              currentUser.account.chainName.includes('Network')
+                ? currentUser.account.chainName
+                : `${currentUser.account.chainName} Network`
+                }
               {/* {chain} */}
             </SelectedChain>
             <ArrowDropDownIcon />
@@ -402,7 +398,13 @@ function Dashboard() {
         </AccountContainer>
       </DashboardHeader>
 
-      <MainCard balance={currentUser.account.balance} chainName={currentUser.account.chainName} tokenName={currentUser.account.tokenName} address={currentUser.account.publicKey} />
+      <MainCard
+        balance={currentUser.account.balance}
+        chainName={currentUser.account.chainName}
+        tokenName={currentUser.account.tokenName}
+        address={currentUser.account.publicKey}
+        balanceInUsd="0$"
+      />
 
       <Operations />
 
@@ -439,7 +441,6 @@ function Dashboard() {
         }}
       />
       <button type="button" onClick={() => dispatch(setSeed('hover august shop warm alert elevator veteran wing trophy green search biology'))}>Clear redux</button>
-      <button type="button" onClick={dummyFunction}>Dummy</button>
     </Wrapper>
   );
 }

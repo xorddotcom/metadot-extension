@@ -1,4 +1,3 @@
-const { cryptoWaitReady } = require('@polkadot/util-crypto');
 const {
   WsProvider, ApiPromise,
 } = require('@polkadot/api');
@@ -20,7 +19,6 @@ export default class RpcInitialization {
        const wsProvider = new WsProvider(rpcUrl);
        api = await ApiPromise.create({ provider: wsProvider });
        await api.isReady;
-       await cryptoWaitReady();
        console.log('Api configuration complete');
        // tokenName = await api.registry.chainTokens
        // chainDecimals = await api.registry.chainDecimals

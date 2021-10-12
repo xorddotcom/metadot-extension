@@ -44,9 +44,9 @@ function AssetsAndTransactions({ handleOpenTxDetailsModal }) {
         <AssetCard
           name="Polkadot"
           shortName="DOT"
-          amount={0.0636}
-          amountInUsd={107.17}
-          logo={BTCIcon}
+          amount={0}
+          amountInUsd={0}
+          logo="https://s2.coinmarketcap.com/static/img/coins/64x64/6636.png"
         />
       )}
       {isTab2Active && (

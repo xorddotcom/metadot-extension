@@ -18,21 +18,22 @@ function AssetCard({
 }) {
   return (
     <AssetCardWrapper>
-      <img src={logo} alt="btc icon" width="70px" height="70px" />
-      <NameAndAmount>
-        <CoinName className={mainHeadingfontFamilyClass}>{name}</CoinName>
-        <HorizontalContentDiv>
-          <CoinAmount className={mainHeadingfontFamilyClass}>
-            {`${amount} ${shortName}`}
-          </CoinAmount>
-          <EquivalentInUSDT className={subHeadingfontFamilyClass}>
-            ($
-            {amountInUsd}
-            )
-          </EquivalentInUSDT>
-        </HorizontalContentDiv>
-      </NameAndAmount>
-
+      <HorizontalContentDiv>
+        <img src={logo} alt="btc icon" width="30px" height="30px" />
+        <NameAndAmount>
+          <CoinName className={mainHeadingfontFamilyClass}>{name}</CoinName>
+          <HorizontalContentDiv height="17px">
+            <CoinAmount className={mainHeadingfontFamilyClass}>
+              {`${amount} ${shortName}`}
+            </CoinAmount>
+            <EquivalentInUSDT className={subHeadingfontFamilyClass}>
+              ($
+              {amountInUsd}
+              )
+            </EquivalentInUSDT>
+          </HorizontalContentDiv>
+        </NameAndAmount>
+      </HorizontalContentDiv>
       <div style={{ marginLeft: 10, marginTop: 10 }}>
         <Button
           text="Send"

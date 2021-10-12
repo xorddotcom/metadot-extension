@@ -10,7 +10,7 @@ export const MainHeading = styled.p`
   font-size: ${welcomeScreenMainHeadingFontSize};
   text-align: center;
   letter-spacing: 0.05em;
-  text-transform: uppercase;
+  text-transform: capitalize;
 `;
 
 export const SubHeading = styled.p`
