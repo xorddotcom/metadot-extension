@@ -48,32 +48,32 @@ const Send = () => {
 
   const sendTransaction = async () => {
     console.log('Send transaction working', accountFrom, accountTo, amount);
-    // console.log('Api [[]]', api);
+    console.log('Api [[]]', api);
 
-    // const keyring = new Keyring({ type: 'sr25519' });
+    const keyring = new Keyring({ type: 'sr25519' });
 
-    // const me = keyring.addFromUri(currentUser.account.seed);
-    // console.log('Me [][]', me.address);
+    const me = keyring.addFromUri(currentUser.account.seed);
+    console.log('Me [][]', me.address);
 
-    // const hash = await api.tx.balances
-    //   .transfer(
-    //     accountTo,
-    //     amount * 1000000000000,
-    //   )
-    //   .signAndSend(
-    //     me, (res) => {
-    //       console.log('Success', res.status);
-    //       if (res.status.isInBlock) {
-    //         console.log(`Completed at block hash #${res.status.asInBlock.toString()}`);
-    //       } else {
-    //         console.log(`Current status: ${res.status.type}`);
-    //       }
-    //     },
-    //   ).catch((err) => {
-    //     console.error('Error [][][]', err);
-    //   });
+    const hash = await api.tx.balances
+      .transfer(
+        accountTo,
+        amount * 1000000000000,
+      )
+      .signAndSend(
+        me, (res) => {
+          console.log('Success', res.status);
+          if (res.status.isInBlock) {
+            console.log(`Completed at block hash #${res.status.asInBlock.toString()}`);
+          } else {
+            console.log(`Current status: ${res.status.type}`);
+          }
+        },
+      ).catch((err) => {
+        console.error('Error [][][]', err);
+      });
 
-    // console.log('Hash ===>>>', hash);
+    console.log('Hash ===>>>', hash);
   };
 
   return (
