@@ -25,8 +25,8 @@
     "persistent": false
   },
   "browser_specific_settings": {
-    "gecko": {
-      "id": "{5f568f4f-6781-4a94-83cd-7e2a7cf1bf70}"
-    }
+  "gecko": {
+    "id": "test@gmail.com"
   }
+}
 }

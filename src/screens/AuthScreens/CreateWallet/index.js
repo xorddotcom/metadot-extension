@@ -76,12 +76,6 @@ function CreateWallet() {
     console.log('Hashed password [][]', hashedPassword);
     // const hashedPassword =  await keccak256(password)
     // console.log('Hashed password', hashedPassword)
-
-    // update redux data and tracking flags accordingly
-    dispatch(setLoggedIn(true));
-    dispatch(setPublicKey(res.address));
-    dispatch(setWalletPassword(hashedPassword));
-
     // Set api into Redux
 
     const wsProvider = new WsProvider(constants.Polkadot_Rpc_Url);
@@ -92,6 +86,11 @@ function CreateWallet() {
 
     const balance = await getBalance(api, res.address);
     dispatch(setBalance(balance));
+
+    // update redux data and tracking flags accordingly
+    dispatch(setLoggedIn(true));
+    dispatch(setPublicKey(res.address));
+    dispatch(setWalletPassword(hashedPassword));
 
     dispatch(setApi(api));
 
