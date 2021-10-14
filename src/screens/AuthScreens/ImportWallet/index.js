@@ -6,7 +6,10 @@ import { useDispatch } from 'react-redux';
 
 import { Option, OptionDiv } from './StyledComponents';
 import { fonts } from '../../../utils';
-import { setPublicKey } from '../../../redux/slices/account';
+import {
+  setPublicKey, setLoggedIn, setBalance, setSeed,
+} from '../../../redux/slices/account';
+import { setApi } from '../../../redux/slices/api';
 
 import {
   AuthWrapper,
@@ -19,6 +22,12 @@ import {
 
 // eslint-disable-next-line import/namespace
 import { AccountCreation } from '../../../ToolBox/accounts';
+import constants from '../../../constants/onchain';
+import { getBalance } from '../../../ToolBox/services';
+
+const {
+  WsProvider, ApiPromise,
+} = require('@polkadot/api');
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -51,14 +60,24 @@ function ImportWallet() {
       const data = { name: 'hello world', password: 'password', seed: seedPhrase };
       const res = await AccountCreation(data);
       console.log('Res', res);
-      // dispatch(setLoggedIn(true));
-      dispatch(setPublicKey(res.address));
       // dispatch(setWalletPassword(hashedPassword))
       // console.log('Push to dashboard')
       // currentUser.account.isLoggedIn &&
       //         currentUser.account.publicKey
 
-      history.push('/dashboard');
+      const wsProvider = new WsProvider(constants.Polkadot_Rpc_Url);
+      const api = await ApiPromise.create({ provider: wsProvider });
+      await api.isReady;
+
+      dispatch(setLoggedIn(true));
+      dispatch(setPublicKey(res.address));
+      dispatch(setSeed(seedPhrase));
+
+      const balance = await getBalance(api, res.address);
+      dispatch(setBalance(balance));
+
+      dispatch(setApi(api));
+      history.push('/');
       // <Redirect to= '/dashboard' >
     } catch (err) {
       console.log('Error', err);

@@ -17,7 +17,7 @@ import { providerInitialization, getBalance } from '../../../ToolBox/services';
 // import onChainConstants from '../../../constants/onchain'
 import constants from '../../../constants/onchain';
 import {
-  emptyReduxState, setRpcUrl, setBalance, setSeed,
+  setRpcUrl, setBalance, setSeed,
 } from '../../../redux/slices/account';
 import { setApi } from '../../../redux/slices/api';
 
@@ -440,7 +440,7 @@ function Dashboard() {
           // mt: 15,
         }}
       />
-      <button type="button" onClick={() => dispatch(setSeed('hover august shop warm alert elevator veteran wing trophy green search biology'))}>Clear redux</button>
+      {/* <button type="button" onClick={() => dispatch(deleteRedux(''), deleteApi())}>Delete redux</button> */}
     </Wrapper>
   );
 }

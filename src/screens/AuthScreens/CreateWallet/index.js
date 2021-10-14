@@ -24,7 +24,6 @@ import { WarningText } from './StyledComponents';
 import constants from '../../../constants/onchain';
 import { getBalance } from '../../../ToolBox/services';
 
-const { cryptoWaitReady } = require('@polkadot/util-crypto');
 const {
   WsProvider, ApiPromise,
 } = require('@polkadot/api');
@@ -88,7 +87,6 @@ function CreateWallet() {
     const wsProvider = new WsProvider(constants.Polkadot_Rpc_Url);
     const api = await ApiPromise.create({ provider: wsProvider });
     await api.isReady;
-    await cryptoWaitReady();
 
     console.log('Api after creating wallet', api);
 

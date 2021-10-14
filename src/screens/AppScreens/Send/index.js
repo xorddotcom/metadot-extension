@@ -23,6 +23,7 @@ import {
 } from './StyledComponents';
 
 const {
+  // eslint-disable-next-line no-unused-vars
   Keyring,
 } = require('@polkadot/api');
 
@@ -39,38 +40,40 @@ const Send = () => {
   const [isSendModalOpen, setIsSendModalOpen] = useState(false);
 
   const currentUser = useSelector((state) => state);
+  // eslint-disable-next-line no-unused-vars
   const { api } = currentUser.api;
-  // setAccountFrom(currentUser.account.publicKey)
+  // setAccountFrom(currentUser.account.publicKey);
   console.log('currentUser in send', currentUser);
   console.log('STATE of SEND COMPONENT', { accountFrom, accountTo, amount });
 
   const sendTransaction = async () => {
-    console.log('Api [[]]', api);
+    console.log('Send transaction working', accountFrom, accountTo, amount);
+    // console.log('Api [[]]', api);
 
-    const keyring = new Keyring({ type: 'sr25519' });
+    // const keyring = new Keyring({ type: 'sr25519' });
 
-    const me = keyring.addFromUri(currentUser.account.seed);
-    console.log('Me [][]', me.address);
+    // const me = keyring.addFromUri(currentUser.account.seed);
+    // console.log('Me [][]', me.address);
 
-    const hash = await api.tx.balances
-      .transfer(
-        accountTo,
-        amount * 1000000000000,
-      )
-      .signAndSend(
-        me, (res) => {
-          console.log('Success', res.status);
-          if (res.status.isInBlock) {
-            console.log(`Completed at block hash #${res.status.asInBlock.toString()}`);
-          } else {
-            console.log(`Current status: ${res.status.type}`);
-          }
-        },
-      ).catch((err) => {
-        console.error('Error [][][]', err);
-      });
+    // const hash = await api.tx.balances
+    //   .transfer(
+    //     accountTo,
+    //     amount * 1000000000000,
+    //   )
+    //   .signAndSend(
+    //     me, (res) => {
+    //       console.log('Success', res.status);
+    //       if (res.status.isInBlock) {
+    //         console.log(`Completed at block hash #${res.status.asInBlock.toString()}`);
+    //       } else {
+    //         console.log(`Current status: ${res.status.type}`);
+    //       }
+    //     },
+    //   ).catch((err) => {
+    //     console.error('Error [][][]', err);
+    //   });
 
-    console.log('Hash ===>>>', hash);
+    // console.log('Hash ===>>>', hash);
   };
 
   return (
@@ -144,7 +147,7 @@ const Send = () => {
         <Button text="Next" handleClick={() => setIsSendModalOpen(true)} />
       </CenterContent>
       <ConfirmSend
-        // accountFrom={accountFrom}
+        accountFrom={currentUser.account.publicKey}
         accountTo={accountTo}
         amount={amount}
         open={isSendModalOpen}

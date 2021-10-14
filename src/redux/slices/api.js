@@ -13,12 +13,16 @@ export const apiSlice = createSlice({
       console.log('Payload in api slice', action.payload);
       state.api = action.payload;
     },
+    deleteApi: (state) => {
+      state.api = null;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
 export const {
   setApi,
+  deleteApi,
 } = apiSlice.actions;
 
 export default apiSlice.reducer;
