@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-unused-vars
+import React from 'react';
 import AuthWrapper from './AuthWrapper';
 import Header from './Header';
 import Button from './Button';

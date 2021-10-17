@@ -16,10 +16,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": [
-    "src",
-    "public/content.js",
-    "public/background.js",
-    "background.js"
-  ]
+  "include": ["src", "src/content.js", "src/background.js", "background.js"]
 }

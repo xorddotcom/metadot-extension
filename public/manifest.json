@@ -9,9 +9,9 @@
   },
   "permissions": ["activeTab", "tabs"],
   "icons": {
-    "16": "16x16.png",
-    "48": "48x48.png",
-    "128": "128x128.png"
+    "16": "static/media/16x16.png",
+    "48": "static/media/48x48.png",
+    "128": "static/media/128x128.png"
   },
   "content_security_policy": "script-src 'self' blob: 'unsafe-eval' 'wasm-eval'; object-src 'self'",
   "content_scripts": [

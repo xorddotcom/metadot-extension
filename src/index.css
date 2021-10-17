@@ -8,7 +8,7 @@
 }
 
 /* getting font family */
-@font-face {
+/* @font-face {
   font-family: 'RobotoB';
   src: local('Roboto'), url('./assets/fonts/Roboto-Bold.ttf') format('truetype');
   font-weight: bold;
@@ -17,6 +17,15 @@
   font-family: 'RobotoR';
   src: local('Roboto'),
     url('./assets/fonts/Roboto-Regular.ttf') format('truetype');
+} */
+
+@font-face {
+  font-family: 'RobotoR';
+  src: url('./assets/fonts/Roboto-Regular.ttf');
+}
+@font-face {
+  font-family: 'RobotoB';
+  src: url('./assets/fonts/Roboto-Bold.ttf');
 }
 
 /* creating classess for font family we just imported above */
