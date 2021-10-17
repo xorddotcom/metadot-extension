@@ -16,11 +16,17 @@ import {
 // eslint-disable-next-line import/namespace
 import { AccountCreation } from '../../../ToolBox/accounts';
 import {
-  setAccountName,
-  setLoggedIn, setPublicKey, setWalletPassword,
+  setLoggedIn, setPublicKey, setWalletPassword, setBalance, setAccountName,
 } from '../../../redux/slices/account';
+import { setApi } from '../../../redux/slices/api';
 import { fonts } from '../../../utils';
 import { WarningText } from './StyledComponents';
+import constants from '../../../constants/onchain';
+import { getBalance } from '../../../ToolBox/services';
+
+const {
+  WsProvider, ApiPromise,
+} = require('@polkadot/api');
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -67,12 +73,27 @@ function CreateWallet() {
     console.log('Result [][]', res);
 
     const hashedPassword = web3.utils.sha3(password);
+    console.log('Hashed password [][]', hashedPassword);
+    // const hashedPassword =  await keccak256(password)
+    // console.log('Hashed password', hashedPassword)
+    // Set api into Redux
+
+    const wsProvider = new WsProvider(constants.Polkadot_Rpc_Url);
+    const api = await ApiPromise.create({ provider: wsProvider });
+    await api.isReady;
+
+    console.log('Api after creating wallet', api);
+
+    const balance = await getBalance(api, res.address);
+    dispatch(setBalance(balance));
 
     // update redux data and tracking flags accordingly
+    dispatch(setLoggedIn(true));
     dispatch(setPublicKey(res.address));
     dispatch(setAccountName(walletName));
     dispatch(setWalletPassword(hashedPassword));
-    dispatch(setLoggedIn(true));
+
+    dispatch(setApi(api));
 
     // navigate to dashboard on success
     history.push('/');

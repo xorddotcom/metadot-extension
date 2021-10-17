@@ -5,7 +5,6 @@ import web3 from 'web3';
 import { useHistory } from 'react-router-dom';
 import {
   setLoggedIn,
-  emptyReduxState,
 } from '../../redux/slices/account';
 import AppLogo from '../../assets/images/Group.svg';
 import {
@@ -30,8 +29,6 @@ const PasswordScreen = () => {
       alert('Please enter password');
       return false;
     }
-    console.log('current user', currentUser.walletPassword);
-    // console.log('Password', password)
     const hashedPassword = web3.utils.sha3(password);
     console.log('Hashed password', hashedPassword);
     if (hashedPassword === currentUser.walletPassword) {
@@ -67,17 +64,6 @@ const PasswordScreen = () => {
 
         <Button handleClick={handleSubmit} text="Continue" />
       </div>
-
-      {/* eslint-disable-next-line react/button-has-type */}
-      <button
-        onClick={() => {
-          dispatch(emptyReduxState());
-          dispatch(setLoggedIn(false));
-        }}
-      >
-        Clear Redux
-      </button>
-
     </div>
   );
 };

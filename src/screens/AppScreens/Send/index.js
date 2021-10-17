@@ -22,9 +22,8 @@ import {
   CenterContent,
 } from './StyledComponents';
 
-import RpcClass from '../../../rpc';
-
 const {
+  // eslint-disable-next-line no-unused-vars
   Keyring,
 } = require('@polkadot/api');
 
@@ -41,15 +40,15 @@ const Send = () => {
   const [isSendModalOpen, setIsSendModalOpen] = useState(false);
 
   const currentUser = useSelector((state) => state);
-  // setAccountFrom(currentUser.account.publicKey)
-
+  // eslint-disable-next-line no-unused-vars
+  const { api } = currentUser.api;
+  // setAccountFrom(currentUser.account.publicKey);
+  console.log('currentUser in send', currentUser);
   console.log('STATE of SEND COMPONENT', { accountFrom, accountTo, amount });
 
   const sendTransaction = async () => {
-    console.log('Current user', currentUser.account.rpcUrl);
-
-    const api = await RpcClass.init(currentUser.account.rpcUrl, false);
-    console.log('Api', api);
+    console.log('Send transaction working', accountFrom, accountTo, amount);
+    console.log('Api [[]]', api);
 
     const keyring = new Keyring({ type: 'sr25519' });
 
@@ -148,7 +147,7 @@ const Send = () => {
         <Button text="Next" handleClick={() => setIsSendModalOpen(true)} />
       </CenterContent>
       <ConfirmSend
-        // accountFrom={accountFrom}
+        accountFrom={currentUser.account.publicKey}
         accountTo={accountTo}
         amount={amount}
         open={isSendModalOpen}

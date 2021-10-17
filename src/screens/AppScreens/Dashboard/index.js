@@ -16,8 +16,10 @@ import AssetsAndTransactions from './AssetsAndTransactions';
 import { providerInitialization, getBalance } from '../../../ToolBox/services';
 // import onChainConstants from '../../../constants/onchain'
 import constants from '../../../constants/onchain';
-
-import { setRpcUrl, setBalance } from '../../../redux/slices/account';
+import {
+  setRpcUrl, setBalance, setSeed,
+} from '../../../redux/slices/account';
+import { setApi } from '../../../redux/slices/api';
 
 import { fonts } from '../../../utils';
 import RpcClass from '../../../rpc';
@@ -68,6 +70,7 @@ const availableNetworks = [
     name: 'Kusama Main Networks',
     theme: '#000000',
     moreOptions: true,
+    rpcUrl: constants.Kusama_Rpc_Url,
   },
   {
     name: 'Test Networks',
@@ -83,6 +86,7 @@ const KusamaMainNetworks = [
     parachain: false,
     mainNetwork: true,
     testNet: null,
+    rpcUrl: constants.Kusama_Rpc_Url,
   },
   {
     name: 'Karura',
@@ -150,10 +154,9 @@ const TestNetworks = [
 
 function Dashboard() {
   const [isTxDetailsModalOpen, setIsTxDetailsModalOpen] = useState(false);
-
   const currentUser = useSelector((state) => state);
+  console.log('Current User [][]', currentUser.api);
   // eslint-disable-next-line no-unused-vars
-  const [chain, setChain] = useState(currentUser.account.chainName);
   const dispatch = useDispatch();
 
   // eslint-disable-next-line no-unused-vars
@@ -161,7 +164,7 @@ function Dashboard() {
   // eslint-disable-next-line no-unused-vars
   // const [balance, setBalance] = useState(0);
 
-  const [tokenName, setTokenName] = useState(currentUser.account.tokenName);
+  // const [tokenName, setTokenName] = useState(currentUser.account.tokenName);
 
   //   async function main () {
   //     console.log('Listener working')
@@ -199,26 +202,17 @@ function Dashboard() {
   //   main()
   // })
 
-  const Alice = currentUser.account.publicKey;
-
   async function main() {
-    console.log('Listner working', currentUser.account.public_key);
-    // Create an await for the API
-    // const api = await ApiPromise.create();
-    const wsProvider = new WsProvider(currentUser.account.rpcUrl);
-    const api = await ApiPromise.create({ provider: wsProvider });
-    await api.isReady;
-    // await cryptoWaitReady();
-
+    const { api } = currentUser.api;
+    console.log('Listner working', api);
+    // const api = await RpcClass.init(currentUser.account.rpcUrl, false);
+    // con
     // Retrieve the initial balance. Since the call has no callback, it is simply a promise
     // that resolves to the current on-chain value
     let { data: { free: previousFree }, nonce: previousNonce } = await api.query.system.account(currentUser.account.publicKey);
 
-    console.log(`${Alice} has a balance of ${previousFree}, nonce ${previousNonce}`);
-    console.log(`You may leave this example running and start example 06 or transfer any value to ${Alice}`);
-
     // Here we subscribe to any balance changes and update the on-screen value
-    api.query.system.account(Alice, ({ data: { free: currentFree }, nonce: currentNonce }) => {
+    api.query.system.account(currentUser.account.publicKey, ({ data: { free: currentFree }, nonce: currentNonce }) => {
     // Calculate the delta
       const change = currentFree.sub(previousFree);
 
@@ -231,10 +225,7 @@ function Dashboard() {
         console.log('New balance', newBalance);
         console.log('Exact balance', newBalance + currentUser.account.balance);
         dispatch(setBalance(newBalance + currentUser.account.balance));
-        // async () => {
 
-        // await anotherDummyFunction()
-        // }
         previousFree = currentFree;
         previousNonce = currentNonce;
       }
@@ -243,31 +234,30 @@ function Dashboard() {
 
   main().catch(console.error);
 
-  const landing = async () => {
-    console.log('Landing function running');
-    console.log('Current user', currentUser);
-    try {
-      const api = await RpcClass.init(currentUser.account.rpcUrl, false);
+  // const landing = async () => {
+  //   console.log('Landing function running', currentUser.account.rpcUrl);
+  //   try {
+  //     const api = await RpcClass.init(currentUser.account.rpcUrl, true);
+  //     console.log('Change rpc and run config', api.rpc);
+  //     setApi(api)
 
-      const nbalance = await getBalance(api, currentUser.account.publicKey);
-      console.log('Balance in loading', nbalance);
-      dispatch(setBalance(nbalance));
-      // setBalance(balance)
+  //     const nbalance = await getBalance(api, currentUser.account.publicKey);
+  //     dispatch(setBalance(nbalance));
+  //     // setBalance(balance)
 
-      console.log('Token name on dashboard');
-      // setTokenName(await api.registry.chainTokens)
+  //     // setTokenName(await api.registry.chainTokens)
 
-      return nbalance;
-    } catch (err) {
-      console.log('Error occurred');
-      throw err;
-    }
-  };
+  //     return nbalance;
+  //   } catch (err) {
+  //     console.log('Error occurred');
+  //     throw err;
+  //   }
+  // };
 
-  useEffect(async () => {
-    console.log('Use effect running');
-    await landing();
-  }, []);
+  // useEffect(async () => {
+  //   console.log('Use effect running');
+  //   await landing();
+  // });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -276,12 +266,6 @@ function Dashboard() {
     console.log('object', data);
     selectAndGoBack(data.name);
   };
-  // prettier-ignore
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(async () => {
-    console.log('Use effect running');
-    await landing();
-  });
 
   // --------State and funtions for SlectNetwork Modal
   const RenderContentForKusamaMainNetwork = (data, handleClick) => {
@@ -344,6 +328,7 @@ function Dashboard() {
 
   // prettier-ignore
   const handleSelection = async (data) => {
+    console.log('handle Selection', data.name);
     if (data.name === 'Test Networks') {
       setModalState({
         firstStep: false,
@@ -358,45 +343,21 @@ function Dashboard() {
       });
     } else {
       console.log('NETWORK SELECTED', data);
-      const api = await RpcClass.init(data.rpcUrl, true);
-      console.log('Api on dashboard', api);
-      const token = await api.registry.chainTokens;
+      const wsProvider = new WsProvider(data.rpcUrl);
+      console.log('Provider');
+      const api = await ApiPromise.create({ provider: wsProvider });
+      console.log('Api');
+      await api.isReady;
+      console.log('Api after await', await api);
+      dispatch(setApi(api));
+      const bal = await getBalance(api, currentUser.account.publicKey);
+      dispatch(setBalance(bal));
       // chainDecimals = await api.registry.chainDecimals
       console.log('Token name on dashboard', await api.registry.chainTokens);
-      setTokenName(await api.registry.chainTokens);
-      dispatch(setRpcUrl({ chainName: data.name, rpcUrl: data.rpcUrl, tokenName: token }));
+      // setTokenName(await api.registry.chainTokens);
+      dispatch(setRpcUrl({ chainName: data.name, rpcUrl: data.rpcUrl, tokenName: await api.registry.chainTokens }));
       selectAndGoBack(data.name);
     }
-  };
-
-  // eslint-disable-next-line no-unused-vars
-  const doTransaction = async () => {
-    console.log('Transaction starting');
-    const wsProvider = new WsProvider(constants.WestEndRpcUrl);
-    const api = await ApiPromise.create({ provider: wsProvider });
-
-    // const api = new ApiPromise(provider)
-
-    await api.isReady;
-    // prettier-ignore
-    const mnemonic = 'merry network invest border urge mechanic shuffle minimum proud video eternal lab';
-    // await cryptoWaitReady();
-    console.log('Decimals', api.registry.chainDecimals);
-    const keyring = new Keyring({ type: 'sr25519' });
-    const me = keyring.addFromUri(mnemonic);
-    console.log('Me [][]', me.address);
-
-    // prettier-ignore
-    const hash = await api.tx.balances
-      .transfer('5D2pr8UsTRXjmSWtYds9pcpvowH42GzF6QS74bo64fKecXhw', 1e10)
-      .signAndSend(me, (res) => {
-        console.log('Success', res.status);
-      })
-      .catch((err) => {
-        console.error('Error [][][]', err);
-      });
-
-    console.log('Hash ===>>>', hash);
   };
 
   // --------XXXXXXXXXXXXXXX-----------
@@ -439,7 +400,7 @@ function Dashboard() {
 
       <MainCard
         balance={currentUser.account.balance}
-        chainName={chain}
+        chainName={currentUser.account.chainName}
         tokenName={currentUser.account.tokenName}
         address={currentUser.account.publicKey}
         balanceInUsd="0$"
@@ -480,6 +441,7 @@ function Dashboard() {
           // mt: 15,
         }}
       />
+      {/* <button type="button" onClick={() => dispatch(deleteRedux(''), deleteApi())}>Delete redux</button> */}
     </Wrapper>
   );
 }

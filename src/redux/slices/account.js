@@ -20,6 +20,10 @@ export const accountSlice = createSlice({
   name: 'account',
   initialState,
   reducers: {
+    deleteRedux: (state, action) => {
+      state.publicKey = action.payload;
+      console.log('helllo', state);
+    },
     setSeed: (state, action) => {
       // eslint-disable-next-line no-param-reassign
       state.seed = action.payload;
@@ -35,16 +39,11 @@ export const accountSlice = createSlice({
       state.accountName = action.payload;
     },
     setWalletPassword: (state, action) => {
+      console.log('In account js redux', action.payload);
       state.walletPassword = action.payload;
     },
     setLoggedIn: (state, action) => {
       state.isLoggedIn = action.payload;
-    },
-    emptyReduxState: (state) => {
-      // state.walletPassword = ""
-      // state.seed = ""
-      state.publicKey = '';
-      // state = initialState
     },
     setRpcUrl: (state, action) => {
       console.log('In redux', action.payload);
@@ -68,9 +67,9 @@ export const {
   setAccountName,
   setWalletPassword,
   setLoggedIn,
-  emptyReduxState,
   setRpcUrl,
   setBalance,
+  deleteRedux,
 } = accountSlice.actions;
 
 export default accountSlice.reducer;
