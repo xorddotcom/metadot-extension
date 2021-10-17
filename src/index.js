@@ -14,10 +14,6 @@ import store, { persistor } from './redux/store';
 
 // REDUX-PERSIST
 
-// fonts
-import './assets/fonts/Roboto-Bold.ttf';
-import './assets/fonts/Roboto-Regular.ttf';
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
