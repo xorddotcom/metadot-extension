@@ -59,7 +59,7 @@ function TxDetails({
             </VerticalContentDiv>
 
             <VerticalContentDiv>
-              <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>From</MainText2>
+              <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>To</MainText2>
               <SubText1 textAlign="end" className={mainHeadingfontFamilyClass}>Account 1</SubText1>
               <SubText2 textAlign="end" className={subHeadingfontFamilyClass}>(bnb13...txjd5)</SubText2>
             </VerticalContentDiv>
@@ -79,7 +79,7 @@ function TxDetails({
 
               <VerticalContentDiv>
                 <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>2.35 DOT</MainText2>
-                <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>0.21 BTC</MainText2>
+                <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>0.21 DOT</MainText2>
               </VerticalContentDiv>
             </HorizontalContentDiv>
 

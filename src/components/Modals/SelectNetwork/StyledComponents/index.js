@@ -40,7 +40,7 @@ export const OptionRow = styled.div`
   margin-bottom: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
-
+  opacity: ${(props) => (props.disabled ? 0.4 : 1)};
   cursor: pointer;
 
   &:hover {

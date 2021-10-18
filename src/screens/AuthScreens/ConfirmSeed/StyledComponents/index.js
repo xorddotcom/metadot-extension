@@ -41,7 +41,7 @@ export const SeedText = styled.span`
   margin-right: 3px;
   font-size: 0.875em;
   color: ${primaryTextColor};
-  opacity: 0.7;
+  /* opacity: 0.7; */
   /* width: 20% !important; */
   display: inline;
 

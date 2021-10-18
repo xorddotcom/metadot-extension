@@ -30,6 +30,12 @@ export const accountSlice = createSlice({
     },
     resetAccountSlice: (state) => {
       console.log('RESET ACCOUNT BY EMPTYING seed value');
+      // eslint-disable-next-line no-unused-vars
+      state = initialState;
+    },
+    emptySeedInAccountSlice: (state) => {
+      console.log('RESET ACCOUNT BY EMPTYING seed value');
+      // eslint-disable-next-line no-unused-vars
       state.seed = '';
     },
     setPublicKey: (state, action) => {
@@ -70,6 +76,7 @@ export const {
   setRpcUrl,
   setBalance,
   deleteRedux,
+  emptySeedInAccountSlice,
 } = accountSlice.actions;
 
 export default accountSlice.reducer;

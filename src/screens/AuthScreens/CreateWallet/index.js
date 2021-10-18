@@ -19,16 +19,18 @@ import {
   setLoggedIn, setPublicKey, setWalletPassword, setBalance, setAccountName,
 } from '../../../redux/slices/account';
 import { setApi } from '../../../redux/slices/api';
-import { fonts } from '../../../utils';
-import { WarningText } from './StyledComponents';
+import { fonts, helpers } from '../../../utils';
+import { WarningText, LabelAndTextInput } from './StyledComponents';
 import constants from '../../../constants/onchain';
 import { getBalance } from '../../../ToolBox/services';
+import { setIsSuccessModalOpen, setMainTextForSuccessModal, setSubTextForSuccessModal } from '../../../redux/slices/successModalHandling';
 
 const {
   WsProvider, ApiPromise,
 } = require('@polkadot/api');
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+const { isUserNameValid } = helpers;
 
 const passwordErrorMessages = {
   minimumCharacterWarning: 'Minimum 8 characters required!',
@@ -42,6 +44,8 @@ function CreateWallet() {
   const { seed } = useSelector((state) => state.account);
 
   const [walletName, setWalletName] = useState('');
+  const [isValidWalletName, setIsValidWalletName] = useState(false);
+
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -64,8 +68,19 @@ function CreateWallet() {
     return true;
   };
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleContinue = async () => {
-    if (!validatePasswordAndConfirmPassword()) return;
+    if (!isUserNameValid(walletName) || walletName.length < 3) {
+      console.log('invalid name');
+      setIsValidWalletName(true);
+      setIsLoading(false);
+      return;
+    }
+    if (!validatePasswordAndConfirmPassword()) {
+      setIsLoading(false);
+      return;
+    }
 
     console.log({ walletName, password, seed });
     // create account with walletName, password and seed by using keyring
@@ -95,6 +110,16 @@ function CreateWallet() {
 
     dispatch(setApi(api));
 
+    setIsLoading(false);
+
+    dispatch(setMainTextForSuccessModal('Successfully Created!'));
+    dispatch(setSubTextForSuccessModal('Congratulations, &#013; You&apos;ve successfully created your account!'));
+    dispatch(setIsSuccessModalOpen(true));
+
+    setTimeout(() => {
+      dispatch(setIsSuccessModalOpen(false));
+    }, 3500);
+
     // navigate to dashboard on success
     history.push('/');
   };
@@ -108,63 +133,91 @@ function CreateWallet() {
         </MainHeading>
       </div>
       <SubMainWrapperForAuthScreens>
-        <SubHeading className={mainHeadingfontFamilyClass}>
-          Wallet Name
-        </SubHeading>
-        <StyledInput
-          placeholder="Account 0"
-          value={walletName}
-          className={subHeadingfontFamilyClass}
-          onChange={(t) => setWalletName(t)}
-        />
+        <LabelAndTextInput>
+          <SubHeading className={mainHeadingfontFamilyClass}>
+            Wallet Name
+          </SubHeading>
+          <StyledInput
+            placeholder="Account Name"
+            value={walletName}
+            className={subHeadingfontFamilyClass}
+            onChange={(t) => {
+              setIsValidWalletName(false);
+              setWalletName(t);
+            }}
+          />
+          {
+          isValidWalletName && (
+            <WarningText>
+              Invalid Username
+            </WarningText>
+          )
+          }
+        </LabelAndTextInput>
 
-        <SubHeading className={mainHeadingfontFamilyClass}>Password</SubHeading>
-        <StyledInput
-          placeholder="password"
-          className={subHeadingfontFamilyClass}
-          value={password}
-          onChange={(t) => setPassword(t)}
-          type="password"
-          typePassword
-          hideHandler={() => setShowPassword(!showPassword)}
-          hideState={showPassword}
-          rightIcon
-        />
-        {passwordError === passwordErrorMessages.minimumCharacterWarning && (
-          <WarningText>
-            {passwordErrorMessages.minimumCharacterWarning}
-          </WarningText>
-        )}
-        {passwordError === passwordErrorMessages.didnotMatchWarning && (
-          <WarningText>{passwordErrorMessages.didnotMatchWarning}</WarningText>
-        )}
+        <LabelAndTextInput>
+          <SubHeading className={mainHeadingfontFamilyClass}>Password</SubHeading>
+          <StyledInput
+            placeholder="password"
+            className={subHeadingfontFamilyClass}
+            value={password}
+            onChange={(t) => {
+              setPasswordError('');
+              setPassword(t);
+            }}
+            typePassword
+            hideHandler={() => setShowPassword(!showPassword)}
+            hideState={showPassword}
+            rightIcon
+          />
+          {passwordError === passwordErrorMessages.minimumCharacterWarning && (
+            <WarningText>
+              {passwordErrorMessages.minimumCharacterWarning}
+            </WarningText>
+          )}
+          {passwordError === passwordErrorMessages.didnotMatchWarning && (
+            <WarningText>{passwordErrorMessages.didnotMatchWarning}</WarningText>
+          )}
+        </LabelAndTextInput>
 
-        <SubHeading className={mainHeadingfontFamilyClass}>
-          Confirm Password
-        </SubHeading>
-        <StyledInput
-          placeholder="re-enter password"
-          className={subHeadingfontFamilyClass}
-          value={confirmPassword}
-          onChange={(t) => setConfirmPassword(t)}
-          typePassword
-          hideHandler={() => setShowConfirmPassword(!showConfirmPassword)}
-          hideState={showConfirmPassword}
-          rightIcon
-        />
-        {passwordError === passwordErrorMessages.minimumCharacterWarning && (
-          <WarningText>
-            {passwordErrorMessages.minimumCharacterWarning}
-          </WarningText>
-        )}
-        {passwordError === passwordErrorMessages.didnotMatchWarning && (
-          <WarningText>{passwordErrorMessages.didnotMatchWarning}</WarningText>
-        )}
+        <LabelAndTextInput>
+          <SubHeading className={mainHeadingfontFamilyClass}>
+            Confirm Password
+          </SubHeading>
+          <StyledInput
+            placeholder="re-enter password"
+            className={subHeadingfontFamilyClass}
+            value={confirmPassword}
+            onChange={(t) => {
+              setPasswordError('');
+              setConfirmPassword(t);
+            }}
+            typePassword
+            hideHandler={() => setShowConfirmPassword(!showConfirmPassword)}
+            hideState={showConfirmPassword}
+            rightIcon
+          />
+          {passwordError === passwordErrorMessages.minimumCharacterWarning && (
+            <WarningText>
+              {passwordErrorMessages.minimumCharacterWarning}
+            </WarningText>
+          )}
+          {passwordError === passwordErrorMessages.didnotMatchWarning && (
+            <WarningText>{passwordErrorMessages.didnotMatchWarning}</WarningText>
+          )}
+        </LabelAndTextInput>
 
         <SubHeading className={subHeadingfontFamilyClass}>
-          At least 8 characters, recommended to mix uppercase and lowercase
-          alphabets, numbers and symbols This password will be used as the
-          transaction password for the wallet，POLO does not save password and
+          {' - '}
+          Username can only consist of uppercase and lowercase
+          alphabets and numbers.
+          <br />
+          {' - '}
+          Password should be at least 8 characters.
+          <br />
+          {' - '}
+          This password will be used as the transaction password for the wallet,
+          MetaDot does not save password and
           cannot retrieve them for you. Please keep your password safe!
         </SubHeading>
       </SubMainWrapperForAuthScreens>
@@ -172,7 +225,11 @@ function CreateWallet() {
         <Button
           text="Continue"
           disabled={!(walletName && password && confirmPassword) && true}
-          handleClick={() => handleContinue()}
+          handleClick={async () => {
+            setIsLoading(true);
+            await handleContinue();
+          }}
+          isLoading={isLoading}
         />
       </div>
     </AuthWrapper>

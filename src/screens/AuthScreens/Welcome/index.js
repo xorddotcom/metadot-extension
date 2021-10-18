@@ -33,7 +33,7 @@ function Welcome() {
 
       <div className="main-content">
         <MainHeading className={mainHeadingfontFamilyClass}>
-          welcome to polo
+          welcome to MetaDot
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
           For Passionates, For Progress, For Polkadot

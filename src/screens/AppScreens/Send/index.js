@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useSelector } from 'react-redux';
 import {
   AuthWrapper,
@@ -92,11 +92,14 @@ const Send = () => {
                 {currentUser.account.accountName}
               </MainText>
               <Balance className={subHeadingfontFamilyClass}>
-                0.949494 ETH
+                {currentUser.account.balance}
+                {' '}
+                {currentUser.account.tokenName}
               </Balance>
             </VerticalContentDiv>
           </HorizontalContentDiv>
-          <KeyboardArrowDownIcon />
+          {/* not in use temporarily */}
+          {/* <KeyboardArrowDownIcon /> */}
         </FromAccount>
 
         <VerticalContentDiv mb="25px">

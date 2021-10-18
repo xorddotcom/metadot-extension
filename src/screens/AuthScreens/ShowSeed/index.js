@@ -34,7 +34,7 @@ function ShowSeed() {
   useEffect(() => {
     try {
       if (!seed) {
-        // checking whether seed needs to be created or not
+      // checking whether seed needs to be created or not
         const newSeed = GenerateSeedPhrase();
 
         dispatch(setSeed(newSeed)); // store newSeed in redux

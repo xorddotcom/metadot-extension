@@ -39,7 +39,7 @@ function MainCard({
         <ConnectionStatus className={subHeadingfontFamilyClass}>
           Not Connected
         </ConnectionStatus>
-        <MoreVertIcon style={{ color: '#fafafa', fontSize: 24 }} />
+        <MoreVertIcon style={{ color: '#fafafa', fontSize: 22 }} />
       </MoreOptions>
 
       <AccountName className={mainHeadingfontFamilyClass}>

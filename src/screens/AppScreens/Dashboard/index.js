@@ -9,6 +9,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 // eslint-disable-next-line import/namespace
+import { CircularProgress } from '@mui/material';
 import MainCard from './MainCard';
 import Operations from './Operations';
 import AssetsAndTransactions from './AssetsAndTransactions';
@@ -53,8 +54,8 @@ import MoonriverIcon from '../../../assets/images/moonriver.svg';
 import ShidenIcon from '../../../assets/images/shiden.svg';
 import PhalaIcon from '../../../assets/images/phala.svg';
 import BifrostIcon from '../../../assets/images/bifrost.svg';
+import { setIsSuccessModalOpen, setMainTextForSuccessModal, setSubTextForSuccessModal } from '../../../redux/slices/successModalHandling';
 
-// const { cryptoWaitReady } = require('@polkadot/util-crypto');
 const { WsProvider, ApiPromise, Keyring } = require('@polkadot/api');
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
@@ -67,10 +68,16 @@ const availableNetworks = [
     rpcUrl: constants.Polkadot_Rpc_Url,
   },
   {
-    name: 'Kusama Main Networks',
+    name: 'Kusama',
     theme: '#000000',
-    moreOptions: true,
+    moreOptions: false,
     rpcUrl: constants.Kusama_Rpc_Url,
+    icon: KusamaIcon,
+    parachain: false,
+    mainNetwork: true,
+    testNet: null,
+    disabled: false,
+
   },
   {
     name: 'Test Networks',
@@ -87,6 +94,7 @@ const KusamaMainNetworks = [
     mainNetwork: true,
     testNet: null,
     rpcUrl: constants.Kusama_Rpc_Url,
+    disabled: false,
   },
   {
     name: 'Karura',
@@ -94,12 +102,14 @@ const KusamaMainNetworks = [
     parachain: true,
     mainNetwork: true,
     testNet: 'AcalaMandala',
+    disabled: true,
   },
   {
     name: 'Moonriver',
     icon: MoonriverIcon,
     parachain: true,
     mainNetwork: true,
+    disabled: true,
   },
   {
     name: 'Shiden',
@@ -107,6 +117,7 @@ const KusamaMainNetworks = [
     parachain: true,
     mainNetwork: true,
     testNet: 'Dusty',
+    disabled: true,
   },
   {
     name: 'Khala',
@@ -114,6 +125,7 @@ const KusamaMainNetworks = [
     parachain: true,
     mainNetwork: true,
     testNet: 'Phala',
+    disabled: true,
   },
   {
     name: 'Bifrost',
@@ -121,86 +133,51 @@ const KusamaMainNetworks = [
     parachain: false,
     mainNetwork: true,
     testNet: 'Asgard',
+    disabled: true,
   },
 ];
 
 const TestNetworks = [
   {
-    name: 'AcalaMandala',
-    theme: '#E6007A',
-  },
-  {
-    name: 'Moonbase',
-    theme: '#000000',
-  },
-  {
-    name: 'Dusty',
-    theme: '#E6007A',
-  },
-  {
-    name: 'Asgard',
-    theme: '#2FEAC6',
-  },
-  {
-    name: 'Phala',
-    theme: '#008D77',
-  },
-  {
     name: 'Westend',
     theme: '#015D77',
     rpcUrl: constants.WestEndRpcUrl,
   },
+  {
+    name: 'AcalaMandala',
+    theme: '#E6007A',
+    disabled: true,
+  },
+  {
+    name: 'Moonbase',
+    theme: '#000000',
+    disabled: true,
+  },
+  {
+    name: 'Dusty',
+    theme: '#E6007A',
+    disabled: true,
+  },
+  {
+    name: 'Asgard',
+    theme: '#2FEAC6',
+    disabled: true,
+  },
+  {
+    name: 'Phala',
+    theme: '#008D77',
+    disabled: true,
+  },
 ];
 
 function Dashboard() {
+  const [isLoading, setIsLoading] = useState(false);
+  console.log('abc', { isLoading });
   const [isTxDetailsModalOpen, setIsTxDetailsModalOpen] = useState(false);
   const currentUser = useSelector((state) => state);
   console.log('Current User [][]', currentUser.api);
   // eslint-disable-next-line no-unused-vars
   const dispatch = useDispatch();
-
-  // eslint-disable-next-line no-unused-vars
-  // eslint-disable-next-line no-shadow
-  // eslint-disable-next-line no-unused-vars
-  // const [balance, setBalance] = useState(0);
-
-  // const [tokenName, setTokenName] = useState(currentUser.account.tokenName);
-
-  //   async function main () {
-  //     console.log('Listener working')
-  //   const api = await RpcClass.init(currentUser.account.rpcUrl, false)
-
-  //   let { data: { free: previousFree }, nonce: previousNonce } = await api.query.system.account(currentUser.account.publicKey);
-
-  //   // console.log(`You has a balance of ${previousFree}, nonce ${previousNonce}`);
-  //   // console.log(`You may leave this example running and start example 06 or transfer any value to Your account`);
-
-  //   // Here we subscribe to any balance changes and update the on-screen value
-  //   api.query.system.account(currentUser.account.publicKey, ({ data: { free: currentFree }, nonce: currentNonce }) => {
-  //     // Calculate the delta
-  //     const change = currentFree.sub(previousFree);
-  //     // Only display positive value changes (Since we are pulling `previous` above already,
-  //     // the initial balance change will also be zero)
-  //     if (!change.isZero()) {
-  //       async () => {
-
-  //       const newBalance = await getBalance(api,currentUser.account.publicKey)
-  //       console.log('New balance')
-  //       // .then(() => setBalance(balance)).catch((err) => console.log('An error occured'))
-  //         dispatch(setBalance(newBalance))
-  //       previousFree = currentFree;
-  //       previousNonce = currentNonce;
-  //       }
-
-  //     }
-  //   });
-  // }
-
-  // main().catch(console.error);
-
-  // useEffect(() => {
-  //   main()
-  // })
 
   async function main() {
     const { api } = currentUser.api;
@@ -264,17 +241,27 @@ function Dashboard() {
   // --------State and funtions for SlectNetwork Modal
   const handleSelectionOnKusamaMainNetwork = (data) => {
     console.log('object', data);
-    selectAndGoBack(data.name);
+    if (!data.disabled) {
+      selectAndGoBack(data.name);
+    }
   };
 
   // --------State and funtions for SlectNetwork Modal
+  // this function is currently not in use becuase other kusama main networks are disabled
   const RenderContentForKusamaMainNetwork = (data, handleClick) => {
-    const { name, icon } = data;
+    const { name, icon, disabled } = data;
     return (
       <OptionRow
+        className={disabled ? 'tooltip' : 'abc'}
         key={name}
-        onClick={() => handleClick(data)}
+        onClick={() => {
+          handleClick(data);
+        }}
+        disabled={disabled}
       >
+        {
+          disabled && <span className="tooltiptext">Coming Soon!</span>
+        }
         <HorizontalContentDiv>
           <img src={icon} alt="icon" />
           <OptionText className={mainHeadingfontFamilyClass}>
@@ -286,17 +273,37 @@ function Dashboard() {
   };
 
   const RenderContentForAvailableNetwroks = (data, handleClick) => {
-    const { name, theme, moreOptions } = data;
+    const {
+      name, theme, moreOptions, disabled,
+    } = data;
     return (
       <OptionRow
+        className={disabled && 'tooltip'}
         key={name}
-        onClick={() => handleClick(data)}
+        onClick={async () => {
+          setIsLoading(true);
+          await handleClick(data);
+        }}
+        disabled={disabled}
       >
+        {
+          disabled && <span className="tooltiptext">Coming Soon!</span>
+        }
+
         <HorizontalContentDiv>
           <PlainIcon bgColor={theme} />
           <OptionText className={mainHeadingfontFamilyClass}>
             {name}
           </OptionText>
+          {
+            isLoading && (
+            <CircularProgress style={{
+              color: '#fafafa', width: 20, height: 25, paddingRight: 20,
+            }}
+            />
+            )
+          }
+
         </HorizontalContentDiv>
         {moreOptions && (
           <NextIcon>
@@ -328,14 +335,21 @@ function Dashboard() {
 
   // prettier-ignore
   const handleSelection = async (data) => {
+    setIsLoading(true);
     console.log('handle Selection', data.name);
-    if (data.name === 'Test Networks') {
+    if (data.disabled) {
+      console.log('disabled!');
+      setIsLoading(false);
+      // eslint-disable-next-line no-useless-return
+      return;
+    } if (data.name === 'Test Networks') {
       setModalState({
         firstStep: false,
         renderMethod: RenderContentForAvailableNetwroks,
         currentData: TestNetworks,
       });
-    } else if (data.name === 'Kusama Main Networks') {
+      setIsLoading(false);
+    } else if (data.name === 'Kusama Main Networks') { // this condition is not in use at the moment
       setModalState({
         firstStep: false,
         renderMethod: RenderContentForKusamaMainNetwork,
@@ -356,6 +370,16 @@ function Dashboard() {
       console.log('Token name on dashboard', await api.registry.chainTokens);
       // setTokenName(await api.registry.chainTokens);
       dispatch(setRpcUrl({ chainName: data.name, rpcUrl: data.rpcUrl, tokenName: await api.registry.chainTokens }));
+      setIsLoading(false);
+
+      dispatch(setMainTextForSuccessModal('Successfully Converted!'));
+      dispatch(setSubTextForSuccessModal(`You are now successfully on ${data.name}`));
+      dispatch(setIsSuccessModalOpen(true));
+
+      setTimeout(() => {
+        dispatch(setIsSuccessModalOpen(false));
+      }, 3000);
+
       selectAndGoBack(data.name);
     }
   };
@@ -366,13 +390,13 @@ function Dashboard() {
     <Wrapper>
       <DashboardHeader>
         <LogoContainer>
-          <img src={Logo} width="30px" height="34px" alt="Polo Logo" />
+          <img src={Logo} width="30px" height="34px" alt="MetaDot Logo" />
         </LogoContainer>
 
         <NetworkContainer>
-          <SelectedChain className={subHeadingfontFamilyClass}>
+          {/* <SelectedChain className={subHeadingfontFamilyClass}>
             Kusama Main Network
-          </SelectedChain>
+          </SelectedChain> */}
 
           <SelectChain onClick={() => setIsModalOpen(true)}>
             <SelectedChain className={subHeadingfontFamilyClass}>
@@ -386,9 +410,9 @@ function Dashboard() {
             <ArrowDropDownIcon />
           </SelectChain>
 
-          <SwitchToTestnet className={subHeadingfontFamilyClass}>
+          {/* <SwitchToTestnet className={subHeadingfontFamilyClass}>
             Switch to Moonbase Testnet
-          </SwitchToTestnet>
+          </SwitchToTestnet> */}
         </NetworkContainer>
 
         <AccountContainer>
@@ -419,6 +443,7 @@ function Dashboard() {
         modalState={modalState}
         resetState={resetState}
         handleClickForOthers={handleSelection}
+        setIsLoading={setIsLoading}
         handleClickForKusama={handleSelectionOnKusamaMainNetwork}
         style={{
           position: 'relative',

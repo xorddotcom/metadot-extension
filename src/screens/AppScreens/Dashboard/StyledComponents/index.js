@@ -9,7 +9,7 @@ const {
 } = colors;
 
 export const Wrapper = styled.div`
-  padding: 20px;
+  padding: 25px 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -149,8 +149,8 @@ export const OptionsName = styled.p`
 
 export const MoreOptions = styled.div`
   position: absolute;
-  right: 10px;
-  top: 5px;
+  right: 12px;
+  top: 12px;
   display: flex;
   align-items: center;
 `;
@@ -196,7 +196,7 @@ export const PublicAddress = styled.p`
 `;
 
 export const PerUnitPrice = styled.p`
-  font-size: 12px;
+  font-size: 14px;
   /* line-height: 14px; */
 
   /* identical to box height */
@@ -207,7 +207,7 @@ export const PerUnitPrice = styled.p`
 `;
 
 export const VariationAmount = styled.p`
-  font-size: 12px;
+  font-size: 14px;
   /* line-height: 14px; */
 
   /* identical to box height */

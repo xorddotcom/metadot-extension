@@ -46,8 +46,27 @@ function addressModifier(address) {
   return `${address.slice(0, 3)}...${address.slice(address.length - 3, address.length)}`;
 }
 
+function isUserNameValid(username) {
+  /*
+    Usernames can only have:
+    - Lowercase Letters (a-z)
+    - Uppercase Letters (A-Z)
+    - Numbers (0-9)
+    - Dots (.)
+    - Underscores (_)
+  */
+  // eslint-disable-next-line no-useless-escape
+  const res = /^[a-zA-Z0-9_\.]+$/.exec(username);
+  const valid = !!res;
+  return valid;
+}
+
 export default {
-  arrayFromSeedSentence, arrayOfFourRandomNumbers, shuffleItemsWithinArray, addressModifier,
+  arrayFromSeedSentence,
+  arrayOfFourRandomNumbers,
+  shuffleItemsWithinArray,
+  addressModifier,
+  isUserNameValid,
 };
 
 // export default helpers;

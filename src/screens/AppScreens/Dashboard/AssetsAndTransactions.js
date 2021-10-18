@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { AssetCard, TxCard } from '../../../components';
 import { fonts } from '../../../utils';
 
-import BTCIcon from '../../../assets/images/btc.svg';
-
 import {
   AssetsAndTransactionsWrapper,
   Tabs,
@@ -56,7 +54,7 @@ function AssetsAndTransactions({ handleOpenTxDetailsModal }) {
           coin="DOT"
           amount={0.0636}
           amountInUsd={107.17}
-          logo={BTCIcon}
+          logo="https://s2.coinmarketcap.com/static/img/coins/64x64/6636.png"
           handleClick={() => handleOpenTxDetailsModal()}
         />
       )}

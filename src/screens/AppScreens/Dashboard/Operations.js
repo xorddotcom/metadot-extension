@@ -21,7 +21,7 @@ function Operations() {
           src={Send}
           alt="send icon"
           style={{
-            width: 30,
+            width: 22,
             color: '#fafafa',
             marginTop: 10,
           }}
@@ -34,7 +34,7 @@ function Operations() {
           src={Swap}
           alt="send icon"
           style={{
-            width: 30,
+            width: 22,
             color: '#fafafa',
             marginTop: 10,
           }}
@@ -49,7 +49,7 @@ function Operations() {
           src={Governance}
           alt="send icon"
           style={{
-            width: 30,
+            width: 22,
             color: '#fafafa',
             marginTop: 10,
           }}
@@ -64,7 +64,7 @@ function Operations() {
           src={Stake}
           alt="send icon"
           style={{
-            width: 30,
+            width: 22,
             color: '#fafafa',
             marginTop: 10,
           }}

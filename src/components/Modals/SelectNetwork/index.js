@@ -19,7 +19,13 @@ const { mainHeadingfontFamilyClass } = fonts;
 
 function SelectNetwork(props) {
   const {
-    open, handleClose, modalState, resetState, style, handleClickForKusama, handleClickForOthers,
+    open,
+    handleClose,
+    modalState,
+    resetState,
+    style,
+    handleClickForKusama,
+    handleClickForOthers,
   } = props;
   const { firstStep, renderMethod, currentData } = modalState;
   console.log({ firstStep, renderMethod, currentData });

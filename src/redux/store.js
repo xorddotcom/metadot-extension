@@ -16,6 +16,7 @@ import logger from 'redux-logger';
 import { rootReducer } from './slices';
 
 const persistConfig = {
+  blacklist: ['successModalHandling'],
   key: 'root',
   version: 1,
   storage,

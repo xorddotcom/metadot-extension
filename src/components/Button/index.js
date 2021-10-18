@@ -2,6 +2,7 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import './index.css';
 import { styled } from '@mui/system';
+import { CircularProgress } from '@mui/material';
 import { dimension, fonts } from '../../utils';
 
 const { _width, _height } = dimension.button;
@@ -17,6 +18,7 @@ function index({
   fontSize,
   cancel,
   disabled,
+  isLoading,
 }) {
   const primaryBgColor = `radial-gradient(
       40.36% 71% at 18.57% 29%,
@@ -59,7 +61,7 @@ function index({
           disabled={!!disabled}
           style={{ fontSize: buttonFontSize }}
         >
-          {text || ''}
+          {!isLoading ? text : <CircularProgress style={{ color: '#fafafa', width: 20, height: 25 }} />}
         </StyledButton>
       ) : (
         <StyledButton
@@ -68,7 +70,7 @@ function index({
           disabled={!!disabled}
           style={{ fontSize: fontSize || buttonFontSize }}
         >
-          {text || ''}
+          {!isLoading ? text : <CircularProgress style={{ color: '#fafafa', width: 20, height: 25 }} />}
         </StyledButton>
       )}
     </div>

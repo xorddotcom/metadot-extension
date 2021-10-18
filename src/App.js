@@ -1,6 +1,6 @@
 import React from 'react';
 import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ImportWallet from './screens/AuthScreens/ImportWallet';
 import ShowSeed from './screens/AuthScreens/ShowSeed';
@@ -13,30 +13,25 @@ import Dashboard from './screens/AppScreens/Dashboard';
 import Send from './screens/AppScreens/Send';
 import PasswordScreen from './screens/PasswordScreen';
 import Welcome from './screens/AuthScreens/Welcome';
+import { SuccessResponse } from './components';
+import { setIsSuccessModalOpen } from './redux/slices/successModalHandling';
 
 function App() {
   // prettier-ignore
   const currentUser = useSelector((state) => state);
+  const {
+    isSuccessModalOpen,
+    mainText,
+    subText,
+  } = useSelector((state) => state.successModalHandling);
+
+  console.log({ isSuccessModalOpen });
+
+  const dispatch = useDispatch();
+
   console.log('Current user in app.js', currentUser);
 
-  // useEffect(() => {
-  //   console.log("Use effect running");
-  //   <Redirect to="/PasswordScreen" />;
-  //   return <PasswordScreen />;
-  // });
-
-  // commenting temporarily due to the issue in browser api "undefined"
-  // useEffect(() => {
-  //   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-  //     chrome.tabs.sendMessage(
-  //       tabs[0].id,
-  //       { greeting: 'hello' },
-  //       function (response) {
-  //         console.log(response.farewell);
-  //       },
-  //     );
-  //   });
-  // }, []);
+  // const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(true);
 
   const renderFunction = () => {
     let content;
@@ -94,48 +89,26 @@ function App() {
         <Switch>
           <div>
             {renderFunction()}
-            {
-              // if(!currentUser.account.isLoggedIn &&
-              // currentUser.account.publicKey) {
-              //   <PasswordScreen />
-              // } else {
-              //   if (currentUser.account.isLoggedIn &&
-              //   currentUser.account.publicKey) {
-              //   <div>
-              //     <Route exact path="/">
-              //       <Dashboard />
-              //     </Route>
-              //     <Route path="/Send">
-              //       <Send />
-              //     </Route>
-              //   </div>
-              // } else{
-              //   <div>
-              //     <Route exact path="/">
-              //       <Welcome />
-              //     </Route>
-              //     <Route path="/PasswordScreen">
-              //       <PasswordScreen />
-              //     </Route>
-              //     <Route path="/ShowSeed">
-              //       <ShowSeed />
-              //     </Route>
-              //     <Route path="/ConfirmSeed">
-              //       <ConfirmSeed />
-              //     </Route>
-              //     <Route path="/CreateWallet">
-              //       <CreateWallet />
-              //     </Route>
-              //     <Route path="/ImportWallet">
-              //       <ImportWallet />
-              //     </Route>
-              //     <Route path="/Send">
-              //       <Send />
-              //     </Route>
-              //     {/* Temporary screen for testing */}
-              //   </div>
-              // }}
-            }
+
+            {/* Dynamic Modal controlled by redux for successfully  executed processes
+            overall the application */}
+            <SuccessResponse
+              open={isSuccessModalOpen}
+              handleClose={() => dispatch(setIsSuccessModalOpen(false))}
+              style={{
+                width: '78%',
+                background: '#141414',
+                p: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              subText={subText}
+              mainText={mainText}
+              // subText="Congratulations, &#013; You&apos;ve successfully imported your account!"
+              // mainText="Successfully Imported!"
+            />
           </div>
         </Switch>
       </div>

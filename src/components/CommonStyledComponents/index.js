@@ -11,15 +11,17 @@ export const MainHeading = styled.p`
   color: ${(props) => (props.color ? props.color : primaryTextColor)};
   line-height: 21px;
   text-align: start;
+  margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
 `;
 
 export const SubHeading = styled.p`
   font-style: normal;
   font-size: ${subHeadingFontSize};
   color: ${secondaryTextColor};
-  text-align: start;
+  text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
   text-align-last: ${(props) => (props.textAlignLast ? props.textAlignLast : 'start')};
   line-height: 21px;
+  margin-top: ${(props) => props.marginTop && props.marginTop};
 `;
 
 export const SubMainWrapperForAuthScreens = styled.div`

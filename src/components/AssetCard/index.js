@@ -20,7 +20,7 @@ function AssetCard({
   return (
     <AssetCardWrapper>
       <HorizontalContentDiv>
-        <img src={logo} alt="btc icon" width="30px" height="30px" />
+        <img src={logo} alt="currency icon" width="30px" height="30px" />
         <NameAndAmount>
           <CoinName className={mainHeadingfontFamilyClass}>{name}</CoinName>
           <HorizontalContentDiv height="17px">

@@ -17,18 +17,22 @@ function TxCard({
 }) {
   return (
     <TxCardWrapper onClick={() => handleClick()}>
-      <img src={logo} alt="btc icon" width="70px" height="70px" />
-      <VerticalContentDiv>
-        <MainText className={mainHeadingfontFamilyClass}>{`${operation} ${coin}`}</MainText>
-        <HorizontalContentDiv>
-          <MainText
-            className={mainHeadingfontFamilyClass}
-            color={incrementColor}
-          >
-            {status}
-          </MainText>
-        </HorizontalContentDiv>
-      </VerticalContentDiv>
+      <div style={{ marginLeft: 10 }}>
+        <img src={logo} alt="btc icon" width="30px" height="30px" />
+      </div>
+      <div style={{ marginLeft: 10 }}>
+        <VerticalContentDiv>
+          <MainText className={mainHeadingfontFamilyClass}>{`${operation} ${coin}`}</MainText>
+          <HorizontalContentDiv>
+            <MainText
+              className={mainHeadingfontFamilyClass}
+              color={incrementColor}
+            >
+              {status}
+            </MainText>
+          </HorizontalContentDiv>
+        </VerticalContentDiv>
+      </div>
 
       <div style={{ marginLeft: 60 }}>
         <VerticalContentDiv>

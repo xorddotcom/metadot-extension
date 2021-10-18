@@ -8,25 +8,24 @@
 }
 
 /* getting font family */
-/* @font-face {
+@font-face {
   font-family: 'RobotoB';
-  src: local('Roboto'), url('./assets/fonts/Roboto-Bold.ttf') format('truetype');
+  src: url('./assets/fonts/Roboto-Bold.ttf') format('truetype');
   font-weight: bold;
 }
 @font-face {
   font-family: 'RobotoR';
-  src: local('Roboto'),
-    url('./assets/fonts/Roboto-Regular.ttf') format('truetype');
-} */
+  src: url('./assets/fonts/Roboto-Regular.ttf') format('truetype');
+}
 
-@font-face {
+/* @font-face {
   font-family: 'RobotoR';
   src: url('./assets/fonts/Roboto-Regular.ttf');
 }
 @font-face {
   font-family: 'RobotoB';
   src: url('./assets/fonts/Roboto-Bold.ttf');
-}
+} */
 
 /* creating classess for font family we just imported above */
 .font-face-robotoB {
@@ -103,7 +102,7 @@ input:focus {
   box-sizing: border-box;
   box-shadow: 0px 0px 20px 5px rgba(136, 0, 65, 0.12);
   border-radius: 8px;
-  margin: 200px auto;
+  margin: 150px auto;
 }
 
 .select-network-modal-style {
@@ -111,7 +110,7 @@ input:focus {
   box-sizing: border-box;
   box-shadow: 0px 0px 20px 5px rgba(136, 0, 65, 0.12);
   border-radius: 8px;
-  margin: 200px auto;
+  margin: 70px auto;
 }
 
 .txDetails-modal-style {
@@ -143,4 +142,38 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type='number'] {
   -moz-appearance: textfield;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted #880041; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 100px;
+  background-color: #fafafa;
+  color: black;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  font-size: 10px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+  top: 10%; /* At the bottom of the tooltip */
+  left: 63%;
+  margin-left: -5px;
+  /* margin-left: -60px; */
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.d-none {
+  display: none;
 }
