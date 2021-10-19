@@ -23,8 +23,6 @@ import {
 import { setApi } from '../../../redux/slices/api';
 
 import { fonts } from '../../../utils';
-import RpcClass from '../../../rpc';
-
 import {
   AccountContainer,
   AccountSetting,
@@ -47,6 +45,7 @@ import {
   OptionText,
   PlainIcon,
 } from '../../../components/Modals/SelectNetwork/StyledComponents';
+import RpcClass from '../../../rpc';
 
 import KusamaIcon from '../../../assets/images/kusama.svg';
 import KaruraIcon from '../../../assets/images/karura.svg';
@@ -95,6 +94,7 @@ const KusamaMainNetworks = [
     testNet: null,
     rpcUrl: constants.Kusama_Rpc_Url,
     disabled: false,
+    tokenName: 'Kusama',
   },
   {
     name: 'Karura',
@@ -142,6 +142,7 @@ const TestNetworks = [
     name: 'Westend',
     theme: '#015D77',
     rpcUrl: constants.WestEndRpcUrl,
+    tokenName: 'Westend',
   },
   {
     name: 'AcalaMandala',
@@ -175,12 +176,14 @@ function Dashboard() {
   console.log('abc', { isLoading });
   const [isTxDetailsModalOpen, setIsTxDetailsModalOpen] = useState(false);
   const currentUser = useSelector((state) => state);
-  console.log('Current User [][]', currentUser.api);
+  console.log('Current User [][]', currentUser);
+  const [apiInState, setApiInState] = useState('');
   // eslint-disable-next-line no-unused-vars
   const dispatch = useDispatch();
 
   async function main() {
     const { api } = currentUser.api;
+    // const api = apiInState;
     console.log('Listner working', api);
     // const api = await RpcClass.init(currentUser.account.rpcUrl, false);
     // con
@@ -211,29 +214,40 @@ function Dashboard() {
 
   main().catch(console.error);
 
-  // const landing = async () => {
-  //   console.log('Landing function running', currentUser.account.rpcUrl);
-  //   try {
-  //     const api = await RpcClass.init(currentUser.account.rpcUrl, true);
-  //     console.log('Change rpc and run config', api.rpc);
-  //     setApi(api)
+  const landing = async () => {
+    const { api } = currentUser.api;
+    console.log('Landing function running', currentUser.account.rpcUrl);
+    try {
+      const nbalance = await getBalance(api, currentUser.account.publicKey);
+      dispatch(setBalance(nbalance));
+      return nbalance;
+    } catch (err) {
+      console.log('Error occurred');
+      throw err;
+    }
+  };
 
-  //     const nbalance = await getBalance(api, currentUser.account.publicKey);
-  //     dispatch(setBalance(nbalance));
-  //     // setBalance(balance)
+  useEffect(async () => {
+    console.log('Use effect running');
+    await landing();
+  }, []);
 
-  //     // setTokenName(await api.registry.chainTokens)
-
-  //     return nbalance;
-  //   } catch (err) {
-  //     console.log('Error occurred');
-  //     throw err;
-  //   }
+  // const getTokenPrice = async () => {
+  //   // const tokenPrice = await fetch(
+  //   //   'https://api.coingecko.com/api/v3/simple/price?ids=kusama&vs_currencies=usd',
+  //   // )
+  //   //   .then((res) => {
+  //   //     res.json().then((_res) => {
+  //   //       console.log('Res in json', _res);
+  //   //     });
+  //   //   })
+  //   //   .catch((err) => {
+  //   //     console.warn('ERROR', err);
+  //   //   });
   // };
 
   // useEffect(async () => {
-  //   console.log('Use effect running');
-  //   await landing();
+  //   getTokenPrice();
   // });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -357,13 +371,15 @@ function Dashboard() {
       });
     } else {
       console.log('NETWORK SELECTED', data);
-      const wsProvider = new WsProvider(data.rpcUrl);
-      console.log('Provider');
-      const api = await ApiPromise.create({ provider: wsProvider });
-      console.log('Api');
-      await api.isReady;
-      console.log('Api after await', await api);
+      const api = await RpcClass.init(data.rpcUrl);
+      // setApiInState(api);
       dispatch(setApi(api));
+      // const wsProvider = new WsProvider(data.rpcUrl);
+      // console.log('Provider');
+      // const api = await ApiPromise.create({ provider: wsProvider });
+      // console.log('Api', api);
+      // await api.isReady;
+      console.log('Api after await', await api);
       const bal = await getBalance(api, currentUser.account.publicKey);
       dispatch(setBalance(bal));
       // chainDecimals = await api.registry.chainDecimals
@@ -385,7 +401,8 @@ function Dashboard() {
   };
 
   // --------XXXXXXXXXXXXXXX-----------
-
+  // const res = RpcClass.apiGetter();
+  console.log('Res in =============', currentUser);
   return (
     <Wrapper>
       <DashboardHeader>
@@ -427,6 +444,7 @@ function Dashboard() {
         chainName={currentUser.account.chainName}
         tokenName={currentUser.account.tokenName}
         address={currentUser.account.publicKey}
+        walletName={currentUser.account.walletName}
         balanceInUsd="0$"
         accountName={currentUser.account.accountName}
       />
@@ -466,7 +484,7 @@ function Dashboard() {
           // mt: 15,
         }}
       />
-      {/* <button type="button" onClick={() => dispatch(deleteRedux(''), deleteApi())}>Delete redux</button> */}
+      {/* <button type="button" onClick={() => console.log('Res in =============', currentUser)}>Get State</button> */}
     </Wrapper>
   );
 }

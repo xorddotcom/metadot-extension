@@ -26,10 +26,19 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 function MainCard({
   balance, address, tokenName, balanceInUsd, accountName,
 }) {
-  console.log('Token name in main card', tokenName, balance);
+  // console.log('Token name in main card', walletName);
+  // console.log('balance', balance.toString().slice(0, 8));
+  console.log('balance float', parseFloat(balance).toFixed(5));
+
   const copyText = () => {
     console.log('ENd', address);
     navigator.clipboard.writeText(address);
+  };
+
+  const trimBalance = (value) => {
+    const val = value.toString();
+    const trimmedValue = val.slice(0, (val.indexOf('.')) + 6);
+    return trimmedValue;
   };
 
   return (
@@ -61,7 +70,7 @@ function MainCard({
       </VerticalContentDiv>
 
       <Balance className={mainHeadingfontFamilyClass}>
-        {balance}
+        {trimBalance(balance)}
         {' '}
         {tokenName}
       </Balance>

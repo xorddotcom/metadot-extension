@@ -108,8 +108,6 @@ function CreateWallet() {
     dispatch(setAccountName(walletName));
     dispatch(setWalletPassword(hashedPassword));
 
-    dispatch(setApi(api));
-
     setIsLoading(false);
 
     dispatch(setMainTextForSuccessModal('Successfully Created!'));

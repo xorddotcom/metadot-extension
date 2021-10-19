@@ -27,8 +27,6 @@ chrome.runtime.onInstalled.addListener(() => {
         // load all the keyring data
         // keyring.loadAll({ store: new AccountsStore(), type: 'sr25519' });
         keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
-        console.log('keyring.loadAll executed');
-
         console.log(' crypto initialization completed');
       })
       .catch((error) => {

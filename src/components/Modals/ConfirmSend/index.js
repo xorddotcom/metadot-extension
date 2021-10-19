@@ -18,14 +18,23 @@ import { fonts } from '../../../utils';
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 function ConfirmSend({
-  open, handleClose, handleConfirm, style, accountTo, amount,
+  open, handleClose, handleConfirm, style, accountTo, amount, accountFrom,
+  transactionFee, tokenName,
 }) {
   const currentUser = useSelector((state) => state.account);
   console.log('Rpc url', currentUser.rpcUrl);
 
-  console.log('Props', accountTo, amount);
-
+  console.log('Props', tokenName, transactionFee);
+  // console.log('Total fee', transactionFee + amount);
   // history.push('/ConfirmSeed');
+
+  const transactionAmount = (valueOne, valueTwo) => {
+    const value = parseFloat(valueOne) + parseFloat(valueTwo);
+    const val = value.toString();
+    const trimmedValue = val.slice(0, (val.indexOf('.')) + 6);
+    return trimmedValue;
+  };
+
   return (
     <Modal
       open={open}
@@ -48,13 +57,13 @@ function ConfirmSend({
             <VerticalContentDiv>
               <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>From</MainText2>
               <SubText1 textAlign="start" className={mainHeadingfontFamilyClass}>Account 1</SubText1>
-              <SubText2 textAlign="start" className={subHeadingfontFamilyClass}>(bnb13...txjd5)</SubText2>
+              <SubText2 textAlign="start" className={subHeadingfontFamilyClass}>{`${accountFrom.slice(0, 3)} ... ${accountFrom.slice(-3)}`}</SubText2>
             </VerticalContentDiv>
 
             <VerticalContentDiv>
-              <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>From</MainText2>
+              <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>To</MainText2>
               <SubText1 textAlign="end" className={mainHeadingfontFamilyClass}>Account 1</SubText1>
-              <SubText2 textAlign="end" className={subHeadingfontFamilyClass}>(bnb13...txjd5)</SubText2>
+              <SubText2 textAlign="end" className={subHeadingfontFamilyClass}>{`${accountTo.slice(0, 3)} ... ${accountTo.slice(-3)}`}</SubText2>
             </VerticalContentDiv>
 
           </HorizontalContentDiv>
@@ -71,8 +80,8 @@ function ConfirmSend({
               </VerticalContentDiv>
 
               <VerticalContentDiv>
-                <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>2.35 DOT</MainText2>
-                <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>0.21 BTC</MainText2>
+                <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>{`${amount} ${tokenName}`}</MainText2>
+                <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>{`${transactionFee} ${tokenName}`}</MainText2>
               </VerticalContentDiv>
             </HorizontalContentDiv>
 
@@ -84,7 +93,7 @@ function ConfirmSend({
               </VerticalContentDiv>
 
               <VerticalContentDiv>
-                <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>2.56 DOT</MainText2>
+                <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>{`${transactionAmount(amount, transactionFee)} ${tokenName}`}</MainText2>
                 <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>$ 594.304</MainText2>
               </VerticalContentDiv>
             </HorizontalContentDiv>

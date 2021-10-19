@@ -12,8 +12,6 @@ import App from './App';
 // REDUX
 import store, { persistor } from './redux/store';
 
-// REDUX-PERSIST
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

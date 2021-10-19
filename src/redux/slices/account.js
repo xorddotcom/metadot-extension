@@ -14,6 +14,7 @@ const initialState = {
   chainName: 'Polkadot Main Network',
   tokenName: 'DOT',
   balance: 0,
+  walletName: '',
 };
 
 export const accountSlice = createSlice({
@@ -62,6 +63,9 @@ export const accountSlice = createSlice({
       console.log('Action payload', action.payload);
       state.balance = action.payload;
     },
+    setWalletNameInRedux: (state, action) => {
+      state.walletName = action.payload;
+    },
   },
 });
 
@@ -76,7 +80,7 @@ export const {
   setRpcUrl,
   setBalance,
   deleteRedux,
-  emptySeedInAccountSlice,
+  setWalletNameInRedux,
 } = accountSlice.actions;
 
 export default accountSlice.reducer;

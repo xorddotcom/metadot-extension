@@ -15,6 +15,8 @@ import PasswordScreen from './screens/PasswordScreen';
 import Welcome from './screens/AuthScreens/Welcome';
 import { SuccessResponse } from './components';
 import { setIsSuccessModalOpen } from './redux/slices/successModalHandling';
+import ApiManager from './Api';
+import constants from './constants/onchain';
 
 function App() {
   // prettier-ignore
@@ -44,11 +46,16 @@ function App() {
     ) {
       content = (
         <div>
+          <ApiManager rpc={constants.Polkadot_Rpc_Url} />
+
           <Route exact path="/">
             <Dashboard />
           </Route>
           <Route path="/Send">
             <Send />
+          </Route>
+          <Route exact path="/createWallet">
+            <CreateWallet />
           </Route>
         </div>
       );

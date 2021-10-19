@@ -7,9 +7,11 @@ import { useDispatch } from 'react-redux';
 import { Option, OptionDiv } from './StyledComponents';
 import { fonts } from '../../../utils';
 import {
-  setPublicKey, setLoggedIn, setBalance, setSeed,
+  // setPublicKey, setLoggedIn, setBalance,
+  setSeed,
+  // setWalletNameInRedux,
 } from '../../../redux/slices/account';
-import { setApi } from '../../../redux/slices/api';
+// import { setApi } from '../../../redux/slices/api';
 
 import {
   AuthWrapper,
@@ -21,13 +23,13 @@ import {
 } from '../../../components';
 
 // eslint-disable-next-line import/namespace
-import { AccountCreation } from '../../../ToolBox/accounts';
-import constants from '../../../constants/onchain';
-import { getBalance } from '../../../ToolBox/services';
+// import { AccountCreation } from '../../../ToolBox/accounts';
+// import constants from '../../../constants/onchain';
+// import { getBalance } from '../../../ToolBox/services';
 
-const {
-  WsProvider, ApiPromise,
-} = require('@polkadot/api');
+// const {
+//   WsProvider, ApiPromise,
+// } = require('@polkadot/api');
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -35,10 +37,10 @@ function ImportWallet() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [selectedType, setSelectedType] = useState('');
-  const [seedPhrase, setSeedPhrase] = useState();
+  const [seedPhrase, setSeedPhrase] = useState('');
 
   const handleChange = (input) => {
-    console.log('Import wallet from seed working', input);
+    console.log('Import wallet from seed working ', input);
     setSeedPhrase(input);
   };
 
@@ -55,30 +57,23 @@ function ImportWallet() {
 
   const handleSubmit = async () => {
     try {
-      console.log('Handle click', seedPhrase);
+      console.log('Handle click ', seedPhrase.length);
+      console.log('Number of words in seed phrase  []', seedPhrase.split(' ').length);
 
-      const data = { name: 'hello world', password: 'password', seed: seedPhrase };
-      const res = await AccountCreation(data);
-      console.log('Res', res);
-      // dispatch(setWalletPassword(hashedPassword))
-      // console.log('Push to dashboard')
-      // currentUser.account.isLoggedIn &&
-      //         currentUser.account.publicKey
+      if (seedPhrase.length === 0) {
+        alert('Please enter the seed phrase');
+        return 'Please enter the seed phrase';
+      }
 
-      const wsProvider = new WsProvider(constants.Polkadot_Rpc_Url);
-      const api = await ApiPromise.create({ provider: wsProvider });
-      await api.isReady;
+      if (seedPhrase.split(' ').length !== 12) {
+        alert('Invalid seed phrase');
+        return 'Invalid seed phrase';
+      }
 
-      dispatch(setLoggedIn(true));
-      dispatch(setPublicKey(res.address));
       dispatch(setSeed(seedPhrase));
-
-      const balance = await getBalance(api, res.address);
-      dispatch(setBalance(balance));
-
-      dispatch(setApi(api));
-      history.push('/');
+      history.push('/createWallet');
       // <Redirect to= '/dashboard' >
+      return true;
     } catch (err) {
       console.log('Error', err);
       throw err;
@@ -140,13 +135,21 @@ function ImportWallet() {
           <MainHeading className={mainHeadingfontFamilyClass}>
             Place your seed here :
           </MainHeading>
-          <TextField onChange={(e) => handleChange(e.target.value)} rows={7} multiline style={{ background: '#212121' }} />
+          <TextField
+            className={subHeadingfontFamilyClass}
+            onChange={(e) => handleChange(e.target.value)}
+            rows={7}
+            multiline
+            style={{ background: '#212121' }}
+          />
         </div>
         ) }
       </SubMainWrapperForAuthScreens>
+      {selectedType === 'seed' && (
       <div className="btn-wrapper">
         <Button text="Import" handleClick={handleSubmit} />
       </div>
+      ) }
     </AuthWrapper>
   );
 }
