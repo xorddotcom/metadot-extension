@@ -62,6 +62,7 @@ function App() {
     } else {
       content = (
         <div>
+          <ApiManager rpc={constants.Polkadot_Rpc_Url} />
           <Route exact path="/">
             <Welcome />
           </Route>

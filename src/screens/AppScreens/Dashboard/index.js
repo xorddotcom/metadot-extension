@@ -216,6 +216,7 @@ function Dashboard() {
 
   const landing = async () => {
     const { api } = currentUser.api;
+    console.log('Api use effect', api);
     console.log('Landing function running', currentUser.account.rpcUrl);
     try {
       const nbalance = await getBalance(api, currentUser.account.publicKey);
