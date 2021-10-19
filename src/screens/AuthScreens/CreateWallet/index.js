@@ -18,7 +18,6 @@ import { AccountCreation } from '../../../ToolBox/accounts';
 import {
   setLoggedIn, setPublicKey, setWalletPassword, setBalance, setAccountName,
 } from '../../../redux/slices/account';
-import { setApi } from '../../../redux/slices/api';
 import { fonts, helpers } from '../../../utils';
 import { WarningText, LabelAndTextInput } from './StyledComponents';
 import constants from '../../../constants/onchain';
