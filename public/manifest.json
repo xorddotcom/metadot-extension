@@ -14,12 +14,6 @@
     "128": "static/media/128x128.png"
   },
   "content_security_policy": "script-src 'self' blob: 'unsafe-eval' 'wasm-eval'; object-src 'self'",
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"]
-    }
-  ],
   "background": {
     "scripts": ["background.js"],
     "persistent": false
