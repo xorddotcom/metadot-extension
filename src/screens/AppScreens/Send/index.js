@@ -47,11 +47,12 @@ const accountReducer = (state, action) => {
 
 const amountReducer = (state, action) => {
   if (action.type === 'USER_INPUT') {
-    return { value: action.val, isValid: action.amountIsValid <= action.val };
+    console.log('Helloooooooo', action.amountIsValid);
+    return { value: action.val, isValid: action.amountIsValid >= action.val };
   }
 
   if (action.type === 'IS_BLUR') {
-    return { value: state.value, isValid: action.amountIsValid <= state.value };
+    return { value: state.value, isValid: action.amountIsValid >= state.value };
   }
   return { value: '', isValid: false };
 };
@@ -85,7 +86,7 @@ const Send = () => {
   // const [amount, setAmount] = useState('');
   const [amountState, amountDispatch] = useReducer(amountReducer, {
     value: '',
-    isValid: false,
+    isValid: null,
   });
   const [formIsValid, setFormIsValid] = useState(false);
   const [isSendModalOpen, setIsSendModalOpen] = useState(false);
