@@ -2,11 +2,7 @@ import React, { useState } from 'react';
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useSelector } from 'react-redux';
 import {
-  AuthWrapper,
-  Button,
-  ConfirmSend,
-  Header,
-  StyledInput,
+  AuthWrapper, Button, ConfirmSend, Header, StyledInput,
 } from '../../../components';
 import { fonts } from '../../../utils';
 import {
@@ -37,7 +33,6 @@ const errorMessages = {
   invalidAddress: 'Invalid address',
   enterAddress: 'Enter address',
   enterAmount: 'Enter amount',
-
 };
 
 const Send = () => {
@@ -53,6 +48,9 @@ const Send = () => {
     address: false,
   });
 
+  // eslint-disable-next-line no-unused-vars
+  const [isLoading, setIsLoading] = useState(false);
+
   const [isSendModalOpen, setIsSendModalOpen] = useState(false);
   const currentUser = useSelector((state) => state);
   const { api } = currentUser.api;
@@ -67,20 +65,16 @@ const Send = () => {
     console.log('Sender [][]', sender.address);
 
     const hash = await api.tx.balances
-      .transfer(
-        accountTo,
-        amount * 1000000000000,
-      )
-      .signAndSend(
-        sender, (res) => {
-          console.log('Success', res.status);
-          if (res.status.isInBlock) {
-            console.log(`Completed at block hash #${res.status.asInBlock.toString()}`);
-          } else {
-            console.log(`Current status: ${res.status.type}`);
-          }
-        },
-      ).catch((err) => {
+      .transfer(accountTo, amount * 1000000000000)
+      .signAndSend(sender, (res) => {
+        console.log('Success', res.status);
+        if (res.status.isInBlock) {
+          console.log(`Completed at block hash #${res.status.asInBlock.toString()}`);
+        } else {
+          console.log(`Current status: ${res.status.type}`);
+        }
+      })
+      .catch((err) => {
         console.error('Error [][][]', err);
       });
 
@@ -123,11 +117,7 @@ const Send = () => {
   const isValidAddressPolkadotAddress = (address) => {
     console.log('Validate this address', error);
     try {
-      encodeAddress(
-        isHex(address)
-          ? hexToU8a(address)
-          : decodeAddress(address),
-      );
+      encodeAddress(isHex(address) ? hexToU8a(address) : decodeAddress(address));
       setIsCorrect(true);
       return true;
     } catch (err) {
@@ -155,8 +145,9 @@ const Send = () => {
     console.log('isCorrect', isCorrect);
     try {
       if (!validateInputValues(accountTo)) throw new Error('An error occurred');
-      const info = await api.tx.balances.transfer(currentUser.account.publicKey,
-        amount * 1000000000000).paymentInfo(accountTo);
+      const info = await api.tx.balances
+        .transfer(currentUser.account.publicKey, amount * 1000000000000)
+        .paymentInfo(accountTo);
       console.log('info', info);
       console.log(`
     class=${info.class.toString()},
@@ -176,7 +167,7 @@ const Send = () => {
 
   const trimBalance = (value) => {
     const val = value.toString();
-    const trimmedValue = val.slice(0, (val.indexOf('.')) + 6);
+    const trimmedValue = val.slice(0, val.indexOf('.') + 6);
     return trimmedValue;
   };
 
@@ -219,20 +210,12 @@ const Send = () => {
             height="20px"
           />
           <div style={{ height: '1.5rem' }}>
-            { !isCorrect
-              ? (
-                <WarningText>
-                  { errorMessages
-                    .invalidAddress}
-                </WarningText>
-              ) : error.address ? (
-                <WarningText>
-                  { errorMessages
-                    .enterAddress}
-                </WarningText>
-              ) : null }
+            {!isCorrect ? (
+              <WarningText>{errorMessages.invalidAddress}</WarningText>
+            ) : error.address ? (
+              <WarningText>{errorMessages.enterAddress}</WarningText>
+            ) : null}
           </div>
-
         </VerticalContentDiv>
 
         <VerticalContentDiv mb="150px">
@@ -254,30 +237,20 @@ const Send = () => {
             }}
             fontSize="14px"
             height="20px"
-
           />
           <CalculatedAmount>
-            <EquivalentInUSDT className={subHeadingfontFamilyClass}>
-              $23.212
-            </EquivalentInUSDT>
+            <EquivalentInUSDT className={subHeadingfontFamilyClass}>$23.212</EquivalentInUSDT>
             <Balance textAlign="end" className={subHeadingfontFamilyClass}>
               {`${trimBalance(currentUser.account.balance)} ${currentUser.account.tokenName}`}
             </Balance>
           </CalculatedAmount>
           <div style={{ height: '1.5rem' }}>
-            { error.amountError
-              ? (
-                <WarningText>
-                  { errorMessages
-                    .enterAmount}
-                </WarningText>
-              ) : null }
+            {error.amountError ? <WarningText>{errorMessages.enterAmount}</WarningText> : null}
           </div>
         </VerticalContentDiv>
-
       </MainContent>
       <CenterContent>
-        <Button text="Next" handleClick={handleSubmit} />
+        <Button text="Next" handleClick={handleSubmit} isLoading={isLoading} />
       </CenterContent>
       <ConfirmSend
         accountFrom={currentUser.account.publicKey}

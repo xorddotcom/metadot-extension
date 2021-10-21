@@ -3,12 +3,13 @@ import styled from 'styled-components';
 // eslint-disable-next-line import/prefer-default-export
 export const WarningText = styled.p`
   font-size: 14px;
-  color: red;
+  color: red !important;
   width: 100%;
   text-align: start;
   /* border: 1px solid white; */
   margin: 0;
   margin-top: 2px;
+  visibility: ${(props) => props.visibility || 'visible'};
   /* position: absolute; */
 `;
 

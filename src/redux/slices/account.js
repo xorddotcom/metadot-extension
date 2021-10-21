@@ -15,12 +15,16 @@ const initialState = {
   tokenName: 'DOT',
   balance: 0,
   walletName: '',
+  keyringInitialized: false,
 };
 
 export const accountSlice = createSlice({
   name: 'account',
   initialState,
   reducers: {
+    setKeyringInitialized: (state, action) => {
+      state.keyringInitialized = action.payload;
+    },
     deleteRedux: (state, action) => {
       state.publicKey = action.payload;
       console.log('helllo', state);
@@ -29,9 +33,10 @@ export const accountSlice = createSlice({
       // eslint-disable-next-line no-param-reassign
       state.seed = action.payload;
     },
-    resetAccountSlice: (state) => {
-      console.log('RESET ACCOUNT BY EMPTYING seed value');
+    resetAccountSlice: (state, action) => {
+      console.log('RESET ACCOUNT BY EMPTYING whole account obj');
       // eslint-disable-next-line no-unused-vars
+      console.log('action.payload', action.payload);
       state = initialState;
     },
     emptySeedInAccountSlice: (state) => {
@@ -63,9 +68,6 @@ export const accountSlice = createSlice({
       console.log('Action payload', action.payload);
       state.balance = action.payload;
     },
-    setWalletNameInRedux: (state, action) => {
-      state.walletName = action.payload;
-    },
   },
 });
 
@@ -80,7 +82,7 @@ export const {
   setRpcUrl,
   setBalance,
   deleteRedux,
-  setWalletNameInRedux,
+  setKeyringInitialized,
 } = accountSlice.actions;
 
 export default accountSlice.reducer;

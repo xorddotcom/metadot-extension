@@ -177,3 +177,7 @@ input[type='number'] {
 .d-none {
   display: none;
 }
+
+.border-white {
+  border: 1px solid white;
+}

@@ -2,27 +2,45 @@
 import React, { useState, useEffect } from 'react';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { useDispatch, useSelector } from 'react-redux';
-import { setApi } from '../redux/slices/api';
+import { setApi, setApiInitializationStarts } from '../redux/slices/api';
+import { setBalance } from '../redux/slices/account';
+import { getBalance } from '../ToolBox/services';
 
 function ApiManager({ rpc }) {
-// eslint-disable-next-line import/no-mutable-exports
-  const [apiState, setApiState] = useState('');
+  // eslint-disable-next-line import/no-mutable-exports
+  const currentUser = useSelector((state) => state);
+  const [apiState, setApiState] = useState(currentUser.api.api);
   const dispatch = useDispatch();
+
   // eslint-disable-next-line no-shadow
   const state = useSelector((state) => state);
   useEffect(() => {
     const setAPI = async (rpcUrl) => {
+      dispatch(setApiInitializationStarts(true));
       const wsProvider = new WsProvider(rpcUrl);
       const apiR = await ApiPromise.create({ provider: wsProvider });
       await apiR.isReady;
       console.log('Api configuration complete', apiR);
       setApiState(apiR);
       dispatch(setApi(apiR));
+
+      try {
+        const nbalance = await getBalance(apiR, currentUser.account.publicKey);
+        dispatch(setBalance(nbalance));
+        return nbalance;
+      } catch (err) {
+        console.log('Error occurred');
+        throw err;
+      }
     };
     setAPI(rpc);
-  }, [dispatch, rpc]);
+  }, [currentUser.account.publicKey, dispatch, rpc]);
   console.log({ apiState, state });
-  return <div style={{ display: 'none' }}><p>this</p></div>;
+  return (
+    <div style={{ display: 'none' }}>
+      <p>this</p>
+    </div>
+  );
 }
 
 export default ApiManager;

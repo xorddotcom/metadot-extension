@@ -21,11 +21,9 @@ import constants from './constants/onchain';
 function App() {
   // prettier-ignore
   const currentUser = useSelector((state) => state);
-  const {
-    isSuccessModalOpen,
-    mainText,
-    subText,
-  } = useSelector((state) => state.successModalHandling);
+  const { isSuccessModalOpen, mainText, subText } = useSelector(
+    (state) => state.successModalHandling,
+  );
 
   console.log({ isSuccessModalOpen });
 
@@ -62,7 +60,6 @@ function App() {
     } else {
       content = (
         <div>
-          <ApiManager rpc={constants.Polkadot_Rpc_Url} />
           <Route exact path="/">
             <Welcome />
           </Route>
@@ -114,8 +111,6 @@ function App() {
               }}
               subText={subText}
               mainText={mainText}
-              // subText="Congratulations, &#013; You&apos;ve successfully imported your account!"
-              // mainText="Successfully Imported!"
             />
           </div>
         </Switch>

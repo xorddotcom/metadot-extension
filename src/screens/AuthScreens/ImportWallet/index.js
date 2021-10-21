@@ -1,17 +1,13 @@
+/* eslint-disable no-throw-literal */
 import React, { useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
-import TextField from '@material-ui/core/TextField';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { Input } from '@material-ui/core';
+
+import keyring from '@polkadot/ui-keyring';
 import { Option, OptionDiv } from './StyledComponents';
-import { fonts } from '../../../utils';
-import {
-  // setPublicKey, setLoggedIn, setBalance,
-  setSeed,
-  // setWalletNameInRedux,
-} from '../../../redux/slices/account';
-// import { setApi } from '../../../redux/slices/api';
 
 import {
   AuthWrapper,
@@ -22,98 +18,88 @@ import {
   SubMainWrapperForAuthScreens,
 } from '../../../components';
 
-// eslint-disable-next-line import/namespace
-// import { AccountCreation } from '../../../ToolBox/accounts';
-// import constants from '../../../constants/onchain';
-// import { getBalance } from '../../../ToolBox/services';
-
-// const {
-//   WsProvider, ApiPromise,
-// } = require('@polkadot/api');
+import { fonts, colors } from '../../../utils';
+import { setSeed } from '../../../redux/slices/account';
+import { WarningText } from '../CreateWallet/StyledComponents';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+const { primaryTextColor } = colors;
+
+const invalidSeedMessages = {
+  minimumWords: 'Atleast 12 words required!',
+  maxWords: 'Only 12 words required!',
+  seedDoesnotExist: 'Seed does not exists!',
+};
 
 function ImportWallet() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [selectedType, setSelectedType] = useState('');
+
+  const { keyringInitialized } = useSelector((state) => state.account);
+
+  const [selectedType, setSelectedType] = useState('seed');
   const [seedPhrase, setSeedPhrase] = useState('');
+  const [invalidSeedMessage, setInvalidSeedMessage] = useState('');
 
   const handleChange = (input) => {
     console.log('Import wallet from seed working ', input);
+    setInvalidSeedMessage('');
     setSeedPhrase(input);
   };
 
-  // const TextArea = styled(Input)`
-  //   width: 89%;
-  //   border-radius: 8px;
-  //   padding-left: 25px;
-  //   padding-right: 25px;
-  //   padding-top: 13px;
-  //   padding-bottom: 13px;
-  //   color: #fafafa;
-  //   font-size: 16px;
-  // `;
+  const validateSeed = async () => {
+    const { minimumWords, maxWords, seedDoesnotExist } = invalidSeedMessages;
 
-  const handleSubmit = async () => {
+    let isErrorOccur = '';
+
     try {
-      console.log('Handle click ', seedPhrase.length);
-      console.log('Number of words in seed phrase  []', seedPhrase.split(' ').length);
-
-      if (seedPhrase.length === 0) {
-        alert('Please enter the seed phrase');
-        return 'Please enter the seed phrase';
+      if (seedPhrase.split(' ').length > 12) {
+        console.log('object1');
+        isErrorOccur = maxWords;
+        setInvalidSeedMessage(maxWords);
+        throw maxWords;
       }
 
-      if (seedPhrase.split(' ').length !== 12) {
-        alert('Invalid seed phrase');
-        return 'Invalid seed phrase';
+      if (seedPhrase.split(' ').length < 12) {
+        console.log('object2');
+        isErrorOccur = minimumWords;
+        setInvalidSeedMessage(minimumWords);
+        throw minimumWords;
       }
+
+      // verifiying if seed exist in blockchain or not
+      console.log({ keyringInitialized });
+      if (!keyringInitialized) {
+        keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
+      }
+      await keyring.addUri(seedPhrase);
 
       dispatch(setSeed(seedPhrase));
       history.push('/createWallet');
-      // <Redirect to= '/dashboard' >
+
       return true;
     } catch (err) {
+      if (!isErrorOccur) {
+        setInvalidSeedMessage(seedDoesnotExist);
+      }
       console.log('Error', err);
-      throw err;
+      return err;
     }
   };
-
-  // const TypeSeedPhrase = () => (
-  //   <div>
-  //     <MainHeading className={mainHeadingfontFamilyClass}>
-  //       Place your seed here :
-  //     </MainHeading>
-  //     <TextArea
-  //       rows={7}
-  //       multiline
-  //       disableUnderline
-  //       style={{ background: '#212121' }}
-  //     />
-  //   </div>
-  // );
 
   return (
     <AuthWrapper>
       <Header centerText="Import Wallet" />
       <div>
-        <MainHeading className={mainHeadingfontFamilyClass}>
-          Restore your wallet
-          {' '}
-        </MainHeading>
+        <MainHeading className={mainHeadingfontFamilyClass}>Restore your wallet </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Volutpat
-          cursus sit diam Lorem ipsum dolor sit amet, consectetur adipiscing
-          elit. Volutpat cursus sit diam
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Volutpat cursus sit diam Lorem
+          ipsum dolor sit amet, consectetur adipiscing elit. Volutpat cursus sit diam
           {' '}
         </SubHeading>
       </div>
       <SubMainWrapperForAuthScreens flexDirection="column">
-        <MainHeading className={mainHeadingfontFamilyClass}>
-          Select Type :
-          {' '}
-        </MainHeading>
+        <MainHeading className={mainHeadingfontFamilyClass}>Select Type : </MainHeading>
         <OptionDiv>
           <Option
             onClick={() => setSelectedType('seed')}
@@ -131,25 +117,35 @@ function ImportWallet() {
           </Option>
         </OptionDiv>
         {selectedType === 'seed' && (
-        <div>
-          <MainHeading className={mainHeadingfontFamilyClass}>
-            Place your seed here :
-          </MainHeading>
-          <TextField
-            className={subHeadingfontFamilyClass}
-            onChange={(e) => handleChange(e.target.value)}
-            rows={7}
-            multiline
-            style={{ background: '#212121' }}
-          />
-        </div>
-        ) }
+          <div style={{ height: 227 }}>
+            <MainHeading className={mainHeadingfontFamilyClass}>Place your seed here :</MainHeading>
+            <Input
+              className={subHeadingfontFamilyClass}
+              onChange={(e) => handleChange(e.target.value)}
+              value={seedPhrase}
+              rows={7}
+              multiline
+              disableUnderline
+              style={{
+                background: '#212121',
+                color: primaryTextColor,
+                width: '100%',
+                paddingtTop: 13,
+                borderRadius: '8px',
+              }}
+            />
+            <WarningText visibility={invalidSeedMessage ? 'visible' : 'hidden'}>{invalidSeedMessage}</WarningText>
+          </div>
+        )}
+        {selectedType === 'json' && (
+          <MainHeading className={mainHeadingfontFamilyClass}>Coming Soon!</MainHeading>
+        )}
       </SubMainWrapperForAuthScreens>
       {selectedType === 'seed' && (
-      <div className="btn-wrapper">
-        <Button text="Import" handleClick={handleSubmit} />
-      </div>
-      ) }
+        <div className="btn-wrapper">
+          <Button text="Import" handleClick={validateSeed} disabled={seedPhrase.length === 0} />
+        </div>
+      )}
     </AuthWrapper>
   );
 }

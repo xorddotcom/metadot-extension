@@ -17,10 +17,8 @@ import AssetsAndTransactions from './AssetsAndTransactions';
 import { providerInitialization, getBalance } from '../../../ToolBox/services';
 // import onChainConstants from '../../../constants/onchain'
 import constants from '../../../constants/onchain';
-import {
-  setRpcUrl, setBalance, setSeed,
-} from '../../../redux/slices/account';
-import { setApi } from '../../../redux/slices/api';
+import { setRpcUrl, setBalance, setSeed } from '../../../redux/slices/account';
+import { setApi, setApiInitializationStarts } from '../../../redux/slices/api';
 
 import { fonts } from '../../../utils';
 import {
@@ -53,7 +51,11 @@ import MoonriverIcon from '../../../assets/images/moonriver.svg';
 import ShidenIcon from '../../../assets/images/shiden.svg';
 import PhalaIcon from '../../../assets/images/phala.svg';
 import BifrostIcon from '../../../assets/images/bifrost.svg';
-import { setIsSuccessModalOpen, setMainTextForSuccessModal, setSubTextForSuccessModal } from '../../../redux/slices/successModalHandling';
+import {
+  setIsSuccessModalOpen,
+  setMainTextForSuccessModal,
+  setSubTextForSuccessModal,
+} from '../../../redux/slices/successModalHandling';
 
 const { WsProvider, ApiPromise, Keyring } = require('@polkadot/api');
 
@@ -76,7 +78,6 @@ const availableNetworks = [
     mainNetwork: true,
     testNet: null,
     disabled: false,
-
   },
   {
     name: 'Test Networks',
@@ -189,49 +190,55 @@ function Dashboard() {
     // con
     // Retrieve the initial balance. Since the call has no callback, it is simply a promise
     // that resolves to the current on-chain value
-    let { data: { free: previousFree }, nonce: previousNonce } = await api.query.system.account(currentUser.account.publicKey);
+    let {
+      data: { free: previousFree },
+      nonce: previousNonce,
+    } = await api.query.system.account(currentUser.account.publicKey);
 
     // Here we subscribe to any balance changes and update the on-screen value
-    api.query.system.account(currentUser.account.publicKey, ({ data: { free: currentFree }, nonce: currentNonce }) => {
-    // Calculate the delta
-      const change = currentFree.sub(previousFree);
+    api.query.system.account(
+      currentUser.account.publicKey,
+      ({ data: { free: currentFree }, nonce: currentNonce }) => {
+        // Calculate the delta
+        const change = currentFree.sub(previousFree);
 
-      // Only display positive value changes (Since we are pulling `previous` above already,
-      // the initial balance change will also be zero)
-      console.log('Change is zero', change);
-      if (!change.isZero()) {
-        console.log(`New balance change of ${change}, nonce ${currentNonce}`);
-        const newBalance = change / 1000000000000;
-        console.log('New balance', newBalance);
-        console.log('Exact balance', newBalance + currentUser.account.balance);
-        dispatch(setBalance(newBalance + currentUser.account.balance));
+        // Only display positive value changes (Since we are pulling `previous` above already,
+        // the initial balance change will also be zero)
+        console.log('Change is zero', change);
+        if (!change.isZero()) {
+          console.log(`New balance change of ${change}, nonce ${currentNonce}`);
+          const newBalance = change / 1000000000000;
+          console.log('New balance', newBalance);
+          console.log('Exact balance', newBalance + currentUser.account.balance);
+          dispatch(setBalance(newBalance + currentUser.account.balance));
 
-        previousFree = currentFree;
-        previousNonce = currentNonce;
-      }
-    });
+          previousFree = currentFree;
+          previousNonce = currentNonce;
+        }
+      },
+    );
   }
 
   main().catch(console.error);
 
-  const landing = async () => {
-    const { api } = currentUser.api;
-    console.log('Api use effect', api);
-    console.log('Landing function running', currentUser.account.rpcUrl);
-    try {
-      const nbalance = await getBalance(api, currentUser.account.publicKey);
-      dispatch(setBalance(nbalance));
-      return nbalance;
-    } catch (err) {
-      console.log('Error occurred');
-      throw err;
-    }
-  };
+  // const landing = async () => {
+  //   const { api } = currentUser.api;
+  //   console.log('Api use effect', api);
+  //   console.log('Landing function running', currentUser.account.rpcUrl);
+  //   try {
+  //     const nbalance = await getBalance(api, currentUser.account.publicKey);
+  //     dispatch(setBalance(nbalance));
+  //     return nbalance;
+  //   } catch (err) {
+  //     console.log('Error occurred');
+  //     throw err;
+  //   }
+  // };
 
-  useEffect(async () => {
-    console.log('Use effect running');
-    await landing();
-  }, []);
+  // useEffect(async () => {
+  //   console.log('Use effect running');
+  //   await landing();
+  // }, []);
 
   // const getTokenPrice = async () => {
   //   // const tokenPrice = await fetch(
@@ -274,14 +281,10 @@ function Dashboard() {
         }}
         disabled={disabled}
       >
-        {
-          disabled && <span className="tooltiptext">Coming Soon!</span>
-        }
+        {disabled && <span className="tooltiptext">Coming Soon!</span>}
         <HorizontalContentDiv>
           <img src={icon} alt="icon" />
-          <OptionText className={mainHeadingfontFamilyClass}>
-            {name}
-          </OptionText>
+          <OptionText className={mainHeadingfontFamilyClass}>{name}</OptionText>
         </HorizontalContentDiv>
       </OptionRow>
     );
@@ -301,24 +304,21 @@ function Dashboard() {
         }}
         disabled={disabled}
       >
-        {
-          disabled && <span className="tooltiptext">Coming Soon!</span>
-        }
+        {disabled && <span className="tooltiptext">Coming Soon!</span>}
 
         <HorizontalContentDiv>
           <PlainIcon bgColor={theme} />
-          <OptionText className={mainHeadingfontFamilyClass}>
-            {name}
-          </OptionText>
-          {
-            isLoading && (
-            <CircularProgress style={{
-              color: '#fafafa', width: 20, height: 25, paddingRight: 20,
-            }}
+          <OptionText className={mainHeadingfontFamilyClass}>{name}</OptionText>
+          {isLoading && (
+            <CircularProgress
+              style={{
+                color: '#fafafa',
+                width: 20,
+                height: 25,
+                paddingRight: 20,
+              }}
             />
-            )
-          }
-
+          )}
         </HorizontalContentDiv>
         {moreOptions && (
           <NextIcon>
@@ -372,6 +372,7 @@ function Dashboard() {
       });
     } else {
       console.log('NETWORK SELECTED', data);
+      dispatch(setApiInitializationStarts(true));
       const api = await RpcClass.init(data.rpcUrl);
       // setApiInState(api);
       dispatch(setApi(api));
@@ -403,7 +404,7 @@ function Dashboard() {
 
   // --------XXXXXXXXXXXXXXX-----------
   // const res = RpcClass.apiGetter();
-  console.log('Res in =============', currentUser);
+  console.log('===========', currentUser.account.walletName);
   return (
     <Wrapper>
       <DashboardHeader>
@@ -418,11 +419,9 @@ function Dashboard() {
 
           <SelectChain onClick={() => setIsModalOpen(true)}>
             <SelectedChain className={subHeadingfontFamilyClass}>
-              {
-              currentUser.account.chainName.includes('Network')
+              {currentUser.account.chainName.includes('Network')
                 ? currentUser.account.chainName
-                : `${currentUser.account.chainName} Network`
-                }
+                : `${currentUser.account.chainName} Network`}
               {/* {chain} */}
             </SelectedChain>
             <ArrowDropDownIcon />
@@ -435,7 +434,9 @@ function Dashboard() {
 
         <AccountContainer>
           <AccountSetting>
-            <AccountText className={mainHeadingfontFamilyClass}>A</AccountText>
+            <AccountText className={mainHeadingfontFamilyClass}>
+              {currentUser.account.accountName.slice(0, 1)}
+            </AccountText>
           </AccountSetting>
         </AccountContainer>
       </DashboardHeader>
@@ -452,9 +453,7 @@ function Dashboard() {
 
       <Operations />
 
-      <AssetsAndTransactions
-        handleOpenTxDetailsModal={() => setIsTxDetailsModalOpen(true)}
-      />
+      <AssetsAndTransactions handleOpenTxDetailsModal={() => setIsTxDetailsModalOpen(true)} />
 
       <SelectNetwork
         open={isModalOpen}

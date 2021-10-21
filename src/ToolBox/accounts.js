@@ -22,14 +22,14 @@ function GenerateSeedPhrase() {
 }
 
 // create account from seed phrase function
-async function AccountCreation({ name, password, seed }) {
+async function AccountCreation({ name, password, seed }, isKeyringInitialized = false) {
   console.log('In account creation');
 
   try {
     console.log('Account creation Password', name, password);
     // await waitReady()
     // await cryptoWaitReady();
-    keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
+    if (!isKeyringInitialized) keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
     const data = keyring.addUri(seed);
     // const data = keyring.addUri(seed, password, { name });
     console.log('Data', data);
@@ -39,7 +39,8 @@ async function AccountCreation({ name, password, seed }) {
     // });
   } catch (error) {
     console.log('ERROR IN AccountCreation', error);
-    throw error;
+    // throw error;
+    return false;
   }
 }
 

@@ -34,7 +34,7 @@ export const SubMainWrapperForAuthScreens = styled.div`
   height: auto;
   /* min-height: 340px; */
   height: auto;
-      margin: 25px auto 25px;
+  margin: 25px auto 25px;
 `;
 
 export const TextInputWrapper = styled.div`

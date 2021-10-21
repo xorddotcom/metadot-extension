@@ -26,4 +26,6 @@ export const Option = styled.p`
   opacity: 0.8;
   border-radius: 20px;
   padding-top: 15px;
+
+  cursor: pointer;
 `;

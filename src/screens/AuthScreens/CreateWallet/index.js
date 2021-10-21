@@ -16,17 +16,23 @@ import {
 // eslint-disable-next-line import/namespace
 import { AccountCreation } from '../../../ToolBox/accounts';
 import {
-  setLoggedIn, setPublicKey, setWalletPassword, setBalance, setAccountName,
+  setLoggedIn,
+  setPublicKey,
+  setWalletPassword,
+  setBalance,
+  setAccountName,
 } from '../../../redux/slices/account';
 import { fonts, helpers } from '../../../utils';
 import { WarningText, LabelAndTextInput } from './StyledComponents';
 import constants from '../../../constants/onchain';
 import { getBalance } from '../../../ToolBox/services';
-import { setIsSuccessModalOpen, setMainTextForSuccessModal, setSubTextForSuccessModal } from '../../../redux/slices/successModalHandling';
+import {
+  setIsSuccessModalOpen,
+  setMainTextForSuccessModal,
+  setSubTextForSuccessModal,
+} from '../../../redux/slices/successModalHandling';
 
-const {
-  WsProvider, ApiPromise,
-} = require('@polkadot/api');
+const { WsProvider, ApiPromise } = require('@polkadot/api');
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
@@ -40,7 +46,7 @@ function CreateWallet() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { seed } = useSelector((state) => state.account);
+  const { seed, keyringInitialized } = useSelector((state) => state.account);
 
   const [walletName, setWalletName] = useState('');
   const [isValidWalletName, setIsValidWalletName] = useState(false);
@@ -57,10 +63,12 @@ function CreateWallet() {
     if (!(password === confirmPassword)) {
       setPasswordError(passwordErrorMessages.didnotMatchWarning);
       return false;
-    } if (password.length < 8 || confirmPassword.length < 8) {
+    }
+    if (password.length < 8 || confirmPassword.length < 8) {
       setPasswordError(passwordErrorMessages.minimumCharacterWarning);
       return false;
-    } if (password === confirmPassword) {
+    }
+    if (password === confirmPassword) {
       setPasswordError('');
       return true;
     }
@@ -83,7 +91,7 @@ function CreateWallet() {
 
     console.log({ walletName, password, seed });
     // create account with walletName, password and seed by using keyring
-    const res = await AccountCreation({ walletName, password, seed });
+    const res = await AccountCreation({ walletName, password, seed }, keyringInitialized);
     console.log('Result [][]', res);
 
     const hashedPassword = web3.utils.sha3(password);
@@ -109,8 +117,14 @@ function CreateWallet() {
 
     setIsLoading(false);
 
-    dispatch(setMainTextForSuccessModal('Successfully Created!'));
-    dispatch(setSubTextForSuccessModal('Congratulations, &#013; You&apos;ve successfully created your account!'));
+    const operation = history.entries[history.entries.length - 2].pathname === '/ImportWallet'
+      ? 'Imported'
+      : 'Created';
+
+    dispatch(setMainTextForSuccessModal(`Successfully ${operation}!`));
+    dispatch(
+      setSubTextForSuccessModal(`Congratulations, You've successfully ${operation} your account!`),
+    );
     dispatch(setIsSuccessModalOpen(true));
 
     setTimeout(() => {
@@ -125,17 +139,13 @@ function CreateWallet() {
     <AuthWrapper>
       <Header centerText="Create Wallet" />
       <div>
-        <MainHeading className={mainHeadingfontFamilyClass}>
-          Authentication
-        </MainHeading>
+        <MainHeading className={mainHeadingfontFamilyClass}>Authentication</MainHeading>
       </div>
       <SubMainWrapperForAuthScreens>
         <LabelAndTextInput>
-          <SubHeading className={mainHeadingfontFamilyClass}>
-            Wallet Name
-          </SubHeading>
+          <SubHeading className={mainHeadingfontFamilyClass}>Wallet Name</SubHeading>
           <StyledInput
-            placeholder="Account Name"
+            placeholder="Wallet Name"
             value={walletName}
             className={subHeadingfontFamilyClass}
             onChange={(t) => {
@@ -143,13 +153,7 @@ function CreateWallet() {
               setWalletName(t);
             }}
           />
-          {
-          isValidWalletName && (
-            <WarningText>
-              Invalid Username
-            </WarningText>
-          )
-          }
+          {isValidWalletName && <WarningText>Invalid Username</WarningText>}
         </LabelAndTextInput>
 
         <LabelAndTextInput>
@@ -168,9 +172,7 @@ function CreateWallet() {
             rightIcon
           />
           {passwordError === passwordErrorMessages.minimumCharacterWarning && (
-            <WarningText>
-              {passwordErrorMessages.minimumCharacterWarning}
-            </WarningText>
+            <WarningText>{passwordErrorMessages.minimumCharacterWarning}</WarningText>
           )}
           {passwordError === passwordErrorMessages.didnotMatchWarning && (
             <WarningText>{passwordErrorMessages.didnotMatchWarning}</WarningText>
@@ -178,9 +180,7 @@ function CreateWallet() {
         </LabelAndTextInput>
 
         <LabelAndTextInput>
-          <SubHeading className={mainHeadingfontFamilyClass}>
-            Confirm Password
-          </SubHeading>
+          <SubHeading className={mainHeadingfontFamilyClass}>Confirm Password</SubHeading>
           <StyledInput
             placeholder="re-enter password"
             className={subHeadingfontFamilyClass}
@@ -195,9 +195,7 @@ function CreateWallet() {
             rightIcon
           />
           {passwordError === passwordErrorMessages.minimumCharacterWarning && (
-            <WarningText>
-              {passwordErrorMessages.minimumCharacterWarning}
-            </WarningText>
+            <WarningText>{passwordErrorMessages.minimumCharacterWarning}</WarningText>
           )}
           {passwordError === passwordErrorMessages.didnotMatchWarning && (
             <WarningText>{passwordErrorMessages.didnotMatchWarning}</WarningText>
@@ -206,16 +204,14 @@ function CreateWallet() {
 
         <SubHeading className={subHeadingfontFamilyClass}>
           {' - '}
-          Username can only consist of uppercase and lowercase
-          alphabets and numbers.
+          Name can only consist of uppercase and lowercase alphabets and numbers.
           <br />
           {' - '}
           Password should be at least 8 characters.
           <br />
           {' - '}
-          This password will be used as the transaction password for the wallet,
-          MetaDot does not save password and
-          cannot retrieve them for you. Please keep your password safe!
+          This password will be used as the transaction password for the wallet, MetaDot does not
+          save password and cannot retrieve them for you. Please keep your password safe!
         </SubHeading>
       </SubMainWrapperForAuthScreens>
       <div className="btn-wrapper">
