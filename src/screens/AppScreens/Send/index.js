@@ -2,10 +2,11 @@ import React, { useEffect, useReducer, useState } from 'react';
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTransaction } from '../../../redux/slices/tansactions';
+import { helpers, fonts } from '../../../utils';
+
 import {
   AuthWrapper, Button, ConfirmSend, Header, StyledInput,
 } from '../../../components';
-import { fonts } from '../../../utils';
 import {
   Balance,
   FromAccount,
@@ -22,6 +23,8 @@ import { WarningText } from '../../AuthScreens/CreateWallet/StyledComponents';
 
 const { decodeAddress, encodeAddress } = require('@polkadot/keyring');
 const { hexToU8a, isHex } = require('@polkadot/util');
+
+const { transactionHashValidation } = helpers;
 
 const {
   // eslint-disable-next-line no-unused-vars
@@ -48,11 +51,17 @@ const accountReducer = (state, action) => {
 const amountReducer = (state, action) => {
   if (action.type === 'USER_INPUT') {
     console.log('Helloooooooo', action.amountIsValid);
-    return { value: action.val, isValid: action.amountIsValid >= action.val };
+    return {
+      value: action.val,
+      isValid: action.amountIsValid >= action.val,
+    };
   }
 
   if (action.type === 'IS_BLUR') {
-    return { value: state.value, isValid: action.amountIsValid >= state.value };
+    return {
+      value: state.value,
+      isValid: action.amountIsValid >= state.value,
+    };
   }
   return { value: '', isValid: false };
 };
@@ -92,16 +101,18 @@ const Send = () => {
   const [isSendModalOpen, setIsSendModalOpen] = useState(false);
 
   const { isValid } = accountToSate;
+  const { isValid: amountIsValid } = amountState;
+  // eslint-disable-next-line no-unused-vars
 
   useEffect(() => {
     setTimeout(() => {
-      setFormIsValid(isValid);
+      setFormIsValid(isValid && amountIsValid);
     }, 600);
 
     return () => {
       clearTimeout();
     };
-  }, [isValid]);
+  }, [isValid, amountIsValid]);
 
   // const currentUser = useSelector((state) => state);
   // const { api } = currentUser.api;
@@ -262,6 +273,7 @@ const Send = () => {
     dispatch(addTransaction(data));
     console.log('===============', data);
   };
+  // console.log('Length', currentUser.account.publicKey.length);
   return (
     <AuthWrapper>
       <Header centerText="Send" backHandler={() => console.log('object')} />
@@ -309,7 +321,6 @@ const Send = () => {
             ) : null}
           </div>
         </VerticalContentDiv>
-
         <form onSubmit={submitHandler}>
           <VerticalContentDiv mb="150px">
             <MainText m="8px" className={mainHeadingfontFamilyClass}>
