@@ -36,7 +36,7 @@ function TxDetails({
         >
           <CloseIcon />
         </CloseIconDiv>
-
+        {/* {console.log('Data in tx details modal', data)} */}
         <VerticalContentDiv>
           <MainText1 textAlign="center" className={mainHeadingfontFamilyClass}>Details</MainText1>
 

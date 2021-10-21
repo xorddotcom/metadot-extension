@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react';
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTransaction } from '../../../redux/slices/tansactions';
+import { addTransaction } from '../../../redux/slices/transactions';
 import { fonts } from '../../../utils';
 
 import {
@@ -84,6 +84,7 @@ const Send = () => {
   // const [isSendModalOpen, setIsSendModalOpen] = useState(false);
   const currentUser = useSelector((state) => state);
   const { api } = currentUser.api;
+  const [isSendModalOpen, setIsSendModalOpen] = useState(false);
 
   // const [accountTo, setAccountTo] = useState('');
   const [accountToSate, accountDispatch] = useReducer(accountReducer, {
@@ -96,7 +97,17 @@ const Send = () => {
     isValid: null,
   });
   const [formIsValid, setFormIsValid] = useState(false);
-  const [isSendModalOpen, setIsSendModalOpen] = useState(false);
+
+  const data = {
+    accountFrom: currentUser.account.publicKey,
+    accountTo: accountToSate.value,
+    amount: amountState.value,
+    hash: '',
+    operation: '',
+    status: '',
+    chainName: currentUser.account.chainName,
+    tokenName: currentUser.account.tokenName,
+  };
 
   const { isValid } = accountToSate;
   const { isValid: amountIsValid } = amountState;
@@ -135,15 +146,14 @@ const Send = () => {
   };
 
   const sendTransaction = async () => {
-    console.log('Send transaction working', accountFrom, accountToSate, amountState);
     console.log('Api [[]]', api);
-
+    console.log('Send tranasction tx details', data);
     const keyring = new Keyring({ type: 'sr25519' });
 
     const sender = keyring.addFromUri(currentUser.account.seed);
     console.log('Sender [][]', sender.address);
-
-    const hash = await api.tx.balances
+    data.operation = 'Send';
+    const result = await api.tx.balances
       .transfer(
         accountToSate.value,
         amountState.value * 1000000000000,
@@ -153,15 +163,26 @@ const Send = () => {
           console.log('Success', res.status);
           if (res.status.isInBlock) {
             console.log(`Completed at block hash #${res.status.asInBlock.toString()}`);
+            console.log('Current status of IF', res.status.type);
+            data.hash = res.status.asInBlock.toString();
           } else {
+            data.status = res.status.type;
             console.log(`Current status: ${res.status.type}`);
+            console.log('Before finalized', data);
+            if (res.status.type === 'Finalized') {
+              console.log('In finalized', data);
+              console.log('Res here', res);
+              dispatch(addTransaction(data));
+            }
           }
         },
       ).catch((err) => {
         console.error('Error [][][]', err);
       });
+    console.log('Tx details after transaction', data);
 
-    console.log('Hash ===>>>', hash);
+    // console.log('Hash ===>>>', result.toHex());
+    console.log('Hash ===>>>', result);
   };
 
   const validateInputValues = (address) => {
@@ -240,7 +261,8 @@ const Send = () => {
     `);
 
       const txFee = await convertTransactionFee(info.partialFee.toHuman());
-
+      data.txFee = txFee;
+      data.chainName = currentUser.account.chainName;
       setTransactionFee(txFee);
       setIsSendModalOpen(true);
     } catch (err) {
@@ -255,23 +277,27 @@ const Send = () => {
     return trimmedValue;
   };
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-    const data = {
-      accountFrom: currentUser.account.publicKey,
-      accountTo: accountToSate.value,
-      amount: amountState.value,
-      transactionHash: Math.round(Math.random(1 * 100)),
-      amountInUSD: 109,
-      operation: 'Received',
-      status: 'Confirmed',
-      coin: 'DOT',
-      networkFee: '10',
-    };
-    dispatch(addTransaction(data));
-    console.log('===============', data);
+  const getDetailsFromBlock = async () => {
+    const signedBlock = await api.rpc.chain.getBlock('0xe4f1433292a5560ad8e699f8e28281a2266b1e2f9523c7dd0527086ffa25b876');
+
+    // the information for each of the contained extrinsics
+    signedBlock.block.extrinsics.forEach((ex, index) => {
+      // the extrinsics are decoded by the API, human-like view
+      console.log(index, ex.toHuman());
+
+      const { isSigned, meta, method: { args, method, section } } = ex;
+
+      // explicit display of name, args & documentation
+      console.log(`${section}.${method}(${args.map((a) => a.toString()).join(', ')})`);
+      console.log(meta.documentation.map((d) => d.toString()).join('\n'));
+
+      // signer/nonce info
+      if (isSigned) {
+        console.log(`signer=${ex.signer.toString()}, nonce=${ex.nonce.toString()}`);
+      }
+    });
   };
-  // console.log('Length', currentUser.account.publicKey.length);
+
   return (
     <AuthWrapper>
       <Header centerText="Send" backHandler={() => console.log('object')} />
@@ -319,16 +345,16 @@ const Send = () => {
             ) : null}
           </div>
         </VerticalContentDiv>
-        <form onSubmit={submitHandler}>
-          <VerticalContentDiv mb="150px">
-            <MainText m="8px" className={mainHeadingfontFamilyClass}>
-              Amount
-            </MainText>
-            <StyledInput
-              placeholder="Amount"
-              type="number"
-              value={amountState.value}
-              className={subHeadingfontFamilyClass}
+        {/* <form onSubmit={submitHandler}> */}
+        <VerticalContentDiv mb="150px">
+          <MainText m="8px" className={mainHeadingfontFamilyClass}>
+            Amount
+          </MainText>
+          <StyledInput
+            placeholder="Amount"
+            type="number"
+            value={amountState.value}
+            className={subHeadingfontFamilyClass}
             // prettier-ignore
               // onChange={(t) => {
               //   console.log(t);
@@ -336,24 +362,24 @@ const Send = () => {
               //     setAmount(t);
               //   }
               // }}
-              onChange={amountHandler}
-              fontSize="14px"
-              height="20px"
-              onBlur={amountIsValidHandler}
-              isCorrect={amountState.isValid}
-            />
-            <CalculatedAmount>
-              <EquivalentInUSDT className={subHeadingfontFamilyClass}>$23.212</EquivalentInUSDT>
-              <Balance textAlign="end" className={subHeadingfontFamilyClass}>
-                {`${trimBalance(currentUser.account.balance)} ${currentUser.account.tokenName}`}
-              </Balance>
-            </CalculatedAmount>
-            <div style={{ height: '1.5rem' }}>
-              {error.amountError ? <WarningText>{errorMessages.enterAmount}</WarningText> : null}
-            </div>
-          </VerticalContentDiv>
-          <button type="submit">Submit</button>
-        </form>
+            onChange={amountHandler}
+            fontSize="14px"
+            height="20px"
+            onBlur={amountIsValidHandler}
+            isCorrect={amountState.isValid}
+          />
+          <CalculatedAmount>
+            <EquivalentInUSDT className={subHeadingfontFamilyClass}>$23.212</EquivalentInUSDT>
+            <Balance textAlign="end" className={subHeadingfontFamilyClass}>
+              {`${trimBalance(currentUser.account.balance)} ${currentUser.account.tokenName}`}
+            </Balance>
+          </CalculatedAmount>
+          <div style={{ height: '1.5rem' }}>
+            {error.amountError ? <WarningText>{errorMessages.enterAmount}</WarningText> : null}
+          </div>
+        </VerticalContentDiv>
+        <button type="submit">Submit</button>
+        {/* </form> */}
       </MainContent>
       <CenterContent>
         <Button
@@ -381,6 +407,17 @@ const Send = () => {
           mt: 15,
         }}
       />
+      <button
+        type="button"
+        onClick={() => {
+          dispatch(addTransaction({ name: 'hi' }));
+        }}
+      >
+        Set dummy data
+
+      </button>
+      <button type="button" onClick={() => console.log('Data', data)}>DATA</button>
+      <button type="button" onClick={getDetailsFromBlock}>Get details from hash</button>
     </AuthWrapper>
   );
 };

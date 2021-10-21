@@ -42,7 +42,6 @@ function TxCard({
           <HorizontalContentDiv>
             <EquivalentInUSDT className={subHeadingfontFamilyClass}>
 
-              $
               {amountInUsd}
             </EquivalentInUSDT>
           </HorizontalContentDiv>

@@ -94,7 +94,11 @@ function ConfirmSend({
 
               <VerticalContentDiv>
                 <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>{`${transactionAmount(amount, transactionFee)} ${tokenName}`}</MainText2>
-                <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>$ 594.304</MainText2>
+                <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>
+                  {' '}
+                  {console.log('Token Name WND here', tokenName)}
+                  {tokenName[0] === 'WND' ? '' : '$ 594.304' }
+                </MainText2>
               </VerticalContentDiv>
             </HorizontalContentDiv>
 
