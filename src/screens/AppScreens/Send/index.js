@@ -2,7 +2,7 @@ import React, { useEffect, useReducer, useState } from 'react';
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTransaction } from '../../../redux/slices/tansactions';
-import { helpers, fonts } from '../../../utils';
+import { fonts } from '../../../utils';
 
 import {
   AuthWrapper, Button, ConfirmSend, Header, StyledInput,
@@ -23,8 +23,6 @@ import { WarningText } from '../../AuthScreens/CreateWallet/StyledComponents';
 
 const { decodeAddress, encodeAddress } = require('@polkadot/keyring');
 const { hexToU8a, isHex } = require('@polkadot/util');
-
-const { transactionHashValidation } = helpers;
 
 const {
   // eslint-disable-next-line no-unused-vars
@@ -106,13 +104,13 @@ const Send = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      setFormIsValid(isValid && amountIsValid);
+      setFormIsValid(isValid && amountState.isValid);
     }, 600);
 
     return () => {
       clearTimeout();
     };
-  }, [isValid, amountIsValid]);
+  }, [isValid, amountIsValid, amountState.isValid]);
 
   // const currentUser = useSelector((state) => state);
   // const { api } = currentUser.api;
