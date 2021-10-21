@@ -12,6 +12,8 @@ export const MainHeading = styled.p`
   line-height: 21px;
   text-align: start;
   margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
+  font-size: 18px;
+  font-weight: 500;
 `;
 
 export const SubHeading = styled.p`
@@ -20,7 +22,9 @@ export const SubHeading = styled.p`
   color: ${secondaryTextColor};
   text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
   text-align-last: ${(props) => (props.textAlignLast ? props.textAlignLast : 'start')};
-  line-height: 21px;
+  line-height: 22px;
+  font-size: 16px;
+  letter-spacing: 2%;
   margin-top: ${(props) => props.marginTop && props.marginTop};
 `;
 
@@ -35,6 +39,7 @@ export const SubMainWrapperForAuthScreens = styled.div`
   /* min-height: 340px; */
   height: auto;
   margin: 25px auto 25px;
+  margin-bottom: 2rem;
 `;
 
 export const TextInputWrapper = styled.div`

@@ -57,7 +57,7 @@ function ShowSeed() {
   return (
     <AuthWrapper>
       <Header
-        centerText="Show Seed"
+        centerText="Seed Phrase"
         backHandler={() => dispatch(resetAccountSlice())}
       />
       <div>
@@ -74,7 +74,7 @@ function ShowSeed() {
       <CopyText className={subHeadingfontFamilyClass}>
         Copy Seed Phrase
         <span width="100px" style={{ width: '200px', visibility: 'hidden' }}>A</span>
-        <ContentCopyIcon style={{ fontSize: '0.99rem', marginRight: 10 }} />
+        <ContentCopyIcon style={{ fontSize: '0.7rem', marginRight: 10, marginTop: 2 }} />
       </CopyText>
       {/* </HorizontalContentDiv> */}
       <SubMainWrapperForAuthScreens>

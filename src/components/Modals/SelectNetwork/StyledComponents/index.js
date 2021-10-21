@@ -31,6 +31,7 @@ export const CloseIconDiv = styled.div`
   right: 10px;
   top: 10px;
   color: ${primaryTextColor};
+  cursor: pointer;
 `;
 
 export const OptionRow = styled.div`

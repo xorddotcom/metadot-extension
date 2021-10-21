@@ -36,8 +36,8 @@ export const SeedText = styled.p`
 `;
 
 export const CopyText = styled.p`
-font-size: 0.99rem;
-line-height: 25px;
+font-size: 16px;
+line-height: 18.75px;
 height: 25px;
 text-align:start;
 color: rgba(250, 250, 250, 0.83);

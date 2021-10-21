@@ -100,9 +100,24 @@ input:focus {
 .warning-modal-style {
   border: 0.8px solid #880041;
   box-sizing: border-box;
-  box-shadow: 0px 0px 20px 5px rgba(136, 0, 65, 0.12);
+  box-shadow: 1px 2px 20px 20px rgba(136, 0, 65, 0.12);
   border-radius: 8px;
-  margin: 150px auto;
+  margin: 200px auto;
+  width: 100%;
+  max-width: 350px;
+  padding: 1.6rem 1.3rem !important;
+  text-align: left !important;
+  position: relative;
+}
+
+.cross-close {
+  color: #fff;
+  font-size: 0.9rem;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  cursor: pointer;
 }
 
 .select-network-modal-style {

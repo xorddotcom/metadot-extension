@@ -82,7 +82,7 @@ export const AccountSetting = styled.div`
   width: 35px;
   height: 35px;
   border-radius: 35px;
-
+  cursor: pointer;
   background: #880041;
 `;
 
@@ -168,6 +168,7 @@ export const ConnectionStatus = styled.p`
 `;
 
 export const Balance = styled.p`
+  /* width: 90px; */
   font-style: normal;
   font-size: 24px;
   /* line-height: 35px; */

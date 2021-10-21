@@ -18,8 +18,11 @@ import { fonts } from '../../../utils';
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 function TxDetails({
-  open, handleClose, style,
+  open, handleClose, style, txDetailsModalData,
 }) {
+  // eslint-disable-next-line quotes
+  console.log("=======", txDetailsModalData);
+  // eslint-disable-next-line max-len
   return (
     <Modal
       open={open}
@@ -41,7 +44,7 @@ function TxDetails({
 
             <VerticalContentDiv>
               <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>Status</MainText2>
-              <MainText2 successText textAlign="start" className={mainHeadingfontFamilyClass}>Received</MainText2>
+              <MainText2 successText textAlign="start" className={mainHeadingfontFamilyClass}>{txDetailsModalData.operation}</MainText2>
             </VerticalContentDiv>
 
             <VerticalContentDiv>
@@ -54,13 +57,13 @@ function TxDetails({
 
             <VerticalContentDiv>
               <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>From</MainText2>
-              <SubText1 textAlign="start" className={mainHeadingfontFamilyClass}>Account 1</SubText1>
+              <SubText1 textAlign="start" className={mainHeadingfontFamilyClass}>{txDetailsModalData.accountFrom}</SubText1>
               <SubText2 textAlign="start" className={subHeadingfontFamilyClass}>(bnb13...txjd5)</SubText2>
             </VerticalContentDiv>
 
             <VerticalContentDiv>
               <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>To</MainText2>
-              <SubText1 textAlign="end" className={mainHeadingfontFamilyClass}>Account 1</SubText1>
+              <SubText1 textAlign="end" className={mainHeadingfontFamilyClass}>{txDetailsModalData.accountTo}</SubText1>
               <SubText2 textAlign="end" className={subHeadingfontFamilyClass}>(bnb13...txjd5)</SubText2>
             </VerticalContentDiv>
 
@@ -78,8 +81,10 @@ function TxDetails({
               </VerticalContentDiv>
 
               <VerticalContentDiv>
-                <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>2.35 DOT</MainText2>
-                <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>0.21 DOT</MainText2>
+                <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>{txDetailsModalData.amount}</MainText2>
+                <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>
+                  {`${txDetailsModalData.networkFee} BTC`}
+                </MainText2>
               </VerticalContentDiv>
             </HorizontalContentDiv>
 

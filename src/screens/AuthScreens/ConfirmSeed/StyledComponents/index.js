@@ -38,12 +38,15 @@ export const SeedText = styled.span`
   line-height: 35px;
   border-radius: 8px;
   margin-top: 8px;
-  margin-right: 3px;
-  font-size: 0.875em;
+  /* margin-right: 3px; */
+  font-size: 14px;
   color: ${primaryTextColor};
   /* opacity: 0.7; */
   /* width: 20% !important; */
-  display: inline;
+  /* display: flex; */
+  /* justify-content: space-between; */
+  /* align-items: center; */
+  /* text-align: center !important; */
 
   visibility: ${(props) => (props.selected === true ? 'hidden' : 'visible')};
   /* border: 1px solid white; */
@@ -56,9 +59,10 @@ export const SeedText = styled.span`
 
 export const SeedGridRow = styled.div`
   display: grid;
-  grid-template-columns: 25% 25% 25% 25%;
- width:100%;
-border-radius: 8px;
+  grid-template-columns: repeat(4, 1fr);
+  width:100%;
+  border-radius: 8px;
+  grid-column-gap: 0.4rem;
 `;
 
 export const SeedGrid = styled.div`

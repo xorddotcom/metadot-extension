@@ -15,19 +15,29 @@ function WarningModal({ open, handleClose, style }) {
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style} className="warning-modal-style">
+        <div
+          className="cross-close"
+          onClick={() => {
+            handleClose();
+          }}
+          aria-hidden="true"
+        >
+          x
+        </div>
         <MainHeading className={mainHeadingfontFamilyClass} color="#C30707">
           Warning
         </MainHeading>
         <SubHeading
           className={subHeadingfontFamilyClass}
-          textAlignLast="center"
+          textAlignLast="left"
         >
           Please write the mnemonic down in order to ensure the backup is
           correct
         </SubHeading>
-        <div className="btn-row">
+        <div style={{ marginTop: '2rem' }} className="btn-row">
           <Button
             text="Cancel"
+            fontSize="16px"
             cancel
             width="78%"
             handleClick={() => handleClose()}
@@ -35,6 +45,7 @@ function WarningModal({ open, handleClose, style }) {
           <Button
             text="Confirm"
             width="78%"
+            fontSize="16px"
             handleClick={() => history.push('/ConfirmSeed')}
           />
         </div>

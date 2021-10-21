@@ -175,6 +175,9 @@ const TestNetworks = [
 function Dashboard() {
   const [isLoading, setIsLoading] = useState(false);
   console.log('abc', { isLoading });
+  const transactions = useSelector((state) => state.transactions.transactions);
+  console.log('transactions', transactions);
+  const [txDetailsModalData, setTxDetailsModalData] = useState('');
   const [isTxDetailsModalOpen, setIsTxDetailsModalOpen] = useState(false);
   const currentUser = useSelector((state) => state);
   console.log('Current User [][]', currentUser);
@@ -453,7 +456,11 @@ function Dashboard() {
 
       <Operations />
 
-      <AssetsAndTransactions handleOpenTxDetailsModal={() => setIsTxDetailsModalOpen(true)} />
+      <AssetsAndTransactions
+        handleOpenTxDetailsModal={() => setIsTxDetailsModalOpen(true)}
+        setTxDetailsModalData={setTxDetailsModalData}
+        transactionData={transactions}
+      />
 
       <SelectNetwork
         open={isModalOpen}
@@ -474,6 +481,8 @@ function Dashboard() {
       <TxDetails
         open={isTxDetailsModalOpen}
         handleClose={() => setIsTxDetailsModalOpen(false)}
+        txDetailsModalData={txDetailsModalData}
+        transactionData={transactions}
         style={{
           width: '78%',
           background: '#141414',

@@ -10,10 +10,16 @@ import {
 
 const { mainHeadingfontFamilyClass } = fonts;
 
-function AssetsAndTransactions({ handleOpenTxDetailsModal }) {
+function AssetsAndTransactions({
+  handleOpenTxDetailsModal,
+  setTxDetailsModalData,
+  transactionData,
+}) {
   const [isTab1Active, setIsTab1Active] = useState(true);
   const [isTab2Active, setIsTab2Active] = useState(false);
 
+  // const transactions = useSelector((state) => state.transactions.transactions);
+  // console.log('transactions', transactions);
   return (
     <AssetsAndTransactionsWrapper>
       <Tabs>
@@ -48,15 +54,24 @@ function AssetsAndTransactions({ handleOpenTxDetailsModal }) {
         />
       )}
       {isTab2Active && (
-        <TxCard
-          operation="Received"
-          status="Confirmed"
-          coin="DOT"
-          amount={0.0636}
-          amountInUsd={107.17}
-          logo="https://s2.coinmarketcap.com/static/img/coins/64x64/6636.png"
-          handleClick={() => handleOpenTxDetailsModal()}
-        />
+        // eslint-disable-next-line arrow-body-style
+        transactionData.map((transaction) => {
+          return (
+            <TxCard
+              key={transaction.transactionHash}
+              operation={transaction.operation}
+              status={transaction.status}
+              coin={transaction.coin}
+              amount={transaction.amount}
+              amountInUsd={transaction.amountInUSD}
+              logo="https://s2.coinmarketcap.com/static/img/coins/64x64/6636.png"
+              handleClick={() => {
+                setTxDetailsModalData(transaction);
+                handleOpenTxDetailsModal();
+              }}
+            />
+          );
+        })
       )}
 
     </AssetsAndTransactionsWrapper>

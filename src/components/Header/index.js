@@ -24,9 +24,9 @@ function Header({ centerText, backHandler }) {
       <IconButton
         className="primary-bg-color"
         onClick={() => onBackClick()}
-        style={{ position: 'absolute' }}
+        style={{ position: 'absolute', padding: '0.3rem' }}
       >
-        <ArrowBackIcon style={{ color: 'white' }} />
+        <ArrowBackIcon style={{ color: 'white', fontSize: '1.1rem' }} />
       </IconButton>
       <HeaderHeading className={mainHeadingfontFamilyClass}>
         {centerText}
