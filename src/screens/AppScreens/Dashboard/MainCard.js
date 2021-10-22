@@ -68,7 +68,7 @@ function MainCard({
 
   const trimBalance = (value) => {
     const val = value.toString();
-    const trimmedValue = val.slice(0, (val.indexOf('.')) + 6);
+    const trimmedValue = val.slice(0, (val.indexOf('.')) + 3);
     return trimmedValue;
   };
 
@@ -86,15 +86,15 @@ function MainCard({
         {accountName}
       </AccountName>
       <VerticalContentDiv>
-        <LightTooltip title="HashCode" arrow placement="bottom">
-          <PublicAddress className={mainHeadingfontFamilyClass}>
-            {addressModifier(address)}
-            {' '}
-          </PublicAddress>
-        </LightTooltip>
+        {/* <LightTooltip title={address} arrow placement="bottom"> */}
+        <PublicAddress className={mainHeadingfontFamilyClass}>
+          {addressModifier(address)}
+          {' '}
+        </PublicAddress>
+        {/* </LightTooltip> */}
         <ClickAwayListener onClickAway={handleTooltipClose}>
           <div style={{ position: 'relative' }}>
-            <LightTooltip title="copy" arrow placement="right">
+            <LightTooltip title="Copy address" arrow placement="right">
               <Tooltip
                 PopperProps={{
                   disablePortal: true,
@@ -122,7 +122,7 @@ function MainCard({
       </VerticalContentDiv>
 
       <Balance className={mainHeadingfontFamilyClass}>
-        <LightTooltip title="Balance" arrow placement="bottom">
+        <LightTooltip title={balance} arrow placement="bottom">
           <span>
             {trimBalance(balance)}
           </span>

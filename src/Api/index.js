@@ -19,10 +19,14 @@ function ApiManager({ rpc }) {
       dispatch(setApiInitializationStarts(true));
       const wsProvider = new WsProvider(rpcUrl);
       const apiR = await ApiPromise.create({ provider: wsProvider });
+      console.log('Api configuration close', apiR.isConnected);
       await apiR.isReady;
       console.log('Api configuration complete', apiR);
       setApiState(apiR);
       dispatch(setApi(apiR));
+
+      console.log('Api configuration close', apiR.isConnected);
+      // WsProvider.websocket.close();
 
       try {
         const nbalance = await getBalance(apiR, currentUser.account.publicKey);

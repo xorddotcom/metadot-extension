@@ -13,16 +13,25 @@ import {
   VerticalContentDiv,
   ViewOnPolkaScanText,
 } from './StyledComponents';
-import { fonts } from '../../../utils';
+import { fonts, helpers } from '../../../utils';
 
+// eslint-disable-next-line no-unused-vars
+const { addressModifier } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 function TxDetails({
-  open, handleClose, style, txDetailsModalData,
+  open, handleClose, style, transactions, txDetailsModalData,
 }) {
   // eslint-disable-next-line quotes
-  console.log("=======", txDetailsModalData);
+  console.log("hello tx details modal", txDetailsModalData);
+  console.log('Hello transactions', transactions);
   // eslint-disable-next-line max-len
+
+  const getTotalBalance = (value1, value2) => {
+    const val = parseFloat(value1) + parseFloat(value2);
+    return val.toFixed(4);
+    // return val;
+  };
   return (
     <Modal
       open={open}
@@ -37,6 +46,7 @@ function TxDetails({
           <CloseIcon />
         </CloseIconDiv>
         {/* {console.log('Data in tx details modal', data)} */}
+        {/* {txdetailsModalData.length > 0 ?} */}
         <VerticalContentDiv>
           <MainText1 textAlign="center" className={mainHeadingfontFamilyClass}>Details</MainText1>
 
@@ -57,14 +67,25 @@ function TxDetails({
 
             <VerticalContentDiv>
               <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>From</MainText2>
-              <SubText1 textAlign="start" className={mainHeadingfontFamilyClass}>{txDetailsModalData.accountFrom}</SubText1>
-              <SubText2 textAlign="start" className={subHeadingfontFamilyClass}>(bnb13...txjd5)</SubText2>
+              {/* <SubText1 textAlign="start" className={mainHeadingfontFamilyClass}>
+                { addressModifier(txDetailsModalData.accountFrom)}
+                {' '}
+              </SubText1> */}
+              <SubText2 textAlign="start" className={subHeadingfontFamilyClass}>
+                {addressModifier(txDetailsModalData.accountFrom)}
+              </SubText2>
             </VerticalContentDiv>
 
             <VerticalContentDiv>
               <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>To</MainText2>
-              <SubText1 textAlign="end" className={mainHeadingfontFamilyClass}>{txDetailsModalData.accountTo}</SubText1>
-              <SubText2 textAlign="end" className={subHeadingfontFamilyClass}>(bnb13...txjd5)</SubText2>
+              {/* <SubText1 textAlign="end"
+              className={mainHeadingfontFamilyClass}>{txDetailsModalData.accountTo}</SubText1> */}
+              <SubText2
+                textAlign="end"
+                className={subHeadingfontFamilyClass}
+              >
+                {addressModifier(txDetailsModalData.accountTo)}
+              </SubText2>
             </VerticalContentDiv>
 
           </HorizontalContentDiv>
@@ -81,9 +102,9 @@ function TxDetails({
               </VerticalContentDiv>
 
               <VerticalContentDiv>
-                <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>{txDetailsModalData.amount}</MainText2>
+                <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>{`${txDetailsModalData.amount} ${txDetailsModalData.tokenName}`}</MainText2>
                 <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>
-                  {`${txDetailsModalData.networkFee} BTC`}
+                  {`${txDetailsModalData.transactionFee} ${txDetailsModalData.tokenName}`}
                 </MainText2>
               </VerticalContentDiv>
             </HorizontalContentDiv>
@@ -96,8 +117,14 @@ function TxDetails({
               </VerticalContentDiv>
 
               <VerticalContentDiv>
-                <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>2.56 DOT</MainText2>
-                <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>$ 594.304</MainText2>
+                <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>
+                  {/* {`${parseFloat(txDetailsModalData.amount)
+                    .toFixed(3) + parseFloat(txDetailsModalData.transactionFee).toFixed(3)}
+                    ${txDetailsModalData.tokenName[0]}`} */}
+                  {`${getTotalBalance(txDetailsModalData.amount, txDetailsModalData.transactionFee)}
+                  ${txDetailsModalData.tokenName}`}
+                </MainText2>
+                <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>0$</MainText2>
               </VerticalContentDiv>
             </HorizontalContentDiv>
 

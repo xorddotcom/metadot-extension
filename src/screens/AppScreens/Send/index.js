@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react';
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { addTransaction } from '../../../redux/slices/transactions';
 import { fonts } from '../../../utils';
 
@@ -20,6 +21,7 @@ import {
   CenterContent,
 } from './StyledComponents';
 import { WarningText } from '../../AuthScreens/CreateWallet/StyledComponents';
+import { setIsSuccessModalOpen, setMainTextForSuccessModal, setSubTextForSuccessModal } from '../../../redux/slices/successModalHandling';
 
 const { decodeAddress, encodeAddress } = require('@polkadot/keyring');
 const { hexToU8a, isHex } = require('@polkadot/util');
@@ -66,6 +68,7 @@ const amountReducer = (state, action) => {
 
 const Send = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   // fill this state  from redux
   // eslint-disable-next-line no-unused-vars
   const [accountFrom, setAccountFrom] = useState('');
@@ -107,6 +110,7 @@ const Send = () => {
     status: '',
     chainName: currentUser.account.chainName,
     tokenName: currentUser.account.tokenName,
+    transactionFee,
   };
 
   const { isValid } = accountToSate;
@@ -165,15 +169,26 @@ const Send = () => {
             console.log(`Completed at block hash #${res.status.asInBlock.toString()}`);
             console.log('Current status of IF', res.status.type);
             data.hash = res.status.asInBlock.toString();
-          } else {
-            data.status = res.status.type;
+            // } else {
+            data.status = 'Successful';
             console.log(`Current status: ${res.status.type}`);
             console.log('Before finalized', data);
-            if (res.status.type === 'Finalized') {
-              console.log('In finalized', data);
-              console.log('Res here', res);
-              dispatch(addTransaction(data));
-            }
+            console.log('In finalized', data);
+            console.log('Res here', res);
+            dispatch(addTransaction(data));
+
+            dispatch(setMainTextForSuccessModal('Transaction successfull'));
+            dispatch(
+              setSubTextForSuccessModal('Your transaction was successfully submitted'),
+            );
+            dispatch(setIsSuccessModalOpen(true));
+
+            setTimeout(() => {
+              dispatch(setIsSuccessModalOpen(false));
+            }, 3500);
+
+            // navigate to dashboard on success
+            history.push('/');
           }
         },
       ).catch((err) => {
@@ -248,6 +263,7 @@ const Send = () => {
   // eslint-disable-next-line no-unused-vars
   const handleSubmit = async () => {
     console.log('isCorrect', isCorrect);
+    console.log('Handle submit running');
     try {
       if (!validateInputValues(accountToSate.value)) throw new Error('An error occurred');
       const info = await api.tx.balances
@@ -384,7 +400,7 @@ const Send = () => {
       <CenterContent>
         <Button
           text="Next"
-          handleClick={() => setIsSendModalOpen(true)}
+          handleClick={handleSubmit}
           disabled={!formIsValid}
         />
       </CenterContent>

@@ -43,7 +43,9 @@ function shuffleItemsWithinArray(array) {
 }
 
 function addressModifier(address) {
-  return `${address.slice(0, 3)}...${address.slice(address.length - 3, address.length)}`;
+  console.log('Helper', address);
+  if (address) return `${address.slice(0, 3)}...${address.slice(address.length - 3, address.length)}`;
+  return null;
 }
 
 function isUserNameValid(username) {

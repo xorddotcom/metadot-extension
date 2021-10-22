@@ -17,7 +17,8 @@ function AssetsAndTransactions({
 }) {
   const [isTab1Active, setIsTab1Active] = useState(true);
   const [isTab2Active, setIsTab2Active] = useState(false);
-
+  console.log('Transaction data [][]', transactionData);
+  console.log('Tx detail modal', setTxDetailsModalData);
   // const transactions = useSelector((state) => state.transactions.transactions);
   // console.log('transactions', transactions);
   return (
@@ -55,13 +56,13 @@ function AssetsAndTransactions({
       )}
       {isTab2Active && (
         // eslint-disable-next-line arrow-body-style
-        transactionData.map((transaction) => {
+        transactionData.length > 0 && transactionData.map((transaction) => {
           return (
             <TxCard
-              key={transaction.transactionHash}
+              key={transaction.hash}
               operation={transaction.operation}
               status={transaction.status}
-              coin={transaction.tokenName}
+              coin={transaction.tokenName[0]}
               amount={transaction.amount}
               // amountInUsd={transaction.amountInUSD}
               amountInUsd={transaction.tokenName[0] === 'WND' ? '$0' : '$107.17'}

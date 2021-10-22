@@ -13,10 +13,14 @@ const WestEndRpcUrl = 'wss://westend-rpc.polkadot.io';
 // Kusama Main Net
 const Kusama_Rpc_Url = 'wss://kusama-rpc.polkadot.io';
 
+// Dusty
+const Dusty_Rpc_Url = 'wss://rpc.dusty.plasmnet.io/';
+
 export default {
   Account_Type,
   Polkadot_Rpc_Url,
   Acala_Mandala_Rpc_Url,
   WestEndRpcUrl,
   Kusama_Rpc_Url,
+  Dusty_Rpc_Url,
 };

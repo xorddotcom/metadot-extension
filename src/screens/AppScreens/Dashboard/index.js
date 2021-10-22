@@ -159,6 +159,8 @@ const TestNetworks = [
     name: 'Dusty',
     theme: '#E6007A',
     disabled: true,
+    rpcUrl: constants.Dusty_Rpc_Url,
+    tokenName: 'Dusty',
   },
   {
     name: 'Asgard',
@@ -354,7 +356,7 @@ function Dashboard() {
   // prettier-ignore
   const handleSelection = async (data) => {
     setIsLoading(true);
-    console.log('handle Selection', data.name);
+    console.log('handle Selection', data);
     if (data.disabled) {
       console.log('disabled!');
       setIsLoading(false);
@@ -403,6 +405,11 @@ function Dashboard() {
 
       selectAndGoBack(data.name);
     }
+  };
+
+  const disconnect = async () => {
+    const wsProvider = new WsProvider('wss://westend-rpc.polkadot.io');
+    wsProvider.websocket.close();
   };
 
   // --------XXXXXXXXXXXXXXX-----------
@@ -477,7 +484,8 @@ function Dashboard() {
           pb: 3,
         }}
       />
-
+      {console.log('Hello', txDetailsModalData)}
+      {console.log('Hello 2', transactions)}
       <TxDetails
         open={isTxDetailsModalOpen}
         handleClose={() => setIsTxDetailsModalOpen(false)}
@@ -493,7 +501,9 @@ function Dashboard() {
           // mt: 15,
         }}
       />
+
       {/* <button type="button" onClick={() => console.log('Res in =============', currentUser)}>Get State</button> */}
+      <button type="button" onClick={disconnect}>Disable</button>
     </Wrapper>
   );
 }

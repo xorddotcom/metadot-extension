@@ -16,7 +16,7 @@ import Welcome from './screens/AuthScreens/Welcome';
 import { SuccessResponse } from './components';
 import { setIsSuccessModalOpen } from './redux/slices/successModalHandling';
 import ApiManager from './Api';
-import constants from './constants/onchain';
+// import constants from './constants/onchain';
 
 function App() {
   // prettier-ignore
@@ -44,7 +44,8 @@ function App() {
     ) {
       content = (
         <div>
-          <ApiManager rpc={constants.Polkadot_Rpc_Url} />
+          {/* <ApiManager rpc={constants.Polkadot_Rpc_Url} /> */}
+          <ApiManager rpc={currentUser.account.rpcUrl} />
 
           <Route exact path="/">
             <Dashboard />
