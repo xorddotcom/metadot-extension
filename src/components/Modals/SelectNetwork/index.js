@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
+import LoadingScreen from 'react-loading-screen';
 
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -26,6 +27,7 @@ function SelectNetwork(props) {
     style,
     handleClickForKusama,
     handleClickForOthers,
+    isLoading,
   } = props;
   const { firstStep, renderMethod, currentData } = modalState;
   console.log({ firstStep, renderMethod, currentData });
@@ -33,37 +35,46 @@ function SelectNetwork(props) {
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style} className="select-network-modal-style">
-        <CloseIconDiv
-          onClick={() => {
-            resetState();
-            handleClose();
-          }}
+        <LoadingScreen
+          loading={isLoading}
+          bgColor="#121212"
+          spinnerColor="#880041"
+          textColor="#fafafa"
+          text="Api Initialization"
         >
-          <CloseIcon />
-        </CloseIconDiv>
-
-        <TitleDiv>
-          {!modalState.firstStep && (
-            <BackButton
+          <div>
+            <CloseIconDiv
               onClick={() => {
-                // setSelectedNetwrok('');
                 resetState();
+                handleClose();
               }}
             >
-              <KeyboardArrowLeftIcon />
-            </BackButton>
+              <CloseIcon />
+            </CloseIconDiv>
 
-          )}
+            <TitleDiv>
+              {!modalState.firstStep && (
+              <BackButton
+                onClick={() => {
+                // setSelectedNetwrok('');
+                  resetState();
+                }}
+              >
+                <KeyboardArrowLeftIcon />
+              </BackButton>
+              )}
 
-          <Title className={mainHeadingfontFamilyClass}>
-            Available Networks
-          </Title>
-        </TitleDiv>
+              <Title className={mainHeadingfontFamilyClass}>
+                Available Networks
+              </Title>
+            </TitleDiv>
 
-        {modalState.currentData.map((data) => {
-          const Content = data.name !== 'Polkadot Network' ? modalState.renderMethod(data, handleClickForOthers) : modalState.renderMethod(data, handleClickForKusama);
-          return Content;
-        })}
+            {modalState.currentData.map((data) => {
+              const Content = data.name !== 'Polkadot Network' ? modalState.renderMethod(data, handleClickForOthers) : modalState.renderMethod(data, handleClickForKusama);
+              return Content;
+            })}
+          </div>
+        </LoadingScreen>
       </Box>
     </Modal>
   );

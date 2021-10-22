@@ -54,10 +54,13 @@ function StyledInput({
   hideState,
 
   marginBottom,
+
+  maxlength,
 }) {
   return (
     <TextInputWrapper isCorrect={isCorrect} marginBottom={marginBottom || '0px'}>
       <StyledInputField
+        maxlength={maxlength}
         fontSize={fontSize}
         height={height}
         value={value}

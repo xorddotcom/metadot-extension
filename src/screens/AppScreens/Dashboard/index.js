@@ -414,7 +414,7 @@ function Dashboard() {
 
   // --------XXXXXXXXXXXXXXX-----------
   // const res = RpcClass.apiGetter();
-  console.log('===========', currentUser.account.walletName);
+  console.log('===========', { isLoading });
   return (
     <Wrapper>
       <DashboardHeader>
@@ -480,9 +480,11 @@ function Dashboard() {
         style={{
           position: 'relative',
           width: '78%',
+          minHeight: 240,
           background: '#141414',
           pb: 3,
         }}
+        isLoading={isLoading}
       />
       {console.log('Hello', txDetailsModalData)}
       {console.log('Hello 2', transactions)}

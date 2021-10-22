@@ -48,10 +48,10 @@ module.exports = {
         use: [
           {
             loader: 'url-loader',
-            // options: {
-            //   name: '[name].[contenthash].[ext]',
-            //   outputPath: 'font/',
-            // },
+            options: {
+              name: '[name].[contenthash].[ext]',
+              outputPath: 'font/',
+            },
           },
         ],
       },

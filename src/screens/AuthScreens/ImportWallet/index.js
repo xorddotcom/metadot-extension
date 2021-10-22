@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { Input } from '@material-ui/core';
 
@@ -35,8 +35,6 @@ function ImportWallet() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { keyringInitialized } = useSelector((state) => state.account);
-
   const [selectedType, setSelectedType] = useState('seed');
   const [seedPhrase, setSeedPhrase] = useState('');
   const [invalidSeedMessage, setInvalidSeedMessage] = useState('');
@@ -68,10 +66,7 @@ function ImportWallet() {
       }
 
       // verifiying if seed exist in blockchain or not
-      console.log({ keyringInitialized });
-      if (!keyringInitialized) {
-        keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
-      }
+      keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
       await keyring.addUri(seedPhrase);
 
       dispatch(setSeed(seedPhrase));
@@ -79,9 +74,18 @@ function ImportWallet() {
 
       return true;
     } catch (err) {
-      if (!isErrorOccur) {
-        setInvalidSeedMessage(seedDoesnotExist);
+      try {
+        await keyring.addUri(seedPhrase);
+
+        dispatch(setSeed(seedPhrase));
+        history.push('/createWallet');
+      } catch (error) {
+        console.log('Error>', error);
+        if (!isErrorOccur) {
+          setInvalidSeedMessage(seedDoesnotExist);
+        }
       }
+
       console.log('Error', err);
       return err;
     }

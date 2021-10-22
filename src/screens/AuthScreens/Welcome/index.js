@@ -25,8 +25,10 @@ function Welcome() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
-    dispatch(setKeyringInitialized(true));
+    if (!currentUser.keyringInitialized) {
+      keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
+      dispatch(setKeyringInitialized(true));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
