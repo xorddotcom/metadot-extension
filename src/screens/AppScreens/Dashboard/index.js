@@ -3,7 +3,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-console */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
@@ -17,8 +17,10 @@ import AssetsAndTransactions from './AssetsAndTransactions';
 import { providerInitialization, getBalance } from '../../../ToolBox/services';
 // import onChainConstants from '../../../constants/onchain'
 import constants from '../../../constants/onchain';
-import { setRpcUrl, setBalance, setSeed } from '../../../redux/slices/account';
-import { setApi, setApiInitializationStarts } from '../../../redux/slices/api';
+import {
+  setRpcUrl, setBalance, setSeed, setTokenName, setChainName,
+} from '../../../redux/slices/account';
+import { setApi } from '../../../redux/slices/api';
 
 import { fonts } from '../../../utils';
 import {
@@ -53,6 +55,7 @@ import PhalaIcon from '../../../assets/images/phala.svg';
 import BifrostIcon from '../../../assets/images/bifrost.svg';
 import {
   setIsSuccessModalOpen,
+  setLoadingFor,
   setMainTextForSuccessModal,
   setSubTextForSuccessModal,
 } from '../../../redux/slices/successModalHandling';
@@ -176,16 +179,23 @@ const TestNetworks = [
 
 function Dashboard() {
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
   console.log('abc', { isLoading });
   const transactions = useSelector((state) => state.transactions.transactions);
   console.log('transactions', transactions);
   const [txDetailsModalData, setTxDetailsModalData] = useState('');
   const [isTxDetailsModalOpen, setIsTxDetailsModalOpen] = useState(false);
+  const [count, setCount] = useState(0);
+  // function incCount(c) {
+  //   setCount(c + 1);
+  // }
+
   const currentUser = useSelector((state) => state);
+  console.log('men chala type of and value', typeof currentUser.account.rpcUrl, currentUser.account.rpcUrl);
+
   console.log('Current User [][]', currentUser);
   const [apiInState, setApiInState] = useState('');
   // eslint-disable-next-line no-unused-vars
-  const dispatch = useDispatch();
 
   async function main() {
     const { api } = currentUser.api;
@@ -377,31 +387,35 @@ function Dashboard() {
       });
     } else {
       console.log('NETWORK SELECTED', data);
-      dispatch(setApiInitializationStarts(true));
-      const api = await RpcClass.init(data.rpcUrl);
+      dispatch(setLoadingFor('Api Initialization...'));
+      dispatch(setRpcUrl({ rpcUrl: data.rpcUrl }));
+      dispatch(setChainName({ chainName: data.name }));
+      // dispatch(setApiInitializationStarts(true));
+      // const api = await RpcClass.init(data.rpcUrl);
+      // const { api } = apiMemo;
       // setApiInState(api);
-      dispatch(setApi(api));
+      // dispatch(setApi(api));
       // const wsProvider = new WsProvider(data.rpcUrl);
       // console.log('Provider');
       // const api = await ApiPromise.create({ provider: wsProvider });
       // console.log('Api', api);
       // await api.isReady;
-      console.log('Api after await', await api);
-      const bal = await getBalance(api, currentUser.account.publicKey);
-      dispatch(setBalance(bal));
+      // console.log('Api after await', await api);
+      // const bal = await getBalance(api, currentUser.account.publicKey);
+      // dispatch(setBalance(bal));
       // chainDecimals = await api.registry.chainDecimals
-      console.log('Token name on dashboard', await api.registry.chainTokens);
-      // setTokenName(await api.registry.chainTokens);
-      dispatch(setRpcUrl({ chainName: data.name, rpcUrl: data.rpcUrl, tokenName: await api.registry.chainTokens }));
+      // console.log('Token name on dashboard', await api.registry.chainTokens);
+      // dispatch(setTokenName({ tokenName: await api.registry.chainTokens }));
+
       setIsLoading(false);
 
-      dispatch(setMainTextForSuccessModal('Successfully Converted!'));
-      dispatch(setSubTextForSuccessModal(`You are now successfully on ${data.name}`));
-      dispatch(setIsSuccessModalOpen(true));
+      // dispatch(setMainTextForSuccessModal('Successfully Converted!'));
+      // dispatch(setSubTextForSuccessModal(`You are now successfully on ${data.name}`));
+      // dispatch(setIsSuccessModalOpen(true));
 
-      setTimeout(() => {
-        dispatch(setIsSuccessModalOpen(false));
-      }, 3000);
+      // setTimeout(() => {
+      //   dispatch(setIsSuccessModalOpen(false));
+      // }, 3000);
 
       selectAndGoBack(data.name);
     }
@@ -418,6 +432,7 @@ function Dashboard() {
   return (
     <Wrapper>
       <DashboardHeader>
+        {/* <button type="button" onClick={() => setCount(count + 1)}>Increment</button> */}
         <LogoContainer>
           <img src={Logo} width="30px" height="34px" alt="MetaDot Logo" />
         </LogoContainer>
@@ -433,6 +448,7 @@ function Dashboard() {
                 ? currentUser.account.chainName
                 : `${currentUser.account.chainName} Network`}
               {/* {chain} */}
+
             </SelectedChain>
             <ArrowDropDownIcon />
           </SelectChain>
@@ -446,6 +462,7 @@ function Dashboard() {
           <AccountSetting>
             <AccountText className={mainHeadingfontFamilyClass}>
               {currentUser.account.accountName.slice(0, 1)}
+              {/* {count} */}
             </AccountText>
           </AccountSetting>
         </AccountContainer>
@@ -505,7 +522,14 @@ function Dashboard() {
       />
 
       {/* <button type="button" onClick={() => console.log('Res in =============', currentUser)}>Get State</button> */}
-      <button type="button" onClick={disconnect}>Disable</button>
+      {/* <button
+        type="button"
+        onClick={() => disconnect}
+      >
+        Disable
+
+      </button> */}
+
     </Wrapper>
   );
 }

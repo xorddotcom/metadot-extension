@@ -1,7 +1,11 @@
 import React from 'react';
-import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
+import {
+  MemoryRouter as Router, Switch, Route,
+} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import LoadingScreen from 'react-loading-screen';
 
+import { Slide, ToastContainer } from 'react-toastify';
 import ImportWallet from './screens/AuthScreens/ImportWallet';
 import ShowSeed from './screens/AuthScreens/ShowSeed';
 
@@ -17,6 +21,7 @@ import { SuccessResponse } from './components';
 import { setIsSuccessModalOpen } from './redux/slices/successModalHandling';
 import ApiManager from './Api';
 // import constants from './constants/onchain';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   // prettier-ignore
@@ -28,8 +33,6 @@ function App() {
   console.log({ isSuccessModalOpen });
 
   const dispatch = useDispatch();
-
-  console.log('Current user in app.js', currentUser);
 
   // const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(true);
 
@@ -44,18 +47,26 @@ function App() {
     ) {
       content = (
         <div>
-          {/* <ApiManager rpc={constants.Polkadot_Rpc_Url} /> */}
-          <ApiManager rpc={currentUser.account.rpcUrl} />
+          <LoadingScreen
+            loading={currentUser.api.apiInitializationStarts}
+            bgColor="#121212"
+            spinnerColor="#880041"
+            textColor="#fafafa"
+            text={currentUser.successModalHandling.loadingFor || 'Setting things up!'}
+          >
+            {/* <ApiManager rpc={constants.Polkadot_Rpc_Url} /> */}
+            <ApiManager rpc={currentUser.account.rpcUrl} />
 
-          <Route exact path="/">
-            <Dashboard />
-          </Route>
-          <Route path="/Send">
-            <Send />
-          </Route>
-          <Route exact path="/createWallet">
-            <CreateWallet />
-          </Route>
+            <Route exact path="/">
+              <Dashboard />
+            </Route>
+            <Route path="/Send">
+              <Send />
+            </Route>
+            <Route exact path="/createWallet">
+              <CreateWallet />
+            </Route>
+          </LoadingScreen>
         </div>
       );
     } else {
@@ -112,6 +123,18 @@ function App() {
               }}
               subText={subText}
               mainText={mainText}
+            />
+            <ToastContainer
+              position="top-center"
+              autoClose={2500}
+              hideProgressBar
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable={false}
+              pauseOnHover
+              transition={Slide}
             />
           </div>
         </Switch>

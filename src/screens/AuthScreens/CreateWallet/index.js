@@ -20,20 +20,16 @@ import {
   setLoggedIn,
   setPublicKey,
   setWalletPassword,
-  setBalance,
   setAccountName,
 } from '../../../redux/slices/account';
 import { fonts, helpers } from '../../../utils';
 import { WarningText, LabelAndTextInput } from './StyledComponents';
-import constants from '../../../constants/onchain';
-import { getBalance } from '../../../ToolBox/services';
 import {
   setIsSuccessModalOpen,
+  setLoadingFor,
   setMainTextForSuccessModal,
   setSubTextForSuccessModal,
 } from '../../../redux/slices/successModalHandling';
-
-const { WsProvider, ApiPromise } = require('@polkadot/api');
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
@@ -78,6 +74,41 @@ function CreateWallet() {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const createAccount = async (name, pass, seedPhrase) => {
+    console.log('===============', { name, pass, seedPhrase });
+    const res = await AccountCreation({ name, password: pass, seed: seedPhrase });
+    console.log('Result [][]', res);
+    return res;
+  };
+
+  const saveAccountInRedux = (add, name, pass) => {
+    const hashedPassword = web3.utils.sha3(pass);
+    // update redux data and tracking flags accordingly
+    dispatch(setLoggedIn(true));
+    dispatch(setPublicKey(add));
+    dispatch(setAccountName(name));
+    dispatch(setWalletPassword(hashedPassword));
+  };
+
+  const showSuccessModalAndNavigateToDashboard = () => {
+    const operation = history.entries[history.entries.length - 2].pathname === '/ImportWallet'
+      ? 'Imported'
+      : 'Created';
+
+    dispatch(setMainTextForSuccessModal(`Successfully ${operation}!`));
+    dispatch(
+      setSubTextForSuccessModal(`Congratulations, You've successfully ${operation} your account!`),
+    );
+    dispatch(setIsSuccessModalOpen(true));
+
+    setTimeout(() => {
+      dispatch(setIsSuccessModalOpen(false));
+    }, 2500);
+
+    // navigate to dashboard on success
+    history.push('/');
+  };
+
   const handleContinue = async () => {
     try {
       if (!isUserNameValid(walletName) || walletName.length < 3) {
@@ -93,95 +124,21 @@ function CreateWallet() {
 
       // eslint-disable-next-line no-unused-expressions
       await keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
-      const res = await AccountCreation({ walletName, password, seed });
-      console.log('Result [][]', res);
-
-      const hashedPassword = web3.utils.sha3(password);
-      console.log('Hashed password [][]', hashedPassword);
-      // const hashedPassword =  await keccak256(password)
-      // console.log('Hashed password', hashedPassword)
-      // Set api into Redux
-
-      const wsProvider = new WsProvider(constants.Polkadot_Rpc_Url);
-      const api = await ApiPromise.create({ provider: wsProvider });
-      await api.isReady;
-
-      console.log('Api after creating wallet', api);
-
-      const balance = await getBalance(api, res.address);
-      dispatch(setBalance(balance));
-
-      // update redux data and tracking flags accordingly
-      dispatch(setLoggedIn(true));
-      dispatch(setPublicKey(res.address));
-      dispatch(setAccountName(walletName));
-      dispatch(setWalletPassword(hashedPassword));
-
+      console.log('+=============---', { walletName, password, seed });
+      const res = await createAccount(walletName, password, seed);
+      await saveAccountInRedux(res.address, walletName, password);
+      dispatch(setLoadingFor('Setting things up...'));
       setIsLoading(false);
-
-      const operation = history.entries[history.entries.length - 2].pathname === '/ImportWallet'
-        ? 'Imported'
-        : 'Created';
-
-      dispatch(setMainTextForSuccessModal(`Successfully ${operation}!`));
-      dispatch(
-        setSubTextForSuccessModal(`Congratulations, You've successfully ${operation} your account!`),
-      );
-      dispatch(setIsSuccessModalOpen(true));
-
-      setTimeout(() => {
-        dispatch(setIsSuccessModalOpen(false));
-      }, 3500);
-
-      // navigate to dashboard on success
-      history.push('/');
+      await showSuccessModalAndNavigateToDashboard();
     } catch (err) {
       console.log('err in account creation in Create Wallet component', err);
-      // eslint-disable-next-line no-unused-expressions
-      const res = await AccountCreation({ walletName, password, seed });
-      console.log('Result [][]', res);
 
-      const hashedPassword = web3.utils.sha3(password);
-      console.log('Hashed password [][]', hashedPassword);
-      // const hashedPassword =  await keccak256(password)
-      // console.log('Hashed password', hashedPassword)
-      // Set api into Redux
-
-      const wsProvider = new WsProvider(constants.Polkadot_Rpc_Url);
-      const api = await ApiPromise.create({ provider: wsProvider });
-      await api.isReady;
-
-      console.log('Api after creating wallet', api);
-
-      const balance = await getBalance(api, res.address);
-      dispatch(setBalance(balance));
-
-      // update redux data and tracking flags accordingly
-      dispatch(setLoggedIn(true));
-      dispatch(setPublicKey(res.address));
-      dispatch(setAccountName(walletName));
-      dispatch(setWalletPassword(hashedPassword));
-
+      console.log('+=============---', { walletName, password, seed });
+      const res = await createAccount(walletName, password, seed);
+      await saveAccountInRedux(res.address, walletName, password);
+      dispatch(setLoadingFor('Setting things up...'));
       setIsLoading(false);
-
-      const operation = history.entries[history.entries.length - 2].pathname === '/ImportWallet'
-        ? 'Imported'
-        : 'Created';
-
-      dispatch(setMainTextForSuccessModal(`Successfully ${operation}!`));
-      dispatch(
-        setSubTextForSuccessModal(`Congratulations, You've successfully ${operation} your account!`),
-      );
-      dispatch(setIsSuccessModalOpen(true));
-
-      setTimeout(() => {
-        dispatch(setIsSuccessModalOpen(false));
-      }, 3500);
-
-      // navigate to dashboard on success
-      history.push('/');
-      // setIsLoading(false);
-      // alert(err);
+      await showSuccessModalAndNavigateToDashboard();
     }
   };
 

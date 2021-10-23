@@ -19,7 +19,7 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 function ConfirmSend({
   open, handleClose, handleConfirm, style, accountTo, amount, accountFrom,
-  transactionFee, tokenName,
+  transactionFee, tokenName, loading2,
 }) {
   const currentUser = useSelector((state) => state.account);
   console.log('Rpc url', currentUser.rpcUrl);
@@ -80,8 +80,8 @@ function ConfirmSend({
               </VerticalContentDiv>
 
               <VerticalContentDiv>
-                <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>{`${amount} ${tokenName}`}</MainText2>
-                <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>{`${transactionFee} ${tokenName}`}</MainText2>
+                <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>{`${amount} ${tokenName}`}</MainText2>
+                <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>{`${transactionFee} ${tokenName}`}</MainText2>
               </VerticalContentDiv>
             </HorizontalContentDiv>
 
@@ -117,6 +117,7 @@ function ConfirmSend({
             text="Confirm"
             width="78%"
             handleClick={() => handleConfirm()}
+            isLoading={loading2}
           />
         </div>
       </Box>
