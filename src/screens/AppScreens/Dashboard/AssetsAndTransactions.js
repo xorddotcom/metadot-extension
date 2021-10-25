@@ -62,10 +62,10 @@ function AssetsAndTransactions({
               key={transaction.hash}
               operation={transaction.operation}
               status={transaction.status}
-              coin={transaction.tokenName[0]}
+              coin={transaction.tokenName}
               amount={transaction.amount}
               // amountInUsd={transaction.amountInUSD}
-              amountInUsd={transaction.tokenName[0] === 'WND' ? '$0' : '$107.17'}
+              amountInUsd={transaction.tokenName === 'WND' ? '$0' : '$107.17'}
               logo="https://s2.coinmarketcap.com/static/img/coins/64x64/6636.png"
               handleClick={() => {
                 setTxDetailsModalData(transaction);
