@@ -4,7 +4,6 @@ import React from 'react';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 // import Tooltip from '@mui/material/Tooltip';
@@ -77,9 +76,7 @@ function MainCard({
       toastId: 1,
     });
   };
-  const handleTooltipClose = () => {
-    setOpen(false);
-  };
+
   // const handleTooltipOpen = () => {
   //   setOpen(true);
   // };
@@ -110,20 +107,18 @@ function MainCard({
           {' '}
         </PublicAddress>
         {/* </LightTooltip> */}
-        <ClickAwayListener onClickAway={handleTooltipClose}>
-          <div style={{ position: 'relative' }}>
-            <LightTooltip title="Copy address" arrow placement="right">
-              <ContentCopyIcon
-                style={{
-                  color: '#cccccc',
-                  fontSize: 12,
-                  marginLeft: 10,
-                }}
-                onClick={copyText}
-              />
-            </LightTooltip>
-          </div>
-        </ClickAwayListener>
+        <div style={{ position: 'relative' }}>
+          <LightTooltip title="Copy address" arrow placement="right">
+            <ContentCopyIcon
+              style={{
+                color: '#cccccc',
+                fontSize: 12,
+                marginLeft: 10,
+              }}
+              onClick={copyText}
+            />
+          </LightTooltip>
+        </div>
       </VerticalContentDiv>
 
       <Balance className={mainHeadingfontFamilyClass}>
