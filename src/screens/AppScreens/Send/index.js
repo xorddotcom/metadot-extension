@@ -3,7 +3,7 @@ import React, { useEffect, useReducer, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addTransaction } from '../../../redux/slices/transactions';
-import { fonts } from '../../../utils';
+import { fonts, helpers } from '../../../utils';
 
 import {
   AuthWrapper, Button, ConfirmSend, Header, StyledInput,
@@ -65,6 +65,8 @@ const amountReducer = (state, action) => {
   }
   return { value: '', isValid: false };
 };
+
+const { addressModifier } = helpers;
 
 const Send = () => {
   const [loading1, setLoading1] = useState(false);
@@ -331,33 +333,41 @@ const Send = () => {
       }
     });
   };
+  // const currentUser = useSelector((state) => state.account);
+
+  // {addressModifier(address)}
+  // address={currentUser.account.publicKey}
 
   return (
     <AuthWrapper>
       <Header centerText="Send" backHandler={() => console.log('object')} />
 
       <MainContent>
-        <MainText m="8px" className={mainHeadingfontFamilyClass}>
-          From
-        </MainText>
-        <FromAccount>
-          <HorizontalContentDiv>
-            <PlainIcon />
-            <VerticalContentDiv>
-              <MainText className={mainHeadingfontFamilyClass}>
-                {currentUser.account.accountName}
-              </MainText>
-              <Balance className={subHeadingfontFamilyClass}>
-                {`${trimBalance(currentUser.account.balance)} ${currentUser.account.tokenName}`}
-              </Balance>
-            </VerticalContentDiv>
-          </HorizontalContentDiv>
-          {/* not in use temporarily */}
-          {/* <KeyboardArrowDownIcon /> */}
-        </FromAccount>
+        <VerticalContentDiv mb="2px">
+          <MainText m="6px" className={mainHeadingfontFamilyClass} style={{ marginBottom: '1rem' }}>
+            From
+          </MainText>
+          <FromAccount>
+            <HorizontalContentDiv>
+              <PlainIcon />
+              <VerticalContentDiv>
+                <MainText className={mainHeadingfontFamilyClass}>
+                  {currentUser.account.accountName}
+                </MainText>
+                <Balance className={subHeadingfontFamilyClass}>
+                  {addressModifier(currentUser.account.publicKey)}
+                  {/* {`${trimBalance(currentUser.account.balance)}
+                  ${currentUser.account.tokenName}`} */}
+                </Balance>
+              </VerticalContentDiv>
+            </HorizontalContentDiv>
+            {/* not in use temporarily */}
+            {/* <KeyboardArrowDownIcon /> */}
+          </FromAccount>
+        </VerticalContentDiv>
 
-        <VerticalContentDiv mb="25px">
-          <MainText m="8px" className={mainHeadingfontFamilyClass}>
+        <VerticalContentDiv mb="2px">
+          <MainText m="6px" className={mainHeadingfontFamilyClass} style={{ marginBottom: '1rem' }}>
             To
           </MainText>
           <StyledInput
@@ -380,7 +390,7 @@ const Send = () => {
           </div>
         </VerticalContentDiv>
         {/* <form onSubmit={submitHandler}> */}
-        <VerticalContentDiv mb="150px">
+        <VerticalContentDiv mb="25px">
           <MainText m="8px" className={mainHeadingfontFamilyClass}>
             Amount
           </MainText>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 
@@ -8,6 +9,7 @@ import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 // import Tooltip from '@mui/material/Tooltip';
 import { toast } from 'react-toastify';
+import { display } from '@mui/system';
 import {
   AccountName,
   Balance,
@@ -89,25 +91,29 @@ function MainCard({
 
   return (
     <MainPanel>
-      <MoreOptions>
-        <img src={NotConnected} alt="not connected signal" />
-        <ConnectionStatus className={subHeadingfontFamilyClass}>
-          Not Connected
-        </ConnectionStatus>
-        <MoreVertIcon style={{ color: '#fafafa', fontSize: 22 }} />
-      </MoreOptions>
+      <div>
+        <MoreOptions>
+          <img src={NotConnected} alt="not connected signal" />
+          <ConnectionStatus className={subHeadingfontFamilyClass}>
+            Not Connected
+          </ConnectionStatus>
+          <MoreVertIcon style={{ color: '#fafafa', fontSize: 22 }} />
+        </MoreOptions>
 
-      <AccountName className={mainHeadingfontFamilyClass}>
-        {accountName}
-      </AccountName>
+        <AccountName className={mainHeadingfontFamilyClass}>
+          {accountName}
+        </AccountName>
+      </div>
       <VerticalContentDiv>
         {/* <LightTooltip title={address} arrow placement="bottom"> */}
         <PublicAddress className={mainHeadingfontFamilyClass}>
+          (
           {addressModifier(address)}
+          )
           {' '}
         </PublicAddress>
         {/* </LightTooltip> */}
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative', marginTop: '-0.2  rem' }}>
           <LightTooltip title="Copy address" arrow placement="right">
             <ContentCopyIcon
               style={{
@@ -133,6 +139,7 @@ function MainCard({
 
       <VerticalContentDiv>
         <PerUnitPrice className={mainHeadingfontFamilyClass}>
+          $
           {balanceInUsd}
         </PerUnitPrice>
         <VerticalContentDiv>
@@ -143,7 +150,7 @@ function MainCard({
           <ArrowDropUpIcon
             style={{
               fontSize: 20,
-              marginLeft: 5,
+              marginLeft: 2,
               color: '#3fcf1b',
             }}
           />

@@ -94,7 +94,7 @@ input:focus {
 }
 
 .warning-modal-style {
-  border: 0.8px solid #880041;
+  border: 0.8px solid rgb(136, 0, 65);
   box-sizing: border-box;
   box-shadow: 1px 2px 20px 20px rgba(136, 0, 65, 0.12);
   border-radius: 8px;

@@ -15,5 +15,5 @@ export const HeaderHeading = styled.h3`
   font-size: ${headerHeadingFontSize};
   margin: 0 auto;
   padding: 10px;
-  font-size: 20px;
+  font-size: 18px;
 `;

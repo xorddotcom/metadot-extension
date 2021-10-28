@@ -32,14 +32,17 @@ const LightTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
   [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: theme.palette.common.white,
-    color: 'rgba(0, 0, 0, 0.87)',
+    // backgroundColor: theme.palette.common.white,
+    backgroundColor: '#860040',
+    // color: 'rgba(0, 0, 0, 0.87)',
+    color: '#fff',
     boxShadow: theme.shadows[1],
     fontSize: 11,
     zIndex: -2,
   },
   [`& .${tooltipClasses.arrow}`]: {
-    color: theme.palette.common.white,
+    // color: theme.palette.common.white,
+    color: '#860040',
   },
 }));
 
@@ -106,8 +109,9 @@ function ShowSeed() {
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
           Please write the mnemonic down in order to ensure the backup is
-          correct. Obtaining mnemonic is equivalent to owning wallet assets.
-          Dont take screenshots or copy, otherwise it may cause asset loss
+          correct.
+          {/* Obtaining mnemonic is equivalent to owning wallet assets.
+          Dont take screenshots or copy, otherwise it may cause asset loss */}
         </SubHeading>
       </div>
       {/* <HorizontalContentDiv> */}
@@ -116,7 +120,9 @@ function ShowSeed() {
         <span width="100px" style={{ width: '200px', visibility: 'hidden' }}>A</span>
         <LightTooltip title="Copy address" arrow placement="right">
           <ContentCopyIcon
-            style={{ fontSize: '0.7rem', marginRight: 10, marginTop: 2 }}
+            style={{
+              fontSize: '0.7rem', marginRight: 10, marginTop: 2,
+            }}
             onClick={copySeedText}
           />
         </LightTooltip>
@@ -131,7 +137,12 @@ function ShowSeed() {
             ))}
       </SubMainWrapperForAuthScreens>
       <div className="btn-wrapper">
-        <Button text="Continue" handleClick={() => setIsModalOpen(true)} />
+        <Button
+          width="60%"
+          height="40px"
+          text="Continue"
+          handleClick={() => setIsModalOpen(true)}
+        />
       </div>
       <WarningModal
         open={isModalOpen}

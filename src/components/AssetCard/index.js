@@ -40,7 +40,7 @@ function AssetCard({
           text="Send"
           width="22%"
           height="50%"
-          fontSize="0.505rem"
+          fontSize="0.65rem"
           handleClick={() => console.log('Send')}
         />
       </div>

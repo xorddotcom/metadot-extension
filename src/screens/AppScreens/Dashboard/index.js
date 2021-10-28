@@ -1,3 +1,5 @@
+/* eslint-disable react/button-has-type */
+/* eslint-disable no-return-assign */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 /* eslint-disable max-len */
@@ -5,6 +7,28 @@
 /* eslint-disable no-console */
 import React, { useState, useMemo, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { makeStyles } from '@mui/styles';
+import Menu from '@mui/material/Menu';
+import Divider from '@mui/material/Divider';
+import Paper from '@mui/material/Paper';
+import MenuList from '@mui/material/MenuList';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Typography from '@mui/material/Typography';
+import ContentCut from '@mui/icons-material/ContentCut';
+import ContentCopy from '@mui/icons-material/ContentCopy';
+import ContentPaste from '@mui/icons-material/ContentPaste';
+import Cloud from '@mui/icons-material/Cloud';
+// Drop Down Icons
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
@@ -59,6 +83,7 @@ import {
   setMainTextForSuccessModal,
   setSubTextForSuccessModal,
 } from '../../../redux/slices/successModalHandling';
+// import DropDown from './DropDown';
 
 const { WsProvider, ApiPromise, Keyring } = require('@polkadot/api');
 
@@ -177,7 +202,28 @@ const TestNetworks = [
   },
 ];
 
-function Dashboard() {
+const useStyles = makeStyles((theme) => ({
+  paperMenu: {
+    backgroundColor: '#212121 !important',
+    '&:before': {
+      backgroundColor: '#212121',
+    },
+  },
+  customWidth: {
+    '& div': {
+      // this is just an example, you can use vw, etc.
+      width: '9rem',
+    },
+  },
+  MuiMenuItem: {
+    '&:hover': {
+      backgroundColor: '#fff',
+    },
+  },
+}));
+
+function Dashboard(props) {
+  const classes = useStyles(props);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   console.log('abc', { isLoading });
@@ -272,6 +318,31 @@ function Dashboard() {
   // useEffect(async () => {
   //   getTokenPrice();
   // });
+
+  // ---------------------Token API ------------------
+  // polkadot
+  // aca-token
+  // kusama
+
+  const [apiTokenName, setApiTokenName] = useState('polkadot');
+
+  useEffect(() => {
+    const getTokenPrice = async () => {
+      const tokenPrice = await fetch(
+        `https://api.coingecko.com/api/v3/simple/price?ids=${apiTokenName}&vs_currencies=usd`,
+      )
+        .then((res) => {
+          res.json().then((_res) => {
+            console.log(`${apiTokenName} === `, _res);
+          });
+        })
+        .catch((err) => {
+          console.warn('ERROR', err);
+        });
+    };
+
+    getTokenPrice();
+  }, [apiTokenName]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -427,6 +498,17 @@ function Dashboard() {
   };
 
   // --------XXXXXXXXXXXXXXX-----------
+
+  // Drop Down
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   // const res = RpcClass.apiGetter();
   console.log('===========', { isLoading });
   return (
@@ -460,12 +542,131 @@ function Dashboard() {
 
         <AccountContainer>
           <AccountSetting>
-            <AccountText className={mainHeadingfontFamilyClass}>
+            <AccountText onClick={handleClick} className={mainHeadingfontFamilyClass}>
               {currentUser.account.accountName.slice(0, 1)}
               {/* {count} */}
             </AccountText>
           </AccountSetting>
         </AccountContainer>
+        {/* <Menu
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
+          className={`${classes.customWidth} ${classes.flex}`}
+          PaperProps={{
+            elevation: 0,
+            sx: {
+              overflow: 'visible',
+              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+              mt: 1.5,
+              '& .MuiAvatar-root': {
+                width: 32,
+                height: 32,
+                ml: -0.5,
+                mr: 1,
+              },
+              '&:before': {
+                content: '""',
+                display: 'block',
+                position: 'absolute',
+                top: 0,
+                right: 14,
+                width: 10,
+                height: 10,
+                // bgcolor: 'background.paper',
+                // bgColor: '#eee',
+                transform: 'translateY(-50%) rotate(45deg)',
+                zIndex: 0,
+              },
+            },
+          }}
+          classes={{ paper: classes.paperMenu }}
+          transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        >
+          <Paper style={{
+            width: '210px',
+            marginLeft: '-2.6rem',
+            marginTop: '-0.5rem',
+            backgroundColor: '#212121',
+          }}
+          >
+            <Typography style={{
+              textAlign: 'center',
+              fontWeight: '600',
+              paddingTop: '0.8rem',
+              color: '#fafafa',
+            }}
+            >
+              My Profile
+
+            </Typography>
+            <MenuList classes={classes.MuiMenuItem}>
+              <MenuItem
+                style={{ minHeight: '37px', color: '#fafafa' }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#000'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = '#333'}
+              >
+                <ListItemIcon style={{ color: '#fafafa' }} className={flexStart}>
+                  <PersonOutlinedIcon fontSize="small" />
+                  &nbsp; &nbsp;
+                  <span style={{ fontSize: '0.9rem' }}>Accounts</span>
+                </ListItemIcon>
+                <ChevronRightOutlinedIcon fontSize="small" style={{ marginRight: '1rem' }} />
+              </MenuItem>
+              <MenuItem style={{ minHeight: '37px', color: '#fafafa' }}>
+                <ListItemIcon className={flexStart} style={{ color: '#fafafa' }}>
+                  <AddOutlinedIcon fontSize="small" />
+                  &nbsp; &nbsp;
+                  <span style={{ fontSize: '0.85rem' }}>Add Account</span>
+                </ListItemIcon>
+                <ChevronRightOutlinedIcon fontSize="small" style={{ marginRight: '1rem' }} />
+              </MenuItem>
+              <MenuItem style={{ minHeight: '37px', color: '#fafafa' }}>
+                <ListItemIcon className={flexStart} style={{ color: '#fafafa' }}>
+                  <FileDownloadOutlinedIcon fontSize="small" />
+                  &nbsp; &nbsp;
+                  <span style={{ fontSize: '0.85rem' }}>Import Account</span>
+                </ListItemIcon>
+                <ChevronRightOutlinedIcon fontSize="small" style={{ marginRight: '1rem' }} />
+              </MenuItem>
+              <MenuItem style={{ minHeight: '37px', color: '#fafafa' }}>
+                <ListItemIcon className={flexStart} style={{ color: '#fafafa' }}>
+                  <FileUploadOutlinedIcon fontSize="small" />
+                  &nbsp; &nbsp;
+                  <span style={{ fontSize: '0.85rem' }}>Export Account</span>
+                </ListItemIcon>
+                <ChevronRightOutlinedIcon fontSize="small" style={{ marginRight: '1rem' }} />
+              </MenuItem>
+              <MenuItem style={{ minHeight: '37px', color: '#fafafa' }}>
+                <ListItemIcon className={flexStart} style={{ color: '#fafafa' }}>
+                  <ForumOutlinedIcon fontSize="small" />
+                  &nbsp; &nbsp;
+                  <span style={{ fontSize: '0.85rem' }}>Support</span>
+                </ListItemIcon>
+                <ChevronRightOutlinedIcon fontSize="small" style={{ marginRight: '1rem' }} />
+              </MenuItem>
+              <MenuItem style={{ minHeight: '37px', color: '#fafafa' }}>
+                <ListItemIcon className={flexStart} style={{ color: '#fafafa' }}>
+                  <SettingsOutlinedIcon fontSize="small" />
+                  &nbsp; &nbsp;
+                  <span style={{ fontSize: '0.85rem' }}>Setting</span>
+                </ListItemIcon>
+                <ChevronRightOutlinedIcon fontSize="small" style={{ marginRight: '1rem' }} />
+              </MenuItem>
+              <MenuItem style={{ minHeight: '37px', color: '#fafafa' }}>
+                <ListItemIcon className={flexStart} style={{ color: '#fafafa' }}>
+                  <LockOutlinedIcon fontSize="small" />
+                  &nbsp; &nbsp;
+                  <span style={{ fontSize: '0.85rem' }}>Lock</span>
+                </ListItemIcon>
+                <ChevronRightOutlinedIcon fontSize="small" style={{ marginRight: '1rem' }} />
+              </MenuItem>
+            </MenuList>
+          </Paper>
+        </Menu> */}
+
       </DashboardHeader>
 
       <MainCard
@@ -474,7 +675,7 @@ function Dashboard() {
         tokenName={currentUser.account.tokenName}
         address={currentUser.account.publicKey}
         walletName={currentUser.account.walletName}
-        balanceInUsd="0$"
+        balanceInUsd="0"
         accountName={currentUser.account.accountName}
       />
 
@@ -503,7 +704,7 @@ function Dashboard() {
         }}
         isLoading={isLoading}
       />
-      {console.log('Hello', txDetailsModalData)}
+      {}
       {console.log('Hello 2', transactions)}
       <TxDetails
         open={isTxDetailsModalOpen}
@@ -521,6 +722,10 @@ function Dashboard() {
         }}
       />
 
+      {/* <button onClick={() => setApiTokenName('polkadot')}>Polkadot</button>
+      <button onClick={() => setApiTokenName('aca-token')}>Aca-token</button>
+      <button onClick={() => setApiTokenName('kusama')}>Kusama</button> */}
+
       {/* <button type="button" onClick={() => console.log('Res in =============', currentUser)}>Get State</button> */}
       {/* <button
         type="button"
@@ -533,5 +738,18 @@ function Dashboard() {
     </Wrapper>
   );
 }
+
+const flexStart = {
+  display: 'flex',
+  justifyContent: 'flex-start',
+  alignItems: 'center',
+};
+
+const flexBetween = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  minHeight: '37px !important',
+};
 
 export default Dashboard;

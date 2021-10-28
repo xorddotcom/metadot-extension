@@ -72,4 +72,5 @@ border-radius: 8px;
 padding: 10px;
 width: 100%;
 margin: 5px auto;
+padding-top: 1px !important;
 `;

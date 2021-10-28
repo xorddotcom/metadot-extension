@@ -98,11 +98,11 @@ function ImportWallet() {
         <MainHeading className={mainHeadingfontFamilyClass}>Restore your wallet </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Volutpat cursus sit diam Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit. Volutpat cursus sit diam
+          ipsum dolor sit,
           {' '}
         </SubHeading>
       </div>
-      <SubMainWrapperForAuthScreens flexDirection="column">
+      <SubMainWrapperForAuthScreens flexDirection="column" style={{ marginTop: '2rem' }}>
         <MainHeading className={mainHeadingfontFamilyClass}>Select Type : </MainHeading>
         <OptionDiv>
           <Option
@@ -121,24 +121,27 @@ function ImportWallet() {
           </Option>
         </OptionDiv>
         {selectedType === 'seed' && (
-          <div style={{ height: 227 }}>
-            <MainHeading className={mainHeadingfontFamilyClass}>Place your seed here :</MainHeading>
+          <div style={{ marginTop: '1rem' }}>
             <Input
-              className={subHeadingfontFamilyClass}
-              onChange={(e) => handleChange(e.target.value)}
-              value={seedPhrase}
-              rows={7}
-              multiline
-              disableUnderline
               style={{
+                padding: '13px 15px',
                 background: '#212121',
                 color: primaryTextColor,
                 width: '100%',
-                paddingtTop: 13,
-                borderRadius: '8px',
+                borderRadius: '5px',
+                fontSize: '0.8rem',
+                lineHeight: '1.7em',
               }}
+              autoFocus
+              className={subHeadingfontFamilyClass}
+              onChange={(e) => handleChange(e.target.value)}
+              value={seedPhrase}
+              rows={5}
+              multiline
+              disableUnderline
+              placeholder="Place your seed phrase here..."
             />
-            <WarningText visibility={invalidSeedMessage ? 'visible' : 'hidden'}>{invalidSeedMessage}</WarningText>
+            <WarningText className={subHeadingfontFamilyClass} visibility={invalidSeedMessage ? 'visible' : 'hidden'}>{invalidSeedMessage}</WarningText>
           </div>
         )}
         {selectedType === 'json' && (
@@ -147,7 +150,7 @@ function ImportWallet() {
       </SubMainWrapperForAuthScreens>
       {selectedType === 'seed' && (
         <div className="btn-wrapper">
-          <Button text="Import" handleClick={validateSeed} disabled={seedPhrase.length === 0} />
+          <Button text="Import" height="40%" width="60%" handleClick={validateSeed} disabled={seedPhrase.length === 0} />
         </div>
       )}
     </AuthWrapper>
