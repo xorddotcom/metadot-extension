@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 /* eslint-disable consistent-return */
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
@@ -33,6 +34,22 @@ function AssetsAndTransactions({
   // const transactions = useSelector((state) => state.transactions.transactions);
   // console.log('transactions', transactions);
   // console.log('===============', assetsData);
+  const logoChangeHandler = (token) => {
+    console.log('-------------', token);
+    if (token === 'DOT') {
+      return polkadotDot;
+    } else if (token === 'KSM') {
+      return kusamaKsm;
+    } else if (token === 'WND') {
+      return westendColour;
+    } else if (token === 'PLD') {
+      return dusty;
+    } else if (token === 'ACA') {
+      return acala;
+    } else {
+      return polkadotDot;
+    }
+  };
   return (
     <AssetsAndTransactionsWrapper>
       <Tabs>
@@ -63,28 +80,7 @@ function AssetsAndTransactions({
           shortName={assetsData.tokenName[0]}
           amount={assetsData.balance.toFixed(2)}
           amountInUsd={0}
-          logo="https://s2.coinmarketcap.com/static/img/coins/64x64/6636.png"
-            // assetsData.tokenName.length > 0 && (
-            //   assetsData.tokenName.map((token) => {
-            //     if (token === 'DOT') {
-            //       return polkadotDot;
-            //     }
-            //     if (token === 'KSM') {
-            //       return kusamaKsm;
-            //     }
-            //     if (token === 'WND') {
-            //       return westendColour;
-            //     }
-            //     if (token === 'PLD') {
-            //       return dusty;
-            //     }
-            //     if (token === 'ACA') {
-            //       return acala;
-            //     }
-            //     return false;
-            //   })
-            // )
-          // }
+          logo={logoChangeHandler(assetsData.tokenName)}
         />
       )}
       {console.log('===============', assetsData)}

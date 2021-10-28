@@ -183,7 +183,8 @@ function CreateWallet() {
             height="15px"
             onChange={(t) => {
               setPasswordError('');
-              setPassword(t);
+              // eslint-disable-next-line no-unused-expressions
+              t.length < 20 && setPassword(t);
             }}
             typePassword
             hideHandler={() => setShowPassword(!showPassword)}
@@ -217,7 +218,8 @@ function CreateWallet() {
             height="15px"
             onChange={(t) => {
               setPasswordError('');
-              setConfirmPassword(t);
+              // eslint-disable-next-line no-unused-expressions
+              t.length < 20 && setConfirmPassword(t);
             }}
             typePassword
             hideHandler={() => setShowConfirmPassword(!showConfirmPassword)}
