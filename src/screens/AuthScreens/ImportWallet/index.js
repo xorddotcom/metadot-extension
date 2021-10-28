@@ -1,12 +1,15 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-throw-literal */
 import React, { useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { styled } from '@mui/material/styles';
 
 import { Input } from '@material-ui/core';
 
 import keyring from '@polkadot/ui-keyring';
+import { Tooltip, tooltipClasses } from '@mui/material';
 import { Option, OptionDiv } from './StyledComponents';
 
 import {
@@ -32,6 +35,21 @@ const invalidSeedMessages = {
 };
 
 function ImportWallet() {
+  const LightTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: theme.palette.common.white,
+      color: 'rgba(0, 0, 0, 0.87)',
+      boxShadow: theme.shadows[1],
+      fontSize: 11,
+      zIndex: -2,
+    },
+    [`& .${tooltipClasses.arrow}`]: {
+      color: theme.palette.common.white,
+    },
+  }));
+
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -55,14 +73,14 @@ function ImportWallet() {
         console.log('object1');
         isErrorOccur = maxWords;
         setInvalidSeedMessage(maxWords);
-        throw maxWords;
+        return maxWords;
       }
 
       if (seedPhrase.split(' ').length < 12) {
         console.log('object2');
         isErrorOccur = minimumWords;
         setInvalidSeedMessage(minimumWords);
-        throw minimumWords;
+        return minimumWords;
       }
 
       // verifiying if seed exist in blockchain or not
@@ -112,13 +130,15 @@ function ImportWallet() {
           >
             Seed Phrase
           </Option>
-          <Option
-            onClick={() => setSelectedType('json')}
-            className={mainHeadingfontFamilyClass}
-            selected={selectedType === 'json'}
-          >
-            Json File
-          </Option>
+          <LightTooltip title="Coming Soon" arrow placement="top">
+            <Option
+              // onClick={() => setSelectedType('json')}
+              className={mainHeadingfontFamilyClass}
+              selected={selectedType === 'json'}
+            >
+              Json File
+            </Option>
+          </LightTooltip>
         </OptionDiv>
         {selectedType === 'seed' && (
           <div style={{ marginTop: '1rem' }}>
@@ -145,12 +165,12 @@ function ImportWallet() {
           </div>
         )}
         {selectedType === 'json' && (
-          <MainHeading className={mainHeadingfontFamilyClass}>Coming Soon!</MainHeading>
+        <MainHeading className={mainHeadingfontFamilyClass}>Coming Soon!</MainHeading>
         )}
       </SubMainWrapperForAuthScreens>
       {selectedType === 'seed' && (
         <div className="btn-wrapper">
-          <Button text="Import" height="40%" width="60%" handleClick={validateSeed} disabled={seedPhrase.length === 0} />
+          <Button text="Import" width="60%" handleClick={validateSeed} disabled={seedPhrase.length === 0} />
         </div>
       )}
     </AuthWrapper>

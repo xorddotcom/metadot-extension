@@ -61,28 +61,30 @@ function AssetsAndTransactions({
         <AssetCard
           name={assetsData.chainName}
           shortName={assetsData.tokenName[0]}
-          amount={assetsData.balance}
+          amount={assetsData.balance.toFixed(2)}
           amountInUsd={0}
-          logo={
-            assetsData.tokenName.map((token) => {
-              if (token === 'DOT') {
-                return polkadotDot;
-              }
-              if (token === 'KSM') {
-                return kusamaKsm;
-              }
-              if (token === 'WND') {
-                return westendColour;
-              }
-              if (token === 'PLD') {
-                return dusty;
-              }
-              if (token === 'ACA') {
-                return acala;
-              }
-              return false;
-            })
-          }
+          logo="https://s2.coinmarketcap.com/static/img/coins/64x64/6636.png"
+            // assetsData.tokenName.length > 0 && (
+            //   assetsData.tokenName.map((token) => {
+            //     if (token === 'DOT') {
+            //       return polkadotDot;
+            //     }
+            //     if (token === 'KSM') {
+            //       return kusamaKsm;
+            //     }
+            //     if (token === 'WND') {
+            //       return westendColour;
+            //     }
+            //     if (token === 'PLD') {
+            //       return dusty;
+            //     }
+            //     if (token === 'ACA') {
+            //       return acala;
+            //     }
+            //     return false;
+            //   })
+            // )
+          // }
         />
       )}
       {console.log('===============', assetsData)}

@@ -47,7 +47,7 @@ function Operations() {
         <OptionsName className={mainHeadingfontFamilyClass}>Send</OptionsName>
       </Option>
 
-      <LightTooltip title="comming soon" arrow placement="top">
+      <LightTooltip title="Coming Soon" arrow placement="top">
         <Option>
           <img
             src={Swap}
@@ -64,7 +64,7 @@ function Operations() {
         </Option>
       </LightTooltip>
 
-      <LightTooltip title="comming soon" arrow placement="top">
+      <LightTooltip title="Coming Soon" arrow placement="top">
         <Option>
           <img
             src={Governance}
@@ -81,7 +81,7 @@ function Operations() {
         </Option>
       </LightTooltip>
 
-      <LightTooltip title="comming soon" arrow placement="top">
+      <LightTooltip title="Coming Soon" arrow placement="top">
         <Option>
           <img
             src={Stake}
