@@ -411,6 +411,9 @@ const Send = () => {
             height="20px"
             isCorrect={accountToSate.isValid}
           />
+          <WarningText>
+            {helpers.validateAddress(accountToSate.value, currentUser.account.publicKey)}
+          </WarningText>
           <div style={{ height: '1.5rem' }}>
             {!isCorrect ? (
               <WarningText>{errorMessages.invalidAddress}</WarningText>
@@ -442,6 +445,9 @@ const Send = () => {
             onBlur={amountIsValidHandler}
             isCorrect={amountState.isValid}
           />
+          <WarningText style={{ color: 'red' }}>
+            {helpers.validateAmount(currentUser.account.balance, amountState.value)}
+          </WarningText>
           <CalculatedAmount>
             <EquivalentInUSDT className={subHeadingfontFamilyClass}>$23.212</EquivalentInUSDT>
             <Balance textAlign="end" className={subHeadingfontFamilyClass}>

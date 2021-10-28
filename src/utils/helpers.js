@@ -48,6 +48,29 @@ function addressModifier(address) {
   return null;
 }
 
+function validateAddress(userPublicAddress, senderPublicAddress) {
+  try {
+    if (userPublicAddress === senderPublicAddress) {
+      throw String('Address is matched from your public address');
+    }
+    return true;
+  } catch (error) {
+    return error;
+  }
+}
+
+function validateAmount(userCurrentAmount, sendAmount) {
+  try {
+    if (userCurrentAmount < sendAmount) {
+      console.log('hello------------------------');
+      throw String('Amount is exceeding from your current balance');
+    }
+    return true;
+  } catch (error) {
+    return error;
+  }
+}
+
 function isUserNameValid(username) {
   /*
     Usernames can only have:
@@ -69,6 +92,8 @@ export default {
   shuffleItemsWithinArray,
   addressModifier,
   isUserNameValid,
+  validateAddress,
+  validateAmount,
 };
 
 // export default helpers;
