@@ -9,7 +9,7 @@ export const MainHeading = styled.p`
   font-style: normal;
   font-size: ${mainHeadingFontSize};
   color: ${(props) => (props.color ? props.color : primaryTextColor)};
-  line-height: 21px;
+  line-height: 18px;
   text-align: start;
   margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
   font-size: 18px;
@@ -23,9 +23,11 @@ export const SubHeading = styled.p`
   text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
   text-align-last: ${(props) => (props.textAlignLast ? props.textAlignLast : 'start')};
   line-height: 22px;
-  font-size: 16px;
+  font-size: 0.75rem;
   letter-spacing: 2%;
   margin-top: ${(props) => props.marginTop && props.marginTop};
+  text-align: justify;
+  text-justify: auto;
 `;
 
 export const SubMainWrapperForAuthScreens = styled.div`
@@ -40,6 +42,7 @@ export const SubMainWrapperForAuthScreens = styled.div`
   height: auto;
   margin: 25px auto 25px;
   margin-bottom: 2rem;
+  margin-top: 1rem;
 `;
 
 export const TextInputWrapper = styled.div`

@@ -56,10 +56,11 @@ export const MainText = styled.p`
   text-align: start;
 
   margin: ${props => (props.m ? props.m : '0px')};
+  /* margin-bottom: 15px; */
 `;
 
 export const Balance = styled.p`
-  font-size: 12px;
+  font-size: 11px;
   width: 100%;
   height: 14px;
 
@@ -69,6 +70,7 @@ export const Balance = styled.p`
   color: rgba(250, 250, 250, 0.8);
 
   text-align: ${props => (props.textAlign ? props.textAlign : 'start')};
+  margin-top: 2px;
 `;
 
 export const EquivalentInUSDT = styled.p`
@@ -82,8 +84,12 @@ export const EquivalentInUSDT = styled.p`
 `;
 
 export const CalculatedAmount = styled(HorizontalContentDiv)`
-  /* width: 108%; */
+  width: 96%;
   margin-top: 5px;
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 0.3rem;
 `;
 
 export const CenterContent = styled.div`

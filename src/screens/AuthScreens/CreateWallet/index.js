@@ -5,12 +5,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import web3 from 'web3';
 import { useHistory } from 'react-router-dom';
 import keyring from '@polkadot/ui-keyring';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+// import ListItemText from '@mui/material/ListItemText';
 import {
   AuthWrapper,
   Header,
   StyledInput,
   Button,
-  MainHeading,
+  // MainHeading,
   SubHeading,
   SubMainWrapperForAuthScreens,
 } from '../../../components';
@@ -144,32 +147,40 @@ function CreateWallet() {
 
   return (
     <AuthWrapper>
-      <Header centerText="Create Wallet" />
+      <Header centerText="Authentication" />
       <div>
-        <MainHeading className={mainHeadingfontFamilyClass}>Authentication</MainHeading>
+        {/* <MainHeading className={mainHeadingfontFamilyClass}>Authentication</MainHeading> */}
       </div>
-      <SubMainWrapperForAuthScreens>
+      <SubMainWrapperForAuthScreens style={{ marginTop: '1.4rem' }}>
         <LabelAndTextInput>
-          <SubHeading className={mainHeadingfontFamilyClass}>Wallet Name</SubHeading>
+          <SubHeading
+            className={mainHeadingfontFamilyClass}
+          >
+            Wallet Name
+
+          </SubHeading>
           <StyledInput
-            placeholder="Wallet Name"
-            value={walletName}
             className={subHeadingfontFamilyClass}
+            placeholder="Wallet Name"
+            height="15px"
+            value={walletName}
             onChange={(t) => {
               setIsValidWalletName(false);
               // eslint-disable-next-line no-unused-expressions
               t.length < 20 && setWalletName(t);
             }}
           />
-          {isValidWalletName && <WarningText>Invalid Username</WarningText>}
+          {isValidWalletName
+          && <WarningText className={subHeadingfontFamilyClass}>Invalid Username</WarningText>}
         </LabelAndTextInput>
 
         <LabelAndTextInput>
           <SubHeading className={mainHeadingfontFamilyClass}>Password</SubHeading>
           <StyledInput
-            placeholder="password"
+            placeholder="Password"
             className={subHeadingfontFamilyClass}
             value={password}
+            height="15px"
             onChange={(t) => {
               setPasswordError('');
               setPassword(t);
@@ -180,10 +191,20 @@ function CreateWallet() {
             rightIcon
           />
           {passwordError === passwordErrorMessages.minimumCharacterWarning && (
-            <WarningText>{passwordErrorMessages.minimumCharacterWarning}</WarningText>
+            <WarningText
+              className={subHeadingfontFamilyClass}
+            >
+              {passwordErrorMessages.minimumCharacterWarning}
+
+            </WarningText>
           )}
           {passwordError === passwordErrorMessages.didnotMatchWarning && (
-            <WarningText>{passwordErrorMessages.didnotMatchWarning}</WarningText>
+            <WarningText
+              className={subHeadingfontFamilyClass}
+            >
+              {passwordErrorMessages.didnotMatchWarning}
+
+            </WarningText>
           )}
         </LabelAndTextInput>
 
@@ -193,6 +214,7 @@ function CreateWallet() {
             placeholder="re-enter password"
             className={subHeadingfontFamilyClass}
             value={confirmPassword}
+            height="15px"
             onChange={(t) => {
               setPasswordError('');
               setConfirmPassword(t);
@@ -203,23 +225,45 @@ function CreateWallet() {
             rightIcon
           />
           {passwordError === passwordErrorMessages.minimumCharacterWarning && (
-            <WarningText>{passwordErrorMessages.minimumCharacterWarning}</WarningText>
+            <WarningText
+              className={subHeadingfontFamilyClass}
+            >
+              {passwordErrorMessages.minimumCharacterWarning}
+
+            </WarningText>
           )}
           {passwordError === passwordErrorMessages.didnotMatchWarning && (
-            <WarningText>{passwordErrorMessages.didnotMatchWarning}</WarningText>
+            <WarningText
+              className={subHeadingfontFamilyClass}
+            >
+              {passwordErrorMessages.didnotMatchWarning}
+
+            </WarningText>
           )}
         </LabelAndTextInput>
 
         <SubHeading className={subHeadingfontFamilyClass}>
-          {' - '}
-          Name can only consist of uppercase and lowercase alphabets and numbers.
-          <br />
-          {' - '}
-          Password should be at least 8 characters.
-          <br />
-          {' - '}
-          This password will be used as the transaction password for the wallet, MetaDot does not
-          save password and cannot retrieve them for you. Please keep your password safe!
+          <List style={{
+            fontSize: '0.7rem',
+            marginLeft: '-0.4rem',
+            marginTop: '-1.5rem',
+            marginBottom: '-0.7rem',
+          }}
+          >
+            <ListItem style={{ marginBottom: '-1.7rem' }}>
+              <p style={{ textAlign: 'justify' }}>Name can only consist of uppercase and lowercase alphabets and numbers.</p>
+            </ListItem>
+            <ListItem style={{ marginBottom: '-1.7rem' }}>
+              <p style={{ textAlign: 'justify' }}>Password should be at least 8 characters.</p>
+            </ListItem>
+            <ListItem style={{ marginBottom: '-1.7rem' }}>
+              <p style={{ textAlign: 'justify' }}>
+                This password will be used as the transaction password for the wallet,
+                MetaDot does not save password and cannot retrieve them for you.
+                Please keep your password safe!
+              </p>
+            </ListItem>
+          </List>
         </SubHeading>
       </SubMainWrapperForAuthScreens>
       <div className="btn-wrapper">

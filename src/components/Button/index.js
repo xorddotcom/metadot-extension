@@ -38,11 +38,17 @@ function index({
   const StyledButton = styled(Button)`
     width: 95%;
     height: ${height || _height};
-    box-shadow: 0px 0px 28px 5px rgba(136, 0, 65, 0.12);
+    box-shadow: 0px 2px 3px rgba(33, 33, 33, 0.05);
     border-radius: 8px;
     background: ${!cancel ? primaryBgColor : secondaryBgColor};
     font-size: ${buttonFontSize};
     text-transform: capitalize;
+    &:hover {
+      background-color: #212121;
+    }
+    &:disabled {
+      color: rgba(250, 250, 250, 0.8);
+    }
   `;
 
   return (

@@ -44,7 +44,7 @@ function shuffleItemsWithinArray(array) {
 
 function addressModifier(address) {
   console.log('Helper', address);
-  if (address) return `${address.slice(0, 3)}...${address.slice(address.length - 3, address.length)}`;
+  if (address) return `${address.slice(0, 5)}...${address.slice(address.length - 5, address.length)}`;
   return null;
 }
 

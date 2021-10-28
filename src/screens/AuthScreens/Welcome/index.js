@@ -6,7 +6,8 @@ import DownloadIcon from '@mui/icons-material/Download';
 
 import { useDispatch, useSelector } from 'react-redux';
 import keyring from '@polkadot/ui-keyring';
-import AppLogo from '../../../assets/images/Group.svg';
+// import AppLogo from '../../../assets/images/Group.svg';
+import AppLogo from '../../../assets/images/main-logo.png';
 import { Button } from '../../../components';
 
 import { MainHeading, SubHeading } from './StyledComponents';
@@ -35,11 +36,17 @@ function Welcome() {
   return (
     <div>
       <div className="app-logo">
-        <img src={AppLogo} alt="logo" />
+        <img src={AppLogo} alt="logo" style={{ height: '23vh' }} />
       </div>
 
       <div className="main-content">
-        <MainHeading className={mainHeadingfontFamilyClass}>welcome to MetaDot</MainHeading>
+        <MainHeading
+          className={mainHeadingfontFamilyClass}
+          style={{ fontSize: '3rem', textTransform: 'uppercase', marginTop: '-0.5rem' }}
+        >
+          MetaDot
+
+        </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
           For Passionates, For Progress, For Polkadot
         </SubHeading>
@@ -48,14 +55,19 @@ function Welcome() {
         <Button
           text="Create"
           StartIcon={AddSharpIcon}
+          width="60%"
+          height="40px"
           handleClick={() => {
             console.log('clicked');
             history.push('/ShowSeed');
           }}
         />
+        <div style={{ margin: '0.5rem' }} />
         <Button
           text="Import"
           StartIcon={DownloadIcon}
+          width="60%"
+          height="40px"
           handleClick={() => {
             console.log('clicked Import');
             history.push('/ImportWallet');

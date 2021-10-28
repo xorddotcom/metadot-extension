@@ -20,6 +20,11 @@ export const SubHeading = styled.p`
   text-align: center;
   text-align-last: center;
   text-transform: capitalize;
-  width: 98%;
   margin: 0 auto;
+  letter-spacing: 5%;
+  width: 110%;
+  font-size: 0.85rem;
+  font-weight: bolder;
+  margin-left: -1.2rem !important;
+  margin-top: -2rem;
 `;

@@ -185,6 +185,7 @@ export const AccountName = styled.p`
   color: ${primaryTextColor};
   text-align: start;
   margin-bottom: 0px;
+  margin-top: 0.8rem;
 `;
 
 export const PublicAddress = styled.p`
@@ -235,7 +236,7 @@ export const AssetsAndTransactionsWrapper = styled.div`
 
 export const Tabs = styled.div`
   width: 90%;
-  height: 51px;
+  height: 44px;
 
   background: #292929;
   border-radius: 8px;

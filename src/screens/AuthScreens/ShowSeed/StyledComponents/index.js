@@ -14,7 +14,7 @@ export const SeedWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   padding-left: 25px;
-  padding-right: 25px;
+  padding-right: 20px;
   padding-top: 14px;
   padding-bottom: 13px;
   margin-top: 18px;
@@ -36,11 +36,13 @@ export const SeedText = styled.p`
 `;
 
 export const CopyText = styled.p`
-font-size: 16px;
+font-size: 0.84rem;
 line-height: 18.75px;
 height: 25px;
 text-align:start;
 color: rgba(250, 250, 250, 0.83);
+font-weight: 600;
+margin-top: 1.5rem;
 
 `;
 
