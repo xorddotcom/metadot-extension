@@ -478,9 +478,17 @@ function Dashboard() {
   };
 
   const getBalanceHere = async () => {
+    console.log(currentUser.account.publicKey);
+    console.log(currentUser.api.api);
     const res = await getBalanceWithMultipleTokens(currentUser.api.api, currentUser.account.publicKey);
     console.log('Res', res);
   };
+
+  const testing = async () => {
+    const { data: balance } = await currentUser.api.api.query.system.account('5DXomcfWBhckmx8N9jG7GuVzJcTQpREC5hYoCteD6KcwnacY');
+    console.log('Balance free', balance.free);
+  };
+
   // prettier-ignore
   const handleSelection = async (data) => {
     setIsLoading(true);
@@ -636,9 +644,10 @@ function Dashboard() {
         }}
       />
 
-      {/* <button type="button" onClick={initializeAcalaNetwork}> Initialize Acala </button>
+      <button type="button" onClick={initializeAcalaNetwork}> Initialize Acala </button>
       <button type="button" onClick={sendTransaction}>Send transaction</button>
-      <button type="button" onClick={getBalanceHere}>Get balance</button> */}
+      <button type="button" onClick={getBalanceHere}>Get balance</button>
+      <button type="button" onClick={testing}>Testing</button>
     </Wrapper>
   );
 }

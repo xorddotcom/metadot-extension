@@ -27,6 +27,9 @@ const getBalance = async (api, account) => {
 
 // Get balance of a chain with multiple tokens
 const getBalanceWithMultipleTokens = async (api, account) => {
+  // eslint-disable-next-line no-underscore-dangle
+  console.log('In service', api);
+  console.log('api', api.query);
   // eslint-disable-next-line no-useless-catch
   try {
     const { data: balance } = await api.query.system.account(account);
@@ -43,7 +46,8 @@ const getBalanceWithMultipleTokens = async (api, account) => {
     const userBalance = balances.free.toHuman();
     console.log('New data', now, nonce);
     console.log('User balance', userBalance);
-    if (userBalance === 0) return 0;
+    // eslint-disable-next-line eqeqeq
+    if (userBalance == 0) return 0;
     const splittedBalance = userBalance.split(' ');
     console.log('Splitted balance in service', splittedBalance);
     console.log('Splitted balance [][]', splittedBalance[1][0]);

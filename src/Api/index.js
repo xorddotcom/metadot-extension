@@ -6,7 +6,11 @@ import { options as AcalaOptions } from '@acala-network/api';
 import { setApi, setApiInitializationStarts } from '../redux/slices/api';
 import { getBalance, getBalanceWithMultipleTokens } from '../ToolBox/services';
 import { setBalance, setTokenName } from '../redux/slices/account';
-import { setIsSuccessModalOpen, setMainTextForSuccessModal, setSubTextForSuccessModal } from '../redux/slices/successModalHandling';
+import {
+  setIsSuccessModalOpen, setMainTextForSuccessModal,
+  setSubTextForSuccessModal,
+} from '../redux/slices/successModalHandling';
+import constants from '../constants/onchain';
 
 function ApiManager({ rpc }) {
   // eslint-disable-next-line import/no-mutable-exports
@@ -20,21 +24,30 @@ function ApiManager({ rpc }) {
     console.log('manager ran1 useEffect');
     const setAPI = async (rpcUrl) => {
       dispatch(setApiInitializationStarts(true));
+      const wsProvider = new WsProvider(rpcUrl);
       let apiR;
-      if (rpcUrl === 'wss://acala-mandala.api.onfinality.io/public-ws') {
-        const wsProvider = new WsProvider(rpcUrl);
-        apiR = new ApiPromise(AcalaOptions({ provider: wsProvider }));
-        dispatch(setTokenName({ tokenName: await apiR.registry.chainTokens[0] }));
-        const bal = await getBalanceWithMultipleTokens(apiR, currentUser.account.publicKey);
-        console.log('Balance setting in redux', bal);
-        dispatch(setBalance(bal));
+      if (rpcUrl === constants.Acala_Mandala_Rpc_Url) {
+        apiR = await ApiPromise.create(AcalaOptions({ provider: wsProvider }));
       } else {
-        const wsProvider = new WsProvider(rpcUrl);
         apiR = await ApiPromise.create({ provider: wsProvider });
-        dispatch(setTokenName({ tokenName: await apiR.registry.chainTokens }));
-        const bal = await getBalance(apiR, currentUser.account.publicKey);
-        dispatch(setBalance(bal));
       }
+      // const apiR = await ApiPromise.create(
+      //   rpcUrl === constants.Acala_Mandala_Rpc_Url
+      //     && AcalaOptions({ provider: wsProvider }),
+      // );
+      console.log('In api manager APIR [][]', apiR);
+      dispatch(setTokenName({ tokenName: await apiR.registry.chainTokens[0] }));
+      const bal = rpcUrl === constants.Acala_Mandala_Rpc_Url
+        ? await getBalanceWithMultipleTokens(apiR, currentUser.account.publicKey)
+        : await getBalance(apiR, currentUser.account.publicKey);
+      dispatch(setBalance(bal));
+      // } else {
+      // const wsProvider = new WsProvider(rpcUrl);
+      // apiR = await ApiPromise.create({ provider: wsProvider });
+      // dispatch(setTokenName({ tokenName: await apiR.registry.chainTokens }));
+      // const bal = await getBalance(apiR, currentUser.account.publicKey);
+      // dispatch(setBalance(bal));
+      // }
       console.log('Api configuration close', apiR.isConnected);
       await apiR.isReady;
       console.log('Api configuration complete', apiR);

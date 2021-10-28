@@ -166,9 +166,14 @@ const Send = () => {
     const sender = keyring.addFromUri(currentUser.account.seed);
     console.log('Sender [][]', sender.address);
     data.operation = 'Send';
+    const decimals = currentUser.account.chainName === 'AcalaMandala'
+      ? decimalPlaces[0] : decimalPlaces;
+    // const newBalance = currentUser.account.chainName === 'AcalaMandala'
+    //  ? change / 10 ** decimalPlaces[0] : change / 10 ** decimalPlaces;
+    console.log('Decimals of the chain', decimals);
     const result = await api.tx.balances
       .transfer(
-        accountToSate.value, amountState.value * 1000000000000,
+        accountToSate.value, amountState.value * 10 ** decimals,
       )
       .signAndSend(
         sender, async (res) => {
@@ -277,7 +282,7 @@ const Send = () => {
     if (currentUser.account.tokenName[0] === 'KSM') {
       return (splitFee[0] * 10 ** -6).toFixed(4);
     }
-    if (currentUser.account.tokenName[0] === 'PLD') {
+    if (currentUser.account.tokenName === 'PLD') {
       return splitFee[0];
     }
     if (currentUser.account.tokenName === 'ACA') {
@@ -308,6 +313,7 @@ const Send = () => {
       const txFee = await
       convertTransactionFee(info.partialFee.toHuman());
       data.txFee = txFee;
+      console.log('Tx fee here [][]', txFee);
       data.chainName = currentUser.account.chainName;
       setTransactionFee(txFee);
       // eslint-disable-next-line radix
