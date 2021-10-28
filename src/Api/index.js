@@ -2,9 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { useDispatch, useSelector } from 'react-redux';
+import { options as AcalaOptions } from '@acala-network/api';
 import { setApi, setApiInitializationStarts } from '../redux/slices/api';
 import { setBalance } from '../redux/slices/account';
-import { getBalance } from '../ToolBox/services';
+import { getBalance, getBalanceWithMultipleTokens } from '../ToolBox/services';
 
 function ApiManager({ rpc }) {
   // eslint-disable-next-line import/no-mutable-exports
@@ -17,8 +18,14 @@ function ApiManager({ rpc }) {
   useEffect(() => {
     const setAPI = async (rpcUrl) => {
       dispatch(setApiInitializationStarts(true));
-      const wsProvider = new WsProvider(rpcUrl);
-      const apiR = await ApiPromise.create({ provider: wsProvider });
+      let apiR;
+      if (rpcUrl === 'wss://acala-mandala.api.onfinality.io/public-ws') {
+        const wsProvider = new WsProvider(rpcUrl);
+        apiR = new ApiPromise(AcalaOptions({ provider: wsProvider }));
+      } else {
+        const wsProvider = new WsProvider(rpcUrl);
+        apiR = await ApiPromise.create({ provider: wsProvider });
+      }
       console.log('Api configuration close', apiR.isConnected);
       await apiR.isReady;
       console.log('Api configuration complete', apiR);
@@ -29,6 +36,11 @@ function ApiManager({ rpc }) {
       // WsProvider.websocket.close();
 
       try {
+        if (rpcUrl === 'wss://acala-mandala.api.onfinality.io/public-ws') {
+          const nbalance = await getBalanceWithMultipleTokens(apiR, currentUser.account.publicKey);
+          dispatch(setBalance(nbalance));
+          return nbalance;
+        }
         const nbalance = await getBalance(apiR, currentUser.account.publicKey);
         dispatch(setBalance(nbalance));
         return nbalance;

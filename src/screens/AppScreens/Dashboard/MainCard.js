@@ -66,9 +66,11 @@ function MainCard({
   //   setOpen(true);
   // };
 
+  // eslint-disable-next-line no-unused-vars
   const trimBalance = (value) => {
+    console.log('Value', value);
     const val = value.toString();
-    const trimmedValue = val.slice(0, (val.indexOf('.')) + 3);
+    const trimmedValue = val.slice(0, (val.indexOf('.')) + 4);
     return trimmedValue;
   };
 
@@ -125,6 +127,7 @@ function MainCard({
         <LightTooltip title={balance} arrow placement="bottom">
           <span>
             {trimBalance(balance)}
+            {/* {'123'} */}
           </span>
         </LightTooltip>
         {' '}

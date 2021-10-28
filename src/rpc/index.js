@@ -12,7 +12,7 @@ export default class RpcInitialization {
     // this.changeRpcUrl = changeRpcUrl;
   }
 
-     static init = async (rpcUrl) => {
+     static init = async (rpcUrl, options) => {
        console.log('Init function running', rpcUrl);
        //  if (rpcUrl && !changeRpcUrl) {
        //    console.log('In if returing api');
@@ -20,6 +20,11 @@ export default class RpcInitialization {
        //  }
        // if(!rpcUrl) return api
        const wsProvider = new WsProvider(rpcUrl);
+       if (options) {
+         api = new ApiPromise(options({ provider: wsProvider }));
+         await api.isReady;
+         return api;
+       }
        api = await ApiPromise.create({ provider: wsProvider });
        await api.isReady;
        console.log('Api configuration complete', api);

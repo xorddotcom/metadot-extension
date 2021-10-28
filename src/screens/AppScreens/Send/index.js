@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addTransaction } from '../../../redux/slices/transactions';
 import { fonts } from '../../../utils';
-
+// eslint-disable-next-line no-unused-vars
+import { getBalanceWithMultipleTokens, getBalance } from '../../../ToolBox/services';
+import { setBalance } from '../../../redux/slices/account';
 import {
   AuthWrapper, Button, ConfirmSend, Header, StyledInput,
 } from '../../../components';
@@ -150,6 +152,9 @@ const Send = () => {
   };
 
   const sendTransaction = async () => {
+    console.log('Sending transaction');
+    const decimalPlaces = await api.registry.chainDecimals;
+    console.log('Decimal places', decimalPlaces);
     console.log('Api [[]]', api);
     console.log('Send tranasction tx details', data);
     const keyring = new Keyring({ type: 'sr25519' });
@@ -159,12 +164,11 @@ const Send = () => {
     data.operation = 'Send';
     const result = await api.tx.balances
       .transfer(
-        accountToSate.value,
-        amountState.value * 1000000000000,
+        accountToSate.value, amountState.value * 1000000000000,
       )
       .signAndSend(
-        sender, (res) => {
-          console.log('Success', res.status);
+        sender, async (res) => {
+          console.log('Status', res.status.isInBlock);
           if (res.status.isInBlock) {
             console.log(`Completed at block hash #${res.status.asInBlock.toString()}`);
             console.log('Current status of IF', res.status.type);
@@ -175,8 +179,18 @@ const Send = () => {
             console.log('Before finalized', data);
             console.log('In finalized', data);
             console.log('Res here', res);
+            if (data.rpcUrl === 'wss://acala-mandala.api.onfinality.io/public-ws') {
+              const bal = await getBalanceWithMultipleTokens(api, currentUser.account.publicKey);
+              console.log('Balance setting in redux', bal);
+              dispatch(setBalance(bal));
+            } else {
+              const bal = await getBalance(api, currentUser.account.publicKey);
+              dispatch(setBalance(bal));
+            }
+            // const newBalance = await getBalance(api, sender.address);
+            // console.log('New balance', newBalance);
+            // dispatch(setBalance(newBalance));
             dispatch(addTransaction(data));
-
             dispatch(setMainTextForSuccessModal('Transaction successfull'));
             dispatch(
               setSubTextForSuccessModal('Your transaction was successfully submitted'),
@@ -247,27 +261,35 @@ const Send = () => {
   };
 
   const convertTransactionFee = (fee) => {
-    console.log('Token name', currentUser.account.tokenName);
+    console.log('convert tx fee', currentUser.account.tokenName);
     const splitFee = fee.split(' ');
     console.log('SPlit', splitFee);
     if (currentUser.account.tokenName[0] === 'WND') {
-      return splitFee[0] * 10 ** -3;
+      return (splitFee[0] * 10 ** -3).toFixed(4);
       // return splitFee[0] * 0.001;
     }
     if (currentUser.account.tokenName[0] === 'KSM') {
-      return splitFee[0] * 10 ** -6;
+      return (splitFee[0] * 10 ** -6).toFixed(4);
+    }
+    if (currentUser.account.tokenName[0] === 'PLD') {
+      return splitFee[0];
+    }
+    if (currentUser.account.tokenName === 'ACA') {
+      console.log('In mACA');
+      return (splitFee[0] * 10 ** -3).toFixed(4);
     }
     return true;
   };
 
   // eslint-disable-next-line no-unused-vars
   const handleSubmit = async () => {
+    const decimalPlaces = await api.registry.chainDecimals;
     console.log('isCorrect', isCorrect);
     console.log('Handle submit running');
     try {
       if (!validateInputValues(accountToSate.value)) throw new Error('An error occurred');
       const info = await api.tx.balances
-        .transfer(currentUser.account.publicKey, amountState.value * 1000000000000)
+        .transfer(currentUser.account.publicKey, amountState.value * 10 ** decimalPlaces)
         .paymentInfo(accountToSate.value);
       console.log('info', info);
       console.log(`
@@ -276,7 +298,8 @@ const Send = () => {
     partialFee=${info.partialFee.toHuman()}
     `);
 
-      const txFee = await convertTransactionFee(info.partialFee.toHuman());
+      const txFee = await
+      convertTransactionFee(info.partialFee.toHuman());
       data.txFee = txFee;
       data.chainName = currentUser.account.chainName;
       setTransactionFee(txFee);

@@ -16,6 +16,9 @@ const Kusama_Rpc_Url = 'wss://kusama-rpc.polkadot.io';
 // Dusty
 const Dusty_Rpc_Url = 'wss://rpc.dusty.plasmnet.io/';
 
+// Phala
+const Phala_Rpc_Url = 'wss://para2-api.phala.network/ws/';
+
 export default {
   Account_Type,
   Polkadot_Rpc_Url,
@@ -23,4 +26,5 @@ export default {
   WestEndRpcUrl,
   Kusama_Rpc_Url,
   Dusty_Rpc_Url,
+  Phala_Rpc_Url,
 };

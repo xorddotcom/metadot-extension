@@ -10,11 +10,12 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 // eslint-disable-next-line import/namespace
 import { CircularProgress } from '@mui/material';
+import { options } from '@acala-network/api';
 import MainCard from './MainCard';
 import Operations from './Operations';
 import AssetsAndTransactions from './AssetsAndTransactions';
 
-import { providerInitialization, getBalance } from '../../../ToolBox/services';
+import { providerInitialization, getBalance, getBalanceWithMultipleTokens } from '../../../ToolBox/services';
 // import onChainConstants from '../../../constants/onchain'
 import constants from '../../../constants/onchain';
 import { setRpcUrl, setBalance, setSeed } from '../../../redux/slices/account';
@@ -58,6 +59,10 @@ import {
 } from '../../../redux/slices/successModalHandling';
 
 const { WsProvider, ApiPromise, Keyring } = require('@polkadot/api');
+
+const BN = require('bn.js');
+
+const { cryptoWaitReady } = require('@polkadot/util-crypto');
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -141,14 +146,17 @@ const KusamaMainNetworks = [
 const TestNetworks = [
   {
     name: 'Westend',
-    theme: '#015D77',
+    // theme: '#015D77',
+    theme: 'rgb(241, 145, 53)',
     rpcUrl: constants.WestEndRpcUrl,
     tokenName: 'Westend',
   },
   {
     name: 'AcalaMandala',
     theme: '#E6007A',
-    disabled: true,
+    rpcUrl: constants.Acala_Mandala_Rpc_Url,
+    tokenName: 'Acala',
+    // disabled: false,
   },
   {
     name: 'Moonbase',
@@ -158,7 +166,7 @@ const TestNetworks = [
   {
     name: 'Dusty',
     theme: '#E6007A',
-    disabled: true,
+    disabled: false,
     rpcUrl: constants.Dusty_Rpc_Url,
     tokenName: 'Dusty',
   },
@@ -171,6 +179,8 @@ const TestNetworks = [
     name: 'Phala',
     theme: '#008D77',
     disabled: true,
+    rpcUrl: constants.Phala_Rpc_Url,
+    tokenName: 'Phala',
   },
 ];
 
@@ -188,6 +198,7 @@ function Dashboard() {
   const dispatch = useDispatch();
 
   async function main() {
+    // console.clear();
     const { api } = currentUser.api;
     // const api = apiInState;
     console.log('Listner working', api);
@@ -199,10 +210,11 @@ function Dashboard() {
       data: { free: previousFree },
       nonce: previousNonce,
     } = await api.query.system.account(currentUser.account.publicKey);
-
+    const decimalPlaces = await api.registry.chainDecimals;
     // Here we subscribe to any balance changes and update the on-screen value
     api.query.system.account(
       currentUser.account.publicKey,
+      // eslint-disable-next-line consistent-return
       ({ data: { free: currentFree }, nonce: currentNonce }) => {
         // Calculate the delta
         const change = currentFree.sub(previousFree);
@@ -210,16 +222,25 @@ function Dashboard() {
         // Only display positive value changes (Since we are pulling `previous` above already,
         // the initial balance change will also be zero)
         console.log('Change is zero', change);
+        // eslint-disable-next-line no-unused-expressions
+        // async () => {
         if (!change.isZero()) {
+          // console.log('Balance changed');
+          // const newBalance = await getBalance(api, currentUser.account.publicKey);
+          // console.log('New balance', newBalance);
+          // dispatch(setBalance(newBalance));
+          const newBalance = currentUser.account.chainName === 'AcalaMandala' ? change / 10 ** decimalPlaces[0] : change / 10 ** decimalPlaces;
           console.log(`New balance change of ${change}, nonce ${currentNonce}`);
-          const newBalance = change / 1000000000000;
+          console.log('Decimal places', decimalPlaces);
           console.log('New balance', newBalance);
           console.log('Exact balance', newBalance + currentUser.account.balance);
           dispatch(setBalance(newBalance + currentUser.account.balance));
 
           previousFree = currentFree;
           previousNonce = currentNonce;
+          return newBalance;
         }
+        // };
       },
     );
   }
@@ -334,6 +355,99 @@ function Dashboard() {
     );
   };
 
+  // Acala network initialization
+  const initializeAcalaNetwork = async () => {
+    try {
+      console.log('Initializer working');
+      const provider = new WsProvider(
+        'wss://acala-mandala.api.onfinality.io/public-ws',
+      );
+      // console.log('Provider');
+      // const api = await ApiPromise.create({ provider: wsProvider });
+      // const options = () => {
+      //   const BridgeChainId = 2004;
+      //   return BridgeChainId;
+      // };
+      const api = new ApiPromise(options({ provider }));
+      await api.isReady;
+      console.log('Api [][]', api);
+
+      // console.log('Get balance', a, api);
+      const { data: balance } = await api.query.system.account(currentUser.account.publicKey);
+      console.log('Balance free', balance.free);
+      console.log('Decimals [][]', api.registry.chainDecimals);
+      console.log('Tokens', api.registry.chainTokens);
+      const decimal = api.registry.chainDecimals;
+      const properties = await api.rpc.system.properties();
+      const [now, { nonce, data: balances }] = await Promise.all([
+        api.query.timestamp.now(),
+        api.query.system.account(currentUser.account.publicKey),
+      ]);
+      console.log('New data', now, nonce);
+      console.log('User balance', balances.free.toHuman());
+    } catch (err) {
+      console.log('Error', err);
+    }
+  };
+
+  // ACALA MANDALA TRANSACTION
+  const sendTransaction = async () => {
+    try {
+      console.log('Send tranasction working');
+      const provider = new WsProvider(
+        'wss://acala-mandala.api.onfinality.io/public-ws',
+      );
+      // console.log('Provider');
+      // const api = await ApiPromise.create({ provider: wsProvider });
+      // const options = () => {
+      //   const BridgeChainId = 2004;
+      //   return BridgeChainId;
+      // };
+      const api = new ApiPromise(options({ provider }));
+      await api.isReady;
+      console.log('Api [][]', api);
+
+      await cryptoWaitReady();
+      const keyring = new Keyring({ type: 'sr25519' });
+      const sender = keyring.addFromUri(currentUser.account.seed);
+      console.log('Sender [][]', sender.address);
+
+      /// ////////////////////////
+      /// / Acala transaction ////
+      /// ////////////////////////
+
+      // const hash = await api.tx.currencies
+      //   .transfer(
+      //     '5Dz1i42ygyhi4BxPnvKtRY4TBShTMC9T2FvaMB8CWxoU3QgG',
+      //     {
+      //       Token: 'ACA',
+      //     },
+      //     '1000000000000',
+      //   )
+      //   .signAndSend(me);
+
+      // console.log('Hash', hash.toHex());
+      const hash = await api.tx.balances
+        .transfer(
+          '5Dz1i42ygyhi4BxPnvKtRY4TBShTMC9T2FvaMB8CWxoU3QgG',
+          // {
+          //   Token: 'ACA',
+          // },
+          '3000000000000',
+        ).signAndSend(sender, (res) => {
+          console.log('Res status', res.status);
+          if (res.status.isInBlock) {
+            console.log(`Completed at block hash #${res.status.asInBlock.toString()}`);
+            console.log('Current status of IF', res.status.type);
+          }
+        });
+      // console.log('Hash [][]', hash);
+      // console.log('Hash to Hex', hash.toHex());
+    } catch (err) {
+      console.log('Error', err);
+    }
+  };
+
   const [modalState, setModalState] = useState({
     firstStep: true,
     renderMethod: RenderContentForAvailableNetwroks,
@@ -353,6 +467,10 @@ function Dashboard() {
     });
   };
 
+  const getBalanceHere = async () => {
+    const res = await getBalanceWithMultipleTokens(currentUser.api.api, currentUser.account.publicKey);
+    console.log('Res', res);
+  };
   // prettier-ignore
   const handleSelection = async (data) => {
     setIsLoading(true);
@@ -378,7 +496,7 @@ function Dashboard() {
     } else {
       console.log('NETWORK SELECTED', data);
       dispatch(setApiInitializationStarts(true));
-      const api = await RpcClass.init(data.rpcUrl);
+      const api = await RpcClass.init(data.rpcUrl, options);
       // setApiInState(api);
       dispatch(setApi(api));
       // const wsProvider = new WsProvider(data.rpcUrl);
@@ -386,17 +504,38 @@ function Dashboard() {
       // const api = await ApiPromise.create({ provider: wsProvider });
       // console.log('Api', api);
       // await api.isReady;
-      console.log('Api after await', await api);
-      const bal = await getBalance(api, currentUser.account.publicKey);
-      dispatch(setBalance(bal));
-      // chainDecimals = await api.registry.chainDecimals
+      console.log('Api after await', api);
+
+      const properties = await api.rpc.system.properties();
+      console.log('Properties ====>>', properties);
+
+      const res = await api.rpc.state.getMetadata();
+      console.log('Res ===>>>>', res);
+
+      // const acalaDecimals = await res.
+
+      console.log('Token name on dashboard', await api.registry.chainTokens);
+      if (data.rpcUrl === 'wss://acala-mandala.api.onfinality.io/public-ws') {
+        const bal = await getBalanceWithMultipleTokens(api, currentUser.account.publicKey);
+        console.log('Balance setting in redux', bal);
+        dispatch(setBalance(bal));
+      } else {
+        const bal = await getBalance(api, currentUser.account.publicKey);
+        dispatch(setBalance(bal));
+      }
+
+      //  await {rpcUrl === 'wss://acala-mandala.api.onfinality.io/public-ws' ?
+      // getBalanceWithMultipleTokens(api, currentUser.account.publicKey) :
+      // getBalance(api, currentUser.account.publicKey) }
+
+      // // chainDecimals = await api.registry.chainDecimals
+      const tokenNames = await api.registry.chainTokens;
       console.log('Token name on dashboard', await api.registry.chainTokens);
       // setTokenName(await api.registry.chainTokens);
-      dispatch(setRpcUrl({ chainName: data.name, rpcUrl: data.rpcUrl, tokenName: await api.registry.chainTokens }));
+      dispatch(setRpcUrl({ chainName: data.name, rpcUrl: data.rpcUrl, tokenName: tokenNames[0] }));
       setIsLoading(false);
 
       dispatch(setMainTextForSuccessModal('Successfully Converted!'));
-      dispatch(setSubTextForSuccessModal(`You are now successfully on ${data.name}`));
       dispatch(setIsSuccessModalOpen(true));
 
       setTimeout(() => {
@@ -405,11 +544,6 @@ function Dashboard() {
 
       selectAndGoBack(data.name);
     }
-  };
-
-  const disconnect = async () => {
-    const wsProvider = new WsProvider('wss://westend-rpc.polkadot.io');
-    wsProvider.websocket.close();
   };
 
   // --------XXXXXXXXXXXXXXX-----------
@@ -504,8 +638,9 @@ function Dashboard() {
         }}
       />
 
-      {/* <button type="button" onClick={() => console.log('Res in =============', currentUser)}>Get State</button> */}
-      <button type="button" onClick={disconnect}>Disable</button>
+      <button type="button" onClick={initializeAcalaNetwork}> Initialize Acala </button>
+      <button type="button" onClick={sendTransaction}>Send transaction</button>
+      <button type="button" onClick={getBalanceHere}>Get balance</button>
     </Wrapper>
   );
 }
