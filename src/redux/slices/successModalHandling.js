@@ -5,6 +5,7 @@ const initialState = {
   mainText: 'Success!',
   subText: 'The process is executed successully!',
   isSuccessModalOpen: false,
+  loadingFor: '', // this property is here because this is a blacklisted reducer
 };
 
 export const successModalHandling = createSlice({
@@ -20,6 +21,9 @@ export const successModalHandling = createSlice({
     setIsSuccessModalOpen: (state, action) => {
       state.isSuccessModalOpen = action.payload;
     },
+    setLoadingFor: (state, action) => {
+      state.loadingFor = action.payload;
+    },
   },
 });
 
@@ -28,6 +32,7 @@ export const {
   setMainTextForSuccessModal,
   setSubTextForSuccessModal,
   setIsSuccessModalOpen,
+  setLoadingFor,
 } = successModalHandling.actions;
 
 export default successModalHandling.reducer;

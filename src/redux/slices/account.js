@@ -3,8 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import constants from '../../constants/onchain';
 
 const initialState = {
-  isAuthorized: false,
-  accountCreated: false,
   seed: '',
   isLoggedIn: false,
   publicKey: '',
@@ -14,7 +12,6 @@ const initialState = {
   chainName: 'Polkadot Main Network',
   tokenName: 'DOT',
   balance: 0,
-  walletName: '',
   keyringInitialized: false,
 };
 
@@ -61,8 +58,12 @@ export const accountSlice = createSlice({
       console.log('In redux', action.payload);
       // console.log('Action in set rpc url [][]',action.payload);
       state.rpcUrl = action.payload.rpcUrl;
-      state.chainName = action.payload.chainName;
+    },
+    setTokenName: (state, action) => {
       state.tokenName = action.payload.tokenName;
+    },
+    setChainName: (state, action) => {
+      state.chainName = action.payload.chainName;
     },
     setBalance: (state, action) => {
       console.log('Action payload', action.payload);
@@ -80,6 +81,8 @@ export const {
   setWalletPassword,
   setLoggedIn,
   setRpcUrl,
+  setTokenName,
+  setChainName,
   setBalance,
   deleteRedux,
   setKeyringInitialized,

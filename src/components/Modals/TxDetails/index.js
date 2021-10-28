@@ -102,8 +102,8 @@ function TxDetails({
               </VerticalContentDiv>
 
               <VerticalContentDiv>
-                <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>{`${txDetailsModalData.amount} ${txDetailsModalData.tokenName}`}</MainText2>
-                <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>
+                <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>{`${txDetailsModalData.amount} ${txDetailsModalData.tokenName}`}</MainText2>
+                <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>
                   {`${txDetailsModalData.transactionFee} ${txDetailsModalData.tokenName}`}
                 </MainText2>
               </VerticalContentDiv>

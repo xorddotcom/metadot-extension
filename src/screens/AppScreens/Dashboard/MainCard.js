@@ -4,10 +4,10 @@ import React from 'react';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 // import Tooltip from '@mui/material/Tooltip';
+import { toast } from 'react-toastify';
 import {
   AccountName,
   Balance,
@@ -49,6 +49,7 @@ function MainCard({
   // console.log('Token name in main card', walletName);
   // console.log('balance', balance.toString().slice(0, 8));
   console.log('balance float', parseFloat(balance).toFixed(5));
+  // eslint-disable-next-line no-unused-vars
   const [open, setOpen] = React.useState(false);
 
   const copyText = () => {
@@ -58,10 +59,24 @@ function MainCard({
     }, 800);
     console.log('ENd', address);
     navigator.clipboard.writeText(address);
+    console.log('-------------emitter start');
+    // toast emitter
+    // toast('Copied!', {
+    //   position: toast.POSITION.BOTTOM_CENTER,
+    //   className: 'toast-success',
+    //   progressClassName: 'success-progress-bar',
+    //   autoClose: 2000,
+    //   toastId: 1,
+    // });
+    toast.success('Copied!', {
+      position: toast.POSITION.BOTTOM_CENTER,
+      className: 'toast-success',
+      progressClassName: 'success-progress-bar',
+      autoClose: 2000,
+      toastId: 1,
+    });
   };
-  const handleTooltipClose = () => {
-    setOpen(false);
-  };
+
   // const handleTooltipOpen = () => {
   //   setOpen(true);
   // };
@@ -94,33 +109,18 @@ function MainCard({
           {' '}
         </PublicAddress>
         {/* </LightTooltip> */}
-        <ClickAwayListener onClickAway={handleTooltipClose}>
-          <div style={{ position: 'relative' }}>
-            <LightTooltip title="Copy address" arrow placement="right">
-              <Tooltip
-                PopperProps={{
-                  disablePortal: true,
-                }}
-                onClose={handleTooltipClose}
-                open={open}
-                disableFocusListener
-                disableHoverListener
-                disableTouchListener
-                title="Copied"
-                style={{ padding: '2rem' }}
-              >
-                <ContentCopyIcon
-                  style={{
-                    color: '#cccccc',
-                    fontSize: 12,
-                    marginLeft: 10,
-                  }}
-                  onClick={copyText}
-                />
-              </Tooltip>
-            </LightTooltip>
-          </div>
-        </ClickAwayListener>
+        <div style={{ position: 'relative' }}>
+          <LightTooltip title="Copy address" arrow placement="right">
+            <ContentCopyIcon
+              style={{
+                color: '#cccccc',
+                fontSize: 12,
+                marginLeft: 10,
+              }}
+              onClick={copyText}
+            />
+          </LightTooltip>
+        </div>
       </VerticalContentDiv>
 
       <Balance className={mainHeadingfontFamilyClass}>

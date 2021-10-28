@@ -69,6 +69,9 @@ const amountReducer = (state, action) => {
 };
 
 const Send = () => {
+  const [loading1, setLoading1] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [loading2, setLoading2] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   // fill this state  from redux
@@ -157,6 +160,7 @@ const Send = () => {
     console.log('Decimal places', decimalPlaces);
     console.log('Api [[]]', api);
     console.log('Send tranasction tx details', data);
+    setLoading2(true);
     const keyring = new Keyring({ type: 'sr25519' });
 
     const sender = keyring.addFromUri(currentUser.account.seed);
@@ -191,6 +195,8 @@ const Send = () => {
             // console.log('New balance', newBalance);
             // dispatch(setBalance(newBalance));
             dispatch(addTransaction(data));
+            setLoading2(false);
+            setIsSendModalOpen(false);
             dispatch(setMainTextForSuccessModal('Transaction successfull'));
             dispatch(
               setSubTextForSuccessModal('Your transaction was successfully submitted'),
@@ -288,6 +294,7 @@ const Send = () => {
     console.log('Handle submit running');
     try {
       if (!validateInputValues(accountToSate.value)) throw new Error('An error occurred');
+      setLoading1(true);
       const info = await api.tx.balances
         .transfer(currentUser.account.publicKey, amountState.value * 10 ** decimalPlaces)
         .paymentInfo(accountToSate.value);
@@ -303,9 +310,20 @@ const Send = () => {
       data.txFee = txFee;
       data.chainName = currentUser.account.chainName;
       setTransactionFee(txFee);
-      setIsSendModalOpen(true);
+      // eslint-disable-next-line radix
+      console.log('check', parseInt(amountState.value), txFee, currentUser.account.balance, (Number(amountState.value) + Number(txFee)));
+      // eslint-disable-next-line radix
+      console.log('check', currentUser.account.balance < (Number(amountState.value) + Number(txFee)));
+      setLoading1(false);
+      // checking if balance is enough to send the amount with network fee
+      if (currentUser.account.balance < (Number(amountState.value) + Number(txFee))) {
+        alert('balance is too low to pay network fees!');
+      } else {
+        setIsSendModalOpen(true);
+      }
     } catch (err) {
       console.log('In catch state', error);
+      setLoading1(false);
       console.log('Error in Submit [][]', err);
     }
   };
@@ -316,6 +334,7 @@ const Send = () => {
     return trimmedValue;
   };
 
+  // eslint-disable-next-line no-unused-vars
   const getDetailsFromBlock = async () => {
     const signedBlock = await api.rpc.chain.getBlock('0xe4f1433292a5560ad8e699f8e28281a2266b1e2f9523c7dd0527086ffa25b876');
 
@@ -417,7 +436,7 @@ const Send = () => {
             {error.amountError ? <WarningText>{errorMessages.enterAmount}</WarningText> : null}
           </div>
         </VerticalContentDiv>
-        <button type="submit">Submit</button>
+        {/* <button type="submit">Submit</button> */}
         {/* </form> */}
       </MainContent>
       <CenterContent>
@@ -425,6 +444,7 @@ const Send = () => {
           text="Next"
           handleClick={handleSubmit}
           disabled={!formIsValid}
+          isLoading={loading1}
         />
       </CenterContent>
       <ConfirmSend
@@ -436,6 +456,7 @@ const Send = () => {
         tokenName={currentUser.account.tokenName}
         handleClose={() => setIsSendModalOpen(false)}
         handleConfirm={sendTransaction}
+        loading2={loading2}
         style={{
           width: '78%',
           background: '#141414',
@@ -446,7 +467,7 @@ const Send = () => {
           mt: 15,
         }}
       />
-      <button
+      {/* <button
         type="button"
         onClick={() => {
           dispatch(addTransaction({ name: 'hi' }));
@@ -456,7 +477,7 @@ const Send = () => {
 
       </button>
       <button type="button" onClick={() => console.log('Data', data)}>DATA</button>
-      <button type="button" onClick={getDetailsFromBlock}>Get details from hash</button>
+      <button type="button" onClick={getDetailsFromBlock}>Get details from hash</button> */}
     </AuthWrapper>
   );
 };
