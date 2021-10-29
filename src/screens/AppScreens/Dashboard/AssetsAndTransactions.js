@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { AssetCard, TxCard } from '../../../components';
-import { fonts } from '../../../utils';
+import { fonts, helpers } from '../../../utils';
 
 import {
   AssetsAndTransactionsWrapper,
@@ -20,6 +20,7 @@ import westendColour from '../../../assets/images/tokenImg/westend_colour.svg';
 import acala from '../../../assets/images/tokenImg/acala-circle.svg';
 
 const { mainHeadingfontFamilyClass } = fonts;
+const { trimBalance } = helpers;
 
 function AssetsAndTransactions({
   handleOpenTxDetailsModal,
@@ -78,7 +79,7 @@ function AssetsAndTransactions({
         <AssetCard
           name={assetsData.chainName}
           shortName={assetsData.tokenName[0]}
-          amount={assetsData.balance.toFixed(2)}
+          amount={(trimBalance(assetsData.balance))}
           amountInUsd={0}
           logo={logoChangeHandler(assetsData.tokenName)}
         />
