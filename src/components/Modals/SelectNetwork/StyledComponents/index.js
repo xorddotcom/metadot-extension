@@ -63,11 +63,11 @@ export const HorizontalContentDiv = styled.div`
 `;
 
 export const PlainIcon = styled.div`
-  width: 27px;
-  height: 27px;
+  width: 25px;
+  height: 25px;
   border-radius: 25px;
 
-  /* background: ${(props) => (props.bgColor ? props.bgColor : '#e6007a')}; */
+  background: ${(props) => (props.bgColor ? props.bgColor : '#e6007a')};
 `;
 
 export const OptionText = styled.div`

@@ -18,6 +18,8 @@ import kusamaKsm from '../../../assets/images/tokenImg/kusama-ksm.svg';
 import polkadotDot from '../../../assets/images/tokenImg/polkadot.png';
 import westendColour from '../../../assets/images/tokenImg/westend_colour.svg';
 import acala from '../../../assets/images/tokenImg/acala-circle.svg';
+import astar from '../../../assets/images/astar.png';
+import rococo from '../../../assets/images/rococo.svg';
 
 const { mainHeadingfontFamilyClass } = fonts;
 const { trimBalance } = helpers;
@@ -47,6 +49,10 @@ function AssetsAndTransactions({
       return dusty;
     } else if (token === 'ACA') {
       return acala;
+    } else if (token === 'PLM') {
+      return astar;
+    } else if (token === 'ROC') {
+      return rococo;
     } else {
       return polkadotDot;
     }
@@ -80,7 +86,7 @@ function AssetsAndTransactions({
           name={assetsData.chainName}
           shortName={assetsData.tokenName}
           amount={(trimBalance(assetsData.balance))}
-          amountInUsd={0}
+          amountInUsd={assetsData.balanceInUsd}
           logo={logoChangeHandler(assetsData.tokenName)}
         />
       )}
@@ -96,8 +102,8 @@ function AssetsAndTransactions({
               coin={transaction.tokenName}
               amount={transaction.amount}
               // amountInUsd={transaction.amountInUSD}
-              amountInUsd={transaction.tokenName === 'WND' ? '$0' : '$107.17'}
-              logo="https://s2.coinmarketcap.com/static/img/coins/64x64/6636.png"
+              amountInUsd={transaction.tokenName === 'WND' ? '$0' : '$0'}
+              logo={logoChangeHandler(transaction.tokenName)}
               handleClick={() => {
                 setTxDetailsModalData(transaction);
                 handleOpenTxDetailsModal();

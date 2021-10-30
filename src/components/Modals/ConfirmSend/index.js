@@ -9,7 +9,7 @@ import {
   HorizontalContentDiv,
   MainText1,
   MainText2,
-  SubText1,
+  // SubText1,
   SubText2,
   VerticalContentDiv,
 } from './StyledComponents';
@@ -52,6 +52,7 @@ function ConfirmSend({
     <Modal
       open={open}
       onClose={loading2 ? () => console.log('tx is going on...') : handleClose}
+      // onClose={handleClose}
     >
       <Box sx={style} className="txDetails-modal-style">
         <CloseIconDiv
@@ -59,6 +60,7 @@ function ConfirmSend({
             // eslint-disable-next-line no-unused-expressions
             loading2 ? console.log('tx is going on...')
               : handleClose();
+            // handleClose();
           }}
         >
           <CloseIcon />
@@ -71,14 +73,16 @@ function ConfirmSend({
 
             <VerticalContentDiv>
               <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>From</MainText2>
-              <SubText1 textAlign="start" className={mainHeadingfontFamilyClass}>{fromAccountName}</SubText1>
-              <SubText2 textAlign="start" className={subHeadingfontFamilyClass}>{`${accountFrom.slice(0, 3)} ... ${accountFrom.slice(-3)}`}</SubText2>
+              {/* <SubText1 textAlign="start"
+              className={mainHeadingfontFamilyClass}>{fromAccountName}</SubText1> */}
+              <SubText2 textAlign="start" className={subHeadingfontFamilyClass}>{`${accountFrom.slice(0, 5)} ... ${accountFrom.slice(-5)}`}</SubText2>
             </VerticalContentDiv>
 
             <VerticalContentDiv>
               <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>To</MainText2>
-              <SubText1 textAlign="end" className={mainHeadingfontFamilyClass}>Receiver</SubText1>
-              <SubText2 textAlign="end" className={subHeadingfontFamilyClass}>{`${accountTo.slice(0, 3)} ... ${accountTo.slice(-3)}`}</SubText2>
+              {/* <SubText1
+              textAlign="end" className={mainHeadingfontFamilyClass}>Receiver</SubText1> */}
+              <SubText2 textAlign="end" className={subHeadingfontFamilyClass}>{`${accountTo.slice(0, 5)} ... ${accountTo.slice(-5)}`}</SubText2>
             </VerticalContentDiv>
 
           </HorizontalContentDiv>
@@ -90,8 +94,8 @@ function ConfirmSend({
             <HorizontalContentDiv paddingTop borderBottom>
 
               <VerticalContentDiv>
-                <SubText1 textAlign="start" className={subHeadingfontFamilyClass}>Amount</SubText1>
-                <SubText1 textAlign="start" className={subHeadingfontFamilyClass}>Network Fee</SubText1>
+                <MainText2 textAlign="start" className={subHeadingfontFamilyClass}>Amount</MainText2>
+                <MainText2 textAlign="start" className={subHeadingfontFamilyClass}>Network Fee</MainText2>
               </VerticalContentDiv>
 
               <VerticalContentDiv>
@@ -103,13 +107,13 @@ function ConfirmSend({
             <HorizontalContentDiv paddingTop marginBottom>
 
               <VerticalContentDiv>
-                <SubText1 textAlign="start" className={subHeadingfontFamilyClass}>Total Amount</SubText1>
-                <SubText1 textAlign="start" hide className={subHeadingfontFamilyClass}>.</SubText1>
+                <MainText2 textAlign="start" className={subHeadingfontFamilyClass}>Total Amount</MainText2>
+                <MainText2 textAlign="start" hide className={subHeadingfontFamilyClass}>.</MainText2>
               </VerticalContentDiv>
 
               <VerticalContentDiv>
                 <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>{`${transactionAmount(amount, transactionFee)} ${tokenName}`}</MainText2>
-                <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>
+                <MainText2 textAlign="end" hide className={mainHeadingfontFamilyClass}>
                   {' '}
                   {console.log('Token Name WND here', tokenName)}
                   {tokenName[0] === 'WND' ? '' : '$ 594.304' }

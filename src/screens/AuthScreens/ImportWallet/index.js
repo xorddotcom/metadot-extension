@@ -29,7 +29,7 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryTextColor } = colors;
 
 const invalidSeedMessages = {
-  minimumWords: 'Atleast 12 words required!',
+  minimumWords: 'At least 12 words required!',
   maxWords: 'Only 12 words required!',
   seedDoesnotExist: 'Seed does not exists!',
 };
@@ -115,7 +115,7 @@ function ImportWallet() {
       <div>
         <MainHeading className={mainHeadingfontFamilyClass}>Restore your wallet : </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
-          To restore your wallet enter your Seed phrase or choose the Json file.
+          To restore your wallet enter your Seed phrase or upload a Json file.
           {' '}
         </SubHeading>
       </div>

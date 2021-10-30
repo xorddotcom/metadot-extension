@@ -145,7 +145,7 @@ function MainCard({
           $
           {balanceInUsd}
         </PerUnitPrice>
-        <VerticalContentDiv>
+        {/* <VerticalContentDiv>
           <VariationAmount className={mainHeadingfontFamilyClass}>
             0 %
             {' '}
@@ -157,7 +157,7 @@ function MainCard({
               color: '#3fcf1b',
             }}
           />
-        </VerticalContentDiv>
+        </VerticalContentDiv> */}
       </VerticalContentDiv>
     </MainPanel>
   );

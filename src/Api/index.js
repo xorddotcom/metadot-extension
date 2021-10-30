@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { options as AcalaOptions } from '@acala-network/api';
 import { setApi, setApiInitializationStarts } from '../redux/slices/api';
 import { getBalance, getBalanceWithMultipleTokens } from '../ToolBox/services';
-import { setBalance, setTokenName } from '../redux/slices/account';
+import { setBalance, setBalanceInUsd, setTokenName } from '../redux/slices/account';
 import {
   setIsSuccessModalOpen, setMainTextForSuccessModal,
   setSubTextForSuccessModal,
 } from '../redux/slices/successModalHandling';
 import constants from '../constants/onchain';
+import { helpers } from '../utils';
 
 function ApiManager({ rpc }) {
   // eslint-disable-next-line import/no-mutable-exports
@@ -36,11 +37,18 @@ function ApiManager({ rpc }) {
       //     && AcalaOptions({ provider: wsProvider }),
       // );
       console.log('In api manager APIR [][]', apiR);
-      dispatch(setTokenName({ tokenName: await apiR.registry.chainTokens[0] }));
+      const tokenName = await apiR.registry.chainTokens[0];
+      dispatch(setTokenName({ tokenName }));
       const bal = rpcUrl === constants.Acala_Mandala_Rpc_Url
         ? await getBalanceWithMultipleTokens(apiR, currentUser.account.publicKey)
         : await getBalance(apiR, currentUser.account.publicKey);
       dispatch(setBalance(bal));
+
+      console.log('-------- amount', { tokenName, bal });
+      const dollarAmount = await helpers.convertIntoUsd(tokenName, bal);
+      console.log('amount into abc', dollarAmount);
+
+      dispatch(setBalanceInUsd(dollarAmount));
       // } else {
       // const wsProvider = new WsProvider(rpcUrl);
       // apiR = await ApiPromise.create({ provider: wsProvider });

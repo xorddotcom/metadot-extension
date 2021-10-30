@@ -71,6 +71,8 @@ const amountReducer = (state, action) => {
 const { addressModifier } = helpers;
 
 const Send = () => {
+  // eslint-disable-next-line no-unused-vars
+  const [insufficientBal, setInsufficientBal] = useState();
   const [loading1, setLoading1] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [loading2, setLoading2] = useState(false);
@@ -149,6 +151,7 @@ const Send = () => {
   };
 
   const amountHandler = (e) => {
+    setInsufficientBal();
     amountDispatch({ type: 'USER_INPUT', val: e, amountIsValid: currentUser.account.balance });
   };
 
@@ -204,7 +207,7 @@ const Send = () => {
             dispatch(addTransaction(data));
             setLoading2(false);
             setIsSendModalOpen(false);
-            dispatch(setMainTextForSuccessModal('Transaction successfull'));
+            dispatch(setMainTextForSuccessModal('Transaction Successful!'));
             dispatch(
               setSubTextForSuccessModal(''),
             );
@@ -291,6 +294,12 @@ const Send = () => {
       console.log('In mACA');
       return (splitFee[0] * 10 ** -3).toFixed(4);
     }
+    if (currentUser.account.tokenName === 'ROC') {
+      return (splitFee[0] * 10 ** -3).toFixed(4);
+    }
+    if (currentUser.account.tokenName === 'DOT') {
+      return (splitFee[0] * 10 ** -3).toFixed(4);
+    }
     return true;
   };
 
@@ -325,7 +334,8 @@ const Send = () => {
       setLoading1(false);
       // checking if balance is enough to send the amount with network fee
       if (currentUser.account.balance < (Number(amountState.value) + Number(txFee))) {
-        alert('balance is too low to pay network fees!');
+        setInsufficientBal(true);
+        // alert('balance is too low to pay network fees!');
       } else {
         setIsSendModalOpen(true);
       }
@@ -450,16 +460,35 @@ const Send = () => {
             fontSize="14px"
             height="20px"
             onBlur={amountIsValidHandler}
-            isCorrect={amountState.isValid}
+            isCorrect={amountState.isValid || insufficientBal}
           />
+          {
+              insufficientBal
+            && (
+            <WarningText
+              className={subHeadingfontFamilyClass}
+              style={{ marginBottom: '1rem' }}
+            >
+              balance is too low to pay network fees!
+            </WarningText>
+            )
+            }
+          {
+              !insufficientBal
+          && (
           <WarningText
             className={subHeadingfontFamilyClass}
             style={{ marginBottom: '1rem' }}
           >
             {helpers.validateAmount(currentUser.account.balance, amountState.value)}
           </WarningText>
+          )
+            }
           <CalculatedAmount>
-            <EquivalentInUSDT className={subHeadingfontFamilyClass}>$23.212</EquivalentInUSDT>
+            <EquivalentInUSDT className={subHeadingfontFamilyClass}>
+              $
+              {currentUser.account.balanceInUsd}
+            </EquivalentInUSDT>
             <Balance textAlign="end" className={subHeadingfontFamilyClass}>
               {`${trimBalance(currentUser.account.balance)} ${currentUser.account.tokenName}`}
             </Balance>

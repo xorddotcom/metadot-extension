@@ -42,9 +42,9 @@ function Welcome() {
       <div className="main-content">
         <MainHeading
           className={mainHeadingfontFamilyClass}
-          style={{ fontSize: '3rem', textTransform: 'uppercase', marginTop: '-0.5rem' }}
+          // style={{ fontSize: '3rem', textTransform: 'uppercase', marginTop: '-0.5rem' }}
         >
-          MetaDot
+          Polo Wallet
 
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>

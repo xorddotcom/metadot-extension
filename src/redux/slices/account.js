@@ -12,6 +12,7 @@ const initialState = {
   chainName: 'Polkadot Main Network',
   tokenName: 'DOT',
   balance: 0,
+  balanceInUsd: 0,
   keyringInitialized: false,
 };
 
@@ -69,6 +70,10 @@ export const accountSlice = createSlice({
       console.log('Action payload', action.payload);
       state.balance = action.payload;
     },
+    setBalanceInUsd: (state, action) => {
+      console.log('Action payload', action.payload);
+      state.balanceInUsd = action.payload;
+    },
   },
 });
 
@@ -84,6 +89,7 @@ export const {
   setTokenName,
   setChainName,
   setBalance,
+  setBalanceInUsd,
   deleteRedux,
   setKeyringInitialized,
 } = accountSlice.actions;

@@ -35,6 +35,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 // eslint-disable-next-line import/namespace
 import { CircularProgress } from '@mui/material';
 import { options } from '@acala-network/api';
+import axios from 'axios';
 import MainCard from './MainCard';
 import Operations from './Operations';
 import AssetsAndTransactions from './AssetsAndTransactions';
@@ -47,7 +48,7 @@ import {
 } from '../../../redux/slices/account';
 import { setApi, setApiInitializationStarts } from '../../../redux/slices/api';
 
-import { fonts } from '../../../utils';
+import { fonts, helpers } from '../../../utils';
 import {
   AccountContainer,
   AccountSetting,
@@ -93,9 +94,12 @@ import polkadotDot from '../../../assets/images/tokenImg/polkadot.png';
 import westendColour from '../../../assets/images/tokenImg/westend_colour.svg';
 import acala from '../../../assets/images/tokenImg/acala-circle.svg';
 import yellow from '../../../assets/images/tokenImg/yellow.png';
+import green from '../../../assets/images/tokenImg/green.jpeg';
 import phala from '../../../assets/images/phala.svg';
 import moonbase from '../../../assets/images/moonriver.svg';
 import rococoIcon from '../../../assets/images/rococo.svg';
+
+import astarIcon from '../../../assets/images/astar.png';
 
 // import DropDown from './DropDown';
 
@@ -106,6 +110,7 @@ const BN = require('bn.js');
 const { cryptoWaitReady } = require('@polkadot/util-crypto');
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+const { convertIntoUsd } = helpers;
 
 const availableNetworks = [
   {
@@ -130,6 +135,30 @@ const availableNetworks = [
     theme: yellow,
     moreOptions: true,
   },
+  {
+    name: 'Beta Networks',
+    theme: green,
+    moreOptions: true,
+    rpcUrl: constants.Astar_Rpc_Url,
+    icon: KusamaIcon,
+    parachain: false,
+    mainNetwork: true,
+    testNet: null,
+    disabled: false,
+  },
+];
+
+const BetaNetworks = [
+  {
+    name: 'Astar',
+    icon: astarIcon,
+    parachain: false,
+    mainNetwork: true,
+    testNet: null,
+    rpcUrl: constants.Astar_Rpc_Url,
+    disabled: false,
+    tokenName: 'Kusama',
+  },
 ];
 
 const KusamaMainNetworks = [
@@ -142,15 +171,6 @@ const KusamaMainNetworks = [
     rpcUrl: constants.Kusama_Rpc_Url,
     disabled: false,
     tokenName: 'Kusama',
-  },
-  {
-    name: 'Astar',
-    icon: KaruraIcon,
-    parachain: true,
-    mainNetwork: true,
-    testNet: 'Dusty',
-    disabled: false,
-    rpcUrl: constants.Astar_Rpc_Url,
   },
   {
     name: 'Karura',
@@ -235,7 +255,7 @@ const TestNetworks = [
   {
     name: 'Asgard',
     // theme: '#2FEAC6',
-    theme: dusty,
+    theme: BifrostIcon,
     disabled: true,
   },
   {
@@ -269,6 +289,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Dashboard(props) {
+  const [amountInUsd, setAmountInUsd] = useState(false);
   const classes = useStyles(props);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
@@ -424,6 +445,7 @@ function Dashboard(props) {
         }}
         disabled={disabled}
       >
+        {/* {data.name === 'Beta Networks' && <PlainIcon />} */}
         {disabled && <span className="tooltiptext">Coming Soon!</span>}
         <HorizontalContentDiv>
           <img src={icon} alt="icon" />
@@ -448,10 +470,11 @@ function Dashboard(props) {
         disabled={disabled}
       >
         {disabled && <span className="tooltiptext">Coming Soon!</span>}
-
+        {/* {name === 'Beta Networks' && <PlainIcon />} */}
         <HorizontalContentDiv>
           {/* <PlainIcon bgColor={theme} /> */}
           {/* <PlainIcon> */}
+          {/* {name !== 'Beta Networks' && <img src={theme} alt="token" />} */}
           <img src={theme} alt="token" />
           {/* </PlainIcon> */}
           <OptionText className={mainHeadingfontFamilyClass}>{name}</OptionText>
@@ -622,6 +645,13 @@ function Dashboard(props) {
         renderMethod: RenderContentForKusamaMainNetwork,
         currentData: KusamaMainNetworks,
       });
+    } else if (data.name === 'Beta Networks') {
+      setIsLoading(false);
+      setModalState({
+        firstStep: false,
+        renderMethod: RenderContentForKusamaMainNetwork,
+        currentData: BetaNetworks,
+      });
     } else {
       console.log('NETWORK SELECTED', data);
       dispatch(setApiInitializationStarts(true));
@@ -685,13 +715,27 @@ function Dashboard(props) {
   // };
 
   // const res = RpcClass.apiGetter();
-  console.log('===========', { isLoading });
+
+  useEffect(() => {
+    async function convert() {
+    //   const oneKSMintoUsd = await axios.get(constants.USD_PER_KSM_API);
+    //   console.log('amount into -----------', oneKSMintoUsd.data.kusama.usd);
+    //   setAmountInUsd((Number(currentUser.account.balance) * oneKSMintoUsd.data.kusama.usd).toFixed(3));
+    //   console.log('amount into ============', Number(currentUser.account.balance) * oneKSMintoUsd.data.kusama.usd);
+      // const dollarAmount = await convertIntoUsd(currentUser.account.tokenName, currentUser.account.balance);
+      // console.log('amount into abc', dollarAmount);
+      // setAmountInUsd(dollarAmount);
+    }
+    convert();
+  }, []);
+
+  console.log('amount into', currentUser.account.balance, currentUser.account.balanceInUsd);
   return (
     <Wrapper>
       <DashboardHeader>
         {/* <button type="button" onClick={() => setCount(count + 1)}>Increment</button> */}
         <LogoContainer>
-          <img src={Logo} width="30px" height="34px" alt="MetaDot Logo" />
+          <img src={Logo} width="30px" height="34px" alt="Polo Wallet Logo" />
         </LogoContainer>
 
         <NetworkContainer>
@@ -850,7 +894,7 @@ function Dashboard(props) {
         tokenName={currentUser.account.tokenName}
         address={currentUser.account.publicKey}
         walletName={currentUser.account.walletName}
-        balanceInUsd="0"
+        balanceInUsd={currentUser.account.balanceInUsd || 0}
         accountName={currentUser.account.accountName}
       />
 

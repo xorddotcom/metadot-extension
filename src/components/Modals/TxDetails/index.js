@@ -15,6 +15,7 @@ import {
   SubText1,
   SubText2,
   VerticalContentDiv,
+  // eslint-disable-next-line no-unused-vars
   ViewOnPolkaScanText,
 } from './StyledComponents';
 import { fonts, helpers } from '../../../utils';
@@ -153,8 +154,8 @@ function TxDetails({
             <HorizontalContentDiv paddingTop borderBottom>
 
               <VerticalContentDiv>
-                <SubText1 textAlign="start" className={subHeadingfontFamilyClass}>Amount</SubText1>
-                <SubText1 textAlign="start" className={subHeadingfontFamilyClass}>Network Fee</SubText1>
+                <MainText2 textAlign="start" className={subHeadingfontFamilyClass}>Amount</MainText2>
+                <MainText2 textAlign="start" className={subHeadingfontFamilyClass}>Network Fee</MainText2>
               </VerticalContentDiv>
 
               <VerticalContentDiv>
@@ -180,7 +181,7 @@ function TxDetails({
                   {`${getTotalBalance(txDetailsModalData.amount, txDetailsModalData.transactionFee)}
                   ${txDetailsModalData.tokenName}`}
                 </MainText2>
-                <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>0$</MainText2>
+                <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>$0</MainText2>
               </VerticalContentDiv>
             </HorizontalContentDiv>
 
@@ -188,14 +189,14 @@ function TxDetails({
 
         </VerticalContentDiv>
 
-        <div className="btn-row" style={{ marginTop: 20 }}>
-          {/* <p style={{ color: '#fafafa' }}>View on Etherscan</p> */}
+        {/* <div className="btn-row" style={{ marginTop: 20 }}>
+          {/* <p style={{ color: '#fafafa' }}>View on Etherscan</p>
           <ViewOnPolkaScanText
             className={mainHeadingfontFamilyClass}
           >
             View on PolkaScan
           </ViewOnPolkaScanText>
-        </div>
+        </div> */}
       </Box>
     </Modal>
   );

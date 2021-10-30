@@ -19,11 +19,13 @@ padding-bottom: ${(props) => props.paddingBottom && '10px'};
 padding-top: ${(props) => props.paddingTop && '10px'};
 margin-bottom: ${(props) => props.marginBottom && '10px'};
 border-bottom: ${(props) => props.borderBottom && '1px solid rgba(250, 250, 250, 0.15)'};
+/* border: 1px solid white; */
 `;
 
 export const VerticalContentDiv = styled.div`
 display: flex;
 flex-direction: column;
+/* border: 1px solid white; */
 /* align-items: flex-start; */
 /* &${(props) => props.border === true} { */
   ${(props) => props.border && css`
@@ -58,6 +60,7 @@ height: 20px;
 color: #FAFAFA;
 text-align: ${(props) => props.textAlign};
 margin: 0px 0px 5px 0px;
+visibility: ${(props) => (props.hide ? 'hidden' : 'normal')};
 `;
 
 export const SubText1 = styled.p`
@@ -65,7 +68,7 @@ font-size: 0.803rem;
 line-height: 16px;
 height: 16px;
 
-visibility: ${(props) => (props.hide ? 'hidden' : 'normal')};;
+visibility: ${(props) => (props.hide ? 'hidden' : 'normal')};
 
 /* identical to box height, or 114% */
 letter-spacing: 0.02em;

@@ -265,7 +265,7 @@ function CreateWallet() {
           }}
           >
             <ListItem style={{ marginBottom: '-1.7rem' }}>
-              <p style={{ textAlign: 'justify' }}>This password will be used as the transaction password for the wallet, MetaDot does not save passwords and cannot retrieve them for you. Please keep your password safe!</p>
+              <p style={{ textAlign: 'justify' }}>This password will be used as the transaction password for the wallet, Polo Wallet does not save passwords and cannot retrieve them for you. Please keep your password safe!</p>
             </ListItem>
           </List>
         </SubHeading>

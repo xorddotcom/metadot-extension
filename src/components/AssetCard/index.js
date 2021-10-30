@@ -10,7 +10,7 @@ import {
 
 import { fonts } from '../../utils';
 
-import Button from '../Button';
+// import Button from '../Button';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -22,7 +22,9 @@ function AssetCard({
       <HorizontalContentDiv>
         <img src={logo} alt="currency icon" width="30px" height="30px" />
         <NameAndAmount>
-          <CoinName className={mainHeadingfontFamilyClass}>{name}</CoinName>
+          <CoinName className={mainHeadingfontFamilyClass}>
+            {name === 'Polkadot Main Network' ? 'Polkadot' : name}
+          </CoinName>
           <HorizontalContentDiv height="17px">
             <CoinAmount className={mainHeadingfontFamilyClass}>
               {`${amount} ${shortName}`}
@@ -35,7 +37,7 @@ function AssetCard({
           </HorizontalContentDiv>
         </NameAndAmount>
       </HorizontalContentDiv>
-      <div style={{ marginLeft: 10, marginTop: 10 }}>
+      {/* <div style={{ marginLeft: 10, marginTop: 10 }}>
         <Button
           text="Send"
           width="22%"
@@ -43,7 +45,7 @@ function AssetCard({
           fontSize="0.65rem"
           handleClick={() => console.log('Send')}
         />
-      </div>
+      </div> */}
     </AssetCardWrapper>
   );
 }

@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 
+import { useSelector } from 'react-redux';
 import { Option, OptionRow, OptionsName } from './StyledComponents';
 
 import Send from '../../../assets/images/Send.svg';
@@ -32,20 +33,23 @@ const LightTooltip = styled(({ className, ...props }) => (
 
 function Operations() {
   const history = useHistory();
+  const { account } = useSelector((state) => state);
   return (
     <OptionRow>
-      <Option onClick={() => history.push('/Send')}>
-        <img
-          src={Send}
-          alt="send icon"
-          style={{
-            width: 22,
-            color: '#fafafa',
-            marginTop: 10,
-          }}
-        />
-        <OptionsName className={mainHeadingfontFamilyClass}>Send</OptionsName>
-      </Option>
+      <LightTooltip title={account.chainName === 'Astar' ? 'Coming Soon' : ''} arrow placement="top">
+        <Option onClick={() => (account.chainName === 'Astar' ? console.log('coming soon1') : history.push('/Send'))}>
+          <img
+            src={Send}
+            alt="send icon"
+            style={{
+              width: 22,
+              color: '#fafafa',
+              marginTop: 10,
+            }}
+          />
+          <OptionsName className={mainHeadingfontFamilyClass}>Send</OptionsName>
+        </Option>
+      </LightTooltip>
 
       <LightTooltip title="Coming Soon" arrow placement="top">
         <Option>
