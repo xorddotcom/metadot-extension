@@ -86,6 +86,13 @@ function isUserNameValid(username) {
   return valid;
 }
 
+const trimBalance = (value) => {
+  console.log('Value', value);
+  const val = value.toString();
+  const trimmedValue = val.slice(0, (val.indexOf('.')) + 4);
+  return trimmedValue;
+};
+
 export default {
   arrayFromSeedSentence,
   arrayOfFourRandomNumbers,
@@ -94,6 +101,7 @@ export default {
   isUserNameValid,
   validateAddress,
   validateAmount,
+  trimBalance,
 };
 
 // export default helpers;

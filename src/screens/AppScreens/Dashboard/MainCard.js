@@ -26,7 +26,7 @@ import NotConnected from '../../../assets/images/notConnected.svg';
 
 import { fonts, helpers } from '../../../utils';
 
-const { addressModifier } = helpers;
+const { addressModifier, trimBalance } = helpers;
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -84,12 +84,12 @@ function MainCard({
   // };
 
   // eslint-disable-next-line no-unused-vars
-  const trimBalance = (value) => {
-    console.log('Value', value);
-    const val = value.toString();
-    const trimmedValue = val.slice(0, (val.indexOf('.')) + 4);
-    return trimmedValue;
-  };
+  // const trimBalance = (value) => {
+  //   console.log('Value', value);
+  //   const val = value.toString();
+  //   const trimmedValue = val.slice(0, (val.indexOf('.')) + 4);
+  //   return trimmedValue;
+  // };
 
   return (
     <MainPanel>
