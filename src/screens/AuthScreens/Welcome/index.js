@@ -48,7 +48,7 @@ function Welcome() {
 
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
-          For Passionates, For Progress, For Polkadot
+          Passion, Progress, Polkadot
         </SubHeading>
       </div>
       <div className="btn-wrapper">

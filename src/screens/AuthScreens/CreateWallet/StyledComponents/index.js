@@ -13,7 +13,7 @@ export const WarningText = styled.p`
   text-align: start;
   /* border: 1px solid white; */
   margin-left: 2px;
-  margin-top: 10px;
+  margin-bottom: 0px;
   visibility: ${(props) => props.visibility || 'visible'};
   /* position: absolute; */
   margin-bottom: 0;
@@ -21,8 +21,8 @@ export const WarningText = styled.p`
 
 export const LabelAndTextInput = styled.div`
   width: 100%;
-  /* height: 120px; */
-  margin-bottom: 0.5rem;
+  min-height: ${(props) => (props.minHeight ? props.minHeight : '103px')};
+  margin-bottom: 0px;
   position: relative;
   /* border: 1px solid white; */
 `;

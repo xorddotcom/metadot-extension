@@ -105,13 +105,14 @@ function ShowSeed() {
       />
       <div>
         <MainHeading className={mainHeadingfontFamilyClass}>
-          Write down your seed phrase
+          Write down your seed phrase :
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
-          Please write the mnemonic down in order to ensure the backup is
-          correct.
-          {/* Obtaining mnemonic is equivalent to owning wallet assets.
-          Dont take screenshots or copy, otherwise it may cause asset loss */}
+          To ensure backup a mnemonic is required. It would be used to
+          access your wallet in future.
+          Please write down this mnemonic and memorize it.
+          Once your sentence has been set, it cannot be viewed again.
+          Losing the mnemonic may cause permanent asset loss. Taking screenshots is not encouraged.
         </SubHeading>
       </div>
       {/* <HorizontalContentDiv> */}

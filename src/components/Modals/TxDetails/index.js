@@ -1,8 +1,12 @@
 import React from 'react';
 import { Modal } from '@mui/material';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import { styled } from '@mui/material/styles';
 import { Box } from '@mui/system';
 import CloseIcon from '@mui/icons-material/Close';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
+import { toast } from 'react-toastify';
 import {
   CloseIconDiv,
   HorizontalContentDiv,
@@ -19,6 +23,22 @@ import { fonts, helpers } from '../../../utils';
 const { addressModifier } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
+const LightTooltip = styled(({ className, ...props }) => (
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: 'rgba(0, 0, 0, 0.87)',
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+    zIndex: -2,
+  },
+  [`& .${tooltipClasses.arrow}`]: {
+    color: theme.palette.common.white,
+  },
+}));
+
 function TxDetails({
   open, handleClose, style, transactions, txDetailsModalData,
 }) {
@@ -32,6 +52,28 @@ function TxDetails({
     return val.toFixed(4);
     // return val;
   };
+
+  const copyText = () => {
+    console.log('copied hash', txDetailsModalData.hash);
+    navigator.clipboard.writeText(txDetailsModalData.hash);
+    console.log('-------------emitter start');
+    // toast emitter
+    // toast('Copied!', {
+    //   position: toast.POSITION.BOTTOM_CENTER,
+    //   className: 'toast-success',
+    //   progressClassName: 'success-progress-bar',
+    //   autoClose: 2000,
+    //   toastId: 1,
+    // });
+    toast.success('Copied!', {
+      position: toast.POSITION.BOTTOM_CENTER,
+      className: 'toast-success',
+      progressClassName: 'success-progress-bar',
+      autoClose: 1500,
+      toastId: 1,
+    });
+  };
+
   return (
     <Modal
       open={open}
@@ -58,8 +100,22 @@ function TxDetails({
             </VerticalContentDiv>
 
             <VerticalContentDiv>
-              <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>Date</MainText2>
-              <SubText2 textAlign="end" className={mainHeadingfontFamilyClass}>Sep 16 at 10:40 am</SubText2>
+              <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>Tx Hash</MainText2>
+              <HorizontalContentDiv>
+                <LightTooltip title="Copy Tx Hash" arrow placement="right">
+                  <ContentCopyIcon
+                    style={{
+                      color: '#cccccc',
+                      fontSize: 12,
+                      marginLeft: 10,
+                    }}
+                    onClick={copyText}
+                  />
+                </LightTooltip>
+                <SubText2 pl10 textAlign="end" className={mainHeadingfontFamilyClass}>
+                  {txDetailsModalData.hash ? `${txDetailsModalData.hash.slice(0, 5)}...${txDetailsModalData.hash.slice(txDetailsModalData.hash.length - 5, txDetailsModalData.hash.length)}` : ''}
+                </SubText2>
+              </HorizontalContentDiv>
             </VerticalContentDiv>
           </HorizontalContentDiv>
 
@@ -92,7 +148,7 @@ function TxDetails({
 
           <MainText1 textAlign="start" className={mainHeadingfontFamilyClass}>Transaction</MainText1>
 
-          <VerticalContentDiv border paddingBottom>
+          <VerticalContentDiv specialPadding border paddingBottom>
 
             <HorizontalContentDiv paddingTop borderBottom>
 

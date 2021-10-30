@@ -38,7 +38,7 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
 
 const passwordErrorMessages = {
-  minimumCharacterWarning: 'Minimum 8 characters required!',
+  minimumCharacterWarning: 'Password should not be less than 8 characters',
   didnotMatchWarning: 'Password did not match!',
 };
 
@@ -117,6 +117,7 @@ function CreateWallet() {
       if (!isUserNameValid(walletName) || walletName.length < 3) {
         console.log('invalid name');
         setIsValidWalletName(true);
+        validatePasswordAndConfirmPassword();
         setIsLoading(false);
         return;
       }
@@ -152,9 +153,10 @@ function CreateWallet() {
         {/* <MainHeading className={mainHeadingfontFamilyClass}>Authentication</MainHeading> */}
       </div>
       <SubMainWrapperForAuthScreens style={{ marginTop: '1.4rem' }}>
-        <LabelAndTextInput>
+        <LabelAndTextInput minHeight="117px">
           <SubHeading
             className={mainHeadingfontFamilyClass}
+            marginTop="0px"
           >
             Wallet Name
 
@@ -171,11 +173,21 @@ function CreateWallet() {
             }}
           />
           {isValidWalletName
-          && <WarningText className={subHeadingfontFamilyClass}>Invalid Username</WarningText>}
+          && (
+          <WarningText className={subHeadingfontFamilyClass}>
+            Name should not be less than 3 characters and can only contain alphanumeric data
+          </WarningText>
+          )}
         </LabelAndTextInput>
 
         <LabelAndTextInput>
-          <SubHeading className={mainHeadingfontFamilyClass}>Password</SubHeading>
+          <SubHeading
+            className={mainHeadingfontFamilyClass}
+            marginTop="0px"
+          >
+            Password
+
+          </SubHeading>
           <StyledInput
             placeholder="Password"
             className={subHeadingfontFamilyClass}
@@ -210,7 +222,7 @@ function CreateWallet() {
         </LabelAndTextInput>
 
         <LabelAndTextInput>
-          <SubHeading className={mainHeadingfontFamilyClass}>Confirm Password</SubHeading>
+          <SubHeading marginTop="0px" className={mainHeadingfontFamilyClass}>Confirm Password</SubHeading>
           <StyledInput
             placeholder="re-enter password"
             className={subHeadingfontFamilyClass}
@@ -253,17 +265,7 @@ function CreateWallet() {
           }}
           >
             <ListItem style={{ marginBottom: '-1.7rem' }}>
-              <p style={{ textAlign: 'justify' }}>Name can only consist of uppercase and lowercase alphabets and numbers.</p>
-            </ListItem>
-            <ListItem style={{ marginBottom: '-1.7rem' }}>
-              <p style={{ textAlign: 'justify' }}>Password should be at least 8 characters.</p>
-            </ListItem>
-            <ListItem style={{ marginBottom: '-1.7rem' }}>
-              <p style={{ textAlign: 'justify' }}>
-                This password will be used as the transaction password for the wallet,
-                MetaDot does not save password and cannot retrieve them for you.
-                Please keep your password safe!
-              </p>
+              <p style={{ textAlign: 'justify' }}>This password will be used as the transaction password for the wallet, MetaDot does not save passwords and cannot retrieve them for you. Please keep your password safe!</p>
             </ListItem>
           </List>
         </SubHeading>

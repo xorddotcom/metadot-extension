@@ -67,7 +67,7 @@ function index({
           disabled={!!disabled}
           style={{ fontSize: buttonFontSize }}
         >
-          {!isLoading ? text : <CircularProgress style={{ color: '#fafafa', width: 20, height: 25 }} />}
+          {!isLoading ? text : <CircularProgress size={24} style={{ color: '#fafafa' }} />}
         </StyledButton>
       ) : (
         <StyledButton
@@ -76,7 +76,7 @@ function index({
           disabled={!!disabled}
           style={{ fontSize: fontSize || buttonFontSize }}
         >
-          {!isLoading ? text : <CircularProgress style={{ color: '#fafafa', width: 20, height: 25 }} />}
+          {!isLoading ? text : <CircularProgress size={24} style={{ color: '#fafafa' }} />}
         </StyledButton>
       )}
     </div>
