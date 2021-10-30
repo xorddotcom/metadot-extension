@@ -206,7 +206,7 @@ const Send = () => {
             setIsSendModalOpen(false);
             dispatch(setMainTextForSuccessModal('Transaction successfull'));
             dispatch(
-              setSubTextForSuccessModal('Your transaction was successfully submitted'),
+              setSubTextForSuccessModal(''),
             );
             dispatch(setIsSuccessModalOpen(true));
 

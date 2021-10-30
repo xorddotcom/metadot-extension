@@ -95,6 +95,7 @@ import acala from '../../../assets/images/tokenImg/acala-circle.svg';
 import yellow from '../../../assets/images/tokenImg/yellow.png';
 import phala from '../../../assets/images/phala.svg';
 import moonbase from '../../../assets/images/moonriver.svg';
+import rococoIcon from '../../../assets/images/rococo.svg';
 
 // import DropDown from './DropDown';
 
@@ -114,9 +115,9 @@ const availableNetworks = [
     rpcUrl: constants.Polkadot_Rpc_Url,
   },
   {
-    name: 'Kusama',
+    name: 'Kusama Main Networks',
     theme: kusamaKsm,
-    moreOptions: false,
+    moreOptions: true,
     rpcUrl: constants.Kusama_Rpc_Url,
     icon: KusamaIcon,
     parachain: false,
@@ -141,6 +142,15 @@ const KusamaMainNetworks = [
     rpcUrl: constants.Kusama_Rpc_Url,
     disabled: false,
     tokenName: 'Kusama',
+  },
+  {
+    name: 'Astar',
+    icon: KaruraIcon,
+    parachain: true,
+    mainNetwork: true,
+    testNet: 'Dusty',
+    disabled: false,
+    rpcUrl: constants.Astar_Rpc_Url,
   },
   {
     name: 'Karura',
@@ -191,6 +201,14 @@ const TestNetworks = [
     theme: westendColour,
     rpcUrl: constants.WestEndRpcUrl,
     tokenName: 'Westend',
+  },
+  {
+    name: 'Rococo',
+    // icon: rococoIcon,
+    theme: rococoIcon,
+    rpcUrl: constants.Rococo_Rpc_Url,
+    tokenName: 'Roc',
+    // disabled: false,
   },
   {
     name: 'AcalaMandala',
@@ -408,8 +426,8 @@ function Dashboard(props) {
       >
         {disabled && <span className="tooltiptext">Coming Soon!</span>}
         <HorizontalContentDiv>
-          <img src={icon} alt="icon" style={{ height: '10px' }} />
-          <OptionText className={mainHeadingfontFamilyClass}>{name}</OptionText>
+          <img src={icon} alt="icon" />
+          <OptionText className={mainHeadingfontFamilyClass}>{`${name}`}</OptionText>
         </HorizontalContentDiv>
       </OptionRow>
     );
@@ -433,9 +451,9 @@ function Dashboard(props) {
 
         <HorizontalContentDiv>
           {/* <PlainIcon bgColor={theme} /> */}
-          <PlainIcon>
-            <img src={theme} alt="token" />
-          </PlainIcon>
+          {/* <PlainIcon> */}
+          <img src={theme} alt="token" />
+          {/* </PlainIcon> */}
           <OptionText className={mainHeadingfontFamilyClass}>{name}</OptionText>
           {isLoading && (
             <CircularProgress
@@ -598,6 +616,7 @@ function Dashboard(props) {
       });
       setIsLoading(false);
     } else if (data.name === 'Kusama Main Networks') { // this condition is not in use at the moment
+      setIsLoading(false);
       setModalState({
         firstStep: false,
         renderMethod: RenderContentForKusamaMainNetwork,

@@ -32,6 +32,7 @@ export const CloseIconDiv = styled.div`
   top: 10px;
   color: ${primaryTextColor};
   cursor: pointer;
+  /* border: 1px solid white; */
 `;
 
 export const OptionRow = styled.div`
@@ -55,15 +56,15 @@ export const HorizontalContentDiv = styled.div`
   padding-left: 20px;
 
   img {
-    width: 1.2rem;
-    height: 1.2rem;
+    width: 1.8rem;
+    height: 1.8rem;
     border-radius: 50%;   
   }
 `;
 
 export const PlainIcon = styled.div`
-  width: 25.08px;
-  height: 25px;
+  width: 27px;
+  height: 27px;
   border-radius: 25px;
 
   /* background: ${(props) => (props.bgColor ? props.bgColor : '#e6007a')}; */
