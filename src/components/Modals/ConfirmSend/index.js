@@ -19,8 +19,21 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 function ConfirmSend({
   open, handleClose, handleConfirm, style, accountTo, amount, accountFrom,
-  transactionFee, tokenName, loading2,
+  transactionFee, tokenName, loading2, fromAccountName,
 }) {
+  console.log('-----', {
+    open,
+    handleClose,
+    handleConfirm,
+    style,
+    accountTo,
+    amount,
+    accountFrom,
+    transactionFee,
+    tokenName,
+    loading2,
+    fromAccountName,
+  });
   const currentUser = useSelector((state) => state.account);
   console.log('Rpc url', currentUser.rpcUrl);
 
@@ -38,12 +51,14 @@ function ConfirmSend({
   return (
     <Modal
       open={open}
-      onClose={handleClose}
+      onClose={loading2 ? () => console.log('tx is going on...') : handleClose}
     >
       <Box sx={style} className="txDetails-modal-style">
         <CloseIconDiv
           onClick={() => {
-            handleClose();
+            // eslint-disable-next-line no-unused-expressions
+            loading2 ? console.log('tx is going on...')
+              : handleClose();
           }}
         >
           <CloseIcon />
@@ -56,13 +71,13 @@ function ConfirmSend({
 
             <VerticalContentDiv>
               <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>From</MainText2>
-              <SubText1 textAlign="start" className={mainHeadingfontFamilyClass}>Account 1</SubText1>
+              <SubText1 textAlign="start" className={mainHeadingfontFamilyClass}>{fromAccountName}</SubText1>
               <SubText2 textAlign="start" className={subHeadingfontFamilyClass}>{`${accountFrom.slice(0, 3)} ... ${accountFrom.slice(-3)}`}</SubText2>
             </VerticalContentDiv>
 
             <VerticalContentDiv>
               <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>To</MainText2>
-              <SubText1 textAlign="end" className={mainHeadingfontFamilyClass}>Account 1</SubText1>
+              <SubText1 textAlign="end" className={mainHeadingfontFamilyClass}>Receiver</SubText1>
               <SubText2 textAlign="end" className={subHeadingfontFamilyClass}>{`${accountTo.slice(0, 3)} ... ${accountTo.slice(-3)}`}</SubText2>
             </VerticalContentDiv>
 
@@ -70,7 +85,7 @@ function ConfirmSend({
 
           <MainText1 textAlign="start" className={mainHeadingfontFamilyClass}>Transaction</MainText1>
 
-          <VerticalContentDiv border paddingBottom>
+          <VerticalContentDiv specialPadding border paddingBottom>
 
             <HorizontalContentDiv paddingTop borderBottom>
 
@@ -112,12 +127,14 @@ function ConfirmSend({
             cancel
             width="78%"
             handleClick={() => handleClose()}
+            disabled={loading2}
           />
           <Button
             text="Confirm"
             width="78%"
             handleClick={() => handleConfirm()}
             isLoading={loading2}
+            disabled={loading2}
           />
         </div>
       </Box>

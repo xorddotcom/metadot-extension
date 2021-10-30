@@ -32,6 +32,10 @@ flex-direction: column;
     filter: drop-shadow(0px 0px 40px rgba(13, 13, 13, 0.2));
     border-radius: 8px;
   `}
+    ${(props) => props.specialPadding && css`
+      padding-left:10px;
+      padding-right:10px;
+    `}
 
 
 /* } */

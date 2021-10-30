@@ -29,10 +29,10 @@ function WarningModal({ open, handleClose, style }) {
         </MainHeading>
         <SubHeading
           className={subHeadingfontFamilyClass}
-          textAlignLast="left"
+          textAlignLast="center"
+          lineHeight="18px"
         >
-          Please write the mnemonic down in order to ensure the backup is
-          correct
+          Proceeding will not let you view your mnemonic again. Do you still wish to continue?
         </SubHeading>
         <div style={{ marginTop: '2rem' }} className="btn-row">
           <Button

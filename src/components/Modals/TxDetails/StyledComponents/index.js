@@ -33,6 +33,11 @@ flex-direction: column;
     border-radius: 8px;
   `}
 
+      ${(props) => props.specialPadding && css`
+      padding-left:10px;
+      padding-right:10px;
+    `}
+
 
 /* } */
 `;
@@ -90,6 +95,7 @@ opacity: 0.8;
 text-align: ${(props) => props.textAlign};
 /* border: 1px solid white; */
 margin:0px;
+margin-left:${(props) => props.pl10 && '10px'};
 `;
 
 export const ViewOnPolkaScanText = styled.p`

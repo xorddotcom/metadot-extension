@@ -22,9 +22,8 @@ export const SubHeading = styled.p`
   color: ${secondaryTextColor};
   text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
   text-align-last: ${(props) => (props.textAlignLast ? props.textAlignLast : 'start')};
-  line-height: 22px;
+  line-height: ${(props) => (props.lineHeight ? props.lineHeight : '22px')};
   font-size: 0.75rem;
-  letter-spacing: 2%;
   margin-top: ${(props) => props.marginTop && props.marginTop};
   text-align: justify;
   text-justify: auto;

@@ -187,16 +187,16 @@ const TestNetworks = [
     // disabled: false,
   },
   {
-    name: 'Moonbase',
-    theme: '#000000',
-    disabled: true,
-  },
-  {
     name: 'Dusty',
     theme: '#E6007A',
     disabled: false,
     rpcUrl: constants.Dusty_Rpc_Url,
     tokenName: 'Dusty',
+  },
+  {
+    name: 'Moonbase',
+    theme: '#000000',
+    disabled: true,
   },
   {
     name: 'Asgard',

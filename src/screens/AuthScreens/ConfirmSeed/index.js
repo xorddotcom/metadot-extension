@@ -135,9 +135,8 @@ function ConfirmSeed() {
           {' '}
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
-          Lorem WWipsum dolor sit amet, consectetur adipiscing elit. Volutpat
-          cursus sit diam Lorem ipsum dolor sit amet, consectetur adipiscing
-          elit. Volutpat cursus sit diam
+          To confirm the mnemonic, enter the right words in the space provided below.
+
           {' '}
         </SubHeading>
       </div>

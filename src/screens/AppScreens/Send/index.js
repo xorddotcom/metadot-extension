@@ -277,11 +277,11 @@ const Send = () => {
     console.log('convert tx fee', currentUser.account.tokenName);
     const splitFee = fee.split(' ');
     console.log('SPlit', splitFee);
-    if (currentUser.account.tokenName[0] === 'WND') {
+    if (currentUser.account.tokenName === 'WND') {
       return (splitFee[0] * 10 ** -3).toFixed(4);
       // return splitFee[0] * 0.001;
     }
-    if (currentUser.account.tokenName[0] === 'KSM') {
+    if (currentUser.account.tokenName === 'KSM') {
       return (splitFee[0] * 10 ** -6).toFixed(4);
     }
     if (currentUser.account.tokenName === 'PLD') {
@@ -312,8 +312,8 @@ const Send = () => {
     partialFee=${info.partialFee.toHuman()}
     `);
 
-      const txFee = await
-      convertTransactionFee(info.partialFee.toHuman());
+      const txFee = await convertTransactionFee(info.partialFee.toHuman());
+
       data.txFee = txFee;
       console.log('Tx fee here [][]', txFee);
       data.chainName = currentUser.account.chainName;
@@ -465,7 +465,7 @@ const Send = () => {
         <Button
           text="Next"
           handleClick={handleSubmit}
-          disabled={!formIsValid}
+          disabled={!formIsValid || loading1}
           isLoading={loading1}
         />
       </CenterContent>
@@ -476,6 +476,7 @@ const Send = () => {
         open={isSendModalOpen}
         transactionFee={transactionFee}
         tokenName={currentUser.account.tokenName}
+        fromAccountName={currentUser.account.accountName}
         handleClose={() => setIsSendModalOpen(false)}
         handleConfirm={sendTransaction}
         loading2={loading2}

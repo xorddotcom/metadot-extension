@@ -113,10 +113,9 @@ function ImportWallet() {
     <AuthWrapper>
       <Header centerText="Import Wallet" />
       <div>
-        <MainHeading className={mainHeadingfontFamilyClass}>Restore your wallet </MainHeading>
+        <MainHeading className={mainHeadingfontFamilyClass}>Restore your wallet : </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Volutpat cursus sit diam Lorem
-          ipsum dolor sit,
+          To restore your wallet enter your Seed phrase or choose the Json file.
           {' '}
         </SubHeading>
       </div>
@@ -159,7 +158,7 @@ function ImportWallet() {
               rows={5}
               multiline
               disableUnderline
-              placeholder="Place your seed phrase here..."
+              placeholder="Place your seed here to be replaced by Mnemonic"
             />
             <WarningText className={subHeadingfontFamilyClass} visibility={invalidSeedMessage ? 'visible' : 'hidden'}>{invalidSeedMessage}</WarningText>
           </div>
