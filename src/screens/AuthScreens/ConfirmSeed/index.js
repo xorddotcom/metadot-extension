@@ -140,7 +140,7 @@ function ConfirmSeed() {
           {' '}
         </SubHeading>
       </div>
-      <SubMainWrapperForAuthScreens>
+      <SubMainWrapperForAuthScreens mb="1rem">
         <StyledInput
           onChange={(text) => setWord1(text)}
           placeholder={`Word #${fourRandomIndexes[0] + 1}`}
@@ -151,6 +151,7 @@ function ConfirmSeed() {
           marginBottom="10px"
           rightIconCross={word1}
           rightIconCrossClickHandler={() => handleCancel(word1, setWord1)}
+          disabled
         />
 
         <StyledInput
@@ -163,6 +164,7 @@ function ConfirmSeed() {
           marginBottom="10px"
           rightIconCross={word2}
           rightIconCrossClickHandler={() => handleCancel(word2, setWord2)}
+          disabled
         />
 
         <StyledInput
@@ -175,6 +177,7 @@ function ConfirmSeed() {
           marginBottom="10px"
           rightIconCross={word3}
           rightIconCrossClickHandler={() => handleCancel(word3, setWord3)}
+          disabled
         />
 
         <StyledInput
@@ -187,6 +190,7 @@ function ConfirmSeed() {
           marginBottom="20px"
           rightIconCross={word4}
           rightIconCrossClickHandler={() => handleCancel(word4, setWord4)}
+          disabled
         />
 
         <SeedGrid>

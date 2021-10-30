@@ -62,7 +62,7 @@ function ApiManager({ rpc }) {
       dispatch(setApiInitializationStarts(false));
       if (currentUser.successModalHandling.loadingFor === 'Api Initialization...') {
         dispatch(setMainTextForSuccessModal('Successfully Converted!'));
-        dispatch(setSubTextForSuccessModal(`You are now successfully on ${currentUser.account.chainName}`));
+        dispatch(setSubTextForSuccessModal(''));
         dispatch(setIsSuccessModalOpen(true));
 
         setTimeout(() => {

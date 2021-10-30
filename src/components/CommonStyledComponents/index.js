@@ -23,7 +23,7 @@ export const SubHeading = styled.p`
   text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
   text-align-last: ${(props) => (props.textAlignLast ? props.textAlignLast : 'start')};
   line-height: ${(props) => (props.lineHeight ? props.lineHeight : '22px')};
-  font-size: 0.75rem;
+  font-size: 0.90rem;
   margin-top: ${(props) => props.marginTop && props.marginTop};
   text-align: justify;
   text-justify: auto;
@@ -40,7 +40,7 @@ export const SubMainWrapperForAuthScreens = styled.div`
   /* min-height: 340px; */
   height: auto;
   margin: 25px auto 25px;
-  margin-bottom: 2rem;
+  margin-bottom: ${(props) => (props.mb ? props.mb : '2rem')};
   margin-top: 1rem;
 `;
 

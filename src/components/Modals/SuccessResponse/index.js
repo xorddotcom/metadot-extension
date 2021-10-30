@@ -18,6 +18,9 @@ function SuccessResponse({
         <MainHeading className={mainHeadingfontFamilyClass} marginBottom="8px">
           {mainText}
         </MainHeading>
+        {
+          subText
+        && (
         <SubHeading
           className={subHeadingfontFamilyClass}
           textAlignLast="center"
@@ -26,6 +29,8 @@ function SuccessResponse({
         >
           {subText}
         </SubHeading>
+        )
+        }
 
       </Box>
     </Modal>

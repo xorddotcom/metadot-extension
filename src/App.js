@@ -120,6 +120,8 @@ function App() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
+                position: 'relative',
+                bottom: 40,
               }}
               subText={subText}
               mainText={mainText}

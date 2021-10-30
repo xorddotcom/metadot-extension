@@ -23,7 +23,12 @@ const StyledInputField = styled.input`
   border-radius: 8px;
   width: ${(props) => (props.fullWidth ? '100%' : '90%')};
   font-family: ${subHeadingFontSize};
-  border-width: 0px;
+  /* border-width: 0px; */
+    border: ${(props) => (props.isCorrectForInput
+    ? '0px'
+    : props.isCorrectForInput === false
+      ? '1px solid red'
+      : '0px')};
   font-size: ${(props) => (props.fontSize ? props.fontSize : '16px')};
   height: ${(props) => (props.height ? props.height : 'auto')};
 `;
@@ -31,7 +36,7 @@ const StyledInputField = styled.input`
 const Icon = styled.span`
   position: absolute;
   right: 20px;
-  top: 5px;
+  top: 9px;
   color: rgba(250, 250, 250, 0.8);
   cursor: pointer;
 `;
@@ -59,9 +64,11 @@ function StyledInput({
   marginBottom,
 
   maxlength,
+
+  disabled,
 }) {
   return (
-    <TextInputWrapper isCorrect={isCorrect} marginBottom={marginBottom || '0px'}>
+    <TextInputWrapper marginBottom={marginBottom || '0px'}>
       <StyledInputField
         maxlength={maxlength}
         fontSize={fontSize}
@@ -71,6 +78,8 @@ function StyledInput({
         placeholder={placeholder}
         disableUnderline
         onChange={(e) => onChange(e.target.value)}
+        disabled={disabled}
+        isCorrectForInput={isCorrect}
         // type={
         //   typePassword
         //     ? !hideState
