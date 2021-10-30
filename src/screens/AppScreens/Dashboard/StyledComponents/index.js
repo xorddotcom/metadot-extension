@@ -18,19 +18,21 @@ export const Wrapper = styled.div`
 export const DashboardHeader = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
 `;
 
 export const LogoContainer = styled.div`
-  width: 20%;
+  width: 15%;
   height: 35px;
   display: flex;
   align-items: flex-end;
+  /* margin-left: 0.3rem; */
 `;
 
 export const NetworkContainer = styled.div`
-  width: 60%;
+  width: 58%;
 `;
 
 export const SelectChain = styled.div`

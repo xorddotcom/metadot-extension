@@ -15,7 +15,7 @@ import {
 // Assests Token images
 import dusty from '../../../assets/images/tokenImg/dusty.png';
 import kusamaKsm from '../../../assets/images/tokenImg/kusama-ksm.svg';
-import polkadotDot from '../../../assets/images/tokenImg/polkadot-dot.svg';
+import polkadotDot from '../../../assets/images/tokenImg/polkadot.png';
 import westendColour from '../../../assets/images/tokenImg/westend_colour.svg';
 import acala from '../../../assets/images/tokenImg/acala-circle.svg';
 
@@ -78,7 +78,7 @@ function AssetsAndTransactions({
       {isTab1Active && (
         <AssetCard
           name={assetsData.chainName}
-          shortName={assetsData.tokenName[0]}
+          shortName={assetsData.tokenName}
           amount={(trimBalance(assetsData.balance))}
           amountInUsd={0}
           logo={logoChangeHandler(assetsData.tokenName)}
