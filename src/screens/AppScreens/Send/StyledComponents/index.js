@@ -24,7 +24,7 @@ export const HorizontalContentDiv = styled.div`
 
 export const FromAccount = styled(HorizontalContentDiv)`
   width: 92%;
-  height: 45px;
+  height: 47px;
   align-items: center;
   justify-content: space-between;
   padding-left: 10px;
@@ -36,9 +36,9 @@ export const FromAccount = styled(HorizontalContentDiv)`
 `;
 
 export const PlainIcon = styled.div`
-  width: 23px;
+  width: 24px;
   height: 23px;
-  border-radius: 23px;
+  border-radius: 50%;
   margin-left: 5px;
   margin-right: 10px;
 
@@ -70,7 +70,7 @@ export const Balance = styled.p`
   color: rgba(250, 250, 250, 0.8);
 
   text-align: ${props => (props.textAlign ? props.textAlign : 'start')};
-  margin-top: 2px;
+  margin-top: -0.9rem;
 `;
 
 export const EquivalentInUSDT = styled.p`
@@ -81,6 +81,7 @@ export const EquivalentInUSDT = styled.p`
 
   text-align: start;
   margin: 0px;
+  margin-top: -1rem;
 `;
 
 export const CalculatedAmount = styled(HorizontalContentDiv)`

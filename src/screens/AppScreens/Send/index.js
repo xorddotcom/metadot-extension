@@ -374,7 +374,7 @@ const Send = () => {
 
       <MainContent>
         <VerticalContentDiv mb="2px">
-          <MainText m="6px" className={mainHeadingfontFamilyClass} style={{ marginBottom: '1rem' }}>
+          <MainText m="6px" className={mainHeadingfontFamilyClass} style={{ marginBottom: '0.5rem' }}>
             From
           </MainText>
           <FromAccount>
@@ -384,7 +384,10 @@ const Send = () => {
                 <MainText className={mainHeadingfontFamilyClass}>
                   {currentUser.account.accountName}
                 </MainText>
-                <Balance className={subHeadingfontFamilyClass}>
+                <Balance
+                  className={subHeadingfontFamilyClass}
+                  style={{ marginTop: '0.15rem' }}
+                >
                   {addressModifier(currentUser.account.publicKey)}
                   {/* {`${trimBalance(currentUser.account.balance)}
                   ${currentUser.account.tokenName}`} */}
@@ -397,7 +400,7 @@ const Send = () => {
         </VerticalContentDiv>
 
         <VerticalContentDiv mb="2px">
-          <MainText m="6px" className={mainHeadingfontFamilyClass} style={{ marginBottom: '1rem' }}>
+          <MainText m="6px" className={mainHeadingfontFamilyClass} style={{ marginBottom: '0.5rem' }}>
             To
           </MainText>
           <StyledInput
@@ -411,14 +414,18 @@ const Send = () => {
             height="20px"
             isCorrect={accountToSate.isValid}
           />
-          <WarningText>
+          <WarningText className={subHeadingfontFamilyClass}>
             {helpers.validateAddress(accountToSate.value, currentUser.account.publicKey)}
           </WarningText>
-          <div style={{ height: '1.5rem' }}>
+          <div style={{ height: '1rem' }}>
             {!isCorrect ? (
-              <WarningText>{errorMessages.invalidAddress}</WarningText>
+              <WarningText className={subHeadingfontFamilyClass} style={{ marginTop: '-0.2rem', marginLeft: '0.3rem' }}>
+                {errorMessages.invalidAddress}
+              </WarningText>
             ) : error.address ? (
-              <WarningText>{errorMessages.enterAddress}</WarningText>
+              <WarningText className={subHeadingfontFamilyClass} style={{ marginTop: '-0.2rem', marginLeft: '0.3rem' }}>
+                {errorMessages.enterAddress}
+              </WarningText>
             ) : null}
           </div>
         </VerticalContentDiv>
@@ -445,7 +452,10 @@ const Send = () => {
             onBlur={amountIsValidHandler}
             isCorrect={amountState.isValid}
           />
-          <WarningText style={{ color: 'red' }}>
+          <WarningText
+            className={subHeadingfontFamilyClass}
+            style={{ marginBottom: '1rem' }}
+          >
             {helpers.validateAmount(currentUser.account.balance, amountState.value)}
           </WarningText>
           <CalculatedAmount>
@@ -455,7 +465,14 @@ const Send = () => {
             </Balance>
           </CalculatedAmount>
           <div style={{ height: '1.5rem' }}>
-            {error.amountError ? <WarningText>{errorMessages.enterAmount}</WarningText> : null}
+            {error.amountError ? (
+              <WarningText
+                className={subHeadingfontFamilyClass}
+                style={{ marginTop: '-0.2rem', marginLeft: '0.3rem' }}
+              >
+                {errorMessages.enterAmount}
+              </WarningText>
+            ) : null}
           </div>
         </VerticalContentDiv>
         {/* <button type="submit">Submit</button> */}

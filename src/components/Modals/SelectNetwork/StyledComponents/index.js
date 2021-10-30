@@ -53,6 +53,12 @@ export const HorizontalContentDiv = styled.div`
   display: flex;
   align-items: center;
   padding-left: 20px;
+
+  img {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;   
+  }
 `;
 
 export const PlainIcon = styled.div`
@@ -60,7 +66,7 @@ export const PlainIcon = styled.div`
   height: 25px;
   border-radius: 25px;
 
-  background: ${(props) => (props.bgColor ? props.bgColor : '#e6007a')};
+  /* background: ${(props) => (props.bgColor ? props.bgColor : '#e6007a')}; */
 `;
 
 export const OptionText = styled.div`

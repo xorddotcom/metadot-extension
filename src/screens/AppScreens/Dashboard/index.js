@@ -61,7 +61,8 @@ import {
   Wrapper,
 } from './StyledComponents';
 
-import Logo from '../../../assets/images/logodraft.svg';
+// import Logo from '../../../assets/images/logodraft.svg';
+import Logo from '../../../assets/images/48x48.png';
 import { SelectNetwork, TxDetails } from '../../../components';
 import {
   HorizontalContentDiv,
@@ -84,6 +85,17 @@ import {
   setMainTextForSuccessModal,
   setSubTextForSuccessModal,
 } from '../../../redux/slices/successModalHandling';
+
+// Assests Token images
+import dusty from '../../../assets/images/tokenImg/dusty.png';
+import kusamaKsm from '../../../assets/images/tokenImg/kusama-ksm.svg';
+import polkadotDot from '../../../assets/images/tokenImg/polkadot.png';
+import westendColour from '../../../assets/images/tokenImg/westend_colour.svg';
+import acala from '../../../assets/images/tokenImg/acala-circle.svg';
+import yellow from '../../../assets/images/tokenImg/yellow.png';
+import phala from '../../../assets/images/phala.svg';
+import moonbase from '../../../assets/images/moonriver.svg';
+
 // import DropDown from './DropDown';
 
 const { WsProvider, ApiPromise, Keyring } = require('@polkadot/api');
@@ -97,13 +109,13 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const availableNetworks = [
   {
     name: 'Polkadot Main Network',
-    theme: '#E6007A',
+    theme: polkadotDot,
     moreOptions: false,
     rpcUrl: constants.Polkadot_Rpc_Url,
   },
   {
     name: 'Kusama',
-    theme: '#000000',
+    theme: kusamaKsm,
     moreOptions: false,
     rpcUrl: constants.Kusama_Rpc_Url,
     icon: KusamaIcon,
@@ -114,7 +126,7 @@ const availableNetworks = [
   },
   {
     name: 'Test Networks',
-    theme: '#F2B705',
+    theme: yellow,
     moreOptions: true,
   },
 ];
@@ -175,37 +187,43 @@ const TestNetworks = [
   {
     name: 'Westend',
     // theme: '#015D77',
-    theme: 'rgb(241, 145, 53)',
+    // theme: 'rgb(241, 145, 53)',
+    theme: westendColour,
     rpcUrl: constants.WestEndRpcUrl,
     tokenName: 'Westend',
   },
   {
     name: 'AcalaMandala',
-    theme: '#E6007A',
+    // theme: '#E6007A',
+    theme: acala,
     rpcUrl: constants.Acala_Mandala_Rpc_Url,
     tokenName: 'Acala',
     // disabled: false,
   },
   {
     name: 'Dusty',
-    theme: '#E6007A',
+    // theme: '#E6007A',
+    theme: dusty,
     disabled: false,
     rpcUrl: constants.Dusty_Rpc_Url,
     tokenName: 'Dusty',
   },
   {
     name: 'Moonbase',
-    theme: '#000000',
+    // theme: '#000000',
+    theme: moonbase,
     disabled: true,
   },
   {
     name: 'Asgard',
-    theme: '#2FEAC6',
+    // theme: '#2FEAC6',
+    theme: dusty,
     disabled: true,
   },
   {
     name: 'Phala',
-    theme: '#008D77',
+    // theme: '#008D77',
+    theme: phala,
     disabled: true,
     rpcUrl: constants.Phala_Rpc_Url,
     tokenName: 'Phala',
@@ -390,7 +408,7 @@ function Dashboard(props) {
       >
         {disabled && <span className="tooltiptext">Coming Soon!</span>}
         <HorizontalContentDiv>
-          <img src={icon} alt="icon" />
+          <img src={icon} alt="icon" style={{ height: '10px' }} />
           <OptionText className={mainHeadingfontFamilyClass}>{name}</OptionText>
         </HorizontalContentDiv>
       </OptionRow>
@@ -414,7 +432,10 @@ function Dashboard(props) {
         {disabled && <span className="tooltiptext">Coming Soon!</span>}
 
         <HorizontalContentDiv>
-          <PlainIcon bgColor={theme} />
+          {/* <PlainIcon bgColor={theme} /> */}
+          <PlainIcon>
+            <img src={theme} alt="token" />
+          </PlainIcon>
           <OptionText className={mainHeadingfontFamilyClass}>{name}</OptionText>
           {isLoading && (
             <CircularProgress
@@ -667,7 +688,7 @@ function Dashboard(props) {
               {/* {chain} */}
 
             </SelectedChain>
-            <ArrowDropDownIcon />
+            <ArrowDropDownIcon style={{ fontSize: '0.8rem' }} />
           </SelectChain>
 
           {/* <SwitchToTestnet className={subHeadingfontFamilyClass}>
