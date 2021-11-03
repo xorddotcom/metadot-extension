@@ -17,7 +17,6 @@ export const Title = styled.p`
   height: 21px;
   font-size: 16px;
   line-height: 21px;
-
   color: ${primaryTextColor};
 `;
 
@@ -32,7 +31,6 @@ export const CloseIconDiv = styled.div`
   top: 10px;
   color: ${primaryTextColor};
   cursor: pointer;
-  /* border: 1px solid white; */
 `;
 
 export const OptionRow = styled.div`
@@ -71,17 +69,11 @@ export const PlainIcon = styled.div`
 `;
 
 export const OptionText = styled.div`
-  /* height: 16px; */
   margin-left: 20px;
   font-size: 14px;
   line-height: 16px;
-
-  /* or 100% */
   letter-spacing: 0.02em;
-
-  /* Text and Icons */
   color: ${primaryTextColor};
-
   opacity: 0.8;
 `;
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   TxCardWrapper,
   MainText,
@@ -6,7 +5,6 @@ import {
   HorizontalContentDiv,
   VerticalContentDiv,
 } from './StyledComponents';
-
 import { fonts, colors } from '../../utils';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
@@ -41,7 +39,6 @@ function TxCard({
           </MainText>
           <HorizontalContentDiv>
             <EquivalentInUSDT className={subHeadingfontFamilyClass}>
-
               {amountInUsd}
             </EquivalentInUSDT>
           </HorizontalContentDiv>

@@ -12,7 +12,6 @@ export const OptionDiv = styled.div`
 
 export const Option = styled.p`
   width: 190px;
-  /* height: 25px; */
   padding: 10px 0;
   background-color: ${(props) => (props.selected ? '#2d111e' : '#212121')};
   margin-right: 20px;
@@ -20,14 +19,10 @@ export const Option = styled.p`
   font-weight: 500;
   font-size: ${subHeadingFontSize};
   line-height: 16px;
-
   letter-spacing: 0.02em;
-
   color: ${primaryTextColor};
-
   opacity: 0.8;
   border-radius: 20px;
-  /* padding-top: 15px; */
   font-size: 0.8rem;
   cursor: pointer;
 `;

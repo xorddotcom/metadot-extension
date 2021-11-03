@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
@@ -30,7 +31,6 @@ function SelectNetwork(props) {
     isLoading,
   } = props;
   const { firstStep, renderMethod, currentData } = modalState;
-  console.log({ firstStep, renderMethod, currentData });
 
   return (
     <Modal open={open} onClose={handleClose}>
@@ -56,7 +56,6 @@ function SelectNetwork(props) {
               {!modalState.firstStep && (
               <BackButton
                 onClick={() => {
-                // setSelectedNetwrok('');
                   resetState();
                 }}
               >

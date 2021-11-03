@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import constants from '../../constants/onchain';
@@ -25,21 +26,15 @@ export const accountSlice = createSlice({
     },
     deleteRedux: (state, action) => {
       state.publicKey = action.payload;
-      console.log('helllo', state);
     },
     setSeed: (state, action) => {
       // eslint-disable-next-line no-param-reassign
       state.seed = action.payload;
     },
     resetAccountSlice: (state, action) => {
-      console.log('RESET ACCOUNT BY EMPTYING whole account obj');
-      // eslint-disable-next-line no-unused-vars
-      console.log('action.payload', action.payload);
       state = initialState;
     },
     emptySeedInAccountSlice: (state) => {
-      console.log('RESET ACCOUNT BY EMPTYING seed value');
-      // eslint-disable-next-line no-unused-vars
       state.seed = '';
     },
     setPublicKey: (state, action) => {
@@ -49,15 +44,12 @@ export const accountSlice = createSlice({
       state.accountName = action.payload;
     },
     setWalletPassword: (state, action) => {
-      console.log('In account js redux', action.payload);
       state.walletPassword = action.payload;
     },
     setLoggedIn: (state, action) => {
       state.isLoggedIn = action.payload;
     },
     setRpcUrl: (state, action) => {
-      console.log('In redux', action.payload);
-      // console.log('Action in set rpc url [][]',action.payload);
       state.rpcUrl = action.payload.rpcUrl;
     },
     setTokenName: (state, action) => {
@@ -67,11 +59,9 @@ export const accountSlice = createSlice({
       state.chainName = action.payload.chainName;
     },
     setBalance: (state, action) => {
-      console.log('Action payload', action.payload);
       state.balance = action.payload;
     },
     setBalanceInUsd: (state, action) => {
-      console.log('Action payload', action.payload);
       state.balanceInUsd = action.payload;
     },
   },

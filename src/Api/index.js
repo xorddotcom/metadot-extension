@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, memo } from 'react';
 import { ApiPromise, WsProvider } from '@polkadot/api';
@@ -22,7 +23,6 @@ function ApiManager({ rpc }) {
   // eslint-disable-next-line no-shadow
   const state = useSelector((state) => state);
   useEffect(() => {
-    console.log('manager ran1 useEffect');
     const setAPI = async (rpcUrl) => {
       dispatch(setApiInitializationStarts(true));
       const wsProvider = new WsProvider(rpcUrl);
@@ -32,11 +32,6 @@ function ApiManager({ rpc }) {
       } else {
         apiR = await ApiPromise.create({ provider: wsProvider });
       }
-      // const apiR = await ApiPromise.create(
-      //   rpcUrl === constants.Acala_Mandala_Rpc_Url
-      //     && AcalaOptions({ provider: wsProvider }),
-      // );
-      console.log('In api manager APIR [][]', apiR);
       const tokenName = await apiR.registry.chainTokens[0];
       dispatch(setTokenName({ tokenName }));
       const bal = rpcUrl === constants.Acala_Mandala_Rpc_Url
@@ -44,29 +39,14 @@ function ApiManager({ rpc }) {
         : await getBalance(apiR, currentUser.account.publicKey);
       dispatch(setBalance(bal));
 
-      console.log('-------- amount', { tokenName, bal });
       const dollarAmount = await helpers.convertIntoUsd(tokenName, bal);
-      console.log('amount into abc', dollarAmount);
 
       dispatch(setBalanceInUsd(dollarAmount));
-      // } else {
-      // const wsProvider = new WsProvider(rpcUrl);
-      // apiR = await ApiPromise.create({ provider: wsProvider });
-      // dispatch(setTokenName({ tokenName: await apiR.registry.chainTokens }));
-      // const bal = await getBalance(apiR, currentUser.account.publicKey);
-      // dispatch(setBalance(bal));
-      // }
-      console.log('Api configuration close', apiR.isConnected);
+
       await apiR.isReady;
-      console.log('Api configuration complete', apiR);
       setApiState(apiR);
       dispatch(setApi(apiR));
 
-      console.log('Api configuration close', apiR.isConnected);
-
-      console.log('Token name on dashboard', await apiR.registry.chainTokens);
-      // dispatch(setRpcUrl({ rpcUrl }));
-      // WsProvider.websocket.close();
       dispatch(setApiInitializationStarts(false));
       if (currentUser.successModalHandling.loadingFor === 'Api Initialization...') {
         dispatch(setMainTextForSuccessModal('Successfully Converted!'));
@@ -77,20 +57,6 @@ function ApiManager({ rpc }) {
           dispatch(setIsSuccessModalOpen(false));
         }, 3000);
       }
-      // try {
-      //   if (rpcUrl === 'wss://acala-mandala.api.onfinality.io/public-ws') {
-      //     const nbalance = await getBalanceWithMultipleTokens
-      // (apiR, currentUser.account.publicKey);
-      //     dispatch(setBalance(nbalance));
-      //     return nbalance;
-      //   }
-      //   const nbalance = await getBalance(apiR, currentUser.account.publicKey);
-      //   dispatch(setBalance(nbalance));
-      //   return nbalance;
-      // } catch (err) {
-      //   console.log('Error occurred');
-      //   throw err;
-      // }
     };
     setAPI(rpc);
   }, [
@@ -101,8 +67,6 @@ function ApiManager({ rpc }) {
     rpc,
     state.account.loadingFor,
   ]);
-  console.log({ apiState, state });
-  console.log('manager ran1----------------------------------------', rpc);
   return (
     <div style={{ display: 'none' }}>
       <p>this</p>

@@ -1,4 +1,4 @@
-import React from 'react';
+/* eslint-disable no-unused-vars */
 import { Modal } from '@mui/material';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
@@ -43,11 +43,6 @@ const LightTooltip = styled(({ className, ...props }) => (
 function TxDetails({
   open, handleClose, style, transactions, txDetailsModalData,
 }) {
-  // eslint-disable-next-line quotes
-  console.log("hello tx details modal", txDetailsModalData);
-  console.log('Hello transactions', transactions);
-  // eslint-disable-next-line max-len
-
   const getTotalBalance = (value1, value2) => {
     const val = parseFloat(value1) + parseFloat(value2);
     return val.toFixed(4);
@@ -55,17 +50,7 @@ function TxDetails({
   };
 
   const copyText = () => {
-    console.log('copied hash', txDetailsModalData.hash);
     navigator.clipboard.writeText(txDetailsModalData.hash);
-    console.log('-------------emitter start');
-    // toast emitter
-    // toast('Copied!', {
-    //   position: toast.POSITION.BOTTOM_CENTER,
-    //   className: 'toast-success',
-    //   progressClassName: 'success-progress-bar',
-    //   autoClose: 2000,
-    //   toastId: 1,
-    // });
     toast.success('Copied!', {
       position: toast.POSITION.BOTTOM_CENTER,
       className: 'toast-success',
@@ -88,8 +73,6 @@ function TxDetails({
         >
           <CloseIcon />
         </CloseIconDiv>
-        {/* {console.log('Data in tx details modal', data)} */}
-        {/* {txdetailsModalData.length > 0 ?} */}
         <VerticalContentDiv>
           <MainText1 textAlign="center" className={mainHeadingfontFamilyClass}>Details</MainText1>
 
@@ -124,10 +107,6 @@ function TxDetails({
 
             <VerticalContentDiv>
               <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>From</MainText2>
-              {/* <SubText1 textAlign="start" className={mainHeadingfontFamilyClass}>
-                { addressModifier(txDetailsModalData.accountFrom)}
-                {' '}
-              </SubText1> */}
               <SubText2 textAlign="start" className={subHeadingfontFamilyClass}>
                 {addressModifier(txDetailsModalData.accountFrom)}
               </SubText2>
@@ -135,8 +114,6 @@ function TxDetails({
 
             <VerticalContentDiv>
               <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>To</MainText2>
-              {/* <SubText1 textAlign="end"
-              className={mainHeadingfontFamilyClass}>{txDetailsModalData.accountTo}</SubText1> */}
               <SubText2
                 textAlign="end"
                 className={subHeadingfontFamilyClass}
@@ -175,9 +152,6 @@ function TxDetails({
 
               <VerticalContentDiv>
                 <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>
-                  {/* {`${parseFloat(txDetailsModalData.amount)
-                    .toFixed(3) + parseFloat(txDetailsModalData.transactionFee).toFixed(3)}
-                    ${txDetailsModalData.tokenName[0]}`} */}
                   {`${getTotalBalance(txDetailsModalData.amount, txDetailsModalData.transactionFee)}
                   ${txDetailsModalData.tokenName}`}
                 </MainText2>
@@ -188,15 +162,6 @@ function TxDetails({
           </VerticalContentDiv>
 
         </VerticalContentDiv>
-
-        {/* <div className="btn-row" style={{ marginTop: 20 }}>
-          {/* <p style={{ color: '#fafafa' }}>View on Etherscan</p>
-          <ViewOnPolkaScanText
-            className={mainHeadingfontFamilyClass}
-          >
-            View on PolkaScan
-          </ViewOnPolkaScanText>
-        </div> */}
       </Box>
     </Modal>
   );

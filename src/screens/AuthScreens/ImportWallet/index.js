@@ -1,17 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-throw-literal */
 import React, { useState } from 'react';
-
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { styled } from '@mui/material/styles';
-
 import { Input } from '@material-ui/core';
-
 import keyring from '@polkadot/ui-keyring';
 import { Tooltip, tooltipClasses } from '@mui/material';
 import { Option, OptionDiv } from './StyledComponents';
-
 import {
   AuthWrapper,
   Header,
@@ -20,7 +16,6 @@ import {
   SubHeading,
   SubMainWrapperForAuthScreens,
 } from '../../../components';
-
 import { fonts, colors } from '../../../utils';
 import { setSeed } from '../../../redux/slices/account';
 import { WarningText } from '../CreateWallet/StyledComponents';
@@ -58,7 +53,6 @@ function ImportWallet() {
   const [invalidSeedMessage, setInvalidSeedMessage] = useState('');
 
   const handleChange = (input) => {
-    console.log('Import wallet from seed working ', input);
     setInvalidSeedMessage('');
     setSeedPhrase(input);
   };
@@ -70,14 +64,12 @@ function ImportWallet() {
 
     try {
       if (seedPhrase.split(' ').length > 12) {
-        console.log('object1');
         isErrorOccur = maxWords;
         setInvalidSeedMessage(maxWords);
         return maxWords;
       }
 
       if (seedPhrase.split(' ').length < 12) {
-        console.log('object2');
         isErrorOccur = minimumWords;
         setInvalidSeedMessage(minimumWords);
         return minimumWords;
@@ -98,13 +90,10 @@ function ImportWallet() {
         dispatch(setSeed(seedPhrase));
         history.push('/createWallet');
       } catch (error) {
-        console.log('Error>', error);
         if (!isErrorOccur) {
           setInvalidSeedMessage(seedDoesnotExist);
         }
       }
-
-      console.log('Error', err);
       return err;
     }
   };
@@ -116,7 +105,6 @@ function ImportWallet() {
         <MainHeading className={mainHeadingfontFamilyClass}>Restore your wallet : </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
           To restore your wallet enter your Seed phrase or upload a Json file.
-          {' '}
         </SubHeading>
       </div>
       <SubMainWrapperForAuthScreens flexDirection="column" style={{ marginTop: '2rem' }}>

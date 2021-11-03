@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
-
 import web3 from 'web3';
 import { useHistory } from 'react-router-dom';
 import keyring from '@polkadot/ui-keyring';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-// import ListItemText from '@mui/material/ListItemText';
 import {
   AuthWrapper,
   Header,
@@ -78,9 +75,7 @@ function CreateWallet() {
   const [isLoading, setIsLoading] = useState(false);
 
   const createAccount = async (name, pass, seedPhrase) => {
-    console.log('===============', { name, pass, seedPhrase });
     const res = await AccountCreation({ name, password: pass, seed: seedPhrase });
-    console.log('Result [][]', res);
     return res;
   };
 
@@ -115,7 +110,6 @@ function CreateWallet() {
   const handleContinue = async () => {
     try {
       if (!isUserNameValid(walletName) || walletName.length < 3) {
-        console.log('invalid name');
         setIsValidWalletName(true);
         validatePasswordAndConfirmPassword();
         setIsLoading(false);
@@ -128,16 +122,12 @@ function CreateWallet() {
 
       // eslint-disable-next-line no-unused-expressions
       await keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
-      console.log('+=============---', { walletName, password, seed });
       const res = await createAccount(walletName, password, seed);
       await saveAccountInRedux(res.address, walletName, password);
       dispatch(setLoadingFor('Setting things up...'));
       setIsLoading(false);
       await showSuccessModalAndNavigateToDashboard();
     } catch (err) {
-      console.log('err in account creation in Create Wallet component', err);
-
-      console.log('+=============---', { walletName, password, seed });
       const res = await createAccount(walletName, password, seed);
       await saveAccountInRedux(res.address, walletName, password);
       dispatch(setLoadingFor('Setting things up...'));
@@ -149,9 +139,6 @@ function CreateWallet() {
   return (
     <AuthWrapper>
       <Header centerText="Authentication" />
-      <div>
-        {/* <MainHeading className={mainHeadingfontFamilyClass}>Authentication</MainHeading> */}
-      </div>
       <SubMainWrapperForAuthScreens style={{ marginTop: '1.4rem' }}>
         <LabelAndTextInput minHeight="117px">
           <SubHeading
@@ -159,7 +146,6 @@ function CreateWallet() {
             marginTop="0px"
           >
             Wallet Name
-
           </SubHeading>
           <StyledInput
             className={subHeadingfontFamilyClass}
@@ -186,7 +172,6 @@ function CreateWallet() {
             marginTop="0px"
           >
             Password
-
           </SubHeading>
           <StyledInput
             placeholder="Password"
@@ -208,7 +193,6 @@ function CreateWallet() {
               className={subHeadingfontFamilyClass}
             >
               {passwordErrorMessages.minimumCharacterWarning}
-
             </WarningText>
           )}
           {passwordError === passwordErrorMessages.didnotMatchWarning && (
@@ -216,7 +200,6 @@ function CreateWallet() {
               className={subHeadingfontFamilyClass}
             >
               {passwordErrorMessages.didnotMatchWarning}
-
             </WarningText>
           )}
         </LabelAndTextInput>
@@ -243,7 +226,6 @@ function CreateWallet() {
               className={subHeadingfontFamilyClass}
             >
               {passwordErrorMessages.minimumCharacterWarning}
-
             </WarningText>
           )}
           {passwordError === passwordErrorMessages.didnotMatchWarning && (
@@ -251,7 +233,6 @@ function CreateWallet() {
               className={subHeadingfontFamilyClass}
             >
               {passwordErrorMessages.didnotMatchWarning}
-
             </WarningText>
           )}
         </LabelAndTextInput>

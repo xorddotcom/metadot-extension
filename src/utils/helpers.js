@@ -46,7 +46,6 @@ function shuffleItemsWithinArray(array) {
 }
 
 function addressModifier(address) {
-  console.log('Helper', address);
   if (address) return `${address.slice(0, 5)}...${address.slice(address.length - 5, address.length)}`;
   return null;
 }
@@ -65,7 +64,6 @@ function validateAddress(userPublicAddress, senderPublicAddress) {
 function validateAmount(userCurrentAmount, sendAmount) {
   try {
     if (userCurrentAmount < sendAmount) {
-      console.log('hello------------------------');
       throw String('Amount is exceeding from your current balance');
     }
     return true;
@@ -90,7 +88,6 @@ function isUserNameValid(username) {
 }
 
 const trimBalance = (value) => {
-  console.log('Value', value);
   const val = value.toString();
   const trimmedValue = val.slice(0, (val.indexOf('.')) + 4);
   return trimmedValue;
@@ -110,18 +107,12 @@ async function convertIntoUsd(token, amountToConvert) {
   let converted = 0;
   if (token === 'KSM') {
     const oneKSMintoUsd = await getKSM();
-    console.log('amount into -----------', oneKSMintoUsd.data.kusama.usd);
-    // setAmountInUsd((Number(amountToConvert) * oneKSMintoUsd.data.kusama.usd).toFixed(3));
-    console.log('amount into ============', Number(amountToConvert) * oneKSMintoUsd.data.kusama.usd);
     converted = (Number(amountToConvert) * oneKSMintoUsd.data.kusama.usd).toFixed(3);
   } else if (token === 'DOT') {
     const oneDOTIntoUsd = await getDOT();
-    console.log('amount into -----------', oneDOTIntoUsd.data.polkadot.usd);
     // setAmountInUsd((Number(amountToConvert) * oneDOTIntoUsd.data.kusama.usd).toFixed(3));
-    console.log('amount into ============', Number(amountToConvert) * oneDOTIntoUsd.data.polkadot.usd);
     converted = (Number(amountToConvert) * oneDOTIntoUsd.data.polkadot.usd).toFixed(3);
   }
-  console.log('amount into converted', converted);
   return converted;
 }
 
@@ -136,5 +127,3 @@ export default {
   trimBalance,
   convertIntoUsd,
 };
-
-// export default helpers;

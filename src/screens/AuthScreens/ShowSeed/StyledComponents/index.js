@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import styled from 'styled-components';
 import { fonts, colors } from '../../../../utils';
 
@@ -21,7 +22,6 @@ export const SeedWrapper = styled.div`
 `;
 
 export const IndexText = styled.span`
-  /* font-size: ${mainHeadingFontSize}; */
   font-size: 14px;
   opacity: 0.6;
   color: ${primaryTextColor};

@@ -32,13 +32,7 @@ function AssetsAndTransactions({
   const assetsData = useSelector((state) => state.account);
   const [isTab1Active, setIsTab1Active] = useState(true);
   const [isTab2Active, setIsTab2Active] = useState(false);
-  console.log('Transaction data [][]', transactionData);
-  console.log('Tx detail modal', setTxDetailsModalData);
-  // const transactions = useSelector((state) => state.transactions.transactions);
-  // console.log('transactions', transactions);
-  // console.log('===============', assetsData);
   const logoChangeHandler = (token) => {
-    console.log('-------------', token);
     if (token === 'DOT') {
       return polkadotDot;
     } else if (token === 'KSM') {
@@ -90,7 +84,6 @@ function AssetsAndTransactions({
           logo={logoChangeHandler(assetsData.tokenName)}
         />
       )}
-      {console.log('===============', assetsData)}
       {isTab2Active && (
         // eslint-disable-next-line arrow-body-style
         transactionData.length > 0 && transactionData.map((transaction) => {
@@ -101,7 +94,6 @@ function AssetsAndTransactions({
               status={transaction.status}
               coin={transaction.tokenName}
               amount={transaction.amount}
-              // amountInUsd={transaction.amountInUSD}
               amountInUsd={transaction.tokenName === 'WND' ? '$0' : '$0'}
               logo={logoChangeHandler(transaction.tokenName)}
               handleClick={() => {

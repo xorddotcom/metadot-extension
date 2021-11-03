@@ -1,4 +1,3 @@
-import React from 'react';
 import Button from '@mui/material/Button';
 import './index.css';
 import { styled } from '@mui/system';
@@ -6,7 +5,6 @@ import { CircularProgress } from '@mui/material';
 import { dimension, fonts } from '../../utils';
 
 const { _width, _height } = dimension.button;
-
 const { buttonFontSize } = fonts;
 
 function index({
@@ -55,7 +53,6 @@ function index({
     <div
       style={{
         width: width || _width,
-        // height: height ? height : _height,
         marginBottom: 10,
       }}
     >

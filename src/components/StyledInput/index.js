@@ -23,7 +23,6 @@ const StyledInputField = styled.input`
   border-radius: 8px;
   width: ${(props) => (props.fullWidth ? '100%' : '90%')};
   font-family: ${subHeadingFontSize};
-  /* border-width: 0px; */
     border: ${(props) => (props.isCorrectForInput
     ? '0px'
     : props.isCorrectForInput === false
@@ -48,23 +47,16 @@ function StyledInput({
   rightIconCross,
   rightIconCrossClickHandler,
   isCorrect,
-
   type,
-
   fullWidth,
   fontSize,
   height,
-
   rightIcon,
-
   typePassword = false,
   hideHandler,
   hideState,
-
   marginBottom,
-
   maxlength,
-
   disabled,
 }) {
   return (
@@ -80,15 +72,6 @@ function StyledInput({
         onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
         isCorrectForInput={isCorrect}
-        // type={
-        //   typePassword
-        //     ? !hideState
-        //       ? 'password'
-        //       : 'text'
-        //     : type
-        //     ? type
-        //     : 'text'
-        // }
         type={
           // eslint-disable-next-line no-nested-ternary
           type || (typePassword

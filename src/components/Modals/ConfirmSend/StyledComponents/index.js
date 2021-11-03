@@ -19,15 +19,12 @@ padding-bottom: ${(props) => props.paddingBottom && '10px'};
 padding-top: ${(props) => props.paddingTop && '10px'};
 margin-bottom: ${(props) => props.marginBottom && '10px'};
 border-bottom: ${(props) => props.borderBottom && '1px solid rgba(250, 250, 250, 0.15)'};
-/* border: 1px solid white; */
 `;
 
 export const VerticalContentDiv = styled.div`
 display: flex;
 flex-direction: column;
-/* border: 1px solid white; */
-/* align-items: flex-start; */
-/* &${(props) => props.border === true} { */
+  
   ${(props) => props.border && css`
   border: 1px solid #212129;
     box-sizing: border-box;
@@ -38,9 +35,6 @@ flex-direction: column;
       padding-left:10px;
       padding-right:10px;
     `}
-
-
-/* } */
 `;
 
 export const MainText1 = styled.p`

@@ -6,7 +6,6 @@ import DownloadIcon from '@mui/icons-material/Download';
 
 import { useDispatch, useSelector } from 'react-redux';
 import keyring from '@polkadot/ui-keyring';
-// import AppLogo from '../../../assets/images/Group.svg';
 import AppLogo from '../../../assets/images/main-logo.png';
 import { Button } from '../../../components';
 
@@ -14,7 +13,6 @@ import { MainHeading, SubHeading } from './StyledComponents';
 import { fonts } from '../../../utils';
 import './index.css';
 import { setKeyringInitialized } from '../../../redux/slices/account';
-// import { resetAccountSlice } from '../../../redux/slices/account';
 
 const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
 
@@ -22,9 +20,8 @@ function Welcome() {
   const history = useHistory();
 
   const currentUser = useSelector((state) => state.account);
-  console.log('Current user', currentUser);
-
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (!currentUser.keyringInitialized) {
       keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
@@ -42,10 +39,8 @@ function Welcome() {
       <div className="main-content">
         <MainHeading
           className={mainHeadingfontFamilyClass}
-          // style={{ fontSize: '3rem', textTransform: 'uppercase', marginTop: '-0.5rem' }}
         >
           Polo Wallet
-
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
           Passion, Progress, Polkadot
@@ -58,7 +53,6 @@ function Welcome() {
           width="60%"
           height="40px"
           handleClick={() => {
-            console.log('clicked');
             history.push('/ShowSeed');
           }}
         />
@@ -69,7 +63,6 @@ function Welcome() {
           width="60%"
           height="40px"
           handleClick={() => {
-            console.log('clicked Import');
             history.push('/ImportWallet');
           }}
         />
