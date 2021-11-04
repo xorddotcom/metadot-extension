@@ -20,7 +20,6 @@ const ExtensionReloader = require('webpack-extension-reloader');
 // Create the Webpack config usings the same settings used by the "start" script
 // of create-react-app.
 const config = configFactory('development');
-console.log('====', config);
 // The classic webpack-dev-server can't be used to develop browser extensions,
 // so we remove the "webpackHotDevClient" from the config "entry" point.
 // config.entry = config.entry.filter((entry) => !entry.includes('webpackHotDevClient'));

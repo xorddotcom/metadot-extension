@@ -4,7 +4,6 @@ import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { MainHeading, SubHeading } from '../../CommonStyledComponents';
 import Button from '../../Button';
-
 import { fonts } from '../../../utils';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;

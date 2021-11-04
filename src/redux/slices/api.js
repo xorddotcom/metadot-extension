@@ -13,7 +13,6 @@ export const apiSlice = createSlice({
   initialState,
   reducers: {
     setApi: (state, action) => {
-      console.log('Payload in api slice', action.payload);
       state.api = action.payload;
       state.apiInitializationCompleted = true;
       state.apiInitializationEnds = true;

@@ -18,10 +18,8 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 function ConfirmSend({
   open, handleClose, handleConfirm, style, accountTo, amount, accountFrom,
-  transactionFee, tokenName, loading2, fromAccountName,
+  transactionFee, tokenName, loading2,
 }) {
-  const currentUser = useSelector((state) => state.account);
-
   const transactionAmount = (valueOne, valueTwo) => {
     const value = parseFloat(valueOne) + parseFloat(valueTwo);
     const val = value.toString();

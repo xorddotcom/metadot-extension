@@ -5,7 +5,6 @@ import { styled } from '@mui/material/styles';
 import { Box } from '@mui/system';
 import CloseIcon from '@mui/icons-material/Close';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-
 import { toast } from 'react-toastify';
 import {
   CloseIconDiv,
@@ -15,12 +14,9 @@ import {
   SubText1,
   SubText2,
   VerticalContentDiv,
-  // eslint-disable-next-line no-unused-vars
-  ViewOnPolkaScanText,
 } from './StyledComponents';
 import { fonts, helpers } from '../../../utils';
 
-// eslint-disable-next-line no-unused-vars
 const { addressModifier } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -41,16 +37,19 @@ const LightTooltip = styled(({ className, ...props }) => (
 }));
 
 function TxDetails({
-  open, handleClose, style, transactions, txDetailsModalData,
+  open, handleClose, style, txDetailsModalData,
 }) {
+  const {
+    hash, amount, operation, accountFrom, accountTo, transactionFee, tokenName,
+  } = txDetailsModalData;
+
   const getTotalBalance = (value1, value2) => {
     const val = parseFloat(value1) + parseFloat(value2);
     return val.toFixed(4);
-    // return val;
   };
 
   const copyText = () => {
-    navigator.clipboard.writeText(txDetailsModalData.hash);
+    navigator.clipboard.writeText(hash);
     toast.success('Copied!', {
       position: toast.POSITION.BOTTOM_CENTER,
       className: 'toast-success',
@@ -80,7 +79,7 @@ function TxDetails({
 
             <VerticalContentDiv>
               <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>Status</MainText2>
-              <MainText2 successText textAlign="start" className={mainHeadingfontFamilyClass}>{txDetailsModalData.operation}</MainText2>
+              <MainText2 successText textAlign="start" className={mainHeadingfontFamilyClass}>{operation}</MainText2>
             </VerticalContentDiv>
 
             <VerticalContentDiv>
@@ -97,7 +96,7 @@ function TxDetails({
                   />
                 </LightTooltip>
                 <SubText2 pl10 textAlign="end" className={mainHeadingfontFamilyClass}>
-                  {txDetailsModalData.hash ? `${txDetailsModalData.hash.slice(0, 5)}...${txDetailsModalData.hash.slice(txDetailsModalData.hash.length - 5, txDetailsModalData.hash.length)}` : ''}
+                  {hash ? `${hash.slice(0, 5)}...${hash.slice(hash.length - 5, hash.length)}` : ''}
                 </SubText2>
               </HorizontalContentDiv>
             </VerticalContentDiv>
@@ -108,7 +107,7 @@ function TxDetails({
             <VerticalContentDiv>
               <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>From</MainText2>
               <SubText2 textAlign="start" className={subHeadingfontFamilyClass}>
-                {addressModifier(txDetailsModalData.accountFrom)}
+                {addressModifier(accountFrom)}
               </SubText2>
             </VerticalContentDiv>
 
@@ -118,7 +117,7 @@ function TxDetails({
                 textAlign="end"
                 className={subHeadingfontFamilyClass}
               >
-                {addressModifier(txDetailsModalData.accountTo)}
+                {addressModifier(accountTo)}
               </SubText2>
             </VerticalContentDiv>
 
@@ -136,9 +135,9 @@ function TxDetails({
               </VerticalContentDiv>
 
               <VerticalContentDiv>
-                <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>{`${txDetailsModalData.amount} ${txDetailsModalData.tokenName}`}</MainText2>
+                <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>{`${amount} ${tokenName}`}</MainText2>
                 <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>
-                  {`${txDetailsModalData.transactionFee} ${txDetailsModalData.tokenName}`}
+                  {`${transactionFee} ${tokenName}`}
                 </MainText2>
               </VerticalContentDiv>
             </HorizontalContentDiv>
@@ -152,8 +151,8 @@ function TxDetails({
 
               <VerticalContentDiv>
                 <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>
-                  {`${getTotalBalance(txDetailsModalData.amount, txDetailsModalData.transactionFee)}
-                  ${txDetailsModalData.tokenName}`}
+                  {`${getTotalBalance(amount, transactionFee)}
+                  ${tokenName}`}
                 </MainText2>
                 <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>$0</MainText2>
               </VerticalContentDiv>

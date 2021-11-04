@@ -43,8 +43,6 @@ line-height: 19px;
 height: 19px;
 color: rgba(250, 250, 250, 0.85);
 text-align: ${(props) => props.textAlign};
-/* border: 1px solid white; */
-/* margin: 0px; */
 `;
 
 export const MainText2 = styled.p`
@@ -61,19 +59,13 @@ export const SubText1 = styled.p`
 font-size: 0.803rem;
 line-height: 16px;
 height: 16px;
-
 visibility: ${(props) => (props.hide ? 'hidden' : 'normal')};
-
 /* identical to box height, or 114% */
 letter-spacing: 0.02em;
-
 /* Text and Icons */
 color: #FAFAFA;
-
 opacity: 0.8;
 text-align: ${(props) => props.textAlign};
-/* border: 1px solid white; */
-
 margin: 0px 0px 3px 0px;
 `;
 
@@ -81,13 +73,9 @@ export const SubText2 = styled.p`
 font-size: 0.803rem;
 line-height: 16px;
 height: 16px;
-/* identical to box height, or 114% */
 letter-spacing: 0.02em;
-
 color: rgba(250, 250, 250, 0.7);
-
 opacity: 0.8;
 text-align: ${(props) => props.textAlign};
-/* border: 1px solid white; */
 margin:0px;
 `;

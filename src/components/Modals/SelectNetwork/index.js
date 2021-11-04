@@ -3,13 +3,9 @@ import React from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import LoadingScreen from 'react-loading-screen';
-
 import CloseIcon from '@mui/icons-material/Close';
-
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-
 import { fonts } from '../../../utils';
-
 import {
   BackButton,
   CloseIconDiv,
@@ -53,7 +49,7 @@ function SelectNetwork(props) {
             </CloseIconDiv>
 
             <TitleDiv>
-              {!modalState.firstStep && (
+              {!firstStep && (
               <BackButton
                 onClick={() => {
                   resetState();
@@ -68,8 +64,8 @@ function SelectNetwork(props) {
               </Title>
             </TitleDiv>
 
-            {modalState.currentData.map((data) => {
-              const Content = data.name !== 'Polkadot Network' ? modalState.renderMethod(data, handleClickForOthers) : modalState.renderMethod(data, handleClickForKusama);
+            {currentData.map((data) => {
+              const Content = data.name !== 'Polkadot Network' ? renderMethod(data, handleClickForOthers) : renderMethod(data, handleClickForKusama);
               return Content;
             })}
           </div>
