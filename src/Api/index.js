@@ -17,7 +17,10 @@ import { helpers } from '../utils';
 function ApiManager({ rpc }) {
   // eslint-disable-next-line import/no-mutable-exports
   const currentUser = useSelector((state) => state);
-  const [apiState, setApiState] = useState(currentUser.api.api);
+  const { api, account, successModalHandling } = currentUser;
+  const { publicKey, chainName } = account;
+  const { loadingFor } = successModalHandling;
+  const [apiState, setApiState] = useState(api.api);
   const dispatch = useDispatch();
 
   // eslint-disable-next-line no-shadow
@@ -35,8 +38,8 @@ function ApiManager({ rpc }) {
       const tokenName = await apiR.registry.chainTokens[0];
       dispatch(setTokenName({ tokenName }));
       const bal = rpcUrl === constants.Acala_Mandala_Rpc_Url
-        ? await getBalanceWithMultipleTokens(apiR, currentUser.account.publicKey)
-        : await getBalance(apiR, currentUser.account.publicKey);
+        ? await getBalanceWithMultipleTokens(apiR, publicKey)
+        : await getBalance(apiR, publicKey);
       dispatch(setBalance(bal));
 
       const dollarAmount = await helpers.convertIntoUsd(tokenName, bal);
@@ -48,7 +51,7 @@ function ApiManager({ rpc }) {
       dispatch(setApi(apiR));
 
       dispatch(setApiInitializationStarts(false));
-      if (currentUser.successModalHandling.loadingFor === 'Api Initialization...') {
+      if (loadingFor === 'Api Initialization...') {
         dispatch(setMainTextForSuccessModal('Successfully Converted!'));
         dispatch(setSubTextForSuccessModal(''));
         dispatch(setIsSuccessModalOpen(true));
@@ -59,14 +62,7 @@ function ApiManager({ rpc }) {
       }
     };
     setAPI(rpc);
-  }, [
-    currentUser.account.chainName,
-    currentUser.account.publicKey,
-    currentUser.successModalHandling.loadingFor,
-    dispatch,
-    rpc,
-    state.account.loadingFor,
-  ]);
+  }, [chainName, publicKey, loadingFor, dispatch, rpc]);
   return (
     <div style={{ display: 'none' }}>
       <p>this</p>
