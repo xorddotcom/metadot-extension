@@ -6,9 +6,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
-// import Tooltip from '@mui/material/Tooltip';
 import { toast } from 'react-toastify';
-import { display } from '@mui/system';
 import {
   AccountName,
   Balance,
@@ -17,16 +15,12 @@ import {
   MoreOptions,
   PerUnitPrice,
   PublicAddress,
-  VariationAmount,
   VerticalContentDiv,
 } from './StyledComponents';
-
 import NotConnected from '../../../assets/images/notConnected.svg';
-
 import { fonts, helpers } from '../../../utils';
 
 const { addressModifier, trimBalance } = helpers;
-
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 const LightTooltip = styled(({ className, ...props }) => (
@@ -86,7 +80,6 @@ function MainCard({
           (
           {addressModifier(address)}
           )
-          {' '}
         </PublicAddress>
         {/* </LightTooltip> */}
         <div style={{ position: 'relative', marginTop: '-0.2  rem' }}>
@@ -107,10 +100,8 @@ function MainCard({
         <LightTooltip title={balance} arrow placement="bottom">
           <span>
             {trimBalance(balance)}
-            {/* {'123'} */}
           </span>
         </LightTooltip>
-        {' '}
         {tokenName}
       </Balance>
 

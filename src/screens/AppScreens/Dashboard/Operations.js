@@ -3,15 +3,12 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
-
 import { useSelector } from 'react-redux';
 import { Option, OptionRow, OptionsName } from './StyledComponents';
-
 import Send from '../../../assets/images/Send.svg';
 import Swap from '../../../assets/images/Swap.svg';
 import Governance from '../../../assets/images/Governance.svg';
 import Stake from '../../../assets/images/Stake.svg';
-
 import { fonts } from '../../../utils';
 
 const { mainHeadingfontFamilyClass } = fonts;

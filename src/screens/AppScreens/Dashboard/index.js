@@ -35,18 +35,17 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 // eslint-disable-next-line import/namespace
 import { CircularProgress } from '@mui/material';
 import { options } from '@acala-network/api';
-import axios from 'axios';
 import MainCard from './MainCard';
 import Operations from './Operations';
 import AssetsAndTransactions from './AssetsAndTransactions';
 
-import { providerInitialization, getBalance, getBalanceWithMultipleTokens } from '../../../ToolBox/services';
+import { getBalanceWithMultipleTokens } from '../../../ToolBox/services';
 // import onChainConstants from '../../../constants/onchain'
 import constants from '../../../constants/onchain';
 import {
-  setRpcUrl, setBalance, setSeed, setTokenName, setChainName,
+  setRpcUrl, setBalance, setTokenName, setChainName,
 } from '../../../redux/slices/account';
-import { setApi, setApiInitializationStarts } from '../../../redux/slices/api';
+import { setApiInitializationStarts } from '../../../redux/slices/api';
 
 import { fonts, helpers } from '../../../utils';
 import {
@@ -58,7 +57,6 @@ import {
   NetworkContainer,
   SelectChain,
   SelectedChain,
-  SwitchToTestnet,
   Wrapper,
 } from './StyledComponents';
 
@@ -70,7 +68,6 @@ import {
   NextIcon,
   OptionRow,
   OptionText,
-  PlainIcon,
 } from '../../../components/Modals/SelectNetwork/StyledComponents';
 import RpcClass from '../../../rpc';
 
@@ -81,10 +78,7 @@ import ShidenIcon from '../../../assets/images/shiden.svg';
 import PhalaIcon from '../../../assets/images/phala.svg';
 import BifrostIcon from '../../../assets/images/bifrost.svg';
 import {
-  setIsSuccessModalOpen,
   setLoadingFor,
-  setMainTextForSuccessModal,
-  setSubTextForSuccessModal,
 } from '../../../redux/slices/successModalHandling';
 
 // Assests Token images
@@ -95,18 +89,14 @@ import westendColour from '../../../assets/images/tokenImg/westend_colour.svg';
 import acala from '../../../assets/images/tokenImg/acala-circle.svg';
 import yellow from '../../../assets/images/tokenImg/yellow.png';
 import green from '../../../assets/images/tokenImg/green.jpeg';
-import phala from '../../../assets/images/phala.svg';
-import moonbase from '../../../assets/images/moonriver.svg';
 import rococoIcon from '../../../assets/images/rococo.svg';
 
 import astarIcon from '../../../assets/images/astar.png';
 
 const { WsProvider, ApiPromise, Keyring } = require('@polkadot/api');
-const BN = require('bn.js');
 const { cryptoWaitReady } = require('@polkadot/util-crypto');
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-const { convertIntoUsd } = helpers;
 
 const availableNetworks = [
   {
@@ -238,7 +228,7 @@ const TestNetworks = [
   },
   {
     name: 'Moonbase',
-    theme: moonbase,
+    theme: MoonriverIcon,
     disabled: true,
   },
   {
@@ -248,7 +238,7 @@ const TestNetworks = [
   },
   {
     name: 'Phala',
-    theme: phala,
+    theme: PhalaIcon,
     disabled: true,
     rpcUrl: constants.Phala_Rpc_Url,
     tokenName: 'Phala',
@@ -276,24 +266,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Dashboard(props) {
-  const [amountInUsd, setAmountInUsd] = useState(false);
-  const classes = useStyles(props);
+  // const classes = useStyles(props);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  console.log('abc', { isLoading });
   const transactions = useSelector((state) => state.transactions.transactions);
-  console.log('transactions', transactions);
   const [txDetailsModalData, setTxDetailsModalData] = useState('');
   const [isTxDetailsModalOpen, setIsTxDetailsModalOpen] = useState(false);
-  const [count, setCount] = useState(0);
 
   const currentUser = useSelector((state) => state);
-  console.log('men chala type of and value', typeof currentUser.account.rpcUrl, currentUser.account.rpcUrl);
-
-  console.log('Current User [][]', currentUser);
-  const [apiInState, setApiInState] = useState('');
-  // eslint-disable-next-line no-unused-vars
-
+  const {
+    publicKey, chainName, balance, tokenName, seed, balanceInUsd, accountName, walletName,
+  } = currentUser.account;
   async function main() {
     const { api } = currentUser.api;
     console.log('Listner working', api);
@@ -303,11 +286,11 @@ function Dashboard(props) {
     let {
       data: { free: previousFree },
       nonce: previousNonce,
-    } = await api.query.system.account(currentUser.account.publicKey);
+    } = await api.query.system.account(publicKey);
     const decimalPlaces = await api.registry.chainDecimals;
     // Here we subscribe to any balance changes and update the on-screen value
     api.query.system.account(
-      currentUser.account.publicKey,
+      publicKey,
       // eslint-disable-next-line consistent-return
       ({ data: { free: currentFree }, nonce: currentNonce }) => {
         // Calculate the delta
@@ -315,20 +298,10 @@ function Dashboard(props) {
 
         // Only display positive value changes (Since we are pulling `previous` above already,
         // the initial balance change will also be zero)
-        console.log('Change is zero', change);
-        // eslint-disable-next-line no-unused-expressions
         // async () => {
         if (!change.isZero()) {
-          // console.log('Balance changed');
-          // const newBalance = await getBalance(api, currentUser.account.publicKey);
-          // console.log('New balance', newBalance);
-          // dispatch(setBalance(newBalance));
-          const newBalance = currentUser.account.chainName === 'AcalaMandala' ? change / 10 ** decimalPlaces[0] : change / 10 ** decimalPlaces;
-          console.log(`New balance change of ${change}, nonce ${currentNonce}`);
-          console.log('Decimal places', decimalPlaces);
-          console.log('New balance', newBalance);
-          console.log('Exact balance', newBalance + currentUser.account.balance);
-          dispatch(setBalance(newBalance + currentUser.account.balance));
+          const newBalance = chainName === 'AcalaMandala' ? change / 10 ** decimalPlaces[0] : change / 10 ** decimalPlaces;
+          dispatch(setBalance(newBalance + balance));
 
           previousFree = currentFree;
           previousNonce = currentNonce;
@@ -431,10 +404,10 @@ function Dashboard(props) {
     );
   };
 
+  // function is not declared
   // Acala network initialization
   const initializeAcalaNetwork = async () => {
     try {
-      console.log('Initializer working');
       const provider = new WsProvider(
         'wss://acala-mandala.api.onfinality.io/public-ws',
       );
@@ -442,45 +415,37 @@ function Dashboard(props) {
       await api.isReady;
       console.log('Api [][]', api);
 
-      const { data: balance } = await api.query.system.account(currentUser.account.publicKey);
-      console.log('Balance free', balance.free);
-      console.log('Decimals [][]', api.registry.chainDecimals);
-      console.log('Tokens', api.registry.chainTokens);
+      const { data: balance } = await api.query.system.account(publicKey);
       const decimal = api.registry.chainDecimals;
       const properties = await api.rpc.system.properties();
       const [now, { nonce, data: balances }] = await Promise.all([
         api.query.timestamp.now(),
-        api.query.system.account(currentUser.account.publicKey),
+        api.query.system.account(publicKey),
       ]);
-      console.log('New data', now, nonce);
-      console.log('User balance', balances.free.toHuman());
     } catch (err) {
       console.log('Error', err);
     }
   };
 
+  // function is not declared
   // ACALA MANDALA TRANSACTION
   const sendTransaction = async () => {
     try {
-      console.log('Send tranasction working');
       const provider = new WsProvider(
         'wss://acala-mandala.api.onfinality.io/public-ws',
       );
       const api = new ApiPromise(options({ provider }));
       await api.isReady;
-      console.log('Api [][]', api);
 
       await cryptoWaitReady();
       const keyring = new Keyring({ type: 'sr25519' });
-      const sender = keyring.addFromUri(currentUser.account.seed);
-      console.log('Sender [][]', sender.address);
+      const sender = keyring.addFromUri(seed);
 
       const hash = await api.tx.balances
         .transfer(
           '5Dz1i42ygyhi4BxPnvKtRY4TBShTMC9T2FvaMB8CWxoU3QgG',
           '3000000000000',
         ).signAndSend(sender, (res) => {
-          console.log('Res status', res.status);
           if (res.status.isInBlock) {
             console.log(`Completed at block hash #${res.status.asInBlock.toString()}`);
             console.log('Current status of IF', res.status.type);
@@ -510,26 +475,21 @@ function Dashboard(props) {
     });
   };
 
+  // function is not declared
   const getBalanceHere = async () => {
-    console.log(currentUser.account.publicKey);
-    console.log(currentUser.api.api);
-    const res = await getBalanceWithMultipleTokens(currentUser.api.api, currentUser.account.publicKey);
-    console.log('Res', res);
+    const res = await getBalanceWithMultipleTokens(currentUser.api.api, publicKey);
   };
 
+  // function is not declared
   const testing = async () => {
     const { data: balance } = await currentUser.api.api.query.system.account('5DXomcfWBhckmx8N9jG7GuVzJcTQpREC5hYoCteD6KcwnacY');
-    console.log('Balance free', balance.free);
   };
 
   // prettier-ignore
   const handleSelection = async (data) => {
     setIsLoading(true);
-    console.log('handle Selection', data);
     if (data.disabled) {
-      console.log('disabled!');
       setIsLoading(false);
-      // eslint-disable-next-line no-useless-return
       return;
     } if (data.name === 'Test Networks') {
       setModalState({
@@ -573,9 +533,9 @@ function Dashboard(props) {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
 
   // --------XXXXXXXXXXXXXXX-----------
 
@@ -589,9 +549,6 @@ function Dashboard(props) {
   //   setAnchorEl(null);
   // };
 
-  // const res = RpcClass.apiGetter();
-
-  console.log('amount into', currentUser.account.balance, currentUser.account.balanceInUsd);
   return (
     <Wrapper>
       <DashboardHeader>
@@ -602,23 +559,23 @@ function Dashboard(props) {
         <NetworkContainer>
           <SelectChain onClick={() => setIsModalOpen(true)}>
             <SelectedChain className={subHeadingfontFamilyClass}>
-              {currentUser.account.chainName.includes('Network')
-                ? currentUser.account.chainName
-                : `${currentUser.account.chainName} Network`}
+              {chainName.includes('Network')
+                ? chainName
+                : `${chainName} Network`}
 
             </SelectedChain>
             <ArrowDropDownIcon style={{ fontSize: '0.8rem' }} />
           </SelectChain>
-
         </NetworkContainer>
 
         <AccountContainer>
           <AccountSetting>
             <AccountText onClick={handleClick} className={mainHeadingfontFamilyClass}>
-              {currentUser.account.accountName.slice(0, 1)}
+              {accountName.slice(0, 1)}
             </AccountText>
           </AccountSetting>
         </AccountContainer>
+        {/* Drop Down */}
         {/* <Menu
           anchorEl={anchorEl}
           open={open}
@@ -737,17 +694,18 @@ function Dashboard(props) {
             </MenuList>
           </Paper>
         </Menu> */}
+        {/* Drop Down End */}
 
       </DashboardHeader>
 
       <MainCard
-        balance={currentUser.account.balance}
-        chainName={currentUser.account.chainName}
-        tokenName={currentUser.account.tokenName}
-        address={currentUser.account.publicKey}
-        walletName={currentUser.account.walletName}
-        balanceInUsd={currentUser.account.balanceInUsd || 0}
-        accountName={currentUser.account.accountName}
+        balance={balance}
+        chainName={chainName}
+        tokenName={tokenName}
+        address={publicKey}
+        walletName={walletName}
+        balanceInUsd={balanceInUsd || 0}
+        accountName={accountName}
       />
 
       <Operations />

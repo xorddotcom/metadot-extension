@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { AssetCard, TxCard } from '../../../components';
 import { fonts, helpers } from '../../../utils';
-
 import {
   AssetsAndTransactionsWrapper,
   Tabs,
@@ -30,6 +29,9 @@ function AssetsAndTransactions({
   transactionData,
 }) {
   const assetsData = useSelector((state) => state.account);
+  const {
+    chainName, tokenName, balance, balanceInUsd,
+  } = assetsData;
   const [isTab1Active, setIsTab1Active] = useState(true);
   const [isTab2Active, setIsTab2Active] = useState(false);
   const logoChangeHandler = (token) => {
@@ -77,25 +79,28 @@ function AssetsAndTransactions({
       </Tabs>
       {isTab1Active && (
         <AssetCard
-          name={assetsData.chainName}
-          shortName={assetsData.tokenName}
-          amount={(trimBalance(assetsData.balance))}
-          amountInUsd={assetsData.balanceInUsd}
-          logo={logoChangeHandler(assetsData.tokenName)}
+          name={chainName}
+          shortName={tokenName}
+          amount={(trimBalance(balance))}
+          amountInUsd={balanceInUsd}
+          logo={logoChangeHandler(tokenName)}
         />
       )}
       {isTab2Active && (
         // eslint-disable-next-line arrow-body-style
         transactionData.length > 0 && transactionData.map((transaction) => {
+          const {
+            hash, operation, status, tokenName: tokenNames, amount,
+          } = transaction;
           return (
             <TxCard
-              key={transaction.hash}
-              operation={transaction.operation}
-              status={transaction.status}
-              coin={transaction.tokenName}
-              amount={transaction.amount}
-              amountInUsd={transaction.tokenName === 'WND' ? '$0' : '$0'}
-              logo={logoChangeHandler(transaction.tokenName)}
+              key={hash}
+              operation={operation}
+              status={status}
+              coin={tokenNames}
+              amount={amount}
+              amountInUsd={tokenNames === 'WND' ? '$0' : '$0'}
+              logo={logoChangeHandler(tokenNames)}
               handleClick={() => {
                 setTxDetailsModalData(transaction);
                 handleOpenTxDetailsModal();
