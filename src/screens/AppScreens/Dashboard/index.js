@@ -337,7 +337,6 @@ function Dashboard(props) {
 
   // --------State and funtions for SlectNetwork Modal
   const handleSelectionOnKusamaMainNetwork = (data) => {
-    console.log('object', data);
     if (!data.disabled) {
       selectAndGoBack(data.name);
     }
@@ -412,7 +411,6 @@ function Dashboard(props) {
       );
       const api = new ApiPromise(options({ provider }));
       await api.isReady;
-      console.log('Api [][]', api);
 
       const { data: balance } = await api.query.system.account(publicKey);
       const decimal = api.registry.chainDecimals;
@@ -512,7 +510,6 @@ function Dashboard(props) {
         currentData: BetaNetworks,
       });
     } else {
-      console.log('NETWORK SELECTED', data);
       dispatch(setApiInitializationStarts(true));
       dispatch(setLoadingFor('Api Initialization...'));
       dispatch(setRpcUrl({ rpcUrl: data.rpcUrl }));
@@ -732,8 +729,6 @@ function Dashboard(props) {
         }}
         isLoading={isLoading}
       />
-      {}
-      {console.log('Hello 2', transactions)}
       <TxDetails
         open={isTxDetailsModalOpen}
         handleClose={() => setIsTxDetailsModalOpen(false)}
