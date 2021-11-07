@@ -1,3 +1,4 @@
+import React from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { fonts } from '../../../utils';

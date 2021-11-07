@@ -69,7 +69,6 @@ import {
   OptionRow,
   OptionText,
 } from '../../../components/Modals/SelectNetwork/StyledComponents';
-import RpcClass from '../../../rpc';
 
 import KusamaIcon from '../../../assets/images/kusama.svg';
 import KaruraIcon from '../../../assets/images/karura.svg';

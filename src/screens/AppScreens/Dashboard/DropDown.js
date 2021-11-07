@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
