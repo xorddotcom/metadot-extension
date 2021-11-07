@@ -37,7 +37,6 @@ export const SubMainWrapperForAuthScreens = styled.div`
   flex-wrap: wrap;
   width: 100%;
   height: auto;
-  /* min-height: 340px; */
   height: auto;
   margin: 25px auto 25px;
   margin-bottom: ${(props) => (props.mb ? props.mb : '2rem')};

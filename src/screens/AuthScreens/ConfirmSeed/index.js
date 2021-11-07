@@ -45,12 +45,6 @@ function ConfirmSeed() {
   const phrase3 = seedArray[fourRandomIndexes[2]];
   const phrase4 = seedArray[fourRandomIndexes[3]];
 
-  console.log({ shuffledSeed });
-  // const seedArrayForGrid = shuffledSeed.map((seedStr, i) => (
-  //   { value: seedStr, indexValue: i, selected: false }
-  // ));
-  console.log({ seedArrayForGrid });
-
   const [word1, setWord1] = useState('');
   const [word2, setWord2] = useState('');
   const [word3, setWord3] = useState('');
@@ -68,21 +62,7 @@ function ConfirmSeed() {
     first && second && third && fourth && history.push('/CreateWallet');
   };
 
-  //   const checkWord = () => {
-  //   const first = word1 === phrase1;
-  //   const second = word2 === phrase2;
-  //   const third = word3 === phrase3;
-  //   const fourth = word4 === phrase4;
-
-  //   setValidations([first, second, third, fourth]);
-  // };
-
-  console.log('object', {
-    word1, word2, word3, word4,
-  });
-
   const handleSelect = (seedObj) => {
-    console.log({ seedObj });
     const { value, indexValue } = seedObj;
     if (!word1) {
       setWord1(value);
@@ -98,7 +78,6 @@ function ConfirmSeed() {
     if (!word1 || !word2 || !word3 || !word4) {
       const copyOfSeedForGrid = seedArrayForGrid;
       copyOfSeedForGrid[indexValue] = { value, indexValue, selected: true };
-
       setSeedArrayForGrid(copyOfSeedForGrid);
     }
   };
@@ -110,20 +89,7 @@ function ConfirmSeed() {
     copyOfSeedForGrid[indexValue] = { value, indexValue, selected: false };
 
     setSeedArrayForGrid(copyOfSeedForGrid);
-
     cb1ForSettingWordState('');
-    console.log('in check ', {
-      word1, word2, word3, word4,
-    });
-
-    // switch (wordNumber) {
-    //   case 1:
-    //     setValidations([true])
-    //     break;
-
-    //   default:
-    //     break;
-    // }
   };
 
   return (
@@ -132,12 +98,9 @@ function ConfirmSeed() {
       <div>
         <MainHeading className={mainHeadingfontFamilyClass}>
           Confirm seed phrase
-          {' '}
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
           To confirm the mnemonic, enter the right words in the space provided below.
-
-          {' '}
         </SubHeading>
       </div>
       <SubMainWrapperForAuthScreens mb="1rem">

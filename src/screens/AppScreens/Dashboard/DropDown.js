@@ -17,19 +17,6 @@ const DropDownMenu = styled.ul`
     list-style: none;
     padding-bottom: 0.8rem;
     padding: 0;
-    /* width: 177%; */
-    /* display: flex; */
-    /* flex-flow: column; */
-    /* justify-content: space-between; */
-    /* align-items: center; */
-    /* background-color: #212121; */
-    /* padding-top: 0.2rem; */
-    /* padding: 0.5rem 0; */
-    /* border-radius: 0.4rem; */
-    /* border: 1px solid #541838; */
-    /* box-shadow: 1px 2px 17px 7px rgba(136, 0, 65, 0.3); */
-    /* margin: -0.8rem 0; */
-    /* object-fit: cover; */
 `;
 
 const MainHeading = styled.h4`
@@ -42,7 +29,6 @@ const MainHeading = styled.h4`
 `;
 
 const List = styled.li`
-    /* width: 172%; */
     width: 150%;
     display: flex;
     justify-content: space-between;
@@ -50,15 +36,12 @@ const List = styled.li`
     font-size: 0.5rem;
     padding: 0.2rem 0.3rem;
     cursor: pointer;
-    /* float: left; */
-    /* display: inline-block; */
 `;
 
 const IconLabel = styled.div`
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    /* margin-left: -1rem; */
 `;
 
 const DropDown = () => (

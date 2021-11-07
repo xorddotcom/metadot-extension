@@ -1,8 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 /* hiding scrollbar in chrome */
 ::-webkit-scrollbar {
-  /* opacity: 0; */
-  /* background-color: red; */
   display: none;
 }
 /* hiding scrollbar in firefox */
@@ -159,7 +157,6 @@ input[type='number'] {
 .tooltip {
   position: relative;
   display: inline-block;
-  /* border-bottom: 1px dotted #880041; If you want dots under the hoverable text */
 }
 
 /* Tooltip text */
@@ -179,7 +176,6 @@ input[type='number'] {
   top: 10%; /* At the bottom of the tooltip */
   left: 63%;
   margin-left: -5px;
-  /* margin-left: -60px; */
 }
 
 .tooltip:hover .tooltiptext {

@@ -41,7 +41,6 @@ export const PlainIcon = styled.div`
   border-radius: 50%;
   margin-left: 5px;
   margin-right: 10px;
-
   background: ${props => (props.bgColor ? props.bgColor : '#e6007a')};
 `;
 
@@ -54,21 +53,16 @@ export const MainText = styled.p`
   width: 100%;
   margin-bottom: 10px;
   text-align: start;
-
   margin: ${props => (props.m ? props.m : '0px')};
-  /* margin-bottom: 15px; */
 `;
 
 export const Balance = styled.p`
   font-size: 11px;
   width: 100%;
   height: 14px;
-
   line-height: 14px;
   margin: 0px;
-
   color: rgba(250, 250, 250, 0.8);
-
   text-align: ${props => (props.textAlign ? props.textAlign : 'start')};
   margin-top: -0.9rem;
 `;
@@ -76,9 +70,7 @@ export const Balance = styled.p`
 export const EquivalentInUSDT = styled.p`
   font-size: 12px;
   width: 100%;
-
   color: rgba(250, 250, 250, 0.8);
-
   text-align: start;
   margin: 0px;
   margin-top: -1rem;

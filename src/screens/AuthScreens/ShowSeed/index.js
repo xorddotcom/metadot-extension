@@ -9,7 +9,6 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import {
   CopyText, IndexText, SeedText, SeedWrapper,
 } from './StyledComponents';
-
 import {
   AuthWrapper,
   Header,
@@ -19,11 +18,8 @@ import {
   SubMainWrapperForAuthScreens,
   WarningModal,
 } from '../../../components';
-
 import { fonts } from '../../../utils';
-
 import { GenerateSeedPhrase } from '../../../ToolBox/accounts';
-
 import { resetAccountSlice, setSeed } from '../../../redux/slices/account';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
@@ -34,7 +30,6 @@ const LightTooltip = styled(({ className, ...props }) => (
   [`& .${tooltipClasses.tooltip}`]: {
     // backgroundColor: theme.palette.common.white,
     backgroundColor: '#860040',
-    // color: 'rgba(0, 0, 0, 0.87)',
     color: '#fff',
     boxShadow: theme.shadows[1],
     fontSize: 11,
@@ -53,7 +48,6 @@ function ShowSeed() {
 
   const dispatch = useDispatch();
 
-  // C
   const [open, setOpen] = React.useState(false);
 
   const handleTooltipClose = () => {
@@ -66,7 +60,6 @@ function ShowSeed() {
       if (!seed) {
       // checking whether seed needs to be created or not
         const newSeed = GenerateSeedPhrase();
-
         dispatch(setSeed(newSeed)); // store newSeed in redux
       }
     } catch (error) {
@@ -85,7 +78,6 @@ function ShowSeed() {
   );
 
   const copySeedText = () => {
-    console.log('Helloooo', seed);
     navigator.clipboard.writeText(seed);
 
     toast.success('Copied!', {
@@ -128,7 +120,6 @@ function ShowSeed() {
           />
         </LightTooltip>
       </CopyText>
-      {/* </HorizontalContentDiv> */}
       <SubMainWrapperForAuthScreens>
         {seed
           && seed

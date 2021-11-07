@@ -4,14 +4,12 @@ import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { MainHeading, SubHeading } from '../../CommonStyledComponents';
 import Button from '../../Button';
-
 import { fonts } from '../../../utils';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 function WarningModal({ open, handleClose, style }) {
   const history = useHistory();
-  // history.push('/ConfirmSeed');
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style} className="warning-modal-style">

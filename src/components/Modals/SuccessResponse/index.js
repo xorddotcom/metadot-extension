@@ -1,10 +1,9 @@
 import React from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
+import { fonts } from '../../../utils';
 import { MainHeading, SubHeading } from '../../CommonStyledComponents';
 import SuccessCheckIcon from '../../../assets/images/succesTick.svg';
-
-import { fonts } from '../../../utils';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
