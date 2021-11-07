@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
@@ -9,7 +10,6 @@ import {
   HorizontalContentDiv,
   MainText1,
   MainText2,
-  SubText1,
   SubText2,
   VerticalContentDiv,
 } from './StyledComponents';
@@ -21,13 +21,6 @@ function ConfirmSend({
   open, handleClose, handleConfirm, style, accountTo, amount, accountFrom,
   transactionFee, tokenName, loading2,
 }) {
-  const currentUser = useSelector((state) => state.account);
-  console.log('Rpc url', currentUser.rpcUrl);
-
-  console.log('Props', tokenName, transactionFee);
-  // console.log('Total fee', transactionFee + amount);
-  // history.push('/ConfirmSeed');
-
   const transactionAmount = (valueOne, valueTwo) => {
     const value = parseFloat(valueOne) + parseFloat(valueTwo);
     const val = value.toString();
@@ -38,17 +31,19 @@ function ConfirmSend({
   return (
     <Modal
       open={open}
-      onClose={handleClose}
+      onClose={loading2 ? () => console.log('tx is going on...') : handleClose}
+      // onClose={handleClose}
     >
       <Box sx={style} className="txDetails-modal-style">
         <CloseIconDiv
           onClick={() => {
-            handleClose();
+            // eslint-disable-next-line no-unused-expressions
+            loading2 ? console.log('tx is going on...')
+              : handleClose();
           }}
         >
           <CloseIcon />
         </CloseIconDiv>
-        {/* this div is just for now temporarily here */}
         <VerticalContentDiv>
           <MainText1 textAlign="center" className={mainHeadingfontFamilyClass}>Confirm</MainText1>
 
@@ -56,27 +51,25 @@ function ConfirmSend({
 
             <VerticalContentDiv>
               <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>From</MainText2>
-              <SubText1 textAlign="start" className={mainHeadingfontFamilyClass}>Account 1</SubText1>
-              <SubText2 textAlign="start" className={subHeadingfontFamilyClass}>{`${accountFrom.slice(0, 3)} ... ${accountFrom.slice(-3)}`}</SubText2>
+              <SubText2 textAlign="start" className={subHeadingfontFamilyClass}>{`${accountFrom.slice(0, 5)} ... ${accountFrom.slice(-5)}`}</SubText2>
             </VerticalContentDiv>
 
             <VerticalContentDiv>
               <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>To</MainText2>
-              <SubText1 textAlign="end" className={mainHeadingfontFamilyClass}>Account 1</SubText1>
-              <SubText2 textAlign="end" className={subHeadingfontFamilyClass}>{`${accountTo.slice(0, 3)} ... ${accountTo.slice(-3)}`}</SubText2>
+              <SubText2 textAlign="end" className={subHeadingfontFamilyClass}>{`${accountTo.slice(0, 5)} ... ${accountTo.slice(-5)}`}</SubText2>
             </VerticalContentDiv>
 
           </HorizontalContentDiv>
 
           <MainText1 textAlign="start" className={mainHeadingfontFamilyClass}>Transaction</MainText1>
 
-          <VerticalContentDiv border paddingBottom>
+          <VerticalContentDiv specialPadding border paddingBottom>
 
             <HorizontalContentDiv paddingTop borderBottom>
 
               <VerticalContentDiv>
-                <SubText1 textAlign="start" className={subHeadingfontFamilyClass}>Amount</SubText1>
-                <SubText1 textAlign="start" className={subHeadingfontFamilyClass}>Network Fee</SubText1>
+                <MainText2 textAlign="start" className={subHeadingfontFamilyClass}>Amount</MainText2>
+                <MainText2 textAlign="start" className={subHeadingfontFamilyClass}>Network Fee</MainText2>
               </VerticalContentDiv>
 
               <VerticalContentDiv>
@@ -88,15 +81,13 @@ function ConfirmSend({
             <HorizontalContentDiv paddingTop marginBottom>
 
               <VerticalContentDiv>
-                <SubText1 textAlign="start" className={subHeadingfontFamilyClass}>Total Amount</SubText1>
-                <SubText1 textAlign="start" hide className={subHeadingfontFamilyClass}>.</SubText1>
+                <MainText2 textAlign="start" className={subHeadingfontFamilyClass}>Total Amount</MainText2>
+                <MainText2 textAlign="start" hide className={subHeadingfontFamilyClass}>.</MainText2>
               </VerticalContentDiv>
 
               <VerticalContentDiv>
                 <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>{`${transactionAmount(amount, transactionFee)} ${tokenName}`}</MainText2>
-                <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>
-                  {' '}
-                  {console.log('Token Name WND here', tokenName)}
+                <MainText2 textAlign="end" hide className={mainHeadingfontFamilyClass}>
                   {tokenName[0] === 'WND' ? '' : '$ 594.304' }
                 </MainText2>
               </VerticalContentDiv>
@@ -112,12 +103,14 @@ function ConfirmSend({
             cancel
             width="78%"
             handleClick={() => handleClose()}
+            disabled={loading2}
           />
           <Button
             text="Confirm"
             width="78%"
             handleClick={() => handleConfirm()}
             isLoading={loading2}
+            disabled={loading2}
           />
         </div>
       </Box>

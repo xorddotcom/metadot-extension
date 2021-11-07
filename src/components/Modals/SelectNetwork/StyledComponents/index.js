@@ -17,7 +17,6 @@ export const Title = styled.p`
   height: 21px;
   font-size: 16px;
   line-height: 21px;
-
   color: ${primaryTextColor};
 `;
 
@@ -53,10 +52,16 @@ export const HorizontalContentDiv = styled.div`
   display: flex;
   align-items: center;
   padding-left: 20px;
+
+  img {
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;   
+  }
 `;
 
 export const PlainIcon = styled.div`
-  width: 25.08px;
+  width: 25px;
   height: 25px;
   border-radius: 25px;
 
@@ -64,17 +69,11 @@ export const PlainIcon = styled.div`
 `;
 
 export const OptionText = styled.div`
-  /* height: 16px; */
   margin-left: 20px;
   font-size: 14px;
   line-height: 16px;
-
-  /* or 100% */
   letter-spacing: 0.02em;
-
-  /* Text and Icons */
   color: ${primaryTextColor};
-
   opacity: 0.8;
 `;
 

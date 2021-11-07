@@ -4,14 +4,12 @@ import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { MainHeading, SubHeading } from '../../CommonStyledComponents';
 import Button from '../../Button';
-
 import { fonts } from '../../../utils';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 function WarningModal({ open, handleClose, style }) {
   const history = useHistory();
-  // history.push('/ConfirmSeed');
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style} className="warning-modal-style">
@@ -29,10 +27,10 @@ function WarningModal({ open, handleClose, style }) {
         </MainHeading>
         <SubHeading
           className={subHeadingfontFamilyClass}
-          textAlignLast="left"
+          textAlignLast="center"
+          lineHeight="18px"
         >
-          Please write the mnemonic down in order to ensure the backup is
-          correct
+          Proceeding will not let you view your mnemonic again. Do you still wish to continue?
         </SubHeading>
         <div style={{ marginTop: '2rem' }} className="btn-row">
           <Button

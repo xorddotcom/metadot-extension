@@ -20,7 +20,6 @@ import Welcome from './screens/AuthScreens/Welcome';
 import { SuccessResponse } from './components';
 import { setIsSuccessModalOpen } from './redux/slices/successModalHandling';
 import ApiManager from './Api';
-// import constants from './constants/onchain';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
@@ -30,11 +29,7 @@ function App() {
     (state) => state.successModalHandling,
   );
 
-  console.log({ isSuccessModalOpen });
-
   const dispatch = useDispatch();
-
-  // const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(true);
 
   const renderFunction = () => {
     let content;
@@ -54,7 +49,6 @@ function App() {
             textColor="#fafafa"
             text={currentUser.successModalHandling.loadingFor || 'Setting things up!'}
           >
-            {/* <ApiManager rpc={constants.Polkadot_Rpc_Url} /> */}
             <ApiManager rpc={currentUser.account.rpcUrl} />
 
             <Route exact path="/">
@@ -120,6 +114,8 @@ function App() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
+                position: 'relative',
+                bottom: 40,
               }}
               subText={subText}
               mainText={mainText}

@@ -7,13 +7,12 @@
 }
 
 .App::-webkit-scrollbar {
-  /* display: none; */
   width: 0px;
 }
 
 .toast-success {
   width: 30%;
-  height: 10px;
+  height: 2px !important;
   margin: 0 auto;
   font-size: 12px !important;
   border-radius: 18px !important;

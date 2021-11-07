@@ -1,14 +1,16 @@
 {
-  "name": "MetaDot",
+  "name": "PoloWallet",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@acala-network/api": "^3.0.1",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "@material-ui/core": "^4.12.3",
     "@mui/icons-material": "^5.0.0",
     "@mui/material": "^5.0.0",
     "@mui/styles": "^5.0.1",
+    "@phala/typedefs": "^0.2.29",
     "@polkadot/api": "^6.2.1",
     "@polkadot/extension-base": "^0.39.4-5",
     "@polkadot/ui-keyring": "^0.85.4",
@@ -22,8 +24,10 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "axios": "^0.24.0",
     "babel-eslint": "^10.1.0",
     "bn.js": "^5.2.0",
+    "encrypt-with-password": "^1.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-loading-screen": "^0.0.17",
@@ -95,7 +99,7 @@
     "svg-url-loader": "^7.1.1",
     "ttf-loader": "^1.0.2",
     "url-loader": "^4.1.1",
-    "webpack": "^5.58.2",
+    "webpack": "5.58.2",
     "webpack-cli": "^4.9.0",
     "webpack-extension-reloader": "^1.1.4"
   }

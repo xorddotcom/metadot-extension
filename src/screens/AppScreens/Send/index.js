@@ -1,10 +1,12 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useReducer, useState } from 'react';
-// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addTransaction } from '../../../redux/slices/transactions';
-import { fonts } from '../../../utils';
-
+import { fonts, helpers } from '../../../utils';
+// eslint-disable-next-line no-unused-vars
+import { getBalanceWithMultipleTokens, getBalance } from '../../../ToolBox/services';
+import { setBalance } from '../../../redux/slices/account';
 import {
   AuthWrapper, Button, ConfirmSend, Header, StyledInput,
 } from '../../../components';
@@ -22,6 +24,7 @@ import {
 } from './StyledComponents';
 import { WarningText } from '../../AuthScreens/CreateWallet/StyledComponents';
 import { setIsSuccessModalOpen, setMainTextForSuccessModal, setSubTextForSuccessModal } from '../../../redux/slices/successModalHandling';
+import { decrypt } from '../../../ToolBox/accounts';
 
 const { decodeAddress, encodeAddress } = require('@polkadot/keyring');
 const { hexToU8a, isHex } = require('@polkadot/util');
@@ -50,7 +53,6 @@ const accountReducer = (state, action) => {
 
 const amountReducer = (state, action) => {
   if (action.type === 'USER_INPUT') {
-    console.log('Helloooooooo', action.amountIsValid);
     return {
       value: action.val,
       isValid: action.amountIsValid >= action.val,
@@ -66,7 +68,11 @@ const amountReducer = (state, action) => {
   return { value: '', isValid: false };
 };
 
+const { addressModifier } = helpers;
+
 const Send = () => {
+  // eslint-disable-next-line no-unused-vars
+  const [insufficientBal, setInsufficientBal] = useState();
   const [loading1, setLoading1] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [loading2, setLoading2] = useState(false);
@@ -77,8 +83,6 @@ const Send = () => {
   const [accountFrom, setAccountFrom] = useState('');
   const [isCorrect, setIsCorrect] = useState(true);
   const [transactionFee, setTransactionFee] = useState(0);
-  // const [accountTo, setAccountTo] = useState('');
-  // const [amount, setAmount] = useState();
   const [error, setError] = useState({
     amountError: false,
     address: false,
@@ -130,12 +134,6 @@ const Send = () => {
     };
   }, [isValid, amountIsValid, amountState.isValid]);
 
-  // const currentUser = useSelector((state) => state);
-  // const { api } = currentUser.api;
-  // setAccountFrom(currentUser.account.publicKey)
-  console.log('currentUser in send', currentUser);
-  console.log('STATE of SEND COMPONENT', { accountFrom, accountToSate, amountState });
-
   const accountToChangeHandler = (e) => {
     accountDispatch({ type: 'USER_INPUT', val: e, valid: currentUser.account.publicKey });
   };
@@ -145,6 +143,7 @@ const Send = () => {
   };
 
   const amountHandler = (e) => {
+    setInsufficientBal();
     amountDispatch({ type: 'USER_INPUT', val: e, amountIsValid: currentUser.account.balance });
   };
 
@@ -153,41 +152,39 @@ const Send = () => {
   };
 
   const sendTransaction = async () => {
-    console.log('Api [[]]', api);
-    console.log('Send tranasction tx details', data);
+    const decimalPlaces = await api.registry.chainDecimals;
     setLoading2(true);
     const keyring = new Keyring({ type: 'sr25519' });
 
-    const sender = keyring.addFromUri(currentUser.account.seed);
-    console.log('Sender [][]', sender.address);
+    const decryptedSeed = decrypt(currentUser.account.seed, currentUser.account.walletPassword);
+    const sender = keyring.addFromUri(decryptedSeed);
     data.operation = 'Send';
+    const decimals = currentUser.account.chainName === 'AcalaMandala'
+      ? decimalPlaces[0] : decimalPlaces;
     const result = await api.tx.balances
       .transfer(
-        accountToSate.value,
-        amountState.value * 1000000000000,
+        accountToSate.value, amountState.value * 10 ** decimals,
       )
       .signAndSend(
-        sender, (res) => {
-          console.log('Success', res.status);
+        sender, async (res) => {
           if (res.status.isInBlock) {
-            console.log(`Completed at block hash #${res.status.asInBlock.toString()}`);
-            console.log('Current status of IF', res.status.type);
             data.hash = res.status.asInBlock.toString();
-            // } else {
             data.status = 'Successful';
-            console.log(`Current status: ${res.status.type}`);
-            console.log('Before finalized', data);
-            console.log('In finalized', data);
-            console.log('Res here', res);
+            if (data.rpcUrl === 'wss://acala-mandala.api.onfinality.io/public-ws') {
+              const bal = await getBalanceWithMultipleTokens(api, currentUser.account.publicKey);
+              dispatch(setBalance(bal));
+            } else {
+              const bal = await getBalance(api, currentUser.account.publicKey);
+              dispatch(setBalance(bal));
+            }
             dispatch(addTransaction(data));
             setLoading2(false);
             setIsSendModalOpen(false);
-            dispatch(setMainTextForSuccessModal('Transaction successfull'));
+            dispatch(setMainTextForSuccessModal('Transaction Successful!'));
             dispatch(
-              setSubTextForSuccessModal('Your transaction was successfully submitted'),
+              setSubTextForSuccessModal(''),
             );
             dispatch(setIsSuccessModalOpen(true));
-
             setTimeout(() => {
               dispatch(setIsSuccessModalOpen(false));
             }, 3500);
@@ -199,16 +196,10 @@ const Send = () => {
       ).catch((err) => {
         console.error('Error [][][]', err);
       });
-    console.log('Tx details after transaction', data);
-
-    // console.log('Hash ===>>>', result.toHex());
-    console.log('Hash ===>>>', result);
   };
 
   const validateInputValues = (address) => {
-    console.log('Amount', amountState.value);
     if (currentUser.account.balance < amountState.value) {
-      alert('Insufficient funds');
       throw new Error('Insufficient funds');
     }
     if (!accountToSate.value) {
@@ -224,7 +215,6 @@ const Send = () => {
     }));
     if (!isValidAddressPolkadotAddress(address)) return false;
     if (!amountState.value) {
-      console.log('Amount not present');
       setError((prevState) => ({
         ...prevState,
         amountError: true,
@@ -239,68 +229,64 @@ const Send = () => {
   };
 
   const isValidAddressPolkadotAddress = (address) => {
-    console.log('Validate this address', error);
     try {
       encodeAddress(isHex(address) ? hexToU8a(address) : decodeAddress(address));
       setIsCorrect(true);
       return true;
     } catch (err) {
-      console.log('Wrong address', err);
       setIsCorrect(false);
       return false;
     }
   };
 
   const convertTransactionFee = (fee) => {
-    console.log('Token name', currentUser.account.tokenName);
     const splitFee = fee.split(' ');
-    console.log('SPlit', splitFee);
-    if (currentUser.account.tokenName[0] === 'WND') {
-      return splitFee[0] * 10 ** -3;
-      // return splitFee[0] * 0.001;
+    if (currentUser.account.tokenName === 'WND') {
+      return (splitFee[0] * 10 ** -3).toFixed(4);
     }
-    if (currentUser.account.tokenName[0] === 'KSM') {
-      return splitFee[0] * 10 ** -6;
+    if (currentUser.account.tokenName === 'KSM') {
+      return (splitFee[0] * 10 ** -6).toFixed(4);
+    }
+    if (currentUser.account.tokenName === 'PLD') {
+      return splitFee[0];
+    }
+    if (currentUser.account.tokenName === 'ACA') {
+      return (splitFee[0] * 10 ** -3).toFixed(4);
+    }
+    if (currentUser.account.tokenName === 'ROC') {
+      return (splitFee[0] * 10 ** -3).toFixed(4);
+    }
+    if (currentUser.account.tokenName === 'DOT') {
+      return (splitFee[0] * 10 ** -3).toFixed(4);
     }
     return true;
   };
 
   // eslint-disable-next-line no-unused-vars
   const handleSubmit = async () => {
-    console.log('isCorrect', isCorrect);
-    console.log('Handle submit running');
+    const decimalPlaces = await api.registry.chainDecimals;
     try {
       if (!validateInputValues(accountToSate.value)) throw new Error('An error occurred');
       setLoading1(true);
       const info = await api.tx.balances
-        .transfer(currentUser.account.publicKey, amountState.value * 1000000000000)
+        .transfer(currentUser.account.publicKey, amountState.value * 10 ** decimalPlaces)
         .paymentInfo(accountToSate.value);
-      console.log('info', info);
-      console.log(`
-    class=${info.class.toString()},
-    weight=${info.weight.toString()},
-    partialFee=${info.partialFee.toHuman()}
-    `);
 
       const txFee = await convertTransactionFee(info.partialFee.toHuman());
+
       data.txFee = txFee;
       data.chainName = currentUser.account.chainName;
       setTransactionFee(txFee);
-      // eslint-disable-next-line radix
-      console.log('check', parseInt(amountState.value), txFee, currentUser.account.balance, (Number(amountState.value) + Number(txFee)));
-      // eslint-disable-next-line radix
-      console.log('check', currentUser.account.balance < (Number(amountState.value) + Number(txFee)));
       setLoading1(false);
       // checking if balance is enough to send the amount with network fee
       if (currentUser.account.balance < (Number(amountState.value) + Number(txFee))) {
-        alert('balance is too low to pay network fees!');
+        setInsufficientBal(true);
+        // alert('balance is too low to pay network fees!');
       } else {
         setIsSendModalOpen(true);
       }
     } catch (err) {
-      console.log('In catch state', error);
       setLoading1(false);
-      console.log('Error in Submit [][]', err);
     }
   };
 
@@ -317,13 +303,7 @@ const Send = () => {
     // the information for each of the contained extrinsics
     signedBlock.block.extrinsics.forEach((ex, index) => {
       // the extrinsics are decoded by the API, human-like view
-      console.log(index, ex.toHuman());
-
       const { isSigned, meta, method: { args, method, section } } = ex;
-
-      // explicit display of name, args & documentation
-      console.log(`${section}.${method}(${args.map((a) => a.toString()).join(', ')})`);
-      console.log(meta.documentation.map((d) => d.toString()).join('\n'));
 
       // signer/nonce info
       if (isSigned) {
@@ -337,27 +317,30 @@ const Send = () => {
       <Header centerText="Send" backHandler={() => console.log('object')} />
 
       <MainContent>
-        <MainText m="8px" className={mainHeadingfontFamilyClass}>
-          From
-        </MainText>
-        <FromAccount>
-          <HorizontalContentDiv>
-            <PlainIcon />
-            <VerticalContentDiv>
-              <MainText className={mainHeadingfontFamilyClass}>
-                {currentUser.account.accountName}
-              </MainText>
-              <Balance className={subHeadingfontFamilyClass}>
-                {`${trimBalance(currentUser.account.balance)} ${currentUser.account.tokenName}`}
-              </Balance>
-            </VerticalContentDiv>
-          </HorizontalContentDiv>
-          {/* not in use temporarily */}
-          {/* <KeyboardArrowDownIcon /> */}
-        </FromAccount>
+        <VerticalContentDiv mb="2px">
+          <MainText m="6px" className={mainHeadingfontFamilyClass} style={{ marginBottom: '0.5rem' }}>
+            From
+          </MainText>
+          <FromAccount>
+            <HorizontalContentDiv>
+              <PlainIcon />
+              <VerticalContentDiv>
+                <MainText className={mainHeadingfontFamilyClass}>
+                  {currentUser.account.accountName}
+                </MainText>
+                <Balance
+                  className={subHeadingfontFamilyClass}
+                  style={{ marginTop: '0.15rem' }}
+                >
+                  {addressModifier(currentUser.account.publicKey)}
+                </Balance>
+              </VerticalContentDiv>
+            </HorizontalContentDiv>
+          </FromAccount>
+        </VerticalContentDiv>
 
-        <VerticalContentDiv mb="25px">
-          <MainText m="8px" className={mainHeadingfontFamilyClass}>
+        <VerticalContentDiv mb="2px">
+          <MainText m="6px" className={mainHeadingfontFamilyClass} style={{ marginBottom: '0.5rem' }}>
             To
           </MainText>
           <StyledInput
@@ -371,16 +354,22 @@ const Send = () => {
             height="20px"
             isCorrect={accountToSate.isValid}
           />
-          <div style={{ height: '1.5rem' }}>
+          <WarningText className={subHeadingfontFamilyClass}>
+            {helpers.validateAddress(accountToSate.value, currentUser.account.publicKey)}
+          </WarningText>
+          <div style={{ height: '1rem' }}>
             {!isCorrect ? (
-              <WarningText>{errorMessages.invalidAddress}</WarningText>
+              <WarningText className={subHeadingfontFamilyClass} style={{ marginTop: '-0.2rem', marginLeft: '0.3rem' }}>
+                {errorMessages.invalidAddress}
+              </WarningText>
             ) : error.address ? (
-              <WarningText>{errorMessages.enterAddress}</WarningText>
+              <WarningText className={subHeadingfontFamilyClass} style={{ marginTop: '-0.2rem', marginLeft: '0.3rem' }}>
+                {errorMessages.enterAddress}
+              </WarningText>
             ) : null}
           </div>
         </VerticalContentDiv>
-        {/* <form onSubmit={submitHandler}> */}
-        <VerticalContentDiv mb="150px">
+        <VerticalContentDiv mb="25px">
           <MainText m="8px" className={mainHeadingfontFamilyClass}>
             Amount
           </MainText>
@@ -389,37 +378,60 @@ const Send = () => {
             type="number"
             value={amountState.value}
             className={subHeadingfontFamilyClass}
-            // prettier-ignore
-              // onChange={(t) => {
-              //   console.log(t);
-              //   if (t) {
-              //     setAmount(t);
-              //   }
-              // }}
             onChange={amountHandler}
             fontSize="14px"
             height="20px"
             onBlur={amountIsValidHandler}
-            isCorrect={amountState.isValid}
+            isCorrect={amountState.isValid || insufficientBal}
           />
+          {
+              insufficientBal
+            && (
+            <WarningText
+              className={subHeadingfontFamilyClass}
+              style={{ marginBottom: '1rem' }}
+            >
+              balance is too low to pay network fees!
+            </WarningText>
+            )
+            }
+          {
+              !insufficientBal
+          && (
+          <WarningText
+            className={subHeadingfontFamilyClass}
+            style={{ marginBottom: '1rem' }}
+          >
+            {helpers.validateAmount(currentUser.account.balance, amountState.value)}
+          </WarningText>
+          )
+            }
           <CalculatedAmount>
-            <EquivalentInUSDT className={subHeadingfontFamilyClass}>$23.212</EquivalentInUSDT>
+            <EquivalentInUSDT className={subHeadingfontFamilyClass}>
+              $
+              {currentUser.account.balanceInUsd}
+            </EquivalentInUSDT>
             <Balance textAlign="end" className={subHeadingfontFamilyClass}>
               {`${trimBalance(currentUser.account.balance)} ${currentUser.account.tokenName}`}
             </Balance>
           </CalculatedAmount>
           <div style={{ height: '1.5rem' }}>
-            {error.amountError ? <WarningText>{errorMessages.enterAmount}</WarningText> : null}
+            {error.amountError ? (
+              <WarningText
+                className={subHeadingfontFamilyClass}
+                style={{ marginTop: '-0.2rem', marginLeft: '0.3rem' }}
+              >
+                {errorMessages.enterAmount}
+              </WarningText>
+            ) : null}
           </div>
         </VerticalContentDiv>
-        {/* <button type="submit">Submit</button> */}
-        {/* </form> */}
       </MainContent>
       <CenterContent>
         <Button
           text="Next"
           handleClick={handleSubmit}
-          disabled={!formIsValid}
+          disabled={!formIsValid || loading1}
           isLoading={loading1}
         />
       </CenterContent>
@@ -430,6 +442,7 @@ const Send = () => {
         open={isSendModalOpen}
         transactionFee={transactionFee}
         tokenName={currentUser.account.tokenName}
+        fromAccountName={currentUser.account.accountName}
         handleClose={() => setIsSendModalOpen(false)}
         handleConfirm={sendTransaction}
         loading2={loading2}
@@ -443,17 +456,6 @@ const Send = () => {
           mt: 15,
         }}
       />
-      {/* <button
-        type="button"
-        onClick={() => {
-          dispatch(addTransaction({ name: 'hi' }));
-        }}
-      >
-        Set dummy data
-
-      </button>
-      <button type="button" onClick={() => console.log('Data', data)}>DATA</button>
-      <button type="button" onClick={getDetailsFromBlock}>Get details from hash</button> */}
     </AuthWrapper>
   );
 };

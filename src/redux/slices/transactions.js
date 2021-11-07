@@ -9,13 +9,10 @@ export const transactionSlice = createSlice({
   name: 'transactions',
   initialState,
   reducers: {
-    addTransaction: (state, action) => {
-      console.log('In add transaction reducer', action);
-      return {
-        ...state,
-        transactions: [...state.transactions, action.payload],
-      };
-    },
+    addTransaction: (state, action) => ({
+      ...state,
+      transactions: [...state.transactions, action.payload],
+    }),
   },
 });
 

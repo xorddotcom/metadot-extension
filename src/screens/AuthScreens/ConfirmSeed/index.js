@@ -18,6 +18,7 @@ import { fonts, helpers } from '../../../utils';
 import {
   SeedGridRow, SeedText, SeedGrid,
 } from './StyledComponents';
+import { decrypt } from '../../../ToolBox/accounts';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { arrayFromSeedSentence, arrayOfFourRandomNumbers, shuffleItemsWithinArray } = helpers;
@@ -28,9 +29,11 @@ function ConfirmSeed() {
 
   const { seed } = useSelector((state) => state.account);
 
+  const decryptedSeed = decrypt(seed, '123');
+
   // eslint-disable-next-line no-unused-vars
   const [shuffledSeed, setShuffledSeed] = useState(
-    shuffleItemsWithinArray(arrayFromSeedSentence(seed)),
+    shuffleItemsWithinArray(arrayFromSeedSentence(decryptedSeed)),
   );
 
   // eslint-disable-next-line no-unused-vars
@@ -38,18 +41,12 @@ function ConfirmSeed() {
     { value: seedStr, indexValue: i, selected: false }
   )));
 
-  const seedArray = arrayFromSeedSentence(seed);
+  const seedArray = arrayFromSeedSentence(decryptedSeed);
 
   const phrase1 = seedArray[fourRandomIndexes[0]];
   const phrase2 = seedArray[fourRandomIndexes[1]];
   const phrase3 = seedArray[fourRandomIndexes[2]];
   const phrase4 = seedArray[fourRandomIndexes[3]];
-
-  console.log({ shuffledSeed });
-  // const seedArrayForGrid = shuffledSeed.map((seedStr, i) => (
-  //   { value: seedStr, indexValue: i, selected: false }
-  // ));
-  console.log({ seedArrayForGrid });
 
   const [word1, setWord1] = useState('');
   const [word2, setWord2] = useState('');
@@ -68,21 +65,7 @@ function ConfirmSeed() {
     first && second && third && fourth && history.push('/CreateWallet');
   };
 
-  //   const checkWord = () => {
-  //   const first = word1 === phrase1;
-  //   const second = word2 === phrase2;
-  //   const third = word3 === phrase3;
-  //   const fourth = word4 === phrase4;
-
-  //   setValidations([first, second, third, fourth]);
-  // };
-
-  console.log('object', {
-    word1, word2, word3, word4,
-  });
-
   const handleSelect = (seedObj) => {
-    console.log({ seedObj });
     const { value, indexValue } = seedObj;
     if (!word1) {
       setWord1(value);
@@ -98,7 +81,6 @@ function ConfirmSeed() {
     if (!word1 || !word2 || !word3 || !word4) {
       const copyOfSeedForGrid = seedArrayForGrid;
       copyOfSeedForGrid[indexValue] = { value, indexValue, selected: true };
-
       setSeedArrayForGrid(copyOfSeedForGrid);
     }
   };
@@ -110,20 +92,7 @@ function ConfirmSeed() {
     copyOfSeedForGrid[indexValue] = { value, indexValue, selected: false };
 
     setSeedArrayForGrid(copyOfSeedForGrid);
-
     cb1ForSettingWordState('');
-    console.log('in check ', {
-      word1, word2, word3, word4,
-    });
-
-    // switch (wordNumber) {
-    //   case 1:
-    //     setValidations([true])
-    //     break;
-
-    //   default:
-    //     break;
-    // }
   };
 
   return (
@@ -132,16 +101,12 @@ function ConfirmSeed() {
       <div>
         <MainHeading className={mainHeadingfontFamilyClass}>
           Confirm seed phrase
-          {' '}
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
-          Lorem WWipsum dolor sit amet, consectetur adipiscing elit. Volutpat
-          cursus sit diam Lorem ipsum dolor sit amet, consectetur adipiscing
-          elit. Volutpat cursus sit diam
-          {' '}
+          To confirm the mnemonic, enter the right words in the space provided below.
         </SubHeading>
       </div>
-      <SubMainWrapperForAuthScreens>
+      <SubMainWrapperForAuthScreens mb="1rem">
         <StyledInput
           onChange={(text) => setWord1(text)}
           placeholder={`Word #${fourRandomIndexes[0] + 1}`}
@@ -152,6 +117,7 @@ function ConfirmSeed() {
           marginBottom="10px"
           rightIconCross={word1}
           rightIconCrossClickHandler={() => handleCancel(word1, setWord1)}
+          disabled
         />
 
         <StyledInput
@@ -164,6 +130,7 @@ function ConfirmSeed() {
           marginBottom="10px"
           rightIconCross={word2}
           rightIconCrossClickHandler={() => handleCancel(word2, setWord2)}
+          disabled
         />
 
         <StyledInput
@@ -176,6 +143,7 @@ function ConfirmSeed() {
           marginBottom="10px"
           rightIconCross={word3}
           rightIconCrossClickHandler={() => handleCancel(word3, setWord3)}
+          disabled
         />
 
         <StyledInput
@@ -188,6 +156,7 @@ function ConfirmSeed() {
           marginBottom="20px"
           rightIconCross={word4}
           rightIconCrossClickHandler={() => handleCancel(word4, setWord4)}
+          disabled
         />
 
         <SeedGrid>

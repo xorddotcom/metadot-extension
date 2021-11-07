@@ -1,26 +1,58 @@
+/* eslint-disable no-else-return */
+/* eslint-disable consistent-return */
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { AssetCard, TxCard } from '../../../components';
-import { fonts } from '../../../utils';
-
+import { fonts, helpers } from '../../../utils';
 import {
   AssetsAndTransactionsWrapper,
   Tabs,
   TabSection,
 } from './StyledComponents';
 
+// Assests Token images
+import dusty from '../../../assets/images/tokenImg/dusty.png';
+import kusamaKsm from '../../../assets/images/tokenImg/kusama-ksm.svg';
+import polkadotDot from '../../../assets/images/tokenImg/polkadot.png';
+import westendColour from '../../../assets/images/tokenImg/westend_colour.svg';
+import acala from '../../../assets/images/tokenImg/acala-circle.svg';
+import astar from '../../../assets/images/astar.png';
+import rococo from '../../../assets/images/rococo.svg';
+
 const { mainHeadingfontFamilyClass } = fonts;
+const { trimBalance } = helpers;
 
 function AssetsAndTransactions({
   handleOpenTxDetailsModal,
   setTxDetailsModalData,
   transactionData,
 }) {
+  const assetsData = useSelector((state) => state.account);
+  const {
+    chainName, tokenName, balance, balanceInUsd,
+  } = assetsData;
   const [isTab1Active, setIsTab1Active] = useState(true);
   const [isTab2Active, setIsTab2Active] = useState(false);
-  console.log('Transaction data [][]', transactionData);
-  console.log('Tx detail modal', setTxDetailsModalData);
-  // const transactions = useSelector((state) => state.transactions.transactions);
-  // console.log('transactions', transactions);
+  const logoChangeHandler = (token) => {
+    if (token === 'DOT') {
+      return polkadotDot;
+    } else if (token === 'KSM') {
+      return kusamaKsm;
+    } else if (token === 'WND') {
+      return westendColour;
+    } else if (token === 'PLD') {
+      return dusty;
+    } else if (token === 'ACA') {
+      return acala;
+    } else if (token === 'PLM') {
+      return astar;
+    } else if (token === 'ROC') {
+      return rococo;
+    } else {
+      return polkadotDot;
+    }
+  };
   return (
     <AssetsAndTransactionsWrapper>
       <Tabs>
@@ -47,26 +79,28 @@ function AssetsAndTransactions({
       </Tabs>
       {isTab1Active && (
         <AssetCard
-          name="Polkadot"
-          shortName="DOT"
-          amount={0}
-          amountInUsd={0}
-          logo="https://s2.coinmarketcap.com/static/img/coins/64x64/6636.png"
+          name={chainName}
+          shortName={tokenName}
+          amount={(trimBalance(balance))}
+          amountInUsd={balanceInUsd}
+          logo={logoChangeHandler(tokenName)}
         />
       )}
       {isTab2Active && (
         // eslint-disable-next-line arrow-body-style
         transactionData.length > 0 && transactionData.map((transaction) => {
+          const {
+            hash, operation, status, tokenName: tokenNames, amount,
+          } = transaction;
           return (
             <TxCard
-              key={transaction.hash}
-              operation={transaction.operation}
-              status={transaction.status}
-              coin={transaction.tokenName}
-              amount={transaction.amount}
-              // amountInUsd={transaction.amountInUSD}
-              amountInUsd={transaction.tokenName === 'WND' ? '$0' : '$107.17'}
-              logo="https://s2.coinmarketcap.com/static/img/coins/64x64/6636.png"
+              key={hash}
+              operation={operation}
+              status={status}
+              coin={tokenNames}
+              amount={amount}
+              amountInUsd={tokenNames === 'WND' ? '$0' : '$0'}
+              logo={logoChangeHandler(tokenNames)}
               handleClick={() => {
                 setTxDetailsModalData(transaction);
                 handleOpenTxDetailsModal();

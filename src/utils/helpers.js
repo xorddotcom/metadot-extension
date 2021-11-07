@@ -1,3 +1,6 @@
+import axios from 'axios';
+import constants from '../constants/onchain';
+
 function arrayFromSeedSentence(seed) {
   return seed.split(' ');
 }
@@ -43,9 +46,30 @@ function shuffleItemsWithinArray(array) {
 }
 
 function addressModifier(address) {
-  console.log('Helper', address);
-  if (address) return `${address.slice(0, 3)}...${address.slice(address.length - 3, address.length)}`;
+  if (address) return `${address.slice(0, 5)}...${address.slice(address.length - 5, address.length)}`;
   return null;
+}
+
+function validateAddress(userPublicAddress, senderPublicAddress) {
+  try {
+    if (userPublicAddress === senderPublicAddress) {
+      throw String('Address is matched from your public address');
+    }
+    return true;
+  } catch (error) {
+    return error;
+  }
+}
+
+function validateAmount(userCurrentAmount, sendAmount) {
+  try {
+    if (userCurrentAmount < sendAmount) {
+      throw String('Amount is exceeding from your current balance');
+    }
+    return true;
+  } catch (error) {
+    return error;
+  }
 }
 
 function isUserNameValid(username) {
@@ -63,12 +87,43 @@ function isUserNameValid(username) {
   return valid;
 }
 
+const trimBalance = (value) => {
+  const val = value.toString();
+  const trimmedValue = val.slice(0, (val.indexOf('.')) + 4);
+  return trimmedValue;
+};
+
+async function getKSM() {
+  const oneKSMintoUsd = await axios.get(constants.USD_PER_KSM_API);
+  return oneKSMintoUsd;
+}
+
+async function getDOT() {
+  const oneKSMintoUsd = await axios.get(constants.USD_PER_POLKADOT_API);
+  return oneKSMintoUsd;
+}
+
+async function convertIntoUsd(token, amountToConvert) {
+  let converted = 0;
+  if (token === 'KSM') {
+    const oneKSMintoUsd = await getKSM();
+    converted = (Number(amountToConvert) * oneKSMintoUsd.data.kusama.usd).toFixed(3);
+  } else if (token === 'DOT') {
+    const oneDOTIntoUsd = await getDOT();
+    // setAmountInUsd((Number(amountToConvert) * oneDOTIntoUsd.data.kusama.usd).toFixed(3));
+    converted = (Number(amountToConvert) * oneDOTIntoUsd.data.polkadot.usd).toFixed(3);
+  }
+  return converted;
+}
+
 export default {
   arrayFromSeedSentence,
   arrayOfFourRandomNumbers,
   shuffleItemsWithinArray,
   addressModifier,
   isUserNameValid,
+  validateAddress,
+  validateAmount,
+  trimBalance,
+  convertIntoUsd,
 };
-
-// export default helpers;

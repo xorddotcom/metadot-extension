@@ -24,7 +24,7 @@ export const HorizontalContentDiv = styled.div`
 
 export const FromAccount = styled(HorizontalContentDiv)`
   width: 92%;
-  height: 45px;
+  height: 47px;
   align-items: center;
   justify-content: space-between;
   padding-left: 10px;
@@ -36,12 +36,11 @@ export const FromAccount = styled(HorizontalContentDiv)`
 `;
 
 export const PlainIcon = styled.div`
-  width: 23px;
+  width: 24px;
   height: 23px;
-  border-radius: 23px;
+  border-radius: 50%;
   margin-left: 5px;
   margin-right: 10px;
-
   background: ${props => (props.bgColor ? props.bgColor : '#e6007a')};
 `;
 
@@ -54,36 +53,36 @@ export const MainText = styled.p`
   width: 100%;
   margin-bottom: 10px;
   text-align: start;
-
   margin: ${props => (props.m ? props.m : '0px')};
 `;
 
 export const Balance = styled.p`
-  font-size: 12px;
+  font-size: 11px;
   width: 100%;
   height: 14px;
-
   line-height: 14px;
   margin: 0px;
-
   color: rgba(250, 250, 250, 0.8);
-
   text-align: ${props => (props.textAlign ? props.textAlign : 'start')};
+  margin-top: -0.9rem;
 `;
 
 export const EquivalentInUSDT = styled.p`
   font-size: 12px;
   width: 100%;
-
   color: rgba(250, 250, 250, 0.8);
-
   text-align: start;
   margin: 0px;
+  margin-top: -1rem;
 `;
 
 export const CalculatedAmount = styled(HorizontalContentDiv)`
-  /* width: 108%; */
+  width: 96%;
   margin-top: 5px;
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 0.3rem;
 `;
 
 export const CenterContent = styled.div`

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const { WsProvider, ApiPromise } = require('@polkadot/api');
 const BN = require('bn.js');
 
@@ -17,11 +18,35 @@ const toUnit = (balance, decimals) => {
 
 const getBalance = async (api, account) => {
   const { data: balance } = await api.query.system.account(account);
-  console.log('Balance free', balance.free);
-  console.log('Decimals [][]', api.registry.chainDecimals);
   const userBalance = await toUnit(balance.free, api.registry.chainDecimals);
-  console.log('User balance', userBalance);
   return userBalance;
 };
 
-export { providerInitialization, toUnit, getBalance };
+// Get balance of a chain with multiple tokens
+const getBalanceWithMultipleTokens = async (api, account) => {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const { data: balance } = await api.query.system.account(account);
+    const [now, { nonce, data: balances }] = await Promise.all([
+      api.query.timestamp.now(),
+      api.query.system.account(account),
+    ]);
+    const userBalance = balances.free.toHuman();
+    // eslint-disable-next-line eqeqeq
+    if (userBalance == 0) return 0;
+    const splittedBalance = userBalance.split(' ');
+    if (splittedBalance[1][0] === 'm') {
+      return splittedBalance[0] * 10 ** -3;
+    }
+    return userBalance;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export {
+  providerInitialization,
+  toUnit,
+  getBalance,
+  getBalanceWithMultipleTokens,
+};

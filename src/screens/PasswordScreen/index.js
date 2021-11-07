@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import TextField from "@material-ui/core/TextField";
 import { useSelector, useDispatch } from 'react-redux';
 import web3 from 'web3';
 import { useHistory } from 'react-router-dom';
@@ -17,23 +16,18 @@ const PasswordScreen = () => {
   const dispatch = useDispatch();
 
   const [password, setPassword] = useState('');
-
   const [showPassword, setShowPassword] = useState(false);
 
   const currentUser = useSelector((state) => state.account);
-  console.log('Current user', currentUser);
 
   const handleSubmit = () => {
-    console.log('password', password);
     if (!password) {
-      alert('Please enter password');
       return false;
     }
     const hashedPassword = web3.utils.sha3(password);
-    console.log('Hashed password', hashedPassword);
+
     if (hashedPassword === currentUser.walletPassword) {
       dispatch(setLoggedIn(true));
-      alert('Password matched');
       history.push('/dashboard');
     } else alert('Password does not match');
     return null;
@@ -47,10 +41,8 @@ const PasswordScreen = () => {
       <div>
         <StyledInput
           placeholder="password"
-          // className={subHeadingfontFamilyClass}
           value={password}
           onChange={(t) => setPassword(t)}
-          // onChange={(t) => console.log(t)}
           type="password"
           typePassword
           hideHandler={() => setShowPassword(!showPassword)}
@@ -61,7 +53,6 @@ const PasswordScreen = () => {
       <div
         style={{ margin: '40px' }}
       >
-
         <Button handleClick={handleSubmit} text="Continue" />
       </div>
     </div>
