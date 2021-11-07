@@ -19,7 +19,7 @@ import {
   WarningModal,
 } from '../../../components';
 import { fonts } from '../../../utils';
-import { GenerateSeedPhrase } from '../../../ToolBox/accounts';
+import { decrypt, encrypt, GenerateSeedPhrase } from '../../../ToolBox/accounts';
 import { resetAccountSlice, setSeed } from '../../../redux/slices/account';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
@@ -46,6 +46,8 @@ function ShowSeed() {
 
   const { seed } = useSelector((state) => state.account);
 
+  const decryptedSeed = seed ? decrypt(seed, '123') : null;
+
   const dispatch = useDispatch();
 
   const [open, setOpen] = React.useState(false);
@@ -60,7 +62,9 @@ function ShowSeed() {
       if (!seed) {
       // checking whether seed needs to be created or not
         const newSeed = GenerateSeedPhrase();
-        dispatch(setSeed(newSeed)); // store newSeed in redux
+        const tmpPassword = '123';
+        const encryptedSeed = encrypt(newSeed, tmpPassword);
+        dispatch(setSeed(encryptedSeed)); // store newSeed in redux
       }
     } catch (error) {
       console.log('ERROR while generating new seed for parent account', error);
@@ -78,7 +82,7 @@ function ShowSeed() {
   );
 
   const copySeedText = () => {
-    navigator.clipboard.writeText(seed);
+    navigator.clipboard.writeText(decryptedSeed);
 
     toast.success('Copied!', {
       position: toast.POSITION.BOTTOM_CENTER,
@@ -121,8 +125,8 @@ function ShowSeed() {
         </LightTooltip>
       </CopyText>
       <SubMainWrapperForAuthScreens>
-        {seed
-          && seed
+        {decryptedSeed
+          && decryptedSeed
             .split(' ')
             .map((phrase, i) => (
               <SinglePhrase index={i} key={phrase} phrase={phrase} />

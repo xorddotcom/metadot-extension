@@ -18,6 +18,7 @@ import { fonts, helpers } from '../../../utils';
 import {
   SeedGridRow, SeedText, SeedGrid,
 } from './StyledComponents';
+import { decrypt } from '../../../ToolBox/accounts';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { arrayFromSeedSentence, arrayOfFourRandomNumbers, shuffleItemsWithinArray } = helpers;
@@ -28,9 +29,11 @@ function ConfirmSeed() {
 
   const { seed } = useSelector((state) => state.account);
 
+  const decryptedSeed = decrypt(seed, '123');
+
   // eslint-disable-next-line no-unused-vars
   const [shuffledSeed, setShuffledSeed] = useState(
-    shuffleItemsWithinArray(arrayFromSeedSentence(seed)),
+    shuffleItemsWithinArray(arrayFromSeedSentence(decryptedSeed)),
   );
 
   // eslint-disable-next-line no-unused-vars
@@ -38,7 +41,7 @@ function ConfirmSeed() {
     { value: seedStr, indexValue: i, selected: false }
   )));
 
-  const seedArray = arrayFromSeedSentence(seed);
+  const seedArray = arrayFromSeedSentence(decryptedSeed);
 
   const phrase1 = seedArray[fourRandomIndexes[0]];
   const phrase2 = seedArray[fourRandomIndexes[1]];

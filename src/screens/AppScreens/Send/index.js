@@ -24,6 +24,7 @@ import {
 } from './StyledComponents';
 import { WarningText } from '../../AuthScreens/CreateWallet/StyledComponents';
 import { setIsSuccessModalOpen, setMainTextForSuccessModal, setSubTextForSuccessModal } from '../../../redux/slices/successModalHandling';
+import { decrypt } from '../../../ToolBox/accounts';
 
 const { decodeAddress, encodeAddress } = require('@polkadot/keyring');
 const { hexToU8a, isHex } = require('@polkadot/util');
@@ -155,7 +156,8 @@ const Send = () => {
     setLoading2(true);
     const keyring = new Keyring({ type: 'sr25519' });
 
-    const sender = keyring.addFromUri(currentUser.account.seed);
+    const decryptedSeed = decrypt(currentUser.account.seed, currentUser.account.walletPassword);
+    const sender = keyring.addFromUri(decryptedSeed);
     data.operation = 'Send';
     const decimals = currentUser.account.chainName === 'AcalaMandala'
       ? decimalPlaces[0] : decimalPlaces;

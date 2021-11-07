@@ -19,6 +19,7 @@ import {
 import { fonts, colors } from '../../../utils';
 import { setSeed } from '../../../redux/slices/account';
 import { WarningText } from '../CreateWallet/StyledComponents';
+import { encrypt } from '../../../ToolBox/accounts';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryTextColor } = colors;
@@ -79,7 +80,10 @@ function ImportWallet() {
       keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
       await keyring.addUri(seedPhrase);
 
-      dispatch(setSeed(seedPhrase));
+      const tmpPassword = '123';
+      const encryptedSeed = encrypt(seedPhrase, tmpPassword);
+
+      dispatch(setSeed(encryptedSeed));
       history.push('/createWallet');
 
       return true;
@@ -87,7 +91,10 @@ function ImportWallet() {
       try {
         await keyring.addUri(seedPhrase);
 
-        dispatch(setSeed(seedPhrase));
+        const tmpPassword = '123';
+        const encryptedSeed = encrypt(seedPhrase, tmpPassword);
+
+        dispatch(setSeed(encryptedSeed));
         history.push('/createWallet');
       } catch (error) {
         if (!isErrorOccur) {

@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import keyring from '@polkadot/ui-keyring';
 import { mnemonicGenerate } from '@polkadot/util-crypto';
+import encryptpwd from 'encrypt-with-password';
 
 function GenerateSeedPhrase() {
   try {
@@ -27,4 +28,16 @@ async function KeyringInitialization() {
   await keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
 }
 
-export { GenerateSeedPhrase, AccountCreation, KeyringInitialization };
+function encrypt(target, password) {
+  const encrypted = encryptpwd.encrypt(target, password);
+  return encrypted;
+}
+
+function decrypt(target, password) {
+  const decrypted = encryptpwd.decrypt(target, password);
+  return decrypted;
+}
+
+export {
+  GenerateSeedPhrase, AccountCreation, KeyringInitialization, encrypt, decrypt,
+};

@@ -15,12 +15,13 @@ import {
   SubMainWrapperForAuthScreens,
 } from '../../../components';
 // eslint-disable-next-line import/namespace
-import { AccountCreation } from '../../../ToolBox/accounts';
+import { AccountCreation, decrypt, encrypt } from '../../../ToolBox/accounts';
 import {
   setLoggedIn,
   setPublicKey,
   setWalletPassword,
   setAccountName,
+  setSeed,
 } from '../../../redux/slices/account';
 import { fonts, helpers } from '../../../utils';
 import { WarningText, LabelAndTextInput } from './StyledComponents';
@@ -86,6 +87,12 @@ function CreateWallet() {
     dispatch(setPublicKey(add));
     dispatch(setAccountName(name));
     dispatch(setWalletPassword(hashedPassword));
+
+    const tmpPassword = '123';
+    const decryptedSeed = decrypt(seed, tmpPassword);
+
+    const encryptedSeedWithAccountPassword = encrypt(decryptedSeed, hashedPassword);
+    dispatch(setSeed(encryptedSeedWithAccountPassword));
   };
 
   const showSuccessModalAndNavigateToDashboard = () => {
@@ -101,13 +108,15 @@ function CreateWallet() {
 
     setTimeout(() => {
       dispatch(setIsSuccessModalOpen(false));
+      history.push('/');
     }, 2500);
 
     // navigate to dashboard on success
-    history.push('/');
   };
 
   const handleContinue = async () => {
+    const tmpPasswordW = '123';
+    const decryptedSeedW = decrypt(seed, tmpPasswordW);
     try {
       if (!isUserNameValid(walletName) || walletName.length < 3) {
         setIsValidWalletName(true);
@@ -122,13 +131,13 @@ function CreateWallet() {
 
       // eslint-disable-next-line no-unused-expressions
       await keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
-      const res = await createAccount(walletName, password, seed);
+      const res = await createAccount(walletName, password, decryptedSeedW);
       await saveAccountInRedux(res.address, walletName, password);
       dispatch(setLoadingFor('Setting things up...'));
       setIsLoading(false);
       await showSuccessModalAndNavigateToDashboard();
     } catch (err) {
-      const res = await createAccount(walletName, password, seed);
+      const res = await createAccount(walletName, password, decryptedSeedW);
       await saveAccountInRedux(res.address, walletName, password);
       dispatch(setLoadingFor('Setting things up...'));
       setIsLoading(false);
@@ -246,7 +255,9 @@ function CreateWallet() {
           }}
           >
             <ListItem style={{ marginBottom: '-1.7rem' }}>
-              <p style={{ textAlign: 'justify' }}>This password will be used as the transaction password for the wallet, Polo Wallet does not save passwords and cannot retrieve them for you. Please keep your password safe!</p>
+              This password will be used as the transaction password for the wallet,
+              Polo Wallet does not save passwords
+              and cannot retrieve them for you. Please keep your password safe!
             </ListItem>
           </List>
         </SubHeading>
