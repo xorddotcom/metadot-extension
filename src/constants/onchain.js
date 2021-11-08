@@ -1,42 +1,42 @@
 /* eslint-disable camelcase */
-const Account_Type = 'sr25519';
+const ACCOUNT_TYPE = 'sr25519';
 
 const USD_PER_POLKADOT_API = 'https://api.coingecko.com/api/v3/simple/price?ids=POLKADOT&vs_currencies=Usd';
 
 const USD_PER_KSM_API = 'https://api.coingecko.com/api/v3/simple/price?ids=KUSAMA&vs_currencies=Usd';
 
 // Polkadot
-const Polkadot_Rpc_Url = 'wss://rpc.polkadot.io';
+const POLKADOT_RPC_URL = 'wss://rpc.polkadot.io';
 
 // Acala Mandala
-const Acala_Mandala_Rpc_Url = 'wss://acala-mandala.api.onfinality.io/public-ws';
+const ACALA_MANDALA_RPC_URL = 'wss://acala-mandala.api.onfinality.io/public-ws';
 
 // Westend
-const WestEndRpcUrl = 'wss://westend-rpc.polkadot.io';
+const WESTEND_RPC_URL = 'wss://westend-rpc.polkadot.io';
 
 // Kusama Main Net
-const Kusama_Rpc_Url = 'wss://kusama-rpc.polkadot.io';
+const KUSAMA_RPC_URL = 'wss://kusama-rpc.polkadot.io';
 
 // Dusty
-const Dusty_Rpc_Url = 'wss://rpc.dusty.plasmnet.io/';
+const DUSTY_RPC_URL = 'wss://rpc.dusty.plasmnet.io/';
 
 // Phala
-const Phala_Rpc_Url = 'wss://para2-api.phala.network/ws/';
+const PHALA_RPC_URL = 'wss://para2-api.phala.network/ws/';
 
-const Astar_Rpc_Url = 'wss://rpc.plasmnet.io/';
+const ASTAR_RPC_URL = 'wss://rpc.plasmnet.io/';
 
-const Rococo_Rpc_Url = 'wss://rococo-rpc.polkadot.io';
+const ROCOCO_RPC_URL = 'wss://rococo-rpc.polkadot.io';
 
 export default {
-  Account_Type,
-  Polkadot_Rpc_Url,
-  Acala_Mandala_Rpc_Url,
-  WestEndRpcUrl,
-  Kusama_Rpc_Url,
-  Dusty_Rpc_Url,
-  Phala_Rpc_Url,
-  Astar_Rpc_Url,
-  Rococo_Rpc_Url,
+  ACCOUNT_TYPE,
+  POLKADOT_RPC_URL,
+  ACALA_MANDALA_RPC_URL,
+  WESTEND_RPC_URL,
+  KUSAMA_RPC_URL,
+  DUSTY_RPC_URL,
+  PHALA_RPC_URL,
+  ASTAR_RPC_URL,
+  ROCOCO_RPC_URL,
   USD_PER_KSM_API,
   USD_PER_POLKADOT_API,
 };
