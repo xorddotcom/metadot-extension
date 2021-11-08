@@ -16,7 +16,7 @@ Execute the following to clone, install dependencies, and run a development serv
 git clone https://github.com/XORD-one/metadot-extension.git
 cd metadot-extension
 yarn install
-yarn run dev
+yarn run build
 ```
 
 Once running Chrome:
