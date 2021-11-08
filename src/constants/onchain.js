@@ -20,7 +20,7 @@ const USD_PER_POLKADOT_API = 'https://api.coingecko.com/api/v3/simple/price?ids=
 const USD_PER_KSM_API = 'https://api.coingecko.com/api/v3/simple/price?ids=KUSAMA&vs_currencies=Usd';
 
 const POLKADOT_CONFIG = {
-  CHAIN_NAME: 'Polkadot Main Netwrok',
+  CHAIN_NAME: 'Polkadot Main Network',
   TOKEN_NAME: 'DOT',
   LOGO: polkadotDot,
   RPC_URL: 'wss://rpc.polkadot.io',
