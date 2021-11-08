@@ -9,7 +9,7 @@ const initialState = {
   publicKey: '',
   accountName: '',
   walletPassword: '',
-  rpcUrl: constants.Polkadot_Rpc_Url,
+  rpcUrl: constants.POLKADOT_RPC_URL,
   chainName: 'Polkadot Main Network',
   tokenName: 'DOT',
   balance: 0,

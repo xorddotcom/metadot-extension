@@ -5,7 +5,7 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { options as AcalaOptions } from '@acala-network/api';
 import { setApi, setApiInitializationStarts } from '../redux/slices/api';
-import { getBalance, getBalanceWithMultipleTokens } from '../ToolBox/services';
+import { getBalance, getBalanceWithMultipleTokens } from '../toolBox/services';
 import { setBalance, setBalanceInUsd, setTokenName } from '../redux/slices/account';
 import {
   setIsSuccessModalOpen, setMainTextForSuccessModal,
@@ -30,14 +30,14 @@ function ApiManager({ rpc }) {
       dispatch(setApiInitializationStarts(true));
       const wsProvider = new WsProvider(rpcUrl);
       let apiR;
-      if (rpcUrl === constants.Acala_Mandala_Rpc_Url) {
+      if (rpcUrl === constants.ACALA_MANDALA_RPC_URL) {
         apiR = await ApiPromise.create(AcalaOptions({ provider: wsProvider }));
       } else {
         apiR = await ApiPromise.create({ provider: wsProvider });
       }
       const tokenName = await apiR.registry.chainTokens[0];
       dispatch(setTokenName({ tokenName }));
-      const bal = rpcUrl === constants.Acala_Mandala_Rpc_Url
+      const bal = rpcUrl === constants.ACALA_MANDALA_RPC_URL
         ? await getBalanceWithMultipleTokens(apiR, publicKey)
         : await getBalance(apiR, publicKey);
       dispatch(setBalance(bal));

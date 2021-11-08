@@ -35,19 +35,18 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 // eslint-disable-next-line import/namespace
 import { CircularProgress } from '@mui/material';
 import { options } from '@acala-network/api';
+import { getTokenPrice } from '../../../utils/api';
 import MainCard from './MainCard';
 import Operations from './Operations';
 import AssetsAndTransactions from './AssetsAndTransactions';
 
-import { getBalanceWithMultipleTokens } from '../../../ToolBox/services';
-// import onChainConstants from '../../../constants/onchain'
-import constants from '../../../constants/onchain';
-import {
-  setRpcUrl, setBalance, setTokenName, setChainName,
-} from '../../../redux/slices/account';
+import { getBalanceWithMultipleTokens } from '../../../toolBox/services';
 import { setApiInitializationStarts } from '../../../redux/slices/api';
-
-import { fonts, helpers } from '../../../utils';
+import {
+  setRpcUrl, setBalance, setChainName,
+} from '../../../redux/slices/account';
+import constants from '../../../constants/onchain';
+import { fonts } from '../../../utils';
 import {
   AccountContainer,
   AccountSetting,
@@ -59,8 +58,6 @@ import {
   SelectedChain,
   Wrapper,
 } from './StyledComponents';
-
-// import Logo from '../../../assets/images/logodraft.svg';
 import Logo from '../../../assets/images/48x48.png';
 import { SelectNetwork, TxDetails } from '../../../components';
 import {
@@ -89,7 +86,6 @@ import acala from '../../../assets/images/tokenImg/acala-circle.svg';
 import yellow from '../../../assets/images/tokenImg/yellow.png';
 import green from '../../../assets/images/tokenImg/green.jpeg';
 import rococoIcon from '../../../assets/images/rococo.svg';
-
 import astarIcon from '../../../assets/images/astar.png';
 
 const { WsProvider, ApiPromise, Keyring } = require('@polkadot/api');
@@ -102,13 +98,13 @@ const availableNetworks = [
     name: 'Polkadot Main Network',
     theme: polkadotDot,
     moreOptions: false,
-    rpcUrl: constants.Polkadot_Rpc_Url,
+    rpcUrl: constants.POLKADOT_RPC_URL,
   },
   {
     name: 'Kusama Main Networks',
     theme: kusamaKsm,
     moreOptions: true,
-    rpcUrl: constants.Kusama_Rpc_Url,
+    rpcUrl: constants.KUSAMA_RPC_URL,
     icon: KusamaIcon,
     parachain: false,
     mainNetwork: true,
@@ -124,7 +120,7 @@ const availableNetworks = [
     name: 'Beta Networks',
     theme: green,
     moreOptions: true,
-    rpcUrl: constants.Astar_Rpc_Url,
+    rpcUrl: constants.ASTAR_RPC_URL,
     icon: KusamaIcon,
     parachain: false,
     mainNetwork: true,
@@ -140,7 +136,7 @@ const BetaNetworks = [
     parachain: false,
     mainNetwork: true,
     testNet: null,
-    rpcUrl: constants.Astar_Rpc_Url,
+    rpcUrl: constants.ASTAR_RPC_URL,
     disabled: false,
     tokenName: 'Kusama',
   },
@@ -153,7 +149,7 @@ const KusamaMainNetworks = [
     parachain: false,
     mainNetwork: true,
     testNet: null,
-    rpcUrl: constants.Kusama_Rpc_Url,
+    rpcUrl: constants.KUSAMA_RPC_URL,
     disabled: false,
     tokenName: 'Kusama',
   },
@@ -202,27 +198,27 @@ const TestNetworks = [
   {
     name: 'Westend',
     theme: westendColour,
-    rpcUrl: constants.WestEndRpcUrl,
+    rpcUrl: constants.WESTEND_RPC_URL,
     tokenName: 'Westend',
   },
   {
     name: 'Rococo',
     theme: rococoIcon,
-    rpcUrl: constants.Rococo_Rpc_Url,
+    rpcUrl: constants.ROCOCO_RPC_URL,
     tokenName: 'Roc',
     // disabled: false,
   },
   {
     name: 'AcalaMandala',
     theme: acala,
-    rpcUrl: constants.Acala_Mandala_Rpc_Url,
+    rpcUrl: constants.ACALA_MANDALA_RPC_URL,
     tokenName: 'Acala',
   },
   {
     name: 'Dusty',
     theme: dusty,
     disabled: false,
-    rpcUrl: constants.Dusty_Rpc_Url,
+    rpcUrl: constants.DUSTY_RPC_URL,
     tokenName: 'Dusty',
   },
   {
@@ -239,7 +235,7 @@ const TestNetworks = [
     name: 'Phala',
     theme: PhalaIcon,
     disabled: true,
-    rpcUrl: constants.Phala_Rpc_Url,
+    rpcUrl: constants.PHALA_RPC_URL,
     tokenName: 'Phala',
   },
 ];
@@ -297,7 +293,6 @@ function Dashboard(props) {
 
         // Only display positive value changes (Since we are pulling `previous` above already,
         // the initial balance change will also be zero)
-        // async () => {
         if (!change.isZero()) {
           const newBalance = chainName === 'AcalaMandala' ? change / 10 ** decimalPlaces[0] : change / 10 ** decimalPlaces;
           dispatch(setBalance(newBalance + balance));
@@ -306,7 +301,6 @@ function Dashboard(props) {
           previousNonce = currentNonce;
           return newBalance;
         }
-        // };
       },
     );
   }
@@ -316,21 +310,7 @@ function Dashboard(props) {
   const [apiTokenName, setApiTokenName] = useState('polkadot');
 
   useEffect(() => {
-    const getTokenPrice = async () => {
-      const tokenPrice = await fetch(
-        `https://api.coingecko.com/api/v3/simple/price?ids=${apiTokenName}&vs_currencies=usd`,
-      )
-        .then((res) => {
-          res.json().then((_res) => {
-            console.log(`${apiTokenName} === `, _res);
-          });
-        })
-        .catch((err) => {
-          console.warn('ERROR', err);
-        });
-    };
-
-    getTokenPrice();
+    getTokenPrice(apiTokenName);
   }, [apiTokenName]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
