@@ -9,7 +9,7 @@ MetaDot previously named as Pollo Wallet is a Browser Extension based crypto wal
 ## How to Setup Locally
 1. clone the repo.
 2. `yarn install` or `npm install` to install the dependencies  
-3. `yarn run build` to build the extension, then the bundle results will be in the `plugin` file 
+3. `yarn run build` or `npm run build` to build the extension, then the bundle results will be in the `plugin` file 
 4. Install the extension on `CHROME` :
     - go to `chrome://extensions/`
     - ensure you have the Development Mode on
