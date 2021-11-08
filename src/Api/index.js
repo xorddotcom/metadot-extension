@@ -14,6 +14,8 @@ import {
 import constants from '../constants/onchain';
 import { helpers } from '../utils';
 
+const { ACALA_MANDALA_CONFIG } = constants;
+
 function ApiManager({ rpc }) {
   // eslint-disable-next-line import/no-mutable-exports
   const currentUser = useSelector((state) => state);
@@ -30,14 +32,14 @@ function ApiManager({ rpc }) {
       dispatch(setApiInitializationStarts(true));
       const wsProvider = new WsProvider(rpcUrl);
       let apiR;
-      if (rpcUrl === constants.ACALA_MANDALA_RPC_URL) {
+      if (rpcUrl === ACALA_MANDALA_CONFIG.RPC_URL) {
         apiR = await ApiPromise.create(AcalaOptions({ provider: wsProvider }));
       } else {
         apiR = await ApiPromise.create({ provider: wsProvider });
       }
       const tokenName = await apiR.registry.chainTokens[0];
       dispatch(setTokenName({ tokenName }));
-      const bal = rpcUrl === constants.ACALA_MANDALA_RPC_URL
+      const bal = rpcUrl === ACALA_MANDALA_CONFIG.RPC_URL
         ? await getBalanceWithMultipleTokens(apiR, publicKey)
         : await getBalance(apiR, publicKey);
       dispatch(setBalance(bal));

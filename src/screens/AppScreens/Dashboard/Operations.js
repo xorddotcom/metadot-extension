@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
+/* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { styled } from '@mui/material/styles';

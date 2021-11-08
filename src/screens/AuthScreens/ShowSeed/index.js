@@ -116,7 +116,7 @@ function ShowSeed() {
       <CopyText className={subHeadingfontFamilyClass}>
         Copy Seed Phrase
         <span width="100px" style={{ width: '200px', visibility: 'hidden' }}>A</span>
-        <LightTooltip title="Copy address" arrow placement="right">
+        <LightTooltip title="Copy Seed" arrow placement="right">
           <ContentCopyIcon
             style={{
               fontSize: '0.7rem', marginRight: 10, marginTop: 2,

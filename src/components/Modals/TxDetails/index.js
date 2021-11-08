@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+/* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React from 'react';
 import { Modal } from '@mui/material';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
@@ -26,14 +27,14 @@ const LightTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
   [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: theme.palette.common.white,
-    color: 'rgba(0, 0, 0, 0.87)',
+    backgroundColor: '#860040',
+    color: '#fff',
     boxShadow: theme.shadows[1],
     fontSize: 11,
     zIndex: -2,
   },
   [`& .${tooltipClasses.arrow}`]: {
-    color: theme.palette.common.white,
+    color: '#860040',
   },
 }));
 
