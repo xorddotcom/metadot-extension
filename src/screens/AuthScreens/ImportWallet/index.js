@@ -19,7 +19,7 @@ import {
 import { fonts, colors } from '../../../utils';
 import { setSeed } from '../../../redux/slices/account';
 import { WarningText } from '../CreateWallet/StyledComponents';
-import { encrypt } from '../../../ToolBox/accounts';
+import { encrypt } from '../../../toolBox/accounts';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryTextColor } = colors;

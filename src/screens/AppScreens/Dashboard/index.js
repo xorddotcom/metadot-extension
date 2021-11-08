@@ -39,7 +39,7 @@ import MainCard from './MainCard';
 import Operations from './Operations';
 import AssetsAndTransactions from './AssetsAndTransactions';
 
-import { getBalanceWithMultipleTokens } from '../../../ToolBox/services';
+import { getBalanceWithMultipleTokens } from '../../../toolBox/services';
 // import onChainConstants from '../../../constants/onchain'
 import constants from '../../../constants/onchain';
 import {

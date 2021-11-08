@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { addTransaction } from '../../../redux/slices/transactions';
 import { fonts, helpers } from '../../../utils';
 // eslint-disable-next-line no-unused-vars
-import { getBalanceWithMultipleTokens, getBalance } from '../../../ToolBox/services';
+import { getBalanceWithMultipleTokens, getBalance } from '../../../toolBox/services';
 import { setBalance } from '../../../redux/slices/account';
 import {
   AuthWrapper, Button, ConfirmSend, Header, StyledInput,
@@ -24,7 +24,7 @@ import {
 } from './StyledComponents';
 import { WarningText } from '../../AuthScreens/CreateWallet/StyledComponents';
 import { setIsSuccessModalOpen, setMainTextForSuccessModal, setSubTextForSuccessModal } from '../../../redux/slices/successModalHandling';
-import { decrypt } from '../../../ToolBox/accounts';
+import { decrypt } from '../../../toolBox/accounts';
 
 const { decodeAddress, encodeAddress } = require('@polkadot/keyring');
 const { hexToU8a, isHex } = require('@polkadot/util');

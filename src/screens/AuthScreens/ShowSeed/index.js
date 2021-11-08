@@ -19,7 +19,7 @@ import {
   WarningModal,
 } from '../../../components';
 import { fonts } from '../../../utils';
-import { decrypt, encrypt, GenerateSeedPhrase } from '../../../ToolBox/accounts';
+import { decrypt, encrypt, GenerateSeedPhrase } from '../../../toolBox/accounts';
 import { resetAccountSlice, setSeed } from '../../../redux/slices/account';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
