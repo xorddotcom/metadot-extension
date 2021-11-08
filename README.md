@@ -4,16 +4,33 @@ MetaDot previously named as Pollo Wallet is a Browser Extension based crypto wal
 
 ## Pre-requisites:
  - Node.js
+ - yarn
  - firefox or chrome as browsers
 
 ## How to Setup Locally
-1. clone the repo.
-2. `yarn install` or `npm install` to install the dependencies  
-3. `yarn run build` or `npm run build` to build the extension, then the bundle results will be in the `plugin` file 
-4. Install the extension on `CHROME` :
-    - go to `chrome://extensions/`
-    - ensure you have the Development Mode on
-    - "Load unpacked" and point to `root/build`
-5. Install the extension on `FIREFOX` :
-    - go to `about:debugging#/runtime/this-firefox`
-    - "Load Temporary Ad-on" and point to `root/build/manifest.json`
+
+
+Execute the following to clone, install dependencies, and run a development server:
+
+```
+git clone https://github.com/XORD-one/metadot-extension.git
+cd metadot-extension
+yarn install
+yarn run dev
+```
+
+Once running Chrome:
+
+ - Go to chrome://extensions
+ - Enable 'Developer Mode' (top right corner of window)
+ - Click "Load Unpacked" and select the metadot-extension/build directory
+
+The MetaDot icon should show up in your Chrome toolbar.
+
+Once running Firefox:
+
+ - Go to about:debugging#/runtime/this-firefox
+ - Click 'Load Temporary Addon'
+ - select the metadot-extension/build/manifest.json file
+
+The MetaDot icon should show up in your Firefox toolbar.
