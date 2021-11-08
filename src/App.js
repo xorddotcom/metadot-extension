@@ -6,21 +6,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import LoadingScreen from 'react-loading-screen';
 
 import { Slide, ToastContainer } from 'react-toastify';
-import ImportWallet from './screens/AuthScreens/ImportWallet';
-import ShowSeed from './screens/AuthScreens/ShowSeed';
-
-import CreateWallet from './screens/AuthScreens/CreateWallet';
-import ConfirmSeed from './screens/AuthScreens/ConfirmSeed';
 
 import './App.css';
-import Dashboard from './screens/AppScreens/Dashboard';
-import Send from './screens/AppScreens/Send';
+
 import PasswordScreen from './screens/PasswordScreen';
-import Welcome from './screens/AuthScreens/Welcome';
 import { SuccessResponse } from './components';
 import { setIsSuccessModalOpen } from './redux/slices/successModalHandling';
 import ApiManager from './Api';
 import 'react-toastify/dist/ReactToastify.css';
+import { routes } from './utils';
+
+const { AuthRoutes, UnAuthRoutes } = routes;
 
 function App() {
   // prettier-ignore
@@ -51,43 +47,32 @@ function App() {
           >
             <ApiManager rpc={currentUser.account.rpcUrl} />
 
-            <Route exact path="/">
-              <Dashboard />
-            </Route>
-            <Route path="/Send">
-              <Send />
-            </Route>
-            <Route exact path="/createWallet">
-              <CreateWallet />
-            </Route>
+            {
+              AuthRoutes.map((route) => {
+                const { path, Component } = route;
+                return (
+                  <Route exact path={path} key={path}>
+                    <Component />
+                  </Route>
+                );
+              })
+            }
           </LoadingScreen>
         </div>
       );
     } else {
       content = (
         <div>
-          <Route exact path="/">
-            <Welcome />
-          </Route>
-          <Route path="/PasswordScreen">
-            <PasswordScreen />
-          </Route>
-          <Route path="/ShowSeed">
-            <ShowSeed />
-          </Route>
-          <Route path="/ConfirmSeed">
-            <ConfirmSeed />
-          </Route>
-          <Route path="/CreateWallet">
-            <CreateWallet />
-          </Route>
-          <Route path="/ImportWallet">
-            <ImportWallet />
-          </Route>
-          <Route path="/Send">
-            <Send />
-          </Route>
-          {/* Temporary screen for testing */}
+          {
+              UnAuthRoutes.map((route) => {
+                const { path, Component } = route;
+                return (
+                  <Route exact path={path} key={path}>
+                    <Component />
+                  </Route>
+                );
+              })
+            }
         </div>
       );
     }

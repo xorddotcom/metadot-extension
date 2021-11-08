@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+/* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useEffect, useReducer, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';

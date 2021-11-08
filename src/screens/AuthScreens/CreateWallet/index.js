@@ -1,3 +1,4 @@
+/* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import web3 from 'web3';
