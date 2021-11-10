@@ -8,28 +8,6 @@
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useState, useMemo, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { makeStyles } from '@mui/styles';
-import Menu from '@mui/material/Menu';
-import Divider from '@mui/material/Divider';
-import Paper from '@mui/material/Paper';
-import MenuList from '@mui/material/MenuList';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Typography from '@mui/material/Typography';
-import ContentCut from '@mui/icons-material/ContentCut';
-import ContentCopy from '@mui/icons-material/ContentCopy';
-import ContentPaste from '@mui/icons-material/ContentPaste';
-import Cloud from '@mui/icons-material/Cloud';
-// Drop Down Icons
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
-import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
@@ -46,7 +24,6 @@ import { setApiInitializationStarts } from '../../../redux/slices/api';
 import {
   setRpcUrl, setBalance, setChainName,
 } from '../../../redux/slices/account';
-import constants from '../../../constants/onchain';
 import { fonts } from '../../../utils';
 import {
   AccountContainer,
@@ -68,201 +45,25 @@ import {
   OptionText,
 } from '../../../components/Modals/SelectNetwork/StyledComponents';
 
-import KusamaIcon from '../../../assets/images/kusama.svg';
-import KaruraIcon from '../../../assets/images/karura.svg';
-import MoonriverIcon from '../../../assets/images/moonriver.svg';
-import ShidenIcon from '../../../assets/images/shiden.svg';
-import PhalaIcon from '../../../assets/images/phala.svg';
-import BifrostIcon from '../../../assets/images/bifrost.svg';
 import {
   setLoadingFor,
 } from '../../../redux/slices/successModalHandling';
 
-// Assests Token images
-import dusty from '../../../assets/images/tokenImg/dusty.png';
-import kusamaKsm from '../../../assets/images/tokenImg/kusama-ksm.svg';
-import polkadotDot from '../../../assets/images/tokenImg/polkadot.png';
-import westendColour from '../../../assets/images/tokenImg/westend_colour.svg';
-import acala from '../../../assets/images/tokenImg/acala-circle.svg';
-import yellow from '../../../assets/images/tokenImg/yellow.png';
-import green from '../../../assets/images/tokenImg/green.jpeg';
-import rococoIcon from '../../../assets/images/rococo.svg';
-import astarIcon from '../../../assets/images/astar.png';
+import networks from './networkModalData';
 
 const { WsProvider, ApiPromise, Keyring } = require('@polkadot/api');
 const { cryptoWaitReady } = require('@polkadot/util-crypto');
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
-const availableNetworks = [
-  {
-    name: 'Polkadot Main Network',
-    theme: polkadotDot,
-    moreOptions: false,
-    rpcUrl: constants.POLKADOT_RPC_URL,
-  },
-  {
-    name: 'Kusama Main Networks',
-    theme: kusamaKsm,
-    moreOptions: true,
-    rpcUrl: constants.KUSAMA_RPC_URL,
-    icon: KusamaIcon,
-    parachain: false,
-    mainNetwork: true,
-    testNet: null,
-    disabled: false,
-  },
-  {
-    name: 'Test Networks',
-    theme: yellow,
-    moreOptions: true,
-  },
-  {
-    name: 'Beta Networks',
-    theme: green,
-    moreOptions: true,
-    rpcUrl: constants.ASTAR_RPC_URL,
-    icon: KusamaIcon,
-    parachain: false,
-    mainNetwork: true,
-    testNet: null,
-    disabled: false,
-  },
-];
-
-const BetaNetworks = [
-  {
-    name: 'Astar',
-    icon: astarIcon,
-    parachain: false,
-    mainNetwork: true,
-    testNet: null,
-    rpcUrl: constants.ASTAR_RPC_URL,
-    disabled: false,
-    tokenName: 'Kusama',
-  },
-];
-
-const KusamaMainNetworks = [
-  {
-    name: 'Kusama',
-    icon: KusamaIcon,
-    parachain: false,
-    mainNetwork: true,
-    testNet: null,
-    rpcUrl: constants.KUSAMA_RPC_URL,
-    disabled: false,
-    tokenName: 'Kusama',
-  },
-  {
-    name: 'Karura',
-    icon: KaruraIcon,
-    parachain: true,
-    mainNetwork: true,
-    testNet: 'AcalaMandala',
-    disabled: true,
-  },
-  {
-    name: 'Moonriver',
-    icon: MoonriverIcon,
-    parachain: true,
-    mainNetwork: true,
-    disabled: true,
-  },
-  {
-    name: 'Shiden',
-    icon: ShidenIcon,
-    parachain: true,
-    mainNetwork: true,
-    testNet: 'Dusty',
-    disabled: true,
-  },
-  {
-    name: 'Khala',
-    icon: PhalaIcon,
-    parachain: true,
-    mainNetwork: true,
-    testNet: 'Phala',
-    disabled: true,
-  },
-  {
-    name: 'Bifrost',
-    icon: BifrostIcon,
-    parachain: false,
-    mainNetwork: true,
-    testNet: 'Asgard',
-    disabled: true,
-  },
-];
-
-const TestNetworks = [
-  {
-    name: 'Westend',
-    theme: westendColour,
-    rpcUrl: constants.WESTEND_RPC_URL,
-    tokenName: 'Westend',
-  },
-  {
-    name: 'Rococo',
-    theme: rococoIcon,
-    rpcUrl: constants.ROCOCO_RPC_URL,
-    tokenName: 'Roc',
-    // disabled: false,
-  },
-  {
-    name: 'AcalaMandala',
-    theme: acala,
-    rpcUrl: constants.ACALA_MANDALA_RPC_URL,
-    tokenName: 'Acala',
-  },
-  {
-    name: 'Dusty',
-    theme: dusty,
-    disabled: false,
-    rpcUrl: constants.DUSTY_RPC_URL,
-    tokenName: 'Dusty',
-  },
-  {
-    name: 'Moonbase',
-    theme: MoonriverIcon,
-    disabled: true,
-  },
-  {
-    name: 'Asgard',
-    theme: BifrostIcon,
-    disabled: true,
-  },
-  {
-    name: 'Phala',
-    theme: PhalaIcon,
-    disabled: true,
-    rpcUrl: constants.PHALA_RPC_URL,
-    tokenName: 'Phala',
-  },
-];
-
-const useStyles = makeStyles((theme) => ({
-  paperMenu: {
-    backgroundColor: '#212121 !important',
-    '&:before': {
-      backgroundColor: '#212121',
-    },
-  },
-  customWidth: {
-    '& div': {
-      // this is just an example, you can use vw, etc.
-      width: '9rem',
-    },
-  },
-  MuiMenuItem: {
-    '&:hover': {
-      backgroundColor: '#fff',
-    },
-  },
-}));
+const {
+  availableNetworks,
+  KusamaMainNetworks,
+  TestNetworks,
+  BetaNetworks,
+} = networks;
 
 function Dashboard(props) {
-  // const classes = useStyles(props);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const transactions = useSelector((state) => state.transactions.transactions);
@@ -510,21 +311,8 @@ function Dashboard(props) {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
 
   // --------XXXXXXXXXXXXXXX-----------
-
-  // Drop Down
-  // const [anchorEl, setAnchorEl] = React.useState(null);
-  // const open = Boolean(anchorEl);
-  // const handleClick = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
 
   return (
     <Wrapper>
@@ -552,126 +340,6 @@ function Dashboard(props) {
             </AccountText>
           </AccountSetting>
         </AccountContainer>
-        {/* Drop Down */}
-        {/* <Menu
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          onClick={handleClose}
-          className={`${classes.customWidth} ${classes.flex}`}
-          PaperProps={{
-            elevation: 0,
-            sx: {
-              overflow: 'visible',
-              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-              mt: 1.5,
-              '& .MuiAvatar-root': {
-                width: 32,
-                height: 32,
-                ml: -0.5,
-                mr: 1,
-              },
-              '&:before': {
-                content: '""',
-                display: 'block',
-                position: 'absolute',
-                top: 0,
-                right: 14,
-                width: 10,
-                height: 10,
-                // bgcolor: 'background.paper',
-                // bgColor: '#eee',
-                transform: 'translateY(-50%) rotate(45deg)',
-                zIndex: 0,
-              },
-            },
-          }}
-          classes={{ paper: classes.paperMenu }}
-          transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        >
-          <Paper style={{
-            width: '210px',
-            marginLeft: '-2.6rem',
-            marginTop: '-0.5rem',
-            backgroundColor: '#212121',
-          }}
-          >
-            <Typography style={{
-              textAlign: 'center',
-              fontWeight: '600',
-              paddingTop: '0.8rem',
-              color: '#fafafa',
-            }}
-            >
-              My Profile
-
-            </Typography>
-            <MenuList classes={classes.MuiMenuItem}>
-              <MenuItem
-                style={{ minHeight: '37px', color: '#fafafa' }}
-                onMouseEnter={(e) => e.target.style.backgroundColor = '#000'}
-                onMouseLeave={(e) => e.target.style.backgroundColor = '#333'}
-              >
-                <ListItemIcon style={{ color: '#fafafa' }} className={flexStart}>
-                  <PersonOutlinedIcon fontSize="small" />
-                  &nbsp; &nbsp;
-                  <span style={{ fontSize: '0.9rem' }}>Accounts</span>
-                </ListItemIcon>
-                <ChevronRightOutlinedIcon fontSize="small" style={{ marginRight: '1rem' }} />
-              </MenuItem>
-              <MenuItem style={{ minHeight: '37px', color: '#fafafa' }}>
-                <ListItemIcon className={flexStart} style={{ color: '#fafafa' }}>
-                  <AddOutlinedIcon fontSize="small" />
-                  &nbsp; &nbsp;
-                  <span style={{ fontSize: '0.85rem' }}>Add Account</span>
-                </ListItemIcon>
-                <ChevronRightOutlinedIcon fontSize="small" style={{ marginRight: '1rem' }} />
-              </MenuItem>
-              <MenuItem style={{ minHeight: '37px', color: '#fafafa' }}>
-                <ListItemIcon className={flexStart} style={{ color: '#fafafa' }}>
-                  <FileDownloadOutlinedIcon fontSize="small" />
-                  &nbsp; &nbsp;
-                  <span style={{ fontSize: '0.85rem' }}>Import Account</span>
-                </ListItemIcon>
-                <ChevronRightOutlinedIcon fontSize="small" style={{ marginRight: '1rem' }} />
-              </MenuItem>
-              <MenuItem style={{ minHeight: '37px', color: '#fafafa' }}>
-                <ListItemIcon className={flexStart} style={{ color: '#fafafa' }}>
-                  <FileUploadOutlinedIcon fontSize="small" />
-                  &nbsp; &nbsp;
-                  <span style={{ fontSize: '0.85rem' }}>Export Account</span>
-                </ListItemIcon>
-                <ChevronRightOutlinedIcon fontSize="small" style={{ marginRight: '1rem' }} />
-              </MenuItem>
-              <MenuItem style={{ minHeight: '37px', color: '#fafafa' }}>
-                <ListItemIcon className={flexStart} style={{ color: '#fafafa' }}>
-                  <ForumOutlinedIcon fontSize="small" />
-                  &nbsp; &nbsp;
-                  <span style={{ fontSize: '0.85rem' }}>Support</span>
-                </ListItemIcon>
-                <ChevronRightOutlinedIcon fontSize="small" style={{ marginRight: '1rem' }} />
-              </MenuItem>
-              <MenuItem style={{ minHeight: '37px', color: '#fafafa' }}>
-                <ListItemIcon className={flexStart} style={{ color: '#fafafa' }}>
-                  <SettingsOutlinedIcon fontSize="small" />
-                  &nbsp; &nbsp;
-                  <span style={{ fontSize: '0.85rem' }}>Setting</span>
-                </ListItemIcon>
-                <ChevronRightOutlinedIcon fontSize="small" style={{ marginRight: '1rem' }} />
-              </MenuItem>
-              <MenuItem style={{ minHeight: '37px', color: '#fafafa' }}>
-                <ListItemIcon className={flexStart} style={{ color: '#fafafa' }}>
-                  <LockOutlinedIcon fontSize="small" />
-                  &nbsp; &nbsp;
-                  <span style={{ fontSize: '0.85rem' }}>Lock</span>
-                </ListItemIcon>
-                <ChevronRightOutlinedIcon fontSize="small" style={{ marginRight: '1rem' }} />
-              </MenuItem>
-            </MenuList>
-          </Paper>
-        </Menu> */}
-        {/* Drop Down End */}
 
       </DashboardHeader>
 
@@ -728,18 +396,5 @@ function Dashboard(props) {
     </Wrapper>
   );
 }
-
-const flexStart = {
-  display: 'flex',
-  justifyContent: 'flex-start',
-  alignItems: 'center',
-};
-
-const flexBetween = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  minHeight: '37px !important',
-};
 
 export default Dashboard;

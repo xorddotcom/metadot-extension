@@ -3,15 +3,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 import constants from '../../constants/onchain';
 
+const { POLKADOT_CONFIG } = constants;
+
 const initialState = {
   seed: '',
   isLoggedIn: false,
   publicKey: '',
   accountName: '',
   walletPassword: '',
-  rpcUrl: constants.POLKADOT_RPC_URL,
-  chainName: 'Polkadot Main Network',
-  tokenName: 'DOT',
+  rpcUrl: POLKADOT_CONFIG.RPC_URL,
+  chainName: POLKADOT_CONFIG.CHAIN_NAME,
+  tokenName: POLKADOT_CONFIG.TOKEN_NAME,
   balance: 0,
   balanceInUsd: 0,
   keyringInitialized: false,
