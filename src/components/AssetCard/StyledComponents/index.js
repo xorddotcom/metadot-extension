@@ -1,3 +1,4 @@
+/* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import styled from 'styled-components';
 import { colors } from '../../../utils';
 
