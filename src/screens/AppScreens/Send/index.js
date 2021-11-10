@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { addTransaction } from '../../../redux/slices/transactions';
 import { fonts, helpers } from '../../../utils';
 // eslint-disable-next-line no-unused-vars
-import { getBalanceWithMultipleTokens, getBalance } from '../../../toolBox/services';
+import { getBalanceWithMultipleTokens, getBalance } from '../../../utils/services';
 import { setBalance } from '../../../redux/slices/account';
 import {
   AuthWrapper, Button, ConfirmSend, Header, StyledInput,
@@ -25,7 +25,10 @@ import {
 } from './StyledComponents';
 import { WarningText } from '../../AuthScreens/CreateWallet/StyledComponents';
 import { setIsSuccessModalOpen, setMainTextForSuccessModal, setSubTextForSuccessModal } from '../../../redux/slices/successModalHandling';
-import { decrypt } from '../../../toolBox/accounts';
+import { decrypt } from '../../../utils/accounts';
+import FromInput from './FromInput';
+import ToInput from './ToInput';
+import AmountInput from './AmountInput';
 
 const { decodeAddress, encodeAddress } = require('@polkadot/keyring');
 const { hexToU8a, isHex } = require('@polkadot/util');
@@ -318,116 +321,28 @@ const Send = () => {
       <Header centerText="Send" backHandler={() => console.log('object')} />
 
       <MainContent>
-        <VerticalContentDiv mb="2px">
-          <MainText m="6px" className={mainHeadingfontFamilyClass} style={{ marginBottom: '0.5rem' }}>
-            From
-          </MainText>
-          <FromAccount>
-            <HorizontalContentDiv>
-              <PlainIcon />
-              <VerticalContentDiv>
-                <MainText className={mainHeadingfontFamilyClass}>
-                  {currentUser.account.accountName}
-                </MainText>
-                <Balance
-                  className={subHeadingfontFamilyClass}
-                  style={{ marginTop: '0.15rem' }}
-                >
-                  {addressModifier(currentUser.account.publicKey)}
-                </Balance>
-              </VerticalContentDiv>
-            </HorizontalContentDiv>
-          </FromAccount>
-        </VerticalContentDiv>
-
-        <VerticalContentDiv mb="2px">
-          <MainText m="6px" className={mainHeadingfontFamilyClass} style={{ marginBottom: '0.5rem' }}>
-            To
-          </MainText>
-          <StyledInput
-            placeholder="Search Address"
-            value={accountToSate.value}
-            className={subHeadingfontFamilyClass}
-            // prettier-ignore
-            onChange={accountToChangeHandler}
-            onBlur={accountToIsValid}
-            fontSize="14px"
-            height="20px"
-            isCorrect={accountToSate.isValid}
-          />
-          <WarningText className={subHeadingfontFamilyClass}>
-            {helpers.validateAddress(accountToSate.value, currentUser.account.publicKey)}
-          </WarningText>
-          <div style={{ height: '1rem' }}>
-            {!isCorrect ? (
-              <WarningText className={subHeadingfontFamilyClass} style={{ marginTop: '-0.2rem', marginLeft: '0.3rem' }}>
-                {errorMessages.invalidAddress}
-              </WarningText>
-            ) : error.address ? (
-              <WarningText className={subHeadingfontFamilyClass} style={{ marginTop: '-0.2rem', marginLeft: '0.3rem' }}>
-                {errorMessages.enterAddress}
-              </WarningText>
-            ) : null}
-          </div>
-        </VerticalContentDiv>
-        <VerticalContentDiv mb="25px">
-          <MainText m="8px" className={mainHeadingfontFamilyClass}>
-            Amount
-          </MainText>
-          <StyledInput
-            placeholder="Amount"
-            type="number"
-            value={amountState.value}
-            className={subHeadingfontFamilyClass}
-            onChange={amountHandler}
-            fontSize="14px"
-            height="20px"
-            onBlur={amountIsValidHandler}
-            isCorrect={amountState.isValid || insufficientBal}
-          />
-          {
-              insufficientBal
-            && (
-            <WarningText
-              className={subHeadingfontFamilyClass}
-              style={{ marginBottom: '1rem' }}
-            >
-              balance is too low to pay network fees!
-            </WarningText>
-            )
-            }
-          {
-              !insufficientBal
-          && (
-          <WarningText
-            className={subHeadingfontFamilyClass}
-            style={{ marginBottom: '1rem' }}
-          >
-            {helpers.validateAmount(currentUser.account.balance, amountState.value)}
-          </WarningText>
-          )
-            }
-          <CalculatedAmount>
-            <EquivalentInUSDT className={subHeadingfontFamilyClass}>
-              $
-              {currentUser.account.balanceInUsd}
-            </EquivalentInUSDT>
-            <Balance textAlign="end" className={subHeadingfontFamilyClass}>
-              {`${trimBalance(currentUser.account.balance)} ${currentUser.account.tokenName}`}
-            </Balance>
-          </CalculatedAmount>
-          <div style={{ height: '1.5rem' }}>
-            {error.amountError ? (
-              <WarningText
-                className={subHeadingfontFamilyClass}
-                style={{ marginTop: '-0.2rem', marginLeft: '0.3rem' }}
-              >
-                {errorMessages.enterAmount}
-              </WarningText>
-            ) : null}
-          </div>
-        </VerticalContentDiv>
+        <FromInput addressModifier={addressModifier} currentUser={currentUser} />
+        <ToInput
+          accountToSate={accountToSate}
+          currentUser={currentUser}
+          isCorrect={isCorrect}
+          errorMessages={errorMessages}
+          error={error}
+          accountToChangeHandler={accountToChangeHandler}
+          accountToIsValid={accountToIsValid}
+        />
+        <AmountInput
+          amountState={amountState}
+          amountHandler={amountHandler}
+          amountIsValidHandler={amountIsValidHandler}
+          insufficientBal={insufficientBal}
+          currentUser={currentUser}
+          trimBalance={trimBalance}
+          errorMessages={errorMessages}
+          error={error}
+        />
       </MainContent>
+
       <CenterContent>
         <Button
           text="Next"

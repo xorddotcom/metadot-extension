@@ -19,7 +19,7 @@ import { fonts, helpers } from '../../../utils';
 import {
   SeedGridRow, SeedText, SeedGrid,
 } from './StyledComponents';
-import { decrypt } from '../../../toolBox/accounts';
+import { decrypt } from '../../../utils/accounts';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { arrayFromSeedSentence, arrayOfFourRandomNumbers, shuffleItemsWithinArray } = helpers;

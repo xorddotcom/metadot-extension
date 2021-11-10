@@ -19,7 +19,7 @@ import MainCard from './MainCard';
 import Operations from './Operations';
 import AssetsAndTransactions from './AssetsAndTransactions';
 
-import { getBalanceWithMultipleTokens } from '../../../toolBox/services';
+import { getBalanceWithMultipleTokens } from '../../../utils/services';
 import { setApiInitializationStarts } from '../../../redux/slices/api';
 import {
   setRpcUrl, setBalance, setChainName,

@@ -16,7 +16,7 @@ import {
   SubMainWrapperForAuthScreens,
 } from '../../../components';
 // eslint-disable-next-line import/namespace
-import { AccountCreation, decrypt, encrypt } from '../../../toolBox/accounts';
+import { AccountCreation, decrypt, encrypt } from '../../../utils/accounts';
 import {
   setLoggedIn,
   setPublicKey,

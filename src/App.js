@@ -12,7 +12,7 @@ import './App.css';
 import PasswordScreen from './screens/PasswordScreen';
 import { SuccessResponse } from './components';
 import { setIsSuccessModalOpen } from './redux/slices/successModalHandling';
-import ApiManager from './Api';
+import ApiManager from './api';
 import 'react-toastify/dist/ReactToastify.css';
 import { routes } from './utils';
 

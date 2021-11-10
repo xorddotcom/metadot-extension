@@ -5,7 +5,7 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { options as AcalaOptions } from '@acala-network/api';
 import { setApi, setApiInitializationStarts } from '../redux/slices/api';
-import { getBalance, getBalanceWithMultipleTokens } from '../toolBox/services';
+import { getBalance, getBalanceWithMultipleTokens } from '../utils/services';
 import { setBalance, setBalanceInUsd, setTokenName } from '../redux/slices/account';
 import {
   setIsSuccessModalOpen, setMainTextForSuccessModal,
