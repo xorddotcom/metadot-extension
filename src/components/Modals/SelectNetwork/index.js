@@ -28,16 +28,18 @@ function SelectNetwork(props) {
   } = props;
   const { firstStep, renderMethod, currentData } = modalState;
 
+  const loadingScreen = {
+    loading: isLoading,
+    bgColor: '#121212',
+    spinnerColor: '#880041',
+    textColor: '#fafafa',
+    text: 'Api Initialization',
+  };
+
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style} className="select-network-modal-style">
-        <LoadingScreen
-          loading={isLoading}
-          bgColor="#121212"
-          spinnerColor="#880041"
-          textColor="#fafafa"
-          text="Api Initialization"
-        >
+        <LoadingScreen {...loadingScreen}>
           <div>
             <CloseIconDiv
               onClick={() => {

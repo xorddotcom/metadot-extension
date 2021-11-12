@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-throw-literal */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useState } from 'react';
@@ -106,6 +105,47 @@ function ImportWallet() {
     }
   };
 
+  const option1 = {
+    onClick: () => setSelectedType('seed'),
+    selected: selectedType === 'seed',
+    className: mainHeadingfontFamilyClass,
+  };
+
+  const option2 = {
+    // onClick: () => setSelectedType('json'),
+    className: mainHeadingfontFamilyClass,
+    selected: selectedType === 'json',
+  };
+
+  const input = {
+    style: {
+      padding: '13px 15px',
+      background: '#212121',
+      color: primaryTextColor,
+      width: '100%',
+      borderRadius: '5px',
+      fontSize: '0.8rem',
+      lineHeight: '1.7em',
+    },
+    className: subHeadingfontFamilyClass,
+    onChange: (e) => handleChange(e.target.value),
+    value: seedPhrase,
+    rows: 5,
+    placeholder: 'Place your seed here to be replaced by Mnemonic',
+  };
+
+  const warningText = {
+    className: subHeadingfontFamilyClass,
+    visibility: invalidSeedMessage ? 'visible' : 'hidden',
+  };
+
+  const btn = {
+    text: 'Import',
+    width: '60%',
+    handleClick: validateSeed,
+    disabled: seedPhrase.length === 0,
+  };
+
   return (
     <AuthWrapper>
       <Header centerText="Import Wallet" />
@@ -118,19 +158,11 @@ function ImportWallet() {
       <SubMainWrapperForAuthScreens flexDirection="column" style={{ marginTop: '2rem' }}>
         <MainHeading className={mainHeadingfontFamilyClass}>Select Type : </MainHeading>
         <OptionDiv>
-          <Option
-            onClick={() => setSelectedType('seed')}
-            selected={selectedType === 'seed'}
-            className={mainHeadingfontFamilyClass}
-          >
+          <Option {...option1}>
             Seed Phrase
           </Option>
           <LightTooltip title="Coming Soon" arrow placement="top">
-            <Option
-              // onClick={() => setSelectedType('json')}
-              className={mainHeadingfontFamilyClass}
-              selected={selectedType === 'json'}
-            >
+            <Option {...option2}>
               Json File
             </Option>
           </LightTooltip>
@@ -138,25 +170,12 @@ function ImportWallet() {
         {selectedType === 'seed' && (
           <div style={{ marginTop: '1rem' }}>
             <Input
-              style={{
-                padding: '13px 15px',
-                background: '#212121',
-                color: primaryTextColor,
-                width: '100%',
-                borderRadius: '5px',
-                fontSize: '0.8rem',
-                lineHeight: '1.7em',
-              }}
+              {...input}
               autoFocus
-              className={subHeadingfontFamilyClass}
-              onChange={(e) => handleChange(e.target.value)}
-              value={seedPhrase}
-              rows={5}
               multiline
               disableUnderline
-              placeholder="Place your seed here to be replaced by Mnemonic"
             />
-            <WarningText className={subHeadingfontFamilyClass} visibility={invalidSeedMessage ? 'visible' : 'hidden'}>{invalidSeedMessage}</WarningText>
+            <WarningText {...warningText}>{invalidSeedMessage}</WarningText>
           </div>
         )}
         {selectedType === 'json' && (
@@ -165,7 +184,7 @@ function ImportWallet() {
       </SubMainWrapperForAuthScreens>
       {selectedType === 'seed' && (
         <div className="btn-wrapper">
-          <Button text="Import" width="60%" handleClick={validateSeed} disabled={seedPhrase.length === 0} />
+          <Button {...btn} />
         </div>
       )}
     </AuthWrapper>

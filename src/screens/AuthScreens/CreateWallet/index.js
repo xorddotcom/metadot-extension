@@ -11,7 +11,6 @@ import {
   Header,
   StyledInput,
   Button,
-  // MainHeading,
   SubHeading,
   SubMainWrapperForAuthScreens,
 } from '../../../components';
@@ -41,6 +40,8 @@ const passwordErrorMessages = {
   didnotMatchWarning: 'Password did not match!',
 };
 
+const { minimumCharacterWarning, didnotMatchWarning } = passwordErrorMessages;
+
 function CreateWallet() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -60,11 +61,11 @@ function CreateWallet() {
 
   const validatePasswordAndConfirmPassword = () => {
     if (!(password === confirmPassword)) {
-      setPasswordError(passwordErrorMessages.didnotMatchWarning);
+      setPasswordError(didnotMatchWarning);
       return false;
     }
     if (password.length < 8 || confirmPassword.length < 8) {
-      setPasswordError(passwordErrorMessages.minimumCharacterWarning);
+      setPasswordError(minimumCharacterWarning);
       return false;
     }
     if (password === confirmPassword) {
@@ -146,6 +147,63 @@ function CreateWallet() {
     }
   };
 
+  const styledInputName = {
+    className: subHeadingfontFamilyClass,
+    placeholder: 'Wallet Name',
+    height: '15px',
+    value: walletName,
+    onChange: (t) => {
+      setIsValidWalletName(false);
+      // eslint-disable-next-line no-unused-expressions
+      t.length < 20 && setWalletName(t);
+    },
+  };
+
+  const styledInputPassword = {
+    placeholder: 'Password',
+    className: subHeadingfontFamilyClass,
+    value: password,
+    height: '15px',
+    onChange: (t) => {
+      setPasswordError('');
+      // eslint-disable-next-line no-unused-expressions
+      t.length < 20 && setPassword(t);
+    },
+    hideHandler: () => setShowPassword(!showPassword),
+    hideState: showPassword,
+  };
+
+  const styledInputConfirmPass = {
+    placeholder: 're-enter password',
+    className: subHeadingfontFamilyClass,
+    value: confirmPassword,
+    height: '15px',
+    onChange: (t) => {
+      setPasswordError('');
+      // eslint-disable-next-line no-unused-expressions
+      t.length < 20 && setConfirmPassword(t);
+    },
+    hideHandler: () => setShowConfirmPassword(!showConfirmPassword),
+    hideState: showConfirmPassword,
+  };
+
+  const btn = {
+    text: 'Continue',
+    disabled: !(walletName && password && confirmPassword) && true,
+    handleClick: async () => {
+      setIsLoading(true);
+      await handleContinue();
+    },
+    isLoading,
+  };
+
+  const listInlineStyle = {
+    fontSize: '0.7rem',
+    marginLeft: '-0.4rem',
+    marginTop: '-1.5rem',
+    marginBottom: '-0.7rem',
+  };
+
   return (
     <AuthWrapper>
       <Header centerText="Authentication" />
@@ -157,17 +215,7 @@ function CreateWallet() {
           >
             Wallet Name
           </SubHeading>
-          <StyledInput
-            className={subHeadingfontFamilyClass}
-            placeholder="Wallet Name"
-            height="15px"
-            value={walletName}
-            onChange={(t) => {
-              setIsValidWalletName(false);
-              // eslint-disable-next-line no-unused-expressions
-              t.length < 20 && setWalletName(t);
-            }}
-          />
+          <StyledInput {...styledInputName} />
           {isValidWalletName
           && (
           <WarningText className={subHeadingfontFamilyClass}>
@@ -184,32 +232,22 @@ function CreateWallet() {
             Password
           </SubHeading>
           <StyledInput
-            placeholder="Password"
-            className={subHeadingfontFamilyClass}
-            value={password}
-            height="15px"
-            onChange={(t) => {
-              setPasswordError('');
-              // eslint-disable-next-line no-unused-expressions
-              t.length < 20 && setPassword(t);
-            }}
+            {...styledInputPassword}
             typePassword
-            hideHandler={() => setShowPassword(!showPassword)}
-            hideState={showPassword}
             rightIcon
           />
-          {passwordError === passwordErrorMessages.minimumCharacterWarning && (
+          {passwordError === minimumCharacterWarning && (
             <WarningText
               className={subHeadingfontFamilyClass}
             >
-              {passwordErrorMessages.minimumCharacterWarning}
+              {minimumCharacterWarning}
             </WarningText>
           )}
-          {passwordError === passwordErrorMessages.didnotMatchWarning && (
+          {passwordError === didnotMatchWarning && (
             <WarningText
               className={subHeadingfontFamilyClass}
             >
-              {passwordErrorMessages.didnotMatchWarning}
+              {didnotMatchWarning}
             </WarningText>
           )}
         </LabelAndTextInput>
@@ -217,44 +255,28 @@ function CreateWallet() {
         <LabelAndTextInput>
           <SubHeading marginTop="0px" className={mainHeadingfontFamilyClass}>Confirm Password</SubHeading>
           <StyledInput
-            placeholder="re-enter password"
-            className={subHeadingfontFamilyClass}
-            value={confirmPassword}
-            height="15px"
-            onChange={(t) => {
-              setPasswordError('');
-              // eslint-disable-next-line no-unused-expressions
-              t.length < 20 && setConfirmPassword(t);
-            }}
+            {...styledInputConfirmPass}
             typePassword
-            hideHandler={() => setShowConfirmPassword(!showConfirmPassword)}
-            hideState={showConfirmPassword}
             rightIcon
           />
-          {passwordError === passwordErrorMessages.minimumCharacterWarning && (
+          {passwordError === minimumCharacterWarning && (
             <WarningText
               className={subHeadingfontFamilyClass}
             >
-              {passwordErrorMessages.minimumCharacterWarning}
+              {minimumCharacterWarning}
             </WarningText>
           )}
-          {passwordError === passwordErrorMessages.didnotMatchWarning && (
+          {passwordError === didnotMatchWarning && (
             <WarningText
               className={subHeadingfontFamilyClass}
             >
-              {passwordErrorMessages.didnotMatchWarning}
+              {didnotMatchWarning}
             </WarningText>
           )}
         </LabelAndTextInput>
 
         <SubHeading className={subHeadingfontFamilyClass}>
-          <List style={{
-            fontSize: '0.7rem',
-            marginLeft: '-0.4rem',
-            marginTop: '-1.5rem',
-            marginBottom: '-0.7rem',
-          }}
-          >
+          <List style={listInlineStyle}>
             <ListItem style={{ marginBottom: '-1.7rem' }}>
               This password will be used as the transaction password for the wallet,
               Polo Wallet does not save passwords
@@ -264,15 +286,7 @@ function CreateWallet() {
         </SubHeading>
       </SubMainWrapperForAuthScreens>
       <div className="btn-wrapper">
-        <Button
-          text="Continue"
-          disabled={!(walletName && password && confirmPassword) && true}
-          handleClick={async () => {
-            setIsLoading(true);
-            await handleContinue();
-          }}
-          isLoading={isLoading}
-        />
+        <Button {...btn} />
       </div>
     </AuthWrapper>
   );

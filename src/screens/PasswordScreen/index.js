@@ -33,6 +33,20 @@ const PasswordScreen = () => {
     return null;
   };
 
+  const styledInputPassword = {
+    placeholder: 'password',
+    value: password,
+    onChange: (t) => setPassword(t),
+    type: 'password',
+    hideHandler: () => setShowPassword(!showPassword),
+    hideState: showPassword,
+  };
+
+  const btn = {
+    handleClick: handleSubmit,
+    text: 'Continue',
+  };
+
   return (
     <div>
       <div>
@@ -40,20 +54,15 @@ const PasswordScreen = () => {
       </div>
       <div>
         <StyledInput
-          placeholder="password"
-          value={password}
-          onChange={(t) => setPassword(t)}
-          type="password"
+          {...styledInputPassword}
           typePassword
-          hideHandler={() => setShowPassword(!showPassword)}
-          hideState={showPassword}
           rightIcon
         />
       </div>
       <div
         style={{ margin: '40px' }}
       >
-        <Button handleClick={handleSubmit} text="Continue" />
+        <Button {...btn} />
       </div>
     </div>
   );

@@ -23,7 +23,6 @@ const { addressModifier } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 const LightTooltip = styled(({ className, ...props }) => (
-  // eslint-disable-next-line react/jsx-props-no-spreading
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
   [`& .${tooltipClasses.tooltip}`]: {

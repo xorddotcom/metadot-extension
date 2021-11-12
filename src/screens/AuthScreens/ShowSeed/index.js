@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable react/jsx-props-no-spreading */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -84,14 +83,47 @@ function ShowSeed() {
 
   const copySeedText = () => {
     navigator.clipboard.writeText(decryptedSeed);
-
-    toast.success('Copied!', {
+    const obj = {
       position: toast.POSITION.BOTTOM_CENTER,
       className: 'toast-success',
       progressClassName: 'success-progress-bar',
       autoClose: 2000,
       toastId: 1,
-    });
+    };
+    toast.success('Copied!', obj);
+  };
+
+  const span = {
+    width: '100px',
+    style: { width: '200px', visibility: 'hidden' },
+  };
+
+  const contentCopyIcon = {
+    style: {
+      fontSize: '0.7rem', marginRight: 10, marginTop: 2,
+    },
+    onClick: copySeedText,
+  };
+
+  const btn = {
+    width: '60%',
+    height: '40px',
+    text: 'Continue',
+    handleClick: () => setIsModalOpen(true),
+  };
+
+  const warningModal = {
+    open: isModalOpen,
+    handleClose: () => setIsModalOpen(false),
+    style: {
+      width: '78%',
+      background: '#141414',
+      position: 'relative',
+      bottom: 30,
+      p: 2,
+      px: 2,
+      pb: 3,
+    },
   };
 
   return (
@@ -115,14 +147,9 @@ function ShowSeed() {
       {/* <HorizontalContentDiv> */}
       <CopyText className={subHeadingfontFamilyClass}>
         Copy Seed Phrase
-        <span width="100px" style={{ width: '200px', visibility: 'hidden' }}>A</span>
+        <span {...span}>A</span>
         <LightTooltip title="Copy Seed" arrow placement="right">
-          <ContentCopyIcon
-            style={{
-              fontSize: '0.7rem', marginRight: 10, marginTop: 2,
-            }}
-            onClick={copySeedText}
-          />
+          <ContentCopyIcon {...contentCopyIcon} />
         </LightTooltip>
       </CopyText>
       <SubMainWrapperForAuthScreens>
@@ -134,26 +161,9 @@ function ShowSeed() {
             ))}
       </SubMainWrapperForAuthScreens>
       <div className="btn-wrapper">
-        <Button
-          width="60%"
-          height="40px"
-          text="Continue"
-          handleClick={() => setIsModalOpen(true)}
-        />
+        <Button {...btn} />
       </div>
-      <WarningModal
-        open={isModalOpen}
-        handleClose={() => setIsModalOpen(false)}
-        style={{
-          width: '78%',
-          background: '#141414',
-          position: 'relative',
-          bottom: 30,
-          p: 2,
-          px: 2,
-          pb: 3,
-        }}
-      />
+      <WarningModal {...warningModal} />
     </AuthWrapper>
   );
 }

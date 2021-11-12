@@ -96,6 +96,56 @@ function ConfirmSeed() {
     cb1ForSettingWordState('');
   };
 
+  const styledInput1 = {
+    onChange: (text) => setWord1(text),
+    placeholder: `Word #${fourRandomIndexes[0] + 1}`,
+    value: word1,
+    className: subHeadingfontFamilyClass,
+    isCorrect: validations[0],
+    marginBottom: '10px',
+    rightIconCross: word1,
+    rightIconCrossClickHandler: () => handleCancel(word1, setWord1),
+  };
+
+  const styledInput2 = {
+    onChange: (text) => setWord2(text),
+    placeholder: `Word #${fourRandomIndexes[1] + 1}`,
+    value: word2,
+    className: subHeadingfontFamilyClass,
+    isCorrect: validations[1],
+    marginBottom: '10px',
+    rightIconCross: word2,
+    rightIconCrossClickHandler: () => handleCancel(word2, setWord2),
+  };
+
+  const styledInput3 = {
+    onChange: (text) => setWord3(text),
+    placeholder: `Word #${fourRandomIndexes[2] + 1}`,
+    value: word3,
+    className: subHeadingfontFamilyClass,
+    isCorrect: validations[2],
+    marginBottom: '10px',
+    rightIconCross: word3,
+    rightIconCrossClickHandler: () => handleCancel(word3, setWord3),
+  };
+
+  const styledInput4 = {
+    onChange: (text) => setWord4(text),
+    placeholder: `Word #${fourRandomIndexes[3] + 1}`,
+    value: word4,
+    className: subHeadingfontFamilyClass,
+    isCorrect: validations[3],
+    marginBottom: '20px',
+    rightIconCross: word4,
+    rightIconCrossClickHandler: () => handleCancel(word4, setWord4),
+  };
+
+  const btn = {
+    text: 'Continue',
+    disabled: !(word1 && word2 && word3 && word4),
+    handleClick: () => checkWordsAndNavigate(),
+  };
+
   return (
     <AuthWrapper>
       <Header centerText="Confirm Seed" />
@@ -109,61 +159,31 @@ function ConfirmSeed() {
       </div>
       <SubMainWrapperForAuthScreens mb="1rem">
         <StyledInput
-          onChange={(text) => setWord1(text)}
-          placeholder={`Word #${fourRandomIndexes[0] + 1}`}
           disableUnderline
-          value={word1}
-          className={subHeadingfontFamilyClass}
-          isCorrect={validations[0]}
-          marginBottom="10px"
-          rightIconCross={word1}
-          rightIconCrossClickHandler={() => handleCancel(word1, setWord1)}
+          {...styledInput1}
           disabled
         />
 
         <StyledInput
-          onChange={(text) => setWord2(text)}
-          placeholder={`Word #${fourRandomIndexes[1] + 1}`}
           disableUnderline
-          value={word2}
-          className={subHeadingfontFamilyClass}
-          isCorrect={validations[1]}
-          marginBottom="10px"
-          rightIconCross={word2}
-          rightIconCrossClickHandler={() => handleCancel(word2, setWord2)}
+          {...styledInput2}
           disabled
         />
 
         <StyledInput
-          onChange={(text) => setWord3(text)}
-          placeholder={`Word #${fourRandomIndexes[2] + 1}`}
           disableUnderline
-          value={word3}
-          className={subHeadingfontFamilyClass}
-          isCorrect={validations[2]}
-          marginBottom="10px"
-          rightIconCross={word3}
-          rightIconCrossClickHandler={() => handleCancel(word3, setWord3)}
+          {...styledInput3}
           disabled
         />
 
         <StyledInput
-          onChange={(text) => setWord4(text)}
-          placeholder={`Word #${fourRandomIndexes[3] + 1}`}
           disableUnderline
-          value={word4}
-          className={subHeadingfontFamilyClass}
-          isCorrect={validations[3]}
-          marginBottom="20px"
-          rightIconCross={word4}
-          rightIconCrossClickHandler={() => handleCancel(word4, setWord4)}
+          {...styledInput4}
           disabled
         />
 
         <SeedGrid>
-
           <SeedGridRow>
-
             {seedArrayForGrid.map((s) => (
               <SeedText
                 key={s.value}
@@ -174,17 +194,12 @@ function ConfirmSeed() {
                 {s.value}
               </SeedText>
             ))}
-
           </SeedGridRow>
-
         </SeedGrid>
+
       </SubMainWrapperForAuthScreens>
       <div className="btn-wrapper">
-        <Button
-          text="Continue"
-          disabled={!(word1 && word2 && word3 && word4)}
-          handleClick={() => checkWordsAndNavigate()}
-        />
+        <Button {...btn} />
       </div>
     </AuthWrapper>
   );

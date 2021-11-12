@@ -128,15 +128,16 @@ function Dashboard(props) {
   // this function is currently not in use becuase other kusama main networks are disabled
   const RenderContentForKusamaMainNetwork = (data, handleClick) => {
     const { name, icon, disabled } = data;
+    const optionRow = {
+      className: disabled ? 'tooltip' : 'abc',
+      key: name,
+      onClick: () => {
+        handleClick(data);
+      },
+      disabled,
+    };
     return (
-      <OptionRow
-        className={disabled ? 'tooltip' : 'abc'}
-        key={name}
-        onClick={() => {
-          handleClick(data);
-        }}
-        disabled={disabled}
-      >
+      <OptionRow {...optionRow}>
         {disabled && <span className="tooltiptext">Coming Soon!</span>}
         <HorizontalContentDiv>
           <img src={icon} alt="icon" />

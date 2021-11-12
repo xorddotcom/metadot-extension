@@ -53,27 +53,31 @@ function AssetsAndTransactions({
       return polkadotDot;
     }
   };
+
+  const tabSectionAssets = {
+    isActive: isTab1Active,
+    className: mainHeadingfontFamilyClass,
+    onClick: () => {
+      setIsTab1Active(true);
+      setIsTab2Active(false);
+    },
+  };
+
+  const tabSectionTransactions = {
+    isActive: isTab2Active,
+    className: mainHeadingfontFamilyClass,
+    onClick: () => {
+      setIsTab1Active(false);
+      setIsTab2Active(true);
+    },
+  };
   return (
     <AssetsAndTransactionsWrapper>
       <Tabs>
-        <TabSection
-          isActive={isTab1Active}
-          className={mainHeadingfontFamilyClass}
-          onClick={() => {
-            setIsTab1Active(true);
-            setIsTab2Active(false);
-          }}
-        >
+        <TabSection {...tabSectionAssets}>
           Assets
         </TabSection>
-        <TabSection
-          isActive={isTab2Active}
-          className={mainHeadingfontFamilyClass}
-          onClick={() => {
-            setIsTab1Active(false);
-            setIsTab2Active(true);
-          }}
-        >
+        <TabSection {...tabSectionTransactions}>
           Transactions
         </TabSection>
       </Tabs>
@@ -92,20 +96,21 @@ function AssetsAndTransactions({
           const {
             hash, operation, status, tokenName: tokenNames, amount,
           } = transaction;
+
+          const txCard = {
+            coin: tokenNames,
+            amountInUsd: tokenNames === 'WND' ? '$0' : '$0',
+            logo: logoChangeHandler(tokenNames),
+            handleClick: () => {
+              setTxDetailsModalData(transaction);
+              handleOpenTxDetailsModal();
+            },
+            operation,
+            status,
+            amount,
+          };
           return (
-            <TxCard
-              key={hash}
-              operation={operation}
-              status={status}
-              coin={tokenNames}
-              amount={amount}
-              amountInUsd={tokenNames === 'WND' ? '$0' : '$0'}
-              logo={logoChangeHandler(tokenNames)}
-              handleClick={() => {
-                setTxDetailsModalData(transaction);
-                handleOpenTxDetailsModal();
-              }}
-            />
+            <TxCard key={hash} {...txCard} />
           );
         })
       )}

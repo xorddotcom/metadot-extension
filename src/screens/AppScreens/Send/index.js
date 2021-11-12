@@ -316,61 +316,76 @@ const Send = () => {
     });
   };
 
+  const fromInput = {
+    addressModifier,
+    currentUser,
+  };
+
+  const toInput = {
+    accountToSate,
+    currentUser,
+    isCorrect,
+    errorMessages,
+    error,
+    accountToChangeHandler,
+    accountToIsValid,
+  };
+
+  const amountInput = {
+    amountState,
+    amountHandler,
+    amountIsValidHandler,
+    insufficientBal,
+    currentUser,
+    trimBalance,
+    errorMessages,
+    error,
+  };
+
+  const btn = {
+    text: 'Next',
+    handleClick: handleSubmit,
+    disabled: !formIsValid || loading1,
+    isLoading: loading1,
+  };
+
+  const confirmSend = {
+    style: {
+      width: '78%',
+      background: '#141414',
+      position: 'relative',
+      p: 2,
+      px: 2,
+      pb: 3,
+      mt: 15,
+    },
+    accountFrom: currentUser.account.publicKey,
+    accountTo: accountToSate.value,
+    amount: amountState.value,
+    open: isSendModalOpen,
+    transactionFee,
+    tokenName: currentUser.account.tokenName,
+    fromAccountName: currentUser.account.accountName,
+    handleClose: () => setIsSendModalOpen(false),
+    handleConfirm: sendTransaction,
+    loading2,
+  };
+
   return (
     <AuthWrapper>
       <Header centerText="Send" backHandler={() => console.log('object')} />
 
       <MainContent>
-        <FromInput addressModifier={addressModifier} currentUser={currentUser} />
-        <ToInput
-          accountToSate={accountToSate}
-          currentUser={currentUser}
-          isCorrect={isCorrect}
-          errorMessages={errorMessages}
-          error={error}
-          accountToChangeHandler={accountToChangeHandler}
-          accountToIsValid={accountToIsValid}
-        />
-        <AmountInput
-          amountState={amountState}
-          amountHandler={amountHandler}
-          amountIsValidHandler={amountIsValidHandler}
-          insufficientBal={insufficientBal}
-          currentUser={currentUser}
-          trimBalance={trimBalance}
-          errorMessages={errorMessages}
-          error={error}
-        />
+        <FromInput {...fromInput} />
+        <ToInput {...toInput} />
+        <AmountInput {...amountInput} />
       </MainContent>
 
       <CenterContent>
-        <Button
-          text="Next"
-          handleClick={handleSubmit}
-          disabled={!formIsValid || loading1}
-          isLoading={loading1}
-        />
+        <Button {...btn} />
       </CenterContent>
       <ConfirmSend
-        accountFrom={currentUser.account.publicKey}
-        accountTo={accountToSate.value}
-        amount={amountState.value}
-        open={isSendModalOpen}
-        transactionFee={transactionFee}
-        tokenName={currentUser.account.tokenName}
-        fromAccountName={currentUser.account.accountName}
-        handleClose={() => setIsSendModalOpen(false)}
-        handleConfirm={sendTransaction}
-        loading2={loading2}
-        style={{
-          width: '78%',
-          background: '#141414',
-          position: 'relative',
-          p: 2,
-          px: 2,
-          pb: 3,
-          mt: 15,
-        }}
+        {...confirmSend}
       />
     </AuthWrapper>
   );

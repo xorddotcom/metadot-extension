@@ -21,22 +21,23 @@ const AmountInput = ({
   error,
 }) => {
   const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+  const styledInput = {
+    placeholder: 'Amount',
+    type: 'number',
+    value: amountState.value,
+    className: subHeadingfontFamilyClass,
+    onChange: amountHandler,
+    fontSize: '14px',
+    height: '20px',
+    onBlur: amountIsValidHandler,
+    isCorrect: amountState.isValid || insufficientBal,
+  };
   return (
     <VerticalContentDiv mb="25px">
       <MainText m="8px" className={mainHeadingfontFamilyClass}>
         Amount
       </MainText>
-      <StyledInput
-        placeholder="Amount"
-        type="number"
-        value={amountState.value}
-        className={subHeadingfontFamilyClass}
-        onChange={amountHandler}
-        fontSize="14px"
-        height="20px"
-        onBlur={amountIsValidHandler}
-        isCorrect={amountState.isValid || insufficientBal}
-      />
+      <StyledInput {...styledInput} />
       {
               insufficientBal
             && (

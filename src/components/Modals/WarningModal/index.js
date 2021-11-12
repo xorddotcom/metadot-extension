@@ -10,6 +10,18 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 function WarningModal({ open, handleClose, style }) {
   const history = useHistory();
+  const btnF = {
+    text: 'Cancel',
+    fontSize: '16px',
+    width: '78%',
+    handleClick: () => handleClose(),
+  };
+  const btnS = {
+    text: 'Confirm',
+    width: '78%',
+    fontSize: '16px',
+    handleClick: () => history.push('/ConfirmSeed'),
+  };
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style} className="warning-modal-style">
@@ -33,19 +45,8 @@ function WarningModal({ open, handleClose, style }) {
           Proceeding will not let you view your mnemonic again. Do you still wish to continue?
         </SubHeading>
         <div style={{ marginTop: '2rem' }} className="btn-row">
-          <Button
-            text="Cancel"
-            fontSize="16px"
-            cancel
-            width="78%"
-            handleClick={() => handleClose()}
-          />
-          <Button
-            text="Confirm"
-            width="78%"
-            fontSize="16px"
-            handleClick={() => history.push('/ConfirmSeed')}
-          />
+          <Button {...btnF} />
+          <Button {...btnS} />
         </div>
       </Box>
     </Modal>

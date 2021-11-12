@@ -3,7 +3,6 @@ import React from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import CloseIcon from '@mui/icons-material/Close';
-import { useSelector } from 'react-redux';
 import Button from '../../Button';
 import {
   CloseIconDiv,
@@ -26,6 +25,21 @@ function ConfirmSend({
     const val = value.toString();
     const trimmedValue = val.slice(0, (val.indexOf('.')) + 6);
     return trimmedValue;
+  };
+
+  const btnF = {
+    text: 'Cancel',
+    width: '78%',
+    handleClick: () => handleClose(),
+    disabled: loading2,
+  };
+
+  const btnS = {
+    text: 'Confirm',
+    width: '78%',
+    handleClick: () => handleConfirm(),
+    isLoading: loading2,
+    disabled: loading2,
   };
 
   return (
@@ -98,20 +112,8 @@ function ConfirmSend({
         </VerticalContentDiv>
 
         <div className="btn-row" style={{ marginTop: 20 }}>
-          <Button
-            text="Cancel"
-            cancel
-            width="78%"
-            handleClick={() => handleClose()}
-            disabled={loading2}
-          />
-          <Button
-            text="Confirm"
-            width="78%"
-            handleClick={() => handleConfirm()}
-            isLoading={loading2}
-            disabled={loading2}
-          />
+          <Button {...btnF} />
+          <Button {...btnS} />
         </div>
       </Box>
     </Modal>

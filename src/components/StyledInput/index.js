@@ -59,28 +59,27 @@ function StyledInput({
   maxlength,
   disabled,
 }) {
-  return (
-    <TextInputWrapper marginBottom={marginBottom || '0px'}>
-      <StyledInputField
-        maxlength={maxlength}
-        fontSize={fontSize}
-        height={height}
-        value={value}
-        fullWidth={fullWidth}
-        placeholder={placeholder}
-        disableUnderline
-        onChange={(e) => onChange(e.target.value)}
-        disabled={disabled}
-        isCorrectForInput={isCorrect}
-        type={
+  const styledInputField = {
+    maxlength,
+    fontSize,
+    height,
+    value,
+    fullWidth,
+    placeholder,
+    onChange: (e) => onChange(e.target.value),
+    disabled,
+    isCorrectForInput: isCorrect,
+    type:
           // eslint-disable-next-line no-nested-ternary
           type || (typePassword
             ? !hideState
               ? 'password'
               : 'text'
-            : 'text')
-        }
-      />
+            : 'text'),
+  };
+  return (
+    <TextInputWrapper marginBottom={marginBottom || '0px'}>
+      <StyledInputField disableUnderline {...styledInputField} />
       {rightIcon && (
         <Icon onClick={() => hideHandler()}>
           {!hideState

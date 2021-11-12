@@ -30,6 +30,26 @@ function Welcome() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const btnCreate = {
+    text: 'Create',
+    StartIcon: AddSharpIcon,
+    width: '60%',
+    height: '40px',
+    handleClick: () => {
+      history.push('/ShowSeed');
+    },
+  };
+
+  const btnImport = {
+    text: 'Import',
+    StartIcon: DownloadIcon,
+    width: '60%',
+    height: '40px',
+    handleClick: () => {
+      history.push('/ImportWallet');
+    },
+  };
+
   return (
     <div>
       <div className="app-logo">
@@ -47,25 +67,9 @@ function Welcome() {
         </SubHeading>
       </div>
       <div className="btn-wrapper">
-        <Button
-          text="Create"
-          StartIcon={AddSharpIcon}
-          width="60%"
-          height="40px"
-          handleClick={() => {
-            history.push('/ShowSeed');
-          }}
-        />
+        <Button {...btnCreate} />
         <div style={{ margin: '0.5rem' }} />
-        <Button
-          text="Import"
-          StartIcon={DownloadIcon}
-          width="60%"
-          height="40px"
-          handleClick={() => {
-            history.push('/ImportWallet');
-          }}
-        />
+        <Button {...btnImport} />
       </div>
     </div>
   );

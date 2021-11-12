@@ -29,6 +29,13 @@ function App() {
 
   const renderFunction = () => {
     let content;
+    const loadingScreen = {
+      loading: currentUser.api.apiInitializationStarts,
+      bgColor: '#121212',
+      spinnerColor: '#880041',
+      textColor: '#fafafa',
+      text: currentUser.successModalHandling.loadingFor || 'Setting things up!',
+    };
     if (!currentUser.account.isLoggedIn && currentUser.account.publicKey) {
       content = <PasswordScreen />;
     } else if (
@@ -38,13 +45,7 @@ function App() {
     ) {
       content = (
         <div>
-          <LoadingScreen
-            loading={currentUser.api.apiInitializationStarts}
-            bgColor="#121212"
-            spinnerColor="#880041"
-            textColor="#fafafa"
-            text={currentUser.successModalHandling.loadingFor || 'Setting things up!'}
-          >
+          <LoadingScreen {...loadingScreen}>
             <ApiManager rpc={currentUser.account.rpcUrl} />
 
             {
@@ -79,6 +80,36 @@ function App() {
     return content;
   };
 
+  const successResponseInlineStyle = {
+    width: '78%',
+    background: '#141414',
+    p: 2,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    bottom: 40,
+  };
+
+  const successResponse = {
+    open: isSuccessModalOpen,
+    handleClose: () => dispatch(setIsSuccessModalOpen(false)),
+    style: successResponseInlineStyle,
+    subText,
+    mainText,
+  };
+
+  const toastContainer = {
+    position: 'top-center',
+    autoClose: 2500,
+    newestOnTop: false,
+    closeOnClick: false,
+    rtl: false,
+    draggable: false,
+    transition: Slide,
+  };
+
   return (
     <Router>
       <div className="App">
@@ -88,34 +119,12 @@ function App() {
 
             {/* Dynamic Modal controlled by redux for successfully  executed processes
             overall the application */}
-            <SuccessResponse
-              open={isSuccessModalOpen}
-              handleClose={() => dispatch(setIsSuccessModalOpen(false))}
-              style={{
-                width: '78%',
-                background: '#141414',
-                p: 2,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                bottom: 40,
-              }}
-              subText={subText}
-              mainText={mainText}
-            />
+            <SuccessResponse {...successResponse} />
             <ToastContainer
-              position="top-center"
-              autoClose={2500}
+              {...toastContainer}
               hideProgressBar
-              newestOnTop={false}
-              closeOnClick={false}
-              rtl={false}
               pauseOnFocusLoss
-              draggable={false}
               pauseOnHover
-              transition={Slide}
             />
           </div>
         </Switch>

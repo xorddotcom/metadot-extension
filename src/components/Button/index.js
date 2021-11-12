@@ -50,6 +50,19 @@ function index({
     }
   `;
 
+  const styledButtonF = {
+    variant: 'contained',
+    startIcon: <StartIcon />,
+    onClick: () => handleClick(),
+    disabled: !!disabled,
+  };
+
+  const styledButtonS = {
+    variant: 'contained',
+    onClick: () => handleClick(),
+    disabled: !!disabled,
+  };
+
   return (
     <div
       style={{
@@ -59,19 +72,14 @@ function index({
     >
       {StartIcon ? (
         <StyledButton
-          variant="contained"
-          startIcon={<StartIcon />}
-          onClick={() => handleClick()}
-          disabled={!!disabled}
+          {...styledButtonF}
           style={{ fontSize: buttonFontSize }}
         >
           {!isLoading ? text : <CircularProgress size={24} style={{ color: '#fafafa' }} />}
         </StyledButton>
       ) : (
         <StyledButton
-          variant="contained"
-          onClick={() => handleClick()}
-          disabled={!!disabled}
+          {...styledButtonS}
           style={{ fontSize: fontSize || buttonFontSize }}
         >
           {!isLoading ? text : <CircularProgress size={24} style={{ color: '#fafafa' }} />}
