@@ -14,7 +14,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 // eslint-disable-next-line import/namespace
 import { CircularProgress } from '@mui/material';
 import { options } from '@acala-network/api';
-import { getTokenPrice } from '../../../utils/api';
+import ApiCalls from '../../../utils/api';
 import MainCard from './MainCard';
 import Operations from './Operations';
 import AssetsAndTransactions from './AssetsAndTransactions';
@@ -110,10 +110,12 @@ function Dashboard(props) {
   main().catch(console.error);
 
   const [apiTokenName, setApiTokenName] = useState('polkadot');
+  const getTokenApi = `https://api.coingecko.com/api/v3/simple/price?ids=${apiTokenName}&vs_currencies=usd`;
+  const getTokenPrice = new ApiCalls();
 
   useEffect(() => {
-    getTokenPrice(apiTokenName);
-  }, [apiTokenName]);
+    getTokenPrice.GetRequest(getTokenApi);
+  }, [getTokenApi]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
