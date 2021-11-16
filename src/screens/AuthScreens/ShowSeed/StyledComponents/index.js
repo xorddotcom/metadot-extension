@@ -19,6 +19,14 @@ export const SeedWrapper = styled.div`
   padding-top: 14px;
   padding-bottom: 13px;
   margin-top: 18px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:nth-child(2) {
+    margin-top: 0;
+  }
 `;
 
 export const IndexText = styled.span`
@@ -36,14 +44,21 @@ export const SeedText = styled.p`
 `;
 
 export const CopyText = styled.p`
-font-size: 0.84rem;
+font-size: 14px;
 line-height: 18.75px;
 height: 25px;
 text-align:start;
-color: rgba(250, 250, 250, 0.83);
-font-weight: 600;
-margin-top: 1.5rem;
+color: rgba(250, 250, 250, 0.8);
+font-weight: 400;
+margin-top: 22px;
+/* position: relative; */
+`;
 
+export const CopyIcon = styled.img`
+/* position: absolute; */
+/* top: 1px; */
+/* left: 123px; */
+text-decoration: none !important;
 `;
 
 export const HorizontalContentDiv = styled.div`

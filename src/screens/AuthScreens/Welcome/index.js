@@ -1,12 +1,16 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import AddSharpIcon from '@mui/icons-material/AddSharp';
-import DownloadIcon from '@mui/icons-material/Download';
+// import AddSharpIcon from '@mui/icons-material/AddSharp';
+// import DownloadIcon from '@mui/icons-material/Download';
 
 import { useDispatch, useSelector } from 'react-redux';
 import keyring from '@polkadot/ui-keyring';
-import AppLogo from '../../../assets/images/main-logo.png';
+import AddSharpIcon from '../../../assets/images/icons/add.svg';
+import DownloadIcon from '../../../assets/images/icons/download.svg';
+
+import AppLogo from '../../../assets/images/logo.svg';
+import metaDot from '../../../assets/images/metadot.svg';
 import { Button } from '../../../components';
 
 import { MainHeading, SubHeading } from './StyledComponents';
@@ -14,7 +18,7 @@ import { fonts } from '../../../utils';
 import './index.css';
 import { setKeyringInitialized } from '../../../redux/slices/account';
 
-const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
+const { subHeadingfontFamilyClass } = fonts;
 
 function Welcome() {
   const history = useHistory();
@@ -33,8 +37,6 @@ function Welcome() {
   const btnCreate = {
     text: 'Create',
     StartIcon: AddSharpIcon,
-    width: '60%',
-    height: '40px',
     handleClick: () => {
       history.push('/ShowSeed');
     },
@@ -43,8 +45,6 @@ function Welcome() {
   const btnImport = {
     text: 'Import',
     StartIcon: DownloadIcon,
-    width: '60%',
-    height: '40px',
     handleClick: () => {
       history.push('/ImportWallet');
     },
@@ -53,14 +53,12 @@ function Welcome() {
   return (
     <div>
       <div className="app-logo">
-        <img src={AppLogo} alt="logo" style={{ height: '23vh' }} />
+        <img src={AppLogo} alt="logo" />
       </div>
 
       <div className="main-content">
-        <MainHeading
-          className={mainHeadingfontFamilyClass}
-        >
-          Polo Wallet
+        <MainHeading>
+          <img src={metaDot} alt="metadot" />
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
           Passion, Progress, Polkadot
@@ -69,7 +67,7 @@ function Welcome() {
       <div className="btn-wrapper">
         <Button {...btnCreate} />
         <div style={{ margin: '0.5rem' }} />
-        <Button {...btnImport} />
+        <Button cancel {...btnImport} />
       </div>
     </div>
   );

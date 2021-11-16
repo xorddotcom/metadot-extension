@@ -1,7 +1,8 @@
 import React from 'react';
 import { IconButton } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+// import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useHistory } from 'react-router-dom';
+import ArrowBackIcon from '../../assets/images/icons/backArrow.svg';
 import { HeaderWrapper, HeaderHeading } from './StyledComponents';
 import { fonts } from '../../utils';
 
@@ -24,9 +25,9 @@ function Header({ centerText, backHandler }) {
       <IconButton
         className="primary-bg-color"
         onClick={() => onBackClick()}
-        style={{ position: 'absolute', padding: '0.3rem' }}
+        style={{ position: 'absolute', padding: '0.5rem' }}
       >
-        <ArrowBackIcon style={{ color: 'white', fontSize: '1.1rem' }} />
+        <img src={ArrowBackIcon} alt="icon" />
       </IconButton>
       <HeaderHeading className={mainHeadingfontFamilyClass}>
         {centerText}

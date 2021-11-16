@@ -8,12 +8,12 @@ const { mainHeadingFontSize, subHeadingFontSize } = fonts;
 export const MainHeading = styled.p`
   font-style: normal;
   font-size: ${mainHeadingFontSize};
-  color: ${(props) => (props.color ? props.color : primaryTextColor)};
-  line-height: 18px;
+  line-height: 18.75px;
   text-align: start;
-  margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
+  color: ${(props) => (props.color ? props.color : primaryTextColor)};
+  margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
 `;
 
 export const SubHeading = styled.p`
@@ -38,9 +38,8 @@ export const SubMainWrapperForAuthScreens = styled.div`
   width: 100%;
   height: auto;
   height: auto;
-  margin: 25px auto 25px;
+  margin: 17px auto 25px;
   margin-bottom: ${(props) => (props.mb ? props.mb : '2rem')};
-  margin-top: 1rem;
 `;
 
 export const TextInputWrapper = styled.div`

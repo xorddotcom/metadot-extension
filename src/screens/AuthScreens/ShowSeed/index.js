@@ -2,12 +2,13 @@
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+// import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { toast } from 'react-toastify';
 import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import ContentCopyIcon from '../../../assets/images/icons/copyIcon.svg';
 import {
-  CopyText, IndexText, SeedText, SeedWrapper,
+  CopyIcon, CopyText, IndexText, SeedText, SeedWrapper,
 } from './StyledComponents';
 import {
   AuthWrapper,
@@ -99,9 +100,6 @@ function ShowSeed() {
   };
 
   const contentCopyIcon = {
-    style: {
-      fontSize: '0.7rem', marginRight: 10, marginTop: 2,
-    },
     onClick: copySeedText,
   };
 
@@ -132,7 +130,7 @@ function ShowSeed() {
         centerText="Seed Phrase"
         backHandler={() => dispatch(resetAccountSlice())}
       />
-      <div>
+      <div style={{ marginTop: '29px' }}>
         <MainHeading className={mainHeadingfontFamilyClass}>
           Write down your seed phrase :
         </MainHeading>
@@ -146,11 +144,15 @@ function ShowSeed() {
       </div>
       {/* <HorizontalContentDiv> */}
       <CopyText className={subHeadingfontFamilyClass}>
-        Copy Seed Phrase
+        Copy seed phrase
         <span {...span}>A</span>
-        <LightTooltip title="Copy Seed" arrow placement="right">
-          <ContentCopyIcon {...contentCopyIcon} />
-        </LightTooltip>
+        {/* <LightTooltip title="Copy Seed" arrow placement="right">
+          <CopyIcon src={ContentCopyIcon} alt="copyIcon" {...contentCopyIcon} />
+        </LightTooltip> */}
+        <div className="tooltip">
+          <CopyIcon src={ContentCopyIcon} alt="copyIcon" {...contentCopyIcon} />
+          <span className="tooltiptext">Copy to clipboard</span>
+        </div>
       </CopyText>
       <SubMainWrapperForAuthScreens>
         {decryptedSeed

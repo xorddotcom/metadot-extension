@@ -57,19 +57,17 @@ body {
 }
 
 .primary-bg-color {
-  background: radial-gradient(
-      40.36% 71% at 18.57% 29%,
-      rgba(255, 255, 255, 0.08) 0%,
-      rgba(255, 255, 255, 0) 79.17%,
-      rgba(255, 255, 255, 0) 96.87%
-    ),
-    radial-gradient(
-      89.64% 128.83% at 22.5% 26%,
-      rgba(255, 255, 255, 0.15) 0%,
-      rgba(20, 20, 20, 0) 67.09%,
-      rgba(20, 20, 20, 0) 100%
-    ),
-    #880041 !important;
+  background: 
+  radial-gradient(40.36% 71% at 18.57% 29%, 
+  rgba(255, 255, 255, 0.08) 0%, 
+  rgba(255, 255, 255, 0) 79.17%, 
+  rgba(255, 255, 255, 0) 96.87%), 
+  radial-gradient(89.64% 128.83% at 22.5% 26%, 
+  rgba(255, 255, 255, 0.15) 0%, 
+  rgba(20, 20, 20, 0) 67.09%, 
+  rgba(20, 20, 20, 0) 100%), 
+  #219A9A !important;
+  box-shadow: 0px 0px 20px 5px rgba(33, 154, 154, 0.14) !important;
 }
 
 .secondary-bg-color {
@@ -80,6 +78,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-left: -4.2rem;
 }
 
 ::placeholder {
@@ -154,28 +153,37 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
+/* ToolTip */
 .tooltip {
   position: relative;
   display: inline-block;
+  /* border: 1px solid #777777 !important; */
 }
 
-/* Tooltip text */
 .tooltip .tooltiptext {
   visibility: hidden;
-  width: 100px;
-  background-color: #fafafa;
-  color: black;
+  width: 130px;
+  background-color: #464646;
+  border: 1px solid #777777 !important;
+  color: #fff;
   text-align: center;
-  padding: 5px 0;
-  border-radius: 6px;
-  font-size: 10px;
-
-  /* Position the tooltip text - see examples below! */
+  border-radius: 7.5px;
+  padding: 7px 0;
   position: absolute;
   z-index: 1;
-  top: 10%; /* At the bottom of the tooltip */
-  left: 63%;
-  margin-left: -5px;
+  bottom: 150%;
+  left: -170%;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 17%;
+  margin-left: -6px;
+  border-width: 7px;
+  border-style: solid;
+  border-color: #464646 transparent transparent transparent;
 }
 
 .tooltip:hover .tooltiptext {

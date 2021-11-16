@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 export default class ApiCalls {
+  // Get Request API Wrapper Function
   GetRequest = async (url) => {
     const data = await fetch(url)
       .then((res) => {
