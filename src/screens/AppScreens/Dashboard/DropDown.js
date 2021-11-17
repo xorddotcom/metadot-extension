@@ -8,12 +8,13 @@ import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { fonts } from '../../../utils';
+import { fonts, colors } from '../../../utils';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+const { primaryTextColor } = colors;
 
 const DropDownMenu = styled.ul`
-    color: #fafafa;
+    color: ${primaryTextColor};
     list-style: none;
     padding-bottom: 0.8rem;
     padding: 0;

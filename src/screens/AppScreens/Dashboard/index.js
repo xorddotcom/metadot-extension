@@ -24,7 +24,7 @@ import { setApiInitializationStarts } from '../../../redux/slices/api';
 import {
   setRpcUrl, setBalance, setChainName,
 } from '../../../redux/slices/account';
-import { fonts } from '../../../utils';
+import { fonts, colors } from '../../../utils';
 import {
   AccountContainer,
   AccountSetting,
@@ -55,6 +55,7 @@ const { WsProvider, ApiPromise, Keyring } = require('@polkadot/api');
 const { cryptoWaitReady } = require('@polkadot/util-crypto');
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+const { primaryTextColor } = colors;
 
 const {
   availableNetworks,
@@ -170,7 +171,7 @@ function Dashboard(props) {
           {isLoading && (
             <CircularProgress
               style={{
-                color: '#fafafa',
+                color: primaryTextColor,
                 width: 20,
                 height: 25,
                 paddingRight: 20,

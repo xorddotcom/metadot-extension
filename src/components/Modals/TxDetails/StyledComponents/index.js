@@ -1,14 +1,17 @@
 import styled, { css } from 'styled-components';
 import { colors, fonts } from '../../../../utils';
 
-const { primaryTextColor, incrementColor } = colors;
-const { subHeadingFontSize, buttonFontSize } = fonts;
+const {
+  primaryTextColor, incrementColor, darkBgColor, primaryBgColor,
+} = colors;
+const { mainHeadingFontSize, buttonFontSize } = fonts;
 
 export const CloseIconDiv = styled.div`
   position: absolute;
   right: 10px;
   top: 10px;
   color: ${primaryTextColor};
+  cursor: pointer;
 `;
 
 export const HorizontalContentDiv = styled.div`
@@ -19,14 +22,17 @@ padding-bottom: ${(props) => props.paddingBottom && '10px'};
 padding-top: ${(props) => props.paddingTop && '10px'};
 margin-bottom: ${(props) => props.marginBottom && '10px'};
 border-bottom: ${(props) => props.borderBottom && '1px solid rgba(250, 250, 250, 0.15)'};
+margin-top: ${(props) => props.marginTop && props.marginTop};
 `;
 
 export const VerticalContentDiv = styled.div`
 display: flex;
 flex-direction: column;
+margin-top: ${(props) => props.marginTop && props.marginTop};
+margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
 
   ${(props) => props.border && css`
-    border: 1px solid #212129;
+    border: 1px solid ${darkBgColor};
     box-sizing: border-box;
     filter: drop-shadow(0px 0px 40px rgba(13, 13, 13, 0.2));
     border-radius: 8px;
@@ -39,7 +45,8 @@ flex-direction: column;
 `;
 
 export const MainText1 = styled.p`
-font-size: ${subHeadingFontSize};
+font-size: ${mainHeadingFontSize};
+margin-top: ${(props) => props.marginTop && props.marginTop};
 line-height: 19px;
 height: 19px;
 color: rgba(250, 250, 250, 0.85);
@@ -53,6 +60,7 @@ height: 20px;
 color: ${(props) => (props.successText ? incrementColor : primaryTextColor)};
 text-align: ${(props) => props.textAlign};
 margin: 0px 0px 5px 0px;
+margin-top: ${(props) => props.marginTop && props.marginTop};
 `;
 
 export const SubText1 = styled.p`
@@ -63,7 +71,7 @@ visibility: ${(props) => (props.hide ? 'hidden' : 'normal')};;
 /* identical to box height, or 114% */
 letter-spacing: 0.02em;
 /* Text and Icons */
-color: #FAFAFA;
+color: ${primaryTextColor};
 opacity: 0.8;
 text-align: ${(props) => props.textAlign};
 margin: 0px 0px 3px 0px;
@@ -86,7 +94,7 @@ export const ViewOnPolkaScanText = styled.p`
 height: 19px;
 font-size: 16px;
 line-height: 19px;
-color: #880041;
+color: ${primaryBgColor};
 width: 100%;
 text-align : center;
 opacity: 0.8;

@@ -14,7 +14,7 @@ import {
 } from './StyledComponents';
 
 const { mainHeadingfontFamilyClass } = fonts;
-const { primaryBgColor } = colors;
+const { primaryBgColor, primaryTextColor, darkBgColor } = colors;
 
 function SelectNetwork(props) {
   const {
@@ -31,9 +31,9 @@ function SelectNetwork(props) {
 
   const loadingScreen = {
     loading: isLoading,
-    bgColor: '#121212',
+    bgColor: darkBgColor,
     spinnerColor: primaryBgColor,
-    textColor: '#fafafa',
+    textColor: primaryTextColor,
     text: 'Api Initialization',
   };
 

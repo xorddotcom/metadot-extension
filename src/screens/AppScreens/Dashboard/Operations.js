@@ -8,10 +8,10 @@ import Send from '../../../assets/images/Send.svg';
 import Swap from '../../../assets/images/Swap.svg';
 import Governance from '../../../assets/images/Governance.svg';
 import Stake from '../../../assets/images/Stake.svg';
-import { fonts } from '../../../utils';
+import { fonts, colors } from '../../../utils';
 
 const { mainHeadingfontFamilyClass } = fonts;
-
+const { primaryTextColor } = colors;
 function Operations() {
   const history = useHistory();
   const { account } = useSelector((state) => state);
@@ -34,7 +34,7 @@ function Operations() {
             alt="send icon"
             style={{
               width: 22,
-              color: '#fafafa',
+              color: primaryTextColor,
               marginTop: 10,
             }}
           />
@@ -56,7 +56,7 @@ function Operations() {
             alt="send icon"
             style={{
               width: 22,
-              color: '#fafafa',
+              color: primaryTextColor,
               marginTop: 10,
             }}
           />
@@ -76,7 +76,7 @@ function Operations() {
             alt="send icon"
             style={{
               width: 22,
-              color: '#fafafa',
+              color: primaryTextColor,
               marginTop: 10,
             }}
           />
@@ -96,7 +96,7 @@ function Operations() {
             alt="send icon"
             style={{
               width: 22,
-              color: '#fafafa',
+              color: primaryTextColor,
               marginTop: 10,
             }}
           />

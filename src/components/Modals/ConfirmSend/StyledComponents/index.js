@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { colors, fonts } from '../../../../utils';
 
-const { primaryTextColor } = colors;
+const { primaryTextColor, darkBgColor } = colors;
 const { mainHeadingFontSize, buttonFontSize } = fonts;
 
 export const CloseIconDiv = styled.div`
@@ -9,6 +9,7 @@ export const CloseIconDiv = styled.div`
   right: 10px;
   top: 10px;
   color: ${primaryTextColor};
+  cursor: pointer;
 `;
 
 export const HorizontalContentDiv = styled.div`
@@ -28,7 +29,7 @@ flex-direction: column;
 margin-top: ${(props) => props.marginTop && props.marginTop};
 
   ${(props) => props.border && css`
-  border: 1px solid #212129;
+  border: 1px solid ${darkBgColor};
     box-sizing: border-box;
     filter: drop-shadow(0px 0px 40px rgba(13, 13, 13, 0.2));
     border-radius: 8px;
@@ -52,7 +53,7 @@ font-size: ${buttonFontSize};
 font-weight: 500;
 line-height: 19px;
 height: 20px;
-color: #FAFAFA;
+color: ${primaryTextColor};
 text-align: ${(props) => props.textAlign};
 margin: 0px 0px 5px 0px;
 visibility: ${(props) => (props.hide ? 'hidden' : 'normal')};
@@ -69,7 +70,7 @@ visibility: ${(props) => (props.hide ? 'hidden' : 'normal')};
 /* identical to box height, or 114% */
 letter-spacing: 0.02em;
 /* Text and Icons */
-color: #FAFAFA;
+color: ${primaryTextColor};
 opacity: 0.8;
 text-align: ${(props) => props.textAlign};
 margin: 0px 0px 3px 0px;

@@ -29,6 +29,14 @@ body {
   font-weight: 400;
 }
 
+:root {
+  --primaryBgColor: #2E9B9B;
+  --primaryTextColor: #fafafa;
+  --boxShadowColor: rgba(46, 155, 155, 0.1);
+  --tooltipColor: #333333;
+  --tooltipBorderColor: #606060;
+}
+
 html {
   font-size: 16px;
 }
@@ -66,7 +74,7 @@ body {
   rgba(255, 255, 255, 0.15) 0%, 
   rgba(20, 20, 20, 0) 67.09%, 
   rgba(20, 20, 20, 0) 100%), 
-  #219A9A !important;
+  var(--primaryBgColor) !important;
   box-shadow: 0px 0px 20px 5px rgba(33, 154, 154, 0.14) !important;
 }
 
@@ -91,9 +99,9 @@ input:focus {
 }
 
 .warning-modal-style {
-  border: 0.8px solid #2E9B9B;
+  border: 0.8px solid var(--primaryBgColor);
   box-sizing: border-box;
-  box-shadow: 0 0 20px 7px rgba(46, 155, 155, 0.1);
+  box-shadow: 0 0 20px 7px var(--boxShadowColor);
   border-radius: 6px;
   margin: 200px auto;
   width: 100%;
@@ -115,17 +123,17 @@ input:focus {
 }
 
 .select-network-modal-style {
-  border: 0.8px solid #2E9B9B !important;
+  border: 0.8px solid var(--primaryBgColor) !important;
   box-sizing: border-box;
-  box-shadow: 0px 2px 20px 5px rgba(46, 155, 155, 0.08);
+  box-shadow: 0px 2px 20px 5px var(--boxShadowColor);
   border-radius: 8px;
   margin: 70px auto;
 }
 
 .txDetails-modal-style {
-  border: 0.8px solid #2E9B9B;
+  border: 0.8px solid var(--primaryBgColor);
   box-sizing: border-box;
-  box-shadow: 0px 2px 20px 5px rgba(46, 155, 155, 0.08);
+  box-shadow: 0px 2px 20px 5px var(--boxShadowColor);
   border-radius: 8px;
   margin: 50px auto;
 }
@@ -138,7 +146,7 @@ input:focus {
 }
 
 ::selection {
-  background-color: #2E9B9B;;
+  background-color: var(--primaryBgColor);;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -164,8 +172,8 @@ input[type='number'] {
   visibility: hidden;
   width: 130px;
   /* padding: 1rem; */
-  background-color: #333333 !important;
-  border: 1.09px solid #606060 !important;
+  background-color: var(--tooltipColor) !important;
+  border: 1.09px solid var(--tooltipBorderColor) !important;
   box-shadow: 0px 18.5334px 37.0668px rgba(0, 0, 0, 0.2) !important;
   border-radius: 9.71px !important;
   color: #fafafa;
@@ -186,7 +194,7 @@ input[type='number'] {
   margin-left: -6px;
   border-width: 7px;
   border-style: solid;
-  border-color: #464646 transparent transparent transparent;
+  border-color: var(--tooltipColor) transparent transparent transparent;
 }
 
 .tooltip:hover .tooltiptext {
@@ -205,8 +213,8 @@ input[type='number'] {
 .topTooltip .topTooltiptext {
   visibility: hidden;
   width: 90%;
-  background-color: #333333 !important;
-  border: 1.09px solid #606060 !important;
+  background-color: var(--tooltipColor) !important;
+  border: 1.09px solid var(--tooltipBorderColor) !important;
   box-shadow: 0px 18.5334px 37.0668px rgba(0, 0, 0, 0.2) !important;
   border-radius: 9.71px !important;
   color: #fafafa;
@@ -230,7 +238,7 @@ input[type='number'] {
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: transparent transparent #333 transparent;
+  border-color: transparent transparent var(--tooltipColor) transparent;
 }
 
 .topTooltip:hover .topTooltiptext {
@@ -247,8 +255,8 @@ input[type='number'] {
 .normalTooltip .normalTooltiptext {
   visibility: hidden;
   width: 100px;
-  background-color: #333333 !important;
-  border: 1.09px solid #606060 !important;
+  background-color: var(--tooltipColor) !important;
+  border: 1.09px solid var(--tooltipBorderColor) !important;
   box-shadow: 0px 18.5334px 37.0668px rgba(0, 0, 0, 0.2) !important;
   color: #fafafa;
   text-align: center;
@@ -269,7 +277,7 @@ input[type='number'] {
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: #464646 transparent transparent transparent;
+  border-color: var(--tooltipColor) transparent transparent transparent;
 }
 
 .normalTooltip:hover .normalTooltiptext {

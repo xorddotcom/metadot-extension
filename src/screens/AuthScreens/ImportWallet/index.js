@@ -20,7 +20,7 @@ import { WarningText } from '../CreateWallet/StyledComponents';
 import { encrypt } from '../../../utils/accounts';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-const { primaryTextColor } = colors;
+const { primaryTextColor, darkBgColor } = colors;
 
 const invalidSeedMessages = {
   minimumWords: 'At least 12 words required!',
@@ -120,7 +120,7 @@ function ImportWallet() {
   const input = {
     style: {
       padding: '13px 15px',
-      background: '#212121',
+      background: darkBgColor,
       color: primaryTextColor,
       width: '100%',
       borderRadius: '8px',

@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import { fonts, colors } from '../../../../utils';
 
 const { mainHeadingFontSize } = fonts;
-const { primaryTextColor } = colors;
+const { primaryTextColor, darkBgColor, primaryBgColor } = colors;
 
 export const SeedWrapper = styled.div`
-  background-color: #212121;
+  background-color: ${darkBgColor};
   width: 79px;
   height: 20px;
   border-radius: 8px;
@@ -27,7 +27,7 @@ export const IndexText = styled.span`
 `;
 
 export const SeedText = styled.span`
-  background: #212121 !important;
+  background: ${darkBgColor} !important;
   cursor: pointer;
   height: 35px;
   line-height: 35px;
@@ -38,7 +38,7 @@ export const SeedText = styled.span`
   visibility: ${(props) => (props.selected === true ? 'hidden' : 'visible')};
 
   &:hover {
-    background-color: #880041 !important;
+    background-color: ${primaryBgColor} !important;
   }
 `;
 
@@ -51,7 +51,7 @@ export const SeedGridRow = styled.div`
 `;
 
 export const SeedGrid = styled.div`
-border: 1px solid #212121;
+border: 1px solid ${darkBgColor};
 box-sizing: border-box;
 border-radius: 8px;
 padding: 10px;

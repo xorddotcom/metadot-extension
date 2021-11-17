@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import './index.css';
 import { styled } from '@mui/system';
 import { CircularProgress } from '@mui/material';
-import { dimension, fonts } from '../../utils';
+import { dimension, fonts, colors } from '../../utils';
 
 const { _width, _height } = dimension.button;
 const { buttonFontSize } = fonts;
@@ -20,7 +20,7 @@ function index({
   isLoading,
   border,
 }) {
-  const primaryBgColor = '#2E9B9B';
+  const { primaryBgColor, primaryTextColor } = colors;
   const secondaryBgColor = 'transparent';
 
   const StyledButton = styled(Button)`
@@ -68,14 +68,14 @@ function index({
           {...styledButtonF}
           style={{ fontSize: buttonFontSize }}
         >
-          {!isLoading ? text : <CircularProgress size={24} style={{ color: '#fafafa' }} />}
+          {!isLoading ? text : <CircularProgress size={24} style={{ color: primaryTextColor }} />}
         </StyledButton>
       ) : (
         <StyledButton
           {...styledButtonS}
           style={{ fontSize: fontSize || buttonFontSize }}
         >
-          {!isLoading ? text : <CircularProgress size={24} style={{ color: '#fafafa' }} />}
+          {!isLoading ? text : <CircularProgress size={24} style={{ color: primaryTextColor }} />}
         </StyledButton>
       )}
     </div>

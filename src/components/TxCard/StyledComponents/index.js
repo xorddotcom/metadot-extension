@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import { colors } from '../../../utils';
 
-const { primaryTextColor } = colors;
+const { primaryTextColor, darkBgColor1 } = colors;
 
 export const TxCardWrapper = styled.div`
   width: 90%;
   height: 55px;
   background: linear-gradient(
     98.61deg,
-    #1e1e1e -29.86%,
+    ${darkBgColor1} -29.86%,
     #383838 123.74%,
     rgba(56, 56, 56, 0.72) 123.74%
   );
@@ -30,7 +30,7 @@ export const MainText = styled.p`
   font-size: 12px;
   line-height: 14px;
   letter-spacing: 0.01em;
-  color: ${(props) => (props.color ? props.color : '#ffffff')};
+  color: ${(props) => (props.color ? props.color : primaryTextColor)};
   margin-top: 0px;
   margin-bottom: 3px;
   text-align: start;

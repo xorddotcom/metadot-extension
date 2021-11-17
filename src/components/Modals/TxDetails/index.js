@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-unused-vars */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React from 'react';
@@ -6,8 +8,8 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import { Box } from '@mui/system';
 import CloseIcon from '@mui/icons-material/Close';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { toast } from 'react-toastify';
+import ContentCopyIcon from '../../../assets/images/icons/copyIcon.svg';
 import {
   CloseIconDiv,
   HorizontalContentDiv,
@@ -21,21 +23,6 @@ import { fonts, helpers } from '../../../utils';
 
 const { addressModifier } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-
-const LightTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: '#860040',
-    color: '#fff',
-    boxShadow: theme.shadows[1],
-    fontSize: 11,
-    zIndex: -2,
-  },
-  [`& .${tooltipClasses.arrow}`]: {
-    color: '#860040',
-  },
-}));
 
 function TxDetails({
   open, handleClose, style, txDetailsModalData,
@@ -73,10 +60,10 @@ function TxDetails({
         >
           <CloseIcon />
         </CloseIconDiv>
-        <VerticalContentDiv>
+        <VerticalContentDiv marginTop="30px">
           <MainText1 textAlign="center" className={mainHeadingfontFamilyClass}>Details</MainText1>
 
-          <HorizontalContentDiv paddingTop marginBottom>
+          <HorizontalContentDiv marginTop="20px" paddingTop marginBottom>
 
             <VerticalContentDiv>
               <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>Status</MainText2>
@@ -86,16 +73,12 @@ function TxDetails({
             <VerticalContentDiv>
               <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>Tx Hash</MainText2>
               <HorizontalContentDiv>
-                <LightTooltip title="Copy Tx Hash" arrow placement="right">
-                  <ContentCopyIcon
-                    style={{
-                      color: '#cccccc',
-                      fontSize: 12,
-                      marginLeft: 10,
-                    }}
-                    onClick={copyText}
-                  />
-                </LightTooltip>
+                <div className={`tooltip ${subHeadingfontFamilyClass}`}>
+                  <div onClick={copyText}>
+                    <img src={ContentCopyIcon} alt="copy-icon" />
+                    <span className="tooltiptext" style={{ fontSize: '0.7rem' }}>Copy Tx Hash</span>
+                  </div>
+                </div>
                 <SubText2 pl10 textAlign="end" className={mainHeadingfontFamilyClass}>
                   {hash ? `${hash.slice(0, 5)}...${hash.slice(hash.length - 5, hash.length)}` : ''}
                 </SubText2>
@@ -103,7 +86,7 @@ function TxDetails({
             </VerticalContentDiv>
           </HorizontalContentDiv>
 
-          <HorizontalContentDiv>
+          <HorizontalContentDiv marginTop="20px">
 
             <VerticalContentDiv>
               <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>From</MainText2>
@@ -124,20 +107,20 @@ function TxDetails({
 
           </HorizontalContentDiv>
 
-          <MainText1 textAlign="start" className={mainHeadingfontFamilyClass}>Transaction</MainText1>
+          <MainText1 marginTop="40px" textAlign="start" className={mainHeadingfontFamilyClass}>Transaction</MainText1>
 
           <VerticalContentDiv specialPadding border paddingBottom>
 
             <HorizontalContentDiv paddingTop borderBottom>
 
-              <VerticalContentDiv>
-                <MainText2 textAlign="start" className={subHeadingfontFamilyClass}>Amount</MainText2>
-                <MainText2 textAlign="start" className={subHeadingfontFamilyClass}>Network Fee</MainText2>
+              <VerticalContentDiv marginBottom="15px">
+                <MainText2 marginTop="15px" textAlign="start" className={subHeadingfontFamilyClass}>Amount</MainText2>
+                <MainText2 marginTop="10px" textAlign="start" className={subHeadingfontFamilyClass}>Network Fee</MainText2>
               </VerticalContentDiv>
 
-              <VerticalContentDiv>
-                <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>{`${amount} ${tokenName}`}</MainText2>
-                <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>
+              <VerticalContentDiv marginBottom="15px">
+                <MainText2 marginTop="15px" textAlign="end" className={mainHeadingfontFamilyClass}>{`${amount} ${tokenName}`}</MainText2>
+                <MainText2 marginTop="10px" textAlign="end" className={mainHeadingfontFamilyClass}>
                   {`${transactionFee} ${tokenName}`}
                 </MainText2>
               </VerticalContentDiv>
@@ -145,12 +128,12 @@ function TxDetails({
 
             <HorizontalContentDiv paddingTop marginBottom>
 
-              <VerticalContentDiv>
+              <VerticalContentDiv marginTop="15px" marginBottom="15px">
                 <SubText1 textAlign="start" className={subHeadingfontFamilyClass}>Total Amount</SubText1>
                 <SubText1 textAlign="start" hide className={subHeadingfontFamilyClass}>.</SubText1>
               </VerticalContentDiv>
 
-              <VerticalContentDiv>
+              <VerticalContentDiv marginTop="15px" marginBottom="15px">
                 <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>
                   {`${getTotalBalance(amount, transactionFee)}
                   ${tokenName}`}

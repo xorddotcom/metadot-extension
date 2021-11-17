@@ -10,7 +10,7 @@ import { TextInputWrapper } from '../CommonStyledComponents';
 
 import { colors, fonts } from '../../utils';
 
-const { primaryTextColor } = colors;
+const { primaryTextColor, darkBgColor } = colors;
 
 const { mainHeadingFontSize, subHeadingFontSize } = fonts;
 
@@ -18,7 +18,7 @@ const StyledInputField = styled.input`
   /* padding-left: 25px; */
   padding: 12px 12.5px;
   color: ${primaryTextColor};
-  background-color: #212121;
+  background-color: ${darkBgColor};
   font-size: 14px !important;
   line-height: 17px;
   border-radius: 8px;

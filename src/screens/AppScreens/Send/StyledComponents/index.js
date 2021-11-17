@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import { colors } from '../../../../utils';
 
-const { primaryTextColor, primaryBgColor } = colors;
+const { primaryTextColor, primaryBgColor, darkBgColor } = colors;
 
 export const MainContent = styled.div`
   margin: 34px auto 25px;
@@ -29,7 +29,7 @@ export const FromAccount = styled(HorizontalContentDiv)`
   justify-content: space-between;
   padding-left: 10px;
   padding-right: 10px;
-  background: #212121;
+  background: ${darkBgColor};
   border-radius: 8px;
   color: ${primaryTextColor};
   margin-bottom: 20px;
@@ -50,7 +50,7 @@ export const MainText = styled.p`
   line-height: ${(props) => (props.lh ? props.lh : '19px')};
   font-weight: 500;
   letter-spacing: ${(props) => (props.ls ? props.ls : '0.01em')};
-  color: ${props => (props.color ? props.color : '#ffffff')};
+  color: ${props => (props.color ? props.color : primaryTextColor)};
   width: 100%;
   text-align: start;
   margin: ${props => (props.m ? props.m : '0px')};

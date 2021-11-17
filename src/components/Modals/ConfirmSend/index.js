@@ -29,14 +29,14 @@ function ConfirmSend({
 
   const btnF = {
     text: 'Cancel',
-    width: '170px',
+    width: '150px',
     handleClick: () => handleClose(),
     disabled: loading2,
   };
 
   const btnS = {
     text: 'Confirm',
-    width: '170px',
+    width: '150px',
     handleClick: () => handleConfirm(),
     isLoading: loading2,
     disabled: loading2,

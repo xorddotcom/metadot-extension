@@ -59,7 +59,7 @@ export const SelectedChain = styled.p`
   /* identical to box height, or 133% */
   letter-spacing: 0.02em;
   /* Text and Icons */
-  color: #fafafa;
+  color: ${primaryTextColor};
   opacity: 0.8;
 `;
 
@@ -86,7 +86,7 @@ export const AccountSetting = styled.div`
 export const AccountText = styled.p`
   font-size: 20px;
   line-height: 23px;
-  color: #fafafa;
+  color: ${primaryTextColor};
   margin-top: 5px;
   margin-bottom: 0px;
   font-weight: 500;

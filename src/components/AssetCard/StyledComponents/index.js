@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import { colors } from '../../../utils';
 
-const { primaryTextColor } = colors;
+const { primaryTextColor, primaryBgColor } = colors;
 
 export const AssetCardWrapper = styled.div`
   width: 85%;
@@ -25,7 +25,7 @@ export const AssetCardWrapper = styled.div`
 `;
 
 export const TokenImage = styled.div`
-  background: #2E9B9B;
+  background: ${primaryBgColor};
   width: 34px;
   height: 34px;
   border-radius: 8px;
@@ -73,6 +73,5 @@ export const EquivalentInUSDT = styled.p`
   font-size: 12px;
   color: rgba(250, 250, 250, 0.8);
   margin-left: 8px;
-  line-height: 14px;
-
+  line-height: 14px; 
 `;

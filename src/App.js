@@ -32,7 +32,7 @@ function App() {
     const loadingScreen = {
       loading: currentUser.api.apiInitializationStarts,
       bgColor: '#121212',
-      spinnerColor: '#880041',
+      spinnerColor: '#2E9B9B',
       textColor: '#fafafa',
       text: currentUser.successModalHandling.loadingFor || 'Setting things up!',
     };

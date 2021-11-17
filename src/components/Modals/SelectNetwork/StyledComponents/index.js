@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { colors } from '../../../../utils';
 
-const { primaryTextColor } = colors;
+const { primaryTextColor, primaryBgColor } = colors;
 
 export const TitleDiv = styled.div`
   display: flex;
@@ -65,7 +65,7 @@ export const PlainIcon = styled.div`
   height: 25px;
   border-radius: 25px;
 
-  background: ${(props) => (props.bgColor ? props.bgColor : '#e6007a')};
+  background: ${(props) => (props.bgColor ? props.bgColor : primaryBgColor)};
 `;
 
 export const OptionText = styled.div`

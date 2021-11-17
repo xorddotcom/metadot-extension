@@ -17,11 +17,11 @@ import {
   CopyIconImg,
 } from './StyledComponents';
 import NotConnected from '../../../assets/images/notConnected.svg';
-import { fonts, helpers } from '../../../utils';
+import { fonts, helpers, colors } from '../../../utils';
 
 const { addressModifier, trimBalance } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-
+const { primaryTextColor } = colors;
 function MainCard({
   balance, address, tokenName, balanceInUsd, accountName,
 }) {
@@ -56,14 +56,6 @@ function MainCard({
 
   const addTooltipText = {
     className: 'topTooltiptext',
-    style: {
-      // width: '100%',
-      // left: '320%',
-      // padding: '0 4px',
-      // fontSize: '0.8rem',
-      // bottom: '115%',
-      // fontWeight: 300,
-    },
   };
 
   return (
@@ -74,7 +66,7 @@ function MainCard({
           <ConnectionStatus className={subHeadingfontFamilyClass}>
             Not Connected
           </ConnectionStatus>
-          <MoreVertIcon style={{ color: '#fafafa', fontSize: 22 }} />
+          <MoreVertIcon style={{ color: primaryTextColor, fontSize: 22 }} />
         </MoreOptions>
 
         <AccountName className={mainHeadingfontFamilyClass}>
