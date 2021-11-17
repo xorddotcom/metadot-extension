@@ -1,10 +1,12 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-unused-vars */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React from 'react';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { styled } from '@mui/material/styles';
 import { toast } from 'react-toastify';
-import ContentCopyIcon from '../../../assets/images/icons/copyIcon.svg';
+import copyicon from '../../../assets/images/icons/copyIcon.svg';
 import {
   AccountName,
   Balance,
@@ -16,7 +18,6 @@ import {
   VerticalContentDiv,
   CopyIconImg,
 } from './StyledComponents';
-import { LightTooltip } from '../../../components';
 import NotConnected from '../../../assets/images/notConnected.svg';
 import { fonts, helpers, colors } from '../../../utils';
 
@@ -81,17 +82,9 @@ function MainCard({
           {addressModifier(address)}
           )
         </PublicAddress>
-        <div style={{ position: 'relative', marginTop: '-0.2  rem' }}>
-          <LightTooltip title="Copy address" arrow placement="right">
-            <ContentCopyIcon
-              style={{
-                color: '#cccccc',
-                fontSize: 12,
-                marginLeft: 10,
-              }}
-              onClick={copyText}
-            />
-          </LightTooltip>
+        <div className={`tooltip ${mainHeadingfontFamilyClass}`} onClick={copyText}>
+          <CopyIconImg src={copyicon} alt="copy-icon" />
+          <span {...copyIconTooltipText}>Copy</span>
         </div>
       </VerticalContentDiv>
 

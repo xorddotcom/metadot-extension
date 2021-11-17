@@ -21,6 +21,8 @@ import FromInput from './FromInput';
 import ToInput from './ToInput';
 import AmountInput from './AmountInput';
 
+const { Keyring } = require('@polkadot/api');
+
 const { decodeAddress, encodeAddress } = require('@polkadot/keyring');
 const { hexToU8a, isHex } = require('@polkadot/util');
 
@@ -139,17 +141,64 @@ const Send = () => {
     amountDispatch({ type: 'IS_BLUR' });
   };
 
+  // const sendTransaction = async () => {
+  //   const decimalPlaces = await api.registry.chainDecimals;
+  //   setLoading2(true);
+  //   console.log('mark1', currentUser.account.seed, currentUser.account.walletPassword);
+  //   const decryptedSeed = decrypt(currentUser.account.seed, currentUser.account.walletPassword);
+  //   console.log('mark2', decryptedSeed);
+
+  //   const sender = getSender(decryptedSeed);
+  //   console.log('mark3', sender);
+  //   data.operation = 'Send';
+  //   const decimals = currentUser.account.chainName === 'AcalaMandala'
+  //     ? decimalPlaces[0] : decimalPlaces;
+  //   await api.tx.balances
+  //     .transfer(
+  //       accountToSate.value, amountState.value * 10 ** decimals,
+  //     )
+  //     .signAndSend(
+  //       sender, async (res) => {
+  //         if (res.status.isInBlock) {
+  //           data.hash = res.status.asInBlock.toString();
+  //           data.status = 'Successful';
+  //           if (data.rpcUrl === 'wss://acala-mandala.api.onfinality.io/public-ws') {
+  //             const bal = await getBalanceWithMultipleTokens(api, currentUser.account.publicKey);
+  //             dispatch(setBalance(bal));
+  //           } else {
+  //             const bal = await getBalance(api, currentUser.account.publicKey);
+  //             dispatch(setBalance(bal));
+  //           }
+  //           dispatch(addTransaction(data));
+  //           setLoading2(false);
+  //           setIsSendModalOpen(false);
+  //           dispatch(setMainTextForSuccessModal('Transaction Successful!'));
+  //           dispatch(
+  //             setSubTextForSuccessModal(''),
+  //           );
+  //           dispatch(setIsSuccessModalOpen(true));
+  //           setTimeout(() => {
+  //             dispatch(setIsSuccessModalOpen(false));
+  //           }, 3500);
+
+  //           // navigate to dashboard on success
+  //           history.push('/');
+  //         }
+  //       },
+  //     ).catch((err) => {
+  //       console.error('Error [][][]', err);
+  //     });
+  // };
   const sendTransaction = async () => {
     const decimalPlaces = await api.registry.chainDecimals;
     setLoading2(true);
-
+    const keyring = new Keyring({ type: 'sr25519' });
     const decryptedSeed = decrypt(currentUser.account.seed, currentUser.account.walletPassword);
-
-    const sender = getSender(decryptedSeed);
+    const sender = keyring.addFromUri(decryptedSeed);
     data.operation = 'Send';
     const decimals = currentUser.account.chainName === 'AcalaMandala'
       ? decimalPlaces[0] : decimalPlaces;
-    await api.tx.balances
+    const result = await api.tx.balances
       .transfer(
         accountToSate.value, amountState.value * 10 ** decimals,
       )
@@ -176,7 +225,6 @@ const Send = () => {
             setTimeout(() => {
               dispatch(setIsSuccessModalOpen(false));
             }, 3500);
-
             // navigate to dashboard on success
             history.push('/');
           }
@@ -185,7 +233,6 @@ const Send = () => {
         console.error('Error [][][]', err);
       });
   };
-
   const validateInputValues = (address) => {
     if (currentUser.account.balance < amountState.value) {
       throw new Error('Insufficient funds');
