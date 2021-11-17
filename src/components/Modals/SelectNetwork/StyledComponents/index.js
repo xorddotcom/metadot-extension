@@ -23,6 +23,7 @@ export const Title = styled.p`
 export const BackButton = styled.div`
   position: absolute;
   left: 20px;
+  cursor: pointer;
 `;
 
 export const CloseIconDiv = styled.div`
