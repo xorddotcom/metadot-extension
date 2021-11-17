@@ -10,30 +10,23 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Menu from '@mui/material/Menu';
+import { makeStyles } from '@mui/styles';
 // eslint-disable-next-line import/namespace
-import { CircularProgress } from '@mui/material';
-import Paper from '@mui/material/Paper';
-import MenuList from '@mui/material/MenuList';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Typography from '@mui/material/Typography';
+import {
+  CircularProgress, ListItemIcon, MenuItem, MenuList, Paper,
+} from '@mui/material';
+
 // Drop Down Icons
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 // eslint-disable-next-line import/namespace
 import { options } from '@acala-network/api';
-import LockOutlinedIcon from '../../../assets/images/icons/lock.svg';
-import SettingsOutlinedIcon from '../../../assets/images/icons/setting.svg';
-import ForumOutlinedIcon from '../../../assets/images/icons/support.svg';
-import FileUploadOutlinedIcon from '../../../assets/images/icons/export.svg';
-import FileDownloadOutlinedIcon from '../../../assets/images/icons/download.svg';
-import AddOutlinedIcon from '../../../assets/images/icons/add.svg';
-import PersonOutlinedIcon from '../../../assets/images/icons/user.svg';
-import ChevronRightOutlinedIcon from '../../../assets/images/icons/rightArrowIcon.svg';
+
 import ApiCalls from '../../../utils/api';
 import MainCard from './MainCard';
 import AssetsAndTransactions from './AssetsAndTransactions';
+import LockOutlinedIcon from '../../../assets/images/icons/lock.svg';
 
 import { setApiInitializationStarts } from '../../../redux/slices/api';
 import {
@@ -65,6 +58,7 @@ import {
 } from '../../../redux/slices/successModalHandling';
 
 import networks from './networkModalData';
+import DropDown from './DropDown';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryTextColor } = colors;
@@ -76,7 +70,18 @@ const {
   BetaNetworks,
 } = networks;
 
+const useStyles = makeStyles((theme) => ({
+  customWidth: {
+    '& div': {
+      // this is just an example, you can use vw, etc.
+      background: 'transparent',
+      // border: '1px solid green',
+    },
+  },
+}));
+
 function Dashboard(props) {
+  const classes = useStyles(props);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const transactions = useSelector((state) => state.transactions.transactions);
