@@ -290,8 +290,6 @@ function Dashboard(props) {
         accountName={accountName}
       />
 
-      <Operations />
-
       <AssetsAndTransactions
         handleOpenTxDetailsModal={() => setIsTxDetailsModalOpen(true)}
         setTxDetailsModalData={setTxDetailsModalData}

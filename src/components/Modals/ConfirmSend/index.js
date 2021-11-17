@@ -27,16 +27,9 @@ function ConfirmSend({
     return trimmedValue;
   };
 
-  const btnF = {
-    text: 'Cancel',
-    width: '150px',
-    handleClick: () => handleClose(),
-    disabled: loading2,
-  };
-
   const btnS = {
     text: 'Confirm',
-    width: '150px',
+    width: '100%',
     handleClick: () => handleConfirm(),
     isLoading: loading2,
     disabled: loading2,
@@ -61,7 +54,7 @@ function ConfirmSend({
         <VerticalContentDiv>
           <MainText1 textAlign="center" className={mainHeadingfontFamilyClass}>Confirm</MainText1>
 
-          <HorizontalContentDiv marginTop="30px">
+          <HorizontalContentDiv marginTop="10px">
 
             <VerticalContentDiv>
               <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>From</MainText2>
@@ -75,31 +68,31 @@ function ConfirmSend({
 
           </HorizontalContentDiv>
 
-          <MainText1 textAlign="start" className={mainHeadingfontFamilyClass} marginTop="40px">Transaction</MainText1>
+          <MainText1 textAlign="start" className={mainHeadingfontFamilyClass} marginTop="20px">Transaction</MainText1>
 
           <VerticalContentDiv specialPadding border paddingBottom marginTop="2px">
 
             <HorizontalContentDiv paddingTop borderBottom>
 
-              <VerticalContentDiv marginTop="15px">
+              <VerticalContentDiv marginTop="10px">
                 <MainText2 textAlign="start" className={subHeadingfontFamilyClass}>Amount</MainText2>
-                <MainText2 marginTop="15px" marginBottom="15px" textAlign="start" className={subHeadingfontFamilyClass}>Network Fee</MainText2>
+                <MainText2 marginTop="10px" marginBottom="10px" textAlign="start" className={subHeadingfontFamilyClass}>Network Fee</MainText2>
               </VerticalContentDiv>
 
-              <VerticalContentDiv marginTop="15px">
+              <VerticalContentDiv marginTop="10px">
                 <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>{`${amount} ${tokenName}`}</MainText2>
-                <MainText2 marginTop="15px" marginBottom="15px" textAlign="end" className={mainHeadingfontFamilyClass}>{`${transactionFee} ${tokenName}`}</MainText2>
+                <MainText2 marginTop="10px" marginBottom="10px" textAlign="end" className={mainHeadingfontFamilyClass}>{`${transactionFee} ${tokenName}`}</MainText2>
               </VerticalContentDiv>
             </HorizontalContentDiv>
 
             <HorizontalContentDiv paddingTop marginBottom>
 
-              <VerticalContentDiv marginTop="15px">
+              <VerticalContentDiv marginTop="10px">
                 <MainText2 textAlign="start" className={subHeadingfontFamilyClass}>Total Amount</MainText2>
                 <MainText2 textAlign="start" hide className={subHeadingfontFamilyClass}>.</MainText2>
               </VerticalContentDiv>
 
-              <VerticalContentDiv marginTop="15px">
+              <VerticalContentDiv marginTop="10px">
                 <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>{`${transactionAmount(amount, transactionFee)} ${tokenName}`}</MainText2>
                 <MainText2 textAlign="end" hide className={mainHeadingfontFamilyClass}>
                   {tokenName[0] === 'WND' ? '' : '$ 594.304' }
@@ -112,7 +105,6 @@ function ConfirmSend({
         </VerticalContentDiv>
 
         <div className="btn-row" style={{ marginTop: '28px' }}>
-          <Button {...btnF} />
           <Button {...btnS} />
         </div>
       </Box>

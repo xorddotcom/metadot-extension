@@ -181,6 +181,7 @@ function CreateWallet() {
 
   const btn = {
     text: 'Continue',
+    width: '300px',
     disabled: !(walletName && password && confirmPassword) && true,
     handleClick: async () => {
       setIsLoading(true);
@@ -271,7 +272,7 @@ function CreateWallet() {
           and cannot retrieve them for you. Please keep your password safe!
         </SubHeading>
       </SubMainWrapperForAuthScreens>
-      <div className="btn-wrapper">
+      <div className="btn-wrapper" style={{ marginLeft: '0' }}>
         <Button {...btn} />
       </div>
     </AuthWrapper>

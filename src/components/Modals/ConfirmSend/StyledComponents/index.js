@@ -27,17 +27,17 @@ export const VerticalContentDiv = styled.div`
 display: flex;
 flex-direction: column;
 margin-top: ${(props) => props.marginTop && props.marginTop};
-
-  ${(props) => props.border && css`
+${(props) => props.border && css`
   border: 1px solid ${darkBgColor};
     box-sizing: border-box;
     filter: drop-shadow(0px 0px 40px rgba(13, 13, 13, 0.2));
     border-radius: 8px;
   `}
-    ${(props) => props.specialPadding && css`
+  ${(props) => props.specialPadding && css`
       padding-left:10px;
       padding-right:10px;
     `}
+
 `;
 
 export const MainText1 = styled.p`

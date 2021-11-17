@@ -49,9 +49,9 @@ function MainCard({
   const copyIconTooltipText = {
     className: 'tooltiptext',
     style: {
-      maxWidth: '60px',
+      maxWidth: '70px',
       left: '20%',
-      bottom: '115%',
+      bottom: '120%',
       fontSize: '0.65rem',
       fontWeight: 300,
     },

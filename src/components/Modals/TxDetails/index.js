@@ -58,10 +58,10 @@ function TxDetails({
         >
           <CloseIcon />
         </CloseIconDiv>
-        <VerticalContentDiv marginTop="30px">
+        <VerticalContentDiv marginTop="15px">
           <MainText1 textAlign="center" className={mainHeadingfontFamilyClass}>Details</MainText1>
 
-          <HorizontalContentDiv marginTop="20px" paddingTop marginBottom>
+          <HorizontalContentDiv marginTop="10px" paddingTop marginBottom>
 
             <VerticalContentDiv>
               <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>Status</MainText2>
@@ -84,7 +84,7 @@ function TxDetails({
             </VerticalContentDiv>
           </HorizontalContentDiv>
 
-          <HorizontalContentDiv marginTop="20px">
+          <HorizontalContentDiv marginTop="10px">
 
             <VerticalContentDiv>
               <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>From</MainText2>
@@ -105,19 +105,19 @@ function TxDetails({
 
           </HorizontalContentDiv>
 
-          <MainText1 marginTop="40px" textAlign="start" className={mainHeadingfontFamilyClass}>Transaction</MainText1>
+          <MainText1 marginTop="30px" textAlign="start" className={mainHeadingfontFamilyClass}>Transaction</MainText1>
 
           <VerticalContentDiv specialPadding border paddingBottom>
 
             <HorizontalContentDiv paddingTop borderBottom>
 
-              <VerticalContentDiv marginBottom="15px">
-                <MainText2 marginTop="15px" textAlign="start" className={subHeadingfontFamilyClass}>Amount</MainText2>
+              <VerticalContentDiv marginBottom="10px">
+                <MainText2 marginTop="10px" textAlign="start" className={subHeadingfontFamilyClass}>Amount</MainText2>
                 <MainText2 marginTop="10px" textAlign="start" className={subHeadingfontFamilyClass}>Network Fee</MainText2>
               </VerticalContentDiv>
 
-              <VerticalContentDiv marginBottom="15px">
-                <MainText2 marginTop="15px" textAlign="end" className={mainHeadingfontFamilyClass}>{`${amount} ${tokenName}`}</MainText2>
+              <VerticalContentDiv marginBottom="10px">
+                <MainText2 marginTop="10px" textAlign="end" className={mainHeadingfontFamilyClass}>{`${amount} ${tokenName}`}</MainText2>
                 <MainText2 marginTop="10px" textAlign="end" className={mainHeadingfontFamilyClass}>
                   {`${transactionFee} ${tokenName}`}
                 </MainText2>
@@ -126,12 +126,12 @@ function TxDetails({
 
             <HorizontalContentDiv paddingTop marginBottom>
 
-              <VerticalContentDiv marginTop="15px" marginBottom="15px">
+              <VerticalContentDiv marginTop="10px" marginBottom="10px">
                 <SubText1 textAlign="start" className={subHeadingfontFamilyClass}>Total Amount</SubText1>
                 <SubText1 textAlign="start" hide className={subHeadingfontFamilyClass}>.</SubText1>
               </VerticalContentDiv>
 
-              <VerticalContentDiv marginTop="15px" marginBottom="15px">
+              <VerticalContentDiv marginTop="10px" marginBottom="10px">
                 <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>
                   {`${getTotalBalance(amount, transactionFee)}
                   ${tokenName}`}

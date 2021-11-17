@@ -89,6 +89,13 @@ body {
   margin-left: -4.2rem;
 }
 
+.btn-end {
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 ::placeholder {
   color: #fafafa;
   opacity: 0.6; /* Firefox */

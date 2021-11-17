@@ -102,7 +102,6 @@ export const MainPanel = styled.div`
   border-radius: 15px;
   margin-top: 50px;
   padding-left: 25px;
-  margin-bottom: 40px;
 `;
 
 export const OptionRow = styled.div`
