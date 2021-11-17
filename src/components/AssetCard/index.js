@@ -54,7 +54,7 @@ function AssetCard({
             </EquivalentInUSDT>
           </HorizontalContentDiv>
         </NameAndAmount>
-        <div style={{ marginLeft: '3.7rem', marginTop: '0.5rem' }}>
+        <div style={{ marginLeft: '3.9rem', marginTop: '0.5rem' }}>
           <Button {...sendBtn} />
         </div>
       </HorizontalContentDiv>
