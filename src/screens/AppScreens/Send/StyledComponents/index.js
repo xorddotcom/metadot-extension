@@ -2,10 +2,10 @@
 import styled from 'styled-components';
 import { colors } from '../../../../utils';
 
-const { primaryTextColor } = colors;
+const { primaryTextColor, primaryBgColor } = colors;
 
 export const MainContent = styled.div`
-  margin: 25px auto 25px;
+  margin: 34px auto 25px;
 `;
 
 export const VerticalContentDiv = styled.div`
@@ -24,7 +24,7 @@ export const HorizontalContentDiv = styled.div`
 
 export const FromAccount = styled(HorizontalContentDiv)`
   width: 92%;
-  height: 47px;
+  height: 50px;
   align-items: center;
   justify-content: space-between;
   padding-left: 10px;
@@ -36,35 +36,38 @@ export const FromAccount = styled(HorizontalContentDiv)`
 `;
 
 export const PlainIcon = styled.div`
-  width: 24px;
-  height: 23px;
+  width: 28px;
+  height: 25px;
   border-radius: 50%;
   margin-left: 5px;
-  margin-right: 10px;
-  background: ${props => (props.bgColor ? props.bgColor : '#e6007a')};
+  margin-right: 20px;
+  background: ${props => (props.bgColor ? props.bgColor : primaryBgColor)};
 `;
 
 export const MainText = styled.p`
   height: 14px;
-  font-size: 12px;
-  line-height: 14px;
-  letter-spacing: 0.01em;
+  font-size: ${(props) => (props.fs ? props.fs : '16px')};
+  line-height: ${(props) => (props.lh ? props.lh : '19px')};
+  font-weight: 500;
+  letter-spacing: ${(props) => (props.ls ? props.ls : '0.01em')};
   color: ${props => (props.color ? props.color : '#ffffff')};
   width: 100%;
-  margin-bottom: 10px;
   text-align: start;
   margin: ${props => (props.m ? props.m : '0px')};
+  margin-bottom: ${props => (props.mb ? props.mb : '12px')};
+  margin-top: ${(props) => (props.mt && props.mt)};
 `;
 
 export const Balance = styled.p`
-  font-size: 11px;
+  font-size: 14px;
   width: 100%;
-  height: 14px;
-  line-height: 14px;
+  height: 14.12px;
+  line-height: 16px;
+  letter-spacing: 0.02em;
   margin: 0px;
   color: rgba(250, 250, 250, 0.8);
   text-align: ${props => (props.textAlign ? props.textAlign : 'start')};
-  margin-top: -0.9rem;
+  margin-top: 5px;
 `;
 
 export const EquivalentInUSDT = styled.p`

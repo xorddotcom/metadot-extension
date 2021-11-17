@@ -20,6 +20,6 @@ export const WarningText = styled.p`
 export const LabelAndTextInput = styled.div`
   width: 100%;
   min-height: ${(props) => (props.minHeight ? props.minHeight : '103px')};
-  margin-bottom: 0px;
+  margin-top: ${(props) => (props.marginTop && props.marginTop)};
   position: relative;
 `;

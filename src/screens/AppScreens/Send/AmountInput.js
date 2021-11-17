@@ -28,13 +28,19 @@ const AmountInput = ({
     className: subHeadingfontFamilyClass,
     onChange: amountHandler,
     fontSize: '14px',
-    height: '20px',
+    height: '25px',
     onBlur: amountIsValidHandler,
     isCorrect: amountState.isValid || insufficientBal,
   };
+
+  const balance = {
+    textAlign: 'end',
+    className: subHeadingfontFamilyClass,
+    style: { marginTop: '-1rem' },
+  };
   return (
     <VerticalContentDiv mb="25px">
-      <MainText m="8px" className={mainHeadingfontFamilyClass}>
+      <MainText className={mainHeadingfontFamilyClass}>
         Amount
       </MainText>
       <StyledInput {...styledInput} />
@@ -65,7 +71,7 @@ const AmountInput = ({
           $
           {currentUser.account.balanceInUsd}
         </EquivalentInUSDT>
-        <Balance textAlign="end" className={subHeadingfontFamilyClass}>
+        <Balance {...balance}>
           {`${trimBalance(currentUser.account.balance)} ${currentUser.account.tokenName}`}
         </Balance>
       </CalculatedAmount>

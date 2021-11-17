@@ -24,6 +24,16 @@ export const AssetCardWrapper = styled.div`
   justify-content: space-between;
 `;
 
+export const TokenImage = styled.div`
+  background: #2E9B9B;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const NameAndAmount = styled.div`
   display: flex;
   flex-direction: column;
@@ -63,4 +73,6 @@ export const EquivalentInUSDT = styled.p`
   font-size: 12px;
   color: rgba(250, 250, 250, 0.8);
   margin-left: 8px;
+  line-height: 14px;
+
 `;

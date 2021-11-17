@@ -4,8 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import web3 from 'web3';
 import { useHistory } from 'react-router-dom';
 import keyring from '@polkadot/ui-keyring';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import {
   AuthWrapper,
   Header,
@@ -197,25 +195,15 @@ function CreateWallet() {
     isLoading,
   };
 
-  const listInlineStyle = {
-    fontSize: '0.7rem',
-    marginLeft: '-0.4rem',
-    marginTop: '-1.5rem',
-    marginBottom: '-0.7rem',
-  };
-
   return (
     <AuthWrapper>
       <Header centerText="Authentication" />
-      <SubMainWrapperForAuthScreens style={{ marginTop: '1.4rem' }}>
-        <LabelAndTextInput minHeight="117px">
-          <SubHeading
-            className={mainHeadingfontFamilyClass}
-            marginTop="0px"
-          >
+      <SubMainWrapperForAuthScreens mt="34px">
+        <LabelAndTextInput>
+          <SubHeading marginBottom="12px" className={mainHeadingfontFamilyClass}>
             Wallet Name
           </SubHeading>
-          <StyledInput {...styledInputName} />
+          <StyledInput isCorrect {...styledInputName} />
           {isValidWalletName
           && (
           <WarningText className={subHeadingfontFamilyClass}>
@@ -224,7 +212,7 @@ function CreateWallet() {
           )}
         </LabelAndTextInput>
 
-        <LabelAndTextInput>
+        <LabelAndTextInput marginTop="22px">
           <SubHeading
             className={mainHeadingfontFamilyClass}
             marginTop="0px"
@@ -234,6 +222,7 @@ function CreateWallet() {
           <StyledInput
             {...styledInputPassword}
             typePassword
+            isCorrect
             rightIcon
           />
           {passwordError === minimumCharacterWarning && (
@@ -252,12 +241,19 @@ function CreateWallet() {
           )}
         </LabelAndTextInput>
 
-        <LabelAndTextInput>
-          <SubHeading marginTop="0px" className={mainHeadingfontFamilyClass}>Confirm Password</SubHeading>
+        <LabelAndTextInput marginTop="13.5px">
+          <SubHeading
+            className={mainHeadingfontFamilyClass}
+            marginTop="0"
+          >
+            Confirm Password
+
+          </SubHeading>
           <StyledInput
             {...styledInputConfirmPass}
             typePassword
             rightIcon
+            isCorrect
           />
           {passwordError === minimumCharacterWarning && (
             <WarningText
@@ -275,14 +271,10 @@ function CreateWallet() {
           )}
         </LabelAndTextInput>
 
-        <SubHeading className={subHeadingfontFamilyClass}>
-          <List style={listInlineStyle}>
-            <ListItem style={{ marginBottom: '-1.7rem' }}>
-              This password will be used as the transaction password for the wallet,
-              Polo Wallet does not save passwords
-              and cannot retrieve them for you. Please keep your password safe!
-            </ListItem>
-          </List>
+        <SubHeading textLightColor marginTop="20px" className={subHeadingfontFamilyClass}>
+          This password will be used as the transaction password for the wallet,
+          Polo Wallet does not save passwords
+          and cannot retrieve them for you. Please keep your password safe!
         </SubHeading>
       </SubMainWrapperForAuthScreens>
       <div className="btn-wrapper">

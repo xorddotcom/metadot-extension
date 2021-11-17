@@ -4,7 +4,7 @@ const dimension = {
   },
   button: {
     _width: '50%', // in %
-    _height: '100%', // in %
+    _height: '50px', // in %
   },
 };
 

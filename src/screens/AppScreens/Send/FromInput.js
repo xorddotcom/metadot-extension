@@ -6,22 +6,28 @@ import { fonts } from '../../../utils';
 
 const FromInput = ({ addressModifier, currentUser }) => {
   const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+
+  const mainText = {
+    className: mainHeadingfontFamilyClass,
+    ls: '0.02em',
+    lh: '16px',
+    mb: '2px',
+    fs: '15px',
+    mt: '-4px',
+  };
   return (
-    <VerticalContentDiv mb="2px">
-      <MainText m="6px" className={mainHeadingfontFamilyClass} style={{ marginBottom: '0.5rem' }}>
+    <VerticalContentDiv mb="20px">
+      <MainText className={mainHeadingfontFamilyClass}>
         From
       </MainText>
       <FromAccount>
         <HorizontalContentDiv>
           <PlainIcon />
           <VerticalContentDiv>
-            <MainText className={mainHeadingfontFamilyClass}>
+            <MainText {...mainText}>
               {currentUser.account.accountName}
             </MainText>
-            <Balance
-              className={subHeadingfontFamilyClass}
-              style={{ marginTop: '0.15rem' }}
-            >
+            <Balance className={subHeadingfontFamilyClass}>
               {addressModifier(currentUser.account.publicKey)}
             </Balance>
           </VerticalContentDiv>

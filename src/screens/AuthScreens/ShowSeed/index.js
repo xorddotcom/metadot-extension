@@ -25,23 +25,6 @@ import { resetAccountSlice, setSeed } from '../../../redux/slices/account';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
-const LightTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    // backgroundColor: theme.palette.common.white,
-    backgroundColor: '#860040',
-    color: '#fff',
-    boxShadow: theme.shadows[1],
-    fontSize: 11,
-    zIndex: -2,
-  },
-  [`& .${tooltipClasses.arrow}`]: {
-    // color: theme.palette.common.white,
-    color: '#860040',
-  },
-}));
-
 function ShowSeed() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -50,12 +33,6 @@ function ShowSeed() {
   const decryptedSeed = seed ? decrypt(seed, '123') : null;
 
   const dispatch = useDispatch();
-
-  const [open, setOpen] = React.useState(false);
-
-  const handleTooltipClose = () => {
-    setOpen(false);
-  };
 
   // generate new seed for parent account
   useEffect(() => {
@@ -104,8 +81,7 @@ function ShowSeed() {
   };
 
   const btn = {
-    width: '60%',
-    height: '40px',
+    width: '300px',
     text: 'Continue',
     handleClick: () => setIsModalOpen(true),
   };
@@ -114,7 +90,7 @@ function ShowSeed() {
     open: isModalOpen,
     handleClose: () => setIsModalOpen(false),
     style: {
-      width: '78%',
+      width: '290px',
       background: '#141414',
       position: 'relative',
       bottom: 30,
@@ -146,15 +122,12 @@ function ShowSeed() {
       <CopyText className={subHeadingfontFamilyClass}>
         Copy seed phrase
         <span {...span}>A</span>
-        {/* <LightTooltip title="Copy Seed" arrow placement="right">
-          <CopyIcon src={ContentCopyIcon} alt="copyIcon" {...contentCopyIcon} />
-        </LightTooltip> */}
         <div className="tooltip">
           <CopyIcon src={ContentCopyIcon} alt="copyIcon" {...contentCopyIcon} />
           <span className="tooltiptext">Copy to clipboard</span>
         </div>
       </CopyText>
-      <SubMainWrapperForAuthScreens>
+      <SubMainWrapperForAuthScreens mb="3rem">
         {decryptedSeed
           && decryptedSeed
             .split(' ')
@@ -162,7 +135,7 @@ function ShowSeed() {
               <SinglePhrase index={i} key={phrase} phrase={phrase} />
             ))}
       </SubMainWrapperForAuthScreens>
-      <div className="btn-wrapper">
+      <div style={{ marginLeft: '0' }} className="btn-wrapper">
         <Button {...btn} />
       </div>
       <WarningModal {...warningModal} />

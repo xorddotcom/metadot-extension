@@ -5,7 +5,7 @@ import { Box } from '@mui/system';
 import LoadingScreen from 'react-loading-screen';
 import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import { fonts } from '../../../utils';
+import { colors, fonts } from '../../../utils';
 import {
   BackButton,
   CloseIconDiv,
@@ -14,6 +14,7 @@ import {
 } from './StyledComponents';
 
 const { mainHeadingfontFamilyClass } = fonts;
+const { primaryBgColor } = colors;
 
 function SelectNetwork(props) {
   const {
@@ -31,7 +32,7 @@ function SelectNetwork(props) {
   const loadingScreen = {
     loading: isLoading,
     bgColor: '#121212',
-    spinnerColor: '#880041',
+    spinnerColor: primaryBgColor,
     textColor: '#fafafa',
     text: 'Api Initialization',
   };

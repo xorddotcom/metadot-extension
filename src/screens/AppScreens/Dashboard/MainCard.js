@@ -2,10 +2,9 @@
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React from 'react';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { styled } from '@mui/material/styles';
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { toast } from 'react-toastify';
+import ContentCopyIcon from '../../../assets/images/icons/copyIcon.svg';
 import {
   AccountName,
   Balance,
@@ -15,30 +14,13 @@ import {
   PerUnitPrice,
   PublicAddress,
   VerticalContentDiv,
+  CopyIconImg,
 } from './StyledComponents';
 import NotConnected from '../../../assets/images/notConnected.svg';
 import { fonts, helpers } from '../../../utils';
 
 const { addressModifier, trimBalance } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-
-const LightTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    // backgroundColor: theme.palette.common.white,
-    // color: 'rgba(0, 0, 0, 0.87)',
-    backgroundColor: '#860040',
-    color: '#fff',
-    boxShadow: theme.shadows[1],
-    fontSize: 11,
-    zIndex: -2,
-  },
-  [`& .${tooltipClasses.arrow}`]: {
-    // color: theme.palette.common.white,
-    color: '#860040',
-  },
-}));
 
 function MainCard({
   balance, address, tokenName, balanceInUsd, accountName,
@@ -59,6 +41,29 @@ function MainCard({
       autoClose: 2000,
       toastId: 1,
     });
+  };
+
+  const copyIconTooltipText = {
+    className: 'tooltiptext',
+    style: {
+      maxWidth: '60px',
+      left: '20%',
+      bottom: '115%',
+      fontSize: '0.65rem',
+      fontWeight: 300,
+    },
+  };
+
+  const addTooltipText = {
+    className: 'topTooltiptext',
+    style: {
+      // width: '100%',
+      // left: '320%',
+      // padding: '0 4px',
+      // fontSize: '0.8rem',
+      // bottom: '115%',
+      // fontWeight: 300,
+    },
   };
 
   return (
@@ -84,33 +89,30 @@ function MainCard({
           )
         </PublicAddress>
         {/* </LightTooltip> */}
-        <div style={{ position: 'relative', marginTop: '-0.2  rem' }}>
-          <LightTooltip title="Copy address" arrow placement="right">
-            <ContentCopyIcon
-              style={{
-                color: '#cccccc',
-                fontSize: 12,
-                marginLeft: 10,
-              }}
-              onClick={copyText}
-            />
-          </LightTooltip>
+        <div className={`tooltip ${mainHeadingfontFamilyClass}`}>
+          <CopyIconImg src={ContentCopyIcon} alt="copy-icon" onClick={copyText} />
+          <span {...copyIconTooltipText}>Copy</span>
         </div>
       </VerticalContentDiv>
 
       <Balance className={mainHeadingfontFamilyClass}>
-        <LightTooltip title={balance} arrow placement="bottom">
+        <div className={`topTooltip ${mainHeadingfontFamilyClass}`}>
           <span>
             {trimBalance(balance)}
           </span>
-        </LightTooltip>
-        <span style={{ marginLeft: 7 }}>{tokenName}</span>
+          <span style={{ marginLeft: 7 }}>{tokenName}</span>
+          <span {...addTooltipText}>
+            {balance}
+          </span>
+        </div>
       </Balance>
 
       <VerticalContentDiv>
         <PerUnitPrice className={mainHeadingfontFamilyClass}>
           $
           {balanceInUsd}
+          {' '}
+          USD
         </PerUnitPrice>
       </VerticalContentDiv>
     </MainPanel>

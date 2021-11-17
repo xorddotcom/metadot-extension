@@ -3,10 +3,8 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { styled } from '@mui/material/styles';
 import { Input } from '@material-ui/core';
 import keyring from '@polkadot/ui-keyring';
-import { Tooltip, tooltipClasses } from '@mui/material';
 import { Option, OptionDiv } from './StyledComponents';
 import {
   AuthWrapper,
@@ -31,21 +29,6 @@ const invalidSeedMessages = {
 };
 
 function ImportWallet() {
-  const LightTooltip = styled(({ className, ...props }) => (
-    <Tooltip {...props} classes={{ popper: className }} />
-  ))(({ theme }) => ({
-    [`& .${tooltipClasses.tooltip}`]: {
-      backgroundColor: theme.palette.common.white,
-      color: 'rgba(0, 0, 0, 0.87)',
-      boxShadow: theme.shadows[1],
-      fontSize: 11,
-      zIndex: -2,
-    },
-    [`& .${tooltipClasses.arrow}`]: {
-      color: theme.palette.common.white,
-    },
-  }));
-
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -105,6 +88,23 @@ function ImportWallet() {
     }
   };
 
+  const mainHeading = {
+    marginTop: '29px',
+    className: mainHeadingfontFamilyClass,
+  };
+
+  const subHeading = {
+    marginTop: '12px',
+    className: subHeadingfontFamilyClass,
+  };
+
+  const selectTypeHeading = {
+    className: mainHeadingfontFamilyClass,
+    fontWeight: 'bold',
+    lineHeight: '21px',
+    fontSize: '18px',
+  };
+
   const option1 = {
     onClick: () => setSelectedType('seed'),
     selected: selectedType === 'seed',
@@ -123,9 +123,10 @@ function ImportWallet() {
       background: '#212121',
       color: primaryTextColor,
       width: '100%',
-      borderRadius: '5px',
+      borderRadius: '8px',
       fontSize: '0.8rem',
       lineHeight: '1.7em',
+      border: '0.5px solid rgba(250, 250, 250, 0.5)',
     },
     className: subHeadingfontFamilyClass,
     onChange: (e) => handleChange(e.target.value),
@@ -141,7 +142,7 @@ function ImportWallet() {
 
   const btn = {
     text: 'Import',
-    width: '60%',
+    width: '300px',
     handleClick: validateSeed,
     disabled: seedPhrase.length === 0,
   };
@@ -150,22 +151,23 @@ function ImportWallet() {
     <AuthWrapper>
       <Header centerText="Import Wallet" />
       <div>
-        <MainHeading className={mainHeadingfontFamilyClass}>Restore your wallet : </MainHeading>
-        <SubHeading className={subHeadingfontFamilyClass}>
+        <MainHeading {...mainHeading}>Restore your wallet : </MainHeading>
+        <SubHeading textLightColor {...subHeading}>
           To restore your wallet enter your Seed phrase or upload a Json file.
         </SubHeading>
       </div>
-      <SubMainWrapperForAuthScreens flexDirection="column" style={{ marginTop: '2rem' }}>
-        <MainHeading className={mainHeadingfontFamilyClass}>Select Type : </MainHeading>
+      <SubMainWrapperForAuthScreens flexDirection="column" mt="40px">
+        <MainHeading {...selectTypeHeading}>Select Type : </MainHeading>
         <OptionDiv>
           <Option {...option1}>
             Seed Phrase
           </Option>
-          <LightTooltip title="Coming Soon" arrow placement="top">
+          <div className="normalTooltip">
             <Option {...option2}>
               Json File
+              <span className="normalTooltiptext">Coming Soon</span>
             </Option>
-          </LightTooltip>
+          </div>
         </OptionDiv>
         {selectedType === 'seed' && (
           <div style={{ marginTop: '1rem' }}>
@@ -183,7 +185,7 @@ function ImportWallet() {
         )}
       </SubMainWrapperForAuthScreens>
       {selectedType === 'seed' && (
-        <div className="btn-wrapper">
+        <div style={{ marginLeft: '0' }} className="btn-wrapper">
           <Button {...btn} />
         </div>
       )}

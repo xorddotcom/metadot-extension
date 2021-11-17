@@ -1,8 +1,7 @@
+/* eslint-disable max-len */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { styled } from '@mui/material/styles';
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { useSelector } from 'react-redux';
 import { Option, OptionRow, OptionsName } from './StyledComponents';
 import Send from '../../../assets/images/Send.svg';
@@ -13,27 +12,22 @@ import { fonts } from '../../../utils';
 
 const { mainHeadingfontFamilyClass } = fonts;
 
-const LightTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: theme.palette.common.white,
-    color: 'rgba(0, 0, 0, 0.87)',
-    boxShadow: theme.shadows[1],
-    fontSize: 11,
-    zIndex: -2,
-  },
-  [`& .${tooltipClasses.arrow}`]: {
-    color: theme.palette.common.white,
-  },
-}));
-
 function Operations() {
   const history = useHistory();
   const { account } = useSelector((state) => state);
+  const tootltipText = {
+    className: 'normalTooltiptext',
+    style: {
+      width: '90px',
+      left: '65%',
+      fontSize: '0.7rem',
+      bottom: '110%',
+      fontWeight: 300,
+    },
+  };
   return (
     <OptionRow>
-      <LightTooltip title={account.chainName === 'Astar' ? 'Coming Soon' : ''} arrow placement="top">
+      <div className={`normalTooltip ${mainHeadingfontFamilyClass}`}>
         <Option onClick={() => (account.chainName === 'Astar' ? console.log('coming soon1') : history.push('/Send'))}>
           <img
             src={Send}
@@ -46,9 +40,16 @@ function Operations() {
           />
           <OptionsName className={mainHeadingfontFamilyClass}>Send</OptionsName>
         </Option>
-      </LightTooltip>
+        {
+          account.chainName === 'Astar' && (
+          <span {...tootltipText}>
+            Coming Soon
+          </span>
+          )
+        }
+      </div>
 
-      <LightTooltip title="Coming Soon" arrow placement="top">
+      <div className={`normalTooltip ${mainHeadingfontFamilyClass}`}>
         <Option>
           <img
             src={Swap}
@@ -63,9 +64,12 @@ function Operations() {
             Swap
           </OptionsName>
         </Option>
-      </LightTooltip>
+        <span {...tootltipText}>
+          Coming Soon
+        </span>
+      </div>
 
-      <LightTooltip title="Coming Soon" arrow placement="top">
+      <div className={`normalTooltip ${mainHeadingfontFamilyClass}`}>
         <Option>
           <img
             src={Governance}
@@ -80,9 +84,12 @@ function Operations() {
             Governance
           </OptionsName>
         </Option>
-      </LightTooltip>
+        <span {...tootltipText}>
+          Coming Soon
+        </span>
+      </div>
 
-      <LightTooltip title="Coming Soon" arrow placement="top">
+      <div className={`normalTooltip ${mainHeadingfontFamilyClass}`}>
         <Option>
           <img
             src={Stake}
@@ -97,7 +104,10 @@ function Operations() {
             Stake
           </OptionsName>
         </Option>
-      </LightTooltip>
+        <span {...tootltipText}>
+          Coming Soon
+        </span>
+      </div>
     </OptionRow>
   );
 }

@@ -142,22 +142,33 @@ function ConfirmSeed() {
 
   const btn = {
     text: 'Continue',
+    width: '300px',
     disabled: !(word1 && word2 && word3 && word4),
     handleClick: () => checkWordsAndNavigate(),
+  };
+
+  const mainHeading = {
+    marginTop: '30.25px',
+    className: mainHeadingfontFamilyClass,
+  };
+
+  const subHeading = {
+    marginTop: '12px',
+    className: subHeadingfontFamilyClass,
   };
 
   return (
     <AuthWrapper>
       <Header centerText="Confirm Seed" />
       <div>
-        <MainHeading className={mainHeadingfontFamilyClass}>
+        <MainHeading {...mainHeading}>
           Confirm seed phrase
         </MainHeading>
-        <SubHeading className={subHeadingfontFamilyClass}>
+        <SubHeading textLightColor {...subHeading}>
           To confirm the mnemonic, enter the right words in the space provided below.
         </SubHeading>
       </div>
-      <SubMainWrapperForAuthScreens mb="1rem">
+      <SubMainWrapperForAuthScreens mb="2rem">
         <StyledInput
           disableUnderline
           {...styledInput1}
@@ -198,7 +209,7 @@ function ConfirmSeed() {
         </SeedGrid>
 
       </SubMainWrapperForAuthScreens>
-      <div className="btn-wrapper">
+      <div style={{ marginLeft: '0' }} className="btn-wrapper">
         <Button {...btn} />
       </div>
     </AuthWrapper>

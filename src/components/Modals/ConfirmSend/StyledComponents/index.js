@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { colors, fonts } from '../../../../utils';
 
 const { primaryTextColor } = colors;
-const { subHeadingFontSize, buttonFontSize } = fonts;
+const { mainHeadingFontSize, buttonFontSize } = fonts;
 
 export const CloseIconDiv = styled.div`
   position: absolute;
@@ -18,13 +18,15 @@ align-items: center;justify-content: space-between;
 padding-bottom: ${(props) => props.paddingBottom && '10px'};
 padding-top: ${(props) => props.paddingTop && '10px'};
 margin-bottom: ${(props) => props.marginBottom && '10px'};
+margin-top: ${(props) => props.marginTop && props.marginTop};
 border-bottom: ${(props) => props.borderBottom && '1px solid rgba(250, 250, 250, 0.15)'};
 `;
 
 export const VerticalContentDiv = styled.div`
 display: flex;
 flex-direction: column;
-  
+margin-top: ${(props) => props.marginTop && props.marginTop};
+
   ${(props) => props.border && css`
   border: 1px solid #212129;
     box-sizing: border-box;
@@ -38,21 +40,25 @@ flex-direction: column;
 `;
 
 export const MainText1 = styled.p`
-font-size: ${subHeadingFontSize};
-line-height: 19px;
-height: 19px;
+font-size: ${mainHeadingFontSize};
+line-height: 21px;
+margin-top: ${(props) => props.marginTop && props.marginTop};
 color: rgba(250, 250, 250, 0.85);
 text-align: ${(props) => props.textAlign};
 `;
 
 export const MainText2 = styled.p`
 font-size: ${buttonFontSize};
-line-height: 20px;
+font-weight: 500;
+line-height: 19px;
 height: 20px;
 color: #FAFAFA;
 text-align: ${(props) => props.textAlign};
 margin: 0px 0px 5px 0px;
 visibility: ${(props) => (props.hide ? 'hidden' : 'normal')};
+margin-top: ${(props) => props.marginTop && props.marginTop};
+margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
+
 `;
 
 export const SubText1 = styled.p`

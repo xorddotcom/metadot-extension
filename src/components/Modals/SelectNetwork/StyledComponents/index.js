@@ -44,7 +44,7 @@ export const OptionRow = styled.div`
   cursor: pointer;
 
   &:hover {
-    background: rgba(230, 0, 122, 0.26);
+    background: rgba(46, 155, 155, 0.26);
   }
 `;
 

@@ -12,40 +12,34 @@ function WarningModal({ open, handleClose, style }) {
   const history = useHistory();
   const btnF = {
     text: 'Cancel',
-    fontSize: '16px',
-    width: '78%',
+    width: '115px',
+    height: '35px',
+    fontSize: '14px',
+    border: 'none',
     handleClick: () => handleClose(),
   };
   const btnS = {
     text: 'Confirm',
-    width: '78%',
-    fontSize: '16px',
+    width: '115px',
+    height: '35px',
+    fontSize: '14px',
     handleClick: () => history.push('/ConfirmSeed'),
   };
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style} className="warning-modal-style">
-        <div
-          className="cross-close"
-          onClick={() => {
-            handleClose();
-          }}
-          aria-hidden="true"
-        >
-          x
-        </div>
-        <MainHeading className={mainHeadingfontFamilyClass} color="#C30707">
+        <MainHeading className={mainHeadingfontFamilyClass} warning>
           Warning
         </MainHeading>
         <SubHeading
           className={subHeadingfontFamilyClass}
-          textAlignLast="center"
-          lineHeight="18px"
+          textAlignLast="start"
+          lineHeight="20px"
         >
           Proceeding will not let you view your mnemonic again. Do you still wish to continue?
         </SubHeading>
         <div style={{ marginTop: '2rem' }} className="btn-row">
-          <Button {...btnF} />
+          <Button cancel {...btnF} />
           <Button {...btnS} />
         </div>
       </Box>

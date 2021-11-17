@@ -7,15 +7,19 @@ const { subHeadingFontSize } = fonts;
 export const OptionDiv = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: -0.7rem;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0;
 `;
 
 export const Option = styled.p`
-  width: 190px;
-  padding: 10px 0;
-  background-color: ${(props) => (props.selected ? '#2d111e' : '#212121')};
+  width: 133px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${(props) => (props.selected ? 'rgba(33, 154, 154, 0.3);' : '#212121')};
   margin-right: 20px;
-  font-style: normal;
   font-weight: 500;
   font-size: ${subHeadingFontSize};
   line-height: 16px;

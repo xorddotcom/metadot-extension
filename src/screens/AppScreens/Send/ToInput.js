@@ -20,16 +20,16 @@ const ToInput = ({
     className: subHeadingfontFamilyClass,
     onChange: accountToChangeHandler,
     onBlur: accountToIsValid,
-    fontSize: '14px',
-    height: '20px',
+    fontSize: '12px',
+    height: '25px',
     isCorrect: accountToSate.isValid,
   };
 
   const warningTextInlineStyle = { marginTop: '-0.2rem', marginLeft: '0.3rem' };
 
   return (
-    <VerticalContentDiv mb="2px">
-      <MainText m="6px" className={mainHeadingfontFamilyClass} style={{ marginBottom: '0.5rem' }}>
+    <VerticalContentDiv mb="10px">
+      <MainText className={mainHeadingfontFamilyClass}>
         To
       </MainText>
       <StyledInput {...styledInput} />

@@ -18,14 +18,14 @@ function index({
   cancel,
   disabled,
   isLoading,
+  border,
 }) {
   const primaryBgColor = '#2E9B9B';
   const secondaryBgColor = 'transparent';
 
   const StyledButton = styled(Button)`
-    width: 288px;
+    width: ${width || '288px'};
     height: ${height || _height};
-    height: 50px;
     filter: drop-shadow(0px 10px 10px rgba(46, 155, 155, 0.07));
     box-sizing: border-box;
     border-radius: 40px;
@@ -33,7 +33,7 @@ function index({
     font-size: ${buttonFontSize};
     text-transform: capitalize;
     font-weight: 500;
-    border: 1px solid ${primaryBgColor};
+    border: ${border || `1px solid ${primaryBgColor}`};
     &:hover {
       background-color: ${!cancel ? primaryBgColor : secondaryBgColor};
     }

@@ -20,11 +20,14 @@ const StyledInputField = styled.input`
   color: ${primaryTextColor};
   background-color: #212121;
   font-size: 14px !important;
+  line-height: 17px;
   border-radius: 8px;
+  opacity: 0.8;
+  letter-spacing: 0.02em;
   width: ${(props) => (props.fullWidth ? '100%' : '90%')};
   font-family: ${subHeadingFontSize};
     border: ${(props) => (props.isCorrectForInput
-    ? '0px'
+    ? '0.5px solid rgba(250, 250, 250, 0.5)'
     : props.isCorrectForInput === false
       ? '1px solid red'
       : '0px')};
@@ -83,7 +86,7 @@ function StyledInput({
       {rightIcon && (
         <Icon onClick={() => hideHandler()}>
           {!hideState
-            ? <VisibilityOffIcon fontSize="small" /> : <VisibilityIcon fontSize="small" />}
+            ? <VisibilityOffIcon fontSize="10px" style={{ marginTop: '0.2rem' }} /> : <VisibilityIcon fontSize="10px" style={{ marginTop: '0.2rem' }} />}
         </Icon>
       )}
       {rightIconCross && (

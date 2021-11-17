@@ -344,6 +344,7 @@ const Send = () => {
 
   const btn = {
     text: 'Next',
+    width: '300px',
     handleClick: handleSubmit,
     disabled: !formIsValid || loading1,
     isLoading: loading1,

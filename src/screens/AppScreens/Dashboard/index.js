@@ -36,7 +36,7 @@ import {
   SelectedChain,
   Wrapper,
 } from './StyledComponents';
-import Logo from '../../../assets/images/48x48.png';
+import Logo from '../../../assets/images/topLogo.svg';
 import { SelectNetwork, TxDetails } from '../../../components';
 import {
   HorizontalContentDiv,
@@ -332,7 +332,7 @@ function Dashboard(props) {
                 : `${chainName} Network`}
 
             </SelectedChain>
-            <ArrowDropDownIcon style={{ fontSize: '0.8rem' }} />
+            <ArrowDropDownIcon style={{ fontSize: '1.7rem' }} />
           </SelectChain>
         </NetworkContainer>
 
