@@ -3,7 +3,7 @@ import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { fonts } from '../../../utils';
 import { MainHeading, SubHeading } from '../../index';
-import SuccessCheckIcon from '../../../assets/images/succesTick.svg';
+import SuccessCheckIcon from '../../../assets/images/success.svg';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
