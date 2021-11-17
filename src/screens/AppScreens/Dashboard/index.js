@@ -1,4 +1,3 @@
-/* eslint-disable react/button-has-type */
 /* eslint-disable no-return-assign */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
@@ -6,20 +5,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-console */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 // eslint-disable-next-line import/namespace
 import { CircularProgress } from '@mui/material';
-import { options } from '@acala-network/api';
 import ApiCalls from '../../../utils/api';
 import MainCard from './MainCard';
 import Operations from './Operations';
 import AssetsAndTransactions from './AssetsAndTransactions';
 
-import { getBalanceWithMultipleTokens } from '../../../utils/services';
 import { setApiInitializationStarts } from '../../../redux/slices/api';
 import {
   setRpcUrl, setBalance, setChainName,
@@ -50,9 +47,6 @@ import {
 } from '../../../redux/slices/successModalHandling';
 
 import networks from './networkModalData';
-
-const { WsProvider, ApiPromise, Keyring } = require('@polkadot/api');
-const { cryptoWaitReady } = require('@polkadot/util-crypto');
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryTextColor } = colors;
@@ -188,57 +182,6 @@ function Dashboard(props) {
     );
   };
 
-  // function is not declared
-  // Acala network initialization
-  const initializeAcalaNetwork = async () => {
-    try {
-      const provider = new WsProvider(
-        'wss://acala-mandala.api.onfinality.io/public-ws',
-      );
-      const api = new ApiPromise(options({ provider }));
-      await api.isReady;
-
-      const { data: balance } = await api.query.system.account(publicKey);
-      const decimal = api.registry.chainDecimals;
-      const properties = await api.rpc.system.properties();
-      const [now, { nonce, data: balances }] = await Promise.all([
-        api.query.timestamp.now(),
-        api.query.system.account(publicKey),
-      ]);
-    } catch (err) {
-      console.log('Error', err);
-    }
-  };
-
-  // function is not declared
-  // ACALA MANDALA TRANSACTION
-  const sendTransaction = async () => {
-    try {
-      const provider = new WsProvider(
-        'wss://acala-mandala.api.onfinality.io/public-ws',
-      );
-      const api = new ApiPromise(options({ provider }));
-      await api.isReady;
-
-      await cryptoWaitReady();
-      const keyring = new Keyring({ type: 'sr25519' });
-      const sender = keyring.addFromUri(seed);
-
-      const hash = await api.tx.balances
-        .transfer(
-          '5Dz1i42ygyhi4BxPnvKtRY4TBShTMC9T2FvaMB8CWxoU3QgG',
-          '3000000000000',
-        ).signAndSend(sender, (res) => {
-          if (res.status.isInBlock) {
-            console.log(`Completed at block hash #${res.status.asInBlock.toString()}`);
-            console.log('Current status of IF', res.status.type);
-          }
-        });
-    } catch (err) {
-      console.log('Error', err);
-    }
-  };
-
   const [modalState, setModalState] = useState({
     firstStep: true,
     renderMethod: RenderContentForAvailableNetwroks,
@@ -256,16 +199,6 @@ function Dashboard(props) {
       renderMethod: RenderContentForAvailableNetwroks,
       currentData: availableNetworks,
     });
-  };
-
-  // function is not declared
-  const getBalanceHere = async () => {
-    const res = await getBalanceWithMultipleTokens(currentUser.api.api, publicKey);
-  };
-
-  // function is not declared
-  const testing = async () => {
-    const { data: balance } = await currentUser.api.api.query.system.account('5DXomcfWBhckmx8N9jG7GuVzJcTQpREC5hYoCteD6KcwnacY');
   };
 
   // prettier-ignore

@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
-import { MainHeading, SubHeading } from '../../CommonStyledComponents';
+import { MainHeading, SubHeading } from '../../index';
 import Button from '../../Button';
 import { fonts } from '../../../utils';
 

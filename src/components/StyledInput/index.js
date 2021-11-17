@@ -6,7 +6,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import CancelIcon from '@mui/icons-material/Cancel';
 
 import styled from 'styled-components';
-import { TextInputWrapper } from '../CommonStyledComponents';
+import { TextInputWrapper } from '../index';
 
 import { colors, fonts } from '../../utils';
 

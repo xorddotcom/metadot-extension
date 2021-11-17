@@ -9,7 +9,7 @@ import {
   SubHeading,
   SubMainWrapperForAuthScreens,
   TextInputWrapper,
-} from './CommonStyledComponents';
+} from './StyledComponents';
 import WarningModal from './Modals/WarningModal';
 import SelectNetwork from './Modals/SelectNetwork';
 import ConfirmSend from './Modals/ConfirmSend';
@@ -17,6 +17,7 @@ import TxDetails from './Modals/TxDetails';
 import SuccessResponse from './Modals/SuccessResponse';
 
 import StyledInput from './StyledInput';
+import { LightTooltip } from './LightTooltip';
 
 export {
   AuthWrapper,
@@ -34,4 +35,5 @@ export {
   ConfirmSend,
   TxDetails,
   SuccessResponse,
+  LightTooltip,
 };

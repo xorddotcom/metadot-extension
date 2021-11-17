@@ -4,8 +4,6 @@
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React from 'react';
 import { Modal } from '@mui/material';
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
-import { styled } from '@mui/material/styles';
 import { Box } from '@mui/system';
 import CloseIcon from '@mui/icons-material/Close';
 import { toast } from 'react-toastify';

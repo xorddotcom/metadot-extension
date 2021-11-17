@@ -2,10 +2,7 @@
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { toast } from 'react-toastify';
-import { styled } from '@mui/material/styles';
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import ContentCopyIcon from '../../../assets/images/icons/copyIcon.svg';
 import {
   CopyIcon, CopyText, IndexText, SeedText, SeedWrapper,

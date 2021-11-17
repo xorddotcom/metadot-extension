@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import web3 from 'web3';
 import { useHistory } from 'react-router-dom';
-import keyring from '@polkadot/ui-keyring';
 import {
   AuthWrapper,
   Header,
@@ -130,18 +129,13 @@ function CreateWallet() {
       }
 
       // eslint-disable-next-line no-unused-expressions
-      await keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
       const res = await createAccount(walletName, password, decryptedSeedW);
       await saveAccountInRedux(res.address, walletName, password);
       dispatch(setLoadingFor('Setting things up...'));
       setIsLoading(false);
       await showSuccessModalAndNavigateToDashboard();
     } catch (err) {
-      const res = await createAccount(walletName, password, decryptedSeedW);
-      await saveAccountInRedux(res.address, walletName, password);
-      dispatch(setLoadingFor('Setting things up...'));
-      setIsLoading(false);
-      await showSuccessModalAndNavigateToDashboard();
+      console.log('error n create wallet', err);
     }
   };
 

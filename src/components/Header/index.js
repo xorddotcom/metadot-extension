@@ -3,7 +3,7 @@ import { IconButton } from '@mui/material';
 // import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useHistory } from 'react-router-dom';
 import ArrowBackIcon from '../../assets/images/icons/backArrow.svg';
-import { HeaderWrapper, HeaderHeading } from './StyledComponents';
+import { HeaderWrapper, HeaderHeading } from '../StyledComponents';
 import { fonts } from '../../utils';
 
 const { mainHeadingfontFamilyClass } = fonts;

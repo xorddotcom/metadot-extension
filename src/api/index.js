@@ -1,11 +1,9 @@
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, memo } from 'react';
-import { ApiPromise, WsProvider } from '@polkadot/api';
 import { useDispatch, useSelector } from 'react-redux';
-import { options as AcalaOptions } from '@acala-network/api';
 import { setApi, setApiInitializationStarts } from '../redux/slices/api';
-import { getBalance, getBalanceWithMultipleTokens } from '../utils/services';
+import { getBalance, getBalanceWithMultipleTokens, providerInitialization } from '../utils/services';
 import { setBalance, setBalanceInUsd, setTokenName } from '../redux/slices/account';
 import {
   setIsSuccessModalOpen, setMainTextForSuccessModal,
@@ -30,20 +28,13 @@ function ApiManager({ rpc }) {
   useEffect(() => {
     const setAPI = async (rpcUrl) => {
       dispatch(setApiInitializationStarts(true));
-      const wsProvider = new WsProvider(rpcUrl);
-      let apiR;
-      if (rpcUrl === ACALA_MANDALA_CONFIG.RPC_URL) {
-        apiR = await ApiPromise.create(AcalaOptions({ provider: wsProvider }));
-      } else {
-        apiR = await ApiPromise.create({ provider: wsProvider });
-      }
+      const apiR = await providerInitialization(rpcUrl);
       const tokenName = await apiR.registry.chainTokens[0];
       dispatch(setTokenName({ tokenName }));
       const bal = rpcUrl === ACALA_MANDALA_CONFIG.RPC_URL
         ? await getBalanceWithMultipleTokens(apiR, publicKey)
         : await getBalance(apiR, publicKey);
       dispatch(setBalance(bal));
-
       const dollarAmount = await helpers.convertIntoUsd(tokenName, bal);
 
       dispatch(setBalanceInUsd(dollarAmount));

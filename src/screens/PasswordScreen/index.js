@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import {
   setLoggedIn,
 } from '../../redux/slices/account';
-import AppLogo from '../../assets/images/Group.svg';
+// import AppLogo from '../../assets/images/Group.svg';
 import {
   StyledInput,
   Button,
@@ -49,9 +49,9 @@ const PasswordScreen = () => {
 
   return (
     <div>
-      <div>
+      {/* <div>
         <img src={AppLogo} style={{ margin: '50px auto' }} alt="Logo" />
-      </div>
+      </div> */}
       <div>
         <StyledInput
           {...styledInputPassword}

@@ -4,26 +4,17 @@ import React, { useEffect, useReducer, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addTransaction } from '../../../redux/slices/transactions';
-import { fonts, helpers } from '../../../utils';
+import { helpers } from '../../../utils';
 // eslint-disable-next-line no-unused-vars
-import { getBalanceWithMultipleTokens, getBalance } from '../../../utils/services';
+import { getBalanceWithMultipleTokens, getBalance, getSender } from '../../../utils/services';
 import { setBalance } from '../../../redux/slices/account';
 import {
   AuthWrapper, Button, ConfirmSend, Header, StyledInput,
 } from '../../../components';
 import {
-  Balance,
-  FromAccount,
-  HorizontalContentDiv,
-  MainText,
-  PlainIcon,
-  VerticalContentDiv,
   MainContent,
-  EquivalentInUSDT,
-  CalculatedAmount,
   CenterContent,
 } from './StyledComponents';
-import { WarningText } from '../../AuthScreens/CreateWallet/StyledComponents';
 import { setIsSuccessModalOpen, setMainTextForSuccessModal, setSubTextForSuccessModal } from '../../../redux/slices/successModalHandling';
 import { decrypt } from '../../../utils/accounts';
 import FromInput from './FromInput';
@@ -32,13 +23,6 @@ import AmountInput from './AmountInput';
 
 const { decodeAddress, encodeAddress } = require('@polkadot/keyring');
 const { hexToU8a, isHex } = require('@polkadot/util');
-
-const {
-  // eslint-disable-next-line no-unused-vars
-  Keyring,
-} = require('@polkadot/api');
-
-const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 const errorMessages = {
   invalidAddress: 'Invalid address',
@@ -158,14 +142,14 @@ const Send = () => {
   const sendTransaction = async () => {
     const decimalPlaces = await api.registry.chainDecimals;
     setLoading2(true);
-    const keyring = new Keyring({ type: 'sr25519' });
 
     const decryptedSeed = decrypt(currentUser.account.seed, currentUser.account.walletPassword);
-    const sender = keyring.addFromUri(decryptedSeed);
+
+    const sender = getSender(decryptedSeed);
     data.operation = 'Send';
     const decimals = currentUser.account.chainName === 'AcalaMandala'
       ? decimalPlaces[0] : decimalPlaces;
-    const result = await api.tx.balances
+    await api.tx.balances
       .transfer(
         accountToSate.value, amountState.value * 10 ** decimals,
       )

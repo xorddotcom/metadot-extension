@@ -2,10 +2,10 @@ import React from 'react';
 import {
   TxCardWrapper,
   MainText,
-  EquivalentInUSDT,
-  HorizontalContentDiv,
+  TxEquivalentInUSDT,
+  TxHorizontalContentDiv,
   VerticalContentDiv,
-} from './StyledComponents';
+} from '../StyledComponents';
 import { fonts, colors } from '../../utils';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
@@ -22,14 +22,14 @@ function TxCard({
       <div style={{ marginLeft: 10 }}>
         <VerticalContentDiv>
           <MainText className={mainHeadingfontFamilyClass}>{`${operation} ${coin}`}</MainText>
-          <HorizontalContentDiv>
+          <TxHorizontalContentDiv>
             <MainText
               className={mainHeadingfontFamilyClass}
               color={incrementColor}
             >
               {status}
             </MainText>
-          </HorizontalContentDiv>
+          </TxHorizontalContentDiv>
         </VerticalContentDiv>
       </div>
 
@@ -38,11 +38,11 @@ function TxCard({
           <MainText className={mainHeadingfontFamilyClass}>
             {`${amount} ${coin}`}
           </MainText>
-          <HorizontalContentDiv>
-            <EquivalentInUSDT className={subHeadingfontFamilyClass}>
+          <TxHorizontalContentDiv>
+            <TxEquivalentInUSDT className={subHeadingfontFamilyClass}>
               {amountInUsd}
-            </EquivalentInUSDT>
-          </HorizontalContentDiv>
+            </TxEquivalentInUSDT>
+          </TxHorizontalContentDiv>
         </VerticalContentDiv>
       </div>
     </TxCardWrapper>

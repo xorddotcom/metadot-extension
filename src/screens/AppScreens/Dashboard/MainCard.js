@@ -16,12 +16,14 @@ import {
   VerticalContentDiv,
   CopyIconImg,
 } from './StyledComponents';
+import { LightTooltip } from '../../../components';
 import NotConnected from '../../../assets/images/notConnected.svg';
 import { fonts, helpers, colors } from '../../../utils';
 
 const { addressModifier, trimBalance } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryTextColor } = colors;
+
 function MainCard({
   balance, address, tokenName, balanceInUsd, accountName,
 }) {
@@ -74,16 +76,22 @@ function MainCard({
         </AccountName>
       </div>
       <VerticalContentDiv>
-        {/* <LightTooltip title={address} arrow placement="bottom"> */}
         <PublicAddress className={mainHeadingfontFamilyClass}>
           (
           {addressModifier(address)}
           )
         </PublicAddress>
-        {/* </LightTooltip> */}
-        <div className={`tooltip ${mainHeadingfontFamilyClass}`}>
-          <CopyIconImg src={ContentCopyIcon} alt="copy-icon" onClick={copyText} />
-          <span {...copyIconTooltipText}>Copy</span>
+        <div style={{ position: 'relative', marginTop: '-0.2  rem' }}>
+          <LightTooltip title="Copy address" arrow placement="right">
+            <ContentCopyIcon
+              style={{
+                color: '#cccccc',
+                fontSize: 12,
+                marginLeft: 10,
+              }}
+              onClick={copyText}
+            />
+          </LightTooltip>
         </div>
       </VerticalContentDiv>
 

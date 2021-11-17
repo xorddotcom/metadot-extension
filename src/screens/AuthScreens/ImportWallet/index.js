@@ -1,10 +1,10 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-throw-literal */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Input } from '@material-ui/core';
-import keyring from '@polkadot/ui-keyring';
 import { Option, OptionDiv } from './StyledComponents';
 import {
   AuthWrapper,
@@ -13,11 +13,12 @@ import {
   MainHeading,
   SubHeading,
   SubMainWrapperForAuthScreens,
+  LightTooltip,
 } from '../../../components';
 import { fonts, colors } from '../../../utils';
 import { setSeed } from '../../../redux/slices/account';
 import { WarningText } from '../CreateWallet/StyledComponents';
-import { encrypt } from '../../../utils/accounts';
+import { encrypt, validatingSeedPhrase } from '../../../utils/accounts';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryTextColor, darkBgColor } = colors;
@@ -59,31 +60,27 @@ function ImportWallet() {
         return minimumWords;
       }
 
-      // verifiying if seed exist in blockchain or not
-      keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
-      await keyring.addUri(seedPhrase);
+      const res = validatingSeedPhrase(seedPhrase);
 
-      const tmpPassword = '123';
-      const encryptedSeed = encrypt(seedPhrase, tmpPassword);
+      res
+        .then((r) => {
+          console.log('r value', r);
+          if (r) {
+            console.log('r in if ');
+            const tmpPassword = '123';
+            const encryptedSeed = encrypt(seedPhrase, tmpPassword);
 
-      dispatch(setSeed(encryptedSeed));
-      history.push('/createWallet');
+            dispatch(setSeed(encryptedSeed));
+            history.push('/createWallet');
+          } else if (!isErrorOccur) {
+            console.log('r in else if ');
+            setInvalidSeedMessage(seedDoesnotExist);
+          }
+        }).catch((e) => console.log('err', e));
 
       return true;
     } catch (err) {
-      try {
-        await keyring.addUri(seedPhrase);
-
-        const tmpPassword = '123';
-        const encryptedSeed = encrypt(seedPhrase, tmpPassword);
-
-        dispatch(setSeed(encryptedSeed));
-        history.push('/createWallet');
-      } catch (error) {
-        if (!isErrorOccur) {
-          setInvalidSeedMessage(seedDoesnotExist);
-        }
-      }
+      console.log('error in import wallet', err);
       return err;
     }
   };

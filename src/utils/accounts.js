@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import keyring from '@polkadot/ui-keyring';
-import { mnemonicGenerate } from '@polkadot/util-crypto';
+import { cryptoWaitReady, mnemonicGenerate } from '@polkadot/util-crypto';
 import encryptpwd from 'encrypt-with-password';
 
 function GenerateSeedPhrase() {
@@ -9,6 +9,16 @@ function GenerateSeedPhrase() {
     return seed;
   } catch (error) {
     console.log('ERROR IN GenerateSeedPhrase', error);
+  }
+}
+
+async function validatingSeedPhrase(seedPhrase) {
+  try {
+    await keyring.addUri(seedPhrase);
+    return true;
+  } catch (error) {
+    console.log('error', error);
+    return false;
   }
 }
 
@@ -38,6 +48,22 @@ function decrypt(target, password) {
   return decrypted;
 }
 
+const CryptoAndKeyringInit = async () => {
+  cryptoWaitReady()
+    .then(() => {
+      KeyringInitialization();
+    })
+    .catch((error) => {
+      console.error('initialization failed', error);
+    });
+};
+
 export {
-  GenerateSeedPhrase, AccountCreation, KeyringInitialization, encrypt, decrypt,
+  GenerateSeedPhrase,
+  AccountCreation,
+  KeyringInitialization,
+  encrypt,
+  decrypt,
+  validatingSeedPhrase,
+  CryptoAndKeyringInit,
 };

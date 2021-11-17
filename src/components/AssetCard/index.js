@@ -6,7 +6,7 @@ import {
   EquivalentInUSDT,
   HorizontalContentDiv,
   NameAndAmount,
-} from './StyledComponents';
+} from '../StyledComponents';
 import { fonts } from '../../utils';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;

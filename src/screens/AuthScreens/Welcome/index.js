@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-// import AddSharpIcon from '@mui/icons-material/AddSharp';
-// import DownloadIcon from '@mui/icons-material/Download';
-
 import { useDispatch, useSelector } from 'react-redux';
-import keyring from '@polkadot/ui-keyring';
 import AddSharpIcon from '../../../assets/images/icons/add.svg';
 import DownloadIcon from '../../../assets/images/icons/download.svg';
 
@@ -17,6 +13,7 @@ import { MainHeading, SubHeading } from './StyledComponents';
 import { fonts } from '../../../utils';
 import './index.css';
 import { setKeyringInitialized } from '../../../redux/slices/account';
+import { KeyringInitialization } from '../../../utils/accounts';
 
 const { subHeadingfontFamilyClass } = fonts;
 
@@ -28,7 +25,7 @@ function Welcome() {
 
   useEffect(() => {
     if (!currentUser.keyringInitialized) {
-      keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
+      KeyringInitialization();
       dispatch(setKeyringInitialized(true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
