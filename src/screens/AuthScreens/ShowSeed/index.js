@@ -101,7 +101,7 @@ function ShowSeed() {
     <AuthWrapper>
       <Header
         centerText="Seed Phrase"
-        backHandler={() => dispatch(resetAccountSlice())}
+        // backHandler={() => console.log("abc"))}
       />
       <div style={{ marginTop: '29px' }}>
         <MainHeading className={mainHeadingfontFamilyClass}>

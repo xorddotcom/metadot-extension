@@ -64,13 +64,13 @@ function MainCard({
   return (
     <MainPanel>
       <div>
-        <MoreOptions>
+        {/* <MoreOptions>
           <img src={NotConnected} alt="not connected signal" />
           <ConnectionStatus className={subHeadingfontFamilyClass}>
             Not Connected
           </ConnectionStatus>
           <MoreVertIcon style={{ color: primaryTextColor, fontSize: 22 }} />
-        </MoreOptions>
+        </MoreOptions> */}
 
         <AccountName className={mainHeadingfontFamilyClass}>
           {accountName}

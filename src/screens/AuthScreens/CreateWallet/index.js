@@ -268,7 +268,7 @@ function CreateWallet() {
 
         <SubHeading textLightColor marginTop="20px" className={subHeadingfontFamilyClass}>
           This password will be used as the transaction password for the wallet,
-          Polo Wallet does not save passwords
+          MetaDot does not save passwords
           and cannot retrieve them for you. Please keep your password safe!
         </SubHeading>
       </SubMainWrapperForAuthScreens>

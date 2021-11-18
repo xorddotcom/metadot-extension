@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-return-assign */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
@@ -35,7 +37,7 @@ import AssetsAndTransactions from './AssetsAndTransactions';
 
 import { setApiInitializationStarts } from '../../../redux/slices/api';
 import {
-  setRpcUrl, setBalance, setChainName,
+  setRpcUrl, setBalance, setChainName, setLoggedIn, resetAccountSlice,
 } from '../../../redux/slices/account';
 import { fonts, colors } from '../../../utils';
 import {
@@ -274,7 +276,7 @@ function Dashboard(props) {
     <Wrapper>
       <DashboardHeader>
         <LogoContainer>
-          <img src={Logo} width="30px" height="34px" alt="Polo Wallet Logo" />
+          <img src={Logo} width="30px" height="34px" alt="MetaDot Logo" />
         </LogoContainer>
 
         <NetworkContainer>
@@ -315,7 +317,7 @@ function Dashboard(props) {
               mt: 2.5,
               '& .MuiAvatar-root': {
                 width: 32,
-                height: 22,
+                height: 32,
                 ml: -0.5,
                 mr: 1,
               },
@@ -328,11 +330,11 @@ function Dashboard(props) {
           <Paper style={{
             width: '210px',
             marginLeft: '-2.6rem',
-            marginTop: '-0.5rem',
+            marginTop: '-0.8rem',
             backgroundColor: '#212121',
           }}
           >
-            <Typography style={{
+            {/* <Typography style={{
               textAlign: 'center',
               fontWeight: '600',
               paddingTop: '0.8rem',
@@ -340,9 +342,9 @@ function Dashboard(props) {
             }}
             >
               My Profile
-            </Typography>
-            <MenuList>
-              <MenuItem
+            </Typography> */}
+            <MenuList style={{ height: '80%' }}>
+              {/* <MenuItem
                 style={{ minHeight: '37px', color: '#fafafa' }}
               >
                 <ListItemIcon style={{ color: '#fafafa' }} className="flexStart">
@@ -391,15 +393,33 @@ function Dashboard(props) {
                   <span style={{ fontSize: '0.85rem' }}>Setting</span>
                 </ListItemIcon>
                 <img src={ChevronRightOutlinedIcon} alt="icon" style={{ marginLeft: '4.7rem', marginTop: '-0.4rem' }} />
-              </MenuItem>
-              <MenuItem style={{ minHeight: '37px', color: '#fafafa' }}>
+              </MenuItem> */}
+              <MenuItem
+                style={{ minHeight: '37px', color: '#fafafa' }}
+                onClick={() => {
+                  console.log('abc');
+                  // const logOut = async () => {
+                  console.log('Log Out working');
+                  dispatch(setLoggedIn(false));
+                  // };
+                }}
+              >
                 <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
                   <img src={LockOutlinedIcon} alt="lock-icon" />
                   &nbsp; &nbsp;
                   <span style={{ fontSize: '0.85rem' }}>Lock</span>
                 </ListItemIcon>
               </MenuItem>
-              <MenuItem style={{ minHeight: '37px', color: '#fafafa' }}>
+              <MenuItem
+                style={{ minHeight: '37px', color: '#fafafa' }}
+                onClick={() => {
+                  console.log('abc');
+                  // const logOut = async () => {
+                  console.log('Log Out working');
+                  dispatch(resetAccountSlice());
+                  // };
+                }}
+              >
                 <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
                   <img src={LockOutlinedIcon} alt="remove-account" />
                   &nbsp; &nbsp;

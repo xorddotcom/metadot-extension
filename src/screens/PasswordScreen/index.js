@@ -6,6 +6,8 @@ import {
   setLoggedIn,
 } from '../../redux/slices/account';
 // import AppLogo from '../../assets/images/Group.svg';
+import AppLogo from '../../assets/images/logo.svg';
+import metaDot from '../../assets/images/metadot.svg';
 import {
   StyledInput,
   Button,
@@ -28,7 +30,7 @@ const PasswordScreen = () => {
 
     if (hashedPassword === currentUser.walletPassword) {
       dispatch(setLoggedIn(true));
-      history.push('/dashboard');
+      history.push('/');
     } else alert('Password does not match');
     return null;
   };
@@ -49,9 +51,12 @@ const PasswordScreen = () => {
 
   return (
     <div>
-      {/* <div>
-        <img src={AppLogo} style={{ margin: '50px auto' }} alt="Logo" />
-      </div> */}
+      <div>
+        <img src={AppLogo} style={{ margin: '30px auto 10px' }} alt="Logo" />
+      </div>
+      <div>
+        <img src={metaDot} style={{ margin: '10px auto' }} alt="Logo" />
+      </div>
       <div>
         <StyledInput
           {...styledInputPassword}

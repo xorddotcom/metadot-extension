@@ -34,7 +34,13 @@ export const accountSlice = createSlice({
       state.seed = action.payload;
     },
     resetAccountSlice: (state, action) => {
-      state = initialState;
+      state.seed = '';
+      state.publicKey = '';
+      state.isLoggedIn = false;
+      state.accountName = '';
+      state.walletPassword = '';
+      state.balance = 0;
+      state.balanceInUsd = false;
     },
     emptySeedInAccountSlice: (state) => {
       state.seed = '';

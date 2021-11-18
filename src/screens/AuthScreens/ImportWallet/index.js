@@ -155,7 +155,7 @@ function ImportWallet() {
       </div>
       <SubMainWrapperForAuthScreens flexDirection="column" mt="40px">
         <MainHeading {...selectTypeHeading}>Select Type : </MainHeading>
-        <OptionDiv>
+        {/* <OptionDiv>
           <Option {...option1}>
             Seed Phrase
           </Option>
@@ -165,7 +165,7 @@ function ImportWallet() {
               <span className="normalTooltiptext">Coming Soon</span>
             </Option>
           </div>
-        </OptionDiv>
+        </OptionDiv> */}
         {selectedType === 'seed' && (
           <div style={{ marginTop: '1rem' }}>
             <Input
