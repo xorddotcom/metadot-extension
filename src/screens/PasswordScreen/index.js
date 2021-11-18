@@ -30,7 +30,7 @@ const PasswordScreen = () => {
 
     if (hashedPassword === currentUser.walletPassword) {
       dispatch(setLoggedIn(true));
-      history.push('/home');
+      history.push('/');
     } else alert('Password does not match');
     return null;
   };
