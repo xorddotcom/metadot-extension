@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/button-has-type */
 /* eslint-disable no-return-assign */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
@@ -59,6 +60,9 @@ import {
 
 import networks from './networkModalData';
 import DropDown from './DropDown';
+
+import AuthScreen from '../../../components/Modals/AuthScreen/AuthScreen';
+import WelcomeBack from '../../AuthScreens/WelcomeBack';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryTextColor } = colors;
@@ -277,6 +281,9 @@ function Dashboard(props) {
 
   // --------XXXXXXXXXXXXXXX-----------
 
+  // New Screens Modal State
+  const [authScreenModal, setAuthScreenModal] = useState(false);
+
   return (
     <Wrapper>
       <DashboardHeader>
@@ -455,6 +462,14 @@ function Dashboard(props) {
         transactionData={transactions}
       />
 
+      <button
+        onClick={() => setAuthScreenModal(true)}
+        handleClose={() => setAuthScreenModal(false)}
+      >
+        Authorization Modal
+
+      </button>
+
       <SelectNetwork
         open={isModalOpen}
         handleClose={() => setIsModalOpen(false)}
@@ -487,6 +502,23 @@ function Dashboard(props) {
           // mt: 15,
         }}
       />
+
+      <AuthScreen
+        open={authScreenModal}
+        handleClose={() => setAuthScreenModal(false)}
+        style={{
+          width: '78%',
+          background: '#141414',
+          position: 'relative',
+          p: 2,
+          px: 2,
+          pb: 3,
+          // mt: 15,
+        }}
+      />
+
+      <WelcomeBack />
+
     </Wrapper>
   );
 }

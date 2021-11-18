@@ -16,7 +16,7 @@ const { mainHeadingFontSize, subHeadingFontSize } = fonts;
 
 const StyledInputField = styled.input`
   /* padding-left: 25px; */
-  padding: 12px 12.5px;
+  padding: 11px 12.5px;
   color: ${primaryTextColor};
   background-color: ${darkBgColor};
   font-size: 14px !important;
