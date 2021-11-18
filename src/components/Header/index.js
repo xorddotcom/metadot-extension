@@ -22,6 +22,9 @@ function Header({ centerText, backHandler }) {
 
   return (
     <HeaderWrapper>
+      {
+        backHandler
+      && (
       <IconButton
         className="primary-bg-color"
         onClick={() => onBackClick()}
@@ -29,6 +32,8 @@ function Header({ centerText, backHandler }) {
       >
         <img src={ArrowBackIcon} alt="icon" />
       </IconButton>
+      )
+      }
       <HeaderHeading className={mainHeadingfontFamilyClass}>
         {centerText}
       </HeaderHeading>

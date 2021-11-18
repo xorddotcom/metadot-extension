@@ -41,7 +41,7 @@ const UnAuthRoutes = [
 
 const AuthRoutes = [
   {
-    path: '/',
+    path: '/home',
     Component: Dashboard,
   },
   {

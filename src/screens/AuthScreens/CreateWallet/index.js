@@ -107,7 +107,7 @@ function CreateWallet() {
 
     setTimeout(() => {
       dispatch(setIsSuccessModalOpen(false));
-      history.push('/');
+      history.push('/home');
     }, 2500);
 
     // navigate to dashboard on success

@@ -101,7 +101,7 @@ function ShowSeed() {
     <AuthWrapper>
       <Header
         centerText="Seed Phrase"
-        // backHandler={() => console.log("abc"))}
+        backHandler={() => console.log('goBack')}
       />
       <div style={{ marginTop: '29px' }}>
         <MainHeading className={mainHeadingfontFamilyClass}>

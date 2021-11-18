@@ -9,12 +9,13 @@ import { Slide, ToastContainer } from 'react-toastify';
 
 import './App.css';
 
-import PasswordScreen from './screens/PasswordScreen';
+// import PasswordScreen from './screens/PasswordScreen';
 import { SuccessResponse } from './components';
 import { setIsSuccessModalOpen } from './redux/slices/successModalHandling';
 import ApiManager from './api';
 import 'react-toastify/dist/ReactToastify.css';
 import { routes } from './utils';
+import WelcomeBack from './screens/AuthScreens/WelcomeBack';
 
 const { AuthRoutes, UnAuthRoutes } = routes;
 
@@ -37,7 +38,7 @@ function App() {
       text: currentUser.successModalHandling.loadingFor || 'Setting things up!',
     };
     if (!currentUser.account.isLoggedIn && currentUser.account.publicKey) {
-      content = <PasswordScreen />;
+      content = <WelcomeBack />;
     } else if (
       // prettier-ignore
       currentUser.account.isLoggedIn
