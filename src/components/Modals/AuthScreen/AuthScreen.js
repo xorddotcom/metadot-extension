@@ -16,16 +16,16 @@ function AuthScreen({
 }) {
   const btnF = {
     text: 'Cancel',
-    width: '123px',
-    height: '45px',
+    width: '110px',
+    height: '40px',
     fontSize: '0.8rem',
     handleClick: handleClose,
   };
 
   const btnS = {
     text: 'Confirm',
-    width: '123px',
-    height: '45px',
+    width: '110px',
+    height: '40px',
     fontSize: '0.8rem',
     handleClick: () => console.log('clicked'),
   };
@@ -47,7 +47,7 @@ function AuthScreen({
     >
       <Box sx={style} className="txDetails-modal-style">
         <MainDiv>
-          <MainText1 textAlign="center" className={mainHeadingfontFamilyClass}>Authorization</MainText1>
+          <MainText1 marginTop="10px" textAlign="center" className={mainHeadingfontFamilyClass}>Authorization</MainText1>
 
           <VerticalContentDiv marginTop="15px" mb="30px">
             <MainText fs="14px" mb="15px" className={mainHeadingfontFamilyClass}>

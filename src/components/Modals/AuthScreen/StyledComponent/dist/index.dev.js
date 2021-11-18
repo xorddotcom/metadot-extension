@@ -42,7 +42,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n    /* width: 290px; */\n    background-color: #141414;\n    border: 0.8px solid primaryBgColor;\n    /* margin: 0 4; */\n    display: flex;\n    flex-flow: column;\n    justify-content: center;\n    align-items: center;\n    padding: 1rem 1rem;\n    box-sizing: border-box;\n    box-shadow: 0px 0px 20px rgba(46, 155, 155, 0.1);\n    border-radius: 6px;\n"]);
+  var data = _taggedTemplateLiteral(["\n    border: 0.8px solid primaryBgColor;\n    display: flex;\n    flex-flow: column;\n    justify-content: center;\n    align-items: center;\n    padding: 1rem 0.5rem;\n    box-sizing: border-box;\n    border-radius: 6px;\n"]);
 
   _templateObject = function _templateObject() {
     return data;

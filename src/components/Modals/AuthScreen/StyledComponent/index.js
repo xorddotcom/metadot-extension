@@ -6,17 +6,13 @@ const { primaryTextColor, darkBgColor } = colors;
 const { mainHeadingFontSize, buttonFontSize } = fonts;
 
 export const MainDiv = styled.div`
-    /* width: 290px; */
-    background-color: #141414;
     border: 0.8px solid primaryBgColor;
-    /* margin: 0 4; */
     display: flex;
     flex-flow: column;
     justify-content: center;
     align-items: center;
-    padding: 1rem 1rem;
+    padding: 1rem 0.5rem;
     box-sizing: border-box;
-    box-shadow: 0px 0px 20px rgba(46, 155, 155, 0.1);
     border-radius: 6px;
 `;
 
