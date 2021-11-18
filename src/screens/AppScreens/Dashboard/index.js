@@ -62,7 +62,6 @@ import networks from './networkModalData';
 import DropDown from './DropDown';
 
 import AuthScreen from '../../../components/Modals/AuthScreen/AuthScreen';
-import WelcomeBack from '../../AuthScreens/WelcomeBack';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryTextColor } = colors;
@@ -516,9 +515,6 @@ function Dashboard(props) {
           // mt: 15,
         }}
       />
-
-      <WelcomeBack />
-
     </Wrapper>
   );
 }

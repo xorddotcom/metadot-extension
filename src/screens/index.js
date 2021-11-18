@@ -7,6 +7,7 @@ import CreateWallet from './AuthScreens/CreateWallet';
 import ImportWallet from './AuthScreens/ImportWallet';
 import ShowSeed from './AuthScreens/ShowSeed';
 import Welcome from './AuthScreens/Welcome';
+import WelcomeBack from './AuthScreens/WelcomeBack';
 
 const screens = {
   Welcome,
@@ -16,6 +17,7 @@ const screens = {
   CreateWallet,
   Dashboard,
   Send,
+  WelcomeBack,
 };
 
 export default screens;

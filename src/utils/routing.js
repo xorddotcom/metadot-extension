@@ -9,6 +9,7 @@ const {
   CreateWallet,
   Dashboard,
   Send,
+  WelcomeBack,
 } = screens;
 
 const UnAuthRoutes = [
@@ -32,6 +33,10 @@ const UnAuthRoutes = [
     path: '/createWallet',
     Component: CreateWallet,
   },
+  {
+    path: '/welcomeBack',
+    Component: WelcomeBack,
+  },
 ];
 
 const AuthRoutes = [
@@ -42,6 +47,10 @@ const AuthRoutes = [
   {
     path: '/Send',
     Component: Send,
+  },
+  {
+    path: '/welcomeBack',
+    Component: WelcomeBack,
   },
 
 ];
