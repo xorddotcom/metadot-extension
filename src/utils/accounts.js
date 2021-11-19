@@ -1,3 +1,4 @@
+/* eslint-disable no-throw-literal */
 /* eslint-disable no-unused-vars */
 import keyring from '@polkadot/ui-keyring';
 import { cryptoWaitReady, mnemonicGenerate } from '@polkadot/util-crypto';
@@ -22,6 +23,11 @@ async function validatingSeedPhrase(seedPhrase) {
   }
 }
 
+// need to invoke this function in background.js script
+async function KeyringInitialization() {
+  await keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
+}
+
 // create account from seed phrase function
 async function AccountCreation({ name, password, seed }) {
   try {
@@ -29,13 +35,10 @@ async function AccountCreation({ name, password, seed }) {
     return data.json;
   } catch (error) {
     console.log('ERROR IN AccountCreation', error);
-    return false;
+    await KeyringInitialization();
+    const data = keyring.addUri(seed);
+    return data.json;
   }
-}
-
-// need to invoke this function in background.js script
-async function KeyringInitialization() {
-  await keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
 }
 
 function encrypt(target, password) {

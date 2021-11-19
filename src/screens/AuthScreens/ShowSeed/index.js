@@ -17,35 +17,18 @@ import {
   WarningModal,
 } from '../../../components';
 import { fonts } from '../../../utils';
-import { decrypt, encrypt, GenerateSeedPhrase } from '../../../utils/accounts';
-import { resetAccountSlice, setSeed } from '../../../redux/slices/account';
+import { decrypt } from '../../../utils/accounts';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 function ShowSeed() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { seed } = useSelector((state) => state.account);
+  const { seed, isLoggedIn } = useSelector((state) => state.account);
 
   const decryptedSeed = seed ? decrypt(seed, '123') : null;
 
   const dispatch = useDispatch();
-
-  // generate new seed for parent account
-  useEffect(() => {
-    try {
-      if (!seed) {
-      // checking whether seed needs to be created or not
-        const newSeed = GenerateSeedPhrase();
-        const tmpPassword = '123';
-        const encryptedSeed = encrypt(newSeed, tmpPassword);
-        dispatch(setSeed(encryptedSeed)); // store newSeed in redux
-      }
-    } catch (error) {
-      console.log('ERROR while generating new seed for parent account', error);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const SinglePhrase = ({ index, phrase }) => (
     <SeedWrapper>

@@ -12,8 +12,8 @@ import { Button } from '../../../components';
 import { MainHeading, SubHeading } from './StyledComponents';
 import { fonts } from '../../../utils';
 import './index.css';
-import { setKeyringInitialized } from '../../../redux/slices/account';
-import { KeyringInitialization } from '../../../utils/accounts';
+import { setKeyringInitialized, setSeed } from '../../../redux/slices/account';
+import { encrypt, GenerateSeedPhrase, KeyringInitialization } from '../../../utils/accounts';
 
 const { subHeadingfontFamilyClass } = fonts;
 
@@ -22,6 +22,21 @@ function Welcome() {
 
   const currentUser = useSelector((state) => state.account);
   const dispatch = useDispatch();
+
+  // generate new seed for parent account
+  useEffect(() => {
+    try {
+      // if (!seed) {
+      // checking whether seed needs to be created or not
+      const newSeed = GenerateSeedPhrase();
+      const tmpPassword = '123';
+      const encryptedSeed = encrypt(newSeed, tmpPassword);
+      dispatch(setSeed(encryptedSeed)); // store newSeed in redux
+      // }
+    } catch (error) {
+      console.log('ERROR while generating new seed for parent account', error);
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     if (!currentUser.keyringInitialized) {

@@ -13,12 +13,11 @@ import {
   MainHeading,
   SubHeading,
   SubMainWrapperForAuthScreens,
-  LightTooltip,
 } from '../../../components';
 import { fonts, colors } from '../../../utils';
 import { setSeed } from '../../../redux/slices/account';
 import { WarningText } from '../CreateWallet/StyledComponents';
-import { encrypt, validatingSeedPhrase } from '../../../utils/accounts';
+import { encrypt, KeyringInitialization, validatingSeedPhrase } from '../../../utils/accounts';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryTextColor, darkBgColor } = colors;
@@ -59,9 +58,8 @@ function ImportWallet() {
         setInvalidSeedMessage(minimumWords);
         return minimumWords;
       }
-
+      await KeyringInitialization();
       const res = validatingSeedPhrase(seedPhrase);
-
       res
         .then((r) => {
           console.log('r value', r);
@@ -81,6 +79,23 @@ function ImportWallet() {
       return true;
     } catch (err) {
       console.log('error in import wallet', err);
+      const res = validatingSeedPhrase(seedPhrase);
+      res
+        .then((r) => {
+          console.log('r value', r);
+          if (r) {
+            console.log('r in if ');
+            const tmpPassword = '123';
+            const encryptedSeed = encrypt(seedPhrase, tmpPassword);
+
+            dispatch(setSeed(encryptedSeed));
+            history.push('/createWallet');
+          } else if (!isErrorOccur) {
+            console.log('r in else if ');
+            setInvalidSeedMessage(seedDoesnotExist);
+          }
+        }).catch((e) => console.log('err', e));
+
       return err;
     }
   };
@@ -129,7 +144,7 @@ function ImportWallet() {
     onChange: (e) => handleChange(e.target.value),
     value: seedPhrase,
     rows: 5,
-    placeholder: 'Place your seed here to be replaced by Mnemonic',
+    placeholder: 'Place your seed here',
   };
 
   const warningText = {
@@ -146,7 +161,7 @@ function ImportWallet() {
 
   return (
     <AuthWrapper>
-      <Header centerText="Import Wallet" />
+      <Header centerText="Import Wallet" backHandler={() => console.log('goBack')} />
       <div>
         <MainHeading {...mainHeading}>Restore your wallet : </MainHeading>
         <SubHeading textLightColor {...subHeading}>

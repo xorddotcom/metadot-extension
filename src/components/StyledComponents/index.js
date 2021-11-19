@@ -73,7 +73,7 @@ export const EquivalentInUSDT = styled.p`
 // ------------ Auth wrapper styled components ------- //
 
 export const Wrapper = styled.div`
-  padding: 48px 20px 8px;
+  padding: 18px 20px 8px;
 `;
 
 // xxxxxxxxxx Auth wrapper styled components xxxxxxxxxx //
