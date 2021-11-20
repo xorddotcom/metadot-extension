@@ -158,6 +158,11 @@ export const Balance = styled.p`
   text-align: start;
   margin-bottom: 0px;
   margin-top: 0px;
+
+  height: ${(props) => (props.height && props.height)};
+  width: ${(props) => (props.width && props.width)};
+  background-color: ${(props) => (props.backgroundColor && props.backgroundColor)};
+  border-radius: ${(props) => (props.borderRadius && props.borderRadius)};
 `;
 
 export const AccountName = styled.p`

@@ -60,6 +60,9 @@ export const HorizontalContentDiv = styled.div`
   align-items: center;
   justify-content: space-between;
   height: ${(props) => (props.height ? props.height : 'auto')};
+  width: ${(props) => (props.width ? props.width : 'auto')};
+  background-color: ${(props) => (props.backgroundColor && props.backgroundColor)};
+  border-radius: ${(props) => (props.borderRadius && props.borderRadius)};
 `;
 
 export const EquivalentInUSDT = styled.p`

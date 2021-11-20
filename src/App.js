@@ -1,15 +1,14 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import {
   MemoryRouter as Router, Switch, Route,
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import LoadingScreen from 'react-loading-screen';
 
 import { Slide, ToastContainer } from 'react-toastify';
 
 import './App.css';
 
-// import PasswordScreen from './screens/PasswordScreen';
 import { SuccessResponse } from './components';
 import { setIsSuccessModalOpen } from './redux/slices/successModalHandling';
 import ApiManager from './api';
@@ -46,20 +45,18 @@ function App() {
     ) {
       content = (
         <div>
-          <LoadingScreen {...loadingScreen}>
-            <ApiManager rpc={currentUser.account.rpcUrl} />
+          <ApiManager rpc={currentUser.account.rpcUrl} />
 
-            {
-              AuthRoutes.map((route) => {
-                const { path, Component } = route;
-                return (
-                  <Route exact path={path} key={path}>
-                    <Component />
-                  </Route>
-                );
-              })
+          {
+                 AuthRoutes.map((route) => {
+                   const { path, Component } = route;
+                   return (
+                     <Route exact path={path} key={path}>
+                       <Component />
+                     </Route>
+                   );
+                 })
             }
-          </LoadingScreen>
         </div>
       );
     } else {

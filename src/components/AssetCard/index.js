@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
   AssetCardWrapper,
   CoinAmount,
@@ -17,6 +18,7 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 function AssetCard({
   name, amount, shortName, amountInUsd, logo,
 }) {
+  const { apiInitializationStarts } = useSelector((state) => state.api);
   const history = useHistory();
   const sendBtn = {
     text: 'Send',
@@ -43,19 +45,47 @@ function AssetCard({
           <CoinName className={mainHeadingfontFamilyClass}>
             {name === 'Polkadot Main Network' ? 'Polkadot' : name}
           </CoinName>
-          <HorizontalContentDiv height="17px">
-            <CoinAmount className={mainHeadingfontFamilyClass}>
-              {`${amount} ${shortName}`}
-            </CoinAmount>
-            <EquivalentInUSDT className={subHeadingfontFamilyClass}>
-              ($
-              {amountInUsd}
+          {
+            !apiInitializationStarts
+              ? (
+                <HorizontalContentDiv height="17px">
+                  <CoinAmount className={mainHeadingfontFamilyClass}>
+                    {`${amount} ${shortName}`}
+                  </CoinAmount>
+                  <EquivalentInUSDT className={subHeadingfontFamilyClass}>
+                    ($
+                    {amountInUsd}
+                    )
+                  </EquivalentInUSDT>
+                </HorizontalContentDiv>
               )
-            </EquivalentInUSDT>
-          </HorizontalContentDiv>
+              : (
+                <HorizontalContentDiv
+                  className="wave"
+                  height="17px"
+                  width="90px"
+                  borderRadius="10px"
+                  backgroundColor="rgba(196, 196, 196, 0.4)"
+                />
+              )
+          }
         </NameAndAmount>
         <div style={{ marginLeft: '3.9rem', marginTop: '0.5rem' }}>
-          <Button {...sendBtn} />
+          {
+            !apiInitializationStarts ? <Button {...sendBtn} />
+              : (
+                <div
+                  style={{
+                    width: 70,
+                    height: 32,
+                    borderRadius: '40px',
+                    marginBottom: 10,
+                  }}
+                  className="wave"
+                />
+              )
+          }
+
         </div>
       </HorizontalContentDiv>
     </AssetCardWrapper>

@@ -3,6 +3,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React from 'react';
+import { useSelector } from 'react-redux';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { styled } from '@mui/material/styles';
 import { toast } from 'react-toastify';
@@ -29,6 +30,8 @@ function MainCard({
   balance, address, tokenName, balanceInUsd, accountName,
 }) {
   const [open, setOpen] = React.useState(false);
+
+  const { apiInitializationStarts } = useSelector((state) => state.api);
 
   const copyText = () => {
     setOpen(true);
@@ -88,17 +91,31 @@ function MainCard({
         </div>
       </VerticalContentDiv>
 
-      <Balance className={mainHeadingfontFamilyClass}>
-        <div className={`topTooltip ${mainHeadingfontFamilyClass}`}>
-          <span>
-            {trimBalance(balance)}
-          </span>
-          <span style={{ marginLeft: 7 }}>{tokenName}</span>
-          <span {...addTooltipText}>
-            {balance}
-          </span>
-        </div>
-      </Balance>
+      {
+        !apiInitializationStarts
+          ? (
+            <Balance className={mainHeadingfontFamilyClass}>
+              <div className={`topTooltip ${mainHeadingfontFamilyClass}`}>
+                <span>
+                  {trimBalance(balance)}
+                </span>
+                <span style={{ marginLeft: 7 }}>{tokenName}</span>
+                <span {...addTooltipText}>
+                  {balance}
+                </span>
+              </div>
+            </Balance>
+          )
+          : (
+            <Balance
+              className="wave"
+              height="35px"
+              width="151px"
+              borderRadius="10px"
+              backgroundColor="rgba(196, 196, 196, 0.4)"
+            />
+          )
+      }
 
       <VerticalContentDiv>
         <PerUnitPrice className={mainHeadingfontFamilyClass}>

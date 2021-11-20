@@ -30,7 +30,7 @@ body {
 }
 
 :root {
-  --primaryBgColor: #2E9B9B;
+  --primaryBgColor: #2e9b9b;
   --primaryTextColor: #fafafa;
   --boxShadowColor: rgba(46, 155, 155, 0.1);
   --tooltipColor: #333333;
@@ -65,16 +65,19 @@ body {
 }
 
 .primary-bg-color {
-  background: 
-  radial-gradient(40.36% 71% at 18.57% 29%, 
-  rgba(255, 255, 255, 0.08) 0%, 
-  rgba(255, 255, 255, 0) 79.17%, 
-  rgba(255, 255, 255, 0) 96.87%), 
-  radial-gradient(89.64% 128.83% at 22.5% 26%, 
-  rgba(255, 255, 255, 0.15) 0%, 
-  rgba(20, 20, 20, 0) 67.09%, 
-  rgba(20, 20, 20, 0) 100%), 
-  var(--primaryBgColor) !important;
+  background: radial-gradient(
+      40.36% 71% at 18.57% 29%,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0) 79.17%,
+      rgba(255, 255, 255, 0) 96.87%
+    ),
+    radial-gradient(
+      89.64% 128.83% at 22.5% 26%,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(20, 20, 20, 0) 67.09%,
+      rgba(20, 20, 20, 0) 100%
+    ),
+    var(--primaryBgColor) !important;
   box-shadow: 0px 0px 20px 5px rgba(33, 154, 154, 0.14) !important;
 }
 
@@ -153,7 +156,7 @@ input:focus {
 }
 
 ::selection {
-  background-color: var(--primaryBgColor);;
+  background-color: var(--primaryBgColor);
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -193,7 +196,7 @@ input[type='number'] {
 }
 
 .tooltip .tooltiptext::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 100%;
   left: 17%;
@@ -238,9 +241,9 @@ input[type='number'] {
 }
 
 .topTooltip .topTooltiptext::after {
-  content: " ";
+  content: ' ';
   position: absolute;
-  bottom: 100%;  /* At the top of the tooltip */
+  bottom: 100%; /* At the top of the tooltip */
   left: 20%;
   margin-left: -5px;
   border-width: 5px;
@@ -277,7 +280,7 @@ input[type='number'] {
 }
 
 .normalTooltip .normalTooltiptext::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 100%;
   left: 50%;
@@ -298,4 +301,30 @@ input[type='number'] {
 
 .border-white {
   border: 1px solid white;
+}
+
+.wave {
+  animation: wave 1.5s infinite linear forwards;
+  -webkit-animation: wave 1.5s infinite linear forwards;
+  background: rgba(196, 196, 196, 0.4);
+  background: linear-gradient(to right, #8f898966 8%, #a6b5b6 18%, #88878a 33%);
+  background-size: 800px 104px;
+}
+
+@keyframes wave {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+@-webkit-keyframes wave {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
 }
