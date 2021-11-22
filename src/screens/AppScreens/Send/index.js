@@ -193,7 +193,7 @@ const Send = () => {
     const decimalPlaces = await api.registry.chainDecimals;
     setLoading2(true);
     const keyring = new Keyring({ type: 'sr25519' });
-    const decryptedSeed = decrypt(currentUser.account.seed, currentUser.account.walletPassword);
+    const decryptedSeed = decrypt(currentUser.account.seed, 'input_value');
     const sender = keyring.addFromUri(decryptedSeed);
     data.operation = 'Send';
     const decimals = currentUser.account.chainName === 'AcalaMandala'

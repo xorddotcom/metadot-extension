@@ -7,12 +7,13 @@ import { useHistory } from 'react-router-dom';
 import AppLogo from '../../../assets/images/logo.svg';
 import { Button } from '../../../components';
 
-import { MainHeading, SubHeading } from './StyledComponents';
+import { MainHeading, SubHeading, WarningText } from './StyledComponents';
 import { fonts, colors } from '../../../utils';
 import './index.css';
 import StyledInput from '../../../components/StyledInput/index';
 import { Wrapper } from '../../../components/StyledComponents';
 import { setLoggedIn } from '../../../redux/slices/account';
+import { decrypt, encrypt } from '../../../utils/accounts';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryBgColor } = colors;
@@ -33,6 +34,7 @@ function WelcomeBack() {
 
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
 
   const currentUser = useSelector((state) => state.account);
 
@@ -42,17 +44,26 @@ function WelcomeBack() {
     }
     const hashedPassword = web3.utils.sha3(password);
 
-    if (hashedPassword === currentUser.walletPassword) {
+    try {
+      decrypt(currentUser.seed, password);
+      console.log('Correct');
       dispatch(setLoggedIn(true));
       history.push('/');
-    } else alert('Password does not match');
+    } catch (err) {
+      console.log('error due to wrong ', err);
+      // alert('Password does not match');
+      setPasswordError('Invalid password!');
+    }
     return null;
   };
 
   const styledInput = {
     placeholder: 'Enter Password',
     value: password,
-    onChange: (t) => setPassword(t),
+    onChange: (t) => {
+      setPassword(t);
+      setPasswordError('');
+    },
     type: 'password',
     hideHandler: () => setShowPassword(!showPassword),
     hideState: showPassword,
@@ -71,20 +82,28 @@ function WelcomeBack() {
         <img src={AppLogo} alt="logo" />
       </div>
 
-      <div className="main-content">
+      <div className="main-content" style={{ minHeight: '136px' }}>
         <MainHeading className={mainHeadingfontFamilyClass}>
           Welcome Back
         </MainHeading>
         <StyledInput isCorrect {...styledInput} />
+        {/* {passwordError && ( */}
+        <WarningText
+          className={subHeadingfontFamilyClass}
+          visibility={!!passwordError}
+        >
+          {passwordError}
+        </WarningText>
+        {/* )} */}
       </div>
       <div className="btn-wrapper" style={{ marginLeft: 0, marginTop: '50px' }}>
         <Button {...btn} />
       </div>
-      <SubHeading className={subHeadingfontFamilyClass}>
+      {/* <SubHeading className={subHeadingfontFamilyClass}>
         or
         {' '}
         <span style={{ color: primaryBgColor }}>import using Secret Recovery Phrase</span>
-      </SubHeading>
+      </SubHeading> */}
     </Wrapper>
   );
 }

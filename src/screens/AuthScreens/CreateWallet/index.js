@@ -1,7 +1,7 @@
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import web3 from 'web3';
+// import web3 from 'web3';
 import { useHistory } from 'react-router-dom';
 import {
   AuthWrapper,
@@ -16,7 +16,7 @@ import { AccountCreation, decrypt, encrypt } from '../../../utils/accounts';
 import {
   setLoggedIn,
   setPublicKey,
-  setWalletPassword,
+  // setWalletPassword,
   setAccountName,
   setSeed,
 } from '../../../redux/slices/account';
@@ -80,17 +80,17 @@ function CreateWallet() {
   };
 
   const saveAccountInRedux = (add, name, pass) => {
-    const hashedPassword = web3.utils.sha3(pass);
+    // const hashedPassword = web3.utils.sha3(pass);
     // update redux data and tracking flags accordingly
     dispatch(setLoggedIn(true));
     dispatch(setPublicKey(add));
     dispatch(setAccountName(name));
-    dispatch(setWalletPassword(hashedPassword));
+    // dispatch(setWalletPassword(hashedPassword));
 
     const tmpPassword = '123';
     const decryptedSeed = decrypt(seed, tmpPassword);
 
-    const encryptedSeedWithAccountPassword = encrypt(decryptedSeed, hashedPassword);
+    const encryptedSeedWithAccountPassword = encrypt(decryptedSeed, pass);
     dispatch(setSeed(encryptedSeedWithAccountPassword));
   };
 

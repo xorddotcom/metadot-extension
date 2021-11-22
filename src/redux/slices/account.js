@@ -10,7 +10,6 @@ const initialState = {
   isLoggedIn: false,
   publicKey: '',
   accountName: '',
-  walletPassword: '',
   rpcUrl: POLKADOT_CONFIG.RPC_URL,
   chainName: POLKADOT_CONFIG.CHAIN_NAME,
   tokenName: POLKADOT_CONFIG.TOKEN_NAME,
@@ -38,7 +37,6 @@ export const accountSlice = createSlice({
       state.publicKey = '';
       state.isLoggedIn = false;
       state.accountName = '';
-      state.walletPassword = '';
       state.balance = 0;
       state.balanceInUsd = false;
     },
@@ -50,9 +48,6 @@ export const accountSlice = createSlice({
     },
     setAccountName: (state, action) => {
       state.accountName = action.payload;
-    },
-    setWalletPassword: (state, action) => {
-      state.walletPassword = action.payload;
     },
     setLoggedIn: (state, action) => {
       state.isLoggedIn = action.payload;
@@ -81,7 +76,6 @@ export const {
   resetAccountSlice,
   setPublicKey,
   setAccountName,
-  setWalletPassword,
   setLoggedIn,
   setRpcUrl,
   setTokenName,
