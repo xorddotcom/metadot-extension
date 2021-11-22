@@ -2,7 +2,6 @@
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
 import ContentCopyIcon from '../../../assets/images/icons/copyIcon.svg';
 import {
   CopyIcon, CopyText, IndexText, SeedText, SeedWrapper,
@@ -23,6 +22,7 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 function ShowSeed() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [copy, setCopy] = useState('Copy to clipboard');
 
   const { seed, isLoggedIn } = useSelector((state) => state.account);
 
@@ -41,14 +41,7 @@ function ShowSeed() {
 
   const copySeedText = () => {
     navigator.clipboard.writeText(decryptedSeed);
-    const obj = {
-      position: toast.POSITION.BOTTOM_CENTER,
-      className: 'toast-success',
-      progressClassName: 'success-progress-bar',
-      autoClose: 2000,
-      toastId: 1,
-    };
-    toast.success('Copied!', obj);
+    setCopy('Copied');
   };
 
   const span = {
@@ -58,6 +51,7 @@ function ShowSeed() {
 
   const contentCopyIcon = {
     onClick: copySeedText,
+    onMouseOver: () => setCopy('Copy to clipboard'),
   };
 
   const btn = {
@@ -102,9 +96,9 @@ function ShowSeed() {
       <CopyText className={subHeadingfontFamilyClass}>
         Copy seed phrase
         <span {...span}>A</span>
-        <div className="tooltip">
-          <CopyIcon src={ContentCopyIcon} alt="copyIcon" {...contentCopyIcon} />
-          <span className="tooltiptext">Copy to clipboard</span>
+        <div className="tooltip" {...contentCopyIcon}>
+          <CopyIcon src={ContentCopyIcon} alt="copyIcon" />
+          <span className="tooltiptext">{copy}</span>
         </div>
       </CopyText>
       <SubMainWrapperForAuthScreens mb="3rem">

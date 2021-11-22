@@ -159,7 +159,7 @@ function ConfirmSeed() {
 
   return (
     <AuthWrapper>
-      <Header centerText="Confirm Seed" />
+      <Header centerText="Confirm Seed" backHandler={() => console.log('goBack')} />
       <div>
         <MainHeading {...mainHeading}>
           Confirm seed phrase

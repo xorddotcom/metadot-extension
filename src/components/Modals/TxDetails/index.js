@@ -2,11 +2,10 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-unused-vars */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import CloseIcon from '@mui/icons-material/Close';
-import { toast } from 'react-toastify';
 import ContentCopyIcon from '../../../assets/images/icons/copyIcon.svg';
 import {
   CloseIconDiv,
@@ -29,6 +28,8 @@ function TxDetails({
     hash, amount, operation, accountFrom, accountTo, transactionFee, tokenName,
   } = txDetailsModalData;
 
+  const [copy, setCopy] = useState('Copy Tx Hash');
+
   const getTotalBalance = (value1, value2) => {
     const val = parseFloat(value1) + parseFloat(value2);
     return val.toFixed(4);
@@ -36,13 +37,12 @@ function TxDetails({
 
   const copyText = () => {
     navigator.clipboard.writeText(hash);
-    toast.success('Copied!', {
-      position: toast.POSITION.BOTTOM_CENTER,
-      className: 'toast-success',
-      progressClassName: 'success-progress-bar',
-      autoClose: 1500,
-      toastId: 1,
-    });
+    setCopy('Copied');
+  };
+
+  const tooltipText = {
+    onClick: copyText,
+    onMouseOver: () => setCopy('Copy Tx Hash'),
   };
 
   return (
@@ -72,9 +72,9 @@ function TxDetails({
               <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>Tx Hash</MainText2>
               <HorizontalContentDiv>
                 <div className={`tooltip ${subHeadingfontFamilyClass}`}>
-                  <div onClick={copyText}>
+                  <div {...tooltipText}>
                     <img src={ContentCopyIcon} alt="copy-icon" />
-                    <span className="tooltiptext" style={{ fontSize: '0.7rem' }}>Copy Tx Hash</span>
+                    <span className="tooltiptext" style={{ fontSize: '0.7rem' }}>{copy}</span>
                   </div>
                 </div>
                 <SubText2 pl10 textAlign="end" className={mainHeadingfontFamilyClass}>

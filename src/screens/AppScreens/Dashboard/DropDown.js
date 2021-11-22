@@ -48,7 +48,7 @@ const DropDown = ({
         },
       }}
     // classes={{ paper: classes.paperMenu }}
-      style={{ border: '1px solid #fff' }}
+      // style={{ border: '1px solid #fff' }}
       transformOrigin={{ horizontal: 'right', vertical: 'top' }}
       anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
     >

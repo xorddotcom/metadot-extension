@@ -70,8 +70,10 @@ function AssetCard({
               )
           }
         </NameAndAmount>
-        <div style={{ marginLeft: '3.9rem', marginTop: '0.5rem' }}>
-          {
+
+      </HorizontalContentDiv>
+      <div style={{ marginLeft: '3.9rem', marginTop: '0.5rem' }}>
+        {
             !apiInitializationStarts ? <Button {...sendBtn} />
               : (
                 <div
@@ -86,8 +88,7 @@ function AssetCard({
               )
           }
 
-        </div>
-      </HorizontalContentDiv>
+      </div>
     </AssetCardWrapper>
   );
 }

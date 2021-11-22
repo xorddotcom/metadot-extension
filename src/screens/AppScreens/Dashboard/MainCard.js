@@ -1,12 +1,12 @@
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-unused-vars */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { styled } from '@mui/material/styles';
-import { toast } from 'react-toastify';
 import copyicon from '../../../assets/images/icons/copyIcon.svg';
 import {
   AccountName,
@@ -29,7 +29,9 @@ const { primaryTextColor } = colors;
 function MainCard({
   balance, address, tokenName, balanceInUsd, accountName,
 }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [copy, setCopy] = useState('Copy');
+  const [copyBalance, setCopyBalance] = useState(balance);
 
   const { apiInitializationStarts } = useSelector((state) => state.api);
 
@@ -40,13 +42,13 @@ function MainCard({
     }, 800);
     navigator.clipboard.writeText(address);
 
-    toast.success('Copied!', {
-      position: toast.POSITION.BOTTOM_CENTER,
-      className: 'toast-success',
-      progressClassName: 'success-progress-bar',
-      autoClose: 2000,
-      toastId: 1,
-    });
+    setCopy('Copied!');
+  };
+
+  const copyIconTooltip = {
+    className: `tooltip ${mainHeadingfontFamilyClass}`,
+    onClick: copyText,
+    onMouseOver: () => setCopy('Copy'),
   };
 
   const copyIconTooltipText = {
@@ -55,8 +57,9 @@ function MainCard({
       maxWidth: '70px',
       left: '20%',
       bottom: '120%',
-      fontSize: '0.65rem',
+      fontSize: '0.7rem',
       fontWeight: 300,
+      transition: 'all 0.1s ease-in',
     },
   };
 
@@ -85,9 +88,9 @@ function MainCard({
           {addressModifier(address)}
           )
         </PublicAddress>
-        <div className={`tooltip ${mainHeadingfontFamilyClass}`} onClick={copyText}>
+        <div {...copyIconTooltip}>
           <CopyIconImg src={copyicon} alt="copy-icon" />
-          <span {...copyIconTooltipText}>Copy</span>
+          <span {...copyIconTooltipText}>{copy}</span>
         </div>
       </VerticalContentDiv>
 
