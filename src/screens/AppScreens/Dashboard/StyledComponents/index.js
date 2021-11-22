@@ -95,7 +95,12 @@ export const AccountText = styled.p`
 export const MainPanel = styled.div`
   height: 50%;
   position: relative;
-  background: linear-gradient(102.54deg, rgba(38, 131, 131, 0.8) -82.51%, rgba(38, 131, 131, 0.8) 21.64%, rgba(20, 20, 20, 0.52) 199.89%);
+  background: linear-gradient(
+    102.54deg,
+    rgba(38, 131, 131, 0.8) -82.51%,
+    rgba(38, 131, 131, 0.8) 21.64%,
+    rgba(20, 20, 20, 0.52) 199.89%
+  );
   backdrop-filter: blur(130px);
 
   /* Note: backdrop-filter has minimal browser support */
@@ -139,6 +144,15 @@ export const MoreOptions = styled.div`
   align-items: center;
 `;
 
+export const Refresh = styled.div`
+  position: absolute;
+  right: 28px;
+  bottom: 23px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+`;
+
 export const VerticalContentDiv = styled.div`
   display: flex;
   align-items: center;
@@ -159,10 +173,10 @@ export const Balance = styled.p`
   margin-bottom: 0px;
   margin-top: 0px;
 
-  height: ${(props) => (props.height && props.height)};
-  width: ${(props) => (props.width && props.width)};
-  background-color: ${(props) => (props.backgroundColor && props.backgroundColor)};
-  border-radius: ${(props) => (props.borderRadius && props.borderRadius)};
+  height: ${(props) => props.height && props.height};
+  width: ${(props) => props.width && props.width};
+  background-color: ${(props) => props.backgroundColor && props.backgroundColor};
+  border-radius: ${(props) => props.borderRadius && props.borderRadius};
 `;
 
 export const AccountName = styled.p`

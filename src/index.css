@@ -108,6 +108,37 @@ input:focus {
   outline: none !important;
 }
 
+.scrollbar {
+  overflow-y: scroll;
+  margin: 1rem;
+  margin-right: 0;
+  width: 95%;
+  height: 150px;
+
+  /* background-color: green; */
+}
+
+.scrollbar::-webkit-scrollbar-track {
+    /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);     */
+    background-color: transparent !important;
+}
+
+.scrollbar::-webkit-scrollbar {
+    display: block;
+    background-color: transparent !important;
+    width: 3px !important;
+    height: 30px !important;
+    border-radius: 8px !important;
+    transform: rotate(-180deg) !important; 
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: var(--primaryBgColor) !important;
+}
+
+
 .warning-modal-style {
   border: 0.8px solid var(--primaryBgColor);
   box-sizing: border-box;

@@ -81,7 +81,8 @@ function AssetsAndTransactions({
           Transactions
         </TabSection>
       </Tabs>
-      {isTab1Active && (
+      <div className="scrollbar">
+        {isTab1Active && (
         <AssetCard
           name={chainName}
           shortName={tokenName}
@@ -89,31 +90,32 @@ function AssetsAndTransactions({
           amountInUsd={balanceInUsd}
           logo={logoChangeHandler(tokenName)}
         />
-      )}
-      {isTab2Active && (
+        )}
+        {isTab2Active && (
         // eslint-disable-next-line arrow-body-style
-        transactionData.length > 0 && transactionData.map((transaction) => {
-          const {
-            hash, operation, status, tokenName: tokenNames, amount,
-          } = transaction;
+          transactionData.length > 0 && transactionData.map((transaction) => {
+            const {
+              hash, operation, status, tokenName: tokenNames, amount,
+            } = transaction;
 
-          const txCard = {
-            coin: tokenNames,
-            amountInUsd: tokenNames === 'WND' ? '$0' : '$0',
-            logo: logoChangeHandler(tokenNames),
-            handleClick: () => {
-              setTxDetailsModalData(transaction);
-              handleOpenTxDetailsModal();
-            },
-            operation,
-            status,
-            amount,
-          };
-          return (
-            <TxCard key={hash} {...txCard} />
-          );
-        })
-      )}
+            const txCard = {
+              coin: tokenNames,
+              amountInUsd: tokenNames === 'WND' ? '$0' : '$0',
+              logo: logoChangeHandler(tokenNames),
+              handleClick: () => {
+                setTxDetailsModalData(transaction);
+                handleOpenTxDetailsModal();
+              },
+              operation,
+              status,
+              amount,
+            };
+            return (
+              <TxCard key={hash} {...txCard} />
+            );
+          })
+        )}
+      </div>
 
     </AssetsAndTransactionsWrapper>
   );

@@ -8,7 +8,7 @@ const { mainHeadingFontSize, subHeadingFontSize, headerHeadingFontSize } = fonts
 // ------------------ Asset cards styled components------------------ //
 
 export const AssetCardWrapper = styled.div`
-  width: 85%;
+  width: 89%;
   height: 55px;
   background: linear-gradient(
     98.61deg,
@@ -36,6 +36,7 @@ export const NameAndAmount = styled.div`
 
 export const CoinName = styled.p`
   height: 14px;
+  width: 100%;
   font-size: 12px;
   line-height: 14px;
   letter-spacing: 0.01em;
@@ -53,12 +54,13 @@ export const CoinAmount = styled.p`
   margin-top: 0px;
   margin-bottom: 0px;
   text-align: start;
+  min-width: 40px;
 `;
 
 export const HorizontalContentDiv = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   height: ${(props) => (props.height ? props.height : 'auto')};
   width: ${(props) => (props.width ? props.width : 'auto')};
   background-color: ${(props) => (props.backgroundColor && props.backgroundColor)};

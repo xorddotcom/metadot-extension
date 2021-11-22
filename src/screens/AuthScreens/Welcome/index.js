@@ -48,6 +48,7 @@ function Welcome() {
 
   const btnCreate = {
     text: 'Create',
+    width: '270px',
     StartIcon: AddSharpIcon,
     handleClick: () => {
       history.push('/ShowSeed');
@@ -56,14 +57,20 @@ function Welcome() {
 
   const btnImport = {
     text: 'Import',
+    width: '270px',
     StartIcon: DownloadIcon,
     handleClick: () => {
       history.push('/ImportWallet');
     },
   };
 
+  const divProps = {
+    className: 'btn-wrapper',
+    style: { marginLeft: '0', marginBottom: 0 },
+  };
+
   return (
-    <div>
+    <div className="welcome">
       <div className="app-logo">
         <img src={AppLogo} alt="logo" />
       </div>
@@ -76,7 +83,7 @@ function Welcome() {
           Passion, Progress, Polkadot
         </SubHeading>
       </div>
-      <div className="btn-wrapper">
+      <div {...divProps}>
         <Button {...btnCreate} />
         <div style={{ margin: '0.5rem' }} />
         <Button cancel {...btnImport} />

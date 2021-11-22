@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { styled } from '@mui/material/styles';
+import refreshIcon from '../../../assets/images/icons/refresh.svg';
 import copyicon from '../../../assets/images/icons/copyIcon.svg';
 import {
   AccountName,
@@ -14,6 +15,7 @@ import {
   ConnectionStatus,
   MainPanel,
   MoreOptions,
+  Refresh,
   PerUnitPrice,
   PublicAddress,
   VerticalContentDiv,
@@ -77,6 +79,9 @@ function MainCard({
           </ConnectionStatus>
           <MoreVertIcon style={{ color: primaryTextColor, fontSize: 22 }} />
         </MoreOptions> */}
+        <Refresh>
+          <img src={refreshIcon} alt="refresh-icon" />
+        </Refresh>
 
         <AccountName className={mainHeadingfontFamilyClass}>
           {accountName}
