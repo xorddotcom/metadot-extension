@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { colors, fonts } from '../../../../utils';
 
 const { primaryTextColor, darkBgColor } = colors;
-const { mainHeadingFontSize, buttonFontSize } = fonts;
+const { mainHeadingFontSize, buttonFontSize, subHeadingFontSize } = fonts;
 
 export const MainDiv = styled.div`
     border: 0.8px solid primaryBgColor;
@@ -44,4 +44,17 @@ export const MainText = styled.p`
   margin: ${(props) => (props.m ? props.m : '0px')};
   margin-bottom: ${(props) => (props.mb ? props.mb : '12px')};
   margin-top: ${(props) => (props.mt && props.mt)};
+`;
+
+export const WarningText = styled.p`
+  font-size: ${subHeadingFontSize};
+  font-size: 12.5px;
+  color: rgba(195, 7, 7, 1) !important;
+  width: 100%;
+  font-weight: 400;
+  text-align: start;
+  margin-left: 2px;
+  margin-bottom: 0px;
+  visibility: ${(props) => props.visibility || 'visible'};
+  margin-bottom: 0;
 `;

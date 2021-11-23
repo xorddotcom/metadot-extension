@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
+import { useDispatch, useSelector } from 'react-redux';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '../../Button';
 import {
@@ -13,6 +14,7 @@ import {
   VerticalContentDiv,
 } from './StyledComponents';
 import { fonts } from '../../../utils';
+import { setAuthScreenModal } from '../../../redux/slices/successModalHandling';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -27,10 +29,16 @@ function ConfirmSend({
     return trimmedValue;
   };
 
+  const dispatch = useDispatch();
+  const { isAuthorizedForSigning } = useSelector((state) => state.successModalHandling);
+
   const btnS = {
     text: 'Confirm',
     width: '100%',
-    handleClick: () => handleConfirm(),
+    handleClick: () => {
+      console.log('in else');
+      dispatch(setAuthScreenModal(true));
+    },
     isLoading: loading2,
     disabled: loading2,
   };

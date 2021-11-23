@@ -50,6 +50,7 @@ import {
 } from '../../../components/Modals/SelectNetwork/StyledComponents';
 
 import {
+  setAuthScreenModal,
   setLoadingFor,
 } from '../../../redux/slices/successModalHandling';
 
@@ -275,13 +276,10 @@ function Dashboard(props) {
 
   // --------XXXXXXXXXXXXXXX-----------
 
-  // New Screens Modal State
-  const [authScreenModal, setAuthScreenModal] = useState(false);
-
   return (
     <Wrapper>
       <DashboardHeader>
-        <LogoContainer>
+        <LogoContainer onClick={() => dispatch(setAuthScreenModal(true))}>
           <img src={Logo} width="30px" height="34px" alt="MetaDot Logo" />
         </LogoContainer>
 
@@ -374,19 +372,6 @@ function Dashboard(props) {
         }}
       />
 
-      <AuthScreen
-        open={authScreenModal}
-        handleClose={() => setAuthScreenModal(false)}
-        style={{
-          width: '78%',
-          background: '#141414',
-          position: 'relative',
-          p: 2,
-          px: 2,
-          pb: 3,
-          mt: 15,
-        }}
-      />
     </Wrapper>
   );
 }

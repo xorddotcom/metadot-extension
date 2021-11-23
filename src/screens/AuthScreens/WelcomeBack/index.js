@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import web3 from 'web3';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -42,8 +41,6 @@ function WelcomeBack() {
     if (!password) {
       return false;
     }
-    const hashedPassword = web3.utils.sha3(password);
-
     try {
       decrypt(currentUser.seed, password);
       console.log('Correct');

@@ -6,6 +6,8 @@ const initialState = {
   subText: 'The process is executed successully!',
   isSuccessModalOpen: false,
   loadingFor: '', // this property is here because this is a blacklisted reducer
+  authScreenModal: false, // this property is here because this is a blacklisted reducer
+  isAuthorizedForSigning: false, // this property is here because this is a blacklisted reducer
 };
 
 export const successModalHandling = createSlice({
@@ -24,6 +26,12 @@ export const successModalHandling = createSlice({
     setLoadingFor: (state, action) => {
       state.loadingFor = action.payload;
     },
+    setAuthScreenModal: (state, action) => {
+      state.authScreenModal = action.payload;
+    },
+    setIsAuthorizedForSigning: (state, action) => {
+      state.isAuthorizedForSigning = action.payload;
+    },
   },
 });
 
@@ -33,6 +41,8 @@ export const {
   setSubTextForSuccessModal,
   setIsSuccessModalOpen,
   setLoadingFor,
+  setAuthScreenModal,
+  setIsAuthorizedForSigning,
 } = successModalHandling.actions;
 
 export default successModalHandling.reducer;

@@ -1,7 +1,6 @@
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// import web3 from 'web3';
 import { useHistory } from 'react-router-dom';
 import {
   AuthWrapper,
@@ -80,7 +79,6 @@ function CreateWallet() {
   };
 
   const saveAccountInRedux = (add, name, pass) => {
-    // const hashedPassword = web3.utils.sha3(pass);
     // update redux data and tracking flags accordingly
     dispatch(setLoggedIn(true));
     dispatch(setPublicKey(add));

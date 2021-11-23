@@ -4,7 +4,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { styled } from '@mui/material/styles';
 import refreshIcon from '../../../assets/images/icons/refresh.svg';
@@ -23,6 +23,7 @@ import {
 } from './StyledComponents';
 import NotConnected from '../../../assets/images/notConnected.svg';
 import { fonts, helpers, colors } from '../../../utils';
+import { setApiInitializationStarts } from '../../../redux/slices/api';
 
 const { addressModifier, trimBalance } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
@@ -35,6 +36,7 @@ function MainCard({
   const [copy, setCopy] = useState('Copy');
   const [copyBalance, setCopyBalance] = useState(balance);
 
+  const dispatch = useDispatch();
   const { apiInitializationStarts } = useSelector((state) => state.api);
 
   const copyText = () => {
@@ -79,7 +81,12 @@ function MainCard({
           </ConnectionStatus>
           <MoreVertIcon style={{ color: primaryTextColor, fontSize: 22 }} />
         </MoreOptions> */}
-        <Refresh>
+        <Refresh onClick={() => {
+          dispatch(setApiInitializationStarts(true));
+
+          setTimeout(() => dispatch(setApiInitializationStarts(false)), 1000);
+        }}
+        >
           <img src={refreshIcon} alt="refresh-icon" />
         </Refresh>
 

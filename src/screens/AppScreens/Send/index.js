@@ -15,11 +15,14 @@ import {
   MainContent,
   CenterContent,
 } from './StyledComponents';
-import { setIsSuccessModalOpen, setMainTextForSuccessModal, setSubTextForSuccessModal } from '../../../redux/slices/successModalHandling';
+import {
+  setAuthScreenModal, setIsSuccessModalOpen, setMainTextForSuccessModal, setSubTextForSuccessModal,
+} from '../../../redux/slices/successModalHandling';
 import { decrypt } from '../../../utils/accounts';
 import FromInput from './FromInput';
 import ToInput from './ToInput';
 import AmountInput from './AmountInput';
+import AuthScreen from '../../../components/Modals/AuthScreen/AuthScreen';
 
 const { Keyring } = require('@polkadot/api');
 
@@ -189,12 +192,12 @@ const Send = () => {
   //       console.error('Error [][][]', err);
   //     });
   // };
-  const sendTransaction = async () => {
+
+  const sendTransaction = async (dSeed) => {
     const decimalPlaces = await api.registry.chainDecimals;
     setLoading2(true);
     const keyring = new Keyring({ type: 'sr25519' });
-    const decryptedSeed = decrypt(currentUser.account.seed, 'input_value');
-    const sender = keyring.addFromUri(decryptedSeed);
+    const sender = keyring.addFromUri(dSeed);
     data.operation = 'Send';
     const decimals = currentUser.account.chainName === 'AcalaMandala'
       ? decimalPlaces[0] : decimalPlaces;
@@ -418,6 +421,20 @@ const Send = () => {
       </CenterContent>
       <ConfirmSend
         {...confirmSend}
+      />
+      <AuthScreen
+        open={currentUser.successModalHandling.authScreenModal}
+        handleClose={() => dispatch(setAuthScreenModal(false))}
+        sendTransaction={sendTransaction}
+        style={{
+          width: '78%',
+          background: '#141414',
+          position: 'relative',
+          p: 2,
+          px: 2,
+          pb: 3,
+          mt: 25,
+        }}
       />
     </AuthWrapper>
   );
