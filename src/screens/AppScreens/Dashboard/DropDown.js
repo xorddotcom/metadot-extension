@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import ListItemIcon from '@mui/material/ListItemIcon';
 // import Typography from '@mui/material/Typography';
 import LockOutlinedIcon from '../../../assets/images/icons/lock.svg';
+import RemoveIcon from '../../../assets/images/icons/Remove.svg';
 import { resetAccountSlice, setLoggedIn } from '../../../redux/slices/account';
 // import SettingsOutlinedIcon from '../../../assets/images/icons/setting.svg';
 // import ForumOutlinedIcon from '../../../assets/images/icons/support.svg';
@@ -134,7 +135,11 @@ const DropDown = ({
             }}
           >
             <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
-              <img src={LockOutlinedIcon} alt="lock-icon" />
+              <img
+                src={LockOutlinedIcon}
+                alt="lock-icon"
+                style={{ marginTop: '-0.2rem' }}
+              />
                   &nbsp; &nbsp;
               <span style={{ fontSize: '0.85rem' }}>Lock</span>
             </ListItemIcon>
@@ -142,15 +147,17 @@ const DropDown = ({
           <MenuItem
             style={{ minHeight: '37px', color: '#fafafa' }}
             onClick={() => {
-              console.log('abc');
-              // const logOut = async () => {
-              console.log('Log Out working');
               dispatch(resetAccountSlice());
-            // };
             }}
           >
             <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
-              <img src={LockOutlinedIcon} alt="remove-account" />
+              <img
+                src={RemoveIcon}
+                alt="remove-account"
+                width="14.55"
+                height="15"
+                style={{ marginTop: '0.15rem' }}
+              />
                   &nbsp; &nbsp;
               <span style={{ fontSize: '0.85rem' }}>Remove Account</span>
             </ListItemIcon>

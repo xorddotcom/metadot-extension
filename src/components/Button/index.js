@@ -39,6 +39,9 @@ function index({
     }
     &:disabled {
       color: rgba(250, 250, 250, 0.8);
+      background: rgba(46, 155, 155, 0.5);
+      box-shadow: 0px 10px 10px rgba(46, 155, 155, 0.02);
+      border: none;
     }
   `;
 

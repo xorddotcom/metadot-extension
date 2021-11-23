@@ -104,9 +104,11 @@ export const SubHeading = styled.p`
   text-align-last: ${(props) => (props.textAlignLast ? props.textAlignLast : 'start')};
   line-height: ${(props) => (props.lineHeight ? props.lineHeight : '22px')};
   font-size: 0.90rem;
-  margin-top: ${(props) => props.marginTop && props.marginTop};
   text-align: justify;
   text-justify: auto;
+  margin-top: ${(props) => props.marginTop && props.marginTop};
+  margin-bottom: ${(props) => props.mb && props.mb};
+  margin-left: ${(props) => props.ml && props.ml};
 `;
 
 export const SubMainWrapperForAuthScreens = styled.div`

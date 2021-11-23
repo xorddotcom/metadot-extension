@@ -14,6 +14,7 @@ export const WarningText = styled.p`
   margin-left: 2px;
   margin-bottom: 0px;
   visibility: ${(props) => props.visibility || 'visible'};
+  margin-left: ${(props) => props.ml && props.ml};
   margin-bottom: 0;
 `;
 

@@ -86,7 +86,7 @@ function StyledInput({
       {rightIcon && (
         <Icon onClick={() => hideHandler()}>
           {!hideState
-            ? <VisibilityOffIcon fontSize="10px" style={{ marginTop: '0.2rem' }} /> : <VisibilityIcon fontSize="10px" style={{ marginTop: '0.2rem' }} />}
+            ? <VisibilityOffIcon fontSize="small" style={{ marginTop: '-0.1rem' }} /> : <VisibilityIcon fontSize="small" style={{ marginTop: '-0.1rem' }} />}
         </Icon>
       )}
       {rightIconCross && (

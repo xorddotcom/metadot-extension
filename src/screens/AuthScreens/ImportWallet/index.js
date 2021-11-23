@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable react/button-has-type */
+/* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-throw-literal */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
@@ -5,7 +8,9 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Input } from '@material-ui/core';
-import { Option, OptionDiv } from './StyledComponents';
+import {
+  Option, OptionDiv, UploadFile, FileChosen, UploadFileDiv,
+} from './StyledComponents';
 import {
   AuthWrapper,
   Header,
@@ -14,6 +19,7 @@ import {
   SubHeading,
   SubMainWrapperForAuthScreens,
 } from '../../../components';
+import CustomUploadFile from './CustomUploadFile';
 import { fonts, colors } from '../../../utils';
 import { setSeed } from '../../../redux/slices/account';
 import { WarningText } from '../CreateWallet/StyledComponents';
@@ -100,6 +106,16 @@ function ImportWallet() {
     }
   };
 
+  const downloadSeed = () => {
+    const seed = 'seed phrase';
+    const data = new Blob([seed], { type: 'text/plain' });
+    const csvURL = window.URL.createObjectURL(data);
+    const tempLink = document.createElement('a');
+    tempLink.href = csvURL;
+    tempLink.setAttribute('download', 'seed.txt');
+    tempLink.click();
+  };
+
   const mainHeading = {
     marginTop: '29px',
     className: mainHeadingfontFamilyClass,
@@ -124,7 +140,7 @@ function ImportWallet() {
   };
 
   const option2 = {
-    // onClick: () => setSelectedType('json'),
+    onClick: () => setSelectedType('json'),
     className: mainHeadingfontFamilyClass,
     selected: selectedType === 'json',
   };
@@ -141,7 +157,7 @@ function ImportWallet() {
       border: '0.5px solid rgba(250, 250, 250, 0.5)',
     },
     className: subHeadingfontFamilyClass,
-    onChange: (e) => handleChange(e.target.value),
+    onChange: (e) => handleChange(e.target.value.replace(/[^A-Z\s]/ig, '')),
     value: seedPhrase,
     rows: 5,
     placeholder: 'Place your seed here',
@@ -159,6 +175,29 @@ function ImportWallet() {
     disabled: seedPhrase.length === 0,
   };
 
+  // Create a reference to the hidden file input element
+  const hiddenFileInput = React.useRef(null);
+  const [fileName, setFileName] = useState();
+  const [isFilePicked, setIsFilePicked] = useState(false);
+
+  const showFile = async (e) => {
+    e.preventDefault();
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const text = (e.target.result);
+      console.log(text);
+    };
+    reader.readAsText(e.target.files[0]);
+    setFileName(e.target.files[0]);
+    setIsFilePicked(true);
+  };
+
+  // Programatically click the hidden file input element
+  // when the Button component is clicked
+  const handleClick = () => {
+    hiddenFileInput.current.click();
+  };
+
   return (
     <AuthWrapper>
       <Header centerText="Import Wallet" backHandler={() => console.log('goBack')} />
@@ -170,17 +209,17 @@ function ImportWallet() {
       </div>
       <SubMainWrapperForAuthScreens flexDirection="column" mt="40px">
         <MainHeading {...selectTypeHeading}>Select Type : </MainHeading>
-        {/* <OptionDiv>
+        <OptionDiv>
           <Option {...option1}>
             Seed Phrase
           </Option>
-          <div className="normalTooltip">
-            <Option {...option2}>
-              Json File
-              <span className="normalTooltiptext">Coming Soon</span>
-            </Option>
-          </div>
-        </OptionDiv> */}
+          {/* <div className="normalTooltip"> */}
+          <Option {...option2}>
+            Upload File
+            {/* <span className="normalTooltiptext">Coming Soon</span> */}
+          </Option>
+          {/* </div> */}
+        </OptionDiv>
         {selectedType === 'seed' && (
           <div style={{ marginTop: '1rem' }}>
             <Input
@@ -193,7 +232,19 @@ function ImportWallet() {
           </div>
         )}
         {selectedType === 'json' && (
-        <MainHeading className={mainHeadingfontFamilyClass}>Coming Soon!</MainHeading>
+        <>
+          <CustomUploadFile />
+          <button
+            onClick={downloadSeed}
+            style={{
+              float: 'left',
+              marginTop: '1rem',
+            }}
+          >
+            Download Functionality
+
+          </button>
+        </>
         )}
       </SubMainWrapperForAuthScreens>
       {selectedType === 'seed' && (

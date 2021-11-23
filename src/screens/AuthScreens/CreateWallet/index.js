@@ -137,6 +137,11 @@ function CreateWallet() {
     }
   };
 
+  const walletNameText = {
+    className: mainHeadingfontFamilyClass,
+    mb: '10px',
+  };
+
   const styledInputName = {
     className: subHeadingfontFamilyClass,
     placeholder: 'Wallet Name',
@@ -145,7 +150,7 @@ function CreateWallet() {
     onChange: (t) => {
       setIsValidWalletName(false);
       // eslint-disable-next-line no-unused-expressions
-      t.length < 20 && setWalletName(t);
+      t.length < 20 && setWalletName(t.replace(/[^A-Z0-9]/ig, ''));
     },
   };
 
@@ -190,10 +195,10 @@ function CreateWallet() {
 
   return (
     <AuthWrapper>
-      <Header centerText="Authentication" />
+      <Header centerText="Authentication" backHandler={() => console.log('object')} />
       <SubMainWrapperForAuthScreens mt="34px">
         <LabelAndTextInput>
-          <SubHeading marginBottom="12px" className={mainHeadingfontFamilyClass}>
+          <SubHeading {...walletNameText}>
             Wallet Name
           </SubHeading>
           <StyledInput isCorrect {...styledInputName} />
@@ -205,10 +210,11 @@ function CreateWallet() {
           )}
         </LabelAndTextInput>
 
-        <LabelAndTextInput marginTop="22px">
+        <LabelAndTextInput marginTop="10px">
           <SubHeading
             className={mainHeadingfontFamilyClass}
             marginTop="0px"
+            mb="10px"
           >
             Password
           </SubHeading>
@@ -234,10 +240,11 @@ function CreateWallet() {
           )}
         </LabelAndTextInput>
 
-        <LabelAndTextInput marginTop="13.5px">
+        <LabelAndTextInput marginTop="0">
           <SubHeading
             className={mainHeadingfontFamilyClass}
             marginTop="0"
+            mb="10px"
           >
             Confirm Password
 
@@ -264,13 +271,13 @@ function CreateWallet() {
           )}
         </LabelAndTextInput>
 
-        <SubHeading textLightColor marginTop="20px" className={subHeadingfontFamilyClass}>
+        <SubHeading mb="0" textLightColor marginTop="5px" className={subHeadingfontFamilyClass}>
           This password will be used as the transaction password for the wallet,
           MetaDot does not save passwords
           and cannot retrieve them for you. Please keep your password safe!
         </SubHeading>
       </SubMainWrapperForAuthScreens>
-      <div className="btn-wrapper" style={{ marginLeft: '0' }}>
+      <div className="btn-wrapper" style={{ marginLeft: '0', marginBottom: '10px' }}>
         <Button {...btn} />
       </div>
     </AuthWrapper>
