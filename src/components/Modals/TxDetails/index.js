@@ -28,7 +28,7 @@ function TxDetails({
     hash, amount, operation, accountFrom, accountTo, transactionFee, tokenName,
   } = txDetailsModalData;
 
-  const [copy, setCopy] = useState('Copy Tx Hash');
+  const [copy, setCopy] = useState('Copy');
 
   const getTotalBalance = (value1, value2) => {
     const val = parseFloat(value1) + parseFloat(value2);
@@ -42,7 +42,7 @@ function TxDetails({
 
   const tooltipText = {
     onClick: copyText,
-    onMouseOver: () => setCopy('Copy Tx Hash'),
+    onMouseOver: () => setCopy('Copy'),
   };
 
   return (

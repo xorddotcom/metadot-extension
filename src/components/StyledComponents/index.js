@@ -91,7 +91,7 @@ export const MainHeading = styled.p`
   line-height: 18.75px;
   text-align: start;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: ${(props) => (props.fw ? props.fw : '500')};
   color: ${(props) => (props.color ? props.color : primaryTextColor)};
   margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
 `;
@@ -160,7 +160,7 @@ export const HeaderHeading = styled.h3`
 // ------------ Tx Card styled components ------- //
 
 export const TxCardWrapper = styled.div`
-  width: 90%;
+  width: 96%;
   height: 55px;
   background: linear-gradient(
     98.61deg,

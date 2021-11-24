@@ -4,12 +4,20 @@ import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { MainHeading, SubHeading } from '../../index';
 import Button from '../../Button';
-import { fonts } from '../../../utils';
+import { fonts, colors } from '../../../utils';
 
+const { warningTextColor } = colors;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 function WarningModal({ open, handleClose, style }) {
   const history = useHistory();
+
+  const mainHeading = {
+    className: mainHeadingfontFamilyClass,
+    color: warningTextColor,
+    fw: '600',
+  };
+
   const btnF = {
     text: 'Cancel',
     width: '115px',
@@ -28,7 +36,7 @@ function WarningModal({ open, handleClose, style }) {
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style} className="warning-modal-style">
-        <MainHeading className={mainHeadingfontFamilyClass} warning>
+        <MainHeading {...mainHeading}>
           Warning
         </MainHeading>
         <SubHeading

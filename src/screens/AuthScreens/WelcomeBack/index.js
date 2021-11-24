@@ -55,6 +55,7 @@ function WelcomeBack() {
   };
 
   const styledInput = {
+    className: subHeadingfontFamilyClass,
     placeholder: 'Enter Password',
     value: password,
     onChange: (t) => {
@@ -64,7 +65,6 @@ function WelcomeBack() {
     type: 'password',
     hideHandler: () => setShowPassword(!showPassword),
     hideState: showPassword,
-    className: subHeadingfontFamilyClass,
   };
 
   const btn = {
@@ -83,7 +83,7 @@ function WelcomeBack() {
         <MainHeading className={mainHeadingfontFamilyClass}>
           Welcome Back
         </MainHeading>
-        <StyledInput isCorrect {...styledInput} />
+        <StyledInput isCorrect fullWidth="75%" {...styledInput} />
         {/* {passwordError && ( */}
         <WarningText
           className={subHeadingfontFamilyClass}
@@ -93,7 +93,7 @@ function WelcomeBack() {
         </WarningText>
         {/* )} */}
       </div>
-      <div className="btn-wrapper" style={{ marginLeft: 0, marginTop: '50px' }}>
+      <div className="btn-wrapper" style={{ marginLeft: 0, marginTop: '0' }}>
         <Button {...btn} />
       </div>
       {/* <SubHeading className={subHeadingfontFamilyClass}>

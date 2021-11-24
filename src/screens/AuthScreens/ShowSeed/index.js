@@ -22,7 +22,7 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 function ShowSeed() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [copy, setCopy] = useState('Copy to clipboard');
+  const [copy, setCopy] = useState('Copy');
 
   const { seed, isLoggedIn } = useSelector((state) => state.account);
 
@@ -51,7 +51,7 @@ function ShowSeed() {
 
   const contentCopyIcon = {
     onClick: copySeedText,
-    onMouseOver: () => setCopy('Copy to clipboard'),
+    onMouseOver: () => setCopy('Copy'),
   };
 
   const btn = {

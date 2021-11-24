@@ -211,7 +211,7 @@ input[type='number'] {
 
 .tooltip .tooltiptext {
   visibility: hidden;
-  width: 130px;
+  width: 100px;
   /* padding: 1rem; */
   background-color: var(--tooltipColor) !important;
   border: 1.09px solid var(--tooltipBorderColor) !important;
@@ -223,7 +223,7 @@ input[type='number'] {
   position: absolute;
   z-index: 1;
   bottom: 150%;
-  left: -170%;
+  left: -130%;
 }
 
 .tooltip .tooltiptext::after {

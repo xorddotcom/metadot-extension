@@ -99,7 +99,7 @@ function CreateWallet() {
 
     dispatch(setMainTextForSuccessModal(`Successfully ${operation}!`));
     dispatch(
-      setSubTextForSuccessModal(`Congratulations, You've successfully ${operation} your account!`),
+      setSubTextForSuccessModal(''),
     );
     dispatch(setIsSuccessModalOpen(true));
 

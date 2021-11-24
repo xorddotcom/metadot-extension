@@ -33,7 +33,7 @@ function TxCard({
         </VerticalContentDiv>
       </div>
 
-      <div style={{ marginLeft: 60 }}>
+      <div style={{ marginLeft: 100 }}>
         <VerticalContentDiv>
           <MainText className={mainHeadingfontFamilyClass}>
             {`${amount} ${coin}`}

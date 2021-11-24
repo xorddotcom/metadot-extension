@@ -24,7 +24,7 @@ const StyledInputField = styled.input`
   border-radius: 8px;
   opacity: 0.8;
   letter-spacing: 0.02em;
-  width: ${(props) => (props.fullWidth ? '100%' : '90%')};
+  width: ${(props) => (props.fullWidth ? props.fullWidth : '90%')};
   font-family: ${subHeadingFontSize};
     border: ${(props) => (props.isCorrectForInput
     ? '0.5px solid rgba(250, 250, 250, 0.5)'
@@ -62,6 +62,7 @@ function StyledInput({
   maxlength,
   disabled,
 }) {
+  const blockInvalidChar = (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
   const styledInputField = {
     maxlength,
     fontSize,
@@ -69,6 +70,7 @@ function StyledInput({
     value,
     fullWidth,
     placeholder,
+    onKeyDown: blockInvalidChar,
     onChange: (e) => onChange(e.target.value),
     disabled,
     isCorrectForInput: isCorrect,

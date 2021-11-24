@@ -21,9 +21,10 @@ const AmountInput = ({
   error,
 }) => {
   const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+
   const styledInput = {
     placeholder: 'Amount',
-    type: 'number',
+    type: 'Number',
     value: amountState.value,
     className: subHeadingfontFamilyClass,
     onChange: amountHandler,
