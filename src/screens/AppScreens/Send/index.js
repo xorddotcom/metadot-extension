@@ -9,7 +9,7 @@ import { helpers } from '../../../utils';
 import { getBalanceWithMultipleTokens, getBalance, getSender } from '../../../utils/services';
 import { setBalance } from '../../../redux/slices/account';
 import {
-  AuthWrapper, Button, ConfirmSend, Header, StyledInput,
+  AuthWrapper, Button, ConfirmSend, Header,
 } from '../../../components';
 import {
   MainContent,

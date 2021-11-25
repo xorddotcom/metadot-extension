@@ -30,21 +30,23 @@ const CustomUploadFile = () => {
 
   return (
     <UploadFileDiv className={subHeadingfontFamilyClass}>
-      {/*  our custom upload button --> */}
-      <UploadFile htmlFor="actual-btn" onClick={handleClick}>
-        <img src={UploadFileIcon} alt="upload-file-icon" style={{ marginRight: '1rem' }} />
-        <div>Choose File</div>
-      </UploadFile>
+      <form onSubmit={(e) => e.preventDefault()}>
+        {/*  our custom upload button --> */}
+        <UploadFile htmlFor="actual-btn" onClick={handleClick}>
+          <img src={UploadFileIcon} alt="upload-file-icon" style={{ marginRight: '1rem' }} />
+          <div>Choose File</div>
+        </UploadFile>
 
-      <input
-        type="file"
-        ref={hiddenFileInput}
-        onChange={showFile}
-        style={{ display: 'none' }}
-      />
+        <input
+          type="file"
+          ref={hiddenFileInput}
+          onChange={showFile}
+          style={{ display: 'none' }}
+        />
 
-      {/* name of file chosen */}
-      <FileChosen>{!isFilePicked ? 'No File Choosen' : fileName.name}</FileChosen>
+        {/* name of file chosen */}
+        <FileChosen>{!isFilePicked ? 'No File Choosen' : fileName.name}</FileChosen>
+      </form>
     </UploadFileDiv>
   );
 };

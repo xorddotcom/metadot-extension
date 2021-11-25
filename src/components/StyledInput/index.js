@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 import React from 'react';
 
@@ -61,8 +62,14 @@ function StyledInput({
   marginBottom,
   maxlength,
   disabled,
+  blockInvalidChar,
 }) {
-  const blockInvalidChar = (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
+  const blockChar = (ev) => {
+    const arr = ['e', 'E', '+', '-'];
+    if (arr.includes(ev.key) === true) {
+      ev.preventDefault();
+    }
+  };
   const styledInputField = {
     maxlength,
     fontSize,
@@ -70,7 +77,7 @@ function StyledInput({
     value,
     fullWidth,
     placeholder,
-    onKeyDown: blockInvalidChar,
+    onKeyDown: (e) => (blockInvalidChar ? blockChar(e) : null),
     onChange: (e) => onChange(e.target.value),
     disabled,
     isCorrectForInput: isCorrect,

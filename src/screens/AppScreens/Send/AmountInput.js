@@ -44,7 +44,7 @@ const AmountInput = ({
       <MainText className={mainHeadingfontFamilyClass}>
         Amount
       </MainText>
-      <StyledInput {...styledInput} />
+      <StyledInput blockInvalidChar {...styledInput} />
       {
               insufficientBal
             && (

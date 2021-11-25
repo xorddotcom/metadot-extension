@@ -58,6 +58,7 @@ import networks from './networkModalData';
 import DropDown from './DropDown';
 
 import AuthScreen from '../../../components/Modals/AuthScreen/AuthScreen';
+import Support from '../SupportScreen';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryTextColor } = colors;
@@ -277,61 +278,62 @@ function Dashboard(props) {
   // --------XXXXXXXXXXXXXXX-----------
 
   return (
-    <Wrapper>
-      <DashboardHeader>
-        <LogoContainer onClick={() => dispatch(setAuthScreenModal(true))}>
-          <img src={Logo} width="30px" height="34px" alt="MetaDot Logo" />
-        </LogoContainer>
+    <>
+      <Wrapper>
+        <DashboardHeader>
+          <LogoContainer onClick={() => dispatch(setAuthScreenModal(true))}>
+            <img src={Logo} width="30px" height="34px" alt="MetaDot Logo" />
+          </LogoContainer>
 
-        <NetworkContainer>
-          <SelectChain onClick={() => setIsModalOpen(true)}>
-            <SelectedChain className={subHeadingfontFamilyClass}>
-              {chainName.includes('Network')
-                ? chainName
-                : `${chainName} Network`}
+          <NetworkContainer>
+            <SelectChain onClick={() => setIsModalOpen(true)}>
+              <SelectedChain className={subHeadingfontFamilyClass}>
+                {chainName.includes('Network')
+                  ? chainName
+                  : `${chainName} Network`}
 
-            </SelectedChain>
-            <ArrowDropDownIcon style={{ fontSize: '1.7rem' }} />
-          </SelectChain>
-        </NetworkContainer>
+              </SelectedChain>
+              <ArrowDropDownIcon style={{ fontSize: '1.7rem' }} />
+            </SelectChain>
+          </NetworkContainer>
 
-        <AccountContainer>
-          <AccountSetting>
-            <AccountText onClick={handleClick} className={mainHeadingfontFamilyClass}>
-              {accountName.slice(0, 1)}
-            </AccountText>
-          </AccountSetting>
-        </AccountContainer>
+          <AccountContainer>
+            <AccountSetting>
+              <AccountText onClick={handleClick} className={mainHeadingfontFamilyClass}>
+                {accountName.slice(0, 1)}
+              </AccountText>
+            </AccountSetting>
+          </AccountContainer>
 
-        {/* Menu Start */}
-        <DropDown
-          anchorEl={anchorEl}
-          open={open}
-          handleClose={handleClose}
-          classes={classes}
+          {/* Menu Start */}
+          <DropDown
+            anchorEl={anchorEl}
+            open={open}
+            handleClose={handleClose}
+            classes={classes}
+          />
+
+          {/* Menu End */}
+
+        </DashboardHeader>
+
+        <MainCard
+          balance={balance}
+          chainName={chainName}
+          tokenName={tokenName}
+          address={publicKey}
+          walletName={walletName}
+          balanceInUsd={balanceInUsd || 0}
+          accountName={accountName}
         />
 
-        {/* Menu End */}
+        <AssetsAndTransactions
+          handleOpenTxDetailsModal={() => setIsTxDetailsModalOpen(true)}
+          setTxDetailsModalData={setTxDetailsModalData}
+          transactionData={transactions}
+        />
 
-      </DashboardHeader>
-
-      <MainCard
-        balance={balance}
-        chainName={chainName}
-        tokenName={tokenName}
-        address={publicKey}
-        walletName={walletName}
-        balanceInUsd={balanceInUsd || 0}
-        accountName={accountName}
-      />
-
-      <AssetsAndTransactions
-        handleOpenTxDetailsModal={() => setIsTxDetailsModalOpen(true)}
-        setTxDetailsModalData={setTxDetailsModalData}
-        transactionData={transactions}
-      />
-
-      {/* <button
+        {/* <button
         onClick={() => setAuthScreenModal(true)}
         handleClose={() => setAuthScreenModal(false)}
       >
@@ -339,40 +341,43 @@ function Dashboard(props) {
 
       </button> */}
 
-      <SelectNetwork
-        open={isModalOpen}
-        handleClose={() => setIsModalOpen(false)}
-        modalState={modalState}
-        resetState={resetState}
-        handleClickForOthers={handleSelection}
-        setIsLoading={setIsLoading}
-        handleClickForKusama={handleSelectionOnKusamaMainNetwork}
-        style={{
-          position: 'relative',
-          width: '78%',
-          minHeight: 240,
-          background: '#141414',
-          pb: 3,
-        }}
-        isLoading={isLoading}
-      />
-      <TxDetails
-        open={isTxDetailsModalOpen}
-        handleClose={() => setIsTxDetailsModalOpen(false)}
-        txDetailsModalData={txDetailsModalData}
-        transactionData={transactions}
-        style={{
-          width: '78%',
-          background: '#141414',
-          position: 'relative',
-          p: 2,
-          px: 2,
-          pb: 3,
+        <SelectNetwork
+          open={isModalOpen}
+          handleClose={() => setIsModalOpen(false)}
+          modalState={modalState}
+          resetState={resetState}
+          handleClickForOthers={handleSelection}
+          setIsLoading={setIsLoading}
+          handleClickForKusama={handleSelectionOnKusamaMainNetwork}
+          style={{
+            position: 'relative',
+            width: '78%',
+            minHeight: 240,
+            background: '#141414',
+            pb: 3,
+          }}
+          isLoading={isLoading}
+        />
+        <TxDetails
+          open={isTxDetailsModalOpen}
+          handleClose={() => setIsTxDetailsModalOpen(false)}
+          txDetailsModalData={txDetailsModalData}
+          transactionData={transactions}
+          style={{
+            width: '78%',
+            background: '#141414',
+            position: 'relative',
+            p: 2,
+            px: 2,
+            pb: 3,
           // mt: 15,
-        }}
-      />
+          }}
+        />
+      </Wrapper>
+      {/* ------------------------- */}
 
-    </Wrapper>
+      {/* <Support /> */}
+    </>
   );
 }
 
