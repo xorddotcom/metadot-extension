@@ -34,9 +34,10 @@ const { isUserNameValid } = helpers;
 const passwordErrorMessages = {
   minimumCharacterWarning: 'Password should not be less than 8 characters',
   didnotMatchWarning: 'Password did not match!',
+  passwordValidation: 'Password must contain at least one lower case, one upper case and one number',
 };
 
-const { minimumCharacterWarning, didnotMatchWarning } = passwordErrorMessages;
+const { minimumCharacterWarning, didnotMatchWarning, passwordValidation } = passwordErrorMessages;
 
 function CreateWallet() {
   const dispatch = useDispatch();
@@ -56,6 +57,12 @@ function CreateWallet() {
   const [passwordError, setPasswordError] = useState('');
 
   const validatePasswordAndConfirmPassword = () => {
+    const regexRes = password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/);
+    console.log('Regex res', regexRes);
+    if (regexRes == null) {
+      setPasswordError(passwordValidation);
+      return false;
+    }
     if (!(password === confirmPassword)) {
       setPasswordError(didnotMatchWarning);
       return false;
@@ -229,6 +236,13 @@ function CreateWallet() {
               className={subHeadingfontFamilyClass}
             >
               {minimumCharacterWarning}
+            </WarningText>
+          )}
+          {passwordError === passwordValidation && (
+            <WarningText
+              className={subHeadingfontFamilyClass}
+            >
+              {passwordValidation}
             </WarningText>
           )}
           {passwordError === didnotMatchWarning && (

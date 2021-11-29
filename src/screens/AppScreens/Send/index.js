@@ -392,7 +392,7 @@ const Send = () => {
       p: 2,
       px: 2,
       pb: 3,
-      mt: 15,
+      mt: 10,
     },
     accountFrom: currentUser.account.publicKey,
     accountTo: accountToSate.value,

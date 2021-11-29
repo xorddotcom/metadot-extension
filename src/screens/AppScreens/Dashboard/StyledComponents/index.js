@@ -81,14 +81,15 @@ export const AccountSetting = styled.div`
   border-radius: 35px;
   cursor: pointer;
   background: ${primaryBgColor};
+  display: flex;
+  justify-content: center;
+  align-items: center
 `;
 
 export const AccountText = styled.p`
   font-size: 20px;
   line-height: 23px;
   color: ${primaryTextColor};
-  margin-top: 5px;
-  margin-bottom: 0px;
   font-weight: 500;
 `;
 
