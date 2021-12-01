@@ -14,6 +14,7 @@ function index({
   text,
   width,
   height,
+  br,
   fontSize,
   cancel,
   disabled,
@@ -28,7 +29,7 @@ function index({
     height: ${height || _height};
     filter: drop-shadow(0px 10px 10px rgba(46, 155, 155, 0.07));
     box-sizing: border-box;
-    border-radius: 40px;
+    border-radius: ${br || '40px'};
     background: ${!cancel ? primaryBgColor : secondaryBgColor};
     font-size: ${buttonFontSize};
     text-transform: capitalize;

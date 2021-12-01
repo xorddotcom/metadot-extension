@@ -52,6 +52,13 @@ const amountReducer = (state, action) => {
     };
   }
 
+  if (action.type === 'MAX_INPUT') {
+    return {
+      value: action.bal - action.txFee,
+      isValid: true,
+    };
+  }
+
   if (action.type === 'IS_BLUR') {
     return {
       value: state.value,
@@ -142,6 +149,42 @@ const Send = () => {
 
   const amountIsValidHandler = () => {
     amountDispatch({ type: 'IS_BLUR' });
+  };
+
+  const convertTransactionFee = (fee) => {
+    const splitFee = fee.split(' ');
+    if (currentUser.account.tokenName === 'WND') {
+      return (splitFee[0] * 10 ** -3).toFixed(4);
+    }
+    if (currentUser.account.tokenName === 'KSM') {
+      return (splitFee[0] * 10 ** -6).toFixed(4);
+    }
+    if (currentUser.account.tokenName === 'PLD') {
+      return splitFee[0];
+    }
+    if (currentUser.account.tokenName === 'ACA') {
+      return (splitFee[0] * 10 ** -3).toFixed(4);
+    }
+    if (currentUser.account.tokenName === 'ROC') {
+      return (splitFee[0] * 10 ** -3).toFixed(4);
+    }
+    if (currentUser.account.tokenName === 'DOT') {
+      return (splitFee[0] * 10 ** -3).toFixed(4);
+    }
+    return true;
+  };
+
+  const maxInputHandler = async () => {
+    console.log('Start*******');
+    const decimalPlaces = await api.registry.chainDecimals;
+    const info = await api.tx.balances
+      .transfer(currentUser.account.publicKey, amountState.value * 10 ** decimalPlaces)
+      .paymentInfo(accountToSate.value);
+
+    const txFee = await convertTransactionFee(info.partialFee.toHuman());
+    console.log('transaction fee ---------', txFee);
+    amountDispatch({ type: 'MAX_INPUT', bal: currentUser.account.balance, txFee });
+    console.log('End--------------');
   };
 
   // const sendTransaction = async () => {
@@ -277,29 +320,6 @@ const Send = () => {
     }
   };
 
-  const convertTransactionFee = (fee) => {
-    const splitFee = fee.split(' ');
-    if (currentUser.account.tokenName === 'WND') {
-      return (splitFee[0] * 10 ** -3).toFixed(4);
-    }
-    if (currentUser.account.tokenName === 'KSM') {
-      return (splitFee[0] * 10 ** -6).toFixed(4);
-    }
-    if (currentUser.account.tokenName === 'PLD') {
-      return splitFee[0];
-    }
-    if (currentUser.account.tokenName === 'ACA') {
-      return (splitFee[0] * 10 ** -3).toFixed(4);
-    }
-    if (currentUser.account.tokenName === 'ROC') {
-      return (splitFee[0] * 10 ** -3).toFixed(4);
-    }
-    if (currentUser.account.tokenName === 'DOT') {
-      return (splitFee[0] * 10 ** -3).toFixed(4);
-    }
-    return true;
-  };
-
   // eslint-disable-next-line no-unused-vars
   const handleSubmit = async () => {
     const decimalPlaces = await api.registry.chainDecimals;
@@ -368,12 +388,14 @@ const Send = () => {
   const amountInput = {
     amountState,
     amountHandler,
+    maxInputHandler,
     amountIsValidHandler,
     insufficientBal,
     currentUser,
     trimBalance,
     errorMessages,
     error,
+    loading1,
   };
 
   const btn = {

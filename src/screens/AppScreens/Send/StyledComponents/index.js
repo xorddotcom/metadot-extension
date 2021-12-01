@@ -92,3 +92,9 @@ export const CenterContent = styled.div`
   display: flex;
   justify-content: center;
 `;
+
+export const FlexBetween = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
