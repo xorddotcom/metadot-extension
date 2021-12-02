@@ -45,9 +45,9 @@ function ApiManager({ rpc }) {
 
       dispatch(setApiInitializationStarts(false));
       if (loadingFor === 'Api Initialization...') {
+        dispatch(setIsSuccessModalOpen(true));
         dispatch(setMainTextForSuccessModal('Successfully Converted!'));
         dispatch(setSubTextForSuccessModal(''));
-        dispatch(setIsSuccessModalOpen(true));
 
         setTimeout(() => {
           dispatch(setIsSuccessModalOpen(false));

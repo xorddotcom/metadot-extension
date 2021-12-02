@@ -14,7 +14,7 @@ import {
   VerticalContentDiv,
 } from './StyledComponents';
 import { fonts } from '../../../utils';
-import { setAuthScreenModal } from '../../../redux/slices/successModalHandling';
+import { setAuthScreenModal, setConfirmSendModal } from '../../../redux/slices/successModalHandling';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -37,6 +37,7 @@ function ConfirmSend({
     width: '100%',
     handleClick: () => {
       console.log('in else');
+      dispatch(setConfirmSendModal(false));
       dispatch(setAuthScreenModal(true));
     },
     isLoading: loading2,

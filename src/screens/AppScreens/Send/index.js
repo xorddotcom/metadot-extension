@@ -16,7 +16,11 @@ import {
   CenterContent,
 } from './StyledComponents';
 import {
-  setAuthScreenModal, setIsSuccessModalOpen, setMainTextForSuccessModal, setSubTextForSuccessModal,
+  setAuthScreenModal,
+  setIsSuccessModalOpen,
+  setMainTextForSuccessModal,
+  setSubTextForSuccessModal,
+  setConfirmSendModal,
 } from '../../../redux/slices/successModalHandling';
 import { decrypt } from '../../../utils/accounts';
 import FromInput from './FromInput';
@@ -84,10 +88,8 @@ const Send = () => {
   // eslint-disable-next-line no-unused-vars
   const [isLoading, setIsLoading] = useState(false);
 
-  // const [isSendModalOpen, setIsSendModalOpen] = useState(false);
   const currentUser = useSelector((state) => state);
   const { api } = currentUser.api;
-  const [isSendModalOpen, setIsSendModalOpen] = useState(false);
 
   // const [accountTo, setAccountTo] = useState('');
   const [accountToSate, accountDispatch] = useReducer(accountReducer, {
@@ -144,55 +146,6 @@ const Send = () => {
     amountDispatch({ type: 'IS_BLUR' });
   };
 
-  // const sendTransaction = async () => {
-  //   const decimalPlaces = await api.registry.chainDecimals;
-  //   setLoading2(true);
-  //   console.log('mark1', currentUser.account.seed, currentUser.account.walletPassword);
-  //   const decryptedSeed = decrypt(currentUser.account.seed, currentUser.account.walletPassword);
-  //   console.log('mark2', decryptedSeed);
-
-  //   const sender = getSender(decryptedSeed);
-  //   console.log('mark3', sender);
-  //   data.operation = 'Send';
-  //   const decimals = currentUser.account.chainName === 'AcalaMandala'
-  //     ? decimalPlaces[0] : decimalPlaces;
-  //   await api.tx.balances
-  //     .transfer(
-  //       accountToSate.value, amountState.value * 10 ** decimals,
-  //     )
-  //     .signAndSend(
-  //       sender, async (res) => {
-  //         if (res.status.isInBlock) {
-  //           data.hash = res.status.asInBlock.toString();
-  //           data.status = 'Successful';
-  //           if (data.rpcUrl === 'wss://acala-mandala.api.onfinality.io/public-ws') {
-  //             const bal = await getBalanceWithMultipleTokens(api, currentUser.account.publicKey);
-  //             dispatch(setBalance(bal));
-  //           } else {
-  //             const bal = await getBalance(api, currentUser.account.publicKey);
-  //             dispatch(setBalance(bal));
-  //           }
-  //           dispatch(addTransaction(data));
-  //           setLoading2(false);
-  //           setIsSendModalOpen(false);
-  //           dispatch(setMainTextForSuccessModal('Transaction Successful!'));
-  //           dispatch(
-  //             setSubTextForSuccessModal(''),
-  //           );
-  //           dispatch(setIsSuccessModalOpen(true));
-  //           setTimeout(() => {
-  //             dispatch(setIsSuccessModalOpen(false));
-  //           }, 3500);
-
-  //           // navigate to dashboard on success
-  //           history.push('/');
-  //         }
-  //       },
-  //     ).catch((err) => {
-  //       console.error('Error [][][]', err);
-  //     });
-  // };
-
   const sendTransaction = async (dSeed) => {
     const decimalPlaces = await api.registry.chainDecimals;
     setLoading2(true);
@@ -219,12 +172,12 @@ const Send = () => {
             }
             dispatch(addTransaction(data));
             setLoading2(false);
-            setIsSendModalOpen(false);
+            dispatch(setConfirmSendModal(false));
+            dispatch(setIsSuccessModalOpen(true));
             dispatch(setMainTextForSuccessModal('Transaction Successful!'));
             dispatch(
               setSubTextForSuccessModal(''),
             );
-            dispatch(setIsSuccessModalOpen(true));
             setTimeout(() => {
               dispatch(setIsSuccessModalOpen(false));
             }, 3500);
@@ -321,7 +274,7 @@ const Send = () => {
         setInsufficientBal(true);
         // alert('balance is too low to pay network fees!');
       } else {
-        setIsSendModalOpen(true);
+        dispatch(setConfirmSendModal(true));
       }
     } catch (err) {
       setLoading1(false);
@@ -397,11 +350,12 @@ const Send = () => {
     accountFrom: currentUser.account.publicKey,
     accountTo: accountToSate.value,
     amount: amountState.value,
-    open: isSendModalOpen,
+    open: currentUser.successModalHandling.confirmSendModal,
     transactionFee,
     tokenName: currentUser.account.tokenName,
     fromAccountName: currentUser.account.accountName,
-    handleClose: () => setIsSendModalOpen(false),
+
+    handleClose: () => dispatch(setConfirmSendModal(false)),
     handleConfirm: sendTransaction,
     loading2,
   };
@@ -424,7 +378,10 @@ const Send = () => {
       />
       <AuthScreen
         open={currentUser.successModalHandling.authScreenModal}
-        handleClose={() => dispatch(setAuthScreenModal(false))}
+        handleClose={() => {
+          dispatch(setAuthScreenModal(false));
+          dispatch(setConfirmSendModal(true));
+        }}
         sendTransaction={sendTransaction}
         style={{
           width: '78%',

@@ -7,6 +7,7 @@ const initialState = {
   isSuccessModalOpen: false,
   loadingFor: '', // this property is here because this is a blacklisted reducer
   authScreenModal: false, // this property is here because this is a blacklisted reducer
+  confirmSendModal: false, // this property is here because this is a blacklisted reducer
   isAuthorizedForSigning: false, // this property is here because this is a blacklisted reducer
 };
 
@@ -29,6 +30,9 @@ export const successModalHandling = createSlice({
     setAuthScreenModal: (state, action) => {
       state.authScreenModal = action.payload;
     },
+    setConfirmSendModal: (state, action) => {
+      state.confirmSendModal = action.payload;
+    },
     setIsAuthorizedForSigning: (state, action) => {
       state.isAuthorizedForSigning = action.payload;
     },
@@ -43,6 +47,7 @@ export const {
   setLoadingFor,
   setAuthScreenModal,
   setIsAuthorizedForSigning,
+  setConfirmSendModal,
 } = successModalHandling.actions;
 
 export default successModalHandling.reducer;
