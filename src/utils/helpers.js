@@ -124,6 +124,15 @@ async function convertIntoUsd(token, amountToConvert) {
   return converted;
 }
 
+function reverseArray(input) {
+  const ret = [];
+  // eslint-disable-next-line no-plusplus
+  for (let i = input.length - 1; i >= 0; i--) {
+    ret.push(input[i]);
+  }
+  return ret;
+}
+
 export default {
   arrayFromSeedSentence,
   arrayOfFourRandomNumbers,
@@ -134,4 +143,5 @@ export default {
   validateAmount,
   trimBalance,
   convertIntoUsd,
+  reverseArray,
 };

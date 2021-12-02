@@ -1,6 +1,7 @@
 /* eslint-disable import/no-cycle */
 import Dashboard from './AppScreens/Dashboard';
 import Send from './AppScreens/Send';
+import Support from './AppScreens/SupportScreen';
 
 import ConfirmSeed from './AuthScreens/ConfirmSeed';
 import CreateWallet from './AuthScreens/CreateWallet';
@@ -18,6 +19,7 @@ const screens = {
   Dashboard,
   Send,
   WelcomeBack,
+  Support,
 };
 
 export default screens;

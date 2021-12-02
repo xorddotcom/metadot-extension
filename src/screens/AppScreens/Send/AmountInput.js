@@ -1,9 +1,11 @@
+/* eslint-disable no-param-reassign */
 import React from 'react';
 import { fonts, helpers } from '../../../utils';
-import { StyledInput } from '../../../components';
+import { Button, StyledInput } from '../../../components';
 import { WarningText } from '../../AuthScreens/CreateWallet/StyledComponents';
 import {
   MainText,
+  FlexBetween,
   VerticalContentDiv,
   EquivalentInUSDT,
   CalculatedAmount,
@@ -13,6 +15,7 @@ import {
 const AmountInput = ({
   amountState,
   amountHandler,
+  maxInputHandler,
   amountIsValidHandler,
   insufficientBal,
   currentUser,
@@ -21,6 +24,17 @@ const AmountInput = ({
   error,
 }) => {
   const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+
+  const btn = {
+    text: 'Max',
+    width: '35px',
+    height: '20.12px',
+    br: '6px',
+    fontSize: '12px',
+    handleClick: maxInputHandler,
+    disabled: currentUser.account.balance === 0,
+    // isLoading: loading1,
+  };
 
   const styledInput = {
     placeholder: 'Amount',
@@ -34,16 +48,22 @@ const AmountInput = ({
     isCorrect: amountState.isValid || insufficientBal,
   };
 
-  const balance = {
+  const balanceProps = {
     textAlign: 'end',
     className: subHeadingfontFamilyClass,
     style: { marginTop: '-1rem' },
   };
+
   return (
     <VerticalContentDiv mb="25px">
-      <MainText className={mainHeadingfontFamilyClass}>
-        Amount
-      </MainText>
+      <FlexBetween>
+        <MainText className={mainHeadingfontFamilyClass}>
+          Amount
+        </MainText>
+        <div style={{ marginRight: '2rem' }}>
+          <Button {...btn} />
+        </div>
+      </FlexBetween>
       <StyledInput blockInvalidChar {...styledInput} />
       {
               insufficientBal
@@ -72,7 +92,9 @@ const AmountInput = ({
           $
           {currentUser.account.balanceInUsd}
         </EquivalentInUSDT>
-        <Balance {...balance}>
+        <Balance {...balanceProps}>
+          Balance:
+          {' '}
           {`${trimBalance(currentUser.account.balance)} ${currentUser.account.tokenName}`}
         </Balance>
       </CalculatedAmount>

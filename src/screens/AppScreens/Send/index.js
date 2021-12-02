@@ -56,6 +56,13 @@ const amountReducer = (state, action) => {
     };
   }
 
+  if (action.type === 'MAX_INPUT') {
+    return {
+      value: action.bal - action.txFee,
+      isValid: true,
+    };
+  }
+
   if (action.type === 'IS_BLUR') {
     return {
       value: state.value,
@@ -146,6 +153,91 @@ const Send = () => {
     amountDispatch({ type: 'IS_BLUR' });
   };
 
+  const convertTransactionFee = (fee) => {
+    const splitFee = fee.split(' ');
+    if (currentUser.account.tokenName === 'WND') {
+      return (splitFee[0] * 10 ** -3).toFixed(4);
+    }
+    if (currentUser.account.tokenName === 'KSM') {
+      return (splitFee[0] * 10 ** -6).toFixed(4);
+    }
+    if (currentUser.account.tokenName === 'PLD') {
+      return splitFee[0];
+    }
+    if (currentUser.account.tokenName === 'ACA') {
+      return (splitFee[0] * 10 ** -3).toFixed(4);
+    }
+    if (currentUser.account.tokenName === 'ROC') {
+      return (splitFee[0] * 10 ** -3).toFixed(4);
+    }
+    if (currentUser.account.tokenName === 'DOT') {
+      return (splitFee[0] * 10 ** -3).toFixed(4);
+    }
+    return true;
+  };
+
+  const maxInputHandler = async () => {
+    console.log('Start*******');
+    const decimalPlaces = await api.registry.chainDecimals;
+    const info = await api.tx.balances
+      .transfer(currentUser.account.publicKey, amountState.value * 10 ** decimalPlaces)
+      .paymentInfo(accountToSate.value);
+
+    const txFee = await convertTransactionFee(info.partialFee.toHuman());
+    console.log('transaction fee ---------', txFee);
+    amountDispatch({ type: 'MAX_INPUT', bal: currentUser.account.balance, txFee });
+    console.log('End--------------');
+  };
+
+  // const sendTransaction = async () => {
+  //   const decimalPlaces = await api.registry.chainDecimals;
+  //   setLoading2(true);
+  //   console.log('mark1', currentUser.account.seed, currentUser.account.walletPassword);
+  //   const decryptedSeed = decrypt(currentUser.account.seed, currentUser.account.walletPassword);
+  //   console.log('mark2', decryptedSeed);
+
+  //   const sender = getSender(decryptedSeed);
+  //   console.log('mark3', sender);
+  //   data.operation = 'Send';
+  //   const decimals = currentUser.account.chainName === 'AcalaMandala'
+  //     ? decimalPlaces[0] : decimalPlaces;
+  //   await api.tx.balances
+  //     .transfer(
+  //       accountToSate.value, amountState.value * 10 ** decimals,
+  //     )
+  //     .signAndSend(
+  //       sender, async (res) => {
+  //         if (res.status.isInBlock) {
+  //           data.hash = res.status.asInBlock.toString();
+  //           data.status = 'Successful';
+  //           if (data.rpcUrl === 'wss://acala-mandala.api.onfinality.io/public-ws') {
+  //             const bal = await getBalanceWithMultipleTokens(api, currentUser.account.publicKey);
+  //             dispatch(setBalance(bal));
+  //           } else {
+  //             const bal = await getBalance(api, currentUser.account.publicKey);
+  //             dispatch(setBalance(bal));
+  //           }
+  //           dispatch(addTransaction(data));
+  //           setLoading2(false);
+  //           setIsSendModalOpen(false);
+  //           dispatch(setMainTextForSuccessModal('Transaction Successful!'));
+  //           dispatch(
+  //             setSubTextForSuccessModal(''),
+  //           );
+  //           dispatch(setIsSuccessModalOpen(true));
+  //           setTimeout(() => {
+  //             dispatch(setIsSuccessModalOpen(false));
+  //           }, 3500);
+
+  //           // navigate to dashboard on success
+  //           history.push('/');
+  //         }
+  //       },
+  //     ).catch((err) => {
+  //       console.error('Error [][][]', err);
+  //     });
+  // };
+
   const sendTransaction = async (dSeed) => {
     const decimalPlaces = await api.registry.chainDecimals;
     setLoading2(true);
@@ -230,29 +322,6 @@ const Send = () => {
     }
   };
 
-  const convertTransactionFee = (fee) => {
-    const splitFee = fee.split(' ');
-    if (currentUser.account.tokenName === 'WND') {
-      return (splitFee[0] * 10 ** -3).toFixed(4);
-    }
-    if (currentUser.account.tokenName === 'KSM') {
-      return (splitFee[0] * 10 ** -6).toFixed(4);
-    }
-    if (currentUser.account.tokenName === 'PLD') {
-      return splitFee[0];
-    }
-    if (currentUser.account.tokenName === 'ACA') {
-      return (splitFee[0] * 10 ** -3).toFixed(4);
-    }
-    if (currentUser.account.tokenName === 'ROC') {
-      return (splitFee[0] * 10 ** -3).toFixed(4);
-    }
-    if (currentUser.account.tokenName === 'DOT') {
-      return (splitFee[0] * 10 ** -3).toFixed(4);
-    }
-    return true;
-  };
-
   // eslint-disable-next-line no-unused-vars
   const handleSubmit = async () => {
     const decimalPlaces = await api.registry.chainDecimals;
@@ -321,12 +390,14 @@ const Send = () => {
   const amountInput = {
     amountState,
     amountHandler,
+    maxInputHandler,
     amountIsValidHandler,
     insufficientBal,
     currentUser,
     trimBalance,
     errorMessages,
     error,
+    loading1,
   };
 
   const btn = {

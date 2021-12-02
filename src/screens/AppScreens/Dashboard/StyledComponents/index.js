@@ -51,6 +51,7 @@ export const SelectChain = styled.div`
   align-items: center;
   justify-content: space-between;
   color: ${primaryTextColor};
+  opacity: ${(props) => (props.disabled ? 0.3 : 1)};
 `;
 
 export const SelectedChain = styled.p`

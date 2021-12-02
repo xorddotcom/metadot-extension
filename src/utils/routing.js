@@ -10,6 +10,7 @@ const {
   Dashboard,
   Send,
   WelcomeBack,
+  Support,
 } = screens;
 
 const UnAuthRoutes = [
@@ -51,6 +52,10 @@ const AuthRoutes = [
   {
     path: '/welcomeBack',
     Component: WelcomeBack,
+  },
+  {
+    path: '/Support',
+    Component: Support,
   },
 
 ];

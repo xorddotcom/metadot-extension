@@ -6,10 +6,11 @@ import {
   TxHorizontalContentDiv,
   VerticalContentDiv,
 } from '../StyledComponents';
-import { fonts, colors } from '../../utils';
+import { fonts, colors, helpers } from '../../utils';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { incrementColor } = colors;
+const { trimBalance } = helpers;
 
 function TxCard({
   operation, status, coin, amount, amountInUsd, logo, handleClick,
@@ -36,7 +37,7 @@ function TxCard({
       <div style={{ marginLeft: 100 }}>
         <VerticalContentDiv>
           <MainText className={mainHeadingfontFamilyClass}>
-            {`${amount} ${coin}`}
+            {`${trimBalance(amount)} ${coin}`}
           </MainText>
           <TxHorizontalContentDiv>
             <TxEquivalentInUSDT className={subHeadingfontFamilyClass}>

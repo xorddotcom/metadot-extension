@@ -48,7 +48,6 @@ function SelectNetwork(props) {
           >
             <CloseIcon />
           </CloseIconDiv>
-
           <TitleDiv>
             {!firstStep && (
               <BackButton
