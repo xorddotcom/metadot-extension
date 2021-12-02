@@ -134,18 +134,21 @@ function ImportWallet() {
   };
 
   const option1 = {
+    id: 'seed-phrase',
     onClick: () => setSelectedType('seed'),
     selected: selectedType === 'seed',
     className: mainHeadingfontFamilyClass,
   };
 
   const option2 = {
+    id: 'upload-file',
     onClick: () => setSelectedType('json'),
     className: mainHeadingfontFamilyClass,
     selected: selectedType === 'json',
   };
 
   const input = {
+    id: 'seed-input',
     style: {
       padding: '13px 15px',
       background: darkBgColor,
@@ -169,6 +172,7 @@ function ImportWallet() {
   };
 
   const btn = {
+    id: 'import',
     text: 'Import',
     width: '300px',
     handleClick: validateSeed,

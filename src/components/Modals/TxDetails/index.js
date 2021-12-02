@@ -52,6 +52,7 @@ function TxDetails({
     >
       <Box sx={style} className="txDetails-modal-style">
         <CloseIconDiv
+          id="close-icon"
           onClick={() => {
             handleClose();
           }}
@@ -72,7 +73,7 @@ function TxDetails({
               <MainText2 textAlign="end" className={mainHeadingfontFamilyClass}>Tx Hash</MainText2>
               <HorizontalContentDiv>
                 <div className={`tooltip ${subHeadingfontFamilyClass}`}>
-                  <div {...tooltipText}>
+                  <div id="copy-icon" {...tooltipText}>
                     <img src={ContentCopyIcon} alt="copy-icon" />
                     <span className="tooltiptext" style={{ fontSize: '0.7rem' }}>{copy}</span>
                   </div>

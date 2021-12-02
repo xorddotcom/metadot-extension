@@ -16,15 +16,16 @@ function TxCard({
   operation, status, coin, amount, amountInUsd, logo, handleClick,
 }) {
   return (
-    <TxCardWrapper onClick={() => handleClick()}>
+    <TxCardWrapper id="tx-card-wrapper" style={{ cursor: 'pointer' }} onClick={() => handleClick()}>
       <div style={{ marginLeft: 10 }}>
-        <img src={logo} alt="btc icon" width="30px" height="30px" />
+        <img id="logo" src={logo} alt="btc icon" width="30px" height="30px" />
       </div>
       <div style={{ marginLeft: 10 }}>
         <VerticalContentDiv>
-          <MainText className={mainHeadingfontFamilyClass}>{`${operation} ${coin}`}</MainText>
+          <MainText id="operation-coin" className={mainHeadingfontFamilyClass}>{`${operation} ${coin}`}</MainText>
           <TxHorizontalContentDiv>
             <MainText
+              id="status"
               className={mainHeadingfontFamilyClass}
               color={incrementColor}
             >
@@ -36,11 +37,11 @@ function TxCard({
 
       <div style={{ marginLeft: 100 }}>
         <VerticalContentDiv>
-          <MainText className={mainHeadingfontFamilyClass}>
+          <MainText id="amount" className={mainHeadingfontFamilyClass}>
             {`${trimBalance(amount)} ${coin}`}
           </MainText>
           <TxHorizontalContentDiv>
-            <TxEquivalentInUSDT className={subHeadingfontFamilyClass}>
+            <TxEquivalentInUSDT id="tx-equivalent-in-usd" className={subHeadingfontFamilyClass}>
               {amountInUsd}
             </TxEquivalentInUSDT>
           </TxHorizontalContentDiv>

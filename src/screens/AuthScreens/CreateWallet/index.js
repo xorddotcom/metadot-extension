@@ -208,7 +208,7 @@ function CreateWallet() {
           <SubHeading {...walletNameText}>
             Wallet Name
           </SubHeading>
-          <StyledInput isCorrect {...styledInputName} />
+          <StyledInput id="wallet-name" isCorrect {...styledInputName} />
           {isValidWalletName
           && (
           <WarningText className={subHeadingfontFamilyClass}>
@@ -226,6 +226,7 @@ function CreateWallet() {
             Password
           </SubHeading>
           <StyledInput
+            id="password"
             {...styledInputPassword}
             typePassword
             isCorrect
@@ -264,6 +265,7 @@ function CreateWallet() {
 
           </SubHeading>
           <StyledInput
+            id="confirm-password"
             {...styledInputConfirmPass}
             typePassword
             rightIcon
@@ -292,7 +294,7 @@ function CreateWallet() {
         </SubHeading>
       </SubMainWrapperForAuthScreens>
       <div className="btn-wrapper" style={{ marginLeft: '0', marginBottom: '10px' }}>
-        <Button {...btn} />
+        <Button id="auth-continue" {...btn} />
       </div>
     </AuthWrapper>
   );

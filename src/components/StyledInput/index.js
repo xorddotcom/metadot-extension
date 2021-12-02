@@ -63,6 +63,7 @@ function StyledInput({
   maxlength,
   disabled,
   blockInvalidChar,
+  id,
 }) {
   const blockChar = (ev) => {
     const arr = ['e', 'E', '+', '-'];
@@ -91,7 +92,7 @@ function StyledInput({
   };
   return (
     <TextInputWrapper marginBottom={marginBottom || '0px'}>
-      <StyledInputField disableUnderline {...styledInputField} />
+      <StyledInputField id={id} disableUnderline {...styledInputField} />
       {rightIcon && (
         <Icon onClick={() => hideHandler()}>
           {!hideState

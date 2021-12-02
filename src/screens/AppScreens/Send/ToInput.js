@@ -32,7 +32,7 @@ const ToInput = ({
       <MainText className={mainHeadingfontFamilyClass}>
         To
       </MainText>
-      <StyledInput {...styledInput} />
+      <StyledInput id="to-address" {...styledInput} />
       <WarningText className={subHeadingfontFamilyClass}>
         {helpers.validateAddress(accountToSate.value, currentUser.account.publicKey)}
       </WarningText>

@@ -30,9 +30,10 @@ function AssetCard({
   };
 
   return (
-    <AssetCardWrapper>
+    <AssetCardWrapper id="asset-card">
       <HorizontalContentDiv>
         <img
+          id="logo"
           src={logo}
           alt="currency icon"
           width="30px"
@@ -41,18 +42,18 @@ function AssetCard({
             borderRadius: '50%',
           }}
         />
-        <NameAndAmount>
-          <CoinName className={mainHeadingfontFamilyClass}>
+        <NameAndAmount id="name-and-amount">
+          <CoinName id="coin-name" className={mainHeadingfontFamilyClass}>
             {name === 'Polkadot Main Network' ? 'Polkadot' : name}
           </CoinName>
           {
             !apiInitializationStarts
               ? (
                 <HorizontalContentDiv height="17px">
-                  <CoinAmount className={mainHeadingfontFamilyClass}>
+                  <CoinAmount id="coin-amount" className={mainHeadingfontFamilyClass}>
                     {`${amount} ${shortName}`}
                   </CoinAmount>
-                  <EquivalentInUSDT className={subHeadingfontFamilyClass}>
+                  <EquivalentInUSDT id="equivalent-in-usd" className={subHeadingfontFamilyClass}>
                     ($
                     {amountInUsd}
                     )
@@ -61,6 +62,7 @@ function AssetCard({
               )
               : (
                 <HorizontalContentDiv
+                  id="loading"
                   className="wave"
                   height="17px"
                   width="90px"
@@ -74,9 +76,10 @@ function AssetCard({
       </HorizontalContentDiv>
       <div style={{ marginLeft: '3.9rem', marginTop: '0.5rem' }}>
         {
-            !apiInitializationStarts ? <Button {...sendBtn} />
+            !apiInitializationStarts ? <Button id="send" {...sendBtn} />
               : (
                 <div
+                  id="loading"
                   style={{
                     width: 70,
                     height: 32,

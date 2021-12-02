@@ -170,24 +170,28 @@ function ConfirmSeed() {
       </div>
       <SubMainWrapperForAuthScreens mb="2rem">
         <StyledInput
+          id="word-1"
           disableUnderline
           {...styledInput1}
           disabled
         />
 
         <StyledInput
+          id="word-2"
           disableUnderline
           {...styledInput2}
           disabled
         />
 
         <StyledInput
+          id="word-3"
           disableUnderline
           {...styledInput3}
           disabled
         />
 
         <StyledInput
+          id="word-4"
           disableUnderline
           {...styledInput4}
           disabled
@@ -195,8 +199,9 @@ function ConfirmSeed() {
 
         <SeedGrid>
           <SeedGridRow>
-            {seedArrayForGrid.map((s) => (
+            {seedArrayForGrid.map((s, i) => (
               <SeedText
+                id={`seed-${i}`}
                 key={s.value}
                 className={subHeadingfontFamilyClass}
                 onClick={() => handleSelect(s)}
@@ -210,7 +215,7 @@ function ConfirmSeed() {
 
       </SubMainWrapperForAuthScreens>
       <div style={{ marginLeft: '0' }} className="btn-wrapper">
-        <Button {...btn} />
+        <Button id="confirm-continue" {...btn} />
       </div>
     </AuthWrapper>
   );

@@ -52,18 +52,21 @@ const DropDown = ({
       // style={{ border: '1px solid #fff' }}
       transformOrigin={{ horizontal: 'right', vertical: 'top' }}
       anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      id="menu"
     >
-      <Paper style={{
-        width: '210px',
-        marginLeft: '-2.6rem',
-        marginTop: '-0.5rem',
-        backgroundColor: '#212121',
-        border: '0.9px solid #219A9A',
-        boxShadow: '0px 0px 20px 5px rgba(33, 154, 154, 0.08)',
-        borderRadius: '8px',
-      }}
+      <Paper
+        id="paper"
+        style={{
+          width: '210px',
+          marginLeft: '-2.6rem',
+          marginTop: '-0.5rem',
+          backgroundColor: '#212121',
+          border: '0.9px solid #219A9A',
+          boxShadow: '0px 0px 20px 5px rgba(33, 154, 154, 0.08)',
+          borderRadius: '8px',
+        }}
       >
-        <MenuList>
+        <MenuList id="menu-list">
           {/* <Typography style={{
         textAlign: 'center',
         fontWeight: '600',
@@ -125,6 +128,7 @@ const DropDown = ({
           <img src={ChevronRightOutlinedIcon} alt="icon" style={{ marginLeft: '5.04rem', marginTop: '-0.4rem' }} />
         </MenuItem> */}
           <MenuItem
+            id="menu-item-1"
             style={{ minHeight: '37px', color: '#fafafa' }}
             onClick={() => {
               console.log('abc');
@@ -145,6 +149,7 @@ const DropDown = ({
             </ListItemIcon>
           </MenuItem>
           <MenuItem
+            id="menu-item-2"
             style={{ minHeight: '37px', color: '#fafafa' }}
             onClick={() => {
               dispatch(resetAccountSlice());

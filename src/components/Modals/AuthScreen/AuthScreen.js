@@ -86,7 +86,7 @@ function AuthScreen({
               Password
             </MainText>
 
-            <StyledInput {...styledInput} />
+            <StyledInput id="auth-password" {...styledInput} />
             <WarningText
               className={subHeadingfontFamilyClass}
               visibility={!!passwordError}
@@ -96,8 +96,8 @@ function AuthScreen({
           </VerticalContentDiv>
 
           <div className="btn-row">
-            <Button cancel {...btnF} />
-            <Button {...btnS} />
+            <Button id="cancel" cancel {...btnF} />
+            <Button id="confirm" {...btnS} />
           </div>
         </MainDiv>
       </Box>

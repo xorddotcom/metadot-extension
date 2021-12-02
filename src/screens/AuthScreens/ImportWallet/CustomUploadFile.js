@@ -38,6 +38,7 @@ const CustomUploadFile = () => {
         </UploadFile>
 
         <input
+          id="upload-file"
           type="file"
           ref={hiddenFileInput}
           onChange={showFile}

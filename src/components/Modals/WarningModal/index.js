@@ -47,8 +47,8 @@ function WarningModal({ open, handleClose, style }) {
           Proceeding will not let you view your mnemonic again. Do you still wish to continue?
         </SubHeading>
         <div style={{ marginTop: '2rem' }} className="btn-row">
-          <Button cancel {...btnF} />
-          <Button {...btnS} />
+          <Button id="cancel" cancel {...btnF} />
+          <Button id="confirm" {...btnS} />
         </div>
       </Box>
     </Modal>

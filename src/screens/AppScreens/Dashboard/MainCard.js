@@ -50,6 +50,7 @@ function MainCard({
   };
 
   const copyIconTooltip = {
+    id: 'copy-icon',
     className: `tooltip ${mainHeadingfontFamilyClass}`,
     onClick: copyText,
     onMouseOver: () => setCopy('Copy'),
@@ -72,7 +73,7 @@ function MainCard({
   };
 
   return (
-    <MainPanel>
+    <MainPanel id="main-panel">
       <div>
         {/* <MoreOptions>
           <img src={NotConnected} alt="not connected signal" />
@@ -81,21 +82,22 @@ function MainCard({
           </ConnectionStatus>
           <MoreVertIcon style={{ color: primaryTextColor, fontSize: 22 }} />
         </MoreOptions> */}
-        <Refresh onClick={() => {
-          dispatch(setApiInitializationStarts(true));
-
-          setTimeout(() => dispatch(setApiInitializationStarts(false)), 1000);
-        }}
+        <Refresh
+          id="refresh"
+          onClick={() => {
+            dispatch(setApiInitializationStarts(true));
+            setTimeout(() => dispatch(setApiInitializationStarts(false)), 1000);
+          }}
         >
           <img src={refreshIcon} alt="refresh-icon" />
         </Refresh>
 
-        <AccountName className={mainHeadingfontFamilyClass}>
+        <AccountName id="account-name" className={mainHeadingfontFamilyClass}>
           {accountName}
         </AccountName>
       </div>
       <VerticalContentDiv>
-        <PublicAddress className={mainHeadingfontFamilyClass}>
+        <PublicAddress id="public-address" className={mainHeadingfontFamilyClass}>
           (
           {addressModifier(address)}
           )
@@ -109,13 +111,13 @@ function MainCard({
       {
         !apiInitializationStarts
           ? (
-            <Balance className={mainHeadingfontFamilyClass}>
+            <Balance id="balance" className={mainHeadingfontFamilyClass}>
               <div className={`topTooltip ${mainHeadingfontFamilyClass}`}>
-                <span>
+                <span id="trim-balance">
                   {trimBalance(balance)}
                 </span>
-                <span style={{ marginLeft: 7 }}>{tokenName}</span>
-                <span {...addTooltipText}>
+                <span id="token-name" style={{ marginLeft: 7 }}>{tokenName}</span>
+                <span id="complete-balance" {...addTooltipText}>
                   {balance}
                 </span>
               </div>
@@ -123,6 +125,7 @@ function MainCard({
           )
           : (
             <Balance
+              id="balance"
               className="wave"
               height="35px"
               width="151px"
@@ -133,7 +136,7 @@ function MainCard({
       }
 
       <VerticalContentDiv>
-        <PerUnitPrice className={mainHeadingfontFamilyClass}>
+        <PerUnitPrice id="balance-in-usd" className={mainHeadingfontFamilyClass}>
           $
           {balanceInUsd}
           {' '}

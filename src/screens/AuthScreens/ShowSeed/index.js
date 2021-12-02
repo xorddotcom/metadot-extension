@@ -50,11 +50,13 @@ function ShowSeed() {
   };
 
   const contentCopyIcon = {
+    id: 'copy-seed',
     onClick: copySeedText,
     onMouseOver: () => setCopy('Copy'),
   };
 
   const btn = {
+    id: 'seed-continue',
     width: '300px',
     text: 'Continue',
     handleClick: () => setIsModalOpen(true),

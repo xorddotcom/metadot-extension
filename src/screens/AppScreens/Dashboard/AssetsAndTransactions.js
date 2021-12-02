@@ -73,11 +73,11 @@ function AssetsAndTransactions({
   };
   return (
     <AssetsAndTransactionsWrapper>
-      <Tabs>
-        <TabSection {...tabSectionAssets}>
+      <Tabs id="tabs">
+        <TabSection id="assets" {...tabSectionAssets}>
           Assets
         </TabSection>
-        <TabSection {...tabSectionTransactions}>
+        <TabSection id="transactions" {...tabSectionTransactions}>
           Transactions
         </TabSection>
       </Tabs>
@@ -93,7 +93,7 @@ function AssetsAndTransactions({
         )}
         {isTab2Active && (
         // eslint-disable-next-line arrow-body-style
-          transactionData.length > 0 && transactionData.map((transaction) => {
+          transactionData.length > 0 && transactionData.map((transaction, i) => {
             const {
               hash, operation, status, tokenName: tokenNames, amount,
             } = transaction;
@@ -111,7 +111,7 @@ function AssetsAndTransactions({
               amount,
             };
             return (
-              <TxCard key={hash} {...txCard} />
+              <TxCard id={`txcard-${i}`} key={hash} {...txCard} />
             );
           })
         )}

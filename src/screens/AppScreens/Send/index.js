@@ -399,6 +399,7 @@ const Send = () => {
   };
 
   const btn = {
+    id: 'send-next',
     text: 'Next',
     width: '300px',
     handleClick: handleSubmit,
@@ -407,6 +408,7 @@ const Send = () => {
   };
 
   const confirmSend = {
+    id: 'confirm-send',
     style: {
       width: '78%',
       background: '#141414',

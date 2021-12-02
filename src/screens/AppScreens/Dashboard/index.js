@@ -281,25 +281,25 @@ function Dashboard(props) {
     <>
       <Wrapper>
         <DashboardHeader>
-          <LogoContainer onClick={() => dispatch(setAuthScreenModal(true))}>
+          <LogoContainer id="logo" onClick={() => dispatch(setAuthScreenModal(true))}>
             <img src={Logo} width="30px" height="34px" alt="MetaDot Logo" />
           </LogoContainer>
 
-          <NetworkContainer>
-            <SelectChain onClick={() => setIsModalOpen(true)}>
-              <SelectedChain className={subHeadingfontFamilyClass}>
+          <NetworkContainer id="netowork-container">
+            <SelectChain id="select-chain" onClick={() => setIsModalOpen(true)}>
+              <SelectedChain id="selected-chain" className={subHeadingfontFamilyClass}>
                 {chainName.includes('Network')
                   ? chainName
                   : `${chainName} Network`}
 
               </SelectedChain>
-              <ArrowDropDownIcon style={{ fontSize: '1.7rem' }} />
+              <ArrowDropDownIcon id="arrow-drop-down-icon" style={{ fontSize: '1.7rem' }} />
             </SelectChain>
           </NetworkContainer>
 
-          <AccountContainer>
-            <AccountSetting>
-              <AccountText onClick={handleClick} className={mainHeadingfontFamilyClass}>
+          <AccountContainer id="account-container">
+            <AccountSetting id="account-setting">
+              <AccountText id="account-text" onClick={handleClick} className={mainHeadingfontFamilyClass}>
                 {accountName.slice(0, 1)}
               </AccountText>
             </AccountSetting>
@@ -312,7 +312,6 @@ function Dashboard(props) {
             handleClose={handleClose}
             classes={classes}
           />
-
           {/* Menu End */}
 
         </DashboardHeader>

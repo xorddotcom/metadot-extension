@@ -84,9 +84,9 @@ function Welcome() {
         </SubHeading>
       </div>
       <div {...divProps}>
-        <Button {...btnCreate} />
+        <Button id="btn-create" {...btnCreate} />
         <div style={{ margin: '0.5rem' }} />
-        <Button cancel {...btnImport} />
+        <Button id="btn-import" cancel {...btnImport} />
       </div>
     </div>
   );

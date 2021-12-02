@@ -83,7 +83,7 @@ function WelcomeBack() {
         <MainHeading className={mainHeadingfontFamilyClass}>
           Welcome Back
         </MainHeading>
-        <StyledInput isCorrect fullWidth="75%" {...styledInput} />
+        <StyledInput id="password-input" isCorrect fullWidth="75%" {...styledInput} />
         {/* {passwordError && ( */}
         <WarningText
           className={subHeadingfontFamilyClass}
@@ -94,7 +94,7 @@ function WelcomeBack() {
         {/* )} */}
       </div>
       <div className="btn-wrapper" style={{ marginLeft: 0, marginTop: '0' }}>
-        <Button {...btn} />
+        <Button id="unlock" {...btn} />
       </div>
       {/* <SubHeading className={subHeadingfontFamilyClass}>
         or

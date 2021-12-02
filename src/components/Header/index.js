@@ -26,6 +26,7 @@ function Header({ centerText, backHandler }) {
         backHandler
       && (
       <IconButton
+        id="back-btn"
         className="primary-bg-color"
         onClick={() => onBackClick()}
         style={{ position: 'absolute', padding: '0.5rem' }}

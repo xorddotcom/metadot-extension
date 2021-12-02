@@ -20,14 +20,14 @@ const FromInput = ({ addressModifier, currentUser }) => {
       <MainText className={mainHeadingfontFamilyClass}>
         From
       </MainText>
-      <FromAccount>
+      <FromAccount id="from-account">
         <HorizontalContentDiv>
           <PlainIcon />
           <VerticalContentDiv>
-            <MainText {...mainText}>
+            <MainText id="account-name" {...mainText}>
               {currentUser.account.accountName}
             </MainText>
-            <Balance className={subHeadingfontFamilyClass}>
+            <Balance id="public-key" className={subHeadingfontFamilyClass}>
               {addressModifier(currentUser.account.publicKey)}
             </Balance>
           </VerticalContentDiv>

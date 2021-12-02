@@ -20,6 +20,7 @@ function index({
   disabled,
   isLoading,
   border,
+  id,
 }) {
   const { primaryBgColor, primaryTextColor } = colors;
   const secondaryBgColor = 'transparent';
@@ -52,12 +53,14 @@ function index({
     startIcon: <img src={StartIcon} alt="icon" style={{ marginTop: '-0.2px' }} />,
     onClick: () => handleClick(),
     disabled: !!disabled,
+    id,
   };
 
   const styledButtonS = {
     variant: 'contained',
     onClick: () => handleClick(),
     disabled: !!disabled,
+    id,
   };
 
   return (
