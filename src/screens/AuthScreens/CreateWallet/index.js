@@ -104,11 +104,11 @@ function CreateWallet() {
       ? 'Imported'
       : 'Created';
 
+    dispatch(setIsSuccessModalOpen(true));
     dispatch(setMainTextForSuccessModal(`Successfully ${operation}!`));
     dispatch(
       setSubTextForSuccessModal(''),
     );
-    dispatch(setIsSuccessModalOpen(true));
 
     setTimeout(() => {
       dispatch(setIsSuccessModalOpen(false));

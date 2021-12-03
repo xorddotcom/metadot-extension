@@ -27,11 +27,13 @@ export const BackButton = styled.div`
 `;
 
 export const CloseIconDiv = styled.div`
-  position: absolute;
-  right: 10px;
-  top: 10px;
+  position: relative;
+  width: 30px;
+  left: 87%;
+  top: 20px;
   color: ${primaryTextColor};
   cursor: pointer;
+  /* border: 1px solid white; */
 `;
 
 export const OptionRow = styled.div`

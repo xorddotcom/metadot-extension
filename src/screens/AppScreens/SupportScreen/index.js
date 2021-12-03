@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Input } from '@material-ui/core';
 import {
-  AuthWrapper, Button, Header, StyledInput,
+  Button, Header, StyledInput,
 } from '../../../components';
 import { fonts, colors } from '../../../utils';
 import {
   MainDiv,
-  MainHeading, MainText, SocialDiv, SubHeading, VerticalContentDiv,
+  MainHeading, MainText, SocialDiv, SubHeading, VerticalContentDiv, Wrapper,
 } from './StyledComponents/index';
 import facebook from '../../../assets/images/Facebook.svg';
 import telegram from '../../../assets/images/Telegram.svg';
@@ -69,7 +69,7 @@ const Support = () => {
 
   const upperDiv = { marginTop: '34px', marginBottom: '30px' };
   return (
-    <AuthWrapper>
+    <Wrapper>
       <Header centerText="Support" backHandler={() => console.log('object')} />
       <MainDiv style={upperDiv}>
         <MainHeading className={mainHeadingfontFamilyClass}>
@@ -131,7 +131,7 @@ const Support = () => {
           </Link>
         </SocialDiv>
       </MainDiv>
-    </AuthWrapper>
+    </Wrapper>
   );
 };
 

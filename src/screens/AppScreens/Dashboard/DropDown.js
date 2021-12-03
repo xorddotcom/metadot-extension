@@ -5,13 +5,15 @@ import Paper from '@mui/material/Paper';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import ListItemIcon from '@mui/material/ListItemIcon';
 // import Typography from '@mui/material/Typography';
 import LockOutlinedIcon from '../../../assets/images/icons/lock.svg';
 import RemoveIcon from '../../../assets/images/icons/Remove.svg';
+import ForumOutlinedIcon from '../../../assets/images/icons/support.svg';
 import { resetAccountSlice, setLoggedIn } from '../../../redux/slices/account';
+import { resetTransactions } from '../../../redux/slices/transactions';
 // import SettingsOutlinedIcon from '../../../assets/images/icons/setting.svg';
-// import ForumOutlinedIcon from '../../../assets/images/icons/support.svg';
 // import FileUploadOutlinedIcon from '../../../assets/images/icons/export.svg';
 // import FileDownloadOutlinedIcon from '../../../assets/images/icons/download.svg';
 // import AddOutlinedIcon from '../../../assets/images/icons/add.svg';
@@ -22,7 +24,7 @@ const DropDown = ({
   open, handleClose, anchorEl, classes,
 }) => {
   const dispatch = useDispatch();
-
+  const history = useHistory();
   return (
     <Menu
       anchorEl={anchorEl}
@@ -153,6 +155,7 @@ const DropDown = ({
             style={{ minHeight: '37px', color: '#fafafa' }}
             onClick={() => {
               dispatch(resetAccountSlice());
+              dispatch(resetTransactions());
             }}
           >
             <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
@@ -165,6 +168,26 @@ const DropDown = ({
               />
                   &nbsp; &nbsp;
               <span style={{ fontSize: '0.85rem' }}>Remove Account</span>
+            </ListItemIcon>
+          </MenuItem>
+          <MenuItem
+            style={{ minHeight: '37px', color: '#fafafa' }}
+            onClick={() => {
+              console.log('abc');
+              // const logOut = async () => {
+              history.push('/Support');
+
+              // };
+            }}
+          >
+            <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
+              <img
+                src={ForumOutlinedIcon}
+                alt="lock-icon"
+                style={{ marginTop: '-0.2rem' }}
+              />
+                  &nbsp; &nbsp;
+              <span style={{ fontSize: '0.85rem' }}>Support</span>
             </ListItemIcon>
           </MenuItem>
         </MenuList>

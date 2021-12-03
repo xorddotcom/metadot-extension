@@ -37,7 +37,7 @@ function TxCard({
 
       <div style={{ marginLeft: 100 }}>
         <VerticalContentDiv>
-          <MainText id="amount" className={mainHeadingfontFamilyClass}>
+          <MainText className={mainHeadingfontFamilyClass}>
             {`${trimBalance(amount)} ${coin}`}
           </MainText>
           <TxHorizontalContentDiv>

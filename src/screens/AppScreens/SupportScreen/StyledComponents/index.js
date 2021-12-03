@@ -61,3 +61,11 @@ export const MainText = styled.p`
   margin-bottom: ${(props) => (props.mb ? props.mb : '12px')};
   margin-top: ${(props) => (props.mt && props.mt)};
 `;
+
+export const Wrapper = styled.div`
+  padding: 18px 20px 8px;
+  overflow-y: scroll;
+  min-height: 100%;
+  max-height: 100%;
+  height: 556px;
+`;

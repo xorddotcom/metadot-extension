@@ -10,7 +10,7 @@ import {
   MainDiv, MainText, MainText1, VerticalContentDiv, WarningText,
 } from './StyledComponent';
 import { decrypt } from '../../../utils/accounts';
-import { setAuthScreenModal } from '../../../redux/slices/successModalHandling';
+import { setAuthScreenModal, setConfirmSendModal } from '../../../redux/slices/successModalHandling';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -32,6 +32,7 @@ function AuthScreen({
       const dSeed = decrypt(currentUser.seed, password);
       console.log('Correct');
       dispatch(setAuthScreenModal(false));
+      dispatch(setConfirmSendModal(true));
       sendTransaction(dSeed);
     } catch (err) {
       console.log('error due to wrong ', err);

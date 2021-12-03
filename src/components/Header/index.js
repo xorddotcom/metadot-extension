@@ -29,7 +29,7 @@ function Header({ centerText, backHandler }) {
         id="back-btn"
         className="primary-bg-color"
         onClick={() => onBackClick()}
-        style={{ position: 'absolute', padding: '0.5rem' }}
+        style={{ padding: '0.5rem' }}
       >
         <img src={ArrowBackIcon} alt="icon" />
       </IconButton>

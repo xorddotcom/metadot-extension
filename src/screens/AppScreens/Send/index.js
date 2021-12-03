@@ -16,7 +16,11 @@ import {
   CenterContent,
 } from './StyledComponents';
 import {
-  setAuthScreenModal, setIsSuccessModalOpen, setMainTextForSuccessModal, setSubTextForSuccessModal,
+  setAuthScreenModal,
+  setIsSuccessModalOpen,
+  setMainTextForSuccessModal,
+  setSubTextForSuccessModal,
+  setConfirmSendModal,
 } from '../../../redux/slices/successModalHandling';
 import { decrypt } from '../../../utils/accounts';
 import FromInput from './FromInput';
@@ -91,10 +95,8 @@ const Send = () => {
   // eslint-disable-next-line no-unused-vars
   const [isLoading, setIsLoading] = useState(false);
 
-  // const [isSendModalOpen, setIsSendModalOpen] = useState(false);
   const currentUser = useSelector((state) => state);
   const { api } = currentUser.api;
-  const [isSendModalOpen, setIsSendModalOpen] = useState(false);
 
   // const [accountTo, setAccountTo] = useState('');
   const [accountToSate, accountDispatch] = useReducer(accountReducer, {
@@ -262,12 +264,12 @@ const Send = () => {
             }
             dispatch(addTransaction(data));
             setLoading2(false);
-            setIsSendModalOpen(false);
+            dispatch(setConfirmSendModal(false));
+            dispatch(setIsSuccessModalOpen(true));
             dispatch(setMainTextForSuccessModal('Transaction Successful!'));
             dispatch(
               setSubTextForSuccessModal(''),
             );
-            dispatch(setIsSuccessModalOpen(true));
             setTimeout(() => {
               dispatch(setIsSuccessModalOpen(false));
             }, 3500);
@@ -341,7 +343,7 @@ const Send = () => {
         setInsufficientBal(true);
         // alert('balance is too low to pay network fees!');
       } else {
-        setIsSendModalOpen(true);
+        dispatch(setConfirmSendModal(true));
       }
     } catch (err) {
       setLoading1(false);
@@ -395,7 +397,6 @@ const Send = () => {
     trimBalance,
     errorMessages,
     error,
-    loading1,
   };
 
   const btn = {
@@ -421,11 +422,12 @@ const Send = () => {
     accountFrom: currentUser.account.publicKey,
     accountTo: accountToSate.value,
     amount: amountState.value,
-    open: isSendModalOpen,
+    open: currentUser.successModalHandling.confirmSendModal,
     transactionFee,
     tokenName: currentUser.account.tokenName,
     fromAccountName: currentUser.account.accountName,
-    handleClose: () => setIsSendModalOpen(false),
+
+    handleClose: () => dispatch(setConfirmSendModal(false)),
     handleConfirm: sendTransaction,
     loading2,
   };
@@ -448,7 +450,10 @@ const Send = () => {
       />
       <AuthScreen
         open={currentUser.successModalHandling.authScreenModal}
-        handleClose={() => dispatch(setAuthScreenModal(false))}
+        handleClose={() => {
+          dispatch(setAuthScreenModal(false));
+          dispatch(setConfirmSendModal(true));
+        }}
         sendTransaction={sendTransaction}
         style={{
           width: '78%',

@@ -11,13 +11,16 @@ export const transactionSlice = createSlice({
   reducers: {
     addTransaction: (state, action) => ({
       ...state,
-      transactions: [...state.transactions, action.payload],
+      transactions: [action.payload, ...state.transactions],
+    }),
+    resetTransactions: () => ({
+      transactions: [],
     }),
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addTransaction } = transactionSlice.actions;
+export const { addTransaction, resetTransactions } = transactionSlice.actions;
 
 // states
 // export const addATransaction = (state) => state.transactions.transaction;

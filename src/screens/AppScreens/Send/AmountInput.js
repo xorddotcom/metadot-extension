@@ -61,10 +61,10 @@ const AmountInput = ({
           Amount
         </MainText>
         <div style={{ marginRight: '2rem' }}>
-          <Button id="max-btn" {...btn} />
+          <Button {...btn} />
         </div>
       </FlexBetween>
-      <StyledInput id="amount-input" blockInvalidChar {...styledInput} />
+      <StyledInput blockInvalidChar {...styledInput} />
       {
               insufficientBal
             && (
@@ -92,7 +92,7 @@ const AmountInput = ({
           $
           {currentUser.account.balanceInUsd}
         </EquivalentInUSDT>
-        <Balance id="balance" {...balanceProps}>
+        <Balance {...balanceProps}>
           Balance:
           {' '}
           {`${trimBalance(currentUser.account.balance)} ${currentUser.account.tokenName}`}

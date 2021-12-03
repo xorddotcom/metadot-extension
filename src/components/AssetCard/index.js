@@ -27,23 +27,28 @@ function AssetCard({
     fontWeight: 500,
     height: '30px',
     handleClick: () => history.push('/Send'),
+    disabled: !!apiInitializationStarts,
   };
 
   return (
     <AssetCardWrapper id="asset-card">
       <HorizontalContentDiv>
-        <img
-          id="logo"
-          src={logo}
-          alt="currency icon"
-          width="30px"
-          height="30px"
-          style={{
-            borderRadius: '50%',
-          }}
-        />
-        <NameAndAmount id="name-and-amount">
-          <CoinName id="coin-name" className={mainHeadingfontFamilyClass}>
+        {
+            !apiInitializationStarts
+              ? (
+                <img
+                  src={logo}
+                  alt="currency icon"
+                  width="30px"
+                  height="30px"
+                  style={{
+                    borderRadius: '50%',
+                  }}
+                />
+              ) : <div style={{ width: 30, height: 30, borderRadius: '50%' }} className="wave" />
+}
+        <NameAndAmount>
+          <CoinName className={mainHeadingfontFamilyClass}>
             {name === 'Polkadot Main Network' ? 'Polkadot' : name}
           </CoinName>
           {
@@ -75,21 +80,8 @@ function AssetCard({
 
       </HorizontalContentDiv>
       <div style={{ marginLeft: '3.9rem', marginTop: '0.5rem' }}>
-        {
-            !apiInitializationStarts ? <Button id="send" {...sendBtn} />
-              : (
-                <div
-                  id="loading"
-                  style={{
-                    width: 70,
-                    height: 32,
-                    borderRadius: '40px',
-                    marginBottom: 10,
-                  }}
-                  className="wave"
-                />
-              )
-          }
+
+        <Button {...sendBtn} />
 
       </div>
     </AssetCardWrapper>

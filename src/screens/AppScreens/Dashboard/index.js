@@ -57,9 +57,6 @@ import {
 import networks from './networkModalData';
 import DropDown from './DropDown';
 
-import AuthScreen from '../../../components/Modals/AuthScreen/AuthScreen';
-import Support from '../SupportScreen';
-
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryTextColor } = colors;
 
@@ -89,6 +86,7 @@ function Dashboard(props) {
   const [isTxDetailsModalOpen, setIsTxDetailsModalOpen] = useState(false);
 
   const currentUser = useSelector((state) => state);
+  const { apiInitializationStarts } = useSelector((state) => state.api);
   const {
     publicKey, chainName, balance, tokenName, seed, balanceInUsd, accountName, walletName,
   } = currentUser.account;
@@ -285,9 +283,12 @@ function Dashboard(props) {
             <img src={Logo} width="30px" height="34px" alt="MetaDot Logo" />
           </LogoContainer>
 
-          <NetworkContainer id="netowork-container">
-            <SelectChain id="select-chain" onClick={() => setIsModalOpen(true)}>
-              <SelectedChain id="selected-chain" className={subHeadingfontFamilyClass}>
+          <NetworkContainer>
+            <SelectChain
+              onClick={() => (apiInitializationStarts ? console.log('abc') : setIsModalOpen(true))}
+              disabled={!!apiInitializationStarts}
+            >
+              <SelectedChain className={subHeadingfontFamilyClass}>
                 {chainName.includes('Network')
                   ? chainName
                   : `${chainName} Network`}
@@ -374,8 +375,6 @@ function Dashboard(props) {
         />
       </Wrapper>
       {/* ------------------------- */}
-
-      {/* <Support /> */}
     </>
   );
 }

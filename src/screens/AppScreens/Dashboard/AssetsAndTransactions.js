@@ -21,7 +21,7 @@ import astar from '../../../assets/images/astar.png';
 import rococo from '../../../assets/images/rococo.svg';
 
 const { mainHeadingfontFamilyClass } = fonts;
-const { trimBalance } = helpers;
+const { trimBalance, reverseArray } = helpers;
 
 function AssetsAndTransactions({
   handleOpenTxDetailsModal,
@@ -71,6 +71,7 @@ function AssetsAndTransactions({
       setIsTab2Active(true);
     },
   };
+
   return (
     <AssetsAndTransactionsWrapper>
       <Tabs id="tabs">
@@ -93,7 +94,7 @@ function AssetsAndTransactions({
         )}
         {isTab2Active && (
         // eslint-disable-next-line arrow-body-style
-          transactionData.length > 0 && transactionData.map((transaction, i) => {
+          transactionData.length > 0 && transactionData.map((transaction) => {
             const {
               hash, operation, status, tokenName: tokenNames, amount,
             } = transaction;
@@ -111,7 +112,7 @@ function AssetsAndTransactions({
               amount,
             };
             return (
-              <TxCard id={`txcard-${i}`} key={hash} {...txCard} />
+              <TxCard key={hash} {...txCard} />
             );
           })
         )}
