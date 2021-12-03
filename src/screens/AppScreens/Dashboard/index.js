@@ -279,8 +279,8 @@ function Dashboard(props) {
     <>
       <Wrapper>
         <DashboardHeader>
-          <LogoContainer id="logo" onClick={() => dispatch(setAuthScreenModal(true))}>
-            <img src={Logo} width="30px" height="34px" alt="MetaDot Logo" />
+          <LogoContainer onClick={() => dispatch(setAuthScreenModal(true))}>
+            <img src={Logo} width="30px" height="34px" alt="Metadot Logo" />
           </LogoContainer>
 
           <NetworkContainer>

@@ -289,7 +289,7 @@ function CreateWallet() {
 
         <SubHeading mb="0" textLightColor marginTop="5px" className={subHeadingfontFamilyClass}>
           This password will be used as the transaction password for the wallet,
-          MetaDot does not save passwords
+          Metadot does not save passwords
           and cannot retrieve them for you. Please keep your password safe!
         </SubHeading>
       </SubMainWrapperForAuthScreens>
