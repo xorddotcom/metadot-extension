@@ -10,7 +10,7 @@ export const MainDiv = styled.div`
 `;
 
 export const SocialDiv = styled.div`
-  width: 35%;
+  width: 50%;
   display: flex;
   justify-content: space-between;
   align-items: center;

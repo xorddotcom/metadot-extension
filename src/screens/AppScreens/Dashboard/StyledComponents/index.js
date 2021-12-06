@@ -107,7 +107,7 @@ export const MainPanel = styled.div`
 
   /* Note: backdrop-filter has minimal browser support */
   border-radius: 15px;
-  margin-top: 50px;
+  margin-top: 30px;
   padding-left: 25px;
 `;
 
@@ -229,6 +229,7 @@ export const CopyIconImg = styled.img`
 
 export const AssetsAndTransactionsWrapper = styled.div`
   width: 100%;
+  height: 249px;
   background: ${darkBgColor1};
   box-shadow: 0px 0px 10px rgba(230, 0, 122, 0.03);
   border-radius: 8px;
@@ -248,17 +249,15 @@ export const Tabs = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0px;
+  padding: 6px 0;
 `;
 
 export const TabSection = styled.p`
   width: 48%;
-  height: 34px;
+  height: 32px;
   cursor: pointer;
   font-size: 12px;
   line-height: 33px;
-  /* identical to box height */
-  /* Text and Icons */
   background-color: ${(props) => (props.isActive === true ? primaryBgColor : '#292929')};
   color: ${primaryTextColor};
   border-radius: 4px;

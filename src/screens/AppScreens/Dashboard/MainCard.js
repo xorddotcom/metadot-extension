@@ -46,7 +46,7 @@ function MainCard({
     }, 800);
     navigator.clipboard.writeText(address);
 
-    setCopy('Copied!');
+    setCopy('Copied');
   };
 
   const copyIconTooltip = {
@@ -73,7 +73,7 @@ function MainCard({
   };
 
   return (
-    <MainPanel id="main-panel">
+    <MainPanel>
       <div>
         {/* <MoreOptions>
           <img src={NotConnected} alt="not connected signal" />

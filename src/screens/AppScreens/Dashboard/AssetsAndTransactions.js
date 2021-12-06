@@ -74,11 +74,11 @@ function AssetsAndTransactions({
 
   return (
     <AssetsAndTransactionsWrapper>
-      <Tabs id="tabs">
-        <TabSection id="assets" {...tabSectionAssets}>
+      <Tabs>
+        <TabSection {...tabSectionAssets}>
           Assets
         </TabSection>
-        <TabSection id="transactions" {...tabSectionTransactions}>
+        <TabSection {...tabSectionTransactions}>
           Transactions
         </TabSection>
       </Tabs>

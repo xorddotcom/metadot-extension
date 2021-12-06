@@ -13,6 +13,8 @@ import facebook from '../../../assets/images/Facebook.svg';
 import telegram from '../../../assets/images/Telegram.svg';
 import instagram from '../../../assets/images/Instagram.svg';
 import twitter from '../../../assets/images/Twitter.svg';
+import discord from '../../../assets/images/Discord.svg';
+import element from '../../../assets/images/Element.svg';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryTextColor, darkBgColor } = colors;
@@ -22,7 +24,7 @@ const Support = () => {
   const [describe, setDescribe] = useState('');
 
   const styledInputEmail = {
-    placeholder: 'Email',
+    placeholder: 'Enter Email',
     type: 'email',
     value: emailInput,
     className: subHeadingfontFamilyClass,
@@ -32,7 +34,7 @@ const Support = () => {
   };
 
   const styledInputSubject = {
-    placeholder: 'Subject',
+    placeholder: 'Enter Subject',
     value: subjectEmail,
     className: subHeadingfontFamilyClass,
     onChange: (e) => setSubjectEmail(e),
@@ -55,7 +57,7 @@ const Support = () => {
     value: describe,
     onChange: (e) => setDescribe(e.target.value),
     rows: 5,
-    placeholder: 'Describe',
+    placeholder: 'Describe Here',
   };
 
   const btn = {
@@ -117,6 +119,12 @@ const Support = () => {
           culpa magnam.
         </SubHeading>
         <SocialDiv>
+          <Link to="/">
+            <img src={discord} alt="discord" />
+          </Link>
+          <Link to="/">
+            <img src={element} alt="element" height="20px" />
+          </Link>
           <Link to="/">
             <img src={telegram} alt="telegram" />
           </Link>

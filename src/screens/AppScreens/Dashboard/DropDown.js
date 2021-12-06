@@ -144,7 +144,7 @@ const DropDown = ({
               <img
                 src={LockOutlinedIcon}
                 alt="lock-icon"
-                style={{ marginTop: '-0.2rem' }}
+                style={{ marginTop: '-0.3rem' }}
               />
                   &nbsp; &nbsp;
               <span style={{ fontSize: '0.85rem' }}>Lock</span>

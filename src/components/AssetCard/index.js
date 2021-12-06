@@ -26,6 +26,7 @@ function AssetCard({
     fontSize: '12px',
     fontWeight: 500,
     height: '30px',
+    br: '4px',
     handleClick: () => history.push('/Send'),
     disabled: !!apiInitializationStarts,
   };

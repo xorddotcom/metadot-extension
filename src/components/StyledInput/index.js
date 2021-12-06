@@ -101,7 +101,7 @@ function StyledInput({
       )}
       {rightIconCross && (
       <Icon onClick={() => rightIconCrossClickHandler()}>
-        <CancelIcon />
+        <CancelIcon style={{ marginTop: '-0.1rem', marginRight: '-0.3rem' }} />
       </Icon>
       )}
     </TextInputWrapper>
