@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -34,7 +35,7 @@ const { isUserNameValid } = helpers;
 const passwordErrorMessages = {
   minimumCharacterWarning: 'Password should not be less than 8 characters',
   didnotMatchWarning: 'Password did not match!',
-  passwordValidation: 'Password must contain at least one lower case, one upper case and one number',
+  passwordValidation: 'Password must contain at least one lower case, one upper case, one number and a special character',
 };
 
 const { minimumCharacterWarning, didnotMatchWarning, passwordValidation } = passwordErrorMessages;
@@ -57,7 +58,7 @@ function CreateWallet() {
   const [passwordError, setPasswordError] = useState('');
 
   const validatePasswordAndConfirmPassword = () => {
-    const regexRes = password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/);
+    const regexRes = password.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/);
     console.log('Regex res', regexRes);
     if (regexRes == null) {
       setPasswordError(passwordValidation);
@@ -103,16 +104,15 @@ function CreateWallet() {
     const operation = history.entries[history.entries.length - 2].pathname === '/ImportWallet'
       ? 'Imported'
       : 'Created';
-
     dispatch(setIsSuccessModalOpen(true));
     dispatch(setMainTextForSuccessModal(`Successfully ${operation}!`));
     dispatch(
       setSubTextForSuccessModal(''),
     );
+    history.push('/');
 
     setTimeout(() => {
       dispatch(setIsSuccessModalOpen(false));
-      history.push('/');
     }, 2500);
 
     // navigate to dashboard on success
@@ -271,13 +271,13 @@ function CreateWallet() {
             rightIcon
             isCorrect
           />
-          {passwordError === minimumCharacterWarning && (
+          {/* {passwordError === minimumCharacterWarning && (
             <WarningText
               className={subHeadingfontFamilyClass}
             >
               {minimumCharacterWarning}
             </WarningText>
-          )}
+          )} */}
           {passwordError === didnotMatchWarning && (
             <WarningText
               className={subHeadingfontFamilyClass}

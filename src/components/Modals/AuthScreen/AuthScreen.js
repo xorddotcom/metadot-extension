@@ -47,14 +47,14 @@ function AuthScreen({
     value: password,
     className: subHeadingfontFamilyClass,
     fontSize: '12px',
-    height: '25px',
+    height: '20px',
     onChange: (t) => {
       setPassword(t);
       setPasswordError('');
     },
-    type: 'password',
     hideHandler: () => setShowPassword(!showPassword),
     hideState: showPassword,
+    mt: '0.03rem',
   };
 
   const btnF = {
@@ -87,7 +87,7 @@ function AuthScreen({
               Password
             </MainText>
 
-            <StyledInput id="auth-password" {...styledInput} />
+            <StyledInput id="auth-password" typePassword rightIcon {...styledInput} />
             <WarningText
               className={subHeadingfontFamilyClass}
               visibility={!!passwordError}

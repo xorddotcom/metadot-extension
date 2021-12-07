@@ -16,6 +16,7 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding-bottom: ${(props) => props.pb && '0'};
 `;
 
 export const DashboardHeader = styled.div`
@@ -229,7 +230,7 @@ export const CopyIconImg = styled.img`
 
 export const AssetsAndTransactionsWrapper = styled.div`
   width: 100%;
-  height: 249px;
+  height: 300px;
   background: ${darkBgColor1};
   box-shadow: 0px 0px 10px rgba(230, 0, 122, 0.03);
   border-radius: 8px;
@@ -239,6 +240,9 @@ export const AssetsAndTransactionsWrapper = styled.div`
   margin-top: 30px;
   padding-top: 10px;
   padding-bottom: 10px;
+  overflow-y: hidden;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 `;
 
 export const Tabs = styled.div`

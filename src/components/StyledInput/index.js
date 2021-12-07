@@ -64,6 +64,7 @@ function StyledInput({
   disabled,
   blockInvalidChar,
   id,
+  mt,
 }) {
   const blockChar = (ev) => {
     const arr = ['e', 'E', '+', '-'];
@@ -96,7 +97,7 @@ function StyledInput({
       {rightIcon && (
         <Icon onClick={() => hideHandler()}>
           {!hideState
-            ? <VisibilityOffIcon fontSize="small" style={{ marginTop: '-0.1rem' }} /> : <VisibilityIcon fontSize="small" style={{ marginTop: '-0.1rem' }} />}
+            ? <VisibilityOffIcon fontSize="small" style={{ marginTop: !mt ? '-0.1rem' : mt }} /> : <VisibilityIcon fontSize="small" style={{ marginTop: !mt ? '-0.1rem' : mt }} />}
         </Icon>
       )}
       {rightIconCross && (

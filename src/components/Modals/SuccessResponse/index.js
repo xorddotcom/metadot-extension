@@ -11,13 +11,18 @@ function SuccessResponse({
   open, handleClose, style, mainText, subText,
 }) {
   return (
-    <Modal open={open} onClose={handleClose}>
-      <Box sx={style} className="warning-modal-style">
-        <img src={SuccessCheckIcon} alt="success check" />
-        <MainHeading className={mainHeadingfontFamilyClass} marginBottom="8px">
-          {mainText}
-        </MainHeading>
-        {
+    <div>
+      <Modal
+        style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
+        open={open}
+        onClose={handleClose}
+      >
+        <Box sx={style} className="warning-modal-style">
+          <img src={SuccessCheckIcon} alt="success check" />
+          <MainHeading className={mainHeadingfontFamilyClass} marginBottom="8px">
+            {mainText}
+          </MainHeading>
+          {
           subText
         && (
         <SubHeading
@@ -30,9 +35,9 @@ function SuccessResponse({
         </SubHeading>
         )
         }
-
-      </Box>
-    </Modal>
+        </Box>
+      </Modal>
+    </div>
   );
 }
 

@@ -20,6 +20,7 @@ import {
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
+import { useHistory } from 'react-router-dom';
 import ApiCalls from '../../../utils/api';
 import MainCard from './MainCard';
 import AssetsAndTransactions from './AssetsAndTransactions';
@@ -79,6 +80,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Dashboard(props) {
   const classes = useStyles(props);
+  const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const transactions = useSelector((state) => state.transactions.transactions);
@@ -276,64 +278,63 @@ function Dashboard(props) {
   // --------XXXXXXXXXXXXXXX-----------
 
   return (
-    <>
-      <Wrapper>
-        <DashboardHeader>
-          <LogoContainer onClick={() => dispatch(setAuthScreenModal(true))}>
-            <img src={Logo} width="30px" height="34px" alt="Metadot Logo" />
-          </LogoContainer>
+    <Wrapper pb>
+      <DashboardHeader>
+        <LogoContainer onClick={() => dispatch(setAuthScreenModal(true))}>
+          <img src={Logo} width="30px" height="34px" alt="Metadot Logo" />
+        </LogoContainer>
 
-          <NetworkContainer>
-            <SelectChain
-              onClick={() => (apiInitializationStarts ? console.log('abc') : setIsModalOpen(true))}
-              disabled={!!apiInitializationStarts}
-            >
-              <SelectedChain className={subHeadingfontFamilyClass}>
-                {chainName.includes('Network')
-                  ? chainName
-                  : `${chainName} Network`}
+        <NetworkContainer>
+          <SelectChain
+            onClick={() => (apiInitializationStarts ? console.log('abc') : setIsModalOpen(true))}
+            disabled={!!apiInitializationStarts}
+          >
+            <SelectedChain className={subHeadingfontFamilyClass}>
+              {chainName.includes('Network')
+                ? chainName
+                : `${chainName} Network`}
 
-              </SelectedChain>
-              <ArrowDropDownIcon id="arrow-drop-down-icon" style={{ fontSize: '1.7rem' }} />
-            </SelectChain>
-          </NetworkContainer>
+            </SelectedChain>
+            <ArrowDropDownIcon id="arrow-drop-down-icon" style={{ fontSize: '1.7rem' }} />
+          </SelectChain>
+        </NetworkContainer>
 
-          <AccountContainer id="account-container">
-            <AccountSetting id="account-setting">
-              <AccountText id="account-text" onClick={handleClick} className={mainHeadingfontFamilyClass}>
-                {accountName.slice(0, 1)}
-              </AccountText>
-            </AccountSetting>
-          </AccountContainer>
+        <AccountContainer id="account-container">
+          <AccountSetting id="account-setting">
+            <AccountText id="account-text" onClick={handleClick} className={mainHeadingfontFamilyClass}>
+              {accountName.slice(0, 1)}
+            </AccountText>
+          </AccountSetting>
+        </AccountContainer>
 
-          {/* Menu Start */}
-          <DropDown
-            anchorEl={anchorEl}
-            open={open}
-            handleClose={handleClose}
-            classes={classes}
-          />
-          {/* Menu End */}
-
-        </DashboardHeader>
-
-        <MainCard
-          balance={balance}
-          chainName={chainName}
-          tokenName={tokenName}
-          address={publicKey}
-          walletName={walletName}
-          balanceInUsd={balanceInUsd || 0}
-          accountName={accountName}
+        {/* Menu Start */}
+        <DropDown
+          anchorEl={anchorEl}
+          open={open}
+          handleClose={handleClose}
+          classes={classes}
         />
+        {/* Menu End */}
 
-        <AssetsAndTransactions
-          handleOpenTxDetailsModal={() => setIsTxDetailsModalOpen(true)}
-          setTxDetailsModalData={setTxDetailsModalData}
-          transactionData={transactions}
-        />
+      </DashboardHeader>
 
-        {/* <button
+      <MainCard
+        balance={balance}
+        chainName={chainName}
+        tokenName={tokenName}
+        address={publicKey}
+        walletName={walletName}
+        balanceInUsd={balanceInUsd || 0}
+        accountName={accountName}
+      />
+
+      <AssetsAndTransactions
+        handleOpenTxDetailsModal={() => setIsTxDetailsModalOpen(true)}
+        setTxDetailsModalData={setTxDetailsModalData}
+        transactionData={transactions}
+      />
+
+      {/* <button
         onClick={() => setAuthScreenModal(true)}
         handleClose={() => setAuthScreenModal(false)}
       >
@@ -341,41 +342,40 @@ function Dashboard(props) {
 
       </button> */}
 
-        <SelectNetwork
-          open={isModalOpen}
-          handleClose={() => setIsModalOpen(false)}
-          modalState={modalState}
-          resetState={resetState}
-          handleClickForOthers={handleSelection}
-          setIsLoading={setIsLoading}
-          handleClickForKusama={handleSelectionOnKusamaMainNetwork}
-          style={{
-            position: 'relative',
-            width: '78%',
-            minHeight: 240,
-            background: '#141414',
-            pb: 3,
-          }}
-          isLoading={isLoading}
-        />
-        <TxDetails
-          open={isTxDetailsModalOpen}
-          handleClose={() => setIsTxDetailsModalOpen(false)}
-          txDetailsModalData={txDetailsModalData}
-          transactionData={transactions}
-          style={{
-            width: '78%',
-            background: '#141414',
-            position: 'relative',
-            p: 2,
-            px: 2,
-            pb: 3,
+      <SelectNetwork
+        open={isModalOpen}
+        handleClose={() => setIsModalOpen(false)}
+        modalState={modalState}
+        resetState={resetState}
+        handleClickForOthers={handleSelection}
+        setIsLoading={setIsLoading}
+        handleClickForKusama={handleSelectionOnKusamaMainNetwork}
+        style={{
+          position: 'relative',
+          width: '78%',
+          minHeight: 240,
+          background: '#141414',
+          pb: 3,
+          // marginTop: '9rem',
+        }}
+        isLoading={isLoading}
+      />
+      <TxDetails
+        open={isTxDetailsModalOpen}
+        handleClose={() => setIsTxDetailsModalOpen(false)}
+        txDetailsModalData={txDetailsModalData}
+        transactionData={transactions}
+        style={{
+          width: '78%',
+          background: '#141414',
+          position: 'relative',
+          p: 2,
+          px: 2,
+          pb: 3,
           // mt: 15,
-          }}
-        />
-      </Wrapper>
-      {/* ------------------------- */}
-    </>
+        }}
+      />
+    </Wrapper>
   );
 }
 
