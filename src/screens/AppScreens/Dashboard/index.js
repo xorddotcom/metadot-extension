@@ -356,7 +356,10 @@ function Dashboard(props) {
           minHeight: 240,
           background: '#141414',
           pb: 3,
-          // marginTop: '9rem',
+          height: '320px',
+          overflowY: 'scroll',
+          overflowX: 'hidden',
+          marginTop: '9rem',
         }}
         isLoading={isLoading}
       />

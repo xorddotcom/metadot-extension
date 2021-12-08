@@ -38,7 +38,7 @@ function SelectNetwork(props) {
 
   return (
     <Modal open={open} onClose={handleClose}>
-      <Box sx={style} className="select-network-modal-style">
+      <Box sx={style} className="select-network-modal-style network-scrollbar">
         <div>
           <CloseIconDiv
             onClick={() => {
@@ -46,7 +46,7 @@ function SelectNetwork(props) {
               handleClose();
             }}
           >
-            <CloseIcon />
+            <CloseIcon fontSize="small" />
           </CloseIconDiv>
           <TitleDiv>
             {!firstStep && (

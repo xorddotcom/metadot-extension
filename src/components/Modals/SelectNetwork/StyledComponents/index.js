@@ -7,7 +7,7 @@ export const TitleDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 10px;
   margin-bottom: 10px;
   color: ${primaryTextColor};
   position: relative;
@@ -29,8 +29,8 @@ export const BackButton = styled.div`
 export const CloseIconDiv = styled.div`
   position: relative;
   width: 30px;
-  left: 87%;
-  top: 20px;
+  left: 91%;
+  top: 15px;
   color: ${primaryTextColor};
   cursor: pointer;
   /* border: 1px solid white; */
