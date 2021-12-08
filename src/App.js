@@ -7,8 +7,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import './App.css';
 
-import { SuccessResponse } from './components';
+import { SuccessResponse, UnsuccessResponse, TransactionProgress } from './components';
 import { setIsSuccessModalOpen } from './redux/slices/successModalHandling';
+import { setIsUnsuccessModalOpen } from './redux/slices/unsuccessModalHandling';
+import { setIsTransactionProgressModalOpen } from './redux/slices/transctionProgressModalHandling';
 import ApiManager from './api';
 import { routes } from './utils';
 import WelcomeBack from './screens/AuthScreens/WelcomeBack';
@@ -20,6 +22,18 @@ function App() {
   const currentUser = useSelector((state) => state);
   const { isSuccessModalOpen, mainText, subText } = useSelector(
     (state) => state.successModalHandling,
+  );
+
+  const { isUnsuccessModalOpen, unsuccessMainText, unsuccessSubText } = useSelector(
+    (state) => state.unsuccessModalHandling,
+  );
+
+  const {
+    isTransactionProgressModalOpen,
+    transactionProgressMainText,
+    transactionProgressSubText,
+  } = useSelector(
+    (state) => state.transactionProgress,
   );
 
   const dispatch = useDispatch();
@@ -95,6 +109,22 @@ function App() {
     mainText,
   };
 
+  const unsuccessResponse = {
+    open: isUnsuccessModalOpen,
+    handleClose: () => dispatch(setIsUnsuccessModalOpen(false)),
+    style: successResponseInlineStyle,
+    unsuccessMainText,
+    unsuccessSubText,
+  };
+
+  const transactionProgress = {
+    open: isTransactionProgressModalOpen,
+    handleClose: () => dispatch(setIsTransactionProgressModalOpen(false)),
+    style: successResponseInlineStyle,
+    transactionProgressMainText,
+    transactionProgressSubText,
+  };
+
   return (
     <Router>
       <div className="App">
@@ -105,6 +135,8 @@ function App() {
             {/* Dynamic Modal controlled by redux for successfully  executed processes
             overall the application */}
             <SuccessResponse {...successResponse} />
+            <UnsuccessResponse {...unsuccessResponse} />
+            <TransactionProgress {...transactionProgress} />
           </div>
         </Switch>
       </div>

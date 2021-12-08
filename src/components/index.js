@@ -15,7 +15,8 @@ import SelectNetwork from './Modals/SelectNetwork';
 import ConfirmSend from './Modals/ConfirmSend';
 import TxDetails from './Modals/TxDetails';
 import SuccessResponse from './Modals/SuccessResponse';
-
+import UnsuccessResponse from './Modals/UnsuccessResponse';
+import TransactionProgress from './Modals/TransactionProgress';
 import StyledInput from './StyledInput';
 import { LightTooltip } from './LightTooltip';
 
@@ -35,5 +36,7 @@ export {
   ConfirmSend,
   TxDetails,
   SuccessResponse,
+  UnsuccessResponse,
+  TransactionProgress,
   LightTooltip,
 };
