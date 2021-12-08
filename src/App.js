@@ -33,7 +33,7 @@ function App() {
     transactionProgressMainText,
     transactionProgressSubText,
   } = useSelector(
-    (state) => state.transactionProgress,
+    (state) => state.transactionProgressModalHandling,
   );
 
   const dispatch = useDispatch();
