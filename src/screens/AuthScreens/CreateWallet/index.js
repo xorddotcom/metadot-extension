@@ -72,12 +72,25 @@ function CreateWallet() {
       setPasswordError(minimumCharacterWarning);
       return false;
     }
+    if (regexRes == null) {
+      setPasswordError(passwordValidation);
+      return false;
+    }
     if (password === confirmPassword) {
       setPasswordError('');
       return true;
     }
     return true;
   };
+
+  // const validateWalletName = () => {
+  //   const regexRes = password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/);
+  //   console.log('Regex res [][]', regexRes);
+  //   if (regexRes == null) {
+  // setRegexError('Password must contain at least one lower case,
+  //  one upper case and one number'); }
+  //   setRegexError(true);
+  // };
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -132,9 +145,10 @@ function CreateWallet() {
         setIsLoading(false);
         return;
       }
-
-      // eslint-disable-next-line no-unused-expressions
       const res = await createAccount(walletName, password, decryptedSeedW);
+      // passsword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/);
+      // eslint-disable-next-line no-new
+
       await saveAccountInRedux(res.address, walletName, password);
       dispatch(setLoadingFor('Setting things up...'));
       setIsLoading(false);
@@ -285,6 +299,7 @@ function CreateWallet() {
               {didnotMatchWarning}
             </WarningText>
           )}
+
         </LabelAndTextInput>
 
         <SubHeading mb="0" textLightColor marginTop="5px" className={subHeadingfontFamilyClass}>

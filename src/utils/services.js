@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { options as AcalaOptions } from '@acala-network/api';
+import { formatBalance } from '@polkadot/util';
 import constants from '../constants/onchain';
 
 const { WsProvider, ApiPromise, Keyring } = require('@polkadot/api');
@@ -17,52 +18,82 @@ const getSender = async (seed) => {
 const providerInitialization = async (rpc) => {
   // eslint-disable-next-line no-underscore-dangle
   const _provider = new WsProvider(rpc);
+  console.log('Provider', _provider);
   let apiR;
   if (rpc === ACALA_MANDALA_CONFIG.RPC_URL) {
     apiR = await ApiPromise.create(AcalaOptions({ provider: _provider }));
   } else {
+    console.log('In else [][]');
     apiR = await ApiPromise.create({ provider: _provider });
+    console.log('Apir', apiR);
   }
   return apiR;
 };
 
 const toUnit = (balance, decimals) => {
+  console.log('To unit working 1', balance, decimals);
   const base = new BN(10).pow(new BN(decimals));
+  console.log('To unit working 2', base);
   const dm = new BN(balance).divmod(base);
+  console.log('To unit working 3');
+  console.log('In to unit', parseFloat(`${dm.div.toString()}.${dm.mod.toString()}`));
   return parseFloat(`${dm.div.toString()}.${dm.mod.toString()}`);
 };
 
-const getBalance = async (api, acc) => {
+const getBalance = async (api, account) => {
+  const tokenLength = await api.registry.chainTokens.length;
+  if (tokenLength > 1) {
+    const balance = await getBalanceWithMultipleTokens(api, account);
+    return balance;
+  }
+  const balance = await getBalanceWithSingleToken(api, account);
+  return balance;
+};
+
+const getBalanceWithSingleToken = async (api, acc) => {
   const { data: balance } = await api.query.system.account(acc);
-  const userBalance = await toUnit(balance.free, api.registry.chainDecimals);
-  return userBalance;
+  console.log('In service balance', balance.free);
+
+  const userBalance = formatBalance(balance.free, { decimals: api.registry.chainDecimals[0], forceUnit: '-', withUnit: false });
+  console.log('Shehryaer --==++', userBalance, typeof abc, parseFloat(userBalance));
+  return parseFloat(userBalance);
 };
 
 // Get balance of a chain with multiple tokens
 const getBalanceWithMultipleTokens = async (api, account) => {
+  const tokenNames = await api.registry.chainTokens;
+  const decimals = await api.registry.chainDecimals;
+  const properties = await api.rpc.system.properties();
+  console.log('Token names:', tokenNames);
+  console.log('Decimals:', decimals);
+  console.log('Properties', properties);
   // eslint-disable-next-line no-useless-catch
   try {
-    const { data: balance } = await api.query.system.account(account);
     const [now, { nonce, data: balances }] = await Promise.all([
       api.query.timestamp.now(),
       api.query.system.account(account),
     ]);
-    const userBalance = balances.free.toHuman();
-    // eslint-disable-next-line eqeqeq
-    if (userBalance == 0) return 0;
-    const splittedBalance = userBalance.split(' ');
-    if (splittedBalance[1][0] === 'm') {
-      return splittedBalance[0] * 10 ** -3;
-    }
-    return userBalance;
+
+    const userBalance = formatBalance(balances.free, { decimals: api.registry.chainDecimals[0], forceUnit: '-', withUnit: false });
+    return parseFloat(userBalance);
   } catch (err) {
     throw err;
   }
 };
 
+const getTransactionFee = async (api, sender, recipient, decimalPlaces, amount) => {
+  const info = await api.tx.balances
+    .transfer(sender, amount * 10 ** decimalPlaces)
+    .paymentInfo(recipient);
+
+  return info;
+};
+
 export {
   providerInitialization,
   getBalance,
-  getBalanceWithMultipleTokens,
+  // getBalanceWithMultipleTokens,
   getSender,
+  getTransactionFee,
+  toUnit,
 };

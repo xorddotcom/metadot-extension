@@ -9,7 +9,7 @@ import {
 import { fonts, colors, helpers } from '../../utils';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-const { incrementColor } = colors;
+const { incrementColor, decrementColor } = colors;
 const { trimBalance } = helpers;
 
 function TxCard({
@@ -27,7 +27,7 @@ function TxCard({
             <MainText
               id="status"
               className={mainHeadingfontFamilyClass}
-              color={incrementColor}
+              color={status === 'Failed' ? decrementColor : incrementColor}
             >
               {status}
             </MainText>

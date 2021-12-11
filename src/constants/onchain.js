@@ -24,6 +24,7 @@ const POLKADOT_CONFIG = {
   TOKEN_NAME: 'DOT',
   LOGO: polkadotDot,
   RPC_URL: 'wss://rpc.polkadot.io',
+  EXISTENTIAL_DEPOSIT: 1,
 };
 
 const KUSAMA_CONFIG = {
@@ -31,13 +32,14 @@ const KUSAMA_CONFIG = {
   TOKEN_NAME: 'KSM',
   LOGO: KusamaIcon,
   RPC_URL: 'wss://kusama-rpc.polkadot.io',
+  EXISTENTIAL_DEPOSIT: 0.0000333333,
 };
 
 const KARURA_CONFIG = {
   CHAIN_NAME: 'Karura',
   TOKEN_NAME: '',
   LOGO: KaruraIcon,
-  RPC_URL: '',
+  RPC_URL: 'wss://karura-rpc-0.aca-api.network',
 };
 
 const MOONRIVER_CONFIG = {

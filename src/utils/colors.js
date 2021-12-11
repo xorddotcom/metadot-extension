@@ -9,6 +9,7 @@ const colors = {
   incrementColor: '#3FCF1B',
   inActiveTextColor: '#8e8e8e',
   warningTextColor: '#A64452',
+  decrementColor: '#DC1E1E',
 };
 
 export default colors;

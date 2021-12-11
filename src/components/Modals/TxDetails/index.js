@@ -16,16 +16,19 @@ import {
   SubText2,
   VerticalContentDiv,
 } from './StyledComponents';
-import { fonts, helpers } from '../../../utils';
+import { fonts, helpers, colors } from '../../../utils';
 
 const { addressModifier } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+
+const { incrementColor, decrementColor } = colors;
 
 function TxDetails({
   open, handleClose, style, txDetailsModalData,
 }) {
   const {
     hash, amount, operation, accountFrom, accountTo, transactionFee, tokenName,
+    status,
   } = txDetailsModalData;
 
   const [copy, setCopy] = useState('Copy');
@@ -66,7 +69,15 @@ function TxDetails({
 
             <VerticalContentDiv>
               <MainText2 textAlign="start" className={mainHeadingfontFamilyClass}>Status</MainText2>
-              <MainText2 successText textAlign="start" className={mainHeadingfontFamilyClass}>{operation}</MainText2>
+              <MainText2
+                successText
+                textAlign="start"
+                className={mainHeadingfontFamilyClass}
+                style={{ color: status === 'Failed' ? decrementColor : incrementColor }}
+              >
+                {status}
+
+              </MainText2>
             </VerticalContentDiv>
 
             <VerticalContentDiv>

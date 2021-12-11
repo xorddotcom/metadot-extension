@@ -73,7 +73,6 @@ function ImportWallet() {
             console.log('r in if ');
             const tmpPassword = '123';
             const encryptedSeed = encrypt(seedPhrase, tmpPassword);
-
             dispatch(setSeed(encryptedSeed));
             history.push('/createWallet');
           } else if (!isErrorOccur) {

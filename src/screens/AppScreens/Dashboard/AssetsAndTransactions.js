@@ -19,6 +19,7 @@ import westendColour from '../../../assets/images/tokenImg/westend_colour.svg';
 import acala from '../../../assets/images/tokenImg/acala-circle.svg';
 import astar from '../../../assets/images/astar.png';
 import rococo from '../../../assets/images/rococo.svg';
+import karura from '../../../assets/images/karura.svg';
 
 const { mainHeadingfontFamilyClass } = fonts;
 const { trimBalance, reverseArray } = helpers;
@@ -35,6 +36,7 @@ function AssetsAndTransactions({
   const [isTab1Active, setIsTab1Active] = useState(true);
   const [isTab2Active, setIsTab2Active] = useState(false);
   const logoChangeHandler = (token) => {
+    console.log('logo handler', token);
     if (token === 'DOT') {
       return polkadotDot;
     } else if (token === 'KSM') {
@@ -49,6 +51,8 @@ function AssetsAndTransactions({
       return astar;
     } else if (token === 'ROC') {
       return rococo;
+    } else if (token === 'KAR') {
+      return karura;
     } else {
       return polkadotDot;
     }

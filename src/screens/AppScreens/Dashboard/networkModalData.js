@@ -65,7 +65,7 @@ const BetaNetworks = [
     mainNetwork: true,
     testNet: null,
     rpcUrl: ASTAR_CONFIG.RPC_URL,
-    disabled: false,
+    disabled: true,
     tokenName: 'Kusama',
   },
 ];
@@ -84,10 +84,11 @@ const KusamaMainNetworks = [
   {
     name: KARURA_CONFIG.CHAIN_NAME,
     icon: KARURA_CONFIG.LOGO,
+    rpcUrl: KARURA_CONFIG.RPC_URL,
     parachain: true,
     mainNetwork: true,
     testNet: 'AcalaMandala',
-    disabled: true,
+    disabled: false,
   },
   {
     name: MOONRIVER_CONFIG.CHAIN_NAME,

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setApi, setApiInitializationStarts } from '../redux/slices/api';
-import { getBalance, getBalanceWithMultipleTokens, providerInitialization } from '../utils/services';
+import { getBalance, providerInitialization } from '../utils/services';
 import { setBalance, setBalanceInUsd, setTokenName } from '../redux/slices/account';
 import {
   setIsSuccessModalOpen, setMainTextForSuccessModal,
@@ -29,11 +29,13 @@ function ApiManager({ rpc }) {
     const setAPI = async (rpcUrl) => {
       dispatch(setApiInitializationStarts(true));
       const apiR = await providerInitialization(rpcUrl);
+      console.log('In api manager', apiR);
       const tokenName = await apiR.registry.chainTokens[0];
+      const tokenLength = await apiR.registry.chainTokens.length;
+      console.log('In api manager token length', tokenLength);
       dispatch(setTokenName({ tokenName }));
-      const bal = rpcUrl === ACALA_MANDALA_CONFIG.RPC_URL
-        ? await getBalanceWithMultipleTokens(apiR, publicKey)
-        : await getBalance(apiR, publicKey);
+      const bal = await getBalance(apiR, publicKey);
+
       dispatch(setBalance(bal));
       const dollarAmount = await helpers.convertIntoUsd(tokenName, bal);
 
