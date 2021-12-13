@@ -10,7 +10,7 @@ import logger from 'redux-logger';
 import { rootReducer } from './slices';
 
 const persistConfig = {
-  blacklist: ['successModalHandling', 'unsucessModalHandling'],
+  blacklist: ['modalHandling'],
   key: 'root',
   version: 1,
   storage,

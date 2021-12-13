@@ -1,15 +1,17 @@
 const colors = {
   primaryBtnColorClass: 'primary-bg-color',
-  primaryBgColor: '#2E9B9B',
-  darkBgColor: '#212121',
-  darkBgColor1: '#1E1E1E',
-  primaryTextColor: '#fafafa',
-  secondaryTextColor: '#cccccc',
-  secondaryTextColor2: '#bfb5bb',
-  incrementColor: '#3FCF1B',
-  inActiveTextColor: '#8e8e8e',
-  warningTextColor: '#A64452',
-  decrementColor: '#DC1E1E',
+
+  primaryBackground: '#2E9B9B',
+  darkBackground1: '#212121',
+  darkBackground2: '#1E1E1E',
+
+  primaryText: '#fafafa',
+  secondaryText: '#cccccc',
+  inActiveText: '#8e8e8e',
+  warningText: '#A64452',
+
+  green: '#3FCF1B',
+  red: '#DC1E1E',
 };
 
 export default colors;

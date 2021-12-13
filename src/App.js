@@ -7,25 +7,22 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import './App.css';
 
-import { SuccessResponse, UnsuccessResponse, TransactionProgress } from './components';
-import { setIsSuccessModalOpen } from './redux/slices/successModalHandling';
-import { setIsUnsuccessModalOpen } from './redux/slices/unsuccessModalHandling';
+import { ResponseModal, TransactionProgress } from './components';
+import { setIsResponseModalOpen } from './redux/slices/modalHandling';
 import { setIsTransactionProgressModalOpen } from './redux/slices/transctionProgressModalHandling';
-import ApiManager from './api';
+import ApiManager from './apiManager';
 import { routes } from './utils';
-import WelcomeBack from './screens/AuthScreens/WelcomeBack';
+import WelcomeBack from './screens/unAuthorized/welcomeBack';
 
 const { AuthRoutes, UnAuthRoutes } = routes;
 
 function App() {
   // prettier-ignore
   const currentUser = useSelector((state) => state);
-  const { isSuccessModalOpen, mainText, subText } = useSelector(
-    (state) => state.successModalHandling,
-  );
-
-  const { isUnsuccessModalOpen, unsuccessMainText, unsuccessSubText } = useSelector(
-    (state) => state.unsuccessModalHandling,
+  const {
+    isResponseModalOpen, mainText, subText, responseImage,
+  } = useSelector(
+    (state) => state.modalHandling,
   );
 
   const {
@@ -40,13 +37,7 @@ function App() {
 
   const renderFunction = () => {
     let content;
-    const loadingScreen = {
-      loading: currentUser.api.apiInitializationStarts,
-      bgColor: '#121212',
-      spinnerColor: '#2E9B9B',
-      textColor: '#fafafa',
-      text: currentUser.successModalHandling.loadingFor || 'Setting things up!',
-    };
+
     if (!currentUser.account.isLoggedIn && currentUser.account.publicKey) {
       content = <WelcomeBack />;
     } else if (
@@ -89,7 +80,7 @@ function App() {
     return content;
   };
 
-  const successResponseInlineStyle = {
+  const responseModalStyle = {
     width: '78%',
     background: '#141414',
     p: 2,
@@ -101,26 +92,19 @@ function App() {
     bottom: 40,
   };
 
-  const successResponse = {
-    open: isSuccessModalOpen,
-    handleClose: () => dispatch(setIsSuccessModalOpen(false)),
-    style: successResponseInlineStyle,
+  const responseModal = {
+    open: isResponseModalOpen,
+    handleClose: () => dispatch(setIsResponseModalOpen(false)),
+    style: responseModalStyle,
     subText,
     mainText,
-  };
-
-  const unsuccessResponse = {
-    open: isUnsuccessModalOpen,
-    handleClose: () => dispatch(setIsUnsuccessModalOpen(false)),
-    style: successResponseInlineStyle,
-    unsuccessMainText,
-    unsuccessSubText,
+    responseImage,
   };
 
   const transactionProgress = {
     open: isTransactionProgressModalOpen,
     handleClose: () => dispatch(setIsTransactionProgressModalOpen(false)),
-    style: successResponseInlineStyle,
+    style: responseModalStyle,
     transactionProgressMainText,
     transactionProgressSubText,
   };
@@ -132,10 +116,10 @@ function App() {
           <div>
             {renderFunction()}
 
-            {/* Dynamic Modal controlled by redux for successfully  executed processes
+            {/* Dynamic Modal controlled by redux for successfully and
+            unsuccessfully  executed processes
             overall the application */}
-            <SuccessResponse {...successResponse} />
-            <UnsuccessResponse {...unsuccessResponse} />
+            <ResponseModal {...responseModal} />
             <TransactionProgress {...transactionProgress} />
           </div>
         </Switch>

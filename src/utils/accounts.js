@@ -61,7 +61,7 @@ const CryptoAndKeyringInit = async () => {
     });
 };
 
-export {
+export default {
   GenerateSeedPhrase,
   AccountCreation,
   KeyringInitialization,

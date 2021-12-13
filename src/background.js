@@ -1,7 +1,9 @@
 /* eslint-disable block-scoped-var */
 /* eslint-disable no-undef */
 /* eslint-disable vars-on-top */
-import { CryptoAndKeyringInit } from './utils/accounts';
+import { accounts } from './utils';
+
+const { CryptoAndKeyringInit } = accounts;
 
 // eslint-disable-next-line block-scoped-var
 if (typeof browser === 'undefined') {

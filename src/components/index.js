@@ -1,32 +1,33 @@
 // eslint-disable-next-line no-unused-vars
-import AuthWrapper from './AuthWrapper';
-import Header from './Header';
-import Button from './Button';
-import AssetCard from './AssetCard';
-import TxCard from './TxCard';
+import AuthWrapper from './authWrapper';
+import Header from './header';
+import Button from './button';
+import AssetCard from './assetCard';
+import TxCard from './txCard';
+import StyledInput from './styledInput';
+import { LightTooltip } from './lightTooltip';
+
 import {
   MainHeading,
   SubHeading,
   SubMainWrapperForAuthScreens,
   TextInputWrapper,
-} from './StyledComponents';
-import WarningModal from './Modals/WarningModal';
-import SelectNetwork from './Modals/SelectNetwork';
-import ConfirmSend from './Modals/ConfirmSend';
-import TxDetails from './Modals/TxDetails';
-import SuccessResponse from './Modals/SuccessResponse';
-import UnsuccessResponse from './Modals/UnsuccessResponse';
-import TransactionProgress from './Modals/TransactionProgress';
-import StyledInput from './StyledInput';
-import { LightTooltip } from './LightTooltip';
+  WarningText,
+} from './styledComponents';
+
+import {
+  AuthModal,
+  ConfirmSend,
+  SelectNetwork,
+  ResponseModal,
+  TransactionProgress,
+  WarningModal,
+  TxDetails,
+} from './modals';
 
 export {
   AuthWrapper,
   Header,
-  MainHeading,
-  SubHeading,
-  SubMainWrapperForAuthScreens,
-  TextInputWrapper,
   StyledInput,
   Button,
   WarningModal,
@@ -35,8 +36,13 @@ export {
   TxCard,
   ConfirmSend,
   TxDetails,
-  SuccessResponse,
-  UnsuccessResponse,
+  ResponseModal,
   TransactionProgress,
+  AuthModal,
+  MainHeading,
+  SubHeading,
+  SubMainWrapperForAuthScreens,
+  TextInputWrapper,
   LightTooltip,
+  WarningText,
 };
