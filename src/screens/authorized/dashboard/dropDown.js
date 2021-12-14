@@ -11,6 +11,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import LockOutlinedIcon from '../../../assets/images/icons/lock.svg';
 import RemoveIcon from '../../../assets/images/icons/Remove.svg';
 import ForumOutlinedIcon from '../../../assets/images/icons/support.svg';
+import viewSeedIcon from '../../../assets/images/icons/openEye.svg';
 import { resetAccountSlice, setLoggedIn } from '../../../redux/slices/account';
 import { resetTransactions } from '../../../redux/slices/transactions';
 // import SettingsOutlinedIcon from '../../../assets/images/icons/setting.svg';
@@ -173,11 +174,23 @@ const DropDown = ({
           <MenuItem
             style={{ minHeight: '37px', color: '#fafafa' }}
             onClick={() => {
-              console.log('abc');
-              // const logOut = async () => {
+              history.push('/viewSeed');
+            }}
+          >
+            <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
+              <img
+                src={viewSeedIcon}
+                alt="lock-icon"
+                style={{ marginTop: '-0.2rem' }}
+              />
+                  &nbsp; &nbsp;
+              <span style={{ fontSize: '0.85rem' }}>View Seed</span>
+            </ListItemIcon>
+          </MenuItem>
+          <MenuItem
+            style={{ minHeight: '37px', color: '#fafafa' }}
+            onClick={() => {
               history.push('/Support');
-
-              // };
             }}
           >
             <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>

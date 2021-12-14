@@ -2,6 +2,7 @@
 import Dashboard from './authorized/dashboard';
 import Send from './authorized/send';
 import Support from './authorized/support';
+import ViewSeedPhrase from './authorized/viewSeedPhrase';
 
 import ConfirmSeed from './unAuthorized/confirmSeed';
 import CreateWallet from './unAuthorized/createWallet';
@@ -20,6 +21,7 @@ const screens = {
   Send,
   WelcomeBack,
   Support,
+  ViewSeedPhrase,
 };
 
 export default screens;

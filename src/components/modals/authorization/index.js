@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
@@ -17,8 +18,9 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { decrypt } = accounts;
 
 function AuthModal({
-  open, handleClose, style, sendTransaction,
+  open, handleClose, style, sendTransaction, getSeedHandler,
 }) {
+  const history = useHistory();
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.account);
 
@@ -39,6 +41,22 @@ function AuthModal({
     } catch (err) {
       console.log('error due to wrong ', err);
       // alert('Password does not match');
+      setPasswordError('Invalid password!');
+    }
+    return null;
+  };
+
+  const viewSeedSubmit = () => {
+    if (!password) {
+      return false;
+    }
+    try {
+      const dSeed = decrypt(currentUser.seed, password);
+      console.log('Correct');
+      dispatch(setAuthScreenModal(false));
+      getSeedHandler(dSeed);
+    } catch (err) {
+      console.log('error due to wrong ', err);
       setPasswordError('Invalid password!');
     }
     return null;
@@ -72,7 +90,7 @@ function AuthModal({
     width: '110px',
     height: '40px',
     fontSize: '0.8rem',
-    handleClick: () => handleSubmit(),
+    handleClick: () => handleSubmit() || viewSeedSubmit(),
   };
 
   return (

@@ -5,6 +5,7 @@ import ResponseModal from './responseModal';
 import TransactionProgress from './transactionProgress';
 import WarningModal from './warningModal';
 import TxDetails from './txDetails';
+import About from './about';
 
 export {
   AuthModal,
@@ -14,4 +15,5 @@ export {
   TransactionProgress,
   WarningModal,
   TxDetails,
+  About,
 };

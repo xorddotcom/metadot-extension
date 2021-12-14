@@ -11,6 +11,7 @@ const {
   Send,
   WelcomeBack,
   Support,
+  ViewSeedPhrase,
 } = screens;
 
 const UnAuthRoutes = [
@@ -57,7 +58,10 @@ const AuthRoutes = [
     path: '/Support',
     Component: Support,
   },
-
+  {
+    path: '/viewSeed',
+    Component: ViewSeedPhrase,
+  },
 ];
 
 export default { AuthRoutes, UnAuthRoutes };
