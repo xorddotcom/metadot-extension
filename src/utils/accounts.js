@@ -3,6 +3,7 @@
 import keyring from '@polkadot/ui-keyring';
 import { cryptoWaitReady, mnemonicGenerate } from '@polkadot/util-crypto';
 import encryptpwd from 'encrypt-with-password';
+import { AccountsStore } from '@polkadot/extension-base/stores';
 
 function GenerateSeedPhrase() {
   try {
@@ -25,19 +26,18 @@ async function validatingSeedPhrase(seedPhrase) {
 
 // need to invoke this function in background.js script
 async function KeyringInitialization() {
-  await keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
+  await keyring.loadAll({ store: new AccountsStore(), type: 'sr25519' });
+  // await keyring.loadAll({ type: 'sr25519' });
 }
 
 // create account from seed phrase function
 async function AccountCreation({ name, password, seed }) {
   try {
-    const data = keyring.addUri(seed);
+    const data = keyring.addUri(seed, password, { name });
     return data.json;
   } catch (error) {
     console.log('ERROR IN AccountCreation', error);
-    await KeyringInitialization();
-    const data = keyring.addUri(seed);
-    return data.json;
+    return error;
   }
 }
 
@@ -54,11 +54,24 @@ function decrypt(target, password) {
 const CryptoAndKeyringInit = async () => {
   cryptoWaitReady()
     .then(() => {
+      console.log('>>>>>>>>>>>>>>>>>> Keyring starts');
       KeyringInitialization();
+      console.log('>>>>>>>>>>>>>>>>>> Keyring ends');
     })
     .catch((error) => {
       console.error('initialization failed', error);
     });
+};
+
+const getJsonBackup = (address) => {
+  const addressKeyring = address && keyring.getPair(address);
+  console.log('-----> addressKeyring', { addressKeyring });
+  try {
+    const json = addressKeyring && keyring.backupAccount(addressKeyring, '00000000aA!');
+    console.log('-----> json', { json });
+  } catch (e) {
+    console.log('e in backup func', e);
+  }
 };
 
 export default {
@@ -69,4 +82,5 @@ export default {
   decrypt,
   validatingSeedPhrase,
   CryptoAndKeyringInit,
+  getJsonBackup,
 };

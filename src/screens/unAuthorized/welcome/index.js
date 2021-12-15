@@ -1,7 +1,9 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import AddSharpIcon from '../../../assets/images/icons/add.svg';
 import DownloadIcon from '../../../assets/images/icons/download.svg';
 
@@ -13,15 +15,17 @@ import { MainHeading, SubHeading } from './styledComponents';
 import { fonts } from '../../../utils';
 import accounts from '../../../utils/accounts';
 import './index.css';
-import { setKeyringInitialized, setSeed } from '../../../redux/slices/account';
+import { setSeed } from '../../../redux/slices/account';
 
 const { subHeadingfontFamilyClass } = fonts;
-const { encrypt, GenerateSeedPhrase, KeyringInitialization } = accounts;
+const {
+  encrypt,
+  GenerateSeedPhrase,
+} = accounts;
 
 function Welcome() {
   const history = useHistory();
 
-  const currentUser = useSelector((state) => state.account);
   const dispatch = useDispatch();
 
   // generate new seed for parent account
@@ -38,14 +42,6 @@ function Welcome() {
       console.log('ERROR while generating new seed for parent account', error);
     }
   }, [dispatch]);
-
-  useEffect(() => {
-    if (!currentUser.keyringInitialized) {
-      KeyringInitialization();
-      dispatch(setKeyringInitialized(true));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const btnCreate = {
     text: 'Create',

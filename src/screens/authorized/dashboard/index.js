@@ -44,7 +44,6 @@ import {
 } from '../../../components/modals/selectNetwork/styledComponents';
 
 import {
-  setAuthScreenModal,
   setLoadingFor,
 } from '../../../redux/slices/modalHandling';
 
@@ -289,7 +288,7 @@ function Dashboard(props) {
     <>
       <Wrapper pb>
         <DashboardHeader>
-          <LogoContainer onClick={() => dispatch(setAuthScreenModal(true))}>
+          <LogoContainer>
             <img src={Logo} width="30px" height="34px" alt="Metadot Logo" />
           </LogoContainer>
 
@@ -307,7 +306,6 @@ function Dashboard(props) {
               <ArrowDropDownIcon id="arrow-drop-down-icon" style={{ fontSize: '1.7rem' }} />
             </SelectChain>
           </NetworkContainer>
-
           <AccountContainer id="account-container">
             <AccountSetting id="account-setting">
               <AccountText id="account-text" onClick={handleClick} className={mainHeadingfontFamilyClass}>
@@ -336,7 +334,6 @@ function Dashboard(props) {
           balanceInUsd={balanceInUsd || 0}
           accountName={accountName}
         />
-        {/* Menu End */}
 
         <AssetsAndTransactions
           handleOpenTxDetailsModal={() => setIsTxDetailsModalOpen(true)}
