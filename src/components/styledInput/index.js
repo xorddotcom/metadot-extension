@@ -28,7 +28,7 @@ const StyledInputField = styled.input`
   width: ${(props) => (props.fullWidth ? props.fullWidth : '90%')};
   font-family: ${subHeadingFontSize};
     border: ${(props) => (props.isCorrectForInput
-    ? '0.5px solid rgba(250, 250, 250, 0.5)'
+    ? 'none'
     : props.isCorrectForInput === false
       ? '1px solid red'
       : '0px')};
@@ -65,6 +65,7 @@ function StyledInput({
   blockInvalidChar,
   id,
   mt,
+  mr,
 }) {
   const blockChar = (ev) => {
     const arr = ['e', 'E', '+', '-'];
@@ -97,7 +98,7 @@ function StyledInput({
       {rightIcon && (
         <Icon onClick={() => hideHandler()}>
           {!hideState
-            ? <VisibilityOffIcon fontSize="small" style={{ marginTop: !mt ? '-0.1rem' : mt }} /> : <VisibilityIcon fontSize="small" style={{ marginTop: !mt ? '-0.1rem' : mt }} />}
+            ? <VisibilityOffIcon id="eye-off-icon" fontSize="small" style={{ marginTop: !mt ? '-0.1rem' : mt, marginRight: mr && mr }} /> : <VisibilityIcon id="eye-on-icon" fontSize="small" style={{ marginTop: !mt ? '-0.1rem' : mt, marginRight: mr && mr }} />}
         </Icon>
       )}
       {rightIconCross && (

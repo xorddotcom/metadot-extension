@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-cycle
 import screens from '../screens/index';
 
 const {
@@ -12,6 +11,7 @@ const {
   WelcomeBack,
   Support,
   ViewSeedPhrase,
+  MultipleAccounts,
 } = screens;
 
 const UnAuthRoutes = [
@@ -61,6 +61,10 @@ const AuthRoutes = [
   {
     path: '/viewSeed',
     Component: ViewSeedPhrase,
+  },
+  {
+    path: '/accounts',
+    Component: MultipleAccounts,
   },
 ];
 

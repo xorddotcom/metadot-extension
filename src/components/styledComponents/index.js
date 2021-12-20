@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import { colors, fonts } from '../../utils';
 
-const { primaryText, secondaryText } = colors;
+const { primaryText, secondaryText, warningText } = colors;
 const { mainHeadingFontSize, subHeadingFontSize, headerHeadingFontSize } = fonts;
 
 // ------------------ Asset cards styled components------------------ //
@@ -220,7 +220,7 @@ export const TxEquivalentInUSDT = styled.p`
 export const WarningText = styled.p`
   font-size: ${subHeadingFontSize};
   font-size: 12.5px;
-  color: rgba(195, 7, 7, 1) !important;
+  color: ${warningText} !important;
   width: 100%;
   font-weight: 400;
   text-align: start;
@@ -228,5 +228,5 @@ export const WarningText = styled.p`
   margin-bottom: 0px;
   visibility: ${(props) => props.visibility || 'visible'};
   margin-left: ${(props) => props.ml && props.ml};
-  margin-bottom: 0;
+  margin-bottom: ${(props) => props.mb && props.mb};
 `;

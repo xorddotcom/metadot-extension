@@ -59,7 +59,7 @@ export const MainText = styled.p`
 `;
 
 export const Balance = styled.p`
-  font-size: 14px;
+  font-size: 12px;
   width: 100%;
   height: 14.12px;
   line-height: 16px;

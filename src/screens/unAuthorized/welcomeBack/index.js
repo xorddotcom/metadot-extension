@@ -63,9 +63,9 @@ function WelcomeBack() {
       setPassword(t);
       setPasswordError('');
     },
-    type: 'password',
     hideHandler: () => setShowPassword(!showPassword),
     hideState: showPassword,
+    height: '20px',
   };
 
   const btn = {
@@ -84,7 +84,15 @@ function WelcomeBack() {
         <MainHeading className={mainHeadingfontFamilyClass}>
           Welcome Back
         </MainHeading>
-        <StyledInput id="password-input" isCorrect fullWidth="75%" {...styledInput} />
+        <StyledInput
+          id="password-input"
+          fullWidth="76%"
+          mr="1.2rem"
+          typePassword
+          isCorrect
+          rightIcon
+          {...styledInput}
+        />
         {/* {passwordError && ( */}
         <WarningText
           className={subHeadingfontFamilyClass}

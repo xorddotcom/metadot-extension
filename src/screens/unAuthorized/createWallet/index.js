@@ -25,8 +25,10 @@ import {
   setIsResponseModalOpen,
   setLoadingFor,
   setMainTextForSuccessModal,
+  setResponseImage,
   setSubTextForSuccessModal,
 } from '../../../redux/slices/modalHandling';
+import ImportIcon from '../../../assets/images/import.svg';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
@@ -117,12 +119,24 @@ function CreateWallet() {
     const operation = history.entries[history.entries.length - 2].pathname === '/ImportWallet'
       ? 'Imported'
       : 'Created';
-    dispatch(setIsResponseModalOpen(true));
-    dispatch(setMainTextForSuccessModal(`Successfully ${operation}!`));
-    dispatch(
-      setSubTextForSuccessModal(''),
-    );
-    history.push('/');
+
+    if (operation === 'Imported') {
+      dispatch(setIsResponseModalOpen(true));
+      dispatch(setResponseImage(ImportIcon));
+      dispatch(setMainTextForSuccessModal(`Successfully ${operation}!`));
+      dispatch(
+        setSubTextForSuccessModal(''),
+      );
+      history.push('/');
+    } else {
+      dispatch(setIsResponseModalOpen(true));
+      // dispatch(setResponseImage(ImportIcon));
+      dispatch(setMainTextForSuccessModal(`Successfully ${operation}!`));
+      dispatch(
+        setSubTextForSuccessModal(''),
+      );
+      history.push('/');
+    }
 
     setTimeout(() => {
       dispatch(setIsResponseModalOpen(false));
@@ -225,7 +239,7 @@ function CreateWallet() {
           <StyledInput id="wallet-name" isCorrect {...styledInputName} />
           {isValidWalletName
           && (
-          <WarningText className={subHeadingfontFamilyClass}>
+          <WarningText id="warning-text" className={subHeadingfontFamilyClass}>
             Name should not be less than 3 characters and can only contain alphanumeric data
           </WarningText>
           )}
@@ -248,6 +262,8 @@ function CreateWallet() {
           />
           {passwordError === minimumCharacterWarning && (
             <WarningText
+              id="warning-text-1"
+              mb="10px"
               className={subHeadingfontFamilyClass}
             >
               {minimumCharacterWarning}
@@ -255,6 +271,8 @@ function CreateWallet() {
           )}
           {passwordError === passwordValidation && (
             <WarningText
+              id="warning-text-2"
+              mb="10px"
               className={subHeadingfontFamilyClass}
             >
               {passwordValidation}
@@ -262,6 +280,8 @@ function CreateWallet() {
           )}
           {passwordError === didnotMatchWarning && (
             <WarningText
+              id="warning-text-3"
+              mb="10px"
               className={subHeadingfontFamilyClass}
             >
               {didnotMatchWarning}
@@ -294,6 +314,8 @@ function CreateWallet() {
           )} */}
           {passwordError === didnotMatchWarning && (
             <WarningText
+              id="warning-text"
+              mb="5px"
               className={subHeadingfontFamilyClass}
             >
               {didnotMatchWarning}

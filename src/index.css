@@ -390,3 +390,7 @@ input[type='number'] {
     background-position: 468px 0;
   }
 }
+
+.MuiMenuItem-root:hover {
+  background: rgba(46, 155, 155, 0.26) !important;                  
+}

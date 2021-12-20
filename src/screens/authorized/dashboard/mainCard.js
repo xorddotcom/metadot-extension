@@ -54,6 +54,7 @@ function MainCard({
     className: `tooltip ${mainHeadingfontFamilyClass}`,
     onClick: copyText,
     onMouseOver: () => setCopy('Copy'),
+    style: { cursor: 'pointer' },
   };
 
   const copyIconTooltipText = {

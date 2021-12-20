@@ -14,7 +14,7 @@ const ToInput = ({
 }) => {
   const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
   const styledInput = {
-    placeholder: 'Search Address',
+    placeholder: 'Enter Wallet Address',
     value: accountToSate.value,
     className: subHeadingfontFamilyClass,
     onChange: accountToChangeHandler,
@@ -32,16 +32,16 @@ const ToInput = ({
         To
       </MainText>
       <StyledInput id="to-address" {...styledInput} />
-      <WarningText className={subHeadingfontFamilyClass}>
+      <WarningText id="warning-text" className={subHeadingfontFamilyClass}>
         {helpers.validateAddress(accountToSate.value, currentUser.account.publicKey)}
       </WarningText>
       <div style={{ height: '1rem' }}>
         {!isCorrect ? (
-          <WarningText className={subHeadingfontFamilyClass} style={warningTextInlineStyle}>
+          <WarningText id="warning-text-1" className={subHeadingfontFamilyClass} style={warningTextInlineStyle}>
             {errorMessages.invalidAddress}
           </WarningText>
         ) : error.address ? (
-          <WarningText className={subHeadingfontFamilyClass} style={warningTextInlineStyle}>
+          <WarningText id="warning-text-2" className={subHeadingfontFamilyClass} style={warningTextInlineStyle}>
             {errorMessages.enterAddress}
           </WarningText>
         ) : null}

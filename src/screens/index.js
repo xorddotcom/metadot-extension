@@ -1,8 +1,8 @@
-/* eslint-disable import/no-cycle */
 import Dashboard from './authorized/dashboard';
 import Send from './authorized/send';
 import Support from './authorized/support';
 import ViewSeedPhrase from './authorized/viewSeedPhrase';
+import MultipleAccounts from './authorized/multipleAccounts/index';
 
 import ConfirmSeed from './unAuthorized/confirmSeed';
 import CreateWallet from './unAuthorized/createWallet';
@@ -22,6 +22,7 @@ const screens = {
   WelcomeBack,
   Support,
   ViewSeedPhrase,
+  MultipleAccounts,
 };
 
 export default screens;

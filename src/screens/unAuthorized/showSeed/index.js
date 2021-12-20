@@ -54,6 +54,7 @@ function ShowSeed() {
     id: 'copy-seed',
     onClick: copySeedText,
     onMouseOver: () => setCopy('Copy'),
+    style: { cursor: 'pointer' },
   };
 
   const btn = {

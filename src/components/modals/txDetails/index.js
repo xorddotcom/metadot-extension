@@ -46,6 +46,7 @@ function TxDetails({
   const tooltipText = {
     onClick: copyText,
     onMouseOver: () => setCopy('Copy'),
+    style: { cursor: 'pointer' },
   };
 
   return (

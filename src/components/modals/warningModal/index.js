@@ -23,7 +23,6 @@ function WarningModal({ open, handleClose, style }) {
     width: '115px',
     height: '35px',
     fontSize: '14px',
-    border: 'none',
     handleClick: () => handleClose(),
   };
   const btnS = {

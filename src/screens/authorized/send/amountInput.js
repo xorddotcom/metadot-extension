@@ -68,6 +68,7 @@ const AmountInput = ({
               insufficientBal
             && (
             <WarningText
+              id="warning-text-1"
               className={subHeadingfontFamilyClass}
               style={{ marginBottom: '1rem' }}
             >
@@ -79,6 +80,7 @@ const AmountInput = ({
               !insufficientBal
           && (
           <WarningText
+            id="warning-text-2"
             className={subHeadingfontFamilyClass}
             style={{ marginBottom: '1rem' }}
           >
@@ -100,6 +102,7 @@ const AmountInput = ({
       <div style={{ height: '1.5rem' }}>
         {error.amountError ? (
           <WarningText
+            id="warning-text"
             className={subHeadingfontFamilyClass}
             style={{ marginTop: '-0.2rem', marginLeft: '0.3rem' }}
           >

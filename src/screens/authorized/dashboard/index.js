@@ -49,7 +49,6 @@ import {
 
 import networks from './networkModalData';
 import DropDown from './dropDown';
-import { About } from '../../../components/modals';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryText } = colors;
@@ -80,7 +79,6 @@ function Dashboard(props) {
   const transactions = useSelector((state) => state.transactions.transactions);
   const [txDetailsModalData, setTxDetailsModalData] = useState('');
   const [isTxDetailsModalOpen, setIsTxDetailsModalOpen] = useState(false);
-  const [aboutOpen, setAboutOpen] = useState(false);
 
   const currentUser = useSelector((state) => state);
   const { apiInitializationStarts } = useSelector((state) => state.api);
@@ -307,8 +305,8 @@ function Dashboard(props) {
             </SelectChain>
           </NetworkContainer>
           <AccountContainer id="account-container">
-            <AccountSetting id="account-setting">
-              <AccountText id="account-text" onClick={handleClick} className={mainHeadingfontFamilyClass}>
+            <AccountSetting id="account-setting" onClick={handleClick}>
+              <AccountText id="account-text" className={mainHeadingfontFamilyClass}>
                 {accountName.slice(0, 1)}
               </AccountText>
             </AccountSetting>
@@ -374,21 +372,6 @@ function Dashboard(props) {
             p: 2,
             px: 2,
             pb: 3,
-          }}
-        />
-        <button type="button" onClick={() => setAboutOpen(true)}>about modal</button>
-        <About
-          open={aboutOpen}
-          handleClose={() => setAboutOpen(false)}
-          style={{
-            position: 'relative',
-            width: '78%',
-            minHeight: 380,
-            background: '#141414',
-            padding: '0 20px',
-            pb: 3,
-            height: '320px',
-            marginTop: '9rem',
           }}
         />
       </Wrapper>

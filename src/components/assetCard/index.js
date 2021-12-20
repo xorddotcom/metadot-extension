@@ -55,7 +55,7 @@ function AssetCard({
           {
             !apiInitializationStarts
               ? (
-                <HorizontalContentDiv height="17px">
+                <HorizontalContentDiv width="120px" height="17px">
                   <CoinAmount id="coin-amount" className={mainHeadingfontFamilyClass}>
                     {`${amount} ${shortName}`}
                   </CoinAmount>
@@ -80,10 +80,9 @@ function AssetCard({
         </NameAndAmount>
 
       </HorizontalContentDiv>
-      <div style={{ marginLeft: '3.9rem', marginTop: '0.5rem' }}>
 
+      <div style={{ marginRight: '0.2rem', marginTop: '0.5rem' }}>
         <Button {...sendBtn} />
-
       </div>
     </AssetCardWrapper>
   );

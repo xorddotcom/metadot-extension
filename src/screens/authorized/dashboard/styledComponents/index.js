@@ -85,7 +85,7 @@ export const AccountSetting = styled.div`
   background: ${primaryBackground};
   display: flex;
   justify-content: center;
-  align-items: center
+  align-items: center;
 `;
 
 export const AccountText = styled.p`
@@ -267,4 +267,14 @@ export const TabSection = styled.p`
   border-radius: 4px;
   margin: 0px;
   font-weight: 500;
+`;
+
+export const DropDownMainText = styled.div`
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  color: #fafafa;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 18px
 `;

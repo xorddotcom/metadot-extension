@@ -1,9 +1,16 @@
-/* eslint-disable no-unused-vars */
 import styled from 'styled-components';
-import { fonts, colors } from '../../../../utils';
+import { colors } from '../../../../utils';
 
-const { mainHeadingFontSize } = fonts;
 const { primaryText } = colors;
+
+export const Wrapper = styled.div`
+  padding: 18px 20px 8px;
+  overflow-y: scroll;
+  min-height: 100%;
+  max-height: 100%;
+  height: 556px;
+  position: relative;
+`;
 
 export const SeedWrapper = styled.div`
   background-color: #212121;
@@ -88,11 +95,12 @@ export const Border = styled.div`
 export const Blurdiv = styled.div`
   position: absolute;
   width: 315px;
-  height: 430px;
+  height: 450px;
   left: 0;
   top: 0;
   background: rgba(33, 33, 33, 0.3);
   border: 0.5px solid rgba(250, 250, 250, 0.5);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-radius: 8px;
   display: flex;

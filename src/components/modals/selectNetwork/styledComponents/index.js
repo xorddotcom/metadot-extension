@@ -7,7 +7,8 @@ export const TitleDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
+  text-align: center;
+  margin-top: 0;
   margin-bottom: 10px;
   color: ${primaryText};
   position: relative;
@@ -18,6 +19,7 @@ export const Title = styled.p`
   font-size: 16px;
   line-height: 21px;
   color: ${primaryText};
+  text-align: center;
 `;
 
 export const BackButton = styled.div`
@@ -43,11 +45,13 @@ export const OptionRow = styled.div`
   margin-bottom: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
+  padding-right: -5px;
   opacity: ${(props) => (props.disabled ? 0.4 : 1)};
   cursor: pointer;
 
   &:hover {
     background: rgba(46, 155, 155, 0.26);
+    /* width: 110%; */
   }
 `;
 

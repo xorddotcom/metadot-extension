@@ -13,9 +13,9 @@ import {
   BlurdivSubText,
   BlurdivButton,
   Border,
+  Wrapper,
 } from './StyledComponent/index';
 import {
-  AuthWrapper,
   Header,
   Button,
   MainHeading,
@@ -62,6 +62,7 @@ function ViewSeedPhrase() {
     id: 'copy-seed',
     onClick: copySeedText,
     onMouseOver: () => setCopy('Copy'),
+    style: { cursor: 'pointer' },
   };
 
   const viewSeedSubmitHandler = () => {
@@ -110,7 +111,7 @@ function ViewSeedPhrase() {
   };
 
   return (
-    <AuthWrapper>
+    <Wrapper>
       <Header
         centerText="Seed Phrase"
         backHandler={() => console.log('goBack')}
@@ -178,7 +179,7 @@ function ViewSeedPhrase() {
       </div>
 
       <AuthScreen {...authModal} />
-    </AuthWrapper>
+    </Wrapper>
   );
 }
 

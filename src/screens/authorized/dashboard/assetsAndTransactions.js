@@ -86,7 +86,7 @@ function AssetsAndTransactions({
           Transactions
         </TabSection>
       </Tabs>
-      <div className="scrollbar">
+      <div className="scrollbar" style={{ marginTop: '0' }}>
         {isTab1Active && (
         <AssetCard
           name={chainName}

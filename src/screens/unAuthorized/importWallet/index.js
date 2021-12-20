@@ -157,7 +157,6 @@ function ImportWallet() {
       borderRadius: '8px',
       fontSize: '0.8rem',
       lineHeight: '1.7em',
-      border: '0.5px solid rgba(250, 250, 250, 0.5)',
     },
     className: subHeadingfontFamilyClass,
     onChange: (e) => handleChange(e.target.value.replace(/[^A-Z\s]/ig, '')),
@@ -167,6 +166,7 @@ function ImportWallet() {
   };
 
   const warningText = {
+    id: 'warning-text',
     className: subHeadingfontFamilyClass,
     visibility: invalidSeedMessage ? 'visible' : 'hidden',
   };
