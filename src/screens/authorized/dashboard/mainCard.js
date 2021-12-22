@@ -51,14 +51,14 @@ function MainCard({
 
   const copyIconTooltip = {
     id: 'copy-icon',
-    className: `tooltip ${mainHeadingfontFamilyClass}`,
+    className: `main-card-tooltip ${mainHeadingfontFamilyClass}`,
     onClick: copyText,
     onMouseOver: () => setCopy('Copy'),
     style: { cursor: 'pointer' },
   };
 
   const copyIconTooltipText = {
-    className: 'tooltiptext',
+    className: 'main-card-tooltiptext',
     style: {
       maxWidth: '70px',
       left: '20%',

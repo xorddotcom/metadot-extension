@@ -108,10 +108,12 @@ export const DrivedAccount = styled.div`
 `;
 
 export const Border = styled.div`
-  border: 0.4px solid rgba(255, 255, 255, 0.2);
-  width: 282px;
-  height: 0 !important;
+  /* border: 0.4px solid rgba(255, 255, 255, 0.2); */
+  background: rgba(255,255,255,0.1);
+  width: 278px;
+  height: 1px;
   margin: 12px auto;
+  margin-left: 29px;
 `;
 
 export const DrivedAccountText = styled.p`

@@ -26,8 +26,8 @@ const AmountInput = ({
 
   const btn = {
     text: 'Max',
-    width: '35px',
-    height: '20.12px',
+    width: '38.75px',
+    height: '25.12px',
     br: '6px',
     fontSize: '12px',
     handleClick: maxInputHandler,

@@ -28,7 +28,7 @@ export const SeedWrapper = styled.div`
   margin-top: 18px;
   margin-left: 14px;
   margin-right: 14px;
-  bor-sizing: border-box;
+  box-sizing: border-box;
 
   &:first-child {
     margin-top: 0;

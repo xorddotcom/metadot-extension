@@ -5,6 +5,7 @@ import { Box } from '@mui/system';
 import { MainHeading, SubHeading } from '../../index';
 import Button from '../../button';
 import { fonts, colors } from '../../../utils';
+import warningImg from '../../../assets/images/warning.svg';
 
 const { warningText } = colors;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
@@ -32,9 +33,18 @@ function WarningModal({ open, handleClose, style }) {
     fontSize: '14px',
     handleClick: () => history.push('/ConfirmSeed'),
   };
+
+  const flexCenter = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  };
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style} className="warning-modal-style">
+        <div style={flexCenter}>
+          <img src={warningImg} alt="warning" />
+        </div>
         <MainHeading {...mainHeading}>
           Warning
         </MainHeading>
@@ -45,7 +55,7 @@ function WarningModal({ open, handleClose, style }) {
         >
           Proceeding will not let you view your mnemonic again. Do you still wish to continue?
         </SubHeading>
-        <div style={{ marginTop: '2rem' }} className="btn-row">
+        <div style={{ marginTop: '1.5rem' }} className="btn-row">
           <Button id="cancel" cancel {...btnF} />
           <Button id="confirm" {...btnS} />
         </div>

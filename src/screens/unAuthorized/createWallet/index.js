@@ -29,6 +29,7 @@ import {
   setSubTextForSuccessModal,
 } from '../../../redux/slices/modalHandling';
 import ImportIcon from '../../../assets/images/import.svg';
+// import AccountCreate from '../../../assets/images/acc-create.svg';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
@@ -130,7 +131,7 @@ function CreateWallet() {
       history.push('/');
     } else {
       dispatch(setIsResponseModalOpen(true));
-      // dispatch(setResponseImage(ImportIcon));
+      // dispatch(setResponseImage(AccountCreate));
       dispatch(setMainTextForSuccessModal(`Successfully ${operation}!`));
       dispatch(
         setSubTextForSuccessModal(''),
