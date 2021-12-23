@@ -15,6 +15,7 @@ import {
   colors,
 } from '../../../utils';
 import services from '../../../utils/services';
+import accounts from '../../../utils/accounts';
 
 import MainCard from './mainCard';
 import AssetsAndTransactions from './assetsAndTransactions';
@@ -54,6 +55,7 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryText } = colors;
 
 const { getBalance } = services;
+const { getJsonBackup, KeyringInitialization } = accounts;
 
 const {
   availableNetworks,
@@ -85,6 +87,14 @@ function Dashboard(props) {
   const {
     publicKey, chainName, balance, tokenName, balanceInUsd, accountName, walletName,
   } = currentUser.account;
+
+  useEffect(() => {
+    try {
+      KeyringInitialization();
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   // function setLiveBalanceInRedux(bal) {
   //   dispatch(setBalance(bal));
@@ -322,6 +332,8 @@ function Dashboard(props) {
           {/* Menu End */}
 
         </DashboardHeader>
+
+        <button type="button" onClick={() => getJsonBackup(publicKey)}>get json</button>
 
         <MainCard
           balance={balance}

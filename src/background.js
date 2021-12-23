@@ -1,11 +1,11 @@
 /* eslint-disable block-scoped-var */
 /* eslint-disable no-undef */
 /* eslint-disable vars-on-top */
-// import { AccountsStore } from '@polkadot/extension-base/stores';
 // import keyring from '@polkadot/ui-keyring';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
-// import { AccountsStore } from '@polkadot/extension-base/stores';
-// import { CryptoAndKeyringInit } from './utils/accounts';
+// import { accounts } from './utils';
+
+// const { CryptoAndKeyringInit } = accounts;
 
 // eslint-disable-next-line block-scoped-var
 if (typeof browser === 'undefined') {

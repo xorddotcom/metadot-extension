@@ -3,7 +3,7 @@
 import keyring from '@polkadot/ui-keyring';
 import { cryptoWaitReady, mnemonicGenerate } from '@polkadot/util-crypto';
 import encryptpwd from 'encrypt-with-password';
-import { AccountsStore } from '@polkadot/extension-base/stores';
+// import { AccountsStore } from '@polkadot/extension-base/stores';
 
 function GenerateSeedPhrase() {
   try {
@@ -26,8 +26,8 @@ async function validatingSeedPhrase(seedPhrase) {
 
 // need to invoke this function in background.js script
 async function KeyringInitialization() {
-  await keyring.loadAll({ store: new AccountsStore(), type: 'sr25519' });
-  // await keyring.loadAll({ type: 'sr25519' });
+  // await keyring.loadAll({ store: new AccountsStore(), type: 'sr25519' });
+  await keyring.loadAll({ type: 'sr25519' });
 }
 
 // create account from seed phrase function
@@ -37,7 +37,9 @@ async function AccountCreation({ name, password, seed }) {
     return data.json;
   } catch (error) {
     console.log('ERROR IN AccountCreation', error);
-    return error;
+    await KeyringInitialization();
+    const data = keyring.addUri(seed, password, { name });
+    return data.json;
   }
 }
 

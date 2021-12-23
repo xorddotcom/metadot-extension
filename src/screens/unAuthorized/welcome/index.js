@@ -9,7 +9,7 @@ import DownloadIcon from '../../../assets/images/icons/download.svg';
 
 import AppLogo from '../../../assets/images/logo.svg';
 import metaDot from '../../../assets/images/metadot.svg';
-import { Button } from '../../../components';
+import { AuthWrapper, Button } from '../../../components';
 
 import { MainHeading, SubHeading } from './styledComponents';
 import { fonts } from '../../../utils';
@@ -67,7 +67,7 @@ function Welcome() {
   };
 
   return (
-    <div className="welcome">
+    <AuthWrapper>
       <div className="app-logo">
         <img src={AppLogo} alt="logo" />
       </div>
@@ -85,7 +85,7 @@ function Welcome() {
         <div style={{ margin: '0.5rem' }} />
         <Button id="btn-import" cancel {...btnImport} />
       </div>
-    </div>
+    </AuthWrapper>
   );
 }
 
