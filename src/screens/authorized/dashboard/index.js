@@ -9,6 +9,7 @@ import {
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
+import keyring from '@polkadot/ui-keyring';
 import ApiCalls from '../../../utils/api';
 import {
   fonts,
@@ -90,11 +91,13 @@ function Dashboard(props) {
 
   useEffect(() => {
     try {
-      KeyringInitialization();
+      const abc = keyring.getPair(publicKey);
+      console.log('----keyring.getPair', abc);
     } catch (err) {
+      KeyringInitialization();
       console.log(err);
     }
-  }, []);
+  }, [publicKey]);
 
   // function setLiveBalanceInRedux(bal) {
   //   dispatch(setBalance(bal));
@@ -333,7 +336,17 @@ function Dashboard(props) {
 
         </DashboardHeader>
 
-        <button type="button" onClick={() => getJsonBackup(publicKey)}>get json</button>
+        {/* <button type="button" onClick={() => getJsonBackup(publicKey)}>get json</button>
+        <button
+          type="button"
+          onClick={() => {
+            const abc = keyring.getPair(publicKey);
+            console.log('----keyring.getPair', abc);
+          }}
+        >
+          checking
+
+        </button> */}
 
         <MainCard
           balance={balance}
