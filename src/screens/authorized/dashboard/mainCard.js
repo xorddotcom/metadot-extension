@@ -125,14 +125,21 @@ function MainCard({
             </Balance>
           )
           : (
-            <Balance
-              id="balance"
-              className="wave"
-              height="35px"
-              width="151px"
-              borderRadius="10px"
-              backgroundColor="rgba(196, 196, 196, 0.4)"
-            />
+            <div style={{
+              height: 35,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }}
+            >
+              <Balance
+                id="balance"
+                className="wave"
+                height="10px"
+                width="188px"
+                borderRadius="4px"
+              />
+            </div>
           )
       }
 

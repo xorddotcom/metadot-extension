@@ -8,7 +8,7 @@ export const TitleDiv = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-top: 0;
+  margin-top: 10px;
   margin-bottom: 10px;
   color: ${primaryText};
   position: relative;
@@ -29,13 +29,14 @@ export const BackButton = styled.div`
 `;
 
 export const CloseIconDiv = styled.div`
-  position: relative;
-  width: 30px;
-  left: 91%;
-  top: 15px;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  right: 3%;
+  top: 5px;
+  float: right;
   color: ${primaryText};
   cursor: pointer;
-  /* border: 1px solid white; */
 `;
 
 export const OptionRow = styled.div`

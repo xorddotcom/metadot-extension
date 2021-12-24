@@ -40,14 +40,6 @@ function SelectNetwork(props) {
     <Modal open={open} onClose={handleClose}>
       <Box sx={style} className="select-network-modal-style network-scrollbar">
         <div>
-          <CloseIconDiv
-            onClick={() => {
-              resetState();
-              handleClose();
-            }}
-          >
-            <CloseIcon fontSize="small" />
-          </CloseIconDiv>
           <TitleDiv>
             {!firstStep && (
               <BackButton
@@ -62,6 +54,14 @@ function SelectNetwork(props) {
             <Title className={mainHeadingfontFamilyClass}>
               Available Networks
             </Title>
+            <CloseIconDiv
+              onClick={() => {
+                resetState();
+                handleClose();
+              }}
+            >
+              <CloseIcon fontSize="small" />
+            </CloseIconDiv>
           </TitleDiv>
 
           {currentData.map((data) => {

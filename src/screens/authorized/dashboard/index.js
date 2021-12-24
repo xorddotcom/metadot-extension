@@ -7,7 +7,7 @@ import {
 
 // Drop Down Icons
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
 import keyring from '@polkadot/ui-keyring';
 import ApiCalls from '../../../utils/api';
@@ -214,7 +214,7 @@ function Dashboard(props) {
         </HorizontalContentDiv>
         {moreOptions && (
           <NextIcon>
-            <KeyboardArrowRightIcon />
+            <ArrowRightIcon />
           </NextIcon>
         )}
       </OptionRow>

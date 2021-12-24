@@ -38,8 +38,8 @@ const StyledInputField = styled.input`
 
 const Icon = styled.span`
   position: absolute;
-  right: 20px;
-  top: 9px;
+  right: 18px;
+  top: 11px;
   color: rgba(250, 250, 250, 0.8);
   cursor: pointer;
 `;
@@ -103,7 +103,7 @@ function StyledInput({
       )}
       {rightIconCross && (
       <Icon onClick={() => rightIconCrossClickHandler()}>
-        <CancelIcon style={{ marginTop: '-0.1rem', marginRight: '-0.3rem' }} />
+        <CancelIcon fontSize="small" style={{ marginTop: '-0.1rem', marginRight: '-0.3rem' }} />
       </Icon>
       )}
     </TextInputWrapper>

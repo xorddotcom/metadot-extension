@@ -96,7 +96,7 @@ export const AccountText = styled.p`
 `;
 
 export const MainPanel = styled.div`
-  height: 50%;
+  height: 161px;
   position: relative;
   background: linear-gradient(
     102.54deg,

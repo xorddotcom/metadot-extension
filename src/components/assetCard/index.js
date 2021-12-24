@@ -70,10 +70,9 @@ function AssetCard({
                 <HorizontalContentDiv
                   id="loading"
                   className="wave"
-                  height="17px"
-                  width="90px"
-                  borderRadius="10px"
-                  backgroundColor="rgba(196, 196, 196, 0.4)"
+                  height="8px"
+                  width="103px"
+                  borderRadius="4px"
                 />
               )
           }
