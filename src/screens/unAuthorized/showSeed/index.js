@@ -76,6 +76,8 @@ function ShowSeed() {
       px: 2,
       pb: 3,
     },
+    mainText: 'Warning',
+    subText: 'Proceeding will not let you view your mnemonic again. Do you still wish to continue?',
   };
 
   return (

@@ -29,11 +29,13 @@ import {
   setSubTextForSuccessModal,
 } from '../../../redux/slices/modalHandling';
 import ImportIcon from '../../../assets/images/import.svg';
-// import AccountCreate from '../../../assets/images/acc-create.svg';
+import AccountCreate from '../../../assets/images/acc-create.svg';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
-const { AccountCreation, decrypt, encrypt } = accounts;
+const {
+  AccountCreation, getJsonBackup, decrypt, encrypt,
+} = accounts;
 
 const passwordErrorMessages = {
   minimumCharacterWarning: 'Password should not be less than 8 characters',
@@ -61,7 +63,7 @@ function CreateWallet() {
   const [passwordError, setPasswordError] = useState('');
 
   const validatePasswordAndConfirmPassword = () => {
-    const regexRes = password.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/);
+    const regexRes = password.match(/^(?=.*\d)(?=.*[~!@#$%^&*)(_+:[}="`-])(?=.*[a-z])(?=.*[A-Z])[~!@#$%^&*)(+:[}="`\w-]{6,16}$/);
     console.log('Regex res', regexRes);
     if (regexRes == null) {
       setPasswordError(passwordValidation);
@@ -99,6 +101,7 @@ function CreateWallet() {
 
   const createAccount = async (name, pass, seedPhrase) => {
     const res = await AccountCreation({ name, password: pass, seed: seedPhrase });
+    getJsonBackup(res.address, pass);
     return res;
   };
 
@@ -131,7 +134,7 @@ function CreateWallet() {
       history.push('/');
     } else {
       dispatch(setIsResponseModalOpen(true));
-      // dispatch(setResponseImage(AccountCreate));
+      dispatch(setResponseImage(AccountCreate));
       dispatch(setMainTextForSuccessModal(`Successfully ${operation}!`));
       dispatch(
         setSubTextForSuccessModal(''),

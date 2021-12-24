@@ -220,13 +220,14 @@ function ImportWallet() {
           <Option {...option1}>
             Seed Phrase
           </Option>
-          {/* <div className="normalTooltip">
+          <div className="normalTooltip">
           <Option {...option2}>
             Upload File
-            {/* <span className="normalTooltiptext">Coming Soon</span> *
+            <span className="normalTooltiptext">Coming Soon</span>
           </Option>
-
+          </div>
         </OptionDiv> */}
+
         {selectedType === 'seed' && (
           <div style={{ marginTop: '1rem' }}>
             <Input

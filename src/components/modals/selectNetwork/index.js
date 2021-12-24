@@ -37,7 +37,7 @@ function SelectNetwork(props) {
   };
 
   return (
-    <Modal open={open} onClose={handleClose}>
+    <Modal open={open} onClose={handleClose} className="Dark-bg-network">
       <Box sx={style} className="select-network-modal-style network-scrollbar">
         <div>
           <TitleDiv>

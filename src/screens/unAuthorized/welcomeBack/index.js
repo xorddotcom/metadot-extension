@@ -68,6 +68,12 @@ function WelcomeBack() {
     height: '20px',
   };
 
+  const warningText = {
+    className: subHeadingfontFamilyClass,
+    visibility: !!passwordError,
+    ml: '1.75rem',
+  };
+
   const btn = {
     text: 'Unlock',
     width: '275px',
@@ -94,10 +100,7 @@ function WelcomeBack() {
           {...styledInput}
         />
         {/* {passwordError && ( */}
-        <WarningText
-          className={subHeadingfontFamilyClass}
-          visibility={!!passwordError}
-        >
+        <WarningText {...warningText}>
           {passwordError}
         </WarningText>
         {/* )} */}

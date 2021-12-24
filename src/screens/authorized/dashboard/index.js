@@ -368,7 +368,7 @@ function Dashboard(props) {
             minHeight: 240,
             background: '#141414',
             pb: 3,
-            height: '320px',
+            height: '300px',
             overflowY: 'scroll',
             overflowX: 'hidden',
             marginTop: '9rem',

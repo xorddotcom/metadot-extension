@@ -30,8 +30,32 @@ async function KeyringInitialization() {
   await keyring.loadAll({ type: 'sr25519' });
 }
 
+// get json backup
+const getJsonBackup = async (address, password) => {
+  const addressKeyring = address && keyring.getPair(address);
+  try {
+    const backupJson = addressKeyring && keyring.backupAccount(addressKeyring, password);
+    // ***Download JSON file***
+    const fileName = 'backup';
+    const data = JSON.stringify(backupJson);
+    const blob = new Blob([data], { type: 'application/json' });
+    const href = await URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = href;
+    link.download = `${fileName}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    // ***Download JSON file***
+  } catch (e) {
+    console.log('e in backup func', e);
+  }
+};
+
 // create account from seed phrase function
-async function AccountCreation({ name, password, seed }) {
+async function AccountCreation({
+  name, password, seed,
+}) {
   try {
     const data = keyring.addUri(seed, password, { name });
     return data.json;
@@ -63,17 +87,6 @@ const CryptoAndKeyringInit = async () => {
     .catch((error) => {
       console.error('initialization failed', error);
     });
-};
-
-const getJsonBackup = (address) => {
-  const addressKeyring = address && keyring.getPair(address);
-  console.log('-----> addressKeyring', { addressKeyring });
-  try {
-    const json = addressKeyring && keyring.backupAccount(addressKeyring, '00000000aA!');
-    console.log('-----> json', { json });
-  } catch (e) {
-    console.log('e in backup func', e);
-  }
 };
 
 export default {

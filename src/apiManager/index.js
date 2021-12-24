@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setApi, setApiInitializationStarts } from '../redux/slices/api';
 import { setBalance, setBalanceInUsd, setTokenName } from '../redux/slices/account';
 import {
-  setIsResponseModalOpen,
-  setMainTextForSuccessModal,
+  setIsResponseModalOpen, setMainTextForSuccessModal,
   setSubTextForSuccessModal,
 } from '../redux/slices/modalHandling';
 
