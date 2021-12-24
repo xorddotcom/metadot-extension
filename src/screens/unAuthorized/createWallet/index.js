@@ -23,7 +23,7 @@ import accounts from '../../../utils/accounts';
 import { LabelAndTextInput } from './styledComponents';
 import {
   setIsResponseModalOpen,
-  setLoadingFor,
+  setLoadingForApi,
   setMainTextForSuccessModal,
   setResponseImage,
   setSubTextForSuccessModal,
@@ -165,7 +165,7 @@ function CreateWallet() {
       // eslint-disable-next-line no-new
 
       await saveAccountInRedux(res.address, walletName, password);
-      dispatch(setLoadingFor('Setting things up...'));
+      dispatch(setLoadingForApi(false));
       setIsLoading(false);
       await showSuccessModalAndNavigateToDashboard();
     } catch (err) {

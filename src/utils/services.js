@@ -19,14 +19,12 @@ const getSender = async (seed) => {
 const providerInitialization = async (rpc) => {
   // eslint-disable-next-line no-underscore-dangle
   const _provider = new WsProvider(rpc);
-  console.log('Provider', _provider);
   let apiR;
+
   if (rpc === ACALA_MANDALA_CONFIG.RPC_URL) {
     apiR = await ApiPromise.create(AcalaOptions({ provider: _provider }));
   } else {
-    console.log('In else [][]');
     apiR = await ApiPromise.create({ provider: _provider });
-    console.log('Apir', apiR);
   }
   return apiR;
 };

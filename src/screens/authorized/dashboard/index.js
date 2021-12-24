@@ -45,9 +45,7 @@ import {
   OptionText,
 } from '../../../components/modals/selectNetwork/styledComponents';
 
-import {
-  setLoadingFor,
-} from '../../../redux/slices/modalHandling';
+import { setLoadingForApi } from '../../../redux/slices/modalHandling';
 
 import networks from './networkModalData';
 import DropDown from './dropDown';
@@ -56,7 +54,7 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryText } = colors;
 
 const { getBalance } = services;
-const { getJsonBackup, KeyringInitialization } = accounts;
+const { KeyringInitialization } = accounts;
 
 const {
   availableNetworks,
@@ -86,7 +84,7 @@ function Dashboard(props) {
   const currentUser = useSelector((state) => state);
   const { apiInitializationStarts } = useSelector((state) => state.api);
   const {
-    publicKey, chainName, balance, tokenName, balanceInUsd, accountName, walletName,
+    publicKey, chainName, balance, tokenName, balanceInUsd, accountName, walletName, rpcUrl,
   } = currentUser.account;
 
   useEffect(() => {
@@ -269,14 +267,18 @@ function Dashboard(props) {
         renderMethod: RenderContentForKusamaMainNetwork,
         currentData: BetaNetworks,
       });
-    } else {
-      dispatch(setApiInitializationStarts(true));
-      dispatch(setLoadingFor('Api Initialization...'));
+    } else if (rpcUrl !== data.rpcUrl) {
+      dispatch(setApiInitializationStarts(true)); // for showing loading waves like preloader
+      dispatch(setLoadingForApi(true));
       dispatch(setRpcUrl({ rpcUrl: data.rpcUrl }));
       dispatch(setChainName({ chainName: data.name }));
 
       setIsLoading(false);
 
+      selectAndGoBack(data.name);
+    } else {
+      console.log('Already selected!');
+      setIsLoading(false);
       selectAndGoBack(data.name);
     }
   };
@@ -335,18 +337,6 @@ function Dashboard(props) {
           {/* Menu End */}
 
         </DashboardHeader>
-
-        {/* <button type="button" onClick={() => getJsonBackup(publicKey)}>get json</button>
-        <button
-          type="button"
-          onClick={() => {
-            const abc = keyring.getPair(publicKey);
-            console.log('----keyring.getPair', abc);
-          }}
-        >
-          checking
-
-        </button> */}
 
         <MainCard
           balance={balance}

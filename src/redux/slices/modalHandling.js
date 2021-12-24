@@ -7,7 +7,7 @@ const initialState = {
   subText: 'The process is executed successully!',
   responseImage: SuccessCheckIcon,
   isResponseModalOpen: false,
-  loadingFor: '', // this property is here because this is a blacklisted reducer
+  loadingForApi: false, // this property is here because this is a blacklisted reducer
   authScreenModal: false, // this property is here because this is a blacklisted reducer
   confirmSendModal: false, // this property is here because this is a blacklisted reducer
   isAuthorizedForSigning: false, // this property is here because this is a blacklisted reducer
@@ -29,8 +29,8 @@ export const modalHandling = createSlice({
     setIsResponseModalOpen: (state, action) => {
       state.isResponseModalOpen = action.payload;
     },
-    setLoadingFor: (state, action) => {
-      state.loadingFor = action.payload;
+    setLoadingForApi: (state, action) => {
+      state.loadingForApi = action.payload;
     },
     setAuthScreenModal: (state, action) => {
       state.authScreenModal = action.payload;
@@ -49,7 +49,7 @@ export const {
   setMainTextForSuccessModal,
   setSubTextForSuccessModal,
   setIsResponseModalOpen,
-  setLoadingFor,
+  setLoadingForApi,
   setAuthScreenModal,
   setIsAuthorizedForSigning,
   setConfirmSendModal,

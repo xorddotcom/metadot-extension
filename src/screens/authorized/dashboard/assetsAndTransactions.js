@@ -36,7 +36,6 @@ function AssetsAndTransactions({
   const [isTab1Active, setIsTab1Active] = useState(true);
   const [isTab2Active, setIsTab2Active] = useState(false);
   const logoChangeHandler = (token) => {
-    console.log('logo handler', token);
     if (token === 'DOT') {
       return polkadotDot;
     } else if (token === 'KSM') {
