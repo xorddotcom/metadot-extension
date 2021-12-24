@@ -14,8 +14,8 @@ export const Wrapper = styled.div`
 
 export const SeedWrapper = styled.div`
   background-color: #212121;
-  width: 68.5px;
-  height: 15px;
+  width: 110px;
+  height: 32px;
   border-radius: 8px;
   display: flex;
   flex-direction: row;
