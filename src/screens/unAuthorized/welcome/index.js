@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
@@ -15,29 +15,21 @@ import { MainHeading, SubHeading } from './styledComponents';
 import { fonts } from '../../../utils';
 import accounts from '../../../utils/accounts';
 import './index.css';
-import { setSeed } from '../../../redux/slices/account';
 
 const { subHeadingfontFamilyClass } = fonts;
-const {
-  encrypt,
-  GenerateSeedPhrase,
-} = accounts;
+const { GenerateSeedPhrase } = accounts;
 
 function Welcome() {
   const history = useHistory();
-
   const dispatch = useDispatch();
+
+  const [seedToPass, setSeedToPass] = useState('');
 
   // generate new seed for parent account
   useEffect(() => {
     try {
-      // if (!seed) {
-      // checking whether seed needs to be created or not
       const newSeed = GenerateSeedPhrase();
-      const tmpPassword = '123';
-      const encryptedSeed = encrypt(newSeed, tmpPassword);
-      dispatch(setSeed(encryptedSeed)); // store newSeed in redux
-      // }
+      setSeedToPass(newSeed);
     } catch (error) {
       console.log('ERROR while generating new seed for parent account', error);
     }
@@ -48,7 +40,10 @@ function Welcome() {
     width: '270px',
     StartIcon: AddSharpIcon,
     handleClick: () => {
-      history.push('/ShowSeed');
+      history.push({
+        pathname: '/ShowSeed',
+        state: { seedToPass },
+      });
     },
   };
 
@@ -57,7 +52,10 @@ function Welcome() {
     width: '270px',
     StartIcon: DownloadIcon,
     handleClick: () => {
-      history.push('/ImportWallet');
+      history.push({
+        pathname: '/ImportWallet',
+        state: { seedToPass },
+      });
     },
   };
 
@@ -68,7 +66,7 @@ function Welcome() {
 
   return (
     <AuthWrapper>
-      <div className="app-logo">
+      <div className="app-logo1">
         <img src={AppLogo} alt="logo" />
       </div>
 

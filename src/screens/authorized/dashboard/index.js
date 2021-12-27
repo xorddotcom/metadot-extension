@@ -49,6 +49,7 @@ import { setLoadingForApi } from '../../../redux/slices/modalHandling';
 
 import networks from './networkModalData';
 import DropDown from './dropDown';
+import { About } from '../../../components/modals';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryText } = colors;
@@ -387,6 +388,20 @@ function Dashboard(props) {
             p: 2,
             px: 2,
             pb: 3,
+          }}
+        />
+        <About
+          open={false}
+          handleClose={() => console.log(false)}
+          style={{
+            position: 'relative',
+            width: '78%',
+            minHeight: 380,
+            background: '#141414',
+            padding: '0 20px',
+            pb: 3,
+            height: '320px',
+            marginTop: '9rem',
           }}
         />
       </Wrapper>

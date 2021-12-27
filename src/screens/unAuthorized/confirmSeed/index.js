@@ -1,9 +1,6 @@
 /* eslint-disable import/no-cycle */
 import React, { useState } from 'react';
-
-import { useHistory } from 'react-router-dom';
-
-import { useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import {
   AuthWrapper,
@@ -16,26 +13,23 @@ import {
 } from '../../../components';
 
 import { fonts, helpers } from '../../../utils';
-import accounts from '../../../utils/accounts';
 import {
   SeedGridRow, SeedText, SeedGrid,
 } from './styledComponents';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { arrayFromSeedSentence, arrayOfFourRandomNumbers, shuffleItemsWithinArray } = helpers;
-const { decrypt } = accounts;
 const fourRandomIndexes = arrayOfFourRandomNumbers();
 
 function ConfirmSeed() {
   const history = useHistory();
+  const location = useLocation();
 
-  const { seed } = useSelector((state) => state.account);
-
-  const decryptedSeed = decrypt(seed, '123');
+  const currSeed = location.state.seedToPass;
 
   // eslint-disable-next-line no-unused-vars
   const [shuffledSeed, setShuffledSeed] = useState(
-    shuffleItemsWithinArray(arrayFromSeedSentence(decryptedSeed)),
+    shuffleItemsWithinArray(arrayFromSeedSentence(currSeed)),
   );
 
   // eslint-disable-next-line no-unused-vars
@@ -43,7 +37,7 @@ function ConfirmSeed() {
     { value: seedStr, indexValue: i, selected: false }
   )));
 
-  const seedArray = arrayFromSeedSentence(decryptedSeed);
+  const seedArray = arrayFromSeedSentence(currSeed);
 
   const phrase1 = seedArray[fourRandomIndexes[0]];
   const phrase2 = seedArray[fourRandomIndexes[1]];
@@ -64,7 +58,10 @@ function ConfirmSeed() {
 
     setValidations([first, second, third, fourth]);
     // eslint-disable-next-line no-unused-expressions
-    first && second && third && fourth && history.push('/CreateWallet');
+    first && second && third && fourth && history.push({
+      pathname: '/createWallet',
+      state: { seedToPass: currSeed },
+    });
   };
 
   const handleSelect = (seedObj) => {

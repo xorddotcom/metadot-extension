@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-expressions */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
   AuthWrapper,
   Header,
@@ -34,7 +34,7 @@ import AccountCreate from '../../../assets/images/acc-create.svg';
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
 const {
-  AccountCreation, getJsonBackup, decrypt, encrypt,
+  AccountCreation, getJsonBackup, encrypt,
 } = accounts;
 
 const passwordErrorMessages = {
@@ -48,18 +48,16 @@ const { minimumCharacterWarning, didnotMatchWarning, passwordValidation } = pass
 function CreateWallet() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
 
-  const { seed } = useSelector((state) => state.account);
+  const currSeed = location.state.seedToPass;
 
   const [walletName, setWalletName] = useState('');
   const [isValidWalletName, setIsValidWalletName] = useState(false);
-
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   const [passwordError, setPasswordError] = useState('');
 
   const validatePasswordAndConfirmPassword = () => {
@@ -112,10 +110,7 @@ function CreateWallet() {
     dispatch(setAccountName(name));
     // dispatch(setWalletPassword(hashedPassword));
 
-    const tmpPassword = '123';
-    const decryptedSeed = decrypt(seed, tmpPassword);
-
-    const encryptedSeedWithAccountPassword = encrypt(decryptedSeed, pass);
+    const encryptedSeedWithAccountPassword = encrypt(currSeed, pass);
     dispatch(setSeed(encryptedSeedWithAccountPassword));
   };
 
@@ -150,8 +145,6 @@ function CreateWallet() {
   };
 
   const handleContinue = async () => {
-    const tmpPasswordW = '123';
-    const decryptedSeedW = decrypt(seed, tmpPasswordW);
     try {
       if (!isUserNameValid(walletName) || walletName.length < 3) {
         setIsValidWalletName(true);
@@ -163,7 +156,7 @@ function CreateWallet() {
         setIsLoading(false);
         return;
       }
-      const res = await createAccount(walletName, password, decryptedSeedW);
+      const res = await createAccount(walletName, password, currSeed);
       // passsword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/);
       // eslint-disable-next-line no-new
 

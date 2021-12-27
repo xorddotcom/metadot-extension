@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { MainHeading, SubHeading } from '../../index';
@@ -19,6 +19,7 @@ function WarningModal({
   subText,
 }) {
   const history = useHistory();
+  const location = useLocation();
 
   const mainHeading = {
     className: mainHeadingfontFamilyClass,
@@ -38,7 +39,10 @@ function WarningModal({
     width: '115px',
     height: '35px',
     fontSize: '14px',
-    handleClick: () => history.push('/ConfirmSeed'),
+    handleClick: () => history.push({
+      pathname: '/ConfirmSeed',
+      state: { seedToPass: location.state.seedToPass },
+    }),
   };
 
   const flexCenter = {

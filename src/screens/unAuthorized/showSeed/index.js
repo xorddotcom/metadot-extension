@@ -2,6 +2,7 @@
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import ContentCopyIcon from '../../../assets/images/icons/copyIcon.svg';
 import {
   CopyIcon, CopyText, IndexText, SeedText, SeedWrapper,
@@ -22,14 +23,12 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { decrypt } = accounts;
 
 function ShowSeed() {
+  const location = useLocation();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [copy, setCopy] = useState('Copy');
 
-  const { seed, isLoggedIn } = useSelector((state) => state.account);
-
-  const decryptedSeed = seed ? decrypt(seed, '123') : null;
-
-  const dispatch = useDispatch();
+  const currSeed = location.state.seedToPass;
 
   const SinglePhrase = ({ index, phrase }) => (
     <SeedWrapper>
@@ -41,7 +40,7 @@ function ShowSeed() {
   );
 
   const copySeedText = () => {
-    navigator.clipboard.writeText(decryptedSeed);
+    navigator.clipboard.writeText(currSeed);
     setCopy('Copied');
   };
 
@@ -108,8 +107,8 @@ function ShowSeed() {
         </div>
       </CopyText>
       <SubMainWrapperForAuthScreens mb="3rem">
-        {decryptedSeed
-          && decryptedSeed
+        {currSeed
+          && currSeed
             .split(' ')
             .map((phrase, i) => (
               <SinglePhrase index={i} key={phrase} phrase={phrase} />

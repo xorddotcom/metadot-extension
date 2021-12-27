@@ -5,7 +5,7 @@
 /* eslint-disable no-throw-literal */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Input } from '@material-ui/core';
 import {
@@ -27,7 +27,7 @@ import { setSeed } from '../../../redux/slices/account';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryText, darkBackground1 } = colors;
-const { encrypt, KeyringInitialization, validatingSeedPhrase } = accounts;
+const { validatingSeedPhrase } = accounts;
 
 const invalidSeedMessages = {
   minimumWords: 'At least 12 words required!',
@@ -37,7 +37,9 @@ const invalidSeedMessages = {
 
 function ImportWallet() {
   const history = useHistory();
-  const dispatch = useDispatch();
+  const location = useLocation();
+
+  const currSeed = location.state.seedToPass;
 
   const [selectedType, setSelectedType] = useState('seed');
   const [seedPhrase, setSeedPhrase] = useState('');
@@ -65,17 +67,16 @@ function ImportWallet() {
         setInvalidSeedMessage(minimumWords);
         return minimumWords;
       }
-      await KeyringInitialization();
       const res = validatingSeedPhrase(seedPhrase);
       res
         .then((r) => {
           console.log('r value', r);
           if (r) {
             console.log('r in if ');
-            const tmpPassword = '123';
-            const encryptedSeed = encrypt(seedPhrase, tmpPassword);
-            dispatch(setSeed(encryptedSeed));
-            history.push('/createWallet');
+            history.push({
+              pathname: '/createWallet',
+              state: { seedToPass: currSeed },
+            });
           } else if (!isErrorOccur) {
             console.log('r in else if ');
             setInvalidSeedMessage(seedDoesnotExist);
@@ -91,11 +92,11 @@ function ImportWallet() {
           console.log('r value', r);
           if (r) {
             console.log('r in if ');
-            const tmpPassword = '123';
-            const encryptedSeed = encrypt(seedPhrase, tmpPassword);
 
-            dispatch(setSeed(encryptedSeed));
-            history.push('/createWallet');
+            history.push({
+              pathname: '/createWallet',
+              state: { seedToPass: currSeed },
+            });
           } else if (!isErrorOccur) {
             console.log('r in else if ');
             setInvalidSeedMessage(seedDoesnotExist);

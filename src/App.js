@@ -46,7 +46,7 @@ function App() {
       && currentUser.account.publicKey
     ) {
       content = (
-        <div>
+        <>
           <ApiManager rpc={currentUser.account.rpcUrl} />
 
           {
@@ -59,11 +59,11 @@ function App() {
                    );
                  })
             }
-        </div>
+        </>
       );
     } else {
       content = (
-        <div>
+        <>
           {
               UnAuthRoutes.map((route) => {
                 const { path, Component } = route;
@@ -74,7 +74,7 @@ function App() {
                 );
               })
             }
-        </div>
+        </>
       );
     }
     return content;
@@ -90,6 +90,7 @@ function App() {
     justifyContent: 'center',
     position: 'relative',
     bottom: 40,
+    zIndex: 10000,
   };
 
   const responseModal = {
@@ -113,15 +114,13 @@ function App() {
     <Router>
       <div className="App">
         <Switch>
-          <div>
-            {renderFunction()}
+          {renderFunction()}
 
-            {/* Dynamic Modal controlled by redux for successfully and
+          {/* Dynamic Modal controlled by redux for successfully and
             unsuccessfully  executed processes
             overall the application */}
-            <ResponseModal {...responseModal} />
-            <TransactionProgress {...transactionProgress} />
-          </div>
+          <ResponseModal {...responseModal} />
+          <TransactionProgress {...transactionProgress} />
         </Switch>
       </div>
     </Router>

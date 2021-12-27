@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 /* hiding scrollbar in chrome */
 ::-webkit-scrollbar {
-  display: none;
+  /* display: none; */
+  width: 1px;
+  opacity: 0;
 }
 /* hiding scrollbar in firefox */
 *,
@@ -437,7 +439,7 @@ input[type='number'] {
 }
 
 .MuiMenuItem-root:hover {
-  background: rgba(46, 155, 155, 0.26) !important;                  
+  background: rgba(46, 155, 155, 0.26) !important;
 }
 
 .Dark-bg-network {
