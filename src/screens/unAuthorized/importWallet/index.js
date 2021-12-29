@@ -6,10 +6,11 @@
 /* eslint-disable no-throw-literal */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useEffect, useState } from 'react';
-import { keyring } from '@polkadot/ui-keyring';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { keyring } from '@polkadot/ui-keyring';
 import { Input } from '@material-ui/core';
+
 import {
   Option, OptionDiv, UploadFile, FileChosen, UploadFileDiv,
 } from './styledComponents';
@@ -36,7 +37,9 @@ import ImportIcon from '../../../assets/images/import.svg';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryText, darkBackground1 } = colors;
-const { validatingSeedPhrase, AccountCreation } = accounts;
+const {
+  decrypt, encrypt, KeyringInitialization, validatingSeedPhrase,
+} = accounts;
 
 const invalidSeedMessages = {
   minimumWords: 'At least 12 words required!',
@@ -50,19 +53,37 @@ function ImportWallet() {
   const dispatch = useDispatch();
 
   const { jsonFileUploadScreen } = useSelector((state) => state.account);
+  const currSeed = location.state.seedToPass;
+  const params = useParams();
+
+  const accounts = useSelector((state) => state.accounts);
+
+  console.log('ahsanahmed ==>>', params);
 
   console.log('location on importwallet.js ============>>>', location);
 
   const [selectedType, setSelectedType] = useState(jsonFileUploadScreen ? 'json' : 'seed');
   const [seedPhrase, setSeedPhrase] = useState('');
   const [invalidSeedMessage, setInvalidSeedMessage] = useState('');
+  const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    const dSeed = decrypt(params.seed, 'Dell1234');
+    let derivedSeed = '';
+    let i = 0;
+    do {
+      derivedSeed = `${dSeed}//${i}`;
+      i += 1;
+      console.log('some very serious testing', accounts, encrypt(derivedSeed, '123'), accounts[encrypt(derivedSeed, 'Dell1234')]);
+    } while (accounts[encrypt(derivedSeed, '123')]);
+    setSeedPhrase(derivedSeed);
+  }, [accounts, params, password]);
 
   const [fileName, setFileName] = useState();
   const [isFilePicked, setIsFilePicked] = useState(false);
 
   const [pair, setPair] = useState('');
 
-  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
@@ -158,6 +179,10 @@ function ImportWallet() {
   const handleChange = (input) => {
     setInvalidSeedMessage('');
     setSeedPhrase(input);
+  };
+
+  const passwordChangeHandler = (e) => {
+    setPassword(e.target.value);
   };
 
   const validateSeed = async () => {
@@ -309,6 +334,7 @@ function ImportWallet() {
     <AuthWrapper>
       <Header centerText="Import Wallet" backHandler={() => console.log('goBack')} />
       <div>
+        <Input onChange={passwordChangeHandler} />
         <MainHeading {...mainHeading}>Restore your wallet : </MainHeading>
         <SubHeading textLightColor {...subHeading}>
           To restore your wallet enter your Seed phrase.

@@ -7,7 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { resetAccountSlice } from '../../../redux/slices/account';
+import { resetAccountSlice } from '../../../redux/slices/activeAccount';
 import { resetTransactions } from '../../../redux/slices/transactions';
 import RemoveIcon from '../../../assets/images/icons/Remove.svg';
 import viewSeedIcon from '../../../assets/images/icons/openEye.svg';

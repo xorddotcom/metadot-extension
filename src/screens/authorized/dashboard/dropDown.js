@@ -19,6 +19,13 @@ import { fonts } from '../../../utils';
 // import viewSeedIcon from '../../../assets/images/icons/openEye.svg';
 // import { resetAccountSlice, setLoggedIn } from '../../../redux/slices/activeAccount';
 // import { resetTransactions } from '../../../redux/slices/transactions';
+// eslint-disable-next-line no-unused-vars
+import viewSeedIcon from '../../../assets/images/icons/openEye.svg';
+import {
+  setLoggedIn, setPublicKey, setAccountName,
+} from '../../../redux/slices/activeAccount';
+// eslint-disable-next-line no-unused-vars
+import { deleteAccount } from '../../../redux/slices/accounts';
 
 const { mainHeadingfontFamilyClass } = fonts;
 // import SettingsOutlinedIcon from '../../../assets/images/icons/setting.svg';
@@ -29,7 +36,8 @@ const { mainHeadingfontFamilyClass } = fonts;
 // import ChevronRightOutlinedIcon from '../../../assets/images/icons/rightArrowIcon.svg';
 
 const DropDown = ({
-  open, handleClose, anchorEl, classes, accounts, setSeed, setPublicKey, setAccountName,
+  // eslint-disable-next-line no-unused-vars
+  open, handleClose, anchorEl, classes, activeAccount, accounts,
 }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -147,7 +155,7 @@ const DropDown = ({
                 style={{ minHeight: '37px', color: '#fafafa' }}
                 onClick={() => {
                   console.log('Testing something==>>', account);
-                  dispatch(setSeed(account.seed));
+                  // dispatch(setSeed(account.seed));
                   dispatch(setPublicKey(account.publicKey));
                   dispatch(setAccountName(account.accountName));
                 }}
@@ -238,6 +246,14 @@ const DropDown = ({
                   &nbsp; &nbsp;
                 <span style={{ fontSize: '0.85rem' }}>Lock</span>
               </ListItemIcon>
+              <button
+                type="button"
+                onClick={() => {
+                  history.push(`/ImportWallet/${activeAccount.seed}`);
+                }}
+              >
+                D
+              </button>
             </MenuItem>
             <MenuItem
               id="menu-item-2"
@@ -262,8 +278,12 @@ const DropDown = ({
             id="menu-item-2"
             style={{ minHeight: '37px', color: '#fafafa' }}
             onClick={() => {
-              dispatch(resetAccountSlice());
-              dispatch(resetTransactions());
+              dispatch(deleteAccount(activeAccount));
+              // dispatch(resetAccountSlice());
+              // dispatch(resetTransactions());
+              dispatch(setSeed(Object.values(accounts)[0].seed));
+              dispatch(setPublicKey(Object.values(accounts)[0].publicKey));
+              dispatch(setAccountName(Object.values(accounts)[0].accountName));
             }}
           >
             <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>

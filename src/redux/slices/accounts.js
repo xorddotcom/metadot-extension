@@ -16,11 +16,16 @@ export const accountsSlice = createSlice({
     addAccount: (state, action) => {
       state[action.payload.publicKey] = action.payload;
     },
+
+    deleteAccount: (state, action) => {
+      delete state[action.payload];
+    },
   },
 });
 
 export const {
   addAccount,
+  deleteAccount,
 } = accountsSlice.actions;
 
 export default accountsSlice.reducer;

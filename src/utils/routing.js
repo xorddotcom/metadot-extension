@@ -66,6 +66,10 @@ const AuthRoutes = [
     Component: ImportWallet,
   },
   {
+    path: '/ImportWallet/:seed',
+    Component: ImportWallet,
+  },
+  {
     path: '/createWallet',
     Component: CreateWallet,
   },

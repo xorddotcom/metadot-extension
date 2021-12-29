@@ -88,7 +88,7 @@ function Dashboard(props) {
   const currentUser = useSelector((state) => state);
   const { apiInitializationStarts } = useSelector((state) => state.api);
   const {
-    publicKey, chainName, balance, tokenName, balanceInUsd, accountName, walletName, rpcUrl,
+    publicKey, chainName, balance, tokenName, balanceInUsd, accountName, walletName, seed, rpcUrl,
   } = currentUser.activeAccount;
   async function main() {
     const { api } = currentUser.api;
@@ -326,6 +326,7 @@ function Dashboard(props) {
             open={open}
             handleClose={handleClose}
             classes={classes}
+            activeAccount={seed}
             accounts={accounts}
             setSeed={() => console.log('setSeed')}
             setPublicKey={setPublicKey}
