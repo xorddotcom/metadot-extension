@@ -61,8 +61,8 @@ function CreateWallet() {
   const [passwordError, setPasswordError] = useState('');
 
   const validatePasswordAndConfirmPassword = () => {
-    const regexRes = password.match(/^(?=.*\d)(?=.*[~!@#$%^&*)(_+:[}="`-])(?=.*[a-z])(?=.*[A-Z])[~!@#$%^&*)(+:[}="`\w-]{6,16}$/);
-    console.log('Regex res', regexRes);
+    const regexRes = password.match(/^(?=.*\d)(?=.*[~!><@#$%?,;.^/&}{*)(_+:[}="|`'-\\])(?=.*[a-z])(?=.*[A-Z])[\\.~!><@,;#$%?^}{/&*)(+:[}=|"`'\w-\]]{6,19}$/);
+
     if (regexRes == null) {
       setPasswordError(passwordValidation);
       return false;

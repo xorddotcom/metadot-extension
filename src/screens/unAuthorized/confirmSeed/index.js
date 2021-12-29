@@ -57,6 +57,7 @@ function ConfirmSeed() {
     const fourth = word4 === phrase4;
 
     setValidations([first, second, third, fourth]);
+
     // eslint-disable-next-line no-unused-expressions
     first && second && third && fourth && history.push({
       pathname: '/createWallet',
@@ -94,15 +95,27 @@ function ConfirmSeed() {
     cb1ForSettingWordState('');
   };
 
+  function xyz1(ind, arr) {
+    const updated = arr;
+    updated[ind] = true;
+    setValidations(updated);
+    return updated;
+  }
+
   const styledInput1 = {
-    onChange: (text) => setWord1(text),
+    onChange: (text) => {
+      setWord1(text);
+    },
     placeholder: `Word #${fourRandomIndexes[0] + 1}`,
     value: word1,
     className: subHeadingfontFamilyClass,
     isCorrect: validations[0],
     marginBottom: '10px',
     rightIconCross: word1,
-    rightIconCrossClickHandler: () => handleCancel(word1, setWord1),
+    rightIconCrossClickHandler: () => {
+      handleCancel(word1, setWord1);
+      xyz1(0, validations);
+    },
   };
 
   const styledInput2 = {
@@ -113,7 +126,10 @@ function ConfirmSeed() {
     isCorrect: validations[1],
     marginBottom: '10px',
     rightIconCross: word2,
-    rightIconCrossClickHandler: () => handleCancel(word2, setWord2),
+    rightIconCrossClickHandler: () => {
+      handleCancel(word2, setWord2);
+      xyz1(1, validations);
+    },
   };
 
   const styledInput3 = {
@@ -124,7 +140,10 @@ function ConfirmSeed() {
     isCorrect: validations[2],
     marginBottom: '10px',
     rightIconCross: word3,
-    rightIconCrossClickHandler: () => handleCancel(word3, setWord3),
+    rightIconCrossClickHandler: () => {
+      handleCancel(word3, setWord3);
+      xyz1(2, validations);
+    },
   };
 
   const styledInput4 = {
@@ -135,7 +154,10 @@ function ConfirmSeed() {
     isCorrect: validations[3],
     marginBottom: '20px',
     rightIconCross: word4,
-    rightIconCrossClickHandler: () => handleCancel(word4, setWord4),
+    rightIconCrossClickHandler: () => {
+      handleCancel(word4, setWord4);
+      xyz1(3, validations);
+    },
   };
 
   const btn = {

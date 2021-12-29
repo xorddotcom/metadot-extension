@@ -15,6 +15,7 @@ import {
   VerticalContentDiv,
   MainLinks,
 } from './StyledComponent';
+import ManifestFile from '../../../getManifestFile.json';
 import { fonts } from '../../../utils';
 import { setAuthScreenModal, setConfirmSendModal } from '../../../redux/slices/modalHandling';
 import logo from '../../../assets/images/logo.svg';
@@ -28,22 +29,20 @@ function About({
   const [jsonData, setJsonData] = React.useState({});
   useEffect(() => {
     const fetchJSON = async () => {
-      const response = await fetch('./hello.json',
+      const response = await fetch(ManifestFile.mainfest_file,
         {
           headers: {
             'Content-Type': 'application/json',
           },
         });
       const json = await response.json();
-      console.log('asdasdasdasda-------', json);
-      setJsonData(json);
-      return json;
+      console.log('asdasdasdasda-------', json.version);
+      setJsonData(json.version);
+      return json.version;
     };
 
     fetchJSON();
   }, []);
-
-  console.log(jsonData);
 
   return (
     <Modal
@@ -66,7 +65,9 @@ function About({
             <img src={logo} alt="logo" height="50" />
           </div>
           <MainText2 textAlign="start" marginTop="25px" className={mainHeadingfontFamilyClass}>
-            Version: 2.0.0
+            Version:
+            {' '}
+            {jsonData}
           </MainText2>
           <SubText2 textAlign="start" marginTop="15px" className={subHeadingfontFamilyClass}>
             Meta  is built for Polkadot, committed to providing

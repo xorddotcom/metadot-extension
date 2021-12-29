@@ -81,7 +81,10 @@ function StyledInput({
     fullWidth,
     placeholder,
     onKeyDown: (e) => (blockInvalidChar ? blockChar(e) : null),
-    onChange: (e) => onChange(e.target.value),
+    onChange: (e) => {
+      console.log('abc');
+      onChange(e.target.value);
+    },
     disabled,
     isCorrectForInput: isCorrect,
     type:
