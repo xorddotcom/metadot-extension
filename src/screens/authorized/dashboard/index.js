@@ -21,8 +21,13 @@ import AssetsAndTransactions from './assetsAndTransactions';
 
 import { setApiInitializationStarts } from '../../../redux/slices/api';
 import {
-  setRpcUrl, setChainName, setBalance, setPublicKey,
-} from '../../../redux/slices/account';
+  setRpcUrl,
+  setBalance,
+  setChainName,
+  setAccountName,
+  setPublicKey,
+} from '../../../redux/slices/activeAccount';
+
 import {
   AccountContainer,
   AccountSetting,
@@ -76,6 +81,7 @@ function Dashboard(props) {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const transactions = useSelector((state) => state.transactions.transactions);
+  const accounts = useSelector((state) => state.accounts);
   const [txDetailsModalData, setTxDetailsModalData] = useState('');
   const [isTxDetailsModalOpen, setIsTxDetailsModalOpen] = useState(false);
 
@@ -83,14 +89,7 @@ function Dashboard(props) {
   const { apiInitializationStarts } = useSelector((state) => state.api);
   const {
     publicKey, chainName, balance, tokenName, balanceInUsd, accountName, walletName, rpcUrl,
-  } = currentUser.account;
-
-  // function setLiveBalanceInRedux(bal) {
-  //   dispatch(setBalance(bal));
-  // }
-
-  // getLiveBalance(currentUser, setLiveBalanceInRedux);
-
+  } = currentUser.activeAccount;
   async function main() {
     const { api } = currentUser.api;
 
@@ -327,6 +326,10 @@ function Dashboard(props) {
             open={open}
             handleClose={handleClose}
             classes={classes}
+            accounts={accounts}
+            setSeed={() => console.log('setSeed')}
+            setPublicKey={setPublicKey}
+            setAccountName={setAccountName}
           />
           {/* Menu End */}
 

@@ -1,5 +1,6 @@
 /* eslint-disable import/no-cycle */
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import {
@@ -26,6 +27,9 @@ function ConfirmSeed() {
   const location = useLocation();
 
   const currSeed = location.state.seedToPass;
+
+  // eslint-disable-next-line no-unused-vars
+  const { seed } = useSelector((state) => state.activeAccount);
 
   // eslint-disable-next-line no-unused-vars
   const [shuffledSeed, setShuffledSeed] = useState(

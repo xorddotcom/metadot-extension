@@ -31,7 +31,7 @@ const AmountInput = ({
     br: '6px',
     fontSize: '12px',
     handleClick: maxInputHandler,
-    disabled: currentUser.account.balance === 0,
+    disabled: currentUser.activeAccount.balance === 0,
     // isLoading: loading1,
   };
 
@@ -84,19 +84,19 @@ const AmountInput = ({
             className={subHeadingfontFamilyClass}
             style={{ marginBottom: '1rem' }}
           >
-            {helpers.validateAmount(currentUser.account.balance, amountState.value)}
+            {helpers.validateAmount(currentUser.activeAccount.balance, amountState.value)}
           </WarningText>
           )
             }
       <CalculatedAmount>
         <EquivalentInUSDT id="equivalent-in-usd" className={subHeadingfontFamilyClass}>
           $
-          {currentUser.account.balanceInUsd}
+          {currentUser.activeAccount.balanceInUsd}
         </EquivalentInUSDT>
         <Balance {...balanceProps}>
           Balance:
           {' '}
-          {`${trimBalance(currentUser.account.balance)} ${currentUser.account.tokenName}`}
+          {`${trimBalance(currentUser.activeAccount.balance)} ${currentUser.activeAccount.tokenName}`}
         </Balance>
       </CalculatedAmount>
       <div style={{ height: '1.5rem' }}>

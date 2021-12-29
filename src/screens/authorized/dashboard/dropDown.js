@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { DropDownMainText } from './styledComponents';
-import { setLoggedIn } from '../../../redux/slices/account';
+// import { setLoggedIn } from '../../../redux/slices/account';
 // import Typography from '@mui/material/Typography';
 import accountIcon from '../../../assets/images/icons/user.svg';
 import LockOutlinedIcon from '../../../assets/images/icons/lock.svg';
@@ -16,11 +16,20 @@ import ForumOutlinedIcon from '../../../assets/images/icons/support.svg';
 import aboutIcon from '../../../assets/images/icons/aboutIcon.svg';
 import { About } from '../../../components/modals';
 import { fonts } from '../../../utils';
+// import viewSeedIcon from '../../../assets/images/icons/openEye.svg';
+// import { resetAccountSlice, setLoggedIn } from '../../../redux/slices/activeAccount';
+// import { resetTransactions } from '../../../redux/slices/transactions';
 
 const { mainHeadingfontFamilyClass } = fonts;
+// import SettingsOutlinedIcon from '../../../assets/images/icons/setting.svg';
+// import FileUploadOutlinedIcon from '../../../assets/images/icons/export.svg';
+// import FileDownloadOutlinedIcon from '../../../assets/images/icons/download.svg';
+// import AddOutlinedIcon from '../../../assets/images/icons/add.svg';
+// import PersonOutlinedIcon from '../../../assets/images/icons/user.svg';
+// import ChevronRightOutlinedIcon from '../../../assets/images/icons/rightArrowIcon.svg';
 
 const DropDown = ({
-  open, handleClose, anchorEl, classes,
+  open, handleClose, anchorEl, classes, accounts, setSeed, setPublicKey, setAccountName,
 }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -131,27 +140,29 @@ const DropDown = ({
           </ListItemIcon>
           <img src={ChevronRightOutlinedIcon} alt="icon" style={{ marginLeft: '5.04rem', marginTop: '-0.4rem' }} />
         </MenuItem> */}
-
-            {/* <MenuItem
-              id="menu-item-2"
-              style={{ minHeight: '37px', color: '#fafafa' }}
-              onClick={() => {
-                dispatch(resetAccountSlice());
-                dispatch(resetTransactions());
-              }}
-            >
-              <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
-                <img
-                  src={RemoveIcon}
-                  alt="remove-account"
-                  width="14.55"
-                  height="15"
-                  style={{ marginTop: '0.15rem' }}
-                />
+            {Object.values(accounts).map((account) => (
+              <MenuItem
+                key={account.publicKey}
+                id="menu-item-1"
+                style={{ minHeight: '37px', color: '#fafafa' }}
+                onClick={() => {
+                  console.log('Testing something==>>', account);
+                  dispatch(setSeed(account.seed));
+                  dispatch(setPublicKey(account.publicKey));
+                  dispatch(setAccountName(account.accountName));
+                }}
+              >
+                <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
+                  <img
+                    src={LockOutlinedIcon}
+                    alt="lock-icon"
+                    style={{ marginTop: '-0.2rem' }}
+                  />
                   &nbsp; &nbsp;
-                <span style={{ fontSize: '0.85rem' }}>Remove Account</span>
-              </ListItemIcon>
-            </MenuItem> */}
+                  <span style={{ fontSize: '0.85rem' }}>{account.accountName}</span>
+                </ListItemIcon>
+              </MenuItem>
+            ))}
 
             {/* <MenuItem
               style={{ minHeight: '37px', color: '#fafafa' }}
@@ -173,7 +184,6 @@ const DropDown = ({
             <DropDownMainText className={mainHeadingfontFamilyClass}>
               My Profile
             </DropDownMainText>
-
             <MenuItem
               style={{ minHeight: '37px', color: '#fafafa', fontSize: '15px' }}
               onClick={() => {
@@ -203,10 +213,67 @@ const DropDown = ({
                   alt="lock-icon"
                   style={{ marginTop: '-0.2rem' }}
                 />
-                  &nbsp; &nbsp;
+                     &nbsp; &nbsp;
                 <span style={{ fontSize: '0.85rem' }}>Support</span>
               </ListItemIcon>
             </MenuItem>
+
+            <MenuItem
+              id="menu-item-1"
+              style={{ minHeight: '37px', color: '#fafafa' }}
+              onClick={() => {
+                console.log('abc');
+                // const logOut = async () => {
+                console.log('Log Out working');
+                dispatch(setLoggedIn(false));
+                // };
+              }}
+            >
+              <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
+                <img
+                  src={LockOutlinedIcon}
+                  alt="lock-icon"
+                  style={{ marginTop: '-0.3rem' }}
+                />
+                  &nbsp; &nbsp;
+                <span style={{ fontSize: '0.85rem' }}>Lock</span>
+              </ListItemIcon>
+            </MenuItem>
+            <MenuItem
+              id="menu-item-2"
+              style={{ minHeight: '37px', color: '#fafafa' }}
+              onClick={() => {
+                history.push('/ImportWallet');
+              }}
+            >
+              <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
+                <img
+                  src={LockOutlinedIcon}
+                  alt="remove-account"
+                  width="14.55"
+                  height="15"
+                  style={{ marginTop: '0.15rem' }}
+                />
+                  &nbsp; &nbsp;
+                <span style={{ fontSize: '0.85rem' }}>Add Account</span>
+              </ListItemIcon>
+            </MenuItem>
+            {/* <MenuItem
+            id="menu-item-2"
+            style={{ minHeight: '37px', color: '#fafafa' }}
+            onClick={() => {
+              dispatch(resetAccountSlice());
+              dispatch(resetTransactions());
+            }}
+          >
+            <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
+              <img
+                src={RemoveIcon}
+                alt="remove-account"
+                width="14.55"
+                height="15"
+                style={{ marginTop: '0.15rem' }}
+              /> */}
 
             <MenuItem
               id="menu-item-1"

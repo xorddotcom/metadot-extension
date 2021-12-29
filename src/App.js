@@ -56,12 +56,15 @@ function App() {
   const renderFunction = () => {
     let content;
 
-    if (!currentUser.account.isLoggedIn && currentUser.account.publicKey) {
+    if (
+      !currentUser.activeAccount.isLoggedIn
+      && currentUser.activeAccount.publicKey
+    ) {
       content = <WelcomeBack />;
     } else if (
       // prettier-ignore
-      currentUser.account.isLoggedIn
-      && currentUser.account.publicKey
+      currentUser.activeAccount.isLoggedIn
+      && currentUser.activeAccount.publicKey
     ) {
       content = (
         <>

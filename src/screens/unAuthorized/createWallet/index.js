@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import {
   AuthWrapper,
@@ -14,7 +14,7 @@ import {
   setLoggedIn,
   setPublicKey,
   setAccountName,
-} from '../../../redux/slices/account';
+} from '../../../redux/slices/activeAccount';
 import { fonts, helpers } from '../../../utils';
 import accounts from '../../../utils/accounts';
 import { LabelAndTextInput } from './styledComponents';
@@ -27,6 +27,7 @@ import {
 } from '../../../redux/slices/modalHandling';
 import ImportIcon from '../../../assets/images/import.svg';
 import AccountCreate from '../../../assets/images/acc-create.svg';
+import { addAccount } from '../../../redux/slices/accounts';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
@@ -50,6 +51,8 @@ function CreateWallet() {
     : 'Created';
 
   const currSeed = location.state.seedToPass;
+  // eslint-disable-next-line no-unused-vars
+  const { seed } = useSelector((state) => state.activeAccount);
 
   const [walletName, setWalletName] = useState('');
   const [isValidWalletName, setIsValidWalletName] = useState(false);
@@ -106,6 +109,12 @@ function CreateWallet() {
     dispatch(setLoggedIn(true));
     dispatch(setPublicKey(add));
     dispatch(setAccountName(name));
+    // dispatch(setWalletPassword(hashedPassword));
+
+    dispatch(addAccount({
+      accountName: name,
+      publicKey: add,
+    }));
   };
 
   const showSuccessModalAndNavigateToDashboard = () => {

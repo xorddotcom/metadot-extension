@@ -27,7 +27,7 @@ import { fonts, colors } from '../../../utils';
 import accounts from '../../../utils/accounts';
 import {
   setAccountName, setJsonFileUploadScreen, setLoggedIn, setPublicKey,
-} from '../../../redux/slices/account';
+} from '../../../redux/slices/activeAccount';
 import {
   setIsResponseModalOpen, setLoadingForApi, setMainTextForSuccessModal,
   setResponseImage, setSubTextForSuccessModal,

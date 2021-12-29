@@ -29,7 +29,10 @@ function ShowSeed() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [copy, setCopy] = useState('Copy');
 
+  const { seed, isLoggedIn } = useSelector((state) => state.activeAccount);
   const currSeed = location.state.seedToPass;
+
+  const dispatch = useDispatch();
 
   const SinglePhrase = ({ index, phrase }) => (
     <SeedWrapper>
