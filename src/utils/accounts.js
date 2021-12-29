@@ -43,6 +43,7 @@ const getJsonBackup = async (address, password) => {
   const addressKeyring = address && keyring.getPair(address);
   try {
     const backupJson = addressKeyring && keyring.backupAccount(addressKeyring, password);
+    console.log('--------', { backupJson });
     // ***Download JSON file***
     const fileName = 'backup';
     const data = JSON.stringify(backupJson);

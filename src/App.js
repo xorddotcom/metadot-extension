@@ -37,7 +37,7 @@ function App() {
     (state) => state.transactionProgressModalHandling,
   );
 
-  const { publicKey } = currentUser.account;
+  const { publicKey } = currentUser.activeAccount;
 
   const dispatch = useDispatch();
 
@@ -68,7 +68,7 @@ function App() {
     ) {
       content = (
         <>
-          <ApiManager rpc={currentUser.account.rpcUrl} />
+          <ApiManager rpc={currentUser.activeAccount.rpcUrl} />
 
           {
                  AuthRoutes.map((route) => {

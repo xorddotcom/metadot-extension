@@ -15,7 +15,6 @@ import services from '../utils/services';
 
 function ApiManager({ rpc }) {
   const dispatch = useDispatch();
-
   const currentUser = useSelector((state) => state);
 
   // const { account, modalHandling } = currentUser;

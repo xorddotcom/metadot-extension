@@ -168,26 +168,17 @@ const DropDown = ({
                   />
                   &nbsp; &nbsp;
                   <span style={{ fontSize: '0.85rem' }}>{account.accountName}</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      history.push(`/ImportWallet/${account.seed}`);
+                    }}
+                  >
+                    D
+                  </button>
                 </ListItemIcon>
               </MenuItem>
             ))}
-
-            {/* <MenuItem
-              style={{ minHeight: '37px', color: '#fafafa' }}
-              onClick={() => {
-                history.push('/viewSeed');
-              }}
-            >
-              <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
-                <img
-                  src={viewSeedIcon}
-                  alt="lock-icon"
-                  style={{ marginTop: '-0.2rem' }}
-                />
-                  &nbsp; &nbsp;
-                <span style={{ fontSize: '0.85rem' }}>View Seed</span>
-              </ListItemIcon>
-            </MenuItem> */}
 
             <DropDownMainText className={mainHeadingfontFamilyClass}>
               My Profile
@@ -205,9 +196,26 @@ const DropDown = ({
                   style={{ marginTop: '-0.2rem' }}
                 />
                   &nbsp; &nbsp;
-                <span style={{ fontSize: '0.85rem' }}>Account</span>
+                <span style={{ fontSize: '0.85rem' }}>Accounts</span>
               </ListItemIcon>
             </MenuItem>
+
+            {/* <MenuItem
+              style={{ minHeight: '37px', color: '#fafafa' }}
+              onClick={() => {
+                history.push('/viewSeed');
+              }}
+            >
+              <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
+                <img
+                  src={viewSeedIcon}
+                  alt="lock-icon"
+                  style={{ marginTop: '-0.2rem' }}
+                />
+                  &nbsp; &nbsp;
+                <span style={{ fontSize: '0.85rem' }}>View Seed</span>
+              </ListItemIcon>
+            </MenuItem> */}
 
             <MenuItem
               style={{ minHeight: '37px', color: '#fafafa', fontSize: '15px' }}
@@ -246,15 +254,8 @@ const DropDown = ({
                   &nbsp; &nbsp;
                 <span style={{ fontSize: '0.85rem' }}>Lock</span>
               </ListItemIcon>
-              <button
-                type="button"
-                onClick={() => {
-                  history.push(`/ImportWallet/${activeAccount.seed}`);
-                }}
-              >
-                D
-              </button>
             </MenuItem>
+
             <MenuItem
               id="menu-item-2"
               style={{ minHeight: '37px', color: '#fafafa' }}

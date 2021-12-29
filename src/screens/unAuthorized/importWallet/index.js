@@ -6,7 +6,7 @@
 /* eslint-disable no-throw-literal */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams, useLocation } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { keyring } from '@polkadot/ui-keyring';
 import { Input } from '@material-ui/core';
@@ -49,19 +49,15 @@ const invalidSeedMessages = {
 
 function ImportWallet() {
   const history = useHistory();
-  const location = useLocation();
   const dispatch = useDispatch();
 
   const { jsonFileUploadScreen } = useSelector((state) => state.account);
-  const currSeed = location.state.seedToPass;
   const params = useParams();
 
   const accounts = useSelector((state) => state.accounts);
 
   // eslint-disable-next-line no-console
   console.log('ahsanahmed ==>>', params);
-
-  console.log('location on importwallet.js ============>>>', location);
 
   const [selectedType, setSelectedType] = useState(jsonFileUploadScreen ? 'json' : 'seed');
   const [seedPhrase, setSeedPhrase] = useState('');
@@ -71,21 +67,26 @@ function ImportWallet() {
   useEffect(() => {
     const accountExistCheck = async () => {
       if (params.seed) {
-        const dSeed = decrypt(params.seed, 'Dell1234');
-        let derivedSeed = '';
-        let derivedAccount = '';
-        let i = 0;
-        do {
-          derivedSeed = `${dSeed}//${i}`;
-          console.log('derived account before');
-          // eslint-disable-next-line no-await-in-loop
-          derivedAccount = await AccountCreation({ name: 'AAA', password: 'BBB', seed: derivedSeed });
-          console.log('derived Account ==>>', derivedAccount);
-          i += 1;
-        } while (accounts[derivedAccount.address]);
+        console.log('params seed', params);
+        try {
+          const dSeed = decrypt(params.seed, 'Abc123123!');
+          let derivedSeed = '';
+          let derivedAccount = '';
+          let i = 0;
+          do {
+            derivedSeed = `${dSeed}//${i}`;
+            console.log('derived account before');
+            // eslint-disable-next-line no-await-in-loop
+            derivedAccount = await AccountCreation({ name: 'AAA', password: 'BBB', seed: derivedSeed });
+            console.log('derived Account ==>>', derivedAccount);
+            i += 1;
+          } while (accounts[derivedAccount.address]);
 
-        console.log('derived account after');
-        setSeedPhrase(derivedSeed);
+          console.log('derived account after');
+          setSeedPhrase(derivedSeed);
+        } catch (err) {
+          console.log('Drived*******************', err);
+        }
       }
     };
 

@@ -72,7 +72,7 @@ const getTransactionFee = async (api, sender, recipient, decimalPlaces, amount) 
 
 async function main(currentUser, setLiveBalanceInRedux) {
   const { api } = currentUser.api;
-  const { publicKey } = currentUser.account.publicKey;
+  const { publicKey } = currentUser.activeAccount.publicKey;
   // Retrieve the initial balance. Since the call has no callback, it is simply a promise
   // that resolves to the current on-chain value
   let {
@@ -121,9 +121,9 @@ const getbalanceKarura = async (currentUser) => {
   const provider = new WsProvider('wss://karura-rpc-0.aca-api.network');
   const apiK = await ApiPromise.create({ provider });
   console.log('Api initialized');
-  // const bal2 = await getBalance(apiK, currentUser.account.publicKey);
+  // const bal2 = await getBalance(apiK, currentUser.activeAccount.publicKey);
   // console.log('Single token', bal2);
-  const bal = await getBalance(apiK, currentUser.account.publicKey);
+  const bal = await getBalance(apiK, currentUser.activeAccount.publicKey);
   console.log('Multiple tokens', bal);
 };
 
@@ -178,81 +178,81 @@ const getExistentialDeposit = async (currentUser) => {
   // console.log('Res', res);
 };
 
-// const doTransaction = async (currentUser) => {
-//   const keyring = new Keyring({ type: 'sr25519' });
+const doTransaction = async (currentUser) => {
+  const keyring = new Keyring({ type: 'sr25519' });
 
-//   const res = await decrypt(currentUser.account.seed, 'helloworldA1');
-//   const sender = keyring.addFromUri(res);
+  const res = await decrypt(currentUser.activeAccount.seed, 'helloworldA1');
+  const sender = keyring.addFromUri(res);
 
-//   const hash = await currentUser.api.api.tx.balances
-//     .transfer(
-//       '5GjSQRFYEFBY1nmVuGHTyKkRHrodQmUKdA7kWzfmfLp262xG',
-//       1,
-//     )
-//     .signAndSend(
-//       sender,
-//     ).then((resp) => console.log('Res', resp.toHex()))
-//     .catch((err) => {
-//       console.error('Error [][][]', err);
-//     });
+  const hash = await currentUser.api.api.tx.balances
+    .transfer(
+      '5GjSQRFYEFBY1nmVuGHTyKkRHrodQmUKdA7kWzfmfLp262xG',
+      1,
+    )
+    .signAndSend(
+      sender,
+    ).then((resp) => console.log('Res', resp.toHex()))
+    .catch((err) => {
+      console.error('Error [][][]', err);
+    });
 
-//   console.log('Hash ===>>>', hash);
-// };
+  console.log('Hash ===>>>', hash);
+};
 
-// const sendTransaction = async (currentUser) => {
-//   console.log('Working');
-//   try {
-//     console.log('a');
-//     console.log('b');
-//     console.log('c');
-//     const keyring = new Keyring({ type: 'sr25519' });
-//     const res = await decrypt(currentUser.account.seed, 'helloworldA1');
-//     console.log('res []][]', res);
-//     console.log('Currencies here [][]', currentUser.api.api.tx.currencies);
-//     const sender = keyring.addFromUri(res);
-//     const hash = await currentUser.api.api.tx.currencies
-//       .transfer(
-//         '5Dz1i42ygyhi4BxPnvKtRY4TBShTMC9T2FvaMB8CWxoU3QgG',
-//         {
-//           Token: 'KSM',
-//         },
-//         '10000000000',
-//       )
-//       .signAndSend(sender, async ({ status, events }) => {
-//         if (status.isInBlock) {
-//           console.log('Status', status.isInBlock, status.isFinalized);
-//           console.log('EVents', events);
-//           const hash1 = status.asInBlock.toString();
-//           console.log('Hash before tx ', hash1);
-//         }
-//       });
-//     console.log('Hash after tx', hash);
-//     // // const decimals = currentUser.account.chainName === 'AcalaMandala'
-//     // //   ? decimalPlaces[0] : decimalPlaces;
-//     // // api.tx.balancs.transferAll
-//     // const result = await currentUser.api.api.tx.balances
-//     //   .transfer(
-//     //     '5Dz1i42ygyhi4BxPnvKtRY4TBShTMC9T2FvaMB8CWxoU3QgG', {
-//     //       Token: 'AUSD',
-//     //     }, 1 * 10 ** 11,
-//     //   )
-//     //   .signAndSend(
-//     //     sender, async ({ status, events }) => {
-//     //       console.log('Status', status.isInBlock, status.isFinalized);
-//     //       console.log('EVents', events);
-//     //       const hash = status.asInBlock.toString();
-//     //       console.log('Hash', hash);
-//     //       // }
-//     //     },
-//     //   ).catch((err) => {
-//     //     alert('Transaction failed');
-//     //     console.error('Error [][][]', err);
-//     //   });
-//   } catch (err) {
-//     alert('An error occurred');
-//     console.log('Error', err);
-//   }
-// };
+const sendTransaction = async (currentUser) => {
+  console.log('Working');
+  try {
+    console.log('a');
+    console.log('b');
+    console.log('c');
+    const keyring = new Keyring({ type: 'sr25519' });
+    const res = await decrypt(currentUser.activeAccount.seed, 'helloworldA1');
+    console.log('res []][]', res);
+    console.log('Currencies here [][]', currentUser.api.api.tx.currencies);
+    const sender = keyring.addFromUri(res);
+    const hash = await currentUser.api.api.tx.currencies
+      .transfer(
+        '5Dz1i42ygyhi4BxPnvKtRY4TBShTMC9T2FvaMB8CWxoU3QgG',
+        {
+          Token: 'KSM',
+        },
+        '10000000000',
+      )
+      .signAndSend(sender, async ({ status, events }) => {
+        if (status.isInBlock) {
+          console.log('Status', status.isInBlock, status.isFinalized);
+          console.log('EVents', events);
+          const hash1 = status.asInBlock.toString();
+          console.log('Hash before tx ', hash1);
+        }
+      });
+    console.log('Hash after tx', hash);
+    // // const decimals = currentUser.activeAccount.chainName === 'AcalaMandala'
+    // //   ? decimalPlaces[0] : decimalPlaces;
+    // // api.tx.balancs.transferAll
+    // const result = await currentUser.api.api.tx.balances
+    //   .transfer(
+    //     '5Dz1i42ygyhi4BxPnvKtRY4TBShTMC9T2FvaMB8CWxoU3QgG', {
+    //       Token: 'AUSD',
+    //     }, 1 * 10 ** 11,
+    //   )
+    //   .signAndSend(
+    //     sender, async ({ status, events }) => {
+    //       console.log('Status', status.isInBlock, status.isFinalized);
+    //       console.log('EVents', events);
+    //       const hash = status.asInBlock.toString();
+    //       console.log('Hash', hash);
+    //       // }
+    //     },
+    //   ).catch((err) => {
+    //     alert('Transaction failed');
+    //     console.error('Error [][][]', err);
+    //   });
+  } catch (err) {
+    alert('An error occurred');
+    console.log('Error', err);
+  }
+};
 
 const formatNumber = (number, decimals) => {
   if (number.toString() === '0') return '0';
@@ -261,7 +261,7 @@ const formatNumber = (number, decimals) => {
 
 const getMultipleTokensBalance = async (currentUser) => {
   const { data: balance } = await currentUser.api.api.query.system.account(
-    currentUser.account.publicKey,
+    currentUser.activeAccount.publicKey,
   );
   console.log('In service balance', balance.reserved);
 
@@ -360,13 +360,13 @@ const getNetworkFee = async (currentUser) => {
   const decimalPlaces = await currentUser.api.api.registry.chainDecimals[0];
   console.log('Decimal places', decimalPlaces);
   const info = await currentUser.api.api.tx.balances
-    .transfer(currentUser.account.publicKey, 10 * 10 ** decimalPlaces[0])
+    .transfer(currentUser.activeAccount.publicKey, 10 * 10 ** decimalPlaces[0])
     .paymentInfo('5EAaiH3QU9q4J5Wr3qYtyTuVzmQnqGpu7GbAfj5Z2pFXa3uo');
   console.log('TX Info', info);
   const splitFee = info.partialFee.toHuman().split(' ');
   const fee = (splitFee[0] * 10 ** -12).toFixed(15);
   console.log('Fee', fee);
-  // if (currentUser.account.tokenName === 'WND') {
+  // if (currentUser.activeAccount.tokenName === 'WND') {
   //   return (splitFee[0] * 10 ** -3).toFixed(4);
   // }
   // const txFee = await convertTransactionFee(info.partialFee.toHuman());

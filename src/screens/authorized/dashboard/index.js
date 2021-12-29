@@ -9,6 +9,7 @@ import {
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
+import keyring from '@polkadot/ui-keyring';
 import ApiCalls from '../../../utils/api';
 import {
   fonts,
@@ -402,6 +403,15 @@ function Dashboard(props) {
           }}
         />
       </Wrapper>
+      <button
+        type="button"
+        onClick={() => {
+          const res = keyring.getAccounts();
+          console.log('all accounts-------------', res);
+        }}
+      >
+        Get All Accounts
+      </button>
     </>
   );
 }

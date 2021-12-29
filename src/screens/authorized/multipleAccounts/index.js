@@ -30,7 +30,7 @@ const useStyles = makeStyles(() => ({
 function MultipleAccounts() {
   const classes = useStyles();
 
-  const { publicKey } = useSelector((state) => state.account);
+  const { publicKey } = useSelector((state) => state.activeAccount);
 
   //  Account Drop Down
   const [anchorEl, setAnchorEl] = React.useState(null);
