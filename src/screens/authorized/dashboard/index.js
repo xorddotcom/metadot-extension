@@ -9,14 +9,12 @@ import {
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
-import keyring from '@polkadot/ui-keyring';
 import ApiCalls from '../../../utils/api';
 import {
   fonts,
   colors,
 } from '../../../utils';
 import services from '../../../utils/services';
-import accounts from '../../../utils/accounts';
 
 import MainCard from './mainCard';
 import AssetsAndTransactions from './assetsAndTransactions';
@@ -55,7 +53,6 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryText } = colors;
 
 const { getBalance } = services;
-const { KeyringInitialization } = accounts;
 
 const {
   availableNetworks,
@@ -87,16 +84,6 @@ function Dashboard(props) {
   const {
     publicKey, chainName, balance, tokenName, balanceInUsd, accountName, walletName, rpcUrl,
   } = currentUser.account;
-
-  useEffect(() => {
-    try {
-      const abc = keyring.getPair(publicKey);
-      console.log('----keyring.getPair', abc);
-    } catch (err) {
-      KeyringInitialization();
-      console.log(err);
-    }
-  }, [publicKey]);
 
   // function setLiveBalanceInRedux(bal) {
   //   dispatch(setBalance(bal));

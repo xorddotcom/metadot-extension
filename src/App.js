@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   MemoryRouter as Router, Switch, Route,
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import keyring from '@polkadot/ui-keyring';
 
 import './App.css';
 
@@ -12,9 +13,11 @@ import { setIsResponseModalOpen } from './redux/slices/modalHandling';
 import { setIsTransactionProgressModalOpen } from './redux/slices/transctionProgressModalHandling';
 import ApiManager from './apiManager';
 import { routes } from './utils';
+import accounts from './utils/accounts';
 import WelcomeBack from './screens/unAuthorized/welcomeBack';
 
 const { AuthRoutes, UnAuthRoutes } = routes;
+const { KeyringInitialization } = accounts;
 
 function App() {
   // prettier-ignore
@@ -33,7 +36,21 @@ function App() {
     (state) => state.transactionProgressModalHandling,
   );
 
+  const { publicKey } = currentUser.account;
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    try {
+      if (publicKey) {
+        const abc = keyring.getPair(publicKey);
+        console.log('----keyring.getPair', abc);
+      }
+    } catch (err) {
+      KeyringInitialization();
+      console.log(err);
+    }
+  }, [publicKey]);
 
   const renderFunction = () => {
     let content;

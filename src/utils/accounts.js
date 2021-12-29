@@ -14,20 +14,28 @@ function GenerateSeedPhrase() {
   }
 }
 
-async function validatingSeedPhrase(seedPhrase) {
-  try {
-    await keyring.addUri(seedPhrase);
-    return true;
-  } catch (error) {
-    console.log('error', error);
-    return false;
-  }
-}
-
 // need to invoke this function in background.js script
 async function KeyringInitialization() {
   // await keyring.loadAll({ store: new AccountsStore(), type: 'sr25519' });
   await keyring.loadAll({ type: 'sr25519' });
+}
+
+async function validatingSeedPhrase(seedPhrase) {
+  let resp = true;
+  try {
+    await KeyringInitialization();
+    await keyring.addUri(seedPhrase);
+    return resp;
+  } catch (error) {
+    console.log('error in validating seed', error);
+    try {
+      await keyring.addUri(seedPhrase);
+    } catch (err) {
+      console.log('invalid seed', err);
+      resp = false;
+    }
+    return resp;
+  }
 }
 
 // get json backup
