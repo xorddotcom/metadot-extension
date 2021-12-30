@@ -8,6 +8,7 @@ import keyring from '@polkadot/ui-keyring';
 
 import './App.css';
 
+import { QueryClientProvider, QueryClient } from 'react-query';
 import { ResponseModal, TransactionProgress } from './components';
 import { setIsResponseModalOpen } from './redux/slices/modalHandling';
 import { setIsTransactionProgressModalOpen } from './redux/slices/transctionProgressModalHandling';
@@ -52,6 +53,7 @@ function App() {
       console.log(err);
     }
   }, [publicKey]);
+  const queryClient = new QueryClient();
 
   const renderFunction = () => {
     let content;
@@ -67,10 +69,11 @@ function App() {
       && currentUser.activeAccount.publicKey
     ) {
       content = (
-        <>
-          <ApiManager rpc={currentUser.activeAccount.rpcUrl} />
+        <div>
+          <QueryClientProvider client={queryClient}>
+            <ApiManager rpc={currentUser.activeAccount.rpcUrl} />
 
-          {
+            {
                  AuthRoutes.map((route) => {
                    const { path, Component } = route;
                    return (
@@ -80,7 +83,8 @@ function App() {
                    );
                  })
             }
-        </>
+          </QueryClientProvider>
+        </div>
       );
     } else {
       content = (

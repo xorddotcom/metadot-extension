@@ -2,7 +2,9 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useQuery } from 'react-query';
+import { encodeAddress } from '@polkadot/util-crypto';
 import { AssetCard, TxCard } from '../../../components';
 import { fonts, helpers } from '../../../utils';
 import {
@@ -20,6 +22,8 @@ import acala from '../../../assets/images/tokenImg/acala-circle.svg';
 import astar from '../../../assets/images/astar.png';
 import rococo from '../../../assets/images/rococo.svg';
 import karura from '../../../assets/images/karura.svg';
+import { getQuery } from '../../../utils/queries';
+import { addTransaction } from '../../../redux/slices/transactions';
 
 const { mainHeadingfontFamilyClass } = fonts;
 const { trimBalance, reverseArray } = helpers;
@@ -29,9 +33,10 @@ function AssetsAndTransactions({
   setTxDetailsModalData,
   transactionData,
 }) {
+  const dispatch = useDispatch();
   const assetsData = useSelector((state) => state.activeAccount);
   const {
-    chainName, tokenName, balance, balanceInUsd,
+    chainName, tokenName, balance, balanceInUsd, publicKey,
   } = assetsData;
   const [isTab1Active, setIsTab1Active] = useState(true);
   const [isTab2Active, setIsTab2Active] = useState(false);
@@ -73,6 +78,71 @@ function AssetsAndTransactions({
       setIsTab1Active(false);
       setIsTab2Active(true);
     },
+  };
+
+  const query = getQuery(publicKey, 0);
+
+  const fetchTransactions = async () => fetch('https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      query,
+    }),
+  }).then((r) => r.json()).then((r) => handleTransaction(r));
+
+  const {
+    isLoading, isError, error,
+  } = useQuery(
+    'user-transaction',
+    fetchTransactions,
+  );
+
+  const handleTransaction = (transactionObject) => {
+    // list all the previous hashes
+    // and then dispatch new data if it's txhash is not in previousHashes
+    const previousTransactionHashList = transactionData.map((transaction) => transaction.hash);
+
+    transactionObject.data.account.transferTo.nodes.map((tempObj) => {
+      const obj = {};
+      if (!previousTransactionHashList.includes(tempObj.extrinsicHash)) {
+        obj.accountFrom = tempObj.fromId;
+        obj.accountTo = tempObj.toId;
+        // eslint-disable-next-line radix
+        obj.amount = parseInt(tempObj.amount) / parseInt(tempObj.decimals);
+        obj.hash = tempObj.extrinsicHash;
+        obj.operation = 'Send';
+        obj.status = tempObj.status ? 'Success' : 'Failed';
+        obj.chainName = tempObj.token;
+        obj.tokenName = tempObj.token;
+        obj.transactionFee = 0;
+        console.log('object from send', obj);
+        dispatch(addTransaction(obj));
+      }
+
+      return obj;
+    });
+
+    transactionObject.data.account.transferFrom.nodes.map((tempObj) => {
+      const obj = {};
+      if (!previousTransactionHashList.includes(tempObj.extrinsicHash)) {
+        obj.accountFrom = tempObj.fromId;
+        obj.accountTo = tempObj.toId;
+        // eslint-disable-next-line radix
+        obj.amount = parseInt(tempObj.amount) / parseInt(tempObj.decimals);
+        obj.hash = tempObj.extrinsicHash;
+        obj.operation = 'Receive';
+        obj.status = tempObj.status ? 'Success' : 'Failed';
+        obj.chainName = tempObj.token;
+        obj.tokenName = tempObj.token;
+        obj.transactionFee = 0;
+        console.log('object from rec', obj);
+        dispatch(addTransaction(obj));
+      }
+
+      return obj;
+    });
+
+    return transactionObject;
   };
 
   return (

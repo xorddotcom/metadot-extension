@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
-import {
-  CircularProgress,
-} from '@mui/material';
+import { CircularProgress } from '@mui/material';
 
 // Drop Down Icons
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -12,10 +10,7 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import keyring from '@polkadot/ui-keyring';
 import { useHistory } from 'react-router';
 import ApiCalls from '../../../utils/api';
-import {
-  fonts,
-  colors,
-} from '../../../utils';
+import { fonts, colors } from '../../../utils';
 import services from '../../../utils/services';
 import accountsUtils from '../../../utils/accounts';
 
@@ -65,10 +60,7 @@ const { getBalance, addressMapper } = services;
 const { KeyringInitialization } = accountsUtils;
 
 const {
-  availableNetworks,
-  KusamaMainNetworks,
-  TestNetworks,
-  BetaNetworks,
+  availableNetworks, KusamaMainNetworks, TestNetworks, BetaNetworks,
 } = networks;
 
 const useStyles = makeStyles(() => ({
@@ -143,7 +135,7 @@ function Dashboard(props) {
 
   useEffect(() => {
     getTokenPrice.GetRequest(getTokenApi);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -181,7 +173,12 @@ function Dashboard(props) {
         {disabled && <span className="tooltiptext">Coming Soon!</span>}
         <HorizontalContentDiv>
           <img src={icon} alt="icon" />
-          <OptionText className={mainHeadingfontFamilyClass}>{`${name}`}</OptionText>
+          <OptionText
+            className={mainHeadingfontFamilyClass}
+          >
+            {`${name}`}
+
+          </OptionText>
         </HorizontalContentDiv>
       </OptionRow>
     );
@@ -327,7 +324,9 @@ function Dashboard(props) {
 
           <NetworkContainer>
             <SelectChain
-              onClick={() => (apiInitializationStarts ? console.log('abc') : setIsModalOpen(true))}
+              onClick={() => (apiInitializationStarts
+                ? console.log('abc')
+                : setIsModalOpen(true))}
               disabled={!!apiInitializationStarts}
             >
               <SelectedChain className={subHeadingfontFamilyClass}>
@@ -340,12 +339,18 @@ function Dashboard(props) {
                     : `${chainName} Network` }
 
               </SelectedChain>
-              <ArrowDropDownIcon id="arrow-drop-down-icon" style={{ fontSize: '1.7rem' }} />
+              <ArrowDropDownIcon
+                id="arrow-drop-down-icon"
+                style={{ fontSize: '1.7rem' }}
+              />
             </SelectChain>
           </NetworkContainer>
           <AccountContainer id="account-container">
             <AccountSetting id="account-setting" onClick={handleClick}>
-              <AccountText id="account-text" className={mainHeadingfontFamilyClass}>
+              <AccountText
+                id="account-text"
+                className={mainHeadingfontFamilyClass}
+              >
                 {accountName.slice(0, 1)}
               </AccountText>
             </AccountSetting>
@@ -364,7 +369,6 @@ function Dashboard(props) {
             setAccountName={setAccountName}
           />
           {/* Menu End */}
-
         </DashboardHeader>
 
         <MainCard
