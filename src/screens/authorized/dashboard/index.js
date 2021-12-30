@@ -89,7 +89,7 @@ function Dashboard(props) {
   const currentUser = useSelector((state) => state);
   const { apiInitializationStarts } = useSelector((state) => state.api);
   const {
-    publicKey, chainName, balance, tokenName, balanceInUsd, accountName, walletName, seed, rpcUrl,
+    publicKey, chainName, balance, tokenName, balanceInUsd, accountName, walletName, rpcUrl,
   } = currentUser.activeAccount;
   async function main() {
     const { api } = currentUser.api;
@@ -141,6 +141,9 @@ function Dashboard(props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    console.log('accounts in use effect==>>', accounts);
+  }, [accounts]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // --------State and funtions for SlectNetwork Modal
@@ -327,7 +330,7 @@ function Dashboard(props) {
             open={open}
             handleClose={handleClose}
             classes={classes}
-            activeAccount={seed}
+            activeAccount={publicKey}
             accounts={accounts}
             setSeed={() => console.log('setSeed')}
             setPublicKey={setPublicKey}

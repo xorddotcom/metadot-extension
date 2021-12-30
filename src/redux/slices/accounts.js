@@ -18,7 +18,9 @@ export const accountsSlice = createSlice({
     },
 
     deleteAccount: (state, action) => {
+      console.log('delete accounts ==>>', state);
       delete state[action.payload];
+      console.log('delete accounts ==>>', state);
     },
   },
 });

@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Menu from '@mui/material/Menu';
 import Paper from '@mui/material/Paper';
 import MenuList from '@mui/material/MenuList';
@@ -39,6 +39,21 @@ const DropDown = ({
   // eslint-disable-next-line no-unused-vars
   open, handleClose, anchorEl, classes, activeAccount, accounts,
 }) => {
+  useEffect(() => {
+    console.log('accounts changed bhai', accounts[activeAccount]);
+    if (accounts.length === 0) {
+      // dispatch(setSeed(''));
+      dispatch(setPublicKey(''));
+      dispatch(setAccountName(''));
+      history.push('/');
+    } else if (accounts[activeAccount] === undefined) {
+      console.log('accounts changed active ki', accounts);
+      // dispatch(setSeed(Object.values(accounts)[0].seed));
+      dispatch(setPublicKey(Object.values(accounts)[0].publicKey));
+      dispatch(setAccountName(Object.values(accounts)[0].accountName));
+    }
+  }, [accounts]);
+
   const dispatch = useDispatch();
   const history = useHistory();
   const [aboutOpen, setAboutOpen] = useState(false);
@@ -300,11 +315,7 @@ const DropDown = ({
               id="menu-item-1"
               style={{ minHeight: '37px', color: '#fafafa', fontSize: '15px' }}
               onClick={() => {
-                console.log('abc');
-                // const logOut = async () => {
-                console.log('Log Out working');
-                dispatch(setLoggedIn(false));
-                // };
+                dispatch(deleteAccount(activeAccount));
               }}
             >
               <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
@@ -314,7 +325,7 @@ const DropDown = ({
                   style={{ marginTop: '-0.3rem', marginLeft: '-0.1rem' }}
                 />
                   &nbsp; &nbsp;
-                <span style={{ fontSize: '0.85rem' }}>Lock</span>
+                <span style={{ fontSize: '0.85rem' }}>Delete Account</span>
               </ListItemIcon>
             </MenuItem>
 
