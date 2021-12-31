@@ -148,9 +148,17 @@ const Send = () => {
     accountDispatch({ type: 'IS_BLUR' });
   };
 
+  const [isInputEmpty, setIsInputEmpty] = useState(false);
+
   const amountHandler = (e) => {
-    setInsufficientBal();
-    amountDispatch({ type: 'USER_INPUT', val: e, amountIsValid: currentUser.account.balance });
+    // eslint-disable-next-line no-unused-expressions
+    if (e.length === 0) {
+      amountDispatch({ type: 'USER_INPUT', val: e, amountIsValid: currentUser.account.balance });
+      setIsInputEmpty(true);
+    } else {
+      amountDispatch({ type: 'USER_INPUT', val: e, amountIsValid: currentUser.account.balance });
+      setIsInputEmpty(false);
+    }
   };
 
   const amountIsValidHandler = () => {
@@ -228,6 +236,7 @@ const Send = () => {
 
   // Check the sender existential deposit
   const validateTxErrors = async () => {
+    // try {
     const decimalPlaces = await currentUser.api.api.registry.chainDecimals[0];
 
     // const recipientBalance = await getBalance(api, accountToSate.value);
@@ -245,20 +254,25 @@ const Send = () => {
     console.log('ED of the chain', currentUser.api.api.consts.balances.existentialDeposit);
 
     if (currentUser.api.api.consts.balances.existentialDeposit
-     // eslint-disable-next-line eqeqeq
-     > (recipientBalance + amountState.value) * 10 ** decimalPlaces
-    // eslint-disable-next-line operator-linebreak
-    //    || senderBalance - amountState.value <
-    //  currentUser.api.api.consts.balances.existentialDeposit
+      // eslint-disable-next-line eqeqeq
+      > (recipientBalance + amountState.value) * 10 ** decimalPlaces
+      // eslint-disable-next-line operator-linebreak
+      //    || senderBalance - amountState.value <
+      //  currentUser.api.api.consts.balances.existentialDeposit
     ) {
       // Show warning modal
       alert('Existential deposit warning. The transaction might get failed');
       // alert('Warning modal, the transaction might get failed');
     }
     if ((senderBalance - amountState.value) * 10 ** decimalPlaces
-      < currentUser.api.api.consts.balances.existentialDeposit) {
+    < currentUser.api.api.consts.balances.existentialDeposit) {
       alert('Existential deposit warning. The sender account might get reaped');
     }
+    //   return true;
+    // } catch (er) {
+    //   console.log('error  in validation tx data', er);
+    //   return false;
+    // }
   };
 
   const doTransaction = async (deSeed) => {
@@ -335,6 +349,7 @@ const Send = () => {
           data.status = 'Successful';
           dispatch(addTransaction(data));
           setLoading2(false);
+          dispatch(setConfirmSendModal(false));
           setIsSendModalOpen(false);
           dispatch(setIsResponseModalOpen(true));
           dispatch(setResponseImage(SuccessCheckIcon));
@@ -692,11 +707,11 @@ const Send = () => {
     console.log('Submit working');
     try {
       setLoading1(true);
+      if (!validateInputValues(accountToSate.value)) throw new Error('An error occurred');
       const decimalPlaces = await api.registry.chainDecimals;
       console.log('Before validate tx errors');
       await validateTxErrors();
       console.log('After validate tx errors');
-      if (!validateInputValues(accountToSate.value)) throw new Error('An error occurred');
       console.log('Before info');
       const info = await
       getTransactionFee(api, currentUser.account.publicKey,
@@ -780,7 +795,7 @@ const Send = () => {
     text: 'Next',
     width: '300px',
     handleClick: handleSubmit,
-    disabled: !formIsValid || loading1,
+    disabled: !formIsValid || loading1 || isInputEmpty,
     isLoading: loading1,
   };
 

@@ -131,13 +131,15 @@ function App() {
     <Router>
       <div className="App">
         <Switch>
-          {renderFunction()}
+          <div>
+            {renderFunction()}
 
-          {/* Dynamic Modal controlled by redux for successfully and
+            {/* Dynamic Modal controlled by redux for successfully and
             unsuccessfully  executed processes
             overall the application */}
-          <ResponseModal {...responseModal} />
-          <TransactionProgress {...transactionProgress} />
+            <ResponseModal {...responseModal} />
+            <TransactionProgress {...transactionProgress} />
+          </div>
         </Switch>
       </div>
     </Router>
