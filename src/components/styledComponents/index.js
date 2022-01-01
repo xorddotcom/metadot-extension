@@ -160,7 +160,7 @@ export const HeaderHeading = styled.h3`
 // ------------ Tx Card styled components ------- //
 
 export const TxCardWrapper = styled.div`
-  width: 96%;
+  width: 94%;
   height: 55px;
   background: linear-gradient(
     98.61deg,
@@ -173,7 +173,9 @@ export const TxCardWrapper = styled.div`
   margin-top: 15px;
   margin-bottom: 5px;
   display: flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
 `;
 
 export const VerticalContentDiv = styled.div`
