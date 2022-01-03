@@ -32,8 +32,7 @@ import AccountCreate from '../../../assets/images/acc-create.svg';
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
 const {
-  // eslint-disable-next-line no-unused-vars
-  AccountCreation, getJsonBackup, encrypt,
+  AccountCreation, encrypt,
 } = accounts;
 
 const passwordErrorMessages = {
@@ -102,7 +101,6 @@ function CreateWallet() {
 
   const createAccount = async (name, pass, seedPhrase) => {
     const res = await AccountCreation({ name, password: pass, seed: seedPhrase });
-    getJsonBackup(res.address, pass);
     return res;
   };
 
