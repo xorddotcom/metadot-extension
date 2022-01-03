@@ -37,9 +37,6 @@ const invalidSeedMessages = {
 
 function ImportWallet() {
   const history = useHistory();
-  const location = useLocation();
-
-  const currSeed = location.state.seedToPass;
 
   const [selectedType, setSelectedType] = useState('seed');
   const [seedPhrase, setSeedPhrase] = useState('');
@@ -75,7 +72,7 @@ function ImportWallet() {
             console.log('r in if ');
             history.push({
               pathname: '/createWallet',
-              state: { seedToPass: currSeed },
+              state: { seedToPass: seedPhrase },
             });
           } else if (!isErrorOccur) {
             console.log('r in else if ');
@@ -95,7 +92,7 @@ function ImportWallet() {
 
             history.push({
               pathname: '/createWallet',
-              state: { seedToPass: currSeed },
+              state: { seedToPass: seedPhrase },
             });
           } else if (!isErrorOccur) {
             console.log('r in else if ');

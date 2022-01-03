@@ -69,9 +69,6 @@ async function AccountCreation({
     return data.json;
   } catch (error) {
     console.log('ERROR IN AccountCreation', error);
-    await KeyringInitialization();
-    const data = keyring.addUri(seed, password, { name });
-    return data.json;
   }
 }
 

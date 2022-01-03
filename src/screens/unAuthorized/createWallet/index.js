@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-expressions */
-/* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -34,6 +32,7 @@ import AccountCreate from '../../../assets/images/acc-create.svg';
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
 const {
+  // eslint-disable-next-line no-unused-vars
   AccountCreation, getJsonBackup, encrypt,
 } = accounts;
 
@@ -49,6 +48,10 @@ function CreateWallet() {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
+
+  const operation = history.entries[history.entries.length - 2].pathname === '/ImportWallet'
+    ? 'Imported'
+    : 'Created';
 
   const currSeed = location.state.seedToPass;
 
@@ -115,10 +118,6 @@ function CreateWallet() {
   };
 
   const showSuccessModalAndNavigateToDashboard = () => {
-    const operation = history.entries[history.entries.length - 2].pathname === '/ImportWallet'
-      ? 'Imported'
-      : 'Created';
-
     if (operation === 'Imported') {
       dispatch(setIsResponseModalOpen(true));
       dispatch(setResponseImage(ImportIcon));
@@ -157,8 +156,6 @@ function CreateWallet() {
         return;
       }
       const res = await createAccount(walletName, password, currSeed);
-      // passsword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/);
-      // eslint-disable-next-line no-new
 
       await saveAccountInRedux(res.address, walletName, password);
       dispatch(setLoadingForApi(false));
