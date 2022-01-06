@@ -10,7 +10,9 @@ const initialState = {
   loadingForApi: false, // this property is here because this is a blacklisted reducer
   authScreenModal: false, // this property is here because this is a blacklisted reducer
   confirmSendModal: false, // this property is here because this is a blacklisted reducer
+  derivedAccountModal: false, // this property is here because this is a blacklisted reducer
   isAuthorizedForSigning: false, // this property is here because this is a blacklisted reducer
+
 };
 
 export const modalHandling = createSlice({
@@ -41,6 +43,9 @@ export const modalHandling = createSlice({
     setIsAuthorizedForSigning: (state, action) => {
       state.isAuthorizedForSigning = action.payload;
     },
+    setDerivedAccountModal: (state, action) => {
+      state.derivedAccountModal = action.payload;
+    },
   },
 });
 
@@ -54,6 +59,7 @@ export const {
   setIsAuthorizedForSigning,
   setConfirmSendModal,
   setResponseImage,
+  setDerivedAccountModal,
 } = modalHandling.actions;
 
 export default modalHandling.reducer;

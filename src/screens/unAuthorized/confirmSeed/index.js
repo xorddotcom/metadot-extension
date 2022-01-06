@@ -99,7 +99,7 @@ function ConfirmSeed() {
     cb1ForSettingWordState('');
   };
 
-  function xyz1(ind, arr) {
+  function updateWordValidation(ind, arr) {
     const updated = arr;
     updated[ind] = true;
     setValidations(updated);
@@ -118,7 +118,7 @@ function ConfirmSeed() {
     rightIconCross: word1,
     rightIconCrossClickHandler: () => {
       handleCancel(word1, setWord1);
-      xyz1(0, validations);
+      updateWordValidation(0, validations);
     },
   };
 
@@ -132,7 +132,7 @@ function ConfirmSeed() {
     rightIconCross: word2,
     rightIconCrossClickHandler: () => {
       handleCancel(word2, setWord2);
-      xyz1(1, validations);
+      updateWordValidation(1, validations);
     },
   };
 
@@ -146,7 +146,7 @@ function ConfirmSeed() {
     rightIconCross: word3,
     rightIconCrossClickHandler: () => {
       handleCancel(word3, setWord3);
-      xyz1(2, validations);
+      updateWordValidation(2, validations);
     },
   };
 
@@ -160,7 +160,7 @@ function ConfirmSeed() {
     rightIconCross: word4,
     rightIconCrossClickHandler: () => {
       handleCancel(word4, setWord4);
-      xyz1(3, validations);
+      updateWordValidation(3, validations);
     },
   };
 

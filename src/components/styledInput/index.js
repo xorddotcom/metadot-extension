@@ -5,6 +5,7 @@ import React from 'react';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import CancelIcon from '@mui/icons-material/Cancel';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 import styled from 'styled-components';
 import { TextInputWrapper } from '../index';
@@ -50,6 +51,7 @@ function StyledInput({
   value,
   rightIconCross,
   rightIconCrossClickHandler,
+  rightIconLock,
   isCorrect,
   type,
   fullWidth,
@@ -109,6 +111,12 @@ function StyledInput({
       {rightIconCross && (
       <Icon onClick={() => rightIconCrossClickHandler()}>
         <CancelIcon fontSize="small" style={{ marginTop: '-0.1rem', marginRight: '-0.3rem' }} />
+      </Icon>
+      )}
+
+      {rightIconLock && (
+      <Icon>
+        <LockOutlinedIcon fontSize="small" style={{ marginTop: '-0.1rem', marginRight: '-0.3rem' }} />
       </Icon>
       )}
     </TextInputWrapper>

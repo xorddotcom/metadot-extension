@@ -1,35 +1,48 @@
 import React, { useState } from 'react';
 import {
+  Account,
+  AccountCircle,
+  AccountFlex,
+  AccountMainText,
+  AccountSubText,
+  AccountText,
   Border, DrivedAccount, DrivedAccountMain, DrivedAccountText, DropDownIcon,
 } from './styledComponent';
-import { fonts } from '../../../utils';
+import { fonts, helpers } from '../../../utils';
 
 import downIcon from '../../../assets/images/icons/downArrow.svg';
 import upArrowIcon from '../../../assets/images/icons/upArrow.svg';
-import AccountList from './account';
+// import AccountList from './account';
 
-const { subHeadingfontFamilyClass } = fonts;
+const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
+const { addressModifier } = helpers;
 
-const DrivedAccountList = ({ publicKey, handleClick }) => {
+const DrivedAccountList = ({ childAccount, childAccountActive }) => {
   const [drivedDropDownOpen, setdrivedDropDownOpen] = useState(false);
 
-  const simpleData = [
-    {
-      name: 'Accc...Abc//1',
-      publicKey,
-    },
-    {
-      name: 'Accc...Abc//1',
-      publicKey,
-    },
-  ];
+  // const simpleData = [
+  //   {
+  //     name: 'Accc...Abc//1',
+  //     publicKey,
+  //   },
+  //   {
+  //     name: 'Accc...Abc//1',
+  //     publicKey,
+  //   },
+  // ];
+
+  // const accountList = {
+  //   publicKey: addressModifier(childAccount.publicKey),
+  //   accountName: `${childAccount.accountName}//0`,
+  //   margin: '1rem 0',
+  // };
 
   return (
     <DrivedAccountMain>
       <Border />
       <DrivedAccount>
         <DrivedAccountText className={subHeadingfontFamilyClass}>
-          2 Drived Accounts
+          1 Drived Accounts
         </DrivedAccountText>
         <DropDownIcon>
           <div
@@ -43,17 +56,27 @@ const DrivedAccountList = ({ publicKey, handleClick }) => {
           </div>
         </DropDownIcon>
       </DrivedAccount>
-      {drivedDropDownOpen && simpleData.map((data) => {
-        const accountList = {
-          publicKey: data.publicKey,
-          accountName: data.name,
-          handleClick,
-        };
-        return (
-          // eslint-disable-next-line react/jsx-key
-          <AccountList margin="1rem 0" {...accountList} />
-        );
-      })}
+      {/* {drivedDropDownOpen
+          && <AccountList onClick={() => childAccountActive()} {...accountList} />} */}
+
+      {drivedDropDownOpen && (
+      <Account margin="1rem 0">
+        <AccountFlex>
+          <AccountCircle />
+          <AccountText>
+            <AccountMainText
+              onClick={childAccountActive}
+              className={mainHeadingfontFamilyClass}
+            >
+              {`${childAccount.accountName}//0`}
+            </AccountMainText>
+            <AccountSubText className={subHeadingfontFamilyClass}>
+              {addressModifier(childAccount.publicKey)}
+            </AccountSubText>
+          </AccountText>
+        </AccountFlex>
+      </Account>
+      )}
     </DrivedAccountMain>
   );
 };

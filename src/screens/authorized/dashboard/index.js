@@ -10,6 +10,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
 import keyring from '@polkadot/ui-keyring';
+import { useHistory } from 'react-router';
 import ApiCalls from '../../../utils/api';
 import {
   fonts,
@@ -27,6 +28,7 @@ import {
   setChainName,
   setAccountName,
   setPublicKey,
+  resetAccountSlice,
 } from '../../../redux/slices/activeAccount';
 
 import {
@@ -79,6 +81,7 @@ const useStyles = makeStyles(() => ({
 
 function Dashboard(props) {
   const classes = useStyles(props);
+  const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const transactions = useSelector((state) => state.transactions.transactions);
@@ -144,6 +147,14 @@ function Dashboard(props) {
   useEffect(() => {
     console.log('accounts in use effect==>>', accounts);
   }, [accounts]);
+
+  useEffect(() => {
+    if (Object.values(accounts).length === 0) {
+      dispatch(resetAccountSlice());
+      history.push('/');
+    }
+  }, [accounts]);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // --------State and funtions for SlectNetwork Modal

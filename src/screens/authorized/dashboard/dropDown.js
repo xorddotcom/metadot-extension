@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Menu from '@mui/material/Menu';
 import Paper from '@mui/material/Paper';
 import MenuList from '@mui/material/MenuList';
@@ -39,20 +39,20 @@ const DropDown = ({
   // eslint-disable-next-line no-unused-vars
   open, handleClose, anchorEl, classes, activeAccount, accounts,
 }) => {
-  useEffect(() => {
-    console.log('accounts changed bhai', accounts[activeAccount]);
-    if (accounts.length === 0) {
-      // dispatch(setSeed(''));
-      dispatch(setPublicKey(''));
-      dispatch(setAccountName(''));
-      history.push('/');
-    } else if (accounts[activeAccount] === undefined) {
-      console.log('accounts changed active ki', accounts);
-      // dispatch(setSeed(Object.values(accounts)[0].seed));
-      dispatch(setPublicKey(Object.values(accounts)[0].publicKey));
-      dispatch(setAccountName(Object.values(accounts)[0].accountName));
-    }
-  }, [accounts]);
+  // useEffect(() => {
+  //   console.log('accounts changed bhai', accounts[activeAccount]);
+  //   if (accounts.length === 0) {
+  //     dispatch(setSeed(''));
+  //     dispatch(setPublicKey(''));
+  //     dispatch(setAccountName(''));
+  //     history.push('/');
+  //   } else if (accounts[activeAccount] === undefined) {
+  //     console.log('accounts changed active ki', accounts);
+  //     dispatch(setSeed(Object.values(accounts)[0].seed));
+  //     dispatch(setPublicKey(Object.values(accounts)[0].publicKey));
+  //     dispatch(setAccountName(Object.values(accounts)[0].accountName));
+  //   }
+  // }, [accounts]);
 
   const dispatch = useDispatch();
   const history = useHistory();

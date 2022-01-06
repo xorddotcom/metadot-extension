@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+/* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -17,7 +19,7 @@ import {
 } from '../../../redux/slices/activeAccount';
 import { fonts, helpers } from '../../../utils';
 import accounts from '../../../utils/accounts';
-import { LabelAndTextInput } from './styledComponents';
+import { LabelAndTextInput } from './styledComponent';
 import {
   setIsResponseModalOpen,
   setLoadingForApi,
@@ -26,12 +28,13 @@ import {
   setSubTextForSuccessModal,
 } from '../../../redux/slices/modalHandling';
 import ImportIcon from '../../../assets/images/import.svg';
-import AccountCreate from '../../../assets/images/acc-create.svg';
 import { addAccount } from '../../../redux/slices/accounts';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
-const { AccountCreation } = accounts;
+const {
+  AccountCreation, encrypt,
+} = accounts;
 
 const passwordErrorMessages = {
   minimumCharacterWarning: 'Password should not be less than 8 characters',
@@ -41,14 +44,10 @@ const passwordErrorMessages = {
 
 const { minimumCharacterWarning, didnotMatchWarning, passwordValidation } = passwordErrorMessages;
 
-function CreateWallet() {
+function CreateDerivedAccount() {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-
-  const operation = history.entries[history.entries.length - 2].pathname === '/ImportWallet'
-    ? 'Imported'
-    : 'Created';
 
   const currSeed = location.state.seedToPass;
   const parentKey = location.state.parentKey && location.state.parentKey;
@@ -90,30 +89,24 @@ function CreateWallet() {
     return true;
   };
 
-  // const validateWalletName = () => {
-  //   const regexRes = password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/);
-  //   console.log('Regex res [][]', regexRes);
-  //   if (regexRes == null) {
-  // setRegexError('Password must contain at least one lower case,
-  //  one upper case and one number'); }
-  //   setRegexError(true);
-  // };
-
   const [isLoading, setIsLoading] = useState(false);
 
   const createAccount = async (name, pass, seedPhrase) => {
     const res = await AccountCreation({ name, password: pass, seed: seedPhrase });
+    // getJsonBackup(res.address, pass);
     return res;
   };
 
-  const saveAccountInRedux = (add, name) => {
+  const saveAccountInRedux = (add, name, pass) => {
     // update redux data and tracking flags accordingly
     dispatch(setLoggedIn(true));
     dispatch(setPublicKey(add));
     dispatch(setAccountName(name));
     // dispatch(setWalletPassword(hashedPassword));
 
+    const encryptedSeedWithAccountPassword = encrypt(currSeed, pass);
     dispatch(addAccount({
+      seed: encryptedSeedWithAccountPassword,
       accountName: name,
       publicKey: add,
       parentKey,
@@ -121,23 +114,13 @@ function CreateWallet() {
   };
 
   const showSuccessModalAndNavigateToDashboard = () => {
-    if (operation === 'Imported') {
-      dispatch(setIsResponseModalOpen(true));
-      dispatch(setResponseImage(ImportIcon));
-      dispatch(setMainTextForSuccessModal(`Successfully ${operation}!`));
-      dispatch(
-        setSubTextForSuccessModal(''),
-      );
-      history.push('/');
-    } else {
-      dispatch(setIsResponseModalOpen(true));
-      dispatch(setResponseImage(AccountCreate));
-      dispatch(setMainTextForSuccessModal(`Successfully ${operation}!`));
-      dispatch(
-        setSubTextForSuccessModal(''),
-      );
-      history.push('/');
-    }
+    dispatch(setIsResponseModalOpen(true));
+    dispatch(setResponseImage(ImportIcon));
+    dispatch(setMainTextForSuccessModal('Successfully Derived!'));
+    dispatch(
+      setSubTextForSuccessModal(''),
+    );
+    history.push('/');
 
     setTimeout(() => {
       dispatch(setIsResponseModalOpen(false));
@@ -159,8 +142,10 @@ function CreateWallet() {
         return;
       }
       const res = await createAccount(walletName, password, currSeed);
+      // passsword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/);
+      // eslint-disable-next-line no-new
 
-      await saveAccountInRedux(res.address, walletName);
+      await saveAccountInRedux(res.address, walletName, password);
       dispatch(setLoadingForApi(false));
       setIsLoading(false);
       await showSuccessModalAndNavigateToDashboard();
@@ -176,7 +161,7 @@ function CreateWallet() {
 
   const styledInputName = {
     className: subHeadingfontFamilyClass,
-    placeholder: 'Wallet Name',
+    placeholder: 'Enter wallet name for the derive account',
     height: '15px',
     value: walletName,
     onChange: (t) => {
@@ -187,7 +172,7 @@ function CreateWallet() {
   };
 
   const styledInputPassword = {
-    placeholder: 'Password',
+    placeholder: 'Enter password for the derive account',
     className: subHeadingfontFamilyClass,
     value: password,
     height: '15px',
@@ -201,7 +186,7 @@ function CreateWallet() {
   };
 
   const styledInputConfirmPass = {
-    placeholder: 're-enter password',
+    placeholder: 'Re-enter password',
     className: subHeadingfontFamilyClass,
     value: confirmPassword,
     height: '15px',
@@ -213,6 +198,13 @@ function CreateWallet() {
     hideHandler: () => setShowConfirmPassword(!showConfirmPassword),
     hideState: showConfirmPassword,
   };
+
+  // const derivePathInput = {
+  //   id: 'seed-input',
+  //   className: subHeadingfontFamilyClass,
+  //   onChange: () => null,
+  //   value: '//0',
+  // };
 
   const btn = {
     text: 'Continue',
@@ -227,7 +219,7 @@ function CreateWallet() {
 
   return (
     <AuthWrapper>
-      <Header centerText="Authentication" backHandler={() => console.log('object')} />
+      <Header centerText="Derive Account" backHandler={() => console.log('object')} />
       <SubMainWrapperForAuthScreens mt="34px">
         <LabelAndTextInput>
           <SubHeading {...walletNameText}>
@@ -321,17 +313,33 @@ function CreateWallet() {
 
         </LabelAndTextInput>
 
-        <SubHeading mb="0" textLightColor marginTop="5px" className={subHeadingfontFamilyClass}>
+        {/* <LabelAndTextInput>
+          <SubHeading
+            className={mainHeadingfontFamilyClass}
+            marginTop="0"
+            mb="10px"
+          >
+            Derive Path
+          </SubHeading>
+          <StyledInput
+            id="derived-seed"
+            rightIconLock
+            disabled
+            {...derivePathInput}
+          />
+        </LabelAndTextInput> */}
+
+        {/* <SubHeading mb="0" textLightColor marginTop="5px" className={subHeadingfontFamilyClass}>
           This password will be used as the transaction password for the wallet,
           Metadot does not save passwords
           and cannot retrieve them for you. Please keep your password safe!
-        </SubHeading>
+        </SubHeading> */}
       </SubMainWrapperForAuthScreens>
-      <div className="btn-wrapper" style={{ marginLeft: '0', marginBottom: '10px' }}>
+      <div className="btn-wrapper" style={{ marginLeft: '0', marginTop: '-10px' }}>
         <Button id="auth-continue" {...btn} />
       </div>
     </AuthWrapper>
   );
 }
 
-export default CreateWallet;
+export default CreateDerivedAccount;

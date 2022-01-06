@@ -11,6 +11,7 @@ const {
   Support,
   ViewSeedPhrase,
   MultipleAccounts,
+  CreateDerivedAccount,
 } = screens;
 
 const UnAuthRoutes = [
@@ -72,6 +73,10 @@ const AuthRoutes = [
   {
     path: '/createWallet',
     Component: CreateWallet,
+  },
+  {
+    path: '/creatDerivedAccount',
+    Component: CreateDerivedAccount,
   },
 
 ];

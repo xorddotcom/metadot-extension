@@ -6,6 +6,7 @@ import TransactionProgress from './transactionProgress';
 import WarningModal from './warningModal';
 import TxDetails from './txDetails';
 import About from './about';
+import DerivedAccountModal from './derivedAccount/index';
 
 export {
   AuthModal,
@@ -16,4 +17,5 @@ export {
   WarningModal,
   TxDetails,
   About,
+  DerivedAccountModal,
 };
