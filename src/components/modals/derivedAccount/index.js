@@ -208,7 +208,6 @@ function DerivedAccountModal({
               disabled
               {...input}
             />
-            <span style={{ color: '#fff', position: 'absolute', top: '-40px' }}>{publicKey}</span>
           </VerticalContentDiv>
 
           <div className="btn-center" style={{ marginTop: '30px' }}>

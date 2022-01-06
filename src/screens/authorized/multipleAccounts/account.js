@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
 import RemoveIcon from '../../../assets/images/icons/Remove.svg';
 import dropDownIcon from '../../../assets/images/icons/3Dots.svg';
 import derivedIcon from '../../../assets/images/icons/deriveAccount.svg';
@@ -20,7 +19,6 @@ import {
   DropDownListContainer,
   ListItem,
 } from './styledComponent';
-import { setDerivedAccountModal } from '../../../redux/slices/modalHandling';
 import { deleteAccount } from '../../../redux/slices/accounts';
 import {
   resetAccountSlice,
@@ -28,7 +26,6 @@ import {
   setPublicKey,
 } from '../../../redux/slices/activeAccount';
 import { DerivedAccountModal } from '../../../components/modals';
-import DerivedModal from '../../../components/modals/derivedAccount/DerivedAccountModal';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -46,26 +43,18 @@ const AccountList = ({
   const [isOpen, setIsOpen] = useState(false);
   const activeAccount = useSelector((state) => state.activeAccount);
   const accounts = useSelector((state) => state.accounts);
-  const currState = useSelector((state) => state);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
   const expandModal = (project) => {
     setSelectedProject(project);
-    // dispatch(setDerivedAccountModal(true));
     setModalIsOpen(true);
   };
 
   const closeModal = () => {
-    // setTimeout(() => {
-    //   setSelectedProject(null);
-    // }, 4000);
-    // dispatch(setDerivedAccountModal(false));
     setModalIsOpen(false);
   };
-
-  console.log({ activeAccount });
 
   useEffect(() => {
     const deleteActiveAccount = () => {
@@ -96,9 +85,6 @@ const AccountList = ({
     setIsOpen(false);
   };
 
-  console.log('accountssssssssss', account);
-  console.log('selectedProjectttt', selectedProject);
-
   return (
     <>
       <Account margin={margin}>
@@ -117,6 +103,8 @@ const AccountList = ({
           </AccountText>
         </AccountFlex>
 
+        {/* 3 dots drop down */}
+
         <DropDownContainer className={mainHeadingfontFamilyClass}>
           <DropDownIcon onClick={toggling}>
             <img src={dropDownIcon} alt="3-dots" />
@@ -127,7 +115,6 @@ const AccountList = ({
               <DropDownList>
                 <ListItem
                   onClick={() => {
-                    // dispatch(setDerivedAccountModal(true));
                     expandModal(account);
                   }}
                   key={publicKeyy}
@@ -213,13 +200,6 @@ const AccountList = ({
           </div>
         </DerivedModal> */}
       </Account>
-
-      {/* <button
-        type="button"
-        onClick={() => console.log('adadadas....', publicKeyy)}
-      >
-        hello
-      </button> */}
     </>
   );
 };
