@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@mui/styles';
@@ -74,19 +75,19 @@ function MultipleAccounts() {
           <MarginSet>
             <AccountList {...accountList} />
             {/* If there is Drived Account */}
-            <div>
+            {/* <div>
               <DrivedAccountList {...drivedAccountList} />
-            </div>
+            </div> */}
           </MarginSet>
 
           {/* Account List 02 */}
-          <MarginSet margin="1rem 0">
+          {/* <MarginSet margin="1rem 0">
             <AccountList {...accountList} />
-            {/* If there is Drived Account */}
+            {/* If there is Drived Account
             <div>
               <DrivedAccountList {...drivedAccountList} />
             </div>
-          </MarginSet>
+          </MarginSet> */}
         </Div>
       </WrapperScroll>
 

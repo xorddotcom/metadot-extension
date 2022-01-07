@@ -6,7 +6,6 @@ import constants from '../../constants/onchain';
 const { POLKADOT_CONFIG } = constants;
 
 const initialState = {
-  seed: '',
   isLoggedIn: false,
   publicKey: '',
   accountName: '',
@@ -16,6 +15,7 @@ const initialState = {
   balance: 0,
   balanceInUsd: 0,
   keyringInitialized: false,
+  jsonFileUploadScreen: false,
 };
 
 export const accountSlice = createSlice({
@@ -28,20 +28,13 @@ export const accountSlice = createSlice({
     deleteRedux: (state, action) => {
       state.publicKey = action.payload;
     },
-    setSeed: (state, action) => {
-      // eslint-disable-next-line no-param-reassign
-      state.seed = action.payload;
-    },
     resetAccountSlice: (state, action) => {
-      state.seed = '';
       state.publicKey = '';
       state.isLoggedIn = false;
       state.accountName = '';
       state.balance = 0;
       state.balanceInUsd = false;
-    },
-    emptySeedInAccountSlice: (state) => {
-      state.seed = '';
+      state.jsonFileUploadScreen = false;
     },
     setPublicKey: (state, action) => {
       state.publicKey = action.payload;
@@ -67,12 +60,14 @@ export const accountSlice = createSlice({
     setBalanceInUsd: (state, action) => {
       state.balanceInUsd = action.payload;
     },
+    setJsonFileUploadScreen: (state, action) => {
+      state.jsonFileUploadScreen = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
 export const {
-  setSeed,
   resetAccountSlice,
   setPublicKey,
   setAccountName,
@@ -84,6 +79,7 @@ export const {
   setBalanceInUsd,
   deleteRedux,
   setKeyringInitialized,
+  setJsonFileUploadScreen,
 } = accountSlice.actions;
 
 export default accountSlice.reducer;

@@ -21,7 +21,7 @@ import AssetsAndTransactions from './assetsAndTransactions';
 
 import { setApiInitializationStarts } from '../../../redux/slices/api';
 import {
-  setRpcUrl, setChainName, setBalance,
+  setRpcUrl, setChainName, setBalance, setPublicKey,
 } from '../../../redux/slices/account';
 import {
   AccountContainer,
@@ -52,7 +52,7 @@ import { About } from '../../../components/modals';
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryText } = colors;
 
-const { getBalance } = services;
+const { getBalance, addressMapper } = services;
 
 const {
   availableNetworks,
@@ -260,6 +260,8 @@ function Dashboard(props) {
       dispatch(setLoadingForApi(true));
       dispatch(setRpcUrl({ rpcUrl: data.rpcUrl }));
       dispatch(setChainName({ chainName: data.name }));
+      const publicKeyOfRespectiveChain = addressMapper(currentUser.account.publicKey, data.prefix);
+      dispatch(setPublicKey(publicKeyOfRespectiveChain));
 
       setIsLoading(false);
 

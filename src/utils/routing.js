@@ -1,7 +1,6 @@
 import screens from '../screens/index';
 
 const {
-  Welcome,
   ShowSeed,
   ConfirmSeed,
   ImportWallet,
@@ -15,10 +14,6 @@ const {
 } = screens;
 
 const UnAuthRoutes = [
-  {
-    path: '/',
-    Component: Welcome,
-  },
   {
     path: '/ShowSeed',
     Component: ShowSeed,

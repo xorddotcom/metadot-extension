@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import './App.css';
 import './index.css';
 import { PersistGate } from 'redux-persist/integration/react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { MemoryRouter as Router } from 'react-router-dom';
 import App from './App';
 // eslint-disable-next-line import/extensions
 // import reportWebVitals from './reportWebVitals';

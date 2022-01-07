@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import Menu from '@mui/material/Menu';
 import Paper from '@mui/material/Paper';
@@ -62,7 +63,7 @@ const AccountDropDown = ({
       >
         <MenuList id="menu-list">
 
-          <MenuItem
+          {/* <MenuItem
             style={{ minHeight: '37px', color: '#fafafa' }}
             onClick={() => {
               history.push('/viewSeed');
@@ -77,7 +78,7 @@ const AccountDropDown = ({
                   &nbsp; &nbsp;
               <span style={{ fontSize: '0.85rem' }}>View Seed</span>
             </ListItemIcon>
-          </MenuItem>
+          </MenuItem> */}
 
           <MenuItem
             id="menu-item-2"

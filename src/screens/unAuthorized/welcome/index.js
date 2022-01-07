@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AddSharpIcon from '../../../assets/images/icons/add.svg';
 import DownloadIcon from '../../../assets/images/icons/download.svg';
 
@@ -22,8 +22,11 @@ const { GenerateSeedPhrase } = accounts;
 function Welcome() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { jsonFileUploadScreen } = useSelector((state) => state.account);
 
   const [seedToPass, setSeedToPass] = useState('');
+
+  console.log('location on welcome.js ============>>>', { jsonFileUploadScreen });
 
   // generate new seed for parent account
   useEffect(() => {
@@ -64,6 +67,10 @@ function Welcome() {
     style: { marginLeft: '0', marginBottom: 0 },
   };
 
+  if (jsonFileUploadScreen) {
+    history.push('/ImportWallet');
+    return null;
+  }
   return (
     <AuthWrapper>
       <div className="app-logo1">

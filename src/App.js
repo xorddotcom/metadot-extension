@@ -15,6 +15,7 @@ import ApiManager from './apiManager';
 import { routes } from './utils';
 import accounts from './utils/accounts';
 import WelcomeBack from './screens/unAuthorized/welcomeBack';
+import Welcome from './screens/unAuthorized/welcome';
 
 const { AuthRoutes, UnAuthRoutes } = routes;
 const { KeyringInitialization } = accounts;
@@ -81,11 +82,14 @@ function App() {
     } else {
       content = (
         <>
+          <Route exact path="/">
+            <Welcome />
+          </Route>
           {
               UnAuthRoutes.map((route) => {
                 const { path, Component } = route;
                 return (
-                  <Route exact path={path} key={path}>
+                  <Route path={path} key={path}>
                     <Component />
                   </Route>
                 );

@@ -3,6 +3,8 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import keyring from '@polkadot/ui-keyring';
+// import { encodeAddress } from '@polkadot/util-crypto';
 import { addTransaction } from '../../../redux/slices/transactions';
 import { helpers } from '../../../utils';
 import services from '../../../utils/services';
@@ -28,7 +30,7 @@ import AmountInput from './amountInput';
 import UnsuccessCheckIcon from '../../../assets/images/TransactionFailed.svg';
 import SuccessCheckIcon from '../../../assets/images/success.png';
 
-const { Keyring } = require('@polkadot/api');
+// const { Keyring } = require('@polkadot/api');
 
 const { decodeAddress, encodeAddress } = require('@polkadot/keyring');
 const { hexToU8a, isHex } = require('@polkadot/util');
@@ -197,9 +199,9 @@ const Send = () => {
 
     // the information for each of the contained extrinsics
     signedBlock.block.extrinsics.forEach((ex, index) => {
-      console.log('Tx hash here', ex.hash.toHuman());
+      // console.log('Tx hash here', ex.hash.toHuman());
       // the extrinsics are decoded by the API, human-like view
-      console.log(index, ex.toHuman());
+      // console.log(index, ex.toHuman());
 
       const { isSigned, meta, method: { args, method, section } } = ex;
 
@@ -275,22 +277,26 @@ const Send = () => {
     // }
   };
 
-  const doTransaction = async (deSeed) => {
+  const doTransaction = async (sender) => {
     console.clear();
-    const keyring = new Keyring({ type: 'sr25519' });
+    console.log('sender unlocked-------------', sender);
+    // const keyring1 = new Keyring({ type: 'sr25519' });
 
     const decimalPlaces = await api.registry.chainDecimals;
     console.log('b');
     setLoading2(true);
     console.log('c');
-    const sender = keyring.addFromUri(deSeed);
+    // const sender = keyring.addFromUri(deSeed);
     data.operation = 'Send';
     const decimals = decimalPlaces.length > 1
       ? decimalPlaces[0] : decimalPlaces;
 
+    const amountSending = amountState.value * 10 ** decimals;
+
     const tx = currentUser.api.api.tx.balances
       .transfer(
-        accountToSate.value, amountState.value * 10 ** decimals,
+        // eslint-disable-next-line no-undef
+        accountToSate.value, BigInt(amountSending),
       );
 
     // const result = await transfer.signAndSend(
@@ -565,7 +571,7 @@ const Send = () => {
     console.log('b');
     setLoading2(true);
     console.log('c');
-    const keyring = new Keyring({ type: 'sr25519' });
+    // const keyring = new Keyring({ type: 'sr25519' });
     const sender = keyring.addFromUri(deSeed);
     data.operation = 'Send';
     const decimals = decimalPlaces.length > 1
@@ -713,15 +719,17 @@ const Send = () => {
       await validateTxErrors();
       console.log('After validate tx errors');
       console.log('Before info');
-      const info = await
-      getTransactionFee(api, currentUser.account.publicKey,
-        accountToSate.value, decimalPlaces, amountState.value);
+
+      // const info = await
+      // getTransactionFee(api, encodeAddress(currentUser.account.publicKey, 42),
+      // accountToSate.value, decimalPlaces, amountState.value);
       // const info = await api.tx.balances
       //   .transfer(currentUser.account.publicKey, amountState.value * 10 ** decimalPlaces)
       //   .paymentInfo(accountToSate.value);
 
       console.log('After info');
-      const txFee = await convertTransactionFee(info.partialFee.toHuman());
+      // const txFee = await convertTransactionFee(info.partialFee.toHuman());
+      const txFee = 0.1;
       console.log('After tx');
       console.log('TX fee', txFee);
       data.txFee = txFee;
@@ -840,6 +848,7 @@ const Send = () => {
         {...confirmSend}
       />
       <AuthModal
+        publicKey={currentUser.account.publicKey}
         open={currentUser.modalHandling.authScreenModal}
         handleClose={() => {
           dispatch(setAuthScreenModal(false));

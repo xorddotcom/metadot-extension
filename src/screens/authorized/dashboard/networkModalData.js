@@ -19,6 +19,7 @@ const {
   ASTAR_CONFIG,
   MOONBASE_CONFIG,
   ASGARD_CONFIG,
+  SHIBUYA_CONFIG,
 } = constants;
 
 const availableNetworks = [
@@ -27,6 +28,7 @@ const availableNetworks = [
     theme: POLKADOT_CONFIG.LOGO,
     moreOptions: false,
     rpcUrl: POLKADOT_CONFIG.RPC_URL,
+    prefix: POLKADOT_CONFIG.PREFIX,
   },
   {
     name: 'Kusama Main Networks',
@@ -38,6 +40,7 @@ const availableNetworks = [
     mainNetwork: true,
     testNet: null,
     disabled: false,
+    prefix: KUSAMA_CONFIG.PREFIX,
   },
   {
     name: 'Test Networks',
@@ -65,8 +68,9 @@ const BetaNetworks = [
     mainNetwork: true,
     testNet: null,
     rpcUrl: ASTAR_CONFIG.RPC_URL,
-    disabled: true,
-    tokenName: 'Kusama',
+    disabled: false,
+    tokenName: 'SDN',
+    prefix: ASTAR_CONFIG.PREFIX,
   },
 ];
 
@@ -80,6 +84,7 @@ const KusamaMainNetworks = [
     rpcUrl: KUSAMA_CONFIG.RPC_URL,
     disabled: false,
     tokenName: KUSAMA_CONFIG.TOKEN_NAME,
+    prefix: KUSAMA_CONFIG.PREFIX,
   },
   {
     name: KARURA_CONFIG.CHAIN_NAME,
@@ -89,6 +94,7 @@ const KusamaMainNetworks = [
     mainNetwork: true,
     testNet: 'AcalaMandala',
     disabled: false,
+    prefix: KARURA_CONFIG.PREFIX,
   },
   {
     name: MOONRIVER_CONFIG.CHAIN_NAME,
@@ -129,19 +135,29 @@ const TestNetworks = [
     theme: WESTEND_CONFIG.LOGO,
     rpcUrl: WESTEND_CONFIG.RPC_URL,
     tokenName: WESTEND_CONFIG.TOKEN_NAME,
+    prefix: WESTEND_CONFIG.PREFIX,
   },
   {
     name: ROCOCO_CONFIG.CHAIN_NAME,
     theme: ROCOCO_CONFIG.LOGO,
     rpcUrl: ROCOCO_CONFIG.RPC_URL,
     tokenName: ROCOCO_CONFIG.TOKEN_NAME,
+    prefix: ROCOCO_CONFIG.PREFIX,
     // disabled: false,
+  },
+  {
+    name: SHIBUYA_CONFIG.CHAIN_NAME,
+    theme: SHIBUYA_CONFIG.LOGO,
+    rpcUrl: SHIBUYA_CONFIG.RPC_URL,
+    tokenName: SHIBUYA_CONFIG.TOKEN_NAME,
+    prefix: SHIBUYA_CONFIG.PREFIX,
   },
   {
     name: ACALA_MANDALA_CONFIG.CHAIN_NAME,
     theme: ACALA_MANDALA_CONFIG.LOGO,
     rpcUrl: ACALA_MANDALA_CONFIG.RPC_URL,
     tokenName: ACALA_MANDALA_CONFIG.TOKEN_NAME,
+    prefix: ACALA_MANDALA_CONFIG.PREFIX,
   },
   {
     name: DUSTY_CONFIG.CHAIN_NAME,
@@ -149,6 +165,7 @@ const TestNetworks = [
     disabled: false,
     rpcUrl: DUSTY_CONFIG.RPC_URL,
     tokenName: DUSTY_CONFIG.TOKEN_NAME,
+    prefix: ACALA_MANDALA_CONFIG.PREFIX,
   },
   {
     name: MOONBASE_CONFIG.CHAIN_NAME,

@@ -13,6 +13,7 @@ import {
   SubMainWrapperForAuthScreens,
   TextInputWrapper,
   WarningText,
+  HorizontalContentDiv,
 } from './styledComponents';
 
 import {
@@ -45,4 +46,5 @@ export {
   TextInputWrapper,
   LightTooltip,
   WarningText,
+  HorizontalContentDiv,
 };

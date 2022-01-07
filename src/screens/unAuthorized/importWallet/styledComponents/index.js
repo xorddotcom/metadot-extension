@@ -32,17 +32,17 @@ export const Option = styled.p`
 `;
 
 export const UploadFileDiv = styled.div`
-  float: left;
   margin-top: 30px;
   margin-left: 0.6rem;
+  width: 80%;
 `;
 
 export const UploadFile = styled.label`
   background-color: ${darkBackground1};
   color: ${primaryText};
   padding: 0.6rem 1rem;
-  width: 140px;
-  height: 30px;
+  width: 100%;
+  height: 14px;
   font-weight: 500;
   font-size: 14px;
   line-height: 16px;
@@ -50,7 +50,7 @@ export const UploadFile = styled.label`
   border-radius: 8px;
   border: 0.5px solid rgba(250, 250, 250, 0.5);
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   cursor: pointer;
 `;

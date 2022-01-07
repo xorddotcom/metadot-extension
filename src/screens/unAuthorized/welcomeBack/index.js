@@ -16,7 +16,7 @@ import { setLoggedIn } from '../../../redux/slices/account';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryBackground } = colors;
-const { decrypt } = accounts;
+const { decrypt, unlockPair } = accounts;
 
 function WelcomeBack() {
   // const styledInput = {
@@ -43,10 +43,16 @@ function WelcomeBack() {
       return false;
     }
     try {
-      decrypt(currentUser.seed, password);
+      // decrypt(currentUser.seed, password);
+      const sender = unlockPair(currentUser.publicKey, password);
       console.log('Correct');
-      dispatch(setLoggedIn(true));
-      history.push('/');
+      if (sender !== false) {
+        dispatch(setLoggedIn(true));
+        history.push('/');
+      } else {
+        // eslint-disable-next-line no-throw-literal
+        throw { Error: 'Invalid password!' };
+      }
     } catch (err) {
       console.log('error due to wrong ', err);
       // alert('Password does not match');

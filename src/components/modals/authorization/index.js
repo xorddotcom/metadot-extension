@@ -4,6 +4,7 @@ import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
+import keyring from '@polkadot/ui-keyring';
 import Button from '../../button';
 import { fonts } from '../../../utils';
 import accounts from '../../../utils/accounts';
@@ -15,10 +16,10 @@ import { WarningText } from '../..';
 import { setAuthScreenModal, setConfirmSendModal } from '../../../redux/slices/modalHandling';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-const { decrypt } = accounts;
+const { unlockPair } = accounts;
 
 function AuthModal({
-  open, handleClose, style, sendTransaction, getSeedHandler,
+  open, handleClose, style, sendTransaction, getSeedHandler, publicKey,
 }) {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -33,14 +34,16 @@ function AuthModal({
       return false;
     }
     try {
-      const dSeed = decrypt(currentUser.seed, password);
-      console.log('Correct');
-      dispatch(setAuthScreenModal(false));
-      dispatch(setConfirmSendModal(true));
-      sendTransaction(dSeed);
+      const sender = unlockPair(publicKey, password);
+      if (sender !== false) {
+        dispatch(setAuthScreenModal(false));
+        dispatch(setConfirmSendModal(true));
+        sendTransaction(sender);
+      } else {
+        throw new Error('Invalid password');
+      }
     } catch (err) {
       console.log('error due to wrong ', err);
-      // alert('Password does not match');
       setPasswordError('Invalid password!');
     }
     return null;
@@ -51,13 +54,15 @@ function AuthModal({
       return false;
     }
     try {
-      const dSeed = decrypt(currentUser.seed, password);
-      console.log('Correct');
-      dispatch(setAuthScreenModal(false));
-      getSeedHandler(dSeed);
+      const sender = unlockPair(publicKey, password);
+      if (sender !== false) {
+        dispatch(setAuthScreenModal(false));
+        getSeedHandler(true);
+      }
     } catch (err) {
       console.log('error due to wrong ', err);
       setPasswordError('Invalid password!');
+      getSeedHandler(false);
     }
     return null;
   };

@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { options as AcalaOptions } from '@acala-network/api';
 import { formatBalance, BN_HUNDRED } from '@polkadot/util';
+import { encodeAddress } from '@polkadot/util-crypto';
 import constants from '../constants/onchain';
 import accounts from './accounts';
 
@@ -177,81 +178,81 @@ const getExistentialDeposit = async (currentUser) => {
   // console.log('Res', res);
 };
 
-const doTransaction = async (currentUser) => {
-  const keyring = new Keyring({ type: 'sr25519' });
+// const doTransaction = async (currentUser) => {
+//   const keyring = new Keyring({ type: 'sr25519' });
 
-  const res = await decrypt(currentUser.account.seed, 'helloworldA1');
-  const sender = keyring.addFromUri(res);
+//   const res = await decrypt(currentUser.account.seed, 'helloworldA1');
+//   const sender = keyring.addFromUri(res);
 
-  const hash = await currentUser.api.api.tx.balances
-    .transfer(
-      '5GjSQRFYEFBY1nmVuGHTyKkRHrodQmUKdA7kWzfmfLp262xG',
-      1,
-    )
-    .signAndSend(
-      sender,
-    ).then((resp) => console.log('Res', resp.toHex()))
-    .catch((err) => {
-      console.error('Error [][][]', err);
-    });
+//   const hash = await currentUser.api.api.tx.balances
+//     .transfer(
+//       '5GjSQRFYEFBY1nmVuGHTyKkRHrodQmUKdA7kWzfmfLp262xG',
+//       1,
+//     )
+//     .signAndSend(
+//       sender,
+//     ).then((resp) => console.log('Res', resp.toHex()))
+//     .catch((err) => {
+//       console.error('Error [][][]', err);
+//     });
 
-  console.log('Hash ===>>>', hash);
-};
+//   console.log('Hash ===>>>', hash);
+// };
 
-const sendTransaction = async (currentUser) => {
-  console.log('Working');
-  try {
-    console.log('a');
-    console.log('b');
-    console.log('c');
-    const keyring = new Keyring({ type: 'sr25519' });
-    const res = await decrypt(currentUser.account.seed, 'helloworldA1');
-    console.log('res []][]', res);
-    console.log('Currencies here [][]', currentUser.api.api.tx.currencies);
-    const sender = keyring.addFromUri(res);
-    const hash = await currentUser.api.api.tx.currencies
-      .transfer(
-        '5Dz1i42ygyhi4BxPnvKtRY4TBShTMC9T2FvaMB8CWxoU3QgG',
-        {
-          Token: 'KSM',
-        },
-        '10000000000',
-      )
-      .signAndSend(sender, async ({ status, events }) => {
-        if (status.isInBlock) {
-          console.log('Status', status.isInBlock, status.isFinalized);
-          console.log('EVents', events);
-          const hash1 = status.asInBlock.toString();
-          console.log('Hash before tx ', hash1);
-        }
-      });
-    console.log('Hash after tx', hash);
-    // // const decimals = currentUser.account.chainName === 'AcalaMandala'
-    // //   ? decimalPlaces[0] : decimalPlaces;
-    // // api.tx.balancs.transferAll
-    // const result = await currentUser.api.api.tx.balances
-    //   .transfer(
-    //     '5Dz1i42ygyhi4BxPnvKtRY4TBShTMC9T2FvaMB8CWxoU3QgG', {
-    //       Token: 'AUSD',
-    //     }, 1 * 10 ** 11,
-    //   )
-    //   .signAndSend(
-    //     sender, async ({ status, events }) => {
-    //       console.log('Status', status.isInBlock, status.isFinalized);
-    //       console.log('EVents', events);
-    //       const hash = status.asInBlock.toString();
-    //       console.log('Hash', hash);
-    //       // }
-    //     },
-    //   ).catch((err) => {
-    //     alert('Transaction failed');
-    //     console.error('Error [][][]', err);
-    //   });
-  } catch (err) {
-    alert('An error occurred');
-    console.log('Error', err);
-  }
-};
+// const sendTransaction = async (currentUser) => {
+//   console.log('Working');
+//   try {
+//     console.log('a');
+//     console.log('b');
+//     console.log('c');
+//     const keyring = new Keyring({ type: 'sr25519' });
+//     const res = await decrypt(currentUser.account.seed, 'helloworldA1');
+//     console.log('res []][]', res);
+//     console.log('Currencies here [][]', currentUser.api.api.tx.currencies);
+//     const sender = keyring.addFromUri(res);
+//     const hash = await currentUser.api.api.tx.currencies
+//       .transfer(
+//         '5Dz1i42ygyhi4BxPnvKtRY4TBShTMC9T2FvaMB8CWxoU3QgG',
+//         {
+//           Token: 'KSM',
+//         },
+//         '10000000000',
+//       )
+//       .signAndSend(sender, async ({ status, events }) => {
+//         if (status.isInBlock) {
+//           console.log('Status', status.isInBlock, status.isFinalized);
+//           console.log('EVents', events);
+//           const hash1 = status.asInBlock.toString();
+//           console.log('Hash before tx ', hash1);
+//         }
+//       });
+//     console.log('Hash after tx', hash);
+//     // // const decimals = currentUser.account.chainName === 'AcalaMandala'
+//     // //   ? decimalPlaces[0] : decimalPlaces;
+//     // // api.tx.balancs.transferAll
+//     // const result = await currentUser.api.api.tx.balances
+//     //   .transfer(
+//     //     '5Dz1i42ygyhi4BxPnvKtRY4TBShTMC9T2FvaMB8CWxoU3QgG', {
+//     //       Token: 'AUSD',
+//     //     }, 1 * 10 ** 11,
+//     //   )
+//     //   .signAndSend(
+//     //     sender, async ({ status, events }) => {
+//     //       console.log('Status', status.isInBlock, status.isFinalized);
+//     //       console.log('EVents', events);
+//     //       const hash = status.asInBlock.toString();
+//     //       console.log('Hash', hash);
+//     //       // }
+//     //     },
+//     //   ).catch((err) => {
+//     //     alert('Transaction failed');
+//     //     console.error('Error [][][]', err);
+//     //   });
+//   } catch (err) {
+//     alert('An error occurred');
+//     console.log('Error', err);
+//   }
+// };
 
 const formatNumber = (number, decimals) => {
   if (number.toString() === '0') return '0';
@@ -371,10 +372,18 @@ const getNetworkFee = async (currentUser) => {
   // const txFee = await convertTransactionFee(info.partialFee.toHuman());
 };
 
+const addressMapper = (address, prefix) => {
+  console.log(prefix, '||||||', address);
+  const res = encodeAddress(address, prefix);
+  console.log('Result ====>>', res);
+  return res;
+};
+
 export default {
   providerInitialization,
   getBalance,
   getSender,
   getTransactionFee,
   getLiveBalance,
+  addressMapper,
 };

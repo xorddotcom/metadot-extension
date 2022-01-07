@@ -1,12 +1,14 @@
+/* eslint-disable no-undef */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/button-has-type */
 /* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-throw-literal */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { keyring } from '@polkadot/ui-keyring';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '@material-ui/core';
 import {
   Option, OptionDiv, UploadFile, FileChosen, UploadFileDiv,
@@ -23,11 +25,18 @@ import {
 import CustomUploadFile from './customUploadFile';
 import { fonts, colors } from '../../../utils';
 import accounts from '../../../utils/accounts';
-import { setSeed } from '../../../redux/slices/account';
+import {
+  setAccountName, setJsonFileUploadScreen, setLoggedIn, setPublicKey,
+} from '../../../redux/slices/account';
+import {
+  setIsResponseModalOpen, setLoadingForApi, setMainTextForSuccessModal,
+  setResponseImage, setSubTextForSuccessModal,
+} from '../../../redux/slices/modalHandling';
+import ImportIcon from '../../../assets/images/import.svg';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryText, darkBackground1 } = colors;
-const { validatingSeedPhrase } = accounts;
+const { validatingSeedPhrase, AccountCreation } = accounts;
 
 const invalidSeedMessages = {
   minimumWords: 'At least 12 words required!',
@@ -37,10 +46,114 @@ const invalidSeedMessages = {
 
 function ImportWallet() {
   const history = useHistory();
+  const location = useLocation();
+  const dispatch = useDispatch();
 
-  const [selectedType, setSelectedType] = useState('seed');
+  const { jsonFileUploadScreen } = useSelector((state) => state.account);
+
+  console.log('location on importwallet.js ============>>>', location);
+
+  const [selectedType, setSelectedType] = useState(jsonFileUploadScreen ? 'json' : 'seed');
   const [seedPhrase, setSeedPhrase] = useState('');
   const [invalidSeedMessage, setInvalidSeedMessage] = useState('');
+
+  const [fileName, setFileName] = useState();
+  const [isFilePicked, setIsFilePicked] = useState(false);
+
+  const [pair, setPair] = useState('');
+
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  function setLoading(value) {
+    console.log('setter ran with value', value);
+    setIsLoading(value);
+    console.log('setter end', value);
+  }
+
+  const customUploadFileProps = {
+    fileName,
+    isFilePicked,
+    pair,
+    password,
+    showPassword,
+    passwordError,
+    setFileName,
+    setIsFilePicked,
+    setPair,
+    setPassword,
+    setShowPassword,
+    setPasswordError,
+  };
+
+  const keyringFunc = async () => new Promise((resolve, reject) => {
+    try {
+      const acc = keyring.addPair(pair, password);
+      resolve(acc);
+      return acc;
+    } catch (err) {
+      reject(err);
+      return err;
+    }
+  });
+
+  const createAccount = async (jsonKeyring) => {
+    const res = await keyring.createFromJson(jsonKeyring);
+    return res;
+  };
+
+  const saveAccountInRedux = (add, name, pass) => {
+    console.log('params-------', add, name, pass);
+    // update redux data and tracking flags accordingly
+    dispatch(setLoggedIn(true));
+    dispatch(setPublicKey(add));
+    dispatch(setAccountName(name));
+    // dispatch(setWalletPassword(hashedPassword));
+
+    // const encryptedSeedWithAccountPassword = encrypt(currSeed, pass);
+    // dispatch(setSeed(encryptedSeedWithAccountPassword));
+  };
+
+  const showSuccessModalAndNavigateToDashboard = () => {
+    dispatch(setIsResponseModalOpen(true));
+    dispatch(setResponseImage(ImportIcon));
+    dispatch(setMainTextForSuccessModal('Successfully Imported!'));
+    dispatch(
+      setSubTextForSuccessModal(''),
+    );
+    history.push('/');
+
+    setTimeout(() => {
+      dispatch(setIsResponseModalOpen(false));
+    }, 2500);
+
+    // navigate to dashboard on success
+  };
+
+  const proceedToImportAccount = () => {
+    keyringFunc()
+      .then(async (val) => {
+        console.log('now my loading setting to false', val);
+        setLoading(false);
+        setPasswordError(false);
+        console.log('SUCESS');
+
+        // const res = await createAccount(pair);
+        // console.log('res-------------', res);
+        saveAccountInRedux(val.json.address, val.json.meta.name, password);
+        dispatch(setLoadingForApi(false));
+        showSuccessModalAndNavigateToDashboard();
+      })
+      .catch((err) => {
+        console.log('now my loading setting to false', err);
+        setLoading(false);
+        setPasswordError(true);
+        console.log('FAIL');
+      });
+  };
 
   const handleChange = (input) => {
     setInvalidSeedMessage('');
@@ -104,16 +217,6 @@ function ImportWallet() {
     }
   };
 
-  const downloadSeed = () => {
-    const seed = 'seed phrase';
-    const data = new Blob([seed], { type: 'text/plain' });
-    const csvURL = window.URL.createObjectURL(data);
-    const tempLink = document.createElement('a');
-    tempLink.href = csvURL;
-    tempLink.setAttribute('download', 'seed.txt');
-    tempLink.click();
-  };
-
   const mainHeading = {
     marginTop: '29px',
     className: mainHeadingfontFamilyClass,
@@ -140,7 +243,18 @@ function ImportWallet() {
 
   const option2 = {
     id: 'upload-file',
-    onClick: () => setSelectedType('json'),
+    onClick: () => {
+      if (!jsonFileUploadScreen) {
+        dispatch(setJsonFileUploadScreen(true));
+        const url = `${chrome.extension.getURL('index.html')}`;
+        console.log('url-------------------------url', { url });
+        console.log('mark222222');
+        chrome.tabs.create({ url });
+        console.log('mark111111');
+      } else {
+        setSelectedType('json');
+      }
+    },
     className: mainHeadingfontFamilyClass,
     selected: selectedType === 'json',
   };
@@ -173,33 +287,24 @@ function ImportWallet() {
     id: 'import',
     text: 'Import',
     width: '300px',
-    handleClick: validateSeed,
-    disabled: seedPhrase.length === 0,
+    handleClick: () => {
+      if (selectedType === 'json') {
+        setLoading(true);
+        proceedToImportAccount();
+      } else {
+        validateSeed();
+      }
+    },
+    disabled: seedPhrase.length === 0 && password.length === 0,
+    isLoading,
   };
 
   // Create a reference to the hidden file input element
-  const hiddenFileInput = React.useRef(null);
-  const [fileName, setFileName] = useState();
-  const [isFilePicked, setIsFilePicked] = useState(false);
-
-  const showFile = async (e) => {
-    e.preventDefault();
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      const text = (e.target.result);
-      console.log(text);
-    };
-    reader.readAsText(e.target.files[0]);
-    setFileName(e.target.files[0]);
-    setIsFilePicked(true);
-  };
 
   // Programatically click the hidden file input element
   // when the Button component is clicked
-  const handleClick = () => {
-    hiddenFileInput.current.click();
-  };
 
+  console.log('main cond', { isLoading });
   return (
     <AuthWrapper>
       <Header centerText="Import Wallet" backHandler={() => console.log('goBack')} />
@@ -213,18 +318,17 @@ function ImportWallet() {
         {/* following code block is important and will
          use it in upcoming versions of the extension */}
 
-        {/* <MainHeading {...selectTypeHeading}>Select Type : </MainHeading>
+        <MainHeading {...selectTypeHeading}>Select Type : </MainHeading>
         <OptionDiv>
           <Option {...option1}>
             Seed Phrase
           </Option>
           <div className="normalTooltip">
-          <Option {...option2}>
-            Upload File
-            <span className="normalTooltiptext">Coming Soon</span>
-          </Option>
+            <Option {...option2}>
+              Upload Json
+            </Option>
           </div>
-        </OptionDiv> */}
+        </OptionDiv>
 
         {selectedType === 'seed' && (
           <div style={{ marginTop: '1rem' }}>
@@ -238,29 +342,18 @@ function ImportWallet() {
           </div>
         )}
 
-        {/* following code block is important and will
-         use it in upcoming versions of the extension */}
-        {/* {selectedType === 'json' && (
-        <>
-          <CustomUploadFile />
-          <button
-            onClick={downloadSeed}
-            style={{
-              float: 'left',
-              marginTop: '1rem',
-            }}
-          >
-            Download Functionality
+        {selectedType === 'json' && (
+        <div style={{ marginTop: '1rem' }}>
+          <CustomUploadFile {...customUploadFileProps} />
 
-          </button>
-        </>
-        )} */}
-      </SubMainWrapperForAuthScreens>
-      {selectedType === 'seed' && (
-        <div style={{ marginLeft: '0' }} className="btn-wrapper">
-          <Button {...btn} />
         </div>
-      )}
+        )}
+      </SubMainWrapperForAuthScreens>
+
+      <div style={{ marginLeft: '0' }} className="btn-wrapper">
+        <Button {...btn} />
+      </div>
+
     </AuthWrapper>
   );
 }

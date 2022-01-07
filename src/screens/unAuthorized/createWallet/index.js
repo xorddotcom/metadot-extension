@@ -14,7 +14,6 @@ import {
   setLoggedIn,
   setPublicKey,
   setAccountName,
-  setSeed,
 } from '../../../redux/slices/account';
 import { fonts, helpers } from '../../../utils';
 import accounts from '../../../utils/accounts';
@@ -31,9 +30,7 @@ import AccountCreate from '../../../assets/images/acc-create.svg';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
-const {
-  AccountCreation, encrypt,
-} = accounts;
+const { AccountCreation } = accounts;
 
 const passwordErrorMessages = {
   minimumCharacterWarning: 'Password should not be less than 8 characters',
@@ -104,15 +101,11 @@ function CreateWallet() {
     return res;
   };
 
-  const saveAccountInRedux = (add, name, pass) => {
+  const saveAccountInRedux = (add, name) => {
     // update redux data and tracking flags accordingly
     dispatch(setLoggedIn(true));
     dispatch(setPublicKey(add));
     dispatch(setAccountName(name));
-    // dispatch(setWalletPassword(hashedPassword));
-
-    const encryptedSeedWithAccountPassword = encrypt(currSeed, pass);
-    dispatch(setSeed(encryptedSeedWithAccountPassword));
   };
 
   const showSuccessModalAndNavigateToDashboard = () => {
@@ -155,7 +148,7 @@ function CreateWallet() {
       }
       const res = await createAccount(walletName, password, currSeed);
 
-      await saveAccountInRedux(res.address, walletName, password);
+      await saveAccountInRedux(res.address, walletName);
       dispatch(setLoadingForApi(false));
       setIsLoading(false);
       await showSuccessModalAndNavigateToDashboard();

@@ -69,6 +69,9 @@ async function AccountCreation({
     return data.json;
   } catch (error) {
     console.log('ERROR IN AccountCreation', error);
+    KeyringInitialization();
+    const data = keyring.addUri(seed, password, { name });
+    return data.json;
   }
 }
 
@@ -94,6 +97,18 @@ const CryptoAndKeyringInit = async () => {
     });
 };
 
+const unlockPair = (publicKey, password) => {
+  try {
+    const sende = keyring.getPair(publicKey);
+    sende.unlock(password);
+    console.log('sender pair', sende);
+    return sende.isLocked ? false : sende;
+  } catch (e) {
+    console.log('error in unlocking account', typeof e, e);
+    return false;
+  }
+};
+
 export default {
   GenerateSeedPhrase,
   AccountCreation,
@@ -103,4 +118,5 @@ export default {
   validatingSeedPhrase,
   CryptoAndKeyringInit,
   getJsonBackup,
+  unlockPair,
 };

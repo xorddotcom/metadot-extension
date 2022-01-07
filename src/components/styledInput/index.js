@@ -38,8 +38,8 @@ const StyledInputField = styled.input`
 
 const Icon = styled.span`
   position: absolute;
-  right: 18px;
-  top: 11px;
+  right: ${(props) => (props.rightAbsPosition ? props.rightAbsPosition : '18px')};
+  top: ${(props) => (props.leftAbsPosition ? props.leftAbsPosition : '11px')};
   color: rgba(250, 250, 250, 0.8);
   cursor: pointer;
 `;
@@ -66,6 +66,8 @@ function StyledInput({
   id,
   mt,
   mr,
+  rightAbsPosition,
+  leftAbsPosition,
 }) {
   const blockChar = (ev) => {
     const arr = ['e', 'E', '+', '-'];
@@ -99,7 +101,7 @@ function StyledInput({
     <TextInputWrapper marginBottom={marginBottom || '0px'}>
       <StyledInputField id={id} disableUnderline {...styledInputField} />
       {rightIcon && (
-        <Icon onClick={() => hideHandler()}>
+        <Icon onClick={() => hideHandler()} rightAbsPosition={rightAbsPosition ? '-25px' : ''} leftAbsPosition={leftAbsPosition ? '7px' : ''}>
           {!hideState
             ? <VisibilityOffIcon id="eye-off-icon" fontSize="small" style={{ marginTop: !mt ? '-0.1rem' : mt, marginRight: mr && mr }} /> : <VisibilityIcon id="eye-on-icon" fontSize="small" style={{ marginTop: !mt ? '-0.1rem' : mt, marginRight: mr && mr }} />}
         </Icon>
