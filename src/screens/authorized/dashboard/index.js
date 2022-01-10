@@ -17,6 +17,7 @@ import {
   colors,
 } from '../../../utils';
 import services from '../../../utils/services';
+import accountsUtils from '../../../utils/accounts';
 
 import MainCard from './mainCard';
 import AssetsAndTransactions from './assetsAndTransactions';
@@ -61,6 +62,7 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryText } = colors;
 
 const { getBalance, addressMapper } = services;
+const { KeyringInitialization } = accountsUtils;
 
 const {
   availableNetworks,
@@ -274,7 +276,8 @@ function Dashboard(props) {
       dispatch(setLoadingForApi(true));
       dispatch(setRpcUrl({ rpcUrl: data.rpcUrl }));
       dispatch(setChainName({ chainName: data.name }));
-      const publicKeyOfRespectiveChain = addressMapper(currentUser.account.publicKey, data.prefix);
+      // eslint-disable-next-line max-len
+      const publicKeyOfRespectiveChain = addressMapper(currentUser.activeAccount.publicKey, data.prefix);
       dispatch(setPublicKey(publicKeyOfRespectiveChain));
 
       setIsLoading(false);
@@ -297,6 +300,18 @@ function Dashboard(props) {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const getPairA = () => {
+    try {
+      if (publicKey) {
+        const abc = keyring.getPair(publicKey);
+        console.log('----keyring.getPair', abc);
+      }
+    } catch (err) {
+      KeyringInitialization();
+      console.log(err);
+    }
   };
 
   // --------XXXXXXXXXXXXXXX-----------
@@ -426,6 +441,7 @@ function Dashboard(props) {
       >
         Get All Accounts
       </button>
+      <button type="button" onClick={() => getPairA()}>get pair</button>
     </>
   );
 }

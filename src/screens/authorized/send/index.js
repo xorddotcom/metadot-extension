@@ -159,10 +159,10 @@ const Send = () => {
     setInsufficientBal(false);
     // eslint-disable-next-line no-unused-expressions
     if (e.length === 0) {
-      amountDispatch({ type: 'USER_INPUT', val: e, amountIsValid: currentUser.account.balance });
+      amountDispatch({ type: 'USER_INPUT', val: e, amountIsValid: currentUser.activeAccount.balance });
       setIsInputEmpty(true);
     } else {
-      amountDispatch({ type: 'USER_INPUT', val: e, amountIsValid: currentUser.account.balance });
+      amountDispatch({ type: 'USER_INPUT', val: e, amountIsValid: currentUser.activeAccount.balance });
       setIsInputEmpty(false);
     }
   };
@@ -929,7 +929,7 @@ const Send = () => {
         {...confirmSend}
       />
       <AuthModal
-        publicKey={currentUser.account.publicKey}
+        publicKey={currentUser.activeAccount.publicKey}
         open={currentUser.modalHandling.authScreenModal}
         handleClose={() => {
           dispatch(setAuthScreenModal(false));

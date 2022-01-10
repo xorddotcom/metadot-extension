@@ -15,8 +15,6 @@ import { MainHeading, SubHeading } from './styledComponents';
 import { fonts } from '../../../utils';
 import accounts from '../../../utils/accounts';
 import './index.css';
-// eslint-disable-next-line no-unused-vars
-import { setSeed } from '../../../redux/slices/activeAccount';
 
 const { subHeadingfontFamilyClass } = fonts;
 const { GenerateSeedPhrase } = accounts;
@@ -24,7 +22,7 @@ const { GenerateSeedPhrase } = accounts;
 function Welcome() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { jsonFileUploadScreen } = useSelector((state) => state.account);
+  const { jsonFileUploadScreen } = useSelector((state) => state.activeAccount);
 
   const [seedToPass, setSeedToPass] = useState('');
 

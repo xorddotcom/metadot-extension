@@ -54,7 +54,7 @@ function ImportWallet() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { jsonFileUploadScreen } = useSelector((state) => state.account);
+  const { jsonFileUploadScreen } = useSelector((state) => state.activeAccount);
   const params = useParams();
 
   const accounts = useSelector((state) => state.accounts);

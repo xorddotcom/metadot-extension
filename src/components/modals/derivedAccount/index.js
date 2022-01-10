@@ -83,6 +83,7 @@ function DerivedAccountModal({
   // accountExistCheck();
   //   }, [accountSeed, userAccounts, password]);
 
+  // eslint-disable-next-line consistent-return
   const accountExistCheck = async () => {
     if (accountSeed) {
       console.log('params seed', accountSeed);
@@ -123,8 +124,9 @@ function DerivedAccountModal({
         console.log('error due to wrong ', err);
         setPasswordError('Invalid password!');
       }
+    } else {
+      console.log('abc abc');
     }
-    return null;
   };
 
   const styledInput = {

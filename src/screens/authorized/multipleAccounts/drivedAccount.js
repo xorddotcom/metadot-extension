@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { deleteAccount } from '../../../redux/slices/accounts';
-import { setAccountName, setPublicKey, setSeed } from '../../../redux/slices/activeAccount';
+import { setAccountName, setPublicKey } from '../../../redux/slices/activeAccount';
 import {
   Account,
   AccountCircle,
@@ -46,10 +46,10 @@ const DrivedAccountList = ({ childAccount, childAccountActive }) => {
   const onOptionClicked = () => {
     if (publicKey === activeAccount.publicKey) {
       dispatch(deleteAccount(publicKey));
-      dispatch(setSeed(''));
+      // dispatch(setSeed(''));
       dispatch(setPublicKey(''));
       dispatch(setAccountName(''));
-      dispatch(setSeed(Object.values(accounts)[0].seed));
+      // dispatch(setSeed(Object.values(accounts)[0].seed));
       dispatch(setPublicKey(Object.values(accounts)[0].publicKey));
       dispatch(setAccountName(Object.values(accounts)[0].accountName));
       history.push('/');
