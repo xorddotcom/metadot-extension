@@ -6,6 +6,7 @@ import { Input } from '@material-ui/core';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
+import keyring from '@polkadot/ui-keyring';
 import StyledInput from '../../styledInput/index';
 import {
   MainDiv,
@@ -25,7 +26,7 @@ const { primaryText, darkBackground1 } = colors;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 const {
-  decrypt, encrypt, KeyringInitialization, validatingSeedPhrase, AccountCreation,
+  decrypt, derive, encrypt, KeyringInitialization, validatingSeedPhrase, AccountCreation,
 } = accounts;
 
 function DerivedAccountModal({
@@ -35,6 +36,7 @@ function DerivedAccountModal({
   accountSeed,
   publicKey,
   setAccountNull,
+  setModalIsOpen,
 }) {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -129,6 +131,47 @@ function DerivedAccountModal({
     }
   };
 
+  // --------------------------------
+  // const derive = (parentAddress, suri, passwoord, metadata) => {
+  //   const parentPair = keyring.getPair(parentAddress);
+  //   try {
+  //     parentPair.decodePkcs8(passwoord);
+  //     console.log('success');
+  //   } catch (e) {
+  //     throw new Error('invalid password');
+  //   }
+
+  //   try {
+  //     return parentPair.derive(suri, metadata);
+  //   } catch (err) {
+  //     throw new Error(`"${suri}" is not a valid derivation path`);
+  //   }
+  // };
+  // --------------------------------
+
+  const derivationValidate = (parentAddress, suri, parentPassword) => {
+    const childPair = derive(parentAddress, suri, parentPassword, {});
+    console.log('child pair --------> ', childPair);
+    history.push({
+      pathname: '/creatDerivedAccount',
+      state:
+          {
+            parentPassword,
+            parentAddress,
+          },
+    });
+  };
+
+  // const derivationCreate = (parentAddress, parentPassword, suri, childPassword, name) => {
+  //   const childPair = derive(parentAddress, suri, parentPassword, {
+  //     name,
+  //     parentAddress,
+  //     suri,
+  //   });
+  //   keyring.addPair(childPair, childPassword);
+  //   return true;
+  // };
+
   const styledInput = {
     placeholder: 'Enter Password',
     value: password,
@@ -163,10 +206,8 @@ function DerivedAccountModal({
     width: '240px',
     height: '40px',
     fontSize: '0.8rem',
-    handleClick: () => accountExistCheck(),
+    handleClick: () => derivationValidate(publicKey, '//0', password),
   };
-
-  console.log('--------**********->', seedPhrase);
 
   return (
     <Modal

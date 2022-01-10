@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-unused-expressions */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
+import keyring from '@polkadot/ui-keyring';
 import {
   AuthWrapper,
   Header,
@@ -33,7 +35,7 @@ import { addAccount } from '../../../redux/slices/accounts';
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
 const {
-  AccountCreation, encrypt,
+  AccountCreation, encrypt, derive,
 } = accounts;
 
 const passwordErrorMessages = {
@@ -49,9 +51,13 @@ function CreateDerivedAccount() {
   const history = useHistory();
   const location = useLocation();
 
-  const currSeed = location.state.seedToPass;
-  const parentKey = location.state.parentKey && location.state.parentKey;
-  console.log('Parent Key ---------->', parentKey);
+  const parentPassword = location.state.parentPassword && location.state.parentPassword;
+  const parentAddress = location.state.parentAddress && location.state.parentAddress;
+  console.log('--------------------------------');
+  console.log('Parent Password ---------->', parentPassword);
+  console.log('Parent Address ---------->', parentAddress);
+  console.log('--------------------------------');
+
   // eslint-disable-next-line no-unused-vars
   const { seed } = useSelector((state) => state.activeAccount);
 
@@ -91,25 +97,41 @@ function CreateDerivedAccount() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const createAccount = async (name, pass, seedPhrase) => {
-    const res = await AccountCreation({ name, password: pass, seed: seedPhrase });
-    // getJsonBackup(res.address, pass);
-    return res;
+  const derivationCreate = (parentAddresss, parentPasswoord, suri, childPassword, name) => {
+    const childPair = derive(parentAddresss, suri, parentPasswoord, {
+      name,
+      parentAddresss,
+      suri,
+    });
+    console.log('child pair =====++', childPair);
+    const abc = keyring.addPair(childPair, childPassword);
+    console.log('keyring add pair -----', abc);
+    return childPair;
   };
 
-  const saveAccountInRedux = (add, name, pass) => {
+  // const dervieAccount =
+  // derivationCreate(parentAddress, parentPassword, '//0', password, walletName);
+  // console.log('derive account --------->', dervieAccount);
+  // const createAccount = async (name, pass, seedPhrase) => {
+  //   const res = await AccountCreation({ name, password: pass, seed: seedPhrase });
+  //   // getJsonBackup(res.address, pass);
+  //   return res;
+  // };
+
+  const saveAccountInRedux = (add, name) => {
     // update redux data and tracking flags accordingly
+    console.log('hellow ww', { add, name });
     dispatch(setLoggedIn(true));
     dispatch(setPublicKey(add));
     dispatch(setAccountName(name));
     // dispatch(setWalletPassword(hashedPassword));
 
-    const encryptedSeedWithAccountPassword = encrypt(currSeed, pass);
+    // const encryptedSeedWithAccountPassword = encrypt(currSeed, pass);
     dispatch(addAccount({
-      seed: encryptedSeedWithAccountPassword,
+      // seed: encryptedSeedWithAccountPassword,
       accountName: name,
       publicKey: add,
-      parentKey,
+      parentAddress,
     }));
   };
 
@@ -141,11 +163,14 @@ function CreateDerivedAccount() {
         setIsLoading(false);
         return;
       }
-      const res = await createAccount(walletName, password, currSeed);
-      // passsword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/);
-      // eslint-disable-next-line no-new
+      const res = await derivationCreate(parentAddress, parentPassword, '//0', password, walletName);
 
-      await saveAccountInRedux(res.address, walletName, password);
+      console.log('response handle continue ----', res);
+
+      // // passsword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/);
+      // // eslint-disable-next-line no-new
+
+      await saveAccountInRedux(res.address, walletName);
       dispatch(setLoadingForApi(false));
       setIsLoading(false);
       await showSuccessModalAndNavigateToDashboard();
@@ -153,6 +178,31 @@ function CreateDerivedAccount() {
       console.log('error n create wallet', err);
     }
   };
+
+  // const handleContinue = async () => {
+  //   try {
+  //     if (!isUserNameValid(walletName) || walletName.length < 3) {
+  //       setIsValidWalletName(true);
+  //       validatePasswordAndConfirmPassword();
+  //       setIsLoading(false);
+  //       return;
+  //     }
+  //     if (!validatePasswordAndConfirmPassword()) {
+  //       setIsLoading(false);
+  //       return;
+  //     }
+  //     const res = await createAccount(walletName, password, currSeed);
+  //     // passsword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/);
+  //     // eslint-disable-next-line no-new
+
+  //     await saveAccountInRedux(res.address, walletName, password);
+  //     dispatch(setLoadingForApi(false));
+  //     setIsLoading(false);
+  //     await showSuccessModalAndNavigateToDashboard();
+  //   } catch (err) {
+  //     console.log('error n create wallet', err);
+  //   }
+  // };
 
   const walletNameText = {
     className: mainHeadingfontFamilyClass,
@@ -214,6 +264,7 @@ function CreateDerivedAccount() {
       setIsLoading(true);
       await handleContinue();
     },
+    // handleClick: () => console.log('clicked'),
     isLoading,
   };
 

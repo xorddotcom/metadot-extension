@@ -166,6 +166,7 @@ const AccountList = ({
         <DerivedAccountModal
           open={modalIsOpen}
           handleClose={closeModal}
+          setModalIsOpen={setModalIsOpen}
           accountSeed={selectedProject ? selectedProject.seed : null}
           publicKey={selectedProject ? selectedProject.publicKey : null}
           setAccountNull={setSelectedProject}
