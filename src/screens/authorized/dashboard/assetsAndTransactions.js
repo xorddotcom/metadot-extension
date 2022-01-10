@@ -4,7 +4,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useQuery } from 'react-query';
-import { encodeAddress } from '@polkadot/util-crypto';
 import { AssetCard, TxCard } from '../../../components';
 import { fonts, helpers } from '../../../utils';
 import {
@@ -22,8 +21,8 @@ import acala from '../../../assets/images/tokenImg/acala-circle.svg';
 import astar from '../../../assets/images/astar.png';
 import rococo from '../../../assets/images/rococo.svg';
 import karura from '../../../assets/images/karura.svg';
-import { getQuery } from '../../../utils/queries';
 import { addTransaction } from '../../../redux/slices/transactions';
+import { queryData } from '../../../utils/queryData';
 
 const { mainHeadingfontFamilyClass } = fonts;
 const { trimBalance, reverseArray } = helpers;
@@ -36,7 +35,7 @@ function AssetsAndTransactions({
   const dispatch = useDispatch();
   const assetsData = useSelector((state) => state.activeAccount);
   const {
-    chainName, tokenName, balance, balanceInUsd, publicKey,
+    chainName, tokenName, balance, balanceInUsd,
   } = assetsData;
   const [isTab1Active, setIsTab1Active] = useState(true);
   const [isTab2Active, setIsTab2Active] = useState(false);
@@ -80,15 +79,18 @@ function AssetsAndTransactions({
     },
   };
 
-  const query = getQuery(publicKey, 0);
+  const { query, endPoint } = queryData(chainName);
+  console.log('chain name:', chainName, 'query:', query, 'and its endpoint', endPoint);
 
-  const fetchTransactions = async () => fetch('https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e', {
+  const fetchTransactions = async () => fetch(endPoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       query,
     }),
-  }).then((r) => r.json()).then((r) => handleTransaction(r));
+  }).then((r) => r.json())
+    .then((r) => handleTransaction(r))
+    .catch((e) => console.log(e));
 
   const {
     isLoading, isError, error,
@@ -100,6 +102,9 @@ function AssetsAndTransactions({
   const handleTransaction = (transactionObject) => {
     // list all the previous hashes
     // and then dispatch new data if it's txhash is not in previousHashes
+
+    console.log('handle transaction running', transactionObject);
+
     const previousTransactionHashList = transactionData.map((transaction) => transaction.hash);
 
     transactionObject.data.account.transferTo.nodes.map((tempObj) => {
