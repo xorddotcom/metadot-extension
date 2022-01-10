@@ -126,7 +126,7 @@ const Support = () => {
           <Link to="/">
             <img src={twitter} alt="twitter" />
           </Link>
-          <Link to="/" style={{ marginBottom: '0' }}>
+          <Link to="/" style={{ marginTop: '-20px' }}>
             <img src={instagram} alt="instagram" />
           </Link>
         </SocialDiv>

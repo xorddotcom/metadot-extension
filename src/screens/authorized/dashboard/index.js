@@ -301,9 +301,13 @@ function Dashboard(props) {
               disabled={!!apiInitializationStarts}
             >
               <SelectedChain className={subHeadingfontFamilyClass}>
+                {/* {chainName.includes('Test') && `${chainName} Test Network`} */}
+
                 {chainName.includes('Network')
                   ? chainName
-                  : `${chainName} Network`}
+                  : chainName.includes('Kusama')
+                    ? `${chainName} Main Network`
+                    : `${chainName} Network` }
 
               </SelectedChain>
               <ArrowDropDownIcon id="arrow-drop-down-icon" style={{ fontSize: '1.7rem' }} />
