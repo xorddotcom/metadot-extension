@@ -53,7 +53,7 @@ function MultipleAccounts() {
   useEffect(() => {
     const parentChildR = () => {
       Object.values(allAccounts).map((account) => {
-        if (!account.parentKey) {
+        if (!account.parentAddress) {
           setUserAccounts((prevState) => ({
             ...prevState,
             parentAccounts: [account, ...prevState.parentAccounts],
@@ -103,11 +103,11 @@ function MultipleAccounts() {
 
             };
 
-            const abc = () => {
+            const derivedChild = () => {
               // eslint-disable-next-line no-plusplus
               for (let i = 0; i < userAccounts.childAccounts.length; i++) {
                 if (
-                  userAccounts.childAccounts[i].parentKey === account.publicKey
+                  userAccounts.childAccounts[i].parentAddress === account.publicKey
                 ) {
                   const childAccountActive = () => {
                     console.log('Testing something child==>>', userAccounts.childAccounts[i]);
@@ -138,7 +138,7 @@ function MultipleAccounts() {
                   <MarginSet>
                     <AccountList {...accountList} />
                     {/* If there is Drived Account */}
-                    {abc()}
+                    {derivedChild()}
 
                   </MarginSet>
 
