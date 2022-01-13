@@ -17,6 +17,9 @@ import {
 import AccountList from './account';
 import DrivedAccountList from './drivedAccount';
 import { helpers } from '../../../utils';
+import accounts from '../../../utils/accounts';
+
+const { GenerateSeedPhrase } = accounts;
 
 const { addressModifier } = helpers;
 
@@ -24,6 +27,25 @@ function MultipleAccounts() {
   const dispatch = useDispatch();
   const history = useHistory();
   const allAccounts = useSelector((state) => state.accounts);
+
+  const [seedToPass, setSeedToPass] = useState('');
+  const [derivedDropDown, setDerivedDropDown] = useState(true);
+
+  // generate new seed for parent account
+  useEffect(() => {
+    try {
+      const newSeed = GenerateSeedPhrase();
+      setSeedToPass(newSeed);
+    } catch (error) {
+      console.log('ERROR while generating new seed for parent account', error);
+    }
+  }, [dispatch]);
+
+  const checkDrivedDropdownOpen = (data) => {
+    setDerivedDropDown(data);
+    console.log('checkDrivedDropdownOpen ---->', derivedDropDown);
+    return data;
+  };
 
   const [userAccounts, setUserAccounts] = useState({
     parentAccounts: [],
@@ -46,7 +68,10 @@ function MultipleAccounts() {
     width: '326px',
     height: '50px',
     fontSize: '18px',
-    handleClick: () => history.push('/ImportWallet'),
+    handleClick: () => history.push({
+      pathname: '/ShowSeed',
+      state: { seedToPass },
+    }),
     // disabled: ,
   };
 
@@ -100,26 +125,30 @@ function MultipleAccounts() {
               accountActive,
               derivedChildAccount,
               account,
-
+              derivedDropDown,
             };
 
             const derivedChild = () => {
               // eslint-disable-next-line no-plusplus
               for (let i = 0; i < userAccounts.childAccounts.length; i++) {
+                const arr = [];
+
+                const childAccountActive = () => {
+                  console.log('Testing something child==>>', userAccounts.childAccounts[i]);
+                  // dispatch(setSeed(userAccounts.childAccounts[i].seed));
+                  dispatch(setPublicKey(userAccounts.childAccounts[i].publicKey));
+                  dispatch(setAccountName(userAccounts.childAccounts[i].accountName));
+                  history.push('/');
+                };
+
                 if (
                   userAccounts.childAccounts[i].parentAddress === account.publicKey
                 ) {
-                  const childAccountActive = () => {
-                    console.log('Testing something child==>>', userAccounts.childAccounts[i]);
-                    // dispatch(setSeed(userAccounts.childAccounts[i].seed));
-                    dispatch(setPublicKey(userAccounts.childAccounts[i].publicKey));
-                    dispatch(setAccountName(userAccounts.childAccounts[i].accountName));
-                    history.push('/');
-                  };
-
+                  arr.push(userAccounts.childAccounts[i]);
                   const drivedAccountList = {
-                    childAccount: userAccounts.childAccounts[i],
+                    childAccount: arr,
                     childAccountActive,
+                    checkDrivedDropdownOpen,
                   };
                   return (
                     <div>

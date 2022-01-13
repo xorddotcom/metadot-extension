@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import RemoveIcon from '../../../assets/images/icons/Remove.svg';
@@ -26,6 +26,7 @@ import {
   setPublicKey,
 } from '../../../redux/slices/activeAccount';
 import { DerivedAccountModal } from '../../../components/modals';
+import { setDerivedAccountModal } from '../../../redux/slices/modalHandling';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -34,18 +35,45 @@ const AccountList = ({
   accountName,
   margin,
   accountActive,
-  accountSeed,
   publicKeyy,
   account,
+  derivedDropDown,
 }) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const ref = useRef();
   const [isOpen, setIsOpen] = useState(false);
   const activeAccount = useSelector((state) => state.activeAccount);
   const accounts = useSelector((state) => state.accounts);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [checkDerivedAccount, setCheckDerivedAccount] = useState(null);
+
+  useEffect(() => {
+    const checkIfClickedOutside = (e) => {
+      // If the menu is open and the clicked target is not within the menu,
+      // then close the menu
+      if (isOpen && ref.current && !ref.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    console.log('ref', ref);
+
+    document.addEventListener('click', checkIfClickedOutside);
+
+    return () => {
+      // Cleanup the event listener
+      document.removeEventListener('click', checkIfClickedOutside);
+    };
+  }, [isOpen]);
+
+  console.log('check derivedDropDown check ', derivedDropDown);
+
+  const checkDerivedAccountHandler = (data) => {
+    setCheckDerivedAccount(data);
+  };
 
   const expandModal = (project) => {
     setSelectedProject(project);
@@ -65,8 +93,6 @@ const AccountList = ({
     };
     deleteActiveAccount();
   }, [accounts]);
-
-  const toggling = () => setIsOpen(!isOpen);
 
   const onOptionClicked = () => {
     console.log('public key', { publicKey });
@@ -106,7 +132,10 @@ const AccountList = ({
         {/* 3 dots drop down */}
 
         <DropDownContainer className={mainHeadingfontFamilyClass}>
-          <DropDownIcon onClick={toggling}>
+          <DropDownIcon
+            ref={ref}
+            onClick={() => setIsOpen((oldState) => !oldState)}
+          >
             <img src={dropDownIcon} alt="3-dots" />
           </DropDownIcon>
 
@@ -121,7 +150,7 @@ const AccountList = ({
                 >
                   <img
                     src={derivedIcon}
-                    alt="remove-account"
+                    alt="create-derive-account"
                     width="16"
                     height="17"
                     style={{ marginLeft: '1.2rem' }}
@@ -133,19 +162,20 @@ const AccountList = ({
                 </ListItem>
                 <ListItem
                   onClick={() => {
-                    history.push('/viewSeed');
+                    // history.push('/viewSeed');
+                    dispatch(setDerivedAccountModal(true));
                   }}
                   key={Math.random()}
                 >
                   <img
                     src={derivedIcon}
-                    alt="remove-account"
+                    alt="export-account"
                     width="16"
                     height="17"
                     style={{ marginLeft: '1.2rem' }}
                   />
                   &nbsp; &nbsp;
-                  <span style={{ fontSize: '0.85rem' }}>View Seed</span>
+                  <span style={{ fontSize: '0.85rem' }}>Export Account</span>
                 </ListItem>
                 <ListItem onClick={() => onOptionClicked()} key={Math.random()}>
                   <img
@@ -181,25 +211,6 @@ const AccountList = ({
             marginTop: '10rem',
           }}
         />
-
-        {/* <DerivedModal
-          key={publicKeyy}
-          show={modalIsOpen}
-          onClose={closeModal}
-        >
-          <div className="content">
-            <img
-              src="https://cdn.pixabay.com/photo/2015/01/09/11/11/office-594132__340.jpg"
-              alt="Developer"
-            />
-            <div className="text">
-              <h2>{selectedProject && selectedProject.publicKey}</h2>
-              <p>
-                {selectedProject && selectedProject.seed}
-              </p>
-            </div>
-          </div>
-        </DerivedModal> */}
       </Account>
     </>
   );

@@ -50,9 +50,21 @@ function CreateWallet() {
     ? 'Imported'
     : 'Created';
 
-  const currSeed = location.state.seedToPass;
+  console.log(`history entries -->${history.entries[history.entries.length - 2].pathname}`);
+
+  // let currSeed = '';
+  // let parentKey = '';
+
+  // if (history.entries[history.entries.length - 2].pathname === 'accounts') {
+  //   currSeed = location.state.seedToPass && location.state.seedToPass;
+  //   parentKey = location.state.parentKey && location.state.parentKey;
+  //   console.log('Parent Key ---------->', parentKey);
+  // }
+
+  const currSeed = location.state.seedToPass && location.state.seedToPass;
   const parentKey = location.state.parentKey && location.state.parentKey;
   console.log('Parent Key ---------->', parentKey);
+
   // eslint-disable-next-line no-unused-vars
   const { seed } = useSelector((state) => state.activeAccount);
 

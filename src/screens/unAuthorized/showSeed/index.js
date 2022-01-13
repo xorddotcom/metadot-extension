@@ -30,7 +30,18 @@ function ShowSeed() {
   const [copy, setCopy] = useState('Copy');
 
   const { seed, isLoggedIn } = useSelector((state) => state.activeAccount);
-  const currSeed = location.state.seedToPass;
+
+  let currSeed = '';
+
+  console.log('show seed entotyasd', history.entries[history.entries.length - 2].pathname);
+
+  if (history.entries[history.entries.length - 2].pathname === '/') {
+    currSeed = location.state.seedToPass && location.state.seedToPass;
+  }
+
+  if (history.entries[history.entries.length - 2].pathname === '/accounts' || history.entries[history.entries.length - 2].pathname === '/ShowSeed') {
+    currSeed = location.state.seedToPass && location.state.seedToPass;
+  }
 
   const dispatch = useDispatch();
 

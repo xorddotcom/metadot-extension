@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+/* eslint-disable no-shadow */
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { deleteAccount } from '../../../redux/slices/accounts';
-import { setAccountName, setPublicKey } from '../../../redux/slices/activeAccount';
+import {
+  setAccountName,
+  setPublicKey,
+} from '../../../redux/slices/activeAccount';
 import {
   Account,
   AccountCircle,
@@ -29,9 +33,13 @@ import dropDownIcon from '../../../assets/images/icons/3Dots.svg';
 const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
 const { addressModifier } = helpers;
 
-const DrivedAccountList = ({ childAccount, childAccountActive }) => {
+const DrivedAccountList = ({
+  childAccount,
+  childAccountActive,
+  checkDrivedDropdownOpen,
+}) => {
   const { publicKey } = childAccount;
-
+  const ref = useRef(null);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -41,7 +49,24 @@ const DrivedAccountList = ({ childAccount, childAccountActive }) => {
   const [drivedDropDownOpen, setdrivedDropDownOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggling = () => setIsOpen(!isOpen);
+  useEffect(() => {
+    const checkIfClickedOutside = (e) => {
+      // If the menu is open and the clicked target is not within the menu,
+      // then close the menu
+      if (isOpen && ref.current && !ref.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    console.log('ref', ref);
+
+    document.addEventListener('click', checkIfClickedOutside);
+
+    return () => {
+      // Cleanup the event listener
+      document.removeEventListener('click', checkIfClickedOutside);
+    };
+  }, [isOpen]);
 
   const onOptionClicked = () => {
     if (publicKey === activeAccount.publicKey) {
@@ -60,86 +85,115 @@ const DrivedAccountList = ({ childAccount, childAccountActive }) => {
   };
 
   return (
-    <DrivedAccountMain>
-      <Border />
-      <DrivedAccount>
-        <DrivedAccountText className={subHeadingfontFamilyClass}>
-          1 Drived Accounts
-        </DrivedAccountText>
-        <DropDownIcon>
-          <div
-            // eslint-disable-next-line no-shadow
-            onClick={() => setdrivedDropDownOpen((drivedDropDownOpen) => !drivedDropDownOpen)}
-            aria-hidden="true"
-          >
-            {!drivedDropDownOpen
-              ? <img src={downIcon} alt="drop-down-icon" />
-              : <img src={upArrowIcon} alt="drop-down-icon" />}
-          </div>
-        </DropDownIcon>
-      </DrivedAccount>
-
-      {/* Derived Account Drop Down */}
-
-      {drivedDropDownOpen && (
-      <Account margin="1rem 0">
-        <AccountFlex>
-          <AccountCircle />
-          <AccountText>
-            <AccountMainText
-              onClick={childAccountActive}
-              className={mainHeadingfontFamilyClass}
+    <>
+      <DrivedAccountMain>
+        <Border />
+        <DrivedAccount>
+          <DrivedAccountText className={subHeadingfontFamilyClass}>
+            1 Drived Accounts
+          </DrivedAccountText>
+          <DropDownIcon>
+            <div
+              // eslint-disable-next-line no-shadow
+              onClick={() => {
+                // eslint-disable-next-line no-shadow
+                setdrivedDropDownOpen(
+                  (drivedDropDownOpen) => !drivedDropDownOpen,
+                );
+                checkDrivedDropdownOpen(drivedDropDownOpen);
+              }}
+              aria-hidden="true"
             >
-              {`${childAccount.accountName}//0`}
-            </AccountMainText>
-            <AccountSubText className={subHeadingfontFamilyClass}>
-              {addressModifier(childAccount.publicKey)}
-            </AccountSubText>
-          </AccountText>
-        </AccountFlex>
-
-        {/* Drop Down 3 dots */}
-
-        <DropDownContainer className={mainHeadingfontFamilyClass}>
-          <DropDownIcon onClick={toggling}>
-            <img src={dropDownIcon} alt="3-dots" />
+              {!drivedDropDownOpen ? (
+                <img src={downIcon} alt="drop-down-icon" />
+              ) : (
+                <img src={upArrowIcon} alt="drop-down-icon" />
+              )}
+            </div>
           </DropDownIcon>
+        </DrivedAccount>
 
-          {isOpen && (
-            <DropDownListContainer>
-              <DropDownList>
-                <ListItem
-                  onClick={() => console.log('clicked')}
-                  key={Math.random()}
-                >
-                  <img
-                    src={RemoveIcon}
-                    alt="remove-account"
-                    width="16"
-                    height="17"
-                    style={{ marginLeft: '1.2rem' }}
-                  />
-                  &nbsp; &nbsp;
-                  <span style={{ fontSize: '0.85rem' }}>Export Account</span>
-                </ListItem>
-                <ListItem onClick={() => onOptionClicked()} key={Math.random()}>
-                  <img
-                    src={RemoveIcon}
-                    alt="remove-account"
-                    width="16"
-                    height="17"
-                    style={{ marginLeft: '1.2rem' }}
-                  />
-                  &nbsp; &nbsp;
-                  <span style={{ fontSize: '0.85rem' }}>Remove Account</span>
-                </ListItem>
-              </DropDownList>
-            </DropDownListContainer>
-          )}
-        </DropDownContainer>
-      </Account>
-      )}
-    </DrivedAccountMain>
+        {/* Derived Account Drop Down */}
+
+        {drivedDropDownOpen && (
+          <>
+            {childAccount.map((child) => {
+              console.log('asd asd asd', child);
+              return (
+                <>
+                  <Account margin="1rem 0">
+                    <AccountFlex>
+                      <AccountCircle />
+                      <AccountText>
+                        <AccountMainText
+                          onClick={childAccountActive}
+                          className={mainHeadingfontFamilyClass}
+                        >
+                          {`${child.accountName}//0`}
+                        </AccountMainText>
+                        <AccountSubText className={subHeadingfontFamilyClass}>
+                          {addressModifier(child.publicKey)}
+                        </AccountSubText>
+                      </AccountText>
+                    </AccountFlex>
+
+                    {/* Drop Down 3 dots */}
+
+                    <DropDownContainer className={mainHeadingfontFamilyClass}>
+                      <DropDownIcon
+                        ref={ref}
+                        onClick={() => setIsOpen((oldState) => !oldState)}
+                      >
+                        <img src={dropDownIcon} alt="3-dots" />
+                      </DropDownIcon>
+
+                      {isOpen && (
+                        <DropDownListContainer>
+                          <DropDownList>
+                            <ListItem
+                              onClick={() => console.log('clicked')}
+                              key={Math.random()}
+                            >
+                              <img
+                                src={RemoveIcon}
+                                alt="remove-account"
+                                width="16"
+                                height="17"
+                                style={{ marginLeft: '1.2rem' }}
+                              />
+                              &nbsp; &nbsp;
+                              <span style={{ fontSize: '0.85rem' }}>
+                                Export Account
+                              </span>
+                            </ListItem>
+                            <ListItem
+                              onClick={() => onOptionClicked()}
+                              key={Math.random()}
+                            >
+                              <img
+                                src={RemoveIcon}
+                                alt="remove-account"
+                                width="16"
+                                height="17"
+                                style={{ marginLeft: '1.2rem' }}
+                              />
+                              &nbsp; &nbsp;
+                              <span style={{ fontSize: '0.85rem' }}>
+                                Remove Account
+                              </span>
+                            </ListItem>
+                          </DropDownList>
+                        </DropDownListContainer>
+                      )}
+                    </DropDownContainer>
+                  </Account>
+                </>
+              );
+            })}
+          </>
+        )}
+      </DrivedAccountMain>
+    </>
   );
 };
 

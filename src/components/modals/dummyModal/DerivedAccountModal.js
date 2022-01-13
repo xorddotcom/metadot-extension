@@ -49,3 +49,24 @@ const DerivedModal = ({
 };
 
 export default DerivedModal;
+
+// How to call this modal
+
+// { /* <DerivedModal
+//           key={publicKeyy}
+//           show={modalIsOpen}
+//           onClose={closeModal}
+//         >
+//           <div className="content">
+//             <img
+//               src="https://cdn.pixabay.com/photo/2015/01/09/11/11/office-594132__340.jpg"
+//               alt="Developer"
+//             />
+//             <div className="text">
+//               <h2>{selectedProject && selectedProject.publicKey}</h2>
+//               <p>
+//                 {selectedProject && selectedProject.seed}
+//               </p>
+//             </div>
+//           </div>
+//         </DerivedModal> */ }
