@@ -55,6 +55,12 @@ html {
   }
 }
 
+@media screen and (min-width: 1600px) {
+  html {
+    font-size: 14px;
+  }
+}
+
 body {
   width: 357px;
   min-height: 600px;
@@ -156,7 +162,7 @@ input:focus {
 .network-scrollbar::-webkit-scrollbar {
   display: block;
   background-color: transparent !important;
-  width: 6px !important;
+  /* width: 6px !important; */
   border-radius: 0 !important;
   transform: rotate(-180deg) !important;
 }
