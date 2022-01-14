@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 import React, { useState } from 'react';
 import Menu from '@mui/material/Menu';
@@ -26,34 +27,19 @@ import {
 } from '../../../redux/slices/activeAccount';
 // eslint-disable-next-line no-unused-vars
 import { deleteAccount } from '../../../redux/slices/accounts';
-
-const { mainHeadingfontFamilyClass } = fonts;
 // import SettingsOutlinedIcon from '../../../assets/images/icons/setting.svg';
-// import FileUploadOutlinedIcon from '../../../assets/images/icons/export.svg';
-// import FileDownloadOutlinedIcon from '../../../assets/images/icons/download.svg';
+import FileUploadOutlinedIcon from '../../../assets/images/icons/export.svg';
+import FileDownloadOutlinedIcon from '../../../assets/images/icons/download.svg';
 // import AddOutlinedIcon from '../../../assets/images/icons/add.svg';
 // import PersonOutlinedIcon from '../../../assets/images/icons/user.svg';
-// import ChevronRightOutlinedIcon from '../../../assets/images/icons/rightArrowIcon.svg';
+import ChevronRightOutlinedIcon from '../../../assets/images/icons/rightArrowIcon.svg';
+
+const { mainHeadingfontFamilyClass } = fonts;
 
 const DropDown = ({
   // eslint-disable-next-line no-unused-vars
   open, handleClose, anchorEl, classes, activeAccount, accounts,
 }) => {
-  // useEffect(() => {
-  //   console.log('accounts changed bhai', accounts[activeAccount]);
-  //   if (accounts.length === 0) {
-  //     dispatch(setSeed(''));
-  //     dispatch(setPublicKey(''));
-  //     dispatch(setAccountName(''));
-  //     history.push('/');
-  //   } else if (accounts[activeAccount] === undefined) {
-  //     console.log('accounts changed active ki', accounts);
-  //     dispatch(setSeed(Object.values(accounts)[0].seed));
-  //     dispatch(setPublicKey(Object.values(accounts)[0].publicKey));
-  //     dispatch(setAccountName(Object.values(accounts)[0].accountName));
-  //   }
-  // }, [accounts]);
-
   const dispatch = useDispatch();
   const history = useHistory();
   const [aboutOpen, setAboutOpen] = useState(false);
@@ -103,34 +89,7 @@ const DropDown = ({
           }}
         >
           <MenuList id="menu-list">
-            {/* <Typography style={{
-        textAlign: 'center',
-        fontWeight: '600',
-        paddingTop: '0.8rem',
-        color: '#fafafa',
-      }}
-      >
-        My Profile
-      </Typography>
-      <MenuList>
-        <MenuItem
-          style={{ minHeight: '37px', color: 'rgba(250, 250, 250, 0.6)' }}
-        >
-          <ListItemIcon style={{ color: 'rgba(250, 250, 250, 0.6)' }} className="flexStart">
-            <img src={PersonOutlinedIcon} alt="user-icon" />
-                  &nbsp; &nbsp;
-            <span style={{ fontSize: '0.9rem' }}>Accounts</span>
-          </ListItemIcon>
-          <img src={ChevronRightOutlinedIcon} alt="icon" style={{ marginLeft: '3.8rem', marginTop: '-0.4rem' }} />
-        </MenuItem>
-        <MenuItem style={{ minHeight: '37px', color: 'rgba(250, 250, 250, 0.6)' }}>
-          <ListItemIcon className="flexStart" style={{ color: 'rgba(250, 250, 250, 0.6)' }}>
-            <img src={AddOutlinedIcon} alt="add-icon" />
-                  &nbsp; &nbsp;
-            <span style={{ fontSize: '0.85rem' }}>Add Account</span>
-          </ListItemIcon>
-          <img src={ChevronRightOutlinedIcon} alt="icon" style={{ marginLeft: '2.85rem', marginTop: '-0.4rem' }} />
-        </MenuItem>
+            {/*
         <MenuItem style={{ minHeight: '37px', color: 'rgba(250, 250, 250, 0.6)' }}>
           <ListItemIcon className="flexStart" style={{ color: 'rgba(250, 250, 250, 0.6)' }}>
             <img src={FileDownloadOutlinedIcon} alt="download-icon" />
@@ -147,14 +106,6 @@ const DropDown = ({
           </ListItemIcon>
           <img src={ChevronRightOutlinedIcon} alt="icon" style={{ marginLeft: '1.65rem', marginTop: '-0.4rem' }} />
         </MenuItem>
-        <MenuItem style={{ minHeight: '37px', color: 'rgba(250, 250, 250, 0.6)' }}>
-          <ListItemIcon className="flexStart" style={{ color: 'rgba(250, 250, 250, 0.6)' }}>
-            <img src={ForumOutlinedIcon} alt="support-icon" />
-                  &nbsp; &nbsp;
-            <span style={{ fontSize: '0.85rem' }}>Support</span>
-          </ListItemIcon>
-          <img src={ChevronRightOutlinedIcon} alt="icon" style={{ marginLeft: '4.7rem', marginTop: '-0.4rem' }} />
-        </MenuItem>
         <MenuItem style={{ minHeight: '37px', color: '#fafafa' }}>
           <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
             <img src={SettingsOutlinedIcon} alt="setting-icon" />
@@ -163,37 +114,6 @@ const DropDown = ({
           </ListItemIcon>
           <img src={ChevronRightOutlinedIcon} alt="icon" style={{ marginLeft: '5.04rem', marginTop: '-0.4rem' }} />
         </MenuItem> */}
-            {Object.values(accounts).map((account) => (
-              <MenuItem
-                key={account.publicKey}
-                id="menu-item-1"
-                style={{ minHeight: '37px', color: '#fafafa' }}
-                onClick={() => {
-                  console.log('Testing something==>>', account);
-                  // dispatch(setSeed(account.seed));
-                  dispatch(setPublicKey(account.publicKey));
-                  dispatch(setAccountName(account.accountName));
-                }}
-              >
-                <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
-                  <img
-                    src={LockOutlinedIcon}
-                    alt="lock-icon"
-                    style={{ marginTop: '-0.2rem' }}
-                  />
-                  &nbsp; &nbsp;
-                  <span style={{ fontSize: '0.85rem' }}>{account.accountName}</span>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      history.push(`/ImportWallet/${account.seed}`);
-                    }}
-                  >
-                    D
-                  </button>
-                </ListItemIcon>
-              </MenuItem>
-            ))}
 
             <DropDownMainText className={mainHeadingfontFamilyClass}>
               My Profile
@@ -215,22 +135,27 @@ const DropDown = ({
               </ListItemIcon>
             </MenuItem>
 
-            {/* <MenuItem
+            <MenuItem
+              id="menu-item-2"
               style={{ minHeight: '37px', color: '#fafafa' }}
               onClick={() => {
-                history.push('/viewSeed');
+                history.push('/ImportWallet');
               }}
             >
               <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
-                <img
-                  src={viewSeedIcon}
-                  alt="lock-icon"
-                  style={{ marginTop: '-0.2rem' }}
-                />
+                <img src={FileDownloadOutlinedIcon} alt="download-icon" style={{ marginTop: '-0.2rem' }} />
                   &nbsp; &nbsp;
-                <span style={{ fontSize: '0.85rem' }}>View Seed</span>
+                <span style={{ fontSize: '0.85rem' }}>Import Account</span>
               </ListItemIcon>
-            </MenuItem> */}
+            </MenuItem>
+
+            <MenuItem style={{ minHeight: '37px', color: 'rgba(250, 250, 250, 0.6)' }}>
+              <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
+                <img src={FileUploadOutlinedIcon} alt="export-icon" style={{ marginTop: '-0.2rem' }} />
+                  &nbsp; &nbsp;
+                <span style={{ fontSize: '0.85rem' }}>Export Account</span>
+              </ListItemIcon>
+            </MenuItem>
 
             <MenuItem
               style={{ minHeight: '37px', color: '#fafafa', fontSize: '15px' }}
@@ -246,6 +171,21 @@ const DropDown = ({
                 />
                      &nbsp; &nbsp;
                 <span style={{ fontSize: '0.85rem' }}>Support</span>
+              </ListItemIcon>
+            </MenuItem>
+
+            <MenuItem
+              style={{ minHeight: '37px', color: '#fafafa', fontSize: '15px' }}
+              onClick={() => setAboutOpen(true)}
+            >
+              <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
+                <img
+                  src={aboutIcon}
+                  alt="lock-icon"
+                  style={{ marginTop: '-0.2rem' }}
+                />
+                  &nbsp; &nbsp;
+                <span style={{ fontSize: '0.85rem' }}>About</span>
               </ListItemIcon>
             </MenuItem>
 
@@ -268,79 +208,6 @@ const DropDown = ({
                 />
                   &nbsp; &nbsp;
                 <span style={{ fontSize: '0.85rem' }}>Lock</span>
-              </ListItemIcon>
-            </MenuItem>
-
-            <MenuItem
-              id="menu-item-2"
-              style={{ minHeight: '37px', color: '#fafafa' }}
-              onClick={() => {
-                history.push('/ImportWallet');
-              }}
-            >
-              <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
-                <img
-                  src={LockOutlinedIcon}
-                  alt="remove-account"
-                  width="14.55"
-                  height="15"
-                  style={{ marginTop: '0.15rem' }}
-                />
-                  &nbsp; &nbsp;
-                <span style={{ fontSize: '0.85rem' }}>Add Account</span>
-              </ListItemIcon>
-            </MenuItem>
-            {/* <MenuItem
-            id="menu-item-2"
-            style={{ minHeight: '37px', color: '#fafafa' }}
-            onClick={() => {
-              dispatch(deleteAccount(activeAccount));
-              // dispatch(resetAccountSlice());
-              // dispatch(resetTransactions());
-              dispatch(setSeed(Object.values(accounts)[0].seed));
-              dispatch(setPublicKey(Object.values(accounts)[0].publicKey));
-              dispatch(setAccountName(Object.values(accounts)[0].accountName));
-            }}
-          >
-            <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
-              <img
-                src={RemoveIcon}
-                alt="remove-account"
-                width="14.55"
-                height="15"
-                style={{ marginTop: '0.15rem' }}
-              /> */}
-
-            <MenuItem
-              id="menu-item-1"
-              style={{ minHeight: '37px', color: '#fafafa', fontSize: '15px' }}
-              onClick={() => {
-                dispatch(deleteAccount(activeAccount));
-              }}
-            >
-              <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
-                <img
-                  src={LockOutlinedIcon}
-                  alt="lock-icon"
-                  style={{ marginTop: '-0.3rem', marginLeft: '-0.1rem' }}
-                />
-                  &nbsp; &nbsp;
-                <span style={{ fontSize: '0.85rem' }}>Delete Account</span>
-              </ListItemIcon>
-            </MenuItem>
-
-            <MenuItem
-              style={{ minHeight: '37px', color: '#fafafa', fontSize: '15px' }}
-              onClick={() => setAboutOpen(true)}
-            >
-              <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
-                <img
-                  src={aboutIcon}
-                  alt="lock-icon"
-                  style={{ marginTop: '-0.2rem' }}
-                />
-                  &nbsp; &nbsp;
-                <span style={{ fontSize: '0.85rem' }}>About</span>
               </ListItemIcon>
             </MenuItem>
           </MenuList>

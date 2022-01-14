@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router';
@@ -34,10 +35,13 @@ const AccountList = ({
   publicKey,
   accountName,
   margin,
+  marginBottom,
+  marginTop,
   accountActive,
   publicKeyy,
   account,
   derivedDropDown,
+  childAccounts,
 }) => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -49,6 +53,11 @@ const AccountList = ({
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [checkDerivedAccount, setCheckDerivedAccount] = useState(null);
+
+  console.log('childAccounts', childAccounts, publicKey);
+
+  const isThisAParent = childAccounts.filter((cAcc) => cAcc.parentAddress === account.publicKey).length > 0;
+  console.log('The account having name ', accountName, isThisAParent);
 
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
@@ -113,7 +122,7 @@ const AccountList = ({
 
   return (
     <>
-      <Account margin={margin}>
+      <Account marginBottom={marginBottom} marginTop={marginTop}>
         <AccountFlex>
           <AccountCircle />
           <AccountText>
@@ -142,6 +151,9 @@ const AccountList = ({
           {isOpen && (
             <DropDownListContainer>
               <DropDownList>
+                {
+                  (!account.parentAddress && !isThisAParent)
+                && (
                 <ListItem
                   onClick={() => {
                     expandModal(account);
@@ -160,6 +172,8 @@ const AccountList = ({
                     Create Derive Account
                   </span>
                 </ListItem>
+                )
+                }
                 <ListItem
                   onClick={() => {
                     // history.push('/viewSeed');

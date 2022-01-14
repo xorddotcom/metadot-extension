@@ -1,3 +1,6 @@
+/* eslint-disable max-len */
+/* eslint-disable consistent-return */
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -52,6 +55,8 @@ function MultipleAccounts() {
     childAccounts: [],
   });
 
+  console.log('userAccounts-------------', userAccounts);
+
   //  Account Drop Down
   // const [anchorEl, setAnchorEl] = useState(null);
   // const open = Boolean(anchorEl);
@@ -96,6 +101,68 @@ function MultipleAccounts() {
     parentChildR();
   }, [allAccounts]);
 
+  const accountActive = (pk, name) => {
+    // dispatch(setSeed(account.seed));
+    dispatch(setPublicKey(pk));
+    dispatch(setAccountName(name));
+    history.push('/');
+  };
+
+  const derivedChildAccount = () => {
+    dispatch(setDerivedAccountModal(true));
+  };
+
+  const allParentAddresses = userAccounts.parentAccounts.map((pAcc) => pAcc.publicKey);
+
+  const allChildsWithoutParents = userAccounts.childAccounts.filter((childAccount) => !allParentAddresses.includes(childAccount.parentAddress));
+
+  console.log('allChildsWithoutParents', { allChildsWithoutParents, allParentAddresses });
+
+  // eslint-disable-next-line no-unused-vars
+  const derivedChildWithoutParents = () => allChildsWithoutParents.map((account) => {
+    const accountList = {
+      publicKey: addressModifier(account.publicKey),
+      publicKeyy: account.publicKey,
+      accountName: account.accountName,
+      accountActive: () => accountActive(account.publicKey, account.accountName),
+      derivedChildAccount,
+      account,
+      derivedDropDown,
+      childAccounts: userAccounts.childAccounts,
+      marginBottom: '10px',
+      marginTop: '10px',
+    };
+    return <AccountList key={account.publicKey} {...accountList} />;
+  });
+
+  // // eslint-disable-next-line array-callback-return
+  // userAccounts.childAccounts.map((childAccount, i) => {
+  //   if (
+  //   // childAccount.parentAddress !== account.publicKey
+  //     childAccount.parentAddress
+  //   ) {
+  //     console.log('not found', childAccount.parentAddress);
+  //     const childWithoutParents = {
+  //       publicKey: addressModifier(childAccount.publicKey),
+  //       publicKeyy: childAccount.publicKey,
+  //       accountName: childAccount.accountName,
+  //       // eslint-disable-next-line max-len
+  //       accountActive: () => accountActive(childAccount.publicKey, childAccount.accountName),
+  //       derivedChildAccount,
+  //       account: childAccount,
+  //       derivedDropDown: false,
+  //     };
+  //     console.log('childWithoutParents', childWithoutParents);
+
+  //     // eslint-disable-next-line no-else-return
+  //   } else {
+  //     console.log('found', childAccount.publicKey);
+  //     // return <AccountList {...childWithoutParents} />;
+  //   }
+  // });
+
+  // return null;
+
   return (
     <Wrapper>
       <WrapperScroll>
@@ -105,27 +172,15 @@ function MultipleAccounts() {
         />
         {userAccounts.parentAccounts
           && userAccounts.parentAccounts.map((account) => {
-            const accountActive = () => {
-              console.log('Testing something==>>', account);
-              // dispatch(setSeed(account.seed));
-              dispatch(setPublicKey(account.publicKey));
-              dispatch(setAccountName(account.accountName));
-              history.push('/');
-            };
-
-            const derivedChildAccount = () => {
-              dispatch(setDerivedAccountModal(true));
-            };
-
             const accountList = {
               publicKey: addressModifier(account.publicKey),
               publicKeyy: account.publicKey,
               accountName: account.accountName,
-              accountSeed: account.seed,
-              accountActive,
+              accountActive: () => accountActive(account.publicKey, account.accountName),
               derivedChildAccount,
               account,
               derivedDropDown,
+              childAccounts: userAccounts.childAccounts,
             };
 
             const derivedChild = () => {
@@ -147,11 +202,13 @@ function MultipleAccounts() {
                     childAccountActive,
                     checkDrivedDropdownOpen,
                   };
+
                   return (
                     <div>
                       <DrivedAccountList {...drivedAccountList} />
                     </div>
                   );
+                // eslint-disable-next-line no-else-return
                 }
               }
               return null;
@@ -168,6 +225,8 @@ function MultipleAccounts() {
 
                   </MarginSet>
 
+                  {/* {derivedChildWithoutParents()} */}
+
                   {/* <AccountDropDown
                     anchorEl={anchorEl}
                     open={open}
@@ -181,6 +240,7 @@ function MultipleAccounts() {
               </>
             );
           })}
+        {derivedChildWithoutParents()}
       </WrapperScroll>
 
       <ButtonDiv>

@@ -49,6 +49,8 @@ export const Account = styled.div`
   align-items: center;
   padding: 0 28px;
   margin: ${(props) => props.margin && props.margin};
+  margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
+  margin-top: ${(props) => props.marginTop && props.marginTop};
 `;
 
 export const AccountFlex = styled.div`

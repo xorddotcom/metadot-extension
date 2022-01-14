@@ -302,6 +302,7 @@ function Dashboard(props) {
     setAnchorEl(null);
   };
 
+  // eslint-disable-next-line no-unused-vars
   const getPairA = () => {
     try {
       if (publicKey) {
@@ -432,7 +433,7 @@ function Dashboard(props) {
           }}
         />
       </Wrapper>
-      <button
+      {/* <button
         type="button"
         onClick={() => {
           const res = keyring.getAccounts();
@@ -441,7 +442,7 @@ function Dashboard(props) {
       >
         Get All Accounts
       </button>
-      <button type="button" onClick={() => getPairA()}>get pair</button>
+      <button type="button" onClick={() => getPairA()}>get pair</button> */}
     </>
   );
 }

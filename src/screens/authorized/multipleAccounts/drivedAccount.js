@@ -38,6 +38,7 @@ const DrivedAccountList = ({
   childAccountActive,
   checkDrivedDropdownOpen,
 }) => {
+  console.log('childAccount inside++++++++', childAccount);
   const { publicKey } = childAccount;
   const ref = useRef(null);
   const dispatch = useDispatch();
@@ -67,6 +68,7 @@ const DrivedAccountList = ({
   }, [isOpen]);
 
   const onOptionClicked = () => {
+    console.log('ran!!!!!', publicKey, activeAccount.publicKey);
     if (publicKey === activeAccount.publicKey) {
       dispatch(deleteAccount(publicKey));
       // dispatch(setSeed(''));
