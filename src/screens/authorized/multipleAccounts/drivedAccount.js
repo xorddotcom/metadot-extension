@@ -58,8 +58,6 @@ const DrivedAccountList = ({
       }
     };
 
-    console.log('ref', ref);
-
     document.addEventListener('click', checkIfClickedOutside);
 
     return () => {
@@ -80,7 +78,7 @@ const DrivedAccountList = ({
       history.push('/');
     }
     dispatch(deleteAccount(publicKey));
-    history.push('/');
+    // history.push('/');
     setIsOpen(false);
   };
 
@@ -116,81 +114,75 @@ const DrivedAccountList = ({
         {/* Derived Account Drop Down */}
 
         {drivedDropDownOpen && (
-          <>
-            {childAccount.map((child) => {
-              console.log('asd asd asd', child);
-              return (
-                <>
-                  <Account margin="1rem 0">
-                    <AccountFlex>
-                      <AccountCircle />
-                      <AccountText>
-                        <AccountMainText
-                          onClick={childAccountActive}
-                          className={mainHeadingfontFamilyClass}
-                        >
-                          {`${child.accountName}//0`}
-                        </AccountMainText>
-                        <AccountSubText className={subHeadingfontFamilyClass}>
-                          {addressModifier(child.publicKey)}
-                        </AccountSubText>
-                      </AccountText>
-                    </AccountFlex>
 
-                    {/* Drop Down 3 dots */}
+        <>
+          <Account margin="1rem 0">
+            <AccountFlex>
+              <AccountCircle />
+              <AccountText>
+                <AccountMainText
+                  onClick={childAccountActive}
+                  className={mainHeadingfontFamilyClass}
+                >
+                  {`${childAccount.accountName}//0`}
+                </AccountMainText>
+                <AccountSubText className={subHeadingfontFamilyClass}>
+                  {addressModifier(childAccount.publicKey)}
+                </AccountSubText>
+              </AccountText>
+            </AccountFlex>
 
-                    <DropDownContainer className={mainHeadingfontFamilyClass}>
-                      <DropDownIcon
-                        ref={ref}
-                        onClick={() => setIsOpen((oldState) => !oldState)}
-                      >
-                        <img src={dropDownIcon} alt="3-dots" />
-                      </DropDownIcon>
+            {/* Drop Down 3 dots */}
 
-                      {isOpen && (
-                        <DropDownListContainer>
-                          <DropDownList>
-                            <ListItem
-                              onClick={() => console.log('clicked')}
-                              key={Math.random()}
-                            >
-                              <img
-                                src={RemoveIcon}
-                                alt="remove-account"
-                                width="16"
-                                height="17"
-                                style={{ marginLeft: '1.2rem' }}
-                              />
+            <DropDownContainer className={mainHeadingfontFamilyClass}>
+              <DropDownIcon
+                ref={ref}
+                onClick={() => setIsOpen((oldState) => !oldState)}
+              >
+                <img src={dropDownIcon} alt="3-dots" />
+              </DropDownIcon>
+
+              {isOpen && (
+              <DropDownListContainer>
+                <DropDownList>
+                  <ListItem
+                    onClick={() => console.log('clicked')}
+                    key={Math.random()}
+                  >
+                    <img
+                      src={RemoveIcon}
+                      alt="remove-account"
+                      width="16"
+                      height="17"
+                      style={{ marginLeft: '1.2rem' }}
+                    />
                               &nbsp; &nbsp;
-                              <span style={{ fontSize: '0.85rem' }}>
-                                Export Account
-                              </span>
-                            </ListItem>
-                            <ListItem
-                              onClick={() => onOptionClicked()}
-                              key={Math.random()}
-                            >
-                              <img
-                                src={RemoveIcon}
-                                alt="remove-account"
-                                width="16"
-                                height="17"
-                                style={{ marginLeft: '1.2rem' }}
-                              />
+                    <span style={{ fontSize: '0.85rem' }}>
+                      Export Account
+                    </span>
+                  </ListItem>
+                  <ListItem
+                    onClick={() => onOptionClicked()}
+                    key={Math.random()}
+                  >
+                    <img
+                      src={RemoveIcon}
+                      alt="remove-account"
+                      width="16"
+                      height="17"
+                      style={{ marginLeft: '1.2rem' }}
+                    />
                               &nbsp; &nbsp;
-                              <span style={{ fontSize: '0.85rem' }}>
-                                Remove Account
-                              </span>
-                            </ListItem>
-                          </DropDownList>
-                        </DropDownListContainer>
-                      )}
-                    </DropDownContainer>
-                  </Account>
-                </>
-              );
-            })}
-          </>
+                    <span style={{ fontSize: '0.85rem' }}>
+                      Remove Account
+                    </span>
+                  </ListItem>
+                </DropDownList>
+              </DropDownListContainer>
+              )}
+            </DropDownContainer>
+          </Account>
+        </>
         )}
       </DrivedAccountMain>
     </>

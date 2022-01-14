@@ -131,8 +131,6 @@ function MultipleAccounts() {
             const derivedChild = () => {
               // eslint-disable-next-line no-plusplus
               for (let i = 0; i < userAccounts.childAccounts.length; i++) {
-                const arr = [];
-
                 const childAccountActive = () => {
                   console.log('Testing something child==>>', userAccounts.childAccounts[i]);
                   // dispatch(setSeed(userAccounts.childAccounts[i].seed));
@@ -144,9 +142,8 @@ function MultipleAccounts() {
                 if (
                   userAccounts.childAccounts[i].parentAddress === account.publicKey
                 ) {
-                  arr.push(userAccounts.childAccounts[i]);
                   const drivedAccountList = {
-                    childAccount: arr,
+                    childAccount: userAccounts.childAccounts[i],
                     childAccountActive,
                     checkDrivedDropdownOpen,
                   };

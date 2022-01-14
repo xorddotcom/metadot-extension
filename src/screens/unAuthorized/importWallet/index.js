@@ -36,7 +36,6 @@ import { fonts, colors } from '../../../utils';
 import accounts from '../../../utils/accounts';
 import ImportIcon from '../../../assets/images/import.svg';
 import AuthScreen from '../../../components/modals/authorization';
-import AccountDropDown from '../../authorized/multipleAccounts/accountDropDown';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryText, darkBackground1 } = colors;
