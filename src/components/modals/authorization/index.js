@@ -100,8 +100,9 @@ function AuthModal({
     <Modal
       open={open}
       onClose={handleClose}
+      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
-      <Box sx={style} className="txDetails-modal-style">
+      <Box sx={style} className="txDetails-modal-style auth-modal">
         <MainDiv>
           <MainText1 marginTop="10px" textAlign="center" className={mainHeadingfontFamilyClass}>Authorization</MainText1>
 

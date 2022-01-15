@@ -260,7 +260,7 @@ const DropDown = ({
           padding: '0 20px',
           pb: 3,
           height: '320px',
-          marginTop: '9rem',
+          marginTop: '7rem',
         }}
       />
     </>

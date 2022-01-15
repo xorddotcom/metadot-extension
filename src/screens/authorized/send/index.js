@@ -745,6 +745,8 @@ const Send = () => {
     setTransactionFee(txFee);
     setLoading1(false);
     setIsWarningModalOpen(false);
+    dispatch(setConfirmSendModal(true));
+
     // // checking if balance is enough to send the amount with network fee
     // if (currentUser.account.balance < (Number(amountState.value) + Number(txFee))) {
     //   setInsufficientBal(true);
@@ -934,15 +936,6 @@ const Send = () => {
           dispatch(setConfirmSendModal(true));
         }}
         sendTransaction={doTransaction}
-        style={{
-          width: '78%',
-          background: '#141414',
-          position: 'relative',
-          p: 2,
-          px: 2,
-          pb: 3,
-          mt: 25,
-        }}
       />
 
       <WarningModal {...warningModal} />
