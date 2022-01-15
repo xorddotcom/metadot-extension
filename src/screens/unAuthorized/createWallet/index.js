@@ -25,8 +25,8 @@ import {
   setResponseImage,
   setSubTextForSuccessModal,
 } from '../../../redux/slices/modalHandling';
-import ImportIcon from '../../../assets/images/import.svg';
-import AccountCreate from '../../../assets/images/acc-create.svg';
+import ImportIcon from '../../../assets/images/modalIcons/import.svg';
+import AccountCreate from '../../../assets/images/modalIcons/accountCreate.svg';
 import { addAccount } from '../../../redux/slices/accounts';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;

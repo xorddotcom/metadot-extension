@@ -29,7 +29,7 @@ import {
   setResponseImage,
   setSubTextForSuccessModal,
 } from '../../../redux/slices/modalHandling';
-import ImportIcon from '../../../assets/images/import.svg';
+import ImportIcon from '../../../assets/images/modalIcons/import.svg';
 import { addAccount } from '../../../redux/slices/accounts';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;

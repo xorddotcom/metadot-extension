@@ -27,7 +27,7 @@ import {
 import FromInput from './fromInput';
 import ToInput from './toInput';
 import AmountInput from './amountInput';
-import UnsuccessCheckIcon from '../../../assets/images/TransactionFailed.svg';
+import UnsuccessCheckIcon from '../../../assets/images/modalIcons/failed.svg';
 import SuccessCheckIcon from '../../../assets/images/success.png';
 
 // const { Keyring } = require('@polkadot/api');

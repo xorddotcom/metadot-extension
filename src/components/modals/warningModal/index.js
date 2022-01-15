@@ -24,7 +24,7 @@ function WarningModal({
     fw: '600',
   };
 
-  console.log('warning modal ', location.state.seedToPass);
+  // console.log('warning modal ', location.state.seedToPass);
 
   const btnF = {
     text: 'Cancel',

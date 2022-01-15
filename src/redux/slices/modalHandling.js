@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import SuccessCheckIcon from '../../assets/images/success.png';
+import SuccessCheckIcon from '../../assets/images/modalIcons/success.svg';
 
 const initialState = {
   mainText: 'Success!',

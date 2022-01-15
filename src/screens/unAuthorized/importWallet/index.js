@@ -34,7 +34,7 @@ import {
 import CustomUploadFile from './customUploadFile';
 import { fonts, colors } from '../../../utils';
 import accounts from '../../../utils/accounts';
-import ImportIcon from '../../../assets/images/import.svg';
+import ImportIcon from '../../../assets/images/modalIcons/import.svg';
 import AuthScreen from '../../../components/modals/authorization';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
