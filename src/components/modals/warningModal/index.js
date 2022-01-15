@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { MainHeading, SubHeading } from '../../index';
@@ -17,10 +16,8 @@ function WarningModal({
   image,
   mainText,
   subText,
+  onConfirm,
 }) {
-  const history = useHistory();
-  const location = useLocation();
-
   const mainHeading = {
     className: mainHeadingfontFamilyClass,
     color: warningText,
@@ -39,10 +36,7 @@ function WarningModal({
     width: '115px',
     height: '35px',
     fontSize: '14px',
-    handleClick: () => history.push({
-      pathname: '/ConfirmSeed',
-      state: { seedToPass: location.state.seedToPass },
-    }),
+    handleClick: () => onConfirm(),
   };
 
   const flexCenter = {

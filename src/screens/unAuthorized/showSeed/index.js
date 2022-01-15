@@ -2,7 +2,7 @@
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import ContentCopyIcon from '../../../assets/images/icons/copyIcon.svg';
 import {
   CopyIcon, CopyText, IndexText, SeedText, SeedWrapper,
@@ -23,6 +23,7 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { decrypt } = accounts;
 
 function ShowSeed() {
+  const history = useHistory();
   const location = useLocation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -66,6 +67,12 @@ function ShowSeed() {
   const warningModal = {
     open: isModalOpen,
     handleClose: () => setIsModalOpen(false),
+    onConfirm: () => {
+      history.push({
+        pathname: '/ConfirmSeed',
+        state: { seedToPass: location.state.seedToPass },
+      });
+    },
     style: {
       width: '290px',
       background: '#141414',

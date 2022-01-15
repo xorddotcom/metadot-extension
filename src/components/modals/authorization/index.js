@@ -19,7 +19,7 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { unlockPair } = accounts;
 
 function AuthModal({
-  open, handleClose, style, sendTransaction, getSeedHandler, publicKey,
+  open, handleClose, style, sendTransaction, publicKey,
 }) {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -57,12 +57,10 @@ function AuthModal({
       const sender = unlockPair(publicKey, password);
       if (sender !== false) {
         dispatch(setAuthScreenModal(false));
-        getSeedHandler(true);
       }
     } catch (err) {
       console.log('error due to wrong ', err);
       setPasswordError('Invalid password!');
-      getSeedHandler(false);
     }
     return null;
   };

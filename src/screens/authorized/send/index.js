@@ -10,7 +10,7 @@ import { helpers } from '../../../utils';
 import services from '../../../utils/services';
 // eslint-disable-next-line no-unused-vars
 import {
-  AuthWrapper, Button, ConfirmSend, Header, AuthModal,
+  AuthWrapper, Button, ConfirmSend, Header, AuthModal, WarningModal,
 } from '../../../components';
 import {
   MainContent,
@@ -98,6 +98,9 @@ const Send = () => {
   // eslint-disable-next-line no-unused-vars
   const [isLoading, setIsLoading] = useState(false);
 
+  const [isWarningModalOpen, setIsWarningModalOpen] = useState(false);
+  const [subTextForWarningModal, setSubTextForWarningModal] = useState('abc');
+
   const currentUser = useSelector((state) => state);
   const { api } = currentUser.api;
   const { rpcUrl } = currentUser.account;
@@ -153,6 +156,7 @@ const Send = () => {
   const [isInputEmpty, setIsInputEmpty] = useState(false);
 
   const amountHandler = (e) => {
+    setInsufficientBal(false);
     // eslint-disable-next-line no-unused-expressions
     if (e.length === 0) {
       amountDispatch({ type: 'USER_INPUT', val: e, amountIsValid: currentUser.account.balance });
@@ -255,6 +259,22 @@ const Send = () => {
     console.log('Sender balance after tx', (senderBalance - amountState.value) * 10 ** decimalPlaces);
     console.log('ED of the chain', currentUser.api.api.consts.balances.existentialDeposit);
 
+    const decimalPlacesForTxFee = await api.registry.chainDecimals;
+
+    const info = await api.tx.balances
+      .transfer(currentUser.account.publicKey, amountState.value * 10 ** decimalPlacesForTxFee)
+      .paymentInfo(accountToSate.value);
+
+    console.log('After info');
+    const txFee = await convertTransactionFee(info.partialFee.toHuman());
+
+    // checking if balance is enough to send the amount with network fee
+    if (currentUser.account.balance < (Number(amountState.value) + Number(txFee))) {
+      setInsufficientBal(true);
+      console.log('hello');
+      return [false, null];
+    }
+
     if (currentUser.api.api.consts.balances.existentialDeposit
       // eslint-disable-next-line eqeqeq
       > (recipientBalance + amountState.value) * 10 ** decimalPlaces
@@ -263,18 +283,28 @@ const Send = () => {
       //  currentUser.api.api.consts.balances.existentialDeposit
     ) {
       // Show warning modal
-      alert('Existential deposit warning. The transaction might get failed');
+      setSubTextForWarningModal('The receiver have insufficient balance to receive the transaction, Do you still want to confirm?');
+      setIsWarningModalOpen(true);
+      return [false, null];
+      // alert('Existential deposit warning.
+      // The receiver have insufficient balance to receive the transaction');
       // alert('Warning modal, the transaction might get failed');
     }
+    console.log('the cond -------', (senderBalance - amountState.value) * 10 ** decimalPlaces, currentUser.api.api.consts.balances.existentialDeposit, (senderBalance - amountState.value) * 10 ** decimalPlaces
+    < currentUser.api.api.consts.balances.existentialDeposit);
     if ((senderBalance - amountState.value) * 10 ** decimalPlaces
     < currentUser.api.api.consts.balances.existentialDeposit) {
-      alert('Existential deposit warning. The sender account might get reaped');
+      // alert('The sender account might get reaped');
+      setSubTextForWarningModal('The sender account might get reaped');
+      setIsWarningModalOpen(true);
+      return [false, null];
     }
     //   return true;
     // } catch (er) {
     //   console.log('error  in validation tx data', er);
     //   return false;
     // }
+    return [true, txFee];
   };
 
   const doTransaction = async (sender) => {
@@ -698,6 +728,32 @@ const Send = () => {
     }
   };
 
+  const SendTx = async (txFee) => {
+    // const decimalPlaces = await api.registry.chainDecimals;
+
+    // const info = await api.tx.balances
+    //   .transfer(currentUser.account.publicKey, amountState.value * 10 ** decimalPlaces)
+    //   .paymentInfo(accountToSate.value);
+
+    // console.log('After info');
+    // const txFee = await convertTransactionFee(info.partialFee.toHuman());
+    // const txFee = 0.1;
+    console.log('After tx');
+    console.log('TX fee', txFee);
+    data.txFee = txFee;
+    data.chainName = currentUser.account.chainName;
+    setTransactionFee(txFee);
+    setLoading1(false);
+    setIsWarningModalOpen(false);
+    // // checking if balance is enough to send the amount with network fee
+    // if (currentUser.account.balance < (Number(amountState.value) + Number(txFee))) {
+    //   setInsufficientBal(true);
+    //   console.log('hello');
+    // } else {
+    //   dispatch(setConfirmSendModal(true));
+    // }
+  };
+
   // eslint-disable-next-line no-unused-vars
   const handleSubmit = async () => {
     console.log('User balance', currentUser.account.balance);
@@ -714,34 +770,40 @@ const Send = () => {
     try {
       setLoading1(true);
       if (!validateInputValues(accountToSate.value)) throw new Error('An error occurred');
-      const decimalPlaces = await api.registry.chainDecimals;
+      // const decimalPlaces = await api.registry.chainDecimals;
       console.log('Before validate tx errors');
-      await validateTxErrors();
-      console.log('After validate tx errors');
-      console.log('Before info');
+      const isTxValid = await validateTxErrors();
+      console.log('isTxValid------------------', { isTxValid });
+      if (isTxValid[0]) {
+        console.log('After validate tx errors');
+        console.log('Before info');
+        SendTx(isTxValid[1]);
+        // const info = await
+        // getTransactionFee(api, currentUser.account.publicKey,
+        // accountToSate.value, decimalPlaces, amountState.value);
+        // const info = await api.tx.balances
+        //   .transfer(currentUser.account.publicKey, amountState.value * 10 ** decimalPlaces)
+        //   .paymentInfo(accountToSate.value);
 
-      // const info = await
-      // getTransactionFee(api, encodeAddress(currentUser.account.publicKey, 42),
-      // accountToSate.value, decimalPlaces, amountState.value);
-      // const info = await api.tx.balances
-      //   .transfer(currentUser.account.publicKey, amountState.value * 10 ** decimalPlaces)
-      //   .paymentInfo(accountToSate.value);
-
-      console.log('After info');
-      // const txFee = await convertTransactionFee(info.partialFee.toHuman());
-      const txFee = 0.1;
-      console.log('After tx');
-      console.log('TX fee', txFee);
-      data.txFee = txFee;
-      data.chainName = currentUser.account.chainName;
-      setTransactionFee(txFee);
-      setLoading1(false);
-      // checking if balance is enough to send the amount with network fee
-      if (currentUser.account.balance < (Number(amountState.value) + Number(txFee))) {
-        setInsufficientBal(true);
-        console.log('hello');
+        // console.log('After info');
+        // const txFee = await convertTransactionFee(info.partialFee.toHuman());
+        // // const txFee = 0.1;
+        // console.log('After tx');
+        // console.log('TX fee', txFee);
+        // data.txFee = txFee;
+        // data.chainName = currentUser.account.chainName;
+        // setTransactionFee(txFee);
+        // setLoading1(false);
+        // // checking if balance is enough to send the amount with network fee
+        // if (currentUser.account.balance < (Number(amountState.value) + Number(txFee))) {
+        //   setInsufficientBal(true);
+        //   console.log('hello');
+        // } else {
+        //   dispatch(setConfirmSendModal(true));
+        // }
       } else {
-        dispatch(setConfirmSendModal(true));
+        console.log('abc abc abc');
+        setLoading1(false);
       }
     } catch (err) {
       console.log('In catch', err);
@@ -831,6 +893,23 @@ const Send = () => {
     loading2,
   };
 
+  const warningModal = {
+    open: isWarningModalOpen,
+    handleClose: () => setIsWarningModalOpen(false),
+    onConfirm: () => SendTx(),
+    style: {
+      width: '290px',
+      background: '#141414',
+      position: 'relative',
+      bottom: 30,
+      p: 2,
+      px: 2,
+      pb: 3,
+    },
+    mainText: 'Existential Deposit Warning',
+    subText: subTextForWarningModal,
+  };
+
   return (
     <AuthWrapper>
       <Header centerText="Send" backHandler={() => console.log('object')} />
@@ -865,6 +944,8 @@ const Send = () => {
           mt: 25,
         }}
       />
+
+      <WarningModal {...warningModal} />
     </AuthWrapper>
   );
 };
