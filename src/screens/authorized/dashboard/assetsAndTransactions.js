@@ -91,9 +91,7 @@ function AssetsAndTransactions({
     .then((r) => handleTransaction(r))
     .catch((e) => console.log(e));
 
-  const {
-    isLoading, isError, error,
-  } = useQuery(
+  useQuery(
     'user-transaction',
     fetchTransactions,
     {
