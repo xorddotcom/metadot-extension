@@ -186,6 +186,7 @@ function ImportWallet() {
     dispatch(
       setSubTextForSuccessModal(''),
     );
+    dispatch(setJsonFileUploadScreen(true));
     history.push('/');
 
     setTimeout(() => {
@@ -302,7 +303,10 @@ function ImportWallet() {
 
   const option1 = {
     id: 'seed-phrase',
-    onClick: () => setSelectedType('seed'),
+    onClick: () => {
+      dispatch(setJsonFileUploadScreen(false));
+      setSelectedType('seed');
+    },
     selected: selectedType === 'seed',
     className: mainHeadingfontFamilyClass,
   };

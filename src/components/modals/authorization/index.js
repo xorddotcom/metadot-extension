@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from '@mui/material';
@@ -19,7 +19,7 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { unlockPair } = accounts;
 
 function AuthModal({
-  open, handleClose, style, sendTransaction, publicKey,
+  open, handleClose, style, onConfirm, publicKey,
 }) {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ function AuthModal({
       if (sender !== false) {
         dispatch(setAuthScreenModal(false));
         dispatch(setConfirmSendModal(true));
-        sendTransaction(sender);
+        onConfirm(publicKey, password, sender);
       } else {
         throw new Error('Invalid password');
       }

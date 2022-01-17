@@ -134,7 +134,7 @@ export const DrivedAccountText = styled.p`
 export const ButtonDiv = styled.div`
   position: absolute;
   bottom: 20px;
-  left: 18px;
+  left: 28px;
 `;
 
 // Drop Down Container
