@@ -80,7 +80,6 @@ function AssetsAndTransactions({
   };
 
   const { query, endPoint } = queryData(chainName);
-  console.log('chain name:', chainName, 'query:', query, 'and its endpoint', endPoint);
 
   const fetchTransactions = async () => fetch(endPoint, {
     method: 'POST',
@@ -88,7 +87,7 @@ function AssetsAndTransactions({
     body: JSON.stringify({
       query,
     }),
-  }).then((r) => r.json())
+  }).then((r) => { console.log(r, 'responmseform quewf'); return r.json(); })
     .then((r) => handleTransaction(r))
     .catch((e) => console.log(e));
 
@@ -97,55 +96,62 @@ function AssetsAndTransactions({
   } = useQuery(
     'user-transaction',
     fetchTransactions,
+    {
+      refetchInterval: 5000,
+    },
   );
 
   const handleTransaction = (transactionObject) => {
     // list all the previous hashes
     // and then dispatch new data if it's txhash is not in previousHashes
 
-    console.log('handle transaction running', transactionObject);
+    console.log('handle transaction runninggggggggg', transactionObject);
 
     const previousTransactionHashList = transactionData.map((transaction) => transaction.hash);
 
-    transactionObject.data.account.transferTo.nodes.map((tempObj) => {
-      const obj = {};
-      if (!previousTransactionHashList.includes(tempObj.extrinsicHash)) {
-        obj.accountFrom = tempObj.fromId;
-        obj.accountTo = tempObj.toId;
-        // eslint-disable-next-line radix
-        obj.amount = parseInt(tempObj.amount) / parseInt(tempObj.decimals);
-        obj.hash = tempObj.extrinsicHash;
-        obj.operation = 'Send';
-        obj.status = tempObj.status ? 'Success' : 'Failed';
-        obj.chainName = tempObj.token;
-        obj.tokenName = tempObj.token;
-        obj.transactionFee = 0;
-        console.log('object from send', obj);
-        dispatch(addTransaction(obj));
-      }
+    console.log(transactionObject.data.account, 'abc test');
 
-      return obj;
-    });
+    if (transactionObject.data.account) {
+      transactionObject.data.account.transferTo.nodes.map((tempObj) => {
+        const obj = {};
+        if (!previousTransactionHashList.includes(tempObj.extrinsicHash)) {
+          obj.accountFrom = tempObj.fromId;
+          obj.accountTo = tempObj.toId;
+          // eslint-disable-next-line radix
+          obj.amount = parseInt(tempObj.amount) / parseInt(tempObj.decimals);
+          obj.hash = tempObj.extrinsicHash;
+          obj.operation = 'Receive';
+          obj.status = tempObj.status ? 'Success' : 'Failed';
+          obj.chainName = tempObj.token;
+          obj.tokenName = tempObj.token;
+          obj.transactionFee = 0;
+          console.log('object from send', obj);
+          dispatch(addTransaction(obj));
+        }
 
-    transactionObject.data.account.transferFrom.nodes.map((tempObj) => {
-      const obj = {};
-      if (!previousTransactionHashList.includes(tempObj.extrinsicHash)) {
-        obj.accountFrom = tempObj.fromId;
-        obj.accountTo = tempObj.toId;
-        // eslint-disable-next-line radix
-        obj.amount = parseInt(tempObj.amount) / parseInt(tempObj.decimals);
-        obj.hash = tempObj.extrinsicHash;
-        obj.operation = 'Receive';
-        obj.status = tempObj.status ? 'Success' : 'Failed';
-        obj.chainName = tempObj.token;
-        obj.tokenName = tempObj.token;
-        obj.transactionFee = 0;
-        console.log('object from rec', obj);
-        dispatch(addTransaction(obj));
-      }
+        return obj;
+      });
 
-      return obj;
-    });
+      transactionObject.data.account.transferFrom.nodes.map((tempObj) => {
+        const obj = {};
+        if (!previousTransactionHashList.includes(tempObj.extrinsicHash)) {
+          obj.accountFrom = tempObj.fromId;
+          obj.accountTo = tempObj.toId;
+          // eslint-disable-next-line radix
+          obj.amount = parseInt(tempObj.amount) / parseInt(tempObj.decimals);
+          obj.hash = tempObj.extrinsicHash;
+          obj.operation = 'Send';
+          obj.status = tempObj.status ? 'Success' : 'Failed';
+          obj.chainName = tempObj.token;
+          obj.tokenName = tempObj.token;
+          obj.transactionFee = 0;
+          console.log('object from rec', obj);
+          dispatch(addTransaction(obj));
+        }
+
+        return obj;
+      });
+    }
 
     return transactionObject;
   };

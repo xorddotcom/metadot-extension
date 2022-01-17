@@ -1,6 +1,28 @@
 /* eslint-disable */
 import { encodeAddress } from '@polkadot/util-crypto';
 import { useSelector } from 'react-redux';
+import constants from '../../src/constants/onchain';
+
+
+
+const {
+  POLKADOT_CONFIG,
+  KUSAMA_CONFIG,
+  PHALA_CONFIG,
+  KHALA_CONFIG,
+  BIFROST_CONFIG,
+  MOONRIVER_CONFIG,
+  SHIDEN_CONFIG,
+  KARURA_CONFIG,
+  WESTEND_CONFIG,
+  ROCOCO_CONFIG,
+  DUSTY_CONFIG,
+  ACALA_MANDALA_CONFIG,
+  ASTAR_CONFIG,
+  MOONBASE_CONFIG,
+  ASGARD_CONFIG,
+  SHIBUYA_CONFIG,
+} = constants;
 
 
 export const queryData = (network) =>{
@@ -9,35 +31,45 @@ export const queryData = (network) =>{
     let endPoint = '';
     switch (network) {
         case 'Polkadot Main Network':
-            query = getQuery();
-            endPoint = 'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e' 
+            query = getQuery(POLKADOT_CONFIG.PREFIX);
+            endPoint = POLKADOT_CONFIG.QUERY_ENDPOINT; 
             return {query, endPoint};            
     
         case 'Westend':
-            query = getQuery();
-            endPoint = 'https://api.subquery.network/sq/khuzama98/subql-westend__a2h1e'; 
+            query = getQuery(WESTEND_CONFIG.PREFIX);
+            endPoint = WESTEND_CONFIG.QUERY_ENDPOINT; 
             return {query, endPoint};
 
         case 'Dusty':
-            query = getQuery();
-            endPoint = 'https://api.subquery.network/sq/khuzama98/subql-dusty__a2h1e'    
+            query = getQuery(DUSTY_CONFIG.PREFIX);
+            endPoint = DUSTY_CONFIG.QUERY_ENDPOINT;    
             return {query, endPoint};
+
+        case 'Shibuya':
+            query = getQuery(SHIBUYA_CONFIG.PREFIX);
+            endPoint = SHIBUYA_CONFIG.QUERY_ENDPOINT;    
+            return {query, endPoint};
+
         default:
             return {query, endPoint};
     }
 }
 
 
-export const getQuery = () =>{
+export const getQuery = (prefix) =>{
 
   const publicKey = useSelector((state) => state?.account?.publicKey);
-//   const address = encodeAddress(publicKey, network);
+  const address = encodeAddress(publicKey, prefix);
 
-  const address = "5EUdHaRdL6mamfYN89rZf2SPQCQJXKqUWqVpLKExaLhEerT8" 
+  console.log(address, 'address from get query')
+
+   
+  const ad1 = 'X653bBR12UrTxquuKCeqJMLtjbSiGNWCC3JHVsCksuZjSf3'
+  
 
   const query = `
       query {
-    account(id: "5EUdHaRdL6mamfYN89rZf2SPQCQJXKqUWqVpLKExaLhEerT8") {
+    account(id: "${address}") {
         id
         transferTo {
           nodes {
@@ -69,3 +101,6 @@ export const getQuery = () =>{
   }`
   return query;
 }
+
+
+
