@@ -244,16 +244,13 @@ const Send = () => {
   };
 
   const maxInputHandler = async () => {
-    console.log('Start*******');
-    // const decimalPlaces = await api.registry.chainDecimals;
-    // const info = await api.tx.balances
-    //   .transfer(currentUser.activeAccount.publicKey, amountState.value * 10 ** decimalPlaces)
-    //   .paymentInfo(accountToSate.value);
+    const info = await api.tx.balances
+      .transfer(currentUser.activeAccount.publicKey, 10)
+      .paymentInfo(currentUser.activeAccount.publicKey);
 
-    // const txFee = await convertTransactionFee(info.partialFee.toHuman());
-    // console.log('transaction fee ---------', txFee);
-    // amountDispatch({ type: 'MAX_INPUT', bal: currentUser.activeAccount.balance, txFee });
-    // console.log('End--------------');
+    const txFee = Number(await convertTransactionFee(info.partialFee.toHuman()));
+
+    amountDispatch({ type: 'MAX_INPUT', bal: currentUser.activeAccount.balance, txFee: Number(txFee) + Number(txFee) / 10 });
   };
 
   // Check the sender existential deposit
@@ -278,14 +275,15 @@ const Send = () => {
     const decimalPlacesForTxFee = await api.registry.chainDecimals;
 
     const info = await api.tx.balances
-      .transfer(currentUser.account.publicKey, amountState.value * 10 ** decimalPlacesForTxFee)
+      .transfer(currentUser.activeAccount.publicKey,
+        amountState.value * 10 ** decimalPlacesForTxFee)
       .paymentInfo(accountToSate.value);
 
     console.log('After info');
     const txFee = await convertTransactionFee(info.partialFee.toHuman());
 
     // checking if balance is enough to send the amount with network fee
-    if (currentUser.account.balance < (Number(amountState.value) + Number(txFee))) {
+    if (currentUser.activeAccount.balance < (Number(amountState.value) + Number(txFee))) {
       setInsufficientBal(true);
       console.log('hello');
       return [false, null];
@@ -748,7 +746,7 @@ const Send = () => {
     // const decimalPlaces = await api.registry.chainDecimals;
 
     // const info = await api.tx.balances
-    //   .transfer(currentUser.account.publicKey, amountState.value * 10 ** decimalPlaces)
+    //   .transfer(currentUser.activeAccount.publicKey, amountState.value * 10 ** decimalPlaces)
     //   .paymentInfo(accountToSate.value);
 
     // console.log('After info');
@@ -757,14 +755,14 @@ const Send = () => {
     console.log('After tx');
     console.log('TX fee', txFee);
     data.txFee = txFee;
-    data.chainName = currentUser.account.chainName;
+    data.chainName = currentUser.activeAccount.chainName;
     setTransactionFee(txFee);
     setLoading1(false);
     setIsWarningModalOpen(false);
     dispatch(setConfirmSendModal(true));
 
     // // checking if balance is enough to send the amount with network fee
-    // if (currentUser.account.balance < (Number(amountState.value) + Number(txFee))) {
+    // if (currentUser.activeAccount.balance < (Number(amountState.value) + Number(txFee))) {
     //   setInsufficientBal(true);
     //   console.log('hello');
     // } else {
@@ -797,10 +795,10 @@ const Send = () => {
         console.log('Before info');
         SendTx(isTxValid[1]);
         // const info = await
-        // getTransactionFee(api, currentUser.account.publicKey,
+        // getTransactionFee(api, currentUser.activeAccount.publicKey,
         // accountToSate.value, decimalPlaces, amountState.value);
         // const info = await api.tx.balances
-        //   .transfer(currentUser.account.publicKey, amountState.value * 10 ** decimalPlaces)
+        //   .transfer(currentUser.activeAccount.publicKey, amountState.value * 10 ** decimalPlaces)
         //   .paymentInfo(accountToSate.value);
 
         // console.log('After info');
@@ -809,11 +807,11 @@ const Send = () => {
         // console.log('After tx');
         // console.log('TX fee', txFee);
         // data.txFee = txFee;
-        // data.chainName = currentUser.account.chainName;
+        // data.chainName = currentUser.activeAccount.chainName;
         // setTransactionFee(txFee);
         // setLoading1(false);
         // // checking if balance is enough to send the amount with network fee
-        // if (currentUser.account.balance < (Number(amountState.value) + Number(txFee))) {
+        // if (currentUser.activeAccount.balance < (Number(amountState.value) + Number(txFee))) {
         //   setInsufficientBal(true);
         //   console.log('hello');
         // } else {
