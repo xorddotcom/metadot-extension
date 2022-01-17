@@ -21,6 +21,7 @@ const AmountInput = ({
   trimBalance,
   errorMessages,
   error,
+  transactionFee,
 }) => {
   const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -51,6 +52,12 @@ const AmountInput = ({
     textAlign: 'end',
     className: subHeadingfontFamilyClass,
     style: { marginTop: '-1rem' },
+  };
+
+  const txFeeProps = {
+    textAlign: 'end',
+    className: subHeadingfontFamilyClass,
+    style: { marginTop: '0.2rem' },
   };
 
   return (
@@ -97,6 +104,14 @@ const AmountInput = ({
           Balance:
           {' '}
           {`${trimBalance(currentUser.activeAccount.balance)} ${currentUser.activeAccount.tokenName}`}
+        </Balance>
+      </CalculatedAmount>
+
+      <CalculatedAmount>
+        <Balance {...txFeeProps}>
+          Estimated Tx Fee:
+          {' '}
+          {`${trimBalance(transactionFee)}`}
         </Balance>
       </CalculatedAmount>
       <div style={{ height: '1.5rem' }}>

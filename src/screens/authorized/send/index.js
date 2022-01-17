@@ -145,6 +145,19 @@ const Send = () => {
     };
   }, [isValid, amountIsValid, amountState.isValid]);
 
+  // Getting estimated Transaction fee
+  useEffect(() => {
+    async function get() {
+      const info = await api.tx.balances
+        .transfer(currentUser.activeAccount.publicKey, 10)
+        .paymentInfo(currentUser.activeAccount.publicKey);
+      const res = await convertTransactionFee(info.partialFee.toHuman());
+      console.log('Res tx fee', res, res / 10);
+      setTransactionFee(res);
+    }
+    get();
+  });
+
   const accountToChangeHandler = (e) => {
     accountDispatch({ type: 'USER_INPUT', val: e, valid: currentUser.activeAccount.publicKey });
   };
@@ -189,6 +202,9 @@ const Send = () => {
       return (splitFee[0] * 10 ** -3).toFixed(4);
     }
     if (currentUser.activeAccount.tokenName === 'DOT') {
+      return (splitFee[0] * 10 ** -3).toFixed(4);
+    }
+    if (currentUser.activeAccount.tokenName === 'SBY') {
       return (splitFee[0] * 10 ** -3).toFixed(4);
     }
     return true;
@@ -860,6 +876,7 @@ const Send = () => {
     trimBalance,
     errorMessages,
     error,
+    transactionFee,
   };
 
   const btn = {
