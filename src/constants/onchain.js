@@ -23,6 +23,7 @@ const USD_PER_KSM_API = 'https://api.coingecko.com/api/v3/simple/price?ids=KUSAM
 const POLKADOT_CONFIG = {
   CHAIN_NAME: 'Polkadot Main Network',
   TOKEN_NAME: 'DOT',
+  QUERY_ENDPOINT: 'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
   LOGO: polkadotDot,
   RPC_URL: 'wss://rpc.polkadot.io',
   EXISTENTIAL_DEPOSIT: 1,
@@ -83,6 +84,7 @@ const KHALA_CONFIG = {
 const WESTEND_CONFIG = {
   CHAIN_NAME: 'Westend',
   TOKEN_NAME: 'WND',
+  QUERY_ENDPOINT: 'https://api.subquery.network/sq/khuzama98/subql-westend__a2h1e',
   LOGO: westendColour,
   RPC_URL: 'wss://westend-rpc.polkadot.io',
   PREFIX: 42,
@@ -121,6 +123,7 @@ const ASGARD_CONFIG = {
 const DUSTY_CONFIG = {
   CHAIN_NAME: 'Dusty',
   TOKEN_NAME: 'PLD',
+  QUERY_ENDPOINT: 'https://api.subquery.network/sq/khuzama98/subql-dusty__a2h1e',
   LOGO: dusty,
   RPC_URL: 'wss://rpc.dusty.plasmnet.io/',
   PREFIX: 5,
@@ -137,6 +140,7 @@ const ASTAR_CONFIG = {
 const SHIBUYA_CONFIG = {
   CHAIN_NAME: 'Shibuya',
   TOKEN_NAME: 'SBY',
+  QUERY_ENDPOINT: 'https://api.subquery.network/sq/khuzama98/subql-shibuya__a2h1e',
   LOGO: shibuyaIcon,
   RPC_URL: 'wss://rpc.shibuya.astar.network',
   PREFIX: 5,
