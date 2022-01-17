@@ -51,6 +51,8 @@ export const queryData = (network) =>{
             return {query, endPoint};
 
         default:
+            query = getQuery(POLKADOT_CONFIG.PREFIX);
+            endPoint = POLKADOT_CONFIG.QUERY_ENDPOINT; 
             return {query, endPoint};
     }
 }
@@ -58,7 +60,7 @@ export const queryData = (network) =>{
 
 export const getQuery = (prefix) =>{
 
-  const publicKey = useSelector((state) => state?.account?.publicKey);
+  const publicKey = useSelector((state) => state?.activeAccount?.publicKey);
   const address = encodeAddress(publicKey, prefix);
 
   console.log(address, 'address from get query')
