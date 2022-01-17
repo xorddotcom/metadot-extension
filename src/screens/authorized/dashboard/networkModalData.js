@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import yellow from '../../../assets/images/tokenImg/yellow.png';
 import green from '../../../assets/images/tokenImg/green.jpeg';
 import kusamaKsm from '../../../assets/images/tokenImg/kusama-ksm.svg';
@@ -29,6 +30,7 @@ const availableNetworks = [
     moreOptions: false,
     rpcUrl: POLKADOT_CONFIG.RPC_URL,
     prefix: POLKADOT_CONFIG.PREFIX,
+    disabled: true,
   },
   {
     name: 'Kusama Main Networks',
@@ -39,7 +41,7 @@ const availableNetworks = [
     parachain: false,
     mainNetwork: true,
     testNet: null,
-    disabled: false,
+    disabled: true,
     prefix: KUSAMA_CONFIG.PREFIX,
   },
   {
@@ -47,17 +49,19 @@ const availableNetworks = [
     theme: yellow,
     moreOptions: true,
   },
-  {
-    name: 'Beta Networks',
-    theme: green,
-    moreOptions: true,
-    rpcUrl: ASTAR_CONFIG.RPC_URL,
-    icon: ASTAR_CONFIG.LOGO,
-    parachain: false,
-    mainNetwork: true,
-    testNet: null,
-    disabled: false,
-  },
+
+  // Will use this setting in future
+  // {
+  //   name: 'Beta Networks',
+  //   theme: green,
+  //   moreOptions: true,
+  //   rpcUrl: ASTAR_CONFIG.RPC_URL,
+  //   icon: ASTAR_CONFIG.LOGO,
+  //   parachain: false,
+  //   mainNetwork: true,
+  //   testNet: null,
+  //   disabled: false,
+  // },
 ];
 
 const BetaNetworks = [
@@ -152,38 +156,40 @@ const TestNetworks = [
     tokenName: SHIBUYA_CONFIG.TOKEN_NAME,
     prefix: SHIBUYA_CONFIG.PREFIX,
   },
-  {
-    name: ACALA_MANDALA_CONFIG.CHAIN_NAME,
-    theme: ACALA_MANDALA_CONFIG.LOGO,
-    rpcUrl: ACALA_MANDALA_CONFIG.RPC_URL,
-    tokenName: ACALA_MANDALA_CONFIG.TOKEN_NAME,
-    prefix: ACALA_MANDALA_CONFIG.PREFIX,
-  },
-  {
-    name: DUSTY_CONFIG.CHAIN_NAME,
-    theme: DUSTY_CONFIG.LOGO,
-    disabled: false,
-    rpcUrl: DUSTY_CONFIG.RPC_URL,
-    tokenName: DUSTY_CONFIG.TOKEN_NAME,
-    prefix: ACALA_MANDALA_CONFIG.PREFIX,
-  },
-  {
-    name: MOONBASE_CONFIG.CHAIN_NAME,
-    theme: MOONBASE_CONFIG.LOGO,
-    disabled: true,
-  },
-  {
-    name: ASGARD_CONFIG.CHAIN_NAME,
-    theme: ASGARD_CONFIG.LOGO,
-    disabled: true,
-  },
-  {
-    name: PHALA_CONFIG.CHAIN_NAME,
-    theme: PHALA_CONFIG.LOGO,
-    disabled: true,
-    rpcUrl: PHALA_CONFIG.RPC_URL,
-    tokenName: PHALA_CONFIG.TOKEN_NAME,
-  },
+
+  // will use the following settings in future
+  // {
+  //   name: ACALA_MANDALA_CONFIG.CHAIN_NAME,
+  //   theme: ACALA_MANDALA_CONFIG.LOGO,
+  //   rpcUrl: ACALA_MANDALA_CONFIG.RPC_URL,
+  //   tokenName: ACALA_MANDALA_CONFIG.TOKEN_NAME,
+  //   prefix: ACALA_MANDALA_CONFIG.PREFIX,
+  // },
+  // {
+  //   name: DUSTY_CONFIG.CHAIN_NAME,
+  //   theme: DUSTY_CONFIG.LOGO,
+  //   disabled: false,
+  //   rpcUrl: DUSTY_CONFIG.RPC_URL,
+  //   tokenName: DUSTY_CONFIG.TOKEN_NAME,
+  //   prefix: ACALA_MANDALA_CONFIG.PREFIX,
+  // },
+  // {
+  //   name: MOONBASE_CONFIG.CHAIN_NAME,
+  //   theme: MOONBASE_CONFIG.LOGO,
+  //   disabled: true,
+  // },
+  // {
+  //   name: ASGARD_CONFIG.CHAIN_NAME,
+  //   theme: ASGARD_CONFIG.LOGO,
+  //   disabled: true,
+  // },
+  // {
+  //   name: PHALA_CONFIG.CHAIN_NAME,
+  //   theme: PHALA_CONFIG.LOGO,
+  //   disabled: true,
+  //   rpcUrl: PHALA_CONFIG.RPC_URL,
+  //   tokenName: PHALA_CONFIG.TOKEN_NAME,
+  // },
 ];
 
 export default {
