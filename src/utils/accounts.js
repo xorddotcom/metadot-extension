@@ -43,6 +43,7 @@ const getJsonBackup = async (address, password) => {
   const addressKeyring = address && keyring.getPair(address);
   try {
     const backupJson = addressKeyring && keyring.backupAccount(addressKeyring, password);
+    console.log('--------', { backupJson });
     // ***Download JSON file***
     const fileName = 'backup';
     const data = JSON.stringify(backupJson);
@@ -109,6 +110,33 @@ const unlockPair = (publicKey, password) => {
   }
 };
 
+// derive account creation
+export const derive = (parentAddress, suri, passwoord, metadata) => {
+  const parentPair = keyring.getPair(parentAddress);
+  try {
+    parentPair.decodePkcs8(passwoord);
+    console.log('success');
+  } catch (e) {
+    throw new Error('invalid password');
+  }
+
+  try {
+    return parentPair.derive(suri, metadata);
+  } catch (err) {
+    throw new Error(`"${suri}" is not a valid derivation path`);
+  }
+};
+
+// export const derivationCreate = (parentAddress, parentPassword, suri, childPassword, name) => {
+//   const childPair = derive(parentAddress, suri, parentPassword, {
+//     name,
+//     parentAddress,
+//     suri,
+//   });
+//   keyring.addPair(childPair, childPassword);
+//   return true;
+// };
+
 export default {
   GenerateSeedPhrase,
   AccountCreation,
@@ -119,4 +147,6 @@ export default {
   CryptoAndKeyringInit,
   getJsonBackup,
   unlockPair,
+  derive,
+// derivationCreate,
 };

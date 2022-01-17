@@ -9,20 +9,29 @@ import {
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
+import keyring from '@polkadot/ui-keyring';
+import { useHistory } from 'react-router';
 import ApiCalls from '../../../utils/api';
 import {
   fonts,
   colors,
 } from '../../../utils';
 import services from '../../../utils/services';
+import accountsUtils from '../../../utils/accounts';
 
 import MainCard from './mainCard';
 import AssetsAndTransactions from './assetsAndTransactions';
 
 import { setApiInitializationStarts } from '../../../redux/slices/api';
 import {
-  setRpcUrl, setChainName, setBalance, setPublicKey,
-} from '../../../redux/slices/account';
+  setRpcUrl,
+  setBalance,
+  setChainName,
+  setAccountName,
+  setPublicKey,
+  resetAccountSlice,
+} from '../../../redux/slices/activeAccount';
+
 import {
   AccountContainer,
   AccountSetting,
@@ -53,6 +62,7 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryText } = colors;
 
 const { getBalance, addressMapper } = services;
+const { KeyringInitialization } = accountsUtils;
 
 const {
   availableNetworks,
@@ -73,9 +83,11 @@ const useStyles = makeStyles(() => ({
 
 function Dashboard(props) {
   const classes = useStyles(props);
+  const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const transactions = useSelector((state) => state.transactions.transactions);
+  const accounts = useSelector((state) => state.accounts);
   const [txDetailsModalData, setTxDetailsModalData] = useState('');
   const [isTxDetailsModalOpen, setIsTxDetailsModalOpen] = useState(false);
 
@@ -83,14 +95,7 @@ function Dashboard(props) {
   const { apiInitializationStarts } = useSelector((state) => state.api);
   const {
     publicKey, chainName, balance, tokenName, balanceInUsd, accountName, walletName, rpcUrl,
-  } = currentUser.account;
-
-  // function setLiveBalanceInRedux(bal) {
-  //   dispatch(setBalance(bal));
-  // }
-
-  // getLiveBalance(currentUser, setLiveBalanceInRedux);
-
+  } = currentUser.activeAccount;
   async function main() {
     const { api } = currentUser.api;
 
@@ -140,6 +145,17 @@ function Dashboard(props) {
     getTokenPrice.GetRequest(getTokenApi);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    console.log('accounts in use effect==>>', accounts);
+  }, [accounts]);
+
+  useEffect(() => {
+    if (Object.values(accounts).length === 0) {
+      dispatch(resetAccountSlice());
+      history.push('/');
+    }
+  }, [accounts]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -260,7 +276,8 @@ function Dashboard(props) {
       dispatch(setLoadingForApi(true));
       dispatch(setRpcUrl({ rpcUrl: data.rpcUrl }));
       dispatch(setChainName({ chainName: data.name }));
-      const publicKeyOfRespectiveChain = addressMapper(currentUser.account.publicKey, data.prefix);
+      // eslint-disable-next-line max-len
+      const publicKeyOfRespectiveChain = addressMapper(currentUser.activeAccount.publicKey, data.prefix);
       dispatch(setPublicKey(publicKeyOfRespectiveChain));
 
       setIsLoading(false);
@@ -283,6 +300,19 @@ function Dashboard(props) {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  // eslint-disable-next-line no-unused-vars
+  const getPairA = () => {
+    try {
+      if (publicKey) {
+        const abc = keyring.getPair(publicKey);
+        console.log('----keyring.getPair', abc);
+      }
+    } catch (err) {
+      KeyringInitialization();
+      console.log(err);
+    }
   };
 
   // --------XXXXXXXXXXXXXXX-----------
@@ -327,6 +357,11 @@ function Dashboard(props) {
             open={open}
             handleClose={handleClose}
             classes={classes}
+            activeAccount={publicKey}
+            accounts={accounts}
+            setSeed={() => console.log('setSeed')}
+            setPublicKey={setPublicKey}
+            setAccountName={setAccountName}
           />
           {/* Menu End */}
 
@@ -398,6 +433,16 @@ function Dashboard(props) {
           }}
         />
       </Wrapper>
+      {/* <button
+        type="button"
+        onClick={() => {
+          const res = keyring.getAccounts();
+          console.log('all accounts-------------', res);
+        }}
+      >
+        Get All Accounts
+      </button>
+      <button type="button" onClick={() => getPairA()}>get pair</button> */}
     </>
   );
 }

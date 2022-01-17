@@ -6,10 +6,19 @@
 /* eslint-disable no-throw-literal */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useEffect, useState } from 'react';
-import { keyring } from '@polkadot/ui-keyring';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { keyring } from '@polkadot/ui-keyring';
 import { Input } from '@material-ui/core';
+import {
+  setAccountName, setJsonFileUploadScreen, setLoggedIn, setPublicKey,
+} from '../../../redux/slices/activeAccount';
+import {
+  setAuthScreenModal,
+  setIsResponseModalOpen, setLoadingForApi, setMainTextForSuccessModal,
+  setResponseImage, setSubTextForSuccessModal,
+} from '../../../redux/slices/modalHandling';
+
 import {
   Option, OptionDiv, UploadFile, FileChosen, UploadFileDiv,
 } from './styledComponents';
@@ -25,18 +34,14 @@ import {
 import CustomUploadFile from './customUploadFile';
 import { fonts, colors } from '../../../utils';
 import accounts from '../../../utils/accounts';
-import {
-  setAccountName, setJsonFileUploadScreen, setLoggedIn, setPublicKey,
-} from '../../../redux/slices/account';
-import {
-  setIsResponseModalOpen, setLoadingForApi, setMainTextForSuccessModal,
-  setResponseImage, setSubTextForSuccessModal,
-} from '../../../redux/slices/modalHandling';
-import ImportIcon from '../../../assets/images/import.svg';
+import ImportIcon from '../../../assets/images/modalIcons/import.svg';
+import AuthScreen from '../../../components/modals/authorization';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryText, darkBackground1 } = colors;
-const { validatingSeedPhrase, AccountCreation } = accounts;
+const {
+  decrypt, encrypt, KeyringInitialization, validatingSeedPhrase, AccountCreation,
+} = accounts;
 
 const invalidSeedMessages = {
   minimumWords: 'At least 12 words required!',
@@ -46,23 +51,80 @@ const invalidSeedMessages = {
 
 function ImportWallet() {
   const history = useHistory();
-  const location = useLocation();
   const dispatch = useDispatch();
 
-  const { jsonFileUploadScreen } = useSelector((state) => state.account);
+  const { jsonFileUploadScreen } = useSelector((state) => state.activeAccount);
+  const params = useParams();
 
-  console.log('location on importwallet.js ============>>>', location);
+  const accounts = useSelector((state) => state.accounts);
+  const currentUser = useSelector((state) => state);
+
+  // eslint-disable-next-line no-console
+  console.log('ahsanahmed ==>>', params);
 
   const [selectedType, setSelectedType] = useState(jsonFileUploadScreen ? 'json' : 'seed');
   const [seedPhrase, setSeedPhrase] = useState('');
   const [invalidSeedMessage, setInvalidSeedMessage] = useState('');
+  const [password, setPassword] = useState('');
+  const [derivedAccountSeed, setDerivedAccountSeed] = useState('');
+
+  const derivedAccountSeedHandler = (data) => {
+    setDerivedAccountSeed(data);
+  };
+
+  const authModal = {
+    open: currentUser.modalHandling.authScreenModal,
+    handleClose: () => {
+      dispatch(setAuthScreenModal(false));
+    },
+    derivedAccountSeedHandler,
+    style: {
+      width: '290px',
+      background: '#141414',
+      position: 'relative',
+      bottom: 30,
+      p: 2,
+      px: 2,
+      pb: 3,
+      marginTop: '10rem',
+    },
+  };
+
+  // useEffect(() => {
+  //   const accountExistCheck = async () => {
+  //     if (params.seed) {
+  //       console.log('params seed', params);
+  //       try {
+  //         // const dSeed = decrypt(params.seed, password);
+  //         let derivedSeed = '';
+  //         let derivedAccount = '';
+  //         let i = 0;
+  //         do {
+  //           derivedSeed = `${derivedAccountSeed}//${i}`;
+  //           console.log('derived account before');
+  //           // eslint-disable-next-line no-await-in-loop
+  //           derivedAccount = await
+  // AccountCreation({ name: 'AAA', password: 'BBB', seed: derivedSeed });
+  //           console.log('derived Account ==>>', derivedAccount);
+  //           i += 1;
+  //         } while (accounts[derivedAccount.address]);
+
+  //         console.log('derived account after');
+  //         setSeedPhrase(derivedSeed);
+  //       } catch (err) {
+  //         console.log('Drived*******************', err);
+  //       }
+  //     }
+  //   };
+
+  //   accountExistCheck();
+  // }, [accounts, params]);
 
   const [fileName, setFileName] = useState();
   const [isFilePicked, setIsFilePicked] = useState(false);
 
   const [pair, setPair] = useState('');
 
-  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
@@ -158,6 +220,10 @@ function ImportWallet() {
   const handleChange = (input) => {
     setInvalidSeedMessage('');
     setSeedPhrase(input);
+  };
+
+  const passwordChangeHandler = (e) => {
+    setPassword(e.target.value);
   };
 
   const validateSeed = async () => {
@@ -309,6 +375,7 @@ function ImportWallet() {
     <AuthWrapper>
       <Header centerText="Import Wallet" backHandler={() => console.log('goBack')} />
       <div>
+        <Input onChange={passwordChangeHandler} />
         <MainHeading {...mainHeading}>Restore your wallet : </MainHeading>
         <SubHeading textLightColor {...subHeading}>
           To restore your wallet enter your Seed phrase.
@@ -354,6 +421,7 @@ function ImportWallet() {
         <Button {...btn} />
       </div>
 
+      <AuthScreen {...authModal} />
     </AuthWrapper>
   );
 }

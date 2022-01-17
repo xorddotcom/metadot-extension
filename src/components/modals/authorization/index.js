@@ -23,7 +23,7 @@ function AuthModal({
 }) {
   const history = useHistory();
   const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.account);
+  const currentUser = useSelector((state) => state.activeAccount);
 
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');

@@ -29,7 +29,7 @@ function AssetsAndTransactions({
   setTxDetailsModalData,
   transactionData,
 }) {
-  const assetsData = useSelector((state) => state.account);
+  const assetsData = useSelector((state) => state.activeAccount);
   const {
     chainName, tokenName, balance, balanceInUsd,
   } = assetsData;

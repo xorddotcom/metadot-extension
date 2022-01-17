@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect, memo } from 'react';
+import React, { useEffect, memo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setApi, setApiInitializationStarts } from '../redux/slices/api';
-import { setBalance, setBalanceInUsd, setTokenName } from '../redux/slices/account';
+import { setBalance, setBalanceInUsd, setTokenName } from '../redux/slices/activeAccount';
 import {
   setIsResponseModalOpen, setMainTextForSuccessModal,
   setSubTextForSuccessModal,
@@ -14,15 +15,18 @@ import services from '../utils/services';
 
 function ApiManager({ rpc }) {
   const dispatch = useDispatch();
-
   const currentUser = useSelector((state) => state);
 
-  const { account, modalHandling } = currentUser;
+  // const { account, modalHandling } = currentUser;
+  const { api, activeAccount, modalHandling } = currentUser;
   const { loadingForApi } = modalHandling;
 
-  const { publicKey, chainName } = account;
+  // const { publicKey, chainName } = account;
   const { convertIntoUsd } = helpers;
-  const { getBalance, providerInitialization } = services;
+  const { getBalance, providerInitialization, getBalanceWithMultipleTokens } = services;
+  const { publicKey, chainName } = activeAccount;
+  const { loadingFor } = modalHandling;
+  const [apiState, setApiState] = useState(api.api);
 
   useEffect(() => {
     const setAPI = async (rpcUrl) => {

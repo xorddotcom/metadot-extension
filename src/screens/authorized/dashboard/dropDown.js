@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 import React, { useState } from 'react';
 import Menu from '@mui/material/Menu';
@@ -8,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { DropDownMainText } from './styledComponents';
-import { setLoggedIn } from '../../../redux/slices/account';
+// import { setLoggedIn } from '../../../redux/slices/account';
 // import Typography from '@mui/material/Typography';
 import accountIcon from '../../../assets/images/icons/user.svg';
 import LockOutlinedIcon from '../../../assets/images/icons/lock.svg';
@@ -16,11 +17,28 @@ import ForumOutlinedIcon from '../../../assets/images/icons/support.svg';
 import aboutIcon from '../../../assets/images/icons/aboutIcon.svg';
 import { About } from '../../../components/modals';
 import { fonts } from '../../../utils';
+// import viewSeedIcon from '../../../assets/images/icons/openEye.svg';
+// import { resetAccountSlice, setLoggedIn } from '../../../redux/slices/activeAccount';
+// import { resetTransactions } from '../../../redux/slices/transactions';
+// eslint-disable-next-line no-unused-vars
+import viewSeedIcon from '../../../assets/images/icons/openEye.svg';
+import {
+  setLoggedIn, setPublicKey, setAccountName,
+} from '../../../redux/slices/activeAccount';
+// eslint-disable-next-line no-unused-vars
+import { deleteAccount } from '../../../redux/slices/accounts';
+// import SettingsOutlinedIcon from '../../../assets/images/icons/setting.svg';
+import FileUploadOutlinedIcon from '../../../assets/images/icons/export.svg';
+import FileDownloadOutlinedIcon from '../../../assets/images/icons/download.svg';
+// import AddOutlinedIcon from '../../../assets/images/icons/add.svg';
+// import PersonOutlinedIcon from '../../../assets/images/icons/user.svg';
+import ChevronRightOutlinedIcon from '../../../assets/images/icons/rightArrowIcon.svg';
 
 const { mainHeadingfontFamilyClass } = fonts;
 
 const DropDown = ({
-  open, handleClose, anchorEl, classes,
+  // eslint-disable-next-line no-unused-vars
+  open, handleClose, anchorEl, classes, activeAccount, accounts,
 }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -71,34 +89,7 @@ const DropDown = ({
           }}
         >
           <MenuList id="menu-list">
-            {/* <Typography style={{
-        textAlign: 'center',
-        fontWeight: '600',
-        paddingTop: '0.8rem',
-        color: '#fafafa',
-      }}
-      >
-        My Profile
-      </Typography>
-      <MenuList>
-        <MenuItem
-          style={{ minHeight: '37px', color: 'rgba(250, 250, 250, 0.6)' }}
-        >
-          <ListItemIcon style={{ color: 'rgba(250, 250, 250, 0.6)' }} className="flexStart">
-            <img src={PersonOutlinedIcon} alt="user-icon" />
-                  &nbsp; &nbsp;
-            <span style={{ fontSize: '0.9rem' }}>Accounts</span>
-          </ListItemIcon>
-          <img src={ChevronRightOutlinedIcon} alt="icon" style={{ marginLeft: '3.8rem', marginTop: '-0.4rem' }} />
-        </MenuItem>
-        <MenuItem style={{ minHeight: '37px', color: 'rgba(250, 250, 250, 0.6)' }}>
-          <ListItemIcon className="flexStart" style={{ color: 'rgba(250, 250, 250, 0.6)' }}>
-            <img src={AddOutlinedIcon} alt="add-icon" />
-                  &nbsp; &nbsp;
-            <span style={{ fontSize: '0.85rem' }}>Add Account</span>
-          </ListItemIcon>
-          <img src={ChevronRightOutlinedIcon} alt="icon" style={{ marginLeft: '2.85rem', marginTop: '-0.4rem' }} />
-        </MenuItem>
+            {/*
         <MenuItem style={{ minHeight: '37px', color: 'rgba(250, 250, 250, 0.6)' }}>
           <ListItemIcon className="flexStart" style={{ color: 'rgba(250, 250, 250, 0.6)' }}>
             <img src={FileDownloadOutlinedIcon} alt="download-icon" />
@@ -115,14 +106,6 @@ const DropDown = ({
           </ListItemIcon>
           <img src={ChevronRightOutlinedIcon} alt="icon" style={{ marginLeft: '1.65rem', marginTop: '-0.4rem' }} />
         </MenuItem>
-        <MenuItem style={{ minHeight: '37px', color: 'rgba(250, 250, 250, 0.6)' }}>
-          <ListItemIcon className="flexStart" style={{ color: 'rgba(250, 250, 250, 0.6)' }}>
-            <img src={ForumOutlinedIcon} alt="support-icon" />
-                  &nbsp; &nbsp;
-            <span style={{ fontSize: '0.85rem' }}>Support</span>
-          </ListItemIcon>
-          <img src={ChevronRightOutlinedIcon} alt="icon" style={{ marginLeft: '4.7rem', marginTop: '-0.4rem' }} />
-        </MenuItem>
         <MenuItem style={{ minHeight: '37px', color: '#fafafa' }}>
           <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
             <img src={SettingsOutlinedIcon} alt="setting-icon" />
@@ -132,48 +115,9 @@ const DropDown = ({
           <img src={ChevronRightOutlinedIcon} alt="icon" style={{ marginLeft: '5.04rem', marginTop: '-0.4rem' }} />
         </MenuItem> */}
 
-            {/* <MenuItem
-              id="menu-item-2"
-              style={{ minHeight: '37px', color: '#fafafa' }}
-              onClick={() => {
-                dispatch(resetAccountSlice());
-                dispatch(resetTransactions());
-              }}
-            >
-              <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
-                <img
-                  src={RemoveIcon}
-                  alt="remove-account"
-                  width="14.55"
-                  height="15"
-                  style={{ marginTop: '0.15rem' }}
-                />
-                  &nbsp; &nbsp;
-                <span style={{ fontSize: '0.85rem' }}>Remove Account</span>
-              </ListItemIcon>
-            </MenuItem> */}
-
-            {/* <MenuItem
-              style={{ minHeight: '37px', color: '#fafafa' }}
-              onClick={() => {
-                history.push('/viewSeed');
-              }}
-            >
-              <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
-                <img
-                  src={viewSeedIcon}
-                  alt="lock-icon"
-                  style={{ marginTop: '-0.2rem' }}
-                />
-                  &nbsp; &nbsp;
-                <span style={{ fontSize: '0.85rem' }}>View Seed</span>
-              </ListItemIcon>
-            </MenuItem> */}
-
             <DropDownMainText className={mainHeadingfontFamilyClass}>
               My Profile
             </DropDownMainText>
-
             <MenuItem
               style={{ minHeight: '37px', color: '#fafafa', fontSize: '15px' }}
               onClick={() => {
@@ -187,7 +131,29 @@ const DropDown = ({
                   style={{ marginTop: '-0.2rem' }}
                 />
                   &nbsp; &nbsp;
-                <span style={{ fontSize: '0.85rem' }}>Account</span>
+                <span style={{ fontSize: '0.85rem' }}>Accounts</span>
+              </ListItemIcon>
+            </MenuItem>
+
+            <MenuItem
+              id="menu-item-2"
+              style={{ minHeight: '37px', color: '#fafafa' }}
+              onClick={() => {
+                history.push('/ImportWallet');
+              }}
+            >
+              <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
+                <img src={FileDownloadOutlinedIcon} alt="download-icon" style={{ marginTop: '-0.2rem' }} />
+                  &nbsp; &nbsp;
+                <span style={{ fontSize: '0.85rem' }}>Import Account</span>
+              </ListItemIcon>
+            </MenuItem>
+
+            <MenuItem style={{ minHeight: '37px', color: 'rgba(250, 250, 250, 0.6)' }}>
+              <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
+                <img src={FileUploadOutlinedIcon} alt="export-icon" style={{ marginTop: '-0.2rem' }} />
+                  &nbsp; &nbsp;
+                <span style={{ fontSize: '0.85rem' }}>Export Account</span>
               </ListItemIcon>
             </MenuItem>
 
@@ -203,30 +169,8 @@ const DropDown = ({
                   alt="lock-icon"
                   style={{ marginTop: '-0.2rem' }}
                 />
-                  &nbsp; &nbsp;
+                     &nbsp; &nbsp;
                 <span style={{ fontSize: '0.85rem' }}>Support</span>
-              </ListItemIcon>
-            </MenuItem>
-
-            <MenuItem
-              id="menu-item-1"
-              style={{ minHeight: '37px', color: '#fafafa', fontSize: '15px' }}
-              onClick={() => {
-                console.log('abc');
-                // const logOut = async () => {
-                console.log('Log Out working');
-                dispatch(setLoggedIn(false));
-                // };
-              }}
-            >
-              <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
-                <img
-                  src={LockOutlinedIcon}
-                  alt="lock-icon"
-                  style={{ marginTop: '-0.3rem', marginLeft: '-0.1rem' }}
-                />
-                  &nbsp; &nbsp;
-                <span style={{ fontSize: '0.85rem' }}>Lock</span>
               </ListItemIcon>
             </MenuItem>
 
@@ -242,6 +186,28 @@ const DropDown = ({
                 />
                   &nbsp; &nbsp;
                 <span style={{ fontSize: '0.85rem' }}>About</span>
+              </ListItemIcon>
+            </MenuItem>
+
+            <MenuItem
+              id="menu-item-1"
+              style={{ minHeight: '37px', color: '#fafafa' }}
+              onClick={() => {
+                console.log('abc');
+                // const logOut = async () => {
+                console.log('Log Out working');
+                dispatch(setLoggedIn(false));
+                // };
+              }}
+            >
+              <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
+                <img
+                  src={LockOutlinedIcon}
+                  alt="lock-icon"
+                  style={{ marginTop: '-0.3rem' }}
+                />
+                  &nbsp; &nbsp;
+                <span style={{ fontSize: '0.85rem' }}>Lock</span>
               </ListItemIcon>
             </MenuItem>
           </MenuList>

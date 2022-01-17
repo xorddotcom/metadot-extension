@@ -1,4 +1,7 @@
 import styled from 'styled-components';
+import { colors } from '../../../../utils';
+
+const { darkBackground1, primaryText } = colors;
 
 export const Wrapper = styled.div`
   padding: 18px 20px 8px;
@@ -10,7 +13,9 @@ export const Wrapper = styled.div`
 `;
 
 export const WrapperScroll = styled.div`
+  width: 100%;
   height: 450px;
+  overflow-x: hidden;
   overflow-y: scroll;
 `;
 
@@ -30,7 +35,7 @@ export const MarginSet = styled.div`
 export const Account = styled.div`
   box-sizing: border-box;
   height: auto;
-  width: 326px;
+  width: 318px;
   min-height: 83px;
   background: linear-gradient(
     99.81deg,
@@ -44,6 +49,8 @@ export const Account = styled.div`
   align-items: center;
   padding: 0 28px;
   margin: ${(props) => props.margin && props.margin};
+  margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
+  margin-top: ${(props) => props.marginTop && props.marginTop};
 `;
 
 export const AccountFlex = styled.div`
@@ -73,6 +80,7 @@ export const AccountMainText = styled.p`
   opacity: 0.8;
   text-align: left;
   margin-bottom: -5px;
+  cursor: pointer;
 `;
 
 export const AccountSubText = styled.p`
@@ -85,13 +93,9 @@ export const AccountSubText = styled.p`
   text-align: left;
 `;
 
-export const DropDownIcon = styled.div`
-  cursor: pointer;
-`;
-
 export const DrivedAccountMain = styled.div`
-  width: 326px;
-  margin-top: -1.1rem;
+  width: 318px;
+  margin-top: -1.24rem;
 `;
 
 export const DrivedAccount = styled.div`
@@ -109,7 +113,7 @@ export const DrivedAccount = styled.div`
 
 export const Border = styled.div`
   /* border: 0.4px solid rgba(255, 255, 255, 0.2); */
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   width: 278px;
   height: 1px;
   margin: 12px auto;
@@ -131,4 +135,52 @@ export const ButtonDiv = styled.div`
   position: absolute;
   bottom: 20px;
   left: 18px;
+`;
+
+// Drop Down Container
+export const DropDownContainer = styled.div`
+  position: relative;
+`;
+
+export const DropDownIcon = styled.div`
+  cursor: pointer;
+`;
+
+export const DropDownListContainer = styled.div`
+  position: absolute;
+  top: 14px;
+  right: -26px;
+  z-index: 1;
+`;
+
+export const DropDownList = styled.ul`
+  width: 210px;
+  background: ${darkBackground1};
+  color: ${primaryText} !important;
+  border: 0.9px solid #2e9b9b;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 20px 5px rgba(46, 155, 155, 0.08);
+  border-radius: 8px;
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+  padding-left: 22.1px !important;
+  /* &:first-child {
+    padding-top: 0.8em;
+  } */
+
+`;
+
+export const ListItem = styled.li`
+  list-style: none;
+  /* margin-bottom: 1em; */
+  margin-left: -1.5rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 12px 0;
+  padding-bottom: 14px;
+  cursor: pointer;
+  &:hover {
+    background: rgba(46, 155, 155, 0.26);
+  }
 `;

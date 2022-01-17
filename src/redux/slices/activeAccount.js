@@ -18,8 +18,8 @@ const initialState = {
   jsonFileUploadScreen: false,
 };
 
-export const accountSlice = createSlice({
-  name: 'account',
+export const activeAccountSlice = createSlice({
+  name: 'activeAccount',
   initialState,
   reducers: {
     setKeyringInitialized: (state, action) => {
@@ -80,6 +80,6 @@ export const {
   deleteRedux,
   setKeyringInitialized,
   setJsonFileUploadScreen,
-} = accountSlice.actions;
+} = activeAccountSlice.actions;
 
-export default accountSlice.reducer;
+export default activeAccountSlice.reducer;

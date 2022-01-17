@@ -37,7 +37,7 @@ function App() {
     (state) => state.transactionProgressModalHandling,
   );
 
-  const { publicKey } = currentUser.account;
+  const { publicKey } = currentUser.activeAccount;
 
   const dispatch = useDispatch();
 
@@ -56,16 +56,19 @@ function App() {
   const renderFunction = () => {
     let content;
 
-    if (!currentUser.account.isLoggedIn && currentUser.account.publicKey) {
+    if (
+      !currentUser.activeAccount.isLoggedIn
+      && currentUser.activeAccount.publicKey
+    ) {
       content = <WelcomeBack />;
     } else if (
       // prettier-ignore
-      currentUser.account.isLoggedIn
-      && currentUser.account.publicKey
+      currentUser.activeAccount.isLoggedIn
+      && currentUser.activeAccount.publicKey
     ) {
       content = (
         <>
-          <ApiManager rpc={currentUser.account.rpcUrl} />
+          <ApiManager rpc={currentUser.activeAccount.rpcUrl} />
 
           {
                  AuthRoutes.map((route) => {

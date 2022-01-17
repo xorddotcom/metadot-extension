@@ -230,6 +230,12 @@ input:focus {
   width: 100%;
 }
 
+.btn-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 ::selection {
   background-color: var(--primaryBackground);
 }

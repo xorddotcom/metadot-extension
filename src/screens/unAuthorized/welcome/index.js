@@ -22,7 +22,7 @@ const { GenerateSeedPhrase } = accounts;
 function Welcome() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { jsonFileUploadScreen } = useSelector((state) => state.account);
+  const { jsonFileUploadScreen } = useSelector((state) => state.activeAccount);
 
   const [seedToPass, setSeedToPass] = useState('');
 

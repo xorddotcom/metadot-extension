@@ -12,7 +12,7 @@ import accounts from '../../../utils/accounts';
 import './index.css';
 import StyledInput from '../../../components/styledInput/index';
 import { Wrapper } from '../../../components/styledComponents';
-import { setLoggedIn } from '../../../redux/slices/account';
+import { setLoggedIn } from '../../../redux/slices/activeAccount';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryBackground } = colors;
@@ -36,7 +36,7 @@ function WelcomeBack() {
   const [showPassword, setShowPassword] = useState(false);
   const [passwordError, setPasswordError] = useState('');
 
-  const currentUser = useSelector((state) => state.account);
+  const currentUser = useSelector((state) => state.activeAccount);
 
   const handleSubmit = () => {
     if (!password) {

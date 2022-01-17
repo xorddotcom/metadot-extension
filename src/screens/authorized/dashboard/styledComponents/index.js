@@ -278,3 +278,10 @@ export const DropDownMainText = styled.div`
   margin-top: 20px;
   margin-bottom: 18px
 `;
+
+export const LabelAndTextInput = styled.div`
+  width: 100%;
+  min-height: ${(props) => (props.minHeight ? props.minHeight : '103px')};
+  margin-top: ${(props) => (props.marginTop && props.marginTop)};
+  position: relative;
+`;

@@ -24,6 +24,8 @@ function WarningModal({
     fw: '600',
   };
 
+  // console.log('warning modal ', location.state.seedToPass);
+
   const btnF = {
     text: 'Cancel',
     width: '115px',
