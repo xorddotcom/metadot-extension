@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
-import { CircularProgress } from '@mui/material';
 
 // Drop Down Icons
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -10,7 +9,7 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import keyring from '@polkadot/ui-keyring';
 import { useHistory } from 'react-router';
 import ApiCalls from '../../../utils/api';
-import { fonts, colors } from '../../../utils';
+import { fonts } from '../../../utils';
 import services from '../../../utils/services';
 import accountsUtils from '../../../utils/accounts';
 
@@ -54,7 +53,6 @@ import DropDown from './dropDown';
 import { About } from '../../../components/modals';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-const { primaryText } = colors;
 
 const { getBalance, addressMapper } = services;
 const { KeyringInitialization } = accountsUtils;
@@ -184,6 +182,17 @@ function Dashboard(props) {
     );
   };
 
+  // const tootltipText = {
+  //   className: 'normalTooltiptext',
+  //   style: {
+  //     width: '90px',
+  //     left: '65%',
+  //     fontSize: '0.7rem',
+  //     bottom: '110%',
+  //     fontWeight: 300,
+  //   },
+  // };
+
   const RenderContentForAvailableNetwroks = (data, handleClick) => {
     const {
       name, theme, moreOptions, disabled,
@@ -198,20 +207,18 @@ function Dashboard(props) {
         }}
         disabled={disabled}
       >
-        {disabled && <span className="tooltiptext">Coming Soon!</span>}
+
         <HorizontalContentDiv>
           <img src={theme} alt="token" />
-          <OptionText className={mainHeadingfontFamilyClass}>{name}</OptionText>
-          {isLoading && (
-            <CircularProgress
-              style={{
-                color: primaryText,
-                width: 20,
-                height: 25,
-                paddingRight: 20,
-              }}
-            />
-          )}
+          <OptionText className={mainHeadingfontFamilyClass}>{`${name}`}</OptionText>
+          {/* {
+        disabled
+         && (
+         <span {...tootltipText}>
+           Coming Soon
+         </span>
+         )
+        } */}
         </HorizontalContentDiv>
         {moreOptions && (
           <NextIcon>
@@ -398,10 +405,9 @@ function Dashboard(props) {
           style={{
             position: 'relative',
             width: '78%',
-            minHeight: 240,
             background: '#141414',
             pb: 3,
-            height: '300px',
+            height: '240px',
             overflowY: 'scroll',
             overflowX: 'hidden',
             marginTop: '9rem',
