@@ -5,7 +5,7 @@ import Menu from '@mui/material/Menu';
 import Paper from '@mui/material/Paper';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { DropDownMainText } from './styledComponents';
@@ -16,25 +16,18 @@ import LockOutlinedIcon from '../../../assets/images/icons/lock.svg';
 import ForumOutlinedIcon from '../../../assets/images/icons/support.svg';
 import aboutIcon from '../../../assets/images/icons/aboutIcon.svg';
 import { About } from '../../../components/modals';
+import { AuthModal } from '../../../components';
 import { fonts } from '../../../utils';
-// import viewSeedIcon from '../../../assets/images/icons/openEye.svg';
-// import { resetAccountSlice, setLoggedIn } from '../../../redux/slices/activeAccount';
-// import { resetTransactions } from '../../../redux/slices/transactions';
-// eslint-disable-next-line no-unused-vars
-import viewSeedIcon from '../../../assets/images/icons/openEye.svg';
+import account from '../../../utils/accounts';
 import {
-  setLoggedIn, setPublicKey, setAccountName,
+  setLoggedIn,
 } from '../../../redux/slices/activeAccount';
-// eslint-disable-next-line no-unused-vars
-import { deleteAccount } from '../../../redux/slices/accounts';
-// import SettingsOutlinedIcon from '../../../assets/images/icons/setting.svg';
 import FileUploadOutlinedIcon from '../../../assets/images/icons/export.svg';
 import FileDownloadOutlinedIcon from '../../../assets/images/icons/download.svg';
-// import AddOutlinedIcon from '../../../assets/images/icons/add.svg';
-// import PersonOutlinedIcon from '../../../assets/images/icons/user.svg';
-import ChevronRightOutlinedIcon from '../../../assets/images/icons/rightArrowIcon.svg';
+import { setAuthScreenModal } from '../../../redux/slices/modalHandling';
 
 const { mainHeadingfontFamilyClass } = fonts;
+const { getJsonBackup } = account;
 
 const DropDown = ({
   // eslint-disable-next-line no-unused-vars
@@ -42,7 +35,16 @@ const DropDown = ({
 }) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { modalHandling } = useSelector((state) => state);
+  const { publicKey } = useSelector((state) => state.activeAccount);
+
   const [aboutOpen, setAboutOpen] = useState(false);
+
+  const downloadJson = async (address, password, sender = {}) => {
+    await getJsonBackup(address, password);
+    dispatch(setAuthScreenModal(false));
+  };
+
   return (
     <>
       <Menu
@@ -69,8 +71,6 @@ const DropDown = ({
             },
           },
         }}
-      // classes={{ paper: classes.paperMenu }}
-      // style={{ border: '1px solid #fff' }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         id="menu"
@@ -89,31 +89,6 @@ const DropDown = ({
           }}
         >
           <MenuList id="menu-list">
-            {/*
-        <MenuItem style={{ minHeight: '37px', color: 'rgba(250, 250, 250, 0.6)' }}>
-          <ListItemIcon className="flexStart" style={{ color: 'rgba(250, 250, 250, 0.6)' }}>
-            <img src={FileDownloadOutlinedIcon} alt="download-icon" />
-                  &nbsp; &nbsp;
-            <span style={{ fontSize: '0.85rem' }}>Import Account</span>
-          </ListItemIcon>
-          <img src={ChevronRightOutlinedIcon} alt="icon" style={{ marginLeft: '1.8rem', marginTop: '-0.4rem' }} />
-        </MenuItem>
-        <MenuItem style={{ minHeight: '37px', color: 'rgba(250, 250, 250, 0.6)' }}>
-          <ListItemIcon className="flexStart" style={{ color: 'rgba(250, 250, 250, 0.6)' }}>
-            <img src={FileUploadOutlinedIcon} alt="export-icon" />
-                  &nbsp; &nbsp;
-            <span style={{ fontSize: '0.85rem' }}>Export Account</span>
-          </ListItemIcon>
-          <img src={ChevronRightOutlinedIcon} alt="icon" style={{ marginLeft: '1.65rem', marginTop: '-0.4rem' }} />
-        </MenuItem>
-        <MenuItem style={{ minHeight: '37px', color: '#fafafa' }}>
-          <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
-            <img src={SettingsOutlinedIcon} alt="setting-icon" />
-                  &nbsp; &nbsp;
-            <span style={{ fontSize: '0.85rem' }}>Setting</span>
-          </ListItemIcon>
-          <img src={ChevronRightOutlinedIcon} alt="icon" style={{ marginLeft: '5.04rem', marginTop: '-0.4rem' }} />
-        </MenuItem> */}
 
             <DropDownMainText className={mainHeadingfontFamilyClass}>
               My Profile
@@ -149,7 +124,10 @@ const DropDown = ({
               </ListItemIcon>
             </MenuItem>
 
-            <MenuItem style={{ minHeight: '37px', color: 'rgba(250, 250, 250, 0.6)' }}>
+            <MenuItem
+              style={{ minHeight: '37px', color: 'rgba(250, 250, 250, 0.6)' }}
+              onClick={() => dispatch(setAuthScreenModal(true))}
+            >
               <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
                 <img src={FileUploadOutlinedIcon} alt="export-icon" style={{ marginTop: '-0.2rem' }} />
                   &nbsp; &nbsp;
@@ -228,6 +206,14 @@ const DropDown = ({
           height: '320px',
           marginTop: '7rem',
         }}
+      />
+      <AuthModal
+        publicKey={publicKey}
+        open={modalHandling.authScreenModal}
+        handleClose={() => {
+          dispatch(setAuthScreenModal(false));
+        }}
+        onConfirm={downloadJson}
       />
     </>
   );

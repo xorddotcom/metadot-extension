@@ -70,8 +70,7 @@ function MultipleAccounts() {
 
   const btn = {
     text: 'Create New Account',
-    width: '326px',
-    height: '50px',
+    width: '300px',
     fontSize: '18px',
     handleClick: () => history.push({
       pathname: '/ShowSeed',

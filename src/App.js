@@ -17,9 +17,11 @@ import { routes } from './utils';
 import accounts from './utils/accounts';
 import WelcomeBack from './screens/unAuthorized/welcomeBack';
 import Welcome from './screens/unAuthorized/welcome';
+import chainConfigs from './constants/onchain';
 
 const { AuthRoutes, UnAuthRoutes } = routes;
 const { KeyringInitialization } = accounts;
+const { WESTEND_CONFIG } = chainConfigs;
 
 function App() {
   // prettier-ignore
@@ -71,7 +73,7 @@ function App() {
       content = (
         <div>
           <QueryClientProvider client={queryClient}>
-            <ApiManager rpc={currentUser.activeAccount.rpcUrl} />
+            <ApiManager rpc={WESTEND_CONFIG.RPC_URL} />
 
             {
                  AuthRoutes.map((route) => {

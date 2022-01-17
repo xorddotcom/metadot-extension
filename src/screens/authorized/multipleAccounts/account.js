@@ -7,6 +7,7 @@ import RemoveIcon from '../../../assets/images/icons/Remove.svg';
 import dropDownIcon from '../../../assets/images/icons/3Dots.svg';
 import derivedIcon from '../../../assets/images/icons/deriveAccount.svg';
 import { fonts } from '../../../utils';
+import accountUtils from '../../../utils/accounts';
 import {
   Account,
   AccountCircle,
@@ -27,9 +28,11 @@ import {
   setPublicKey,
 } from '../../../redux/slices/activeAccount';
 import { DerivedAccountModal } from '../../../components/modals';
-import { setDerivedAccountModal } from '../../../redux/slices/modalHandling';
+import { AuthModal } from '../../../components';
+import { setAuthScreenModal, setDerivedAccountModal } from '../../../redux/slices/modalHandling';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+const { getJsonBackup } = accountUtils;
 
 const AccountList = ({
   publicKey,
@@ -48,6 +51,7 @@ const AccountList = ({
   const ref = useRef();
   const [isOpen, setIsOpen] = useState(false);
   const activeAccount = useSelector((state) => state.activeAccount);
+  const { authScreenModal } = useSelector((state) => state.modalHandling);
   const accounts = useSelector((state) => state.accounts);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -120,6 +124,12 @@ const AccountList = ({
     setIsOpen(false);
   };
 
+  const downloadJson = async (address, password, sender = {}) => {
+    console.log('address, password', address, password, account);
+    await getJsonBackup(address, password);
+    dispatch(setAuthScreenModal(false));
+  };
+
   return (
     <>
       <Account marginBottom={marginBottom} marginTop={marginTop}>
@@ -178,6 +188,7 @@ const AccountList = ({
                   onClick={() => {
                     // history.push('/viewSeed');
                     dispatch(setDerivedAccountModal(true));
+                    dispatch(setAuthScreenModal(true));
                   }}
                   key={Math.random()}
                 >
@@ -226,6 +237,14 @@ const AccountList = ({
           }}
         />
       </Account>
+      <AuthModal
+        publicKey={account.publicKey}
+        open={authScreenModal}
+        handleClose={() => {
+          dispatch(setAuthScreenModal(false));
+        }}
+        onConfirm={downloadJson}
+      />
     </>
   );
 };

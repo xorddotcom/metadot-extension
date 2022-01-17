@@ -321,7 +321,7 @@ const Send = () => {
     return [true, txFee];
   };
 
-  const doTransaction = async (sender) => {
+  const doTransaction = async (address = '', password = '', sender = {}) => {
     console.clear();
     console.log('sender unlocked-------------', sender);
     // const keyring1 = new Keyring({ type: 'sr25519' });
@@ -950,7 +950,7 @@ const Send = () => {
           dispatch(setAuthScreenModal(false));
           dispatch(setConfirmSendModal(true));
         }}
-        sendTransaction={doTransaction}
+        onConfirm={doTransaction}
       />
 
       <WarningModal {...warningModal} />

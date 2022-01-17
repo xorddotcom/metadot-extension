@@ -3,15 +3,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 import constants from '../../constants/onchain';
 
-const { POLKADOT_CONFIG } = constants;
+const { WESTEND_CONFIG } = constants;
 
 const initialState = {
   isLoggedIn: false,
   publicKey: '',
   accountName: '',
-  rpcUrl: POLKADOT_CONFIG.RPC_URL,
-  chainName: POLKADOT_CONFIG.CHAIN_NAME,
-  tokenName: POLKADOT_CONFIG.TOKEN_NAME,
+  rpcUrl: WESTEND_CONFIG.RPC_URL,
+  chainName: WESTEND_CONFIG.CHAIN_NAME,
+  tokenName: WESTEND_CONFIG.TOKEN_NAME,
   balance: 0,
   balanceInUsd: 0,
   keyringInitialized: false,
