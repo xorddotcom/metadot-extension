@@ -8,6 +8,7 @@ import keyring from '@polkadot/ui-keyring';
 
 import './App.css';
 
+import { QueryClientProvider, QueryClient } from 'react-query';
 import { ResponseModal, TransactionProgress } from './components';
 import { setIsResponseModalOpen } from './redux/slices/modalHandling';
 import { setIsTransactionProgressModalOpen } from './redux/slices/transctionProgressModalHandling';
@@ -37,7 +38,7 @@ function App() {
     (state) => state.transactionProgressModalHandling,
   );
 
-  const { publicKey } = currentUser.account;
+  const { publicKey } = currentUser.activeAccount;
 
   const dispatch = useDispatch();
 
@@ -52,22 +53,27 @@ function App() {
       console.log(err);
     }
   }, [publicKey]);
+  const queryClient = new QueryClient();
 
   const renderFunction = () => {
     let content;
 
-    if (!currentUser.account.isLoggedIn && currentUser.account.publicKey) {
+    if (
+      !currentUser.activeAccount.isLoggedIn
+      && currentUser.activeAccount.publicKey
+    ) {
       content = <WelcomeBack />;
     } else if (
       // prettier-ignore
-      currentUser.account.isLoggedIn
-      && currentUser.account.publicKey
+      currentUser.activeAccount.isLoggedIn
+      && currentUser.activeAccount.publicKey
     ) {
       content = (
-        <>
-          <ApiManager rpc={currentUser.account.rpcUrl} />
+        <div>
+          <QueryClientProvider client={queryClient}>
+            <ApiManager rpc={currentUser.activeAccount.rpcUrl} />
 
-          {
+            {
                  AuthRoutes.map((route) => {
                    const { path, Component } = route;
                    return (
@@ -77,7 +83,8 @@ function App() {
                    );
                  })
             }
-        </>
+          </QueryClientProvider>
+        </div>
       );
     } else {
       content = (

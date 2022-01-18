@@ -29,7 +29,21 @@ function ShowSeed() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [copy, setCopy] = useState('Copy');
 
-  const currSeed = location.state.seedToPass;
+  const { seed, isLoggedIn } = useSelector((state) => state.activeAccount);
+
+  let currSeed = '';
+
+  console.log('show seed entotyasd', history.entries[history.entries.length - 2].pathname);
+
+  if (history.entries[history.entries.length - 2].pathname === '/') {
+    currSeed = location.state.seedToPass && location.state.seedToPass;
+  }
+
+  if (history.entries[history.entries.length - 2].pathname === '/accounts' || history.entries[history.entries.length - 2].pathname === '/ShowSeed') {
+    currSeed = location.state.seedToPass && location.state.seedToPass;
+  }
+
+  const dispatch = useDispatch();
 
   const SinglePhrase = ({ index, phrase }) => (
     <SeedWrapper>

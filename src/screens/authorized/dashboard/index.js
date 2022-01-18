@@ -1,28 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
-import {
-  CircularProgress,
-} from '@mui/material';
 
 // Drop Down Icons
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
+import keyring from '@polkadot/ui-keyring';
+import { useHistory } from 'react-router';
 import ApiCalls from '../../../utils/api';
-import {
-  fonts,
-  colors,
-} from '../../../utils';
+import { fonts } from '../../../utils';
 import services from '../../../utils/services';
+import accountsUtils from '../../../utils/accounts';
 
 import MainCard from './mainCard';
 import AssetsAndTransactions from './assetsAndTransactions';
 
 import { setApiInitializationStarts } from '../../../redux/slices/api';
 import {
-  setRpcUrl, setChainName, setBalance, setPublicKey,
-} from '../../../redux/slices/account';
+  setRpcUrl,
+  setBalance,
+  setChainName,
+  setAccountName,
+  setPublicKey,
+  resetAccountSlice,
+} from '../../../redux/slices/activeAccount';
+
 import {
   AccountContainer,
   AccountSetting,
@@ -50,15 +53,12 @@ import DropDown from './dropDown';
 import { About } from '../../../components/modals';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-const { primaryText } = colors;
 
 const { getBalance, addressMapper } = services;
+const { KeyringInitialization } = accountsUtils;
 
 const {
-  availableNetworks,
-  KusamaMainNetworks,
-  TestNetworks,
-  BetaNetworks,
+  availableNetworks, KusamaMainNetworks, TestNetworks, BetaNetworks,
 } = networks;
 
 const useStyles = makeStyles(() => ({
@@ -73,9 +73,11 @@ const useStyles = makeStyles(() => ({
 
 function Dashboard(props) {
   const classes = useStyles(props);
+  const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const transactions = useSelector((state) => state.transactions.transactions);
+  const accounts = useSelector((state) => state.accounts);
   const [txDetailsModalData, setTxDetailsModalData] = useState('');
   const [isTxDetailsModalOpen, setIsTxDetailsModalOpen] = useState(false);
 
@@ -83,14 +85,7 @@ function Dashboard(props) {
   const { apiInitializationStarts } = useSelector((state) => state.api);
   const {
     publicKey, chainName, balance, tokenName, balanceInUsd, accountName, walletName, rpcUrl,
-  } = currentUser.account;
-
-  // function setLiveBalanceInRedux(bal) {
-  //   dispatch(setBalance(bal));
-  // }
-
-  // getLiveBalance(currentUser, setLiveBalanceInRedux);
-
+  } = currentUser.activeAccount;
   async function main() {
     const { api } = currentUser.api;
 
@@ -138,8 +133,19 @@ function Dashboard(props) {
 
   useEffect(() => {
     getTokenPrice.GetRequest(getTokenApi);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    console.log('accounts in use effect==>>', accounts);
+  }, [accounts]);
+
+  useEffect(() => {
+    if (Object.values(accounts).length === 0) {
+      dispatch(resetAccountSlice());
+      history.push('/');
+    }
+  }, [accounts]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -165,11 +171,27 @@ function Dashboard(props) {
         {disabled && <span className="tooltiptext">Coming Soon!</span>}
         <HorizontalContentDiv>
           <img src={icon} alt="icon" />
-          <OptionText className={mainHeadingfontFamilyClass}>{`${name}`}</OptionText>
+          <OptionText
+            className={mainHeadingfontFamilyClass}
+          >
+            {`${name}`}
+
+          </OptionText>
         </HorizontalContentDiv>
       </OptionRow>
     );
   };
+
+  // const tootltipText = {
+  //   className: 'normalTooltiptext',
+  //   style: {
+  //     width: '90px',
+  //     left: '65%',
+  //     fontSize: '0.7rem',
+  //     bottom: '110%',
+  //     fontWeight: 300,
+  //   },
+  // };
 
   const RenderContentForAvailableNetwroks = (data, handleClick) => {
     const {
@@ -185,20 +207,18 @@ function Dashboard(props) {
         }}
         disabled={disabled}
       >
-        {disabled && <span className="tooltiptext">Coming Soon!</span>}
+
         <HorizontalContentDiv>
           <img src={theme} alt="token" />
-          <OptionText className={mainHeadingfontFamilyClass}>{name}</OptionText>
-          {isLoading && (
-            <CircularProgress
-              style={{
-                color: primaryText,
-                width: 20,
-                height: 25,
-                paddingRight: 20,
-              }}
-            />
-          )}
+          <OptionText className={mainHeadingfontFamilyClass}>{`${name}`}</OptionText>
+          {/* {
+        disabled
+         && (
+         <span {...tootltipText}>
+           Coming Soon
+         </span>
+         )
+        } */}
         </HorizontalContentDiv>
         {moreOptions && (
           <NextIcon>
@@ -260,7 +280,8 @@ function Dashboard(props) {
       dispatch(setLoadingForApi(true));
       dispatch(setRpcUrl({ rpcUrl: data.rpcUrl }));
       dispatch(setChainName({ chainName: data.name }));
-      const publicKeyOfRespectiveChain = addressMapper(currentUser.account.publicKey, data.prefix);
+      // eslint-disable-next-line max-len
+      const publicKeyOfRespectiveChain = addressMapper(currentUser.activeAccount.publicKey, data.prefix);
       dispatch(setPublicKey(publicKeyOfRespectiveChain));
 
       setIsLoading(false);
@@ -285,6 +306,19 @@ function Dashboard(props) {
     setAnchorEl(null);
   };
 
+  // eslint-disable-next-line no-unused-vars
+  const getPairA = () => {
+    try {
+      if (publicKey) {
+        const abc = keyring.getPair(publicKey);
+        console.log('----keyring.getPair', abc);
+      }
+    } catch (err) {
+      KeyringInitialization();
+      console.log(err);
+    }
+  };
+
   // --------XXXXXXXXXXXXXXX-----------
 
   return (
@@ -297,7 +331,9 @@ function Dashboard(props) {
 
           <NetworkContainer>
             <SelectChain
-              onClick={() => (apiInitializationStarts ? console.log('abc') : setIsModalOpen(true))}
+              onClick={() => (apiInitializationStarts
+                ? console.log('abc')
+                : setIsModalOpen(true))}
               disabled={!!apiInitializationStarts}
             >
               <SelectedChain className={subHeadingfontFamilyClass}>
@@ -310,12 +346,18 @@ function Dashboard(props) {
                     : `${chainName} Network` }
 
               </SelectedChain>
-              <ArrowDropDownIcon id="arrow-drop-down-icon" style={{ fontSize: '1.7rem' }} />
+              <ArrowDropDownIcon
+                id="arrow-drop-down-icon"
+                style={{ fontSize: '1.7rem' }}
+              />
             </SelectChain>
           </NetworkContainer>
           <AccountContainer id="account-container">
             <AccountSetting id="account-setting" onClick={handleClick}>
-              <AccountText id="account-text" className={mainHeadingfontFamilyClass}>
+              <AccountText
+                id="account-text"
+                className={mainHeadingfontFamilyClass}
+              >
                 {accountName.slice(0, 1)}
               </AccountText>
             </AccountSetting>
@@ -327,9 +369,13 @@ function Dashboard(props) {
             open={open}
             handleClose={handleClose}
             classes={classes}
+            activeAccount={publicKey}
+            accounts={accounts}
+            setSeed={() => console.log('setSeed')}
+            setPublicKey={setPublicKey}
+            setAccountName={setAccountName}
           />
           {/* Menu End */}
-
         </DashboardHeader>
 
         <MainCard
@@ -359,10 +405,9 @@ function Dashboard(props) {
           style={{
             position: 'relative',
             width: '78%',
-            minHeight: 240,
             background: '#141414',
             pb: 3,
-            height: '300px',
+            height: '240px',
             overflowY: 'scroll',
             overflowX: 'hidden',
             marginTop: '9rem',
@@ -398,6 +443,16 @@ function Dashboard(props) {
           }}
         />
       </Wrapper>
+      {/* <button
+        type="button"
+        onClick={() => {
+          const res = keyring.getAccounts();
+          console.log('all accounts-------------', res);
+        }}
+      >
+        Get All Accounts
+      </button>
+      <button type="button" onClick={() => getPairA()}>get pair</button> */}
     </>
   );
 }

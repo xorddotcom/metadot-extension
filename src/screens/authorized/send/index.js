@@ -27,7 +27,7 @@ import {
 import FromInput from './fromInput';
 import ToInput from './toInput';
 import AmountInput from './amountInput';
-import UnsuccessCheckIcon from '../../../assets/images/TransactionFailed.svg';
+import UnsuccessCheckIcon from '../../../assets/images/modalIcons/failed.svg';
 import SuccessCheckIcon from '../../../assets/images/success.png';
 
 // const { Keyring } = require('@polkadot/api');
@@ -103,7 +103,7 @@ const Send = () => {
 
   const currentUser = useSelector((state) => state);
   const { api } = currentUser.api;
-  const { rpcUrl } = currentUser.account;
+  const { rpcUrl } = currentUser.activeAccount;
   const [isSendModalOpen, setIsSendModalOpen] = useState(false);
 
   // const [accountTo, setAccountTo] = useState('');
@@ -120,14 +120,14 @@ const Send = () => {
 
   // eslint-disable-next-line prefer-const
   let data = {
-    accountFrom: currentUser.account.publicKey,
+    accountFrom: currentUser.activeAccount.publicKey,
     accountTo: accountToSate.value,
     amount: amountState.value,
     hash: '',
     operation: '',
     status: '',
-    chainName: currentUser.account.chainName,
-    tokenName: currentUser.account.tokenName,
+    chainName: currentUser.activeAccount.chainName,
+    tokenName: currentUser.activeAccount.tokenName,
     transactionFee,
   };
 
@@ -145,8 +145,21 @@ const Send = () => {
     };
   }, [isValid, amountIsValid, amountState.isValid]);
 
+  // Getting estimated Transaction fee
+  useEffect(() => {
+    async function get() {
+      const info = await api.tx.balances
+        .transfer(currentUser.activeAccount.publicKey, 10)
+        .paymentInfo(currentUser.activeAccount.publicKey);
+      const res = await convertTransactionFee(info.partialFee.toHuman());
+      console.log('Res tx fee', res, res / 10);
+      setTransactionFee(res);
+    }
+    get();
+  });
+
   const accountToChangeHandler = (e) => {
-    accountDispatch({ type: 'USER_INPUT', val: e, valid: currentUser.account.publicKey });
+    accountDispatch({ type: 'USER_INPUT', val: e, valid: currentUser.activeAccount.publicKey });
   };
 
   const accountToIsValid = () => {
@@ -159,10 +172,10 @@ const Send = () => {
     setInsufficientBal(false);
     // eslint-disable-next-line no-unused-expressions
     if (e.length === 0) {
-      amountDispatch({ type: 'USER_INPUT', val: e, amountIsValid: currentUser.account.balance });
+      amountDispatch({ type: 'USER_INPUT', val: e, amountIsValid: currentUser.activeAccount.balance });
       setIsInputEmpty(true);
     } else {
-      amountDispatch({ type: 'USER_INPUT', val: e, amountIsValid: currentUser.account.balance });
+      amountDispatch({ type: 'USER_INPUT', val: e, amountIsValid: currentUser.activeAccount.balance });
       setIsInputEmpty(false);
     }
   };
@@ -173,22 +186,25 @@ const Send = () => {
 
   const convertTransactionFee = (fee) => {
     const splitFee = fee.split(' ');
-    if (currentUser.account.tokenName === 'WND') {
+    if (currentUser.activeAccount.tokenName === 'WND') {
       return (splitFee[0] * 10 ** -3).toFixed(4);
     }
-    if (currentUser.account.tokenName === 'KSM') {
+    if (currentUser.activeAccount.tokenName === 'KSM') {
       return (splitFee[0] * 10 ** -6).toFixed(4);
     }
-    if (currentUser.account.tokenName === 'PLD') {
+    if (currentUser.activeAccount.tokenName === 'PLD') {
       return splitFee[0];
     }
-    if (currentUser.account.tokenName === 'ACA') {
+    if (currentUser.activeAccount.tokenName === 'ACA') {
       return (splitFee[0] * 10 ** -3).toFixed(4);
     }
-    if (currentUser.account.tokenName === 'ROC') {
+    if (currentUser.activeAccount.tokenName === 'ROC') {
       return (splitFee[0] * 10 ** -3).toFixed(4);
     }
-    if (currentUser.account.tokenName === 'DOT') {
+    if (currentUser.activeAccount.tokenName === 'DOT') {
+      return (splitFee[0] * 10 ** -3).toFixed(4);
+    }
+    if (currentUser.activeAccount.tokenName === 'SBY') {
       return (splitFee[0] * 10 ** -3).toFixed(4);
     }
     return true;
@@ -228,16 +244,13 @@ const Send = () => {
   };
 
   const maxInputHandler = async () => {
-    console.log('Start*******');
-    // const decimalPlaces = await api.registry.chainDecimals;
-    // const info = await api.tx.balances
-    //   .transfer(currentUser.account.publicKey, amountState.value * 10 ** decimalPlaces)
-    //   .paymentInfo(accountToSate.value);
+    const info = await api.tx.balances
+      .transfer(currentUser.activeAccount.publicKey, 10)
+      .paymentInfo(currentUser.activeAccount.publicKey);
 
-    // const txFee = await convertTransactionFee(info.partialFee.toHuman());
-    // console.log('transaction fee ---------', txFee);
-    // amountDispatch({ type: 'MAX_INPUT', bal: currentUser.account.balance, txFee });
-    // console.log('End--------------');
+    const txFee = Number(await convertTransactionFee(info.partialFee.toHuman()));
+
+    amountDispatch({ type: 'MAX_INPUT', bal: currentUser.activeAccount.balance, txFee: Number(txFee) + Number(txFee) / 10 });
   };
 
   // Check the sender existential deposit
@@ -246,13 +259,13 @@ const Send = () => {
     const decimalPlaces = await currentUser.api.api.registry.chainDecimals[0];
 
     // const recipientBalance = await getBalance(api, accountToSate.value);
-    // if (currentUser.account.rpcUrl === constants.ACALA_MANDALA_CONFIG.RPC_URL) {
+    // if (currentUser.activeAccount.rpcUrl === constants.ACALA_MANDALA_CONFIG.RPC_URL) {
     //   recipientBalance = await
     //   getBalanceWithMultipleTokens(api, accountToSate.value);
     // } else {
     const recipientBalance = await getBalance(api, accountToSate.value);
     // }
-    const senderBalance = currentUser.account.balance;
+    const senderBalance = currentUser.activeAccount.balance;
     console.log('TYPE [][]', typeof recipientBalance, typeof amountState.value);
     console.log('Recipient balance + amount to state', Number(recipientBalance) + Number(amountState.value));
 
@@ -262,14 +275,15 @@ const Send = () => {
     const decimalPlacesForTxFee = await api.registry.chainDecimals;
 
     const info = await api.tx.balances
-      .transfer(currentUser.account.publicKey, amountState.value * 10 ** decimalPlacesForTxFee)
+      .transfer(currentUser.activeAccount.publicKey,
+        amountState.value * 10 ** decimalPlacesForTxFee)
       .paymentInfo(accountToSate.value);
 
     console.log('After info');
     const txFee = await convertTransactionFee(info.partialFee.toHuman());
 
     // checking if balance is enough to send the amount with network fee
-    if (currentUser.account.balance < (Number(amountState.value) + Number(txFee))) {
+    if (currentUser.activeAccount.balance < (Number(amountState.value) + Number(txFee))) {
       setInsufficientBal(true);
       console.log('hello');
       return [false, null];
@@ -307,7 +321,7 @@ const Send = () => {
     return [true, txFee];
   };
 
-  const doTransaction = async (sender) => {
+  const doTransaction = async (address = '', password = '', sender = {}) => {
     console.clear();
     console.log('sender unlocked-------------', sender);
     // const keyring1 = new Keyring({ type: 'sr25519' });
@@ -688,7 +702,7 @@ const Send = () => {
   };
 
   const validateInputValues = (address) => {
-    if (currentUser.account.balance < amountState.value) {
+    if (currentUser.activeAccount.balance < amountState.value) {
       throw new Error('Insufficient funds');
     }
     if (!accountToSate.value) {
@@ -732,7 +746,7 @@ const Send = () => {
     // const decimalPlaces = await api.registry.chainDecimals;
 
     // const info = await api.tx.balances
-    //   .transfer(currentUser.account.publicKey, amountState.value * 10 ** decimalPlaces)
+    //   .transfer(currentUser.activeAccount.publicKey, amountState.value * 10 ** decimalPlaces)
     //   .paymentInfo(accountToSate.value);
 
     // console.log('After info');
@@ -741,14 +755,14 @@ const Send = () => {
     console.log('After tx');
     console.log('TX fee', txFee);
     data.txFee = txFee;
-    data.chainName = currentUser.account.chainName;
+    data.chainName = currentUser.activeAccount.chainName;
     setTransactionFee(txFee);
     setLoading1(false);
     setIsWarningModalOpen(false);
     dispatch(setConfirmSendModal(true));
 
     // // checking if balance is enough to send the amount with network fee
-    // if (currentUser.account.balance < (Number(amountState.value) + Number(txFee))) {
+    // if (currentUser.activeAccount.balance < (Number(amountState.value) + Number(txFee))) {
     //   setInsufficientBal(true);
     //   console.log('hello');
     // } else {
@@ -758,7 +772,7 @@ const Send = () => {
 
   // eslint-disable-next-line no-unused-vars
   const handleSubmit = async () => {
-    console.log('User balance', currentUser.account.balance);
+    console.log('User balance', currentUser.activeAccount.balance);
     console.log('Redux state api []][]', rpcUrl);
     console.log('Check existential deposit', accountToSate);
     // if (rpcUrl === constants.ACALA_MANDALA_CONFIG.RPC_URL) {
@@ -781,10 +795,10 @@ const Send = () => {
         console.log('Before info');
         SendTx(isTxValid[1]);
         // const info = await
-        // getTransactionFee(api, currentUser.account.publicKey,
+        // getTransactionFee(api, currentUser.activeAccount.publicKey,
         // accountToSate.value, decimalPlaces, amountState.value);
         // const info = await api.tx.balances
-        //   .transfer(currentUser.account.publicKey, amountState.value * 10 ** decimalPlaces)
+        //   .transfer(currentUser.activeAccount.publicKey, amountState.value * 10 ** decimalPlaces)
         //   .paymentInfo(accountToSate.value);
 
         // console.log('After info');
@@ -793,11 +807,11 @@ const Send = () => {
         // console.log('After tx');
         // console.log('TX fee', txFee);
         // data.txFee = txFee;
-        // data.chainName = currentUser.account.chainName;
+        // data.chainName = currentUser.activeAccount.chainName;
         // setTransactionFee(txFee);
         // setLoading1(false);
         // // checking if balance is enough to send the amount with network fee
-        // if (currentUser.account.balance < (Number(amountState.value) + Number(txFee))) {
+        // if (currentUser.activeAccount.balance < (Number(amountState.value) + Number(txFee))) {
         //   setInsufficientBal(true);
         //   console.log('hello');
         // } else {
@@ -860,6 +874,7 @@ const Send = () => {
     trimBalance,
     errorMessages,
     error,
+    transactionFee,
   };
 
   const btn = {
@@ -882,13 +897,13 @@ const Send = () => {
       pb: 3,
       mt: 10,
     },
-    accountFrom: currentUser.account.publicKey,
+    accountFrom: currentUser.activeAccount.publicKey,
     accountTo: accountToSate.value,
     amount: amountState.value,
     open: currentUser.modalHandling.confirmSendModal,
     transactionFee,
-    tokenName: currentUser.account.tokenName,
-    fromAccountName: currentUser.account.accountName,
+    tokenName: currentUser.activeAccount.tokenName,
+    fromAccountName: currentUser.activeAccount.accountName,
 
     handleClose: () => dispatch(setConfirmSendModal(false)),
     handleConfirm: doTransaction,
@@ -929,13 +944,13 @@ const Send = () => {
         {...confirmSend}
       />
       <AuthModal
-        publicKey={currentUser.account.publicKey}
+        publicKey={currentUser.activeAccount.publicKey}
         open={currentUser.modalHandling.authScreenModal}
         handleClose={() => {
           dispatch(setAuthScreenModal(false));
           dispatch(setConfirmSendModal(true));
         }}
-        sendTransaction={doTransaction}
+        onConfirm={doTransaction}
       />
 
       <WarningModal {...warningModal} />

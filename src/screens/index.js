@@ -2,7 +2,8 @@ import Dashboard from './authorized/dashboard';
 import Send from './authorized/send';
 import Support from './authorized/support';
 import ViewSeedPhrase from './authorized/viewSeedPhrase';
-import MultipleAccounts from './authorized/multipleAccounts/index';
+import MultipleAccounts from './authorized/multipleAccounts';
+import CreateDerivedAccount from './authorized/CreateDerivedAccount';
 
 import ConfirmSeed from './unAuthorized/confirmSeed';
 import CreateWallet from './unAuthorized/createWallet';
@@ -23,6 +24,7 @@ const screens = {
   Support,
   ViewSeedPhrase,
   MultipleAccounts,
+  CreateDerivedAccount,
 };
 
 export default screens;

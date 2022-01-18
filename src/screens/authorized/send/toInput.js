@@ -33,7 +33,7 @@ const ToInput = ({
       </MainText>
       <StyledInput id="to-address" {...styledInput} />
       <WarningText id="warning-text" className={subHeadingfontFamilyClass}>
-        {helpers.validateAddress(accountToSate.value, currentUser.account.publicKey)}
+        {helpers.validateAddress(accountToSate.value, currentUser.activeAccount.publicKey)}
       </WarningText>
       <div style={{ height: '1rem' }}>
         {!isCorrect ? (

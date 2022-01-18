@@ -11,6 +11,7 @@ const {
   Support,
   ViewSeedPhrase,
   MultipleAccounts,
+  CreateDerivedAccount,
 } = screens;
 
 const UnAuthRoutes = [
@@ -61,6 +62,31 @@ const AuthRoutes = [
     path: '/accounts',
     Component: MultipleAccounts,
   },
+  {
+    path: '/ImportWallet',
+    Component: ImportWallet,
+  },
+  {
+    path: '/ImportWallet/:seed',
+    Component: ImportWallet,
+  },
+  {
+    path: '/ShowSeed',
+    Component: ShowSeed,
+  },
+  {
+    path: '/ConfirmSeed',
+    Component: ConfirmSeed,
+  },
+  {
+    path: '/createWallet',
+    Component: CreateWallet,
+  },
+  {
+    path: '/creatDerivedAccount',
+    Component: CreateDerivedAccount,
+  },
+
 ];
 
 export default { AuthRoutes, UnAuthRoutes };

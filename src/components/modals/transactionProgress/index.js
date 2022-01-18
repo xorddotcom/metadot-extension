@@ -3,7 +3,7 @@ import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { fonts } from '../../../utils';
 import { MainHeading, SubHeading } from '../../index';
-import transactionProgress from '../../../assets/images/TransactionProgress.svg';
+import transactionProgress from '../../../assets/images/modalIcons/reloading.svg';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 

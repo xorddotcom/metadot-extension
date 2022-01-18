@@ -25,10 +25,10 @@ const FromInput = ({ addressModifier, currentUser }) => {
           <PlainIcon />
           <VerticalContentDiv>
             <MainText id="account-name" {...mainText}>
-              {currentUser.account.accountName}
+              {currentUser.activeAccount.accountName}
             </MainText>
             <Balance id="public-key" className={subHeadingfontFamilyClass}>
-              {addressModifier(currentUser.account.publicKey)}
+              {addressModifier(currentUser.activeAccount.publicKey)}
             </Balance>
           </VerticalContentDiv>
         </HorizontalContentDiv>
