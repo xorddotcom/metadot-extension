@@ -311,16 +311,34 @@ function ImportWallet() {
     className: mainHeadingfontFamilyClass,
   };
 
+  function getOwnTabs() {
+    return Promise.all(
+      chrome.extension.getViews({ type: 'tab' })
+        .map((view) => new Promise((resolve) => view.chrome.tabs.getCurrent((tab) => resolve(
+          Object.assign(tab, { url: view.location.href }),
+        )))),
+    );
+  }
+
+  async function openOptions(url) {
+    const ownTabs = await getOwnTabs();
+    const tabd = ownTabs.find((tab) => tab.url.includes(url));
+    if (tabd) {
+      console.log('already opened!');
+      chrome.tabs.update(tabd.id, { active: true });
+    } else {
+      console.log('not opened!');
+      chrome.tabs.create({ url });
+    }
+  }
+
   const option2 = {
     id: 'upload-file',
     onClick: () => {
       if (!jsonFileUploadScreen) {
         dispatch(setJsonFileUploadScreen(true));
         const url = `${chrome.extension.getURL('index.html')}`;
-        console.log('url-------------------------url', { url });
-        console.log('mark222222');
-        chrome.tabs.create({ url });
-        console.log('mark111111');
+        openOptions(url);
       } else {
         setSelectedType('json');
       }
@@ -377,7 +395,13 @@ function ImportWallet() {
   console.log('main cond', { isLoading });
   return (
     <AuthWrapper>
-      <Header centerText="Import Wallet" backHandler={() => console.log('goBack')} />
+      <Header
+        centerText="Import Wallet"
+        backHandler={() => {
+          dispatch(setJsonFileUploadScreen(false));
+          console.log('goBack');
+        }}
+      />
       <div>
         <Input onChange={passwordChangeHandler} />
         <MainHeading {...mainHeading}>Restore your wallet : </MainHeading>
