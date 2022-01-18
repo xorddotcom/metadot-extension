@@ -127,7 +127,7 @@ const CustomUploadFile = (props) => {
             isFilePicked
           && (
           <div onClick={() => handleClick('cancel')}>
-            <CancelIcon fontSize="small" style={{ marginTop: '-0.1rem', marginRight: '-0.3rem' }} />
+            <CancelIcon fontSize="small" style={{ marginTop: '0.2rem', marginRight: '-0.3rem' }} />
           </div>
           )
 
