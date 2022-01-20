@@ -403,7 +403,6 @@ function ImportWallet() {
         }}
       />
       <div>
-        <Input onChange={passwordChangeHandler} />
         <MainHeading {...mainHeading}>Restore your wallet : </MainHeading>
         <SubHeading textLightColor {...subHeading}>
           To restore your wallet enter your Seed phrase.
