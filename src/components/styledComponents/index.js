@@ -1,5 +1,5 @@
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { colors, fonts } from '../../utils';
 
 const { primaryText, secondaryText, warningText } = colors;
@@ -192,6 +192,17 @@ export const MainText = styled.p`
   margin-top: 0px;
   margin-bottom: 3px;
   text-align: start;
+
+  ${(props) => props.balOverFlow
+    && css`
+      white-space: nowrap; 
+      overflow: hidden; 
+      text-overflow: ellipsis; 
+      width: 45px;
+    
+    `}
+
+  
 `;
 
 export const TxStatus = styled.p`
