@@ -21,6 +21,7 @@ import acala from '../../../assets/images/tokenImg/acala-circle.svg';
 import astar from '../../../assets/images/astar.png';
 import rococo from '../../../assets/images/rococo.svg';
 import karura from '../../../assets/images/karura.svg';
+import shibuya from '../../../assets/images/shibuya.png';
 import { addTransaction } from '../../../redux/slices/transactions';
 import { queryData } from '../../../utils/queryData';
 
@@ -44,6 +45,8 @@ function AssetsAndTransactions({
       return polkadotDot;
     } else if (token === 'KSM') {
       return kusamaKsm;
+    } else if (token === 'SBY') {
+      return shibuya;
     } else if (token === 'WND') {
       return westendColour;
     } else if (token === 'PLD') {
