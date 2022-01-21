@@ -18,6 +18,7 @@ import {
   setIsResponseModalOpen, setLoadingForApi, setMainTextForSuccessModal,
   setResponseImage, setSubTextForSuccessModal,
 } from '../../../redux/slices/modalHandling';
+import { addAccount } from '../../../redux/slices/accounts';
 
 import {
   Option, OptionDiv, UploadFile, FileChosen, UploadFileDiv,
@@ -175,6 +176,11 @@ function ImportWallet() {
     dispatch(setAccountName(name));
     // dispatch(setWalletPassword(hashedPassword));
 
+    dispatch(addAccount({
+      accountName: name,
+      publicKey: add,
+    }));
+
     // const encryptedSeedWithAccountPassword = encrypt(currSeed, pass);
     // dispatch(setSeed(encryptedSeedWithAccountPassword));
   };
@@ -206,9 +212,9 @@ function ImportWallet() {
 
         // const res = await createAccount(pair);
         // console.log('res-------------', res);
-        saveAccountInRedux(val.json.address, val.json.meta.name, password);
+        await saveAccountInRedux(val.json.address, val.json.meta.name, password);
         dispatch(setLoadingForApi(false));
-        showSuccessModalAndNavigateToDashboard();
+        await showSuccessModalAndNavigateToDashboard();
       })
       .catch((err) => {
         console.log('now my loading setting to false', err);
