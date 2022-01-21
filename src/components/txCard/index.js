@@ -48,7 +48,10 @@ function TxCard({
       }}
       >
         <VerticalContentDiv>
-          <MainText className={mainHeadingfontFamilyClass}>
+          <MainText
+            className={mainHeadingfontFamilyClass}
+            balOverFlow
+          >
             {`${trimBalance(amount)} ${coin}`}
           </MainText>
           <TxHorizontalContentDiv>
