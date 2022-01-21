@@ -116,7 +116,7 @@ function StyledInput({
 
       {rightIconLock && (
       <Icon>
-        <LockOutlinedIcon fontSize="small" style={{ marginTop: '-0.1rem', marginRight: '-0.3rem' }} />
+        <LockOutlinedIcon fontSize="small" style={{ marginTop: '-0.1rem', marginRight: '-0.15rem' }} />
       </Icon>
       )}
     </TextInputWrapper>
