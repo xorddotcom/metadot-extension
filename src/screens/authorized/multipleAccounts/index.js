@@ -21,6 +21,7 @@ import AccountList from './account';
 import DrivedAccountList from './drivedAccount';
 import { helpers } from '../../../utils';
 import accounts from '../../../utils/accounts';
+import { resetTransactions } from '../../../redux/slices/transactions';
 
 const { GenerateSeedPhrase } = accounts;
 
@@ -104,6 +105,7 @@ function MultipleAccounts() {
     // dispatch(setSeed(account.seed));
     dispatch(setPublicKey(pk));
     dispatch(setAccountName(name));
+    dispatch(resetTransactions());
     history.push('/');
   };
 
