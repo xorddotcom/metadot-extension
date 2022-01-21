@@ -951,6 +951,15 @@ const Send = () => {
           dispatch(setConfirmSendModal(true));
         }}
         onConfirm={doTransaction}
+        style={{
+          width: '290px',
+          background: '#141414',
+          position: 'relative',
+          bottom: 30,
+          p: 2,
+          px: 2,
+          pb: 3,
+        }}
       />
 
       <WarningModal {...warningModal} />
