@@ -29,6 +29,7 @@ import downIcon from '../../../assets/images/icons/downArrow.svg';
 import upArrowIcon from '../../../assets/images/icons/upArrow.svg';
 import RemoveIcon from '../../../assets/images/icons/Remove.svg';
 import dropDownIcon from '../../../assets/images/icons/3Dots.svg';
+import exportIcon from '../../../assets/images/icons/export.svg';
 
 const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
 const { addressModifier } = helpers;
@@ -152,7 +153,7 @@ const DrivedAccountList = ({
                     key={Math.random()}
                   >
                     <img
-                      src={RemoveIcon}
+                      src={exportIcon}
                       alt="remove-account"
                       width="16"
                       height="17"

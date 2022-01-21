@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import RemoveIcon from '../../../assets/images/icons/Remove.svg';
 import dropDownIcon from '../../../assets/images/icons/3Dots.svg';
 import derivedIcon from '../../../assets/images/icons/deriveAccount.svg';
+import exportIcon from '../../../assets/images/icons/export.svg';
 import { fonts } from '../../../utils';
 import accountUtils from '../../../utils/accounts';
 import {
@@ -27,9 +28,9 @@ import {
   setAccountName,
   setPublicKey,
 } from '../../../redux/slices/activeAccount';
+import { setAuthScreenModal, setDerivedAccountModal } from '../../../redux/slices/modalHandling';
 import { DerivedAccountModal } from '../../../components/modals';
 import { AuthModal } from '../../../components';
-import { setAuthScreenModal, setDerivedAccountModal } from '../../../redux/slices/modalHandling';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { getJsonBackup } = accountUtils;
@@ -193,7 +194,7 @@ const AccountList = ({
                   key={Math.random()}
                 >
                   <img
-                    src={derivedIcon}
+                    src={exportIcon}
                     alt="export-account"
                     width="16"
                     height="17"
