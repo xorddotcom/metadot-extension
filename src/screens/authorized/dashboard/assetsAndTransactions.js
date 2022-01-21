@@ -119,7 +119,7 @@ function AssetsAndTransactions({
           obj.amount = parseInt(tempObj.amount) / parseInt(tempObj.decimals);
           obj.hash = tempObj.extrinsicHash;
           obj.operation = 'Receive';
-          obj.status = tempObj.status ? 'Success' : 'Failed';
+          obj.status = tempObj.status ? 'Successful' : 'Failed';
           obj.chainName = tempObj.token;
           obj.tokenName = tempObj.token;
           obj.transactionFee = 0;
