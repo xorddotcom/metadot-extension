@@ -1,0 +1,6 @@
+*.css
+*.svg
+build
+node_modules
+.vscode
+public
