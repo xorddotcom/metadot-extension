@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,6 +31,7 @@ import upArrowIcon from '../../../assets/images/icons/upArrow.svg';
 import RemoveIcon from '../../../assets/images/icons/Remove.svg';
 import dropDownIcon from '../../../assets/images/icons/3Dots.svg';
 import exportIcon from '../../../assets/images/icons/export.svg';
+import ChildAccountDropDown from './childAccountDropDown';
 
 const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
 const { addressModifier } = helpers;
@@ -85,6 +87,22 @@ const DrivedAccountList = ({
     setIsOpen(false);
   };
 
+  // account dropdown
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    Object.values(accounts).map((acc) => {
+      if (acc.publicKey === publicKey) {
+        setAnchorEl(event.currentTarget);
+      }
+      return null;
+    });
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  // account dropdown end
+
   return (
     <>
       <DrivedAccountMain>
@@ -139,13 +157,14 @@ const DrivedAccountList = ({
 
             <DropDownContainer className={mainHeadingfontFamilyClass}>
               <DropDownIcon
-                ref={ref}
-                onClick={() => setIsOpen((oldState) => !oldState)}
+                // ref={ref}
+                // onClick={() => setIsOpen((oldState) => !oldState)}
+                onClick={handleClick}
               >
                 <img src={dropDownIcon} alt="3-dots" />
               </DropDownIcon>
 
-              {isOpen && (
+              {/* {isOpen && (
               <DropDownListContainer>
                 <DropDownList>
                   <ListItem
@@ -182,8 +201,16 @@ const DrivedAccountList = ({
                   </ListItem>
                 </DropDownList>
               </DropDownListContainer>
-              )}
+              )} */}
             </DropDownContainer>
+            <ChildAccountDropDown
+              anchorEl={anchorEl}
+              open={open}
+              key={accounts.publicKey}
+              handleClose={handleClose}
+              publicKeyy={publicKey}
+              onOptionClicked={onOptionClicked}
+            />
           </Account>
         </>
         )}
