@@ -45,6 +45,7 @@ function TxCard({
         width: '20%',
         paddingLeft: 10,
         alignItems: 'center',
+        marginRight: '0.45rem',
       }}
       >
         <VerticalContentDiv>
