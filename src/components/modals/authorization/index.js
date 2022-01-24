@@ -19,7 +19,7 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { unlockPair } = accounts;
 
 function AuthModal({
-  open, handleClose, style, onConfirm, publicKey,
+  open, handleClose, style, onConfirm, publicKey, setOpenAuthModa,
 }) {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -39,6 +39,7 @@ function AuthModal({
         dispatch(setAuthScreenModal(false));
         dispatch(setConfirmSendModal(true));
         onConfirm(publicKey, password, sender);
+        setOpenAuthModa(false);
       } else {
         throw new Error('Invalid password');
       }
