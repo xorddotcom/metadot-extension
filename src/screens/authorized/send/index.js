@@ -159,6 +159,7 @@ const Send = () => {
   });
 
   const accountToChangeHandler = (e) => {
+    setIsCorrect(true);
     accountDispatch({ type: 'USER_INPUT', val: e, valid: currentUser.activeAccount.publicKey });
   };
 

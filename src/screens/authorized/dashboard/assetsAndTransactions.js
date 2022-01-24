@@ -90,7 +90,7 @@ function AssetsAndTransactions({
     body: JSON.stringify({
       query,
     }),
-  }).then((r) => { console.log(r, 'responmseform quewf'); return r.json(); })
+  }).then((r) => r.json())
     .then((r) => handleTransaction(r))
     .catch((e) => console.log(e));
 
@@ -179,27 +179,29 @@ function AssetsAndTransactions({
         )}
         {isTab2Active && (
         // eslint-disable-next-line arrow-body-style
-          transactionData.length > 0 && transactionData.map((transaction) => {
-            const {
-              hash, operation, status, tokenName: tokenNames, amount,
-            } = transaction;
+          transactionData.length > 0 && transactionData
+            .filter((transaction) => transaction.tokenName === tokenName)
+            .map((transaction) => {
+              const {
+                hash, operation, status, tokenName: tokenNames, amount,
+              } = transaction;
 
-            const txCard = {
-              coin: tokenNames,
-              amountInUsd: tokenNames === 'WND' ? '$0' : '$0',
-              logo: logoChangeHandler(tokenNames),
-              handleClick: () => {
-                setTxDetailsModalData(transaction);
-                handleOpenTxDetailsModal();
-              },
-              operation,
-              status,
-              amount,
-            };
-            return (
-              <TxCard key={hash} {...txCard} />
-            );
-          })
+              const txCard = {
+                coin: tokenNames,
+                amountInUsd: tokenNames === 'WND' ? '$0' : '$0',
+                logo: logoChangeHandler(tokenNames),
+                handleClick: () => {
+                  setTxDetailsModalData(transaction);
+                  handleOpenTxDetailsModal();
+                },
+                operation,
+                status,
+                amount,
+              };
+              return (
+                <TxCard key={hash} {...txCard} />
+              );
+            })
         )}
       </div>
 
