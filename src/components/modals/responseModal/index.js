@@ -10,6 +10,7 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 function ResponseModal({
   open, handleClose, style, mainText, subText, responseImage,
 }) {
+  console.log('hello world', mainText, mainText === 'Internet is down!');
   return (
     <div>
       <Modal
@@ -18,7 +19,7 @@ function ResponseModal({
         onClose={handleClose}
       >
         <Box sx={style} className="warning-modal-style">
-          <img src={responseImage} alt="success check" />
+          <img src={responseImage} alt="success check" style={{ paddingLeft: mainText === 'Internet is down!' ? 20 : 0 }} />
           <MainHeading className={mainHeadingfontFamilyClass} marginBottom="8px">
             {mainText}
           </MainHeading>

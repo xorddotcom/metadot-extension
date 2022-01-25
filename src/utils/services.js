@@ -249,7 +249,7 @@ const sendTransaction = async (currentUser) => {
     //     console.error('Error [][][]', err);
     //   });
   } catch (err) {
-    alert('An error occurred');
+    // alert('An error occurred');
     console.log('Error', err);
   }
 };
@@ -329,7 +329,7 @@ const getBloackDetails = async (currentUser) => {
       // eslint-disable-next-line eqeqeq
       if (ex.signer == sender) {
         console.log('The tx hash', ex.hash.toHuman());
-        alert('Signer matched', ex.hash.toHuman());
+        // alert('Signer matched', ex.hash.toHuman());
       }
       console.log(`signer=${ex.signer.toString()}, nonce=${ex.nonce.toString()}`);
     }

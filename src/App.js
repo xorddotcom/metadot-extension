@@ -13,12 +13,15 @@ import { ResponseModal, TransactionProgress } from './components';
 import { setIsResponseModalOpen } from './redux/slices/modalHandling';
 import { setIsTransactionProgressModalOpen } from './redux/slices/transctionProgressModalHandling';
 import ApiManager from './apiManager';
-import { routes } from './utils';
+import { routes, fonts } from './utils';
 import accounts from './utils/accounts';
 import WelcomeBack from './screens/unAuthorized/welcomeBack';
 import Welcome from './screens/unAuthorized/welcome';
 
+import wifiOff from './assets/images/wifi-off.svg';
+
 const { AuthRoutes, UnAuthRoutes } = routes;
+const { subHeadingfontFamilyClass, subHeadingFontSize } = fonts;
 const { KeyringInitialization } = accounts;
 
 function App() {
@@ -150,6 +153,18 @@ function App() {
             overall the application */}
             <ResponseModal {...responseModal} />
             <TransactionProgress {...transactionProgress} />
+
+            {/* The actual snackbar  */}
+            <div id="snackbar">
+              <img src={wifiOff} alt="wifi off" style={{ marginRight: 5 }} />
+              <p
+                className={subHeadingfontFamilyClass}
+                style={{ fontSize: subHeadingFontSize }}
+              >
+                Internet is down!
+
+              </p>
+            </div>
           </div>
         </Switch>
       </div>
