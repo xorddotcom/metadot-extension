@@ -421,7 +421,7 @@ const Send = () => {
       .catch((err) => {
         console.log('Tx hash', tx.hash.toHex());
         data.hash = tx.hash.toHex();
-        alert('Tx failed');
+        // alert('Tx failed');
         console.log('Error', err);
         data.status = 'Failed';
         dispatch(addTransaction(data));
@@ -672,7 +672,7 @@ const Send = () => {
           } else if (txResFail.length >= 1) {
             data.status = 'Failed';
             console.log('Tx is failed');
-            alert('Transaction failed');
+            // alert('Transaction failed');
             dispatch(addTransaction(data));
             setLoading2(false);
             dispatch(setConfirmSendModal(false));
@@ -691,7 +691,7 @@ const Send = () => {
         },
       )
       .catch((err) => {
-        alert('Transaction failed in catch');
+        // alert('Transaction failed in catch');
         setLoading2(false);
         console.error('Error [][][]', err);
       });
