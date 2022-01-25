@@ -178,6 +178,7 @@ input:focus {
 }
 
 .warning-modal-style {
+  outline: none !important;
   border: 0.8px solid var(--primaryBackground);
   box-sizing: border-box;
   box-shadow: 0 0 20px 7px var(--boxShadowColor);
