@@ -7,7 +7,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 import RemoveIcon from '../../../assets/images/icons/Remove.svg';
-import viewSeedIcon from '../../../assets/images/icons/openEye.svg';
+import exportIcon from '../../../assets/images/icons/export.svg';
 import AuthModal from '../../../components/modals/authorization/index';
 import {
   setAuthScreenModal,
@@ -103,7 +103,7 @@ const ChildAccountDropDown = ({
             >
               <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
                 <img
-                  src={viewSeedIcon}
+                  src={exportIcon}
                   alt="lock-icon"
                   style={{ marginTop: '-0.2rem' }}
                 />
