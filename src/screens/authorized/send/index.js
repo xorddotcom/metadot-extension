@@ -129,6 +129,7 @@ const Send = () => {
     chainName: currentUser.activeAccount.chainName,
     tokenName: currentUser.activeAccount.tokenName,
     transactionFee,
+    timestamp: '',
   };
 
   const { isValid } = accountToSate;
@@ -380,7 +381,7 @@ const Send = () => {
         if (txResFail.length >= 1) {
           console.log('Tx failed', txResFail.length);
           data.status = 'Failed';
-          dispatch(addTransaction(data));
+          // dispatch(addTransaction(data));
           setLoading2(false);
           dispatch(setConfirmSendModal(false));
           dispatch(setIsResponseModalOpen(true));
@@ -398,7 +399,7 @@ const Send = () => {
         } if (txResSuccess.length >= 1) {
           console.log('Tx successfull');
           data.status = 'Successful';
-          dispatch(addTransaction(data));
+          // dispatch(addTransaction(data));
           setLoading2(false);
           dispatch(setConfirmSendModal(false));
           setIsSendModalOpen(false);
@@ -424,7 +425,7 @@ const Send = () => {
         // alert('Tx failed');
         console.log('Error', err);
         data.status = 'Failed';
-        dispatch(addTransaction(data));
+        // dispatch(addTransaction(data));
         setLoading2(false);
         dispatch(setConfirmSendModal(false));
         setIsSendModalOpen(false);
