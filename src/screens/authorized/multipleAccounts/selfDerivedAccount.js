@@ -19,6 +19,7 @@ import {
 } from './styledComponent';
 import { fonts, helpers } from '../../../utils';
 import RemoveIcon from '../../../assets/images/icons/Remove.svg';
+import exportIcon from '../../../assets/images/icons/export.svg';
 import dropDownIcon from '../../../assets/images/icons/3Dots.svg';
 
 const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
@@ -89,7 +90,7 @@ const SelfDrivedAccountList = ({
                 key={Math.random()}
               >
                 <img
-                  src={RemoveIcon}
+                  src={exportIcon}
                   alt="remove-account"
                   width="16"
                   height="17"
