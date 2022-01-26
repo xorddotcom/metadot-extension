@@ -156,9 +156,10 @@ const AccountList = ({
       <Account marginBottom={marginBottom} marginTop={marginTop}>
         <AccountFlex>
           <AccountCircle />
-          <AccountText>
+          <AccountText
+            onClick={accountActive}
+          >
             <AccountMainText
-              onClick={accountActive}
               className={mainHeadingfontFamilyClass}
             >
               {accountName}

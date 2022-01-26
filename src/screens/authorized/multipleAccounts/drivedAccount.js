@@ -107,22 +107,20 @@ const DrivedAccountList = ({
     <>
       <DrivedAccountMain>
         <Border />
-        <DrivedAccount>
+        <DrivedAccount
+          onClick={() => {
+            // eslint-disable-next-line no-shadow
+            setdrivedDropDownOpen(
+              (drivedDropDownOpen) => !drivedDropDownOpen,
+            );
+            checkDrivedDropdownOpen(drivedDropDownOpen);
+          }}
+        >
           <DrivedAccountText className={subHeadingfontFamilyClass}>
-            1 Drived Accounts
+            1 Derived Account
           </DrivedAccountText>
           <DropDownIcon>
-            <div
-              // eslint-disable-next-line no-shadow
-              onClick={() => {
-                // eslint-disable-next-line no-shadow
-                setdrivedDropDownOpen(
-                  (drivedDropDownOpen) => !drivedDropDownOpen,
-                );
-                checkDrivedDropdownOpen(drivedDropDownOpen);
-              }}
-              aria-hidden="true"
-            >
+            <div aria-hidden="true">
               {!drivedDropDownOpen ? (
                 <img src={downIcon} alt="drop-down-icon" />
               ) : (
@@ -140,9 +138,8 @@ const DrivedAccountList = ({
           <Account margin="1rem 0">
             <AccountFlex>
               <AccountCircle />
-              <AccountText>
+              <AccountText onClick={childAccountActive}>
                 <AccountMainText
-                  onClick={childAccountActive}
                   className={mainHeadingfontFamilyClass}
                 >
                   {`${childAccount.accountName}//0`}
