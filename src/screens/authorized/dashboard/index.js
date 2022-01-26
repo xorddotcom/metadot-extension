@@ -433,7 +433,7 @@ function Dashboard(props) {
           handleClickForKusama={handleSelectionOnKusamaMainNetwork}
           style={{
             position: 'relative',
-            width: '78%',
+            width: '300px',
             background: '#141414',
             pb: 3,
             height: '240px',
@@ -449,7 +449,7 @@ function Dashboard(props) {
           txDetailsModalData={txDetailsModalData}
           transactionData={transactions}
           style={{
-            width: '78%',
+            width: '300px',
             background: '#141414',
             position: 'relative',
             p: 2,
@@ -462,7 +462,7 @@ function Dashboard(props) {
           handleClose={() => console.log(false)}
           style={{
             position: 'relative',
-            width: '78%',
+            width: '300px',
             minHeight: 380,
             background: '#141414',
             padding: '0 20px',

@@ -890,7 +890,7 @@ const Send = () => {
   const confirmSend = {
     id: 'confirm-send',
     style: {
-      width: '78%',
+      width: '300px',
       background: '#141414',
       position: 'relative',
       p: 2,
