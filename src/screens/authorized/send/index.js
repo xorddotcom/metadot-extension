@@ -274,10 +274,10 @@ const Send = () => {
     console.log('ED of the chain', currentUser.api.api.consts.balances.existentialDeposit);
 
     const decimalPlacesForTxFee = await api.registry.chainDecimals;
-
     const info = await api.tx.balances
       .transfer(currentUser.activeAccount.publicKey,
-        amountState.value * 10 ** decimalPlacesForTxFee)
+        // eslint-disable-next-line no-undef
+        BigInt(amountState.value * 10 ** decimalPlacesForTxFee))
       .paymentInfo(accountToSate.value);
 
     console.log('After info');

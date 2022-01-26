@@ -64,7 +64,8 @@ const getBalanceWithMultipleTokens = async (api, account) => {
 
 const getTransactionFee = async (api, sender, recipient, decimalPlaces, amount) => {
   const info = await api.tx.balances
-    .transfer(sender, amount * 10 ** decimalPlaces)
+    // eslint-disable-next-line no-undef
+    .transfer(sender, BigInt(amount * 10 ** decimalPlaces))
     .paymentInfo(recipient);
 
   return info;
