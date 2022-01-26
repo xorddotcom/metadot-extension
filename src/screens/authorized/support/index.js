@@ -1,5 +1,7 @@
+/* eslint-disable no-undef */
+/* eslint-disable jsx-a11y/interactive-supports-focus */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Header } from '../../../components';
 import { fonts } from '../../../utils';
 import {
@@ -111,24 +113,28 @@ const Support = () => {
           magnam.
         </SubHeading>
         <SocialDiv>
-          <Link to="/">
+
+          <div onClick={() => window.open('https://discord.gg/5Jq78EdfN6')} role="tab">
             <img src={discord} alt="discord" />
-          </Link>
-          <Link to="/">
+          </div>
+
+          <div onClick={() => window.open('https://matrix.to/#/#metadot-wallet:matrix.org')} role="tab">
             <img src={element} alt="element" height="20px" />
-          </Link>
-          <Link to="/">
+          </div>
+          <div onClick={() => window.open('https://t.me/metadotwallet')} role="tab">
             <img src={telegram} alt="telegram" />
-          </Link>
-          <Link to="/">
+          </div>
+          <div onClick={() => window.open('https://www.facebook.com/Metadotwallet')} role="tab">
+
             <img src={facebook} alt="facebook" />
-          </Link>
-          <Link to="/">
+          </div>
+          <div onClick={() => window.open('https://twitter.com/MetadotWallet')} role="tab">
             <img src={twitter} alt="twitter" />
-          </Link>
-          <Link to="/" style={{ marginTop: '-20px' }}>
+          </div>
+
+          <div onClick={() => window.open('https://www.instagram.com/metadotwallet/')} role="tab">
             <img src={instagram} alt="instagram" />
-          </Link>
+          </div>
         </SocialDiv>
       </MainDiv>
     </Wrapper>

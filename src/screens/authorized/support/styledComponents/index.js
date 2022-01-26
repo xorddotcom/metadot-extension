@@ -10,7 +10,7 @@ export const MainDiv = styled.div`
 `;
 
 export const SocialDiv = styled.div`
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   width: 60%;
   display: flex;
   justify-content: space-between;
