@@ -106,13 +106,11 @@ function AssetsAndTransactions({
     // list all the previous hashes
     // and then dispatch new data if it's txhash is not in previousHashes
 
-    console.log('handle transaction runninggggggggg', transactionObject);
+    console.log('handle transaction running:', transactionObject);
 
     const previousTransactionHashList = transactionData.map((transaction) => transaction.hash);
 
-    console.log(transactionObject.data.account, 'abc test');
-
-    if (transactionObject.data.account) {
+    if (transactionObject.data.account.transferTo) {
       transactionObject.data.account.transferTo.nodes.map((tempObj) => {
         const obj = {};
         if (!previousTransactionHashList.includes(tempObj.extrinsicHash)) {
@@ -126,13 +124,15 @@ function AssetsAndTransactions({
           obj.chainName = tempObj.token;
           obj.tokenName = tempObj.token;
           obj.transactionFee = 0;
-          console.log('object from send', obj);
+          obj.timestamp = tempObj.timestamp;
           dispatch(addTransaction(obj));
         }
 
         return obj;
       });
+    }
 
+    if (transactionObject.data.account.transferFrom) {
       transactionObject.data.account.transferFrom.nodes.map((tempObj) => {
         const obj = {};
         if (!previousTransactionHashList.includes(tempObj.extrinsicHash)) {
@@ -146,7 +146,7 @@ function AssetsAndTransactions({
           obj.chainName = tempObj.token;
           obj.tokenName = tempObj.token;
           obj.transactionFee = 0;
-          console.log('object from rec', obj);
+          obj.timestamp = tempObj.timestamp;
           dispatch(addTransaction(obj));
         }
 
@@ -181,6 +181,7 @@ function AssetsAndTransactions({
         // eslint-disable-next-line arrow-body-style
           transactionData.length > 0 && transactionData
             .filter((transaction) => transaction.tokenName === tokenName)
+            .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
             .map((transaction) => {
               const {
                 hash, operation, status, tokenName: tokenNames, amount,
