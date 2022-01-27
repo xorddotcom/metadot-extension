@@ -70,8 +70,8 @@ function About({
             {jsonData}
           </MainText2>
           <SubText2 textAlign="start" marginTop="15px" className={subHeadingfontFamilyClass}>
-            Meta  is built for Polkadot, committed to providing
-            easy‑to‑use .a one‑stop compatible framework.
+            Metadot is built for Polkadot, committed to
+            providing an easy‑to‑use and one‑stop compatible framework.
           </SubText2>
           <MainLinks>
             <Link to="/" className={subHeadingfontFamilyClass}>Privacy Policy</Link>
