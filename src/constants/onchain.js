@@ -15,7 +15,7 @@ import acala from '../assets/images/tokenImg/acala-circle.svg';
 import bitcountry from '../assets/images/tokenImg/bitcountry.svg';
 import rococoIcon from '../assets/images/rococo.svg';
 import astarIcon from '../assets/images/astar.png';
-import shibuyaIcon from '../assets/images/shibuya.png';
+import shibuyaIcon from '../assets/images/shibuya.svg';
 
 const USD_PER_POLKADOT_API = 'https://api.coingecko.com/api/v3/simple/price?ids=POLKADOT&vs_currencies=Usd';
 

@@ -22,7 +22,7 @@ import bitcountry from '../../../assets/images/tokenImg/bitcountry.svg';
 import astar from '../../../assets/images/astar.png';
 import rococo from '../../../assets/images/rococo.svg';
 import karura from '../../../assets/images/karura.svg';
-import shibuya from '../../../assets/images/shibuya.png';
+import shibuya from '../../../assets/images/shibuya.svg';
 import { addTransaction } from '../../../redux/slices/transactions';
 import { queryData } from '../../../utils/queryData';
 

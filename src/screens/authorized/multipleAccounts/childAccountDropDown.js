@@ -9,6 +9,7 @@ import { makeStyles } from '@mui/styles';
 import RemoveIcon from '../../../assets/images/icons/Remove.svg';
 import exportIcon from '../../../assets/images/icons/export.svg';
 import AuthModal from '../../../components/modals/authorization/index';
+import WarningModal from '../../../components/modals/warningModal/index';
 import {
   setAuthScreenModal,
 } from '../../../redux/slices/modalHandling';
@@ -37,9 +38,14 @@ const ChildAccountDropDown = ({
   const classes = useStyles();
   const dispatch = useDispatch();
   const [openAuthModal, setOpenAuthModa] = useState(false);
+  const [openWarnModal, setOpenWarnModal] = useState(false);
 
   const authModalHandler = () => {
     setOpenAuthModa(true);
+  };
+
+  const warnModalHandler = () => {
+    setOpenWarnModal(true);
   };
 
   // eslint-disable-next-line no-unused-vars
@@ -47,6 +53,26 @@ const ChildAccountDropDown = ({
     await getJsonBackup(address, password);
     dispatch(setAuthScreenModal(false));
   };
+
+  const warningModal = {
+    open: openWarnModal,
+    handleClose: () => setOpenWarnModal(false),
+    onConfirm: () => {
+      onOptionClicked();
+    },
+    style: {
+      width: '290px',
+      background: '#141414',
+      position: 'relative',
+      bottom: 30,
+      p: 2,
+      px: 2,
+      pb: 3,
+    },
+    mainText: 'Warning',
+    subText: 'On confirm your account will be deleted from Metadot, make sure you have your json file backup or seed stored.',
+  };
+
   return (
     <>
       <Menu
@@ -115,7 +141,7 @@ const ChildAccountDropDown = ({
             <MenuItem
               id="menu-item-3"
               style={{ minHeight: '37px', color: '#fafafa' }}
-              onClick={() => onOptionClicked()}
+              onClick={warnModalHandler}
               key={Math.random()}
             >
               <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
@@ -169,6 +195,8 @@ const ChildAccountDropDown = ({
           pb: 3,
         }}
       />
+      <WarningModal {...warningModal} />
+
     </>
   );
 };
