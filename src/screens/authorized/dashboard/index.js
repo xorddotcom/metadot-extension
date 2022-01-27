@@ -38,6 +38,7 @@ import {
   Wrapper,
 } from './styledComponents';
 import Logo from '../../../assets/images/topLogo.svg';
+import wifiOff from '../../../assets/images/wifi-off.svg';
 import { SelectNetwork, TxDetails } from '../../../components';
 import {
   HorizontalContentDiv,
@@ -46,13 +47,20 @@ import {
   OptionText,
 } from '../../../components/modals/selectNetwork/styledComponents';
 
-import { setLoadingForApi } from '../../../redux/slices/modalHandling';
+import {
+  setIsResponseModalOpen,
+  setLoadingForApi,
+  setMainTextForSuccessModal,
+  setResponseImage,
+  setSubTextForSuccessModal,
+} from '../../../redux/slices/modalHandling';
 
 import networks from './networkModalData';
 import DropDown from './dropDown';
 import { About } from '../../../components/modals';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+// const { showInternetSnackBar } = helpers;
 
 const { getBalance, addressMapper } = services;
 const { KeyringInitialization } = accountsUtils;
@@ -110,6 +118,7 @@ function Dashboard(props) {
         if (!change.isZero()) {
           const bal = getBalance(api, publicKey)
             .then((res) => {
+              console.log('live balance', res);
               dispatch(setBalance(res));
             })
             .catch((err) => console.log('Err', err));
@@ -277,16 +286,37 @@ function Dashboard(props) {
       });
     } else if (rpcUrl !== data.rpcUrl) {
       dispatch(setApiInitializationStarts(true)); // for showing loading waves like preloader
-      dispatch(setLoadingForApi(true));
-      dispatch(setRpcUrl({ rpcUrl: data.rpcUrl }));
-      dispatch(setChainName({ chainName: data.name }));
-      // eslint-disable-next-line max-len
-      const publicKeyOfRespectiveChain = addressMapper(currentUser.activeAccount.publicKey, data.prefix);
-      dispatch(setPublicKey(publicKeyOfRespectiveChain));
+      if (window.navigator.onLine) {
+        dispatch(setLoadingForApi(true));
+        dispatch(setRpcUrl({ rpcUrl: data.rpcUrl }));
+        dispatch(setChainName({ chainName: data.name }));
+        // eslint-disable-next-line max-len
+        const publicKeyOfRespectiveChain = addressMapper(currentUser.activeAccount.publicKey, data.prefix);
+        dispatch(setPublicKey(publicKeyOfRespectiveChain));
 
-      setIsLoading(false);
+        setIsLoading(false);
 
-      selectAndGoBack(data.name);
+        selectAndGoBack(data.name);
+      } else {
+        console.log('Internet is down!');
+        // showInternetSnackBar();
+
+        dispatch(setMainTextForSuccessModal('Internet is down!'));
+        dispatch(setSubTextForSuccessModal(''));
+        dispatch(setResponseImage(wifiOff));
+        dispatch(setIsResponseModalOpen(true));
+
+        setTimeout(() => {
+          dispatch(setIsResponseModalOpen(false));
+        }, 2500);
+
+        setIsLoading(false);
+
+        selectAndGoBack(data.name);
+        setTimeout(() => {
+          dispatch(setApiInitializationStarts(false)); // for removing loading waves
+        }, 2000);
+      }
     } else {
       console.log('Already selected!');
       setIsLoading(false);
@@ -404,7 +434,7 @@ function Dashboard(props) {
           handleClickForKusama={handleSelectionOnKusamaMainNetwork}
           style={{
             position: 'relative',
-            width: '78%',
+            width: '300px',
             background: '#141414',
             pb: 3,
             height: '240px',
@@ -420,7 +450,7 @@ function Dashboard(props) {
           txDetailsModalData={txDetailsModalData}
           transactionData={transactions}
           style={{
-            width: '78%',
+            width: '300px',
             background: '#141414',
             position: 'relative',
             p: 2,
@@ -433,7 +463,7 @@ function Dashboard(props) {
           handleClose={() => console.log(false)}
           style={{
             position: 'relative',
-            width: '78%',
+            width: '300px',
             minHeight: 380,
             background: '#141414',
             padding: '0 20px',

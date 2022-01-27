@@ -21,6 +21,7 @@ const {
   MOONBASE_CONFIG,
   ASGARD_CONFIG,
   SHIBUYA_CONFIG,
+  BITCOUNTRY_CONFIG,
 } = constants;
 
 const availableNetworks = [
@@ -141,13 +142,20 @@ const TestNetworks = [
     tokenName: WESTEND_CONFIG.TOKEN_NAME,
     prefix: WESTEND_CONFIG.PREFIX,
   },
+  // {
+  //   name: ROCOCO_CONFIG.CHAIN_NAME,
+  //   theme: ROCOCO_CONFIG.LOGO,
+  //   rpcUrl: ROCOCO_CONFIG.RPC_URL,
+  //   tokenName: ROCOCO_CONFIG.TOKEN_NAME,
+  //   prefix: ROCOCO_CONFIG.PREFIX,
+  //   // disabled: false,
+  // },
   {
-    name: ROCOCO_CONFIG.CHAIN_NAME,
-    theme: ROCOCO_CONFIG.LOGO,
-    rpcUrl: ROCOCO_CONFIG.RPC_URL,
-    tokenName: ROCOCO_CONFIG.TOKEN_NAME,
-    prefix: ROCOCO_CONFIG.PREFIX,
-    // disabled: false,
+    name: BITCOUNTRY_CONFIG.CHAIN_NAME,
+    theme: BITCOUNTRY_CONFIG.LOGO,
+    rpcUrl: BITCOUNTRY_CONFIG.RPC_URL,
+    tokenName: BITCOUNTRY_CONFIG.TOKEN_NAME,
+    prefix: 42,
   },
   {
     name: SHIBUYA_CONFIG.CHAIN_NAME,

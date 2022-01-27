@@ -18,9 +18,11 @@ import kusamaKsm from '../../../assets/images/tokenImg/kusama-ksm.svg';
 import polkadotDot from '../../../assets/images/tokenImg/polkadot.png';
 import westendColour from '../../../assets/images/tokenImg/westend_colour.svg';
 import acala from '../../../assets/images/tokenImg/acala-circle.svg';
+import bitcountry from '../../../assets/images/tokenImg/bitcountry.svg';
 import astar from '../../../assets/images/astar.png';
 import rococo from '../../../assets/images/rococo.svg';
 import karura from '../../../assets/images/karura.svg';
+import shibuya from '../../../assets/images/shibuya.svg';
 import { addTransaction } from '../../../redux/slices/transactions';
 import { queryData } from '../../../utils/queryData';
 
@@ -44,6 +46,8 @@ function AssetsAndTransactions({
       return polkadotDot;
     } else if (token === 'KSM') {
       return kusamaKsm;
+    } else if (token === 'SBY') {
+      return shibuya;
     } else if (token === 'WND') {
       return westendColour;
     } else if (token === 'PLD') {
@@ -56,6 +60,8 @@ function AssetsAndTransactions({
       return rococo;
     } else if (token === 'KAR') {
       return karura;
+    } else if (token === 'NUUM') {
+      return bitcountry;
     } else {
       return polkadotDot;
     }
@@ -87,7 +93,7 @@ function AssetsAndTransactions({
     body: JSON.stringify({
       query,
     }),
-  }).then((r) => { console.log(r, 'responmseform quewf'); return r.json(); })
+  }).then((r) => r.json())
     .then((r) => handleTransaction(r))
     .catch((e) => console.log(e));
 
@@ -103,13 +109,11 @@ function AssetsAndTransactions({
     // list all the previous hashes
     // and then dispatch new data if it's txhash is not in previousHashes
 
-    console.log('handle transaction runninggggggggg', transactionObject);
+    console.log('handle transaction running:', transactionObject);
 
     const previousTransactionHashList = transactionData.map((transaction) => transaction.hash);
 
-    console.log(transactionObject.data.account, 'abc test');
-
-    if (transactionObject.data.account) {
+    if (transactionObject.data.account.transferTo) {
       transactionObject.data.account.transferTo.nodes.map((tempObj) => {
         const obj = {};
         if (!previousTransactionHashList.includes(tempObj.extrinsicHash)) {
@@ -119,17 +123,19 @@ function AssetsAndTransactions({
           obj.amount = parseInt(tempObj.amount) / parseInt(tempObj.decimals);
           obj.hash = tempObj.extrinsicHash;
           obj.operation = 'Receive';
-          obj.status = tempObj.status ? 'Success' : 'Failed';
+          obj.status = tempObj.status ? 'Successful' : 'Failed';
           obj.chainName = tempObj.token;
           obj.tokenName = tempObj.token;
           obj.transactionFee = 0;
-          console.log('object from send', obj);
+          obj.timestamp = tempObj.timestamp;
           dispatch(addTransaction(obj));
         }
 
         return obj;
       });
+    }
 
+    if (transactionObject.data.account.transferFrom) {
       transactionObject.data.account.transferFrom.nodes.map((tempObj) => {
         const obj = {};
         if (!previousTransactionHashList.includes(tempObj.extrinsicHash)) {
@@ -143,7 +149,7 @@ function AssetsAndTransactions({
           obj.chainName = tempObj.token;
           obj.tokenName = tempObj.token;
           obj.transactionFee = 0;
-          console.log('object from rec', obj);
+          obj.timestamp = tempObj.timestamp;
           dispatch(addTransaction(obj));
         }
 
@@ -176,27 +182,30 @@ function AssetsAndTransactions({
         )}
         {isTab2Active && (
         // eslint-disable-next-line arrow-body-style
-          transactionData.length > 0 && transactionData.map((transaction) => {
-            const {
-              hash, operation, status, tokenName: tokenNames, amount,
-            } = transaction;
+          transactionData.length > 0 && transactionData
+            .filter((transaction) => transaction.tokenName === tokenName)
+            .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+            .map((transaction) => {
+              const {
+                hash, operation, status, tokenName: tokenNames, amount,
+              } = transaction;
 
-            const txCard = {
-              coin: tokenNames,
-              amountInUsd: tokenNames === 'WND' ? '$0' : '$0',
-              logo: logoChangeHandler(tokenNames),
-              handleClick: () => {
-                setTxDetailsModalData(transaction);
-                handleOpenTxDetailsModal();
-              },
-              operation,
-              status,
-              amount,
-            };
-            return (
-              <TxCard key={hash} {...txCard} />
-            );
-          })
+              const txCard = {
+                coin: tokenNames,
+                amountInUsd: tokenNames === 'WND' ? '$0' : '$0',
+                logo: logoChangeHandler(tokenNames),
+                handleClick: () => {
+                  setTxDetailsModalData(transaction);
+                  handleOpenTxDetailsModal();
+                },
+                operation,
+                status,
+                amount,
+              };
+              return (
+                <TxCard key={hash} {...txCard} />
+              );
+            })
         )}
       </div>
 

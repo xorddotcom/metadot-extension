@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 import RemoveIcon from '../../../assets/images/icons/Remove.svg';
 import exportIcon from '../../../assets/images/icons/export.svg';
-import derivedAccountIcon from '../../../assets/images/icons/deriveAccount.svg';
 import AuthModal from '../../../components/modals/authorization/index';
 import WarningModal from '../../../components/modals/warningModal/index';
 import {
@@ -28,22 +27,16 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const AccountDropDown = ({
+const ChildAccountDropDown = ({
   open,
   handleClose,
   anchorEl,
-  account,
-  expandModal,
   publicKeyy,
   onOptionClicked,
-  isThisAParent,
 }) => {
   // eslint-disable-next-line no-unused-vars
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  // const { modalHandling } = useSelector((state) => state);
-
   const [openAuthModal, setOpenAuthModa] = useState(false);
   const [openWarnModal, setOpenWarnModal] = useState(false);
 
@@ -77,7 +70,7 @@ const AccountDropDown = ({
       pb: 3,
     },
     mainText: 'Warning',
-    subText: 'On confirm, your account will be deleted from Metadot permanently, make sure you have your json file backup or seed stored',
+    subText: 'On confirm your account will be deleted from Metadot, make sure you have your json file backup or seed stored.',
   };
 
   return (
@@ -126,30 +119,6 @@ const AccountDropDown = ({
           }}
         >
           <MenuList id="menu-list">
-            {!account.parentAddress && !isThisAParent && (
-            <MenuItem
-              id="menu-item-1"
-              style={{ minHeight: '37px', color: '#fafafa' }}
-              onClick={() => {
-                expandModal(account);
-              }}
-              key={publicKeyy}
-            >
-              <ListItemIcon className="flexStart" style={{ color: '#fafafa' }}>
-                <img
-                  src={derivedAccountIcon}
-                  alt="remove-account"
-                  width="14.55"
-                  height="15"
-                  style={{ marginTop: '0.15rem' }}
-                />
-                &nbsp; &nbsp;
-                <span style={{ fontSize: '0.85rem' }}>
-                  Create Derive Account
-                </span>
-              </ListItemIcon>
-            </MenuItem>
-            )}
             <MenuItem
               id="menu-item-2"
               style={{ minHeight: '37px', color: '#fafafa' }}
@@ -214,8 +183,8 @@ const AccountDropDown = ({
         handleClose={() => {
           setOpenAuthModa(false);
         }}
-        onConfirm={downloadJson}
         setOpenAuthModa={setOpenAuthModa}
+        onConfirm={downloadJson}
         style={{
           width: '290px',
           background: '#141414',
@@ -226,9 +195,9 @@ const AccountDropDown = ({
           pb: 3,
         }}
       />
-
       <WarningModal {...warningModal} />
+
     </>
   );
 };
-export default AccountDropDown;
+export default ChildAccountDropDown;

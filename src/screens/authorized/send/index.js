@@ -129,6 +129,7 @@ const Send = () => {
     chainName: currentUser.activeAccount.chainName,
     tokenName: currentUser.activeAccount.tokenName,
     transactionFee,
+    timestamp: '',
   };
 
   const { isValid } = accountToSate;
@@ -159,6 +160,7 @@ const Send = () => {
   });
 
   const accountToChangeHandler = (e) => {
+    setIsCorrect(true);
     accountDispatch({ type: 'USER_INPUT', val: e, valid: currentUser.activeAccount.publicKey });
   };
 
@@ -205,6 +207,9 @@ const Send = () => {
       return (splitFee[0] * 10 ** -3).toFixed(4);
     }
     if (currentUser.activeAccount.tokenName === 'SBY') {
+      return (splitFee[0] * 10 ** -3).toFixed(4);
+    }
+    if (currentUser.activeAccount.tokenName === 'NUUM') {
       return (splitFee[0] * 10 ** -3).toFixed(4);
     }
     return true;
@@ -273,10 +278,10 @@ const Send = () => {
     console.log('ED of the chain', currentUser.api.api.consts.balances.existentialDeposit);
 
     const decimalPlacesForTxFee = await api.registry.chainDecimals;
-
     const info = await api.tx.balances
       .transfer(currentUser.activeAccount.publicKey,
-        amountState.value * 10 ** decimalPlacesForTxFee)
+        // eslint-disable-next-line no-undef
+        BigInt(amountState.value * 10 ** decimalPlacesForTxFee))
       .paymentInfo(accountToSate.value);
 
     console.log('After info');
@@ -379,7 +384,7 @@ const Send = () => {
         if (txResFail.length >= 1) {
           console.log('Tx failed', txResFail.length);
           data.status = 'Failed';
-          dispatch(addTransaction(data));
+          // dispatch(addTransaction(data));
           setLoading2(false);
           dispatch(setConfirmSendModal(false));
           dispatch(setIsResponseModalOpen(true));
@@ -397,7 +402,7 @@ const Send = () => {
         } if (txResSuccess.length >= 1) {
           console.log('Tx successfull');
           data.status = 'Successful';
-          dispatch(addTransaction(data));
+          // dispatch(addTransaction(data));
           setLoading2(false);
           dispatch(setConfirmSendModal(false));
           setIsSendModalOpen(false);
@@ -420,10 +425,10 @@ const Send = () => {
       .catch((err) => {
         console.log('Tx hash', tx.hash.toHex());
         data.hash = tx.hash.toHex();
-        alert('Tx failed');
+        // alert('Tx failed');
         console.log('Error', err);
         data.status = 'Failed';
-        dispatch(addTransaction(data));
+        // dispatch(addTransaction(data));
         setLoading2(false);
         dispatch(setConfirmSendModal(false));
         setIsSendModalOpen(false);
@@ -671,7 +676,7 @@ const Send = () => {
           } else if (txResFail.length >= 1) {
             data.status = 'Failed';
             console.log('Tx is failed');
-            alert('Transaction failed');
+            // alert('Transaction failed');
             dispatch(addTransaction(data));
             setLoading2(false);
             dispatch(setConfirmSendModal(false));
@@ -690,7 +695,7 @@ const Send = () => {
         },
       )
       .catch((err) => {
-        alert('Transaction failed in catch');
+        // alert('Transaction failed in catch');
         setLoading2(false);
         console.error('Error [][][]', err);
       });
@@ -889,7 +894,7 @@ const Send = () => {
   const confirmSend = {
     id: 'confirm-send',
     style: {
-      width: '78%',
+      width: '300px',
       background: '#141414',
       position: 'relative',
       p: 2,
@@ -951,6 +956,15 @@ const Send = () => {
           dispatch(setConfirmSendModal(true));
         }}
         onConfirm={doTransaction}
+        style={{
+          width: '290px',
+          background: '#141414',
+          position: 'relative',
+          bottom: 30,
+          p: 2,
+          px: 2,
+          pb: 3,
+        }}
       />
 
       <WarningModal {...warningModal} />

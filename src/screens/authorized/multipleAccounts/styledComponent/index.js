@@ -69,6 +69,7 @@ export const AccountCircle = styled.div`
 
 export const AccountText = styled.div`
   margin-left: "1rem";
+  cursor: pointer;
 `;
 
 export const AccountMainText = styled.p`
@@ -109,6 +110,7 @@ export const DrivedAccount = styled.div`
   padding: 0 27px;
   margin-top: -0.65rem;
   margin-bottom: 0.2rem;
+  cursor: pointer;
 `;
 
 export const Border = styled.div`

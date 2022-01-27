@@ -21,12 +21,13 @@ import AccountList from './account';
 import DrivedAccountList from './drivedAccount';
 import { helpers } from '../../../utils';
 import accounts from '../../../utils/accounts';
+import { resetTransactions } from '../../../redux/slices/transactions';
 
 const { GenerateSeedPhrase } = accounts;
 
 const { addressModifier } = helpers;
 
-function MultipleAccounts() {
+function MultipleAccounts(props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const allAccounts = useSelector((state) => state.accounts);
@@ -61,7 +62,12 @@ function MultipleAccounts() {
   // const [anchorEl, setAnchorEl] = useState(null);
   // const open = Boolean(anchorEl);
   // const handleClick = (event) => {
-  //   setAnchorEl(event.currentTarget);
+  //   Object.values(allAccounts).map((acc) => {
+  //     if (acc.publicKey === ) {
+  //       setAnchorEl(event.currentTarget);
+  //     }
+  //     return null;
+  //   });
   // };
   // const handleClose = () => {
   //   setAnchorEl(null);
@@ -104,6 +110,7 @@ function MultipleAccounts() {
     // dispatch(setSeed(account.seed));
     dispatch(setPublicKey(pk));
     dispatch(setAccountName(name));
+    dispatch(resetTransactions());
     history.push('/');
   };
 

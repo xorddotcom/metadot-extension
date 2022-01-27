@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import RemoveIcon from '../../../assets/images/icons/Remove.svg';
 import dropDownIcon from '../../../assets/images/icons/3Dots.svg';
 import derivedIcon from '../../../assets/images/icons/deriveAccount.svg';
+import exportIcon from '../../../assets/images/icons/export.svg';
 import { fonts } from '../../../utils';
 import accountUtils from '../../../utils/accounts';
 import {
@@ -27,9 +28,13 @@ import {
   setAccountName,
   setPublicKey,
 } from '../../../redux/slices/activeAccount';
+import {
+  setAuthScreenModal,
+  setDerivedAccountModal,
+} from '../../../redux/slices/modalHandling';
 import { DerivedAccountModal } from '../../../components/modals';
 import { AuthModal } from '../../../components';
-import { setAuthScreenModal, setDerivedAccountModal } from '../../../redux/slices/modalHandling';
+import AccountDropDown from './accountDropDown';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { getJsonBackup } = accountUtils;
@@ -60,7 +65,8 @@ const AccountList = ({
 
   console.log('childAccounts', childAccounts, publicKey);
 
-  const isThisAParent = childAccounts.filter((cAcc) => cAcc.parentAddress === account.publicKey).length > 0;
+  const isThisAParent = childAccounts.filter((cAcc) => cAcc.parentAddress === account.publicKey)
+    .length > 0;
   console.log('The account having name ', accountName, isThisAParent);
 
   useEffect(() => {
@@ -130,14 +136,30 @@ const AccountList = ({
     dispatch(setAuthScreenModal(false));
   };
 
+  // account dropdown
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    Object.values(accounts).map((acc) => {
+      if (acc.publicKey === publicKeyy) {
+        setAnchorEl(event.currentTarget);
+      }
+      return null;
+    });
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  // account dropdown end
   return (
     <>
       <Account marginBottom={marginBottom} marginTop={marginTop}>
         <AccountFlex>
           <AccountCircle />
-          <AccountText>
+          <AccountText
+            onClick={accountActive}
+          >
             <AccountMainText
-              onClick={accountActive}
               className={mainHeadingfontFamilyClass}
             >
               {accountName}
@@ -152,13 +174,14 @@ const AccountList = ({
 
         <DropDownContainer className={mainHeadingfontFamilyClass}>
           <DropDownIcon
-            ref={ref}
-            onClick={() => setIsOpen((oldState) => !oldState)}
+            // ref={ref}
+            // onClick={() => setIsOpen((oldState) => !oldState)}
+            onClick={handleClick}
           >
             <img src={dropDownIcon} alt="3-dots" />
           </DropDownIcon>
 
-          {isOpen && (
+          {/* {isOpen && (
             <DropDownListContainer>
               <DropDownList>
                 {
@@ -193,7 +216,7 @@ const AccountList = ({
                   key={Math.random()}
                 >
                   <img
-                    src={derivedIcon}
+                    src={exportIcon}
                     alt="export-account"
                     width="16"
                     height="17"
@@ -215,8 +238,21 @@ const AccountList = ({
                 </ListItem>
               </DropDownList>
             </DropDownListContainer>
-          )}
+          )} */}
         </DropDownContainer>
+
+        <AccountDropDown
+          anchorEl={anchorEl}
+          open={open}
+          key={accounts.publicKey}
+          handleClose={handleClose}
+          publicKey={selectedProject ? selectedProject.publicKey : null}
+          account={account}
+          expandModal={expandModal}
+          publicKeyy={publicKeyy}
+          onOptionClicked={onOptionClicked}
+          isThisAParent={isThisAParent}
+        />
 
         <DerivedAccountModal
           open={modalIsOpen}
