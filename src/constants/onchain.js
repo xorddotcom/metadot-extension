@@ -12,6 +12,7 @@ import dusty from '../assets/images/tokenImg/dusty.png';
 import polkadotDot from '../assets/images/tokenImg/polkadot.png';
 import westendColour from '../assets/images/tokenImg/westend_colour.svg';
 import acala from '../assets/images/tokenImg/acala-circle.svg';
+import bitcountry from '../assets/images/tokenImg/bitcountry.svg';
 import rococoIcon from '../assets/images/rococo.svg';
 import astarIcon from '../assets/images/astar.png';
 import shibuyaIcon from '../assets/images/shibuya.png';
@@ -146,7 +147,15 @@ const SHIBUYA_CONFIG = {
   PREFIX: 5,
 };
 
+const BITCOUNTRY_CONFIG = {
+  CHAIN_NAME: 'Bit Country',
+  TOKEN_NAME: '',
+  LOGO: bitcountry,
+  RPC_URL: 'wss://tewai-rpc.bit.country',
+};
+
 export default {
+  BITCOUNTRY_CONFIG,
   USD_PER_KSM_API,
   USD_PER_POLKADOT_API,
   POLKADOT_CONFIG,
