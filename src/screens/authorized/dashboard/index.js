@@ -118,6 +118,7 @@ function Dashboard(props) {
         if (!change.isZero()) {
           const bal = getBalance(api, publicKey)
             .then((res) => {
+              console.log('live balance', res);
               dispatch(setBalance(res));
             })
             .catch((err) => console.log('Err', err));

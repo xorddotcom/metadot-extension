@@ -18,6 +18,7 @@ import kusamaKsm from '../../../assets/images/tokenImg/kusama-ksm.svg';
 import polkadotDot from '../../../assets/images/tokenImg/polkadot.png';
 import westendColour from '../../../assets/images/tokenImg/westend_colour.svg';
 import acala from '../../../assets/images/tokenImg/acala-circle.svg';
+import bitcountry from '../../../assets/images/tokenImg/bitcountry.svg';
 import astar from '../../../assets/images/astar.png';
 import rococo from '../../../assets/images/rococo.svg';
 import karura from '../../../assets/images/karura.svg';
@@ -59,6 +60,8 @@ function AssetsAndTransactions({
       return rococo;
     } else if (token === 'KAR') {
       return karura;
+    } else if (token === 'NUUM') {
+      return bitcountry;
     } else {
       return polkadotDot;
     }

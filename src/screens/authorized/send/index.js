@@ -209,6 +209,9 @@ const Send = () => {
     if (currentUser.activeAccount.tokenName === 'SBY') {
       return (splitFee[0] * 10 ** -3).toFixed(4);
     }
+    if (currentUser.activeAccount.tokenName === 'NUUM') {
+      return (splitFee[0] * 10 ** -3).toFixed(4);
+    }
     return true;
   };
 
