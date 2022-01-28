@@ -36,32 +36,57 @@ const CustomUploadFile = (props) => {
 
   // Create a reference to the hidden file input element
   const hiddenFileInput = React.useRef(null);
+  const [fileError, setFileError] = useState(false);
+
+  const validateJson = (jsonContent) => {
+    try {
+      try {
+        keyring.createFromJson(jsonContent);
+        return true;
+      } catch (e) {
+        KeyringInitialization();
+        keyring.createFromJson(jsonContent);
+        return true;
+      }
+    } catch (err) {
+      return false;
+    }
+  };
 
   const showFile = async (e) => {
     e.preventDefault();
     const reader = new FileReader();
     const file = e.target.files[0];
     console.log('mark1', e.target.files[0].name.length);
-    reader.onload = async (e) => {
-      console.log('mark2');
-      const fileContent = (e.target.result);
-      const parsedFileContent = JSON.parse(fileContent);
-      console.log('mark3');
-      console.log('result-----------', fileContent);
-      console.log('result-----------', parsedFileContent);
 
-      try {
-        const pairData = keyring.createFromJson(parsedFileContent);
-        console.log('mark4');
-        console.log(' real val', pairData);
-        setPair(pairData);
-      } catch (e) {
-        console.log('mark5');
-        await KeyringInitialization();
-        const pairData = keyring.createFromJson(parsedFileContent);
-        console.log(' real val', pairData);
-        setPair(pairData);
-        console.log('pair in catch---------', e);
+    reader.onabort = () => {
+      console.log('aborting file upload');
+    };
+
+    reader.onload = async (e) => {
+      const fileContent = (e.target.result);
+
+      const parsedFileContent = JSON.parse(fileContent);
+
+      if (parsedFileContent.address) {
+        const isJsonValidate = validateJson(parsedFileContent);
+        if (isJsonValidate) {
+          keyring.createFromJson(parsedFileContent);
+          try {
+            const pairData = keyring.createFromJson(parsedFileContent);
+            console.log(pairData, 'ghalat json file');
+            setPair(pairData);
+          } catch (e) {
+            console.log('mark5');
+            await KeyringInitialization();
+            const pairData = keyring.createFromJson(parsedFileContent);
+            console.log(' real val', pairData);
+            setPair(pairData);
+            console.log('pair in catch---------', e);
+          }
+        } else { setFileError(true); }
+      } else {
+        setFileError(true);
       }
     };
 
@@ -89,6 +114,7 @@ const CustomUploadFile = (props) => {
       setShowPassword(false);
       setPasswordError(false);
       setPair('');
+      setFileError(false);
     }
   };
 
@@ -122,6 +148,7 @@ const CustomUploadFile = (props) => {
 
             <img src={UploadFileIcon} alt="upload-file-icon" style={{ marginRight: '1rem' }} />
             <div>{!isFilePicked ? 'Choose File' : fileName.name.length > 20 ? `${fileName.name.slice(0, 8)}...${fileName.name.slice(fileName.name.length - 8, fileName.name.length)}` : fileName.name}</div>
+
           </HorizontalContentDiv>
           {
             isFilePicked
@@ -137,6 +164,15 @@ const CustomUploadFile = (props) => {
           isFilePicked &&
           <p></p>
         } */}
+        {fileError && (
+        <WarningText
+          id="warning-text-3"
+          mb="10px"
+          className={subHeadingfontFamilyClass}
+        >
+          Invalid JSON File!
+        </WarningText>
+        )}
         <SubHeading
           className={mainHeadingfontFamilyClass}
           marginTop="40px"
