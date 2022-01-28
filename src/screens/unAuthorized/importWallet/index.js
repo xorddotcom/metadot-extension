@@ -69,6 +69,11 @@ function ImportWallet() {
   const [password, setPassword] = useState('');
   const [derivedAccountSeed, setDerivedAccountSeed] = useState('');
 
+  useEffect(() => {
+    console.log('select type and ', { seedPhrase, jsonFileUploadScreen });
+    setSelectedType(jsonFileUploadScreen ? 'json' : 'seed');
+  }, []);
+
   const derivedAccountSeedHandler = (data) => {
     setDerivedAccountSeed(data);
   };
@@ -192,7 +197,7 @@ function ImportWallet() {
     dispatch(
       setSubTextForSuccessModal(''),
     );
-    dispatch(setJsonFileUploadScreen(true));
+    dispatch(setJsonFileUploadScreen(false));
     history.push('/');
 
     setTimeout(() => {
@@ -214,6 +219,8 @@ function ImportWallet() {
         // console.log('res-------------', res);
         await saveAccountInRedux(val.json.address, val.json.meta.name, password);
         dispatch(setLoadingForApi(false));
+        dispatch(setJsonFileUploadScreen(false));
+        setSelectedType('seed');
         await showSuccessModalAndNavigateToDashboard();
       })
       .catch((err) => {
