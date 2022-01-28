@@ -5,6 +5,8 @@ const fonts = {
   subHeadingFontSize: '14px',
   buttonFontSize: '16px',
 
+  errorHeadingFontSize: '2px',
+
   mainHeadingfontFamilyClass: 'font-face-robotoB',
   subHeadingfontFamilyClass: 'font-face-robotoR',
 };

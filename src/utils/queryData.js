@@ -63,11 +63,7 @@ export const getQuery = (prefix) =>{
   const publicKey = useSelector((state) => state?.activeAccount?.publicKey);
   const address = encodeAddress(publicKey, prefix);
 
-  console.log(address, 'address from get query')
-
-   
-  const ad1 = 'X653bBR12UrTxquuKCeqJMLtjbSiGNWCC3JHVsCksuZjSf3'
-  
+  console.log(address, 'address from get query')  
 
   const query = `
       query {
