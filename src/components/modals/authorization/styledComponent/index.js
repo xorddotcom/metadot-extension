@@ -24,6 +24,14 @@ export const MainText1 = styled.p`
     text-align: ${(props) => props.textAlign}; 
 `;
 
+export const SubText = styled.p`
+    font-size: ${subHeadingFontSize};
+    line-height: 19px;
+    margin-top: ${(props) => props.marginTop && props.marginTop};
+    color: rgba(250, 250, 250, 0.85);
+    text-align: ${(props) => props.textAlign}; 
+`;
+
 export const VerticalContentDiv = styled.div`
   display: flex;
   flex-direction: column;

@@ -5,7 +5,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import ContentCopyIcon from '../../../assets/images/icons/copyIcon.svg';
 import {
-  CopyIcon, CopyText, IndexText, SeedText, SeedWrapper,
+  CopyIcon,
+  CopyText,
+  IndexText,
+  SeedText,
+  SeedWrapper,
 } from './styledComponents';
 import {
   AuthWrapper,
@@ -33,13 +37,19 @@ function ShowSeed() {
 
   let currSeed = '';
 
-  console.log('show seed entotyasd', history.entries[history.entries.length - 2].pathname);
+  console.log(
+    'show seed entotyasd',
+    history.entries[history.entries.length - 2].pathname,
+  );
 
   if (history.entries[history.entries.length - 2].pathname === '/') {
     currSeed = location.state.seedToPass && location.state.seedToPass;
   }
 
-  if (history.entries[history.entries.length - 2].pathname === '/accounts' || history.entries[history.entries.length - 2].pathname === '/ShowSeed') {
+  if (
+    history.entries[history.entries.length - 2].pathname === '/accounts'
+    || history.entries[history.entries.length - 2].pathname === '/ShowSeed'
+  ) {
     currSeed = location.state.seedToPass && location.state.seedToPass;
   }
 
@@ -47,9 +57,7 @@ function ShowSeed() {
 
   const SinglePhrase = ({ index, phrase }) => (
     <SeedWrapper>
-      <IndexText className={mainHeadingfontFamilyClass}>
-        {index + 1}
-      </IndexText>
+      <IndexText className={mainHeadingfontFamilyClass}>{index + 1}</IndexText>
       <SeedText className={mainHeadingfontFamilyClass}>{phrase}</SeedText>
     </SeedWrapper>
   );
@@ -97,7 +105,8 @@ function ShowSeed() {
       pb: 3,
     },
     mainText: 'Warning',
-    subText: 'Proceeding will not let you view your mnemonic again. Do you still wish to continue?',
+    subText:
+      'Proceeding will not let you view your mnemonic again. Do you still wish to continue?',
   };
 
   return (
@@ -111,11 +120,16 @@ function ShowSeed() {
           Write down your seed phrase :
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
-          To ensure backup a mnemonic is required. It would be used to
-          access your wallet in future.
-          Please write down this mnemonic and memorize it.
-          Once your sentence has been set, it cannot be viewed again.
-          Losing the mnemonic may cause permanent asset loss. Taking screenshots is not encouraged.
+          Please note down your mnemonic seed phrase. As of now, it is the only
+          access point to your Metadot wallet in case of any mishap. Screenshots
+          are not encouraged.
+        </SubHeading>
+        <SubHeading className={mainHeadingfontFamilyClass}>
+          Why the seed phrase?
+        </SubHeading>
+        <SubHeading className={mainHeadingfontFamilyClass}>
+          To ensure the backup, a seed phrase is required. It will be your only
+          access to the wallet in the future.
         </SubHeading>
       </div>
       {/* <HorizontalContentDiv> */}
