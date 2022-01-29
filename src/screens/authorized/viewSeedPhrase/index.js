@@ -121,11 +121,16 @@ function ViewSeedPhrase() {
           Write down your seed phrase :
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
-          To ensure backup a mnemonic is required. It would be used to access
-          your wallet in future. Please write down this mnemonic and memorize
-          it. Once your sentence has been set, it cannot be viewed again. Losing
-          the mnemonic may cause permanent asset loss. Taking screenshots is not
-          encouraged.
+          Please note down your mnemonic seed phrase. As of now, it is the only
+          access point to your Metadot wallet in case of any mishap. Screenshots
+          are not encouraged.
+        </SubHeading>
+        <SubHeading className={mainHeadingfontFamilyClass}>
+          Why the seed phrase?
+        </SubHeading>
+        <SubHeading className={mainHeadingfontFamilyClass}>
+          To ensure the backup, a seed phrase is required. It will be your only
+          access to the wallet in the future.
         </SubHeading>
       </div>
       <HorizontalContentDiv>
@@ -152,8 +157,7 @@ function ViewSeedPhrase() {
                 ))}
           </SubMainWrapperForAuthScreens>
         </Border>
-        {!getSeed
-          && (
+        {!getSeed && (
           <Blurdiv>
             <BlurdivMainText mb="12" className={mainHeadingfontFamilyClass}>
               Tap to reveal your seed phrase
@@ -171,11 +175,10 @@ function ViewSeedPhrase() {
               View
             </BlurdivButton>
           </Blurdiv>
-          )}
+        )}
       </HorizontalContentDiv>
       <div style={{ marginLeft: '0' }} className="btn-wrapper">
-        {getSeed
-          && <Button {...btn} />}
+        {getSeed && <Button {...btn} />}
       </div>
 
       <AuthScreen {...authModal} />

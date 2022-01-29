@@ -81,10 +81,9 @@ const Support = () => {
           How may we help you ?
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
-          Lorem ipsum dolor sit amet, consectetur adipiscin cursus sit diam
-          Lorem ipsum dolor sit lorem loremLorem ipsum dolor sit amet,
-          consectetur adipiscin cursus sit diam Lorem ipsum dolor sit lorem
-          ipsum dolor
+          Metadot support regarding any query is available in our community
+          channels. Remember, Metadot will not ask for your seed phrase or your
+          password, by any means!
         </SubHeading>
       </MainDiv>
       {/* <VerticalContentDiv mb="30px">
@@ -106,33 +105,57 @@ const Support = () => {
       </div> */}
       <MainDiv mt="60px">
         <MainHeading className={mainHeadingfontFamilyClass}>
-          Contact Us
+          Our Communities
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic culpa
-          magnam.
+          Join the discussions in our communities to learn more. If you have any
+          application specific complaints, you can use the “Metadot Support”
+          channel on our discord community to get direct official support from
+          metadot.
         </SubHeading>
         <SocialDiv>
-
-          <div onClick={() => window.open('https://discord.gg/5Jq78EdfN6')} role="tab">
+          <div
+            onClick={() => window.open('https://discord.gg/5Jq78EdfN6')}
+            role="tab"
+            style={{ cursor: 'pointer' }}
+          >
             <img src={discord} alt="discord" />
           </div>
 
-          <div onClick={() => window.open('https://matrix.to/#/#metadot-wallet:matrix.org')} role="tab">
+          <div
+            onClick={() => window.open('https://matrix.to/#/#metadot-wallet:matrix.org')}
+            role="tab"
+            style={{ cursor: 'pointer' }}
+          >
             <img src={element} alt="element" height="20px" />
           </div>
-          <div onClick={() => window.open('https://t.me/metadotwallet')} role="tab">
+          <div
+            onClick={() => window.open('https://t.me/metadotwallet')}
+            role="tab"
+            style={{ cursor: 'pointer' }}
+          >
             <img src={telegram} alt="telegram" />
           </div>
-          <div onClick={() => window.open('https://www.facebook.com/Metadotwallet')} role="tab">
-
+          <div
+            onClick={() => window.open('https://www.facebook.com/Metadotwallet')}
+            role="tab"
+            style={{ cursor: 'pointer' }}
+          >
             <img src={facebook} alt="facebook" />
           </div>
-          <div onClick={() => window.open('https://twitter.com/MetadotWallet')} role="tab">
+          <div
+            onClick={() => window.open('https://twitter.com/MetadotWallet')}
+            role="tab"
+            style={{ cursor: 'pointer' }}
+          >
             <img src={twitter} alt="twitter" />
           </div>
 
-          <div onClick={() => window.open('https://www.instagram.com/metadotwallet/')} role="tab">
+          <div
+            onClick={() => window.open('https://www.instagram.com/metadotwallet/')}
+            role="tab"
+            style={{ cursor: 'pointer' }}
+          >
             <img src={instagram} alt="instagram" />
           </div>
         </SocialDiv>

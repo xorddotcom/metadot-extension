@@ -82,7 +82,7 @@ function Welcome() {
           <img src={metaDot} alt="metadot" />
         </MainHeading>
         <SubHeading className={subHeadingfontFamilyClass}>
-          Passion, Progress, Polkadot
+          Your Gateway To Polkadot And Its Parachains.
         </SubHeading>
       </div>
       <div {...divProps}>

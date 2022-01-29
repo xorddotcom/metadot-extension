@@ -36,7 +36,8 @@ const { AccountCreation } = accounts;
 const passwordErrorMessages = {
   minimumCharacterWarning: 'Password should not be less than 8 characters',
   didnotMatchWarning: 'Password did not match!',
-  passwordValidation: 'Password must contain at least one lower case, one upper case, one number and a special character',
+  passwordValidation:
+    'Password must contain at least one lower case, one upper case, one number and a special character',
 };
 
 const { minimumCharacterWarning, didnotMatchWarning, passwordValidation } = passwordErrorMessages;
@@ -50,7 +51,9 @@ function CreateWallet() {
     ? 'Imported'
     : 'Created';
 
-  console.log(`history entries -->${history.entries[history.entries.length - 2].pathname}`);
+  console.log(
+    `history entries -->${history.entries[history.entries.length - 2].pathname}`,
+  );
 
   // let currSeed = '';
   // let parentKey = '';
@@ -77,7 +80,9 @@ function CreateWallet() {
   const [passwordError, setPasswordError] = useState('');
 
   const validatePasswordAndConfirmPassword = () => {
-    const regexRes = password.match(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[\\~!><@#$%?,;.^/&}{*)(_+:[}="|`'-])[a-zA-Z0-9\\.~!><@,;#$%?^}{/&*)(+:[}=|"`'\w-]{7,19}/);
+    const regexRes = password.match(
+      /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[\\~!><@#$%?,;.^/&}{*)(_+:[}="|`'-])[a-zA-Z0-9\\.~!><@,;#$%?^}{/&*)(+:[}=|"`'\w-]{7,19}/,
+    );
 
     if (password.length < 8) {
       setPasswordError(minimumCharacterWarning);
@@ -110,7 +115,11 @@ function CreateWallet() {
   const [isLoading, setIsLoading] = useState(false);
 
   const createAccount = async (name, pass, seedPhrase) => {
-    const res = await AccountCreation({ name, password: pass, seed: seedPhrase });
+    const res = await AccountCreation({
+      name,
+      password: pass,
+      seed: seedPhrase,
+    });
     return res;
   };
 
@@ -121,11 +130,13 @@ function CreateWallet() {
     dispatch(setAccountName(name));
     // dispatch(setWalletPassword(hashedPassword));
 
-    dispatch(addAccount({
-      accountName: name,
-      publicKey: add,
-      parentKey,
-    }));
+    dispatch(
+      addAccount({
+        accountName: name,
+        publicKey: add,
+        parentKey,
+      }),
+    );
   };
 
   const showSuccessModalAndNavigateToDashboard = () => {
@@ -133,17 +144,13 @@ function CreateWallet() {
       dispatch(setIsResponseModalOpen(true));
       dispatch(setResponseImage(ImportIcon));
       dispatch(setMainTextForSuccessModal(`Successfully ${operation}!`));
-      dispatch(
-        setSubTextForSuccessModal(''),
-      );
+      dispatch(setSubTextForSuccessModal(''));
       history.push('/');
     } else {
       dispatch(setIsResponseModalOpen(true));
       dispatch(setResponseImage(AccountCreate));
       dispatch(setMainTextForSuccessModal(`Successfully ${operation}!`));
-      dispatch(
-        setSubTextForSuccessModal(''),
-      );
+      dispatch(setSubTextForSuccessModal(''));
       history.push('/');
     }
 
@@ -190,7 +197,7 @@ function CreateWallet() {
     onChange: (t) => {
       setIsValidWalletName(false);
       // eslint-disable-next-line no-unused-expressions
-      t.length < 20 && setWalletName(t.replace(/[^A-Z0-9]/ig, ''));
+      t.length < 20 && setWalletName(t.replace(/[^A-Z0-9]/gi, ''));
     },
   };
 
@@ -235,18 +242,22 @@ function CreateWallet() {
 
   return (
     <AuthWrapper>
-      <Header centerText="Authentication" backHandler={() => console.log('object')} />
+      <Header
+        centerText="Authentication"
+        backHandler={() => console.log('object')}
+      />
       <SubMainWrapperForAuthScreens mt="34px">
         <LabelAndTextInput>
-          <SubHeading {...walletNameText}>
-            Wallet Name
-          </SubHeading>
+          <SubHeading {...walletNameText}>Wallet Name</SubHeading>
           <StyledInput id="wallet-name" isCorrect {...styledInputName} />
-          {isValidWalletName
-          && (
-          <WarningText id="warning-text" className={subHeadingfontFamilyClass}>
-            Name should not be less than 3 characters and can only contain alphanumeric data
-          </WarningText>
+          {isValidWalletName && (
+            <WarningText
+              id="warning-text"
+              className={subHeadingfontFamilyClass}
+            >
+              Name should not be less than 3 characters and can only contain
+              alphanumeric data
+            </WarningText>
           )}
         </LabelAndTextInput>
 
@@ -301,7 +312,6 @@ function CreateWallet() {
             mb="10px"
           >
             Confirm Password
-
           </SubHeading>
           <StyledInput
             id="confirm-password"
@@ -326,16 +336,22 @@ function CreateWallet() {
               {didnotMatchWarning}
             </WarningText>
           )}
-
         </LabelAndTextInput>
 
-        <SubHeading mb="0" textLightColor marginTop="5px" className={subHeadingfontFamilyClass}>
-          This password will be used as the transaction password for the wallet,
-          Metadot does not save passwords
-          and cannot retrieve them for you. Please keep your password safe!
+        <SubHeading
+          mb="0"
+          textLightColor
+          marginTop="5px"
+          className={subHeadingfontFamilyClass}
+        >
+          Create your wallet name and your password. Make sure that you memorise
+          or save your password.
         </SubHeading>
       </SubMainWrapperForAuthScreens>
-      <div className="btn-wrapper" style={{ marginLeft: '0', marginBottom: '10px' }}>
+      <div
+        className="btn-wrapper"
+        style={{ marginLeft: '0', marginBottom: '10px' }}
+      >
         <Button id="auth-continue" {...btn} />
       </div>
     </AuthWrapper>

@@ -77,7 +77,7 @@ const AccountDropDown = ({
       pb: 3,
     },
     mainText: 'Warning',
-    subText: 'On confirm, your account will be deleted from Metadot permanently, make sure you have your json file backup or seed stored',
+    subText: 'Once the account is deleted, it can not be restored again. Do you wish to continue?',
   };
 
   return (

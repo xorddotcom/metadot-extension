@@ -4,13 +4,13 @@ import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
-import keyring from '@polkadot/ui-keyring';
 import Button from '../../button';
 import { fonts } from '../../../utils';
 import accounts from '../../../utils/accounts';
 import StyledInput from '../../styledInput/index';
 import {
   MainDiv, MainText, MainText1, VerticalContentDiv,
+  SubText,
 } from './styledComponent';
 import { WarningText } from '../..';
 import { setAuthScreenModal, setConfirmSendModal } from '../../../redux/slices/modalHandling';
@@ -106,6 +106,14 @@ function AuthModal({
       <Box sx={style} className="txDetails-modal-style auth-modal">
         <MainDiv>
           <MainText1 marginTop="10px" textAlign="center" className={mainHeadingfontFamilyClass}>Authorization</MainText1>
+          {/* <SubText
+            marginTop="6px"
+            textAlign="left"
+            className={subHeadingfontFamilyClass}
+          >
+            If you wish to export your wallet, verify your password to proceed.
+            A json file will be downloaded to your device.
+          </SubText> */}
 
           <VerticalContentDiv marginTop="15px" mb="30px">
             <MainText fs="14px" mb="15px" className={mainHeadingfontFamilyClass}>

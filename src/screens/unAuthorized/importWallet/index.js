@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-undef */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/button-has-type */
@@ -11,17 +12,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import { keyring } from '@polkadot/ui-keyring';
 import { Input } from '@material-ui/core';
 import {
-  setAccountName, setJsonFileUploadScreen, setLoggedIn, setPublicKey,
+  setAccountName,
+  setJsonFileUploadScreen,
+  setLoggedIn,
+  setPublicKey,
 } from '../../../redux/slices/activeAccount';
 import {
   setAuthScreenModal,
-  setIsResponseModalOpen, setLoadingForApi, setMainTextForSuccessModal,
-  setResponseImage, setSubTextForSuccessModal,
+  setIsResponseModalOpen,
+  setLoadingForApi,
+  setMainTextForSuccessModal,
+  setResponseImage,
+  setSubTextForSuccessModal,
 } from '../../../redux/slices/modalHandling';
 import { addAccount } from '../../../redux/slices/accounts';
 
 import {
-  Option, OptionDiv, UploadFile, FileChosen, UploadFileDiv,
+  Option,
+  OptionDiv,
+  UploadFile,
+  FileChosen,
+  UploadFileDiv,
 } from './styledComponents';
 import {
   AuthWrapper,
@@ -41,7 +52,11 @@ import AuthScreen from '../../../components/modals/authorization';
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryText, darkBackground1 } = colors;
 const {
-  decrypt, encrypt, KeyringInitialization, validatingSeedPhrase, AccountCreation,
+  decrypt,
+  encrypt,
+  KeyringInitialization,
+  validatingSeedPhrase,
+  AccountCreation,
 } = accounts;
 
 const invalidSeedMessages = {
@@ -63,7 +78,9 @@ function ImportWallet() {
   // eslint-disable-next-line no-console
   console.log('ahsanahmed ==>>', params);
 
-  const [selectedType, setSelectedType] = useState(jsonFileUploadScreen ? 'json' : 'seed');
+  const [selectedType, setSelectedType] = useState(
+    jsonFileUploadScreen ? 'json' : 'seed',
+  );
   const [seedPhrase, setSeedPhrase] = useState('');
   const [invalidSeedMessage, setInvalidSeedMessage] = useState('');
   const [password, setPassword] = useState('');
@@ -181,10 +198,12 @@ function ImportWallet() {
     dispatch(setAccountName(name));
     // dispatch(setWalletPassword(hashedPassword));
 
-    dispatch(addAccount({
-      accountName: name,
-      publicKey: add,
-    }));
+    dispatch(
+      addAccount({
+        accountName: name,
+        publicKey: add,
+      }),
+    );
 
     // const encryptedSeedWithAccountPassword = encrypt(currSeed, pass);
     // dispatch(setSeed(encryptedSeedWithAccountPassword));
@@ -194,9 +213,7 @@ function ImportWallet() {
     dispatch(setIsResponseModalOpen(true));
     dispatch(setResponseImage(ImportIcon));
     dispatch(setMainTextForSuccessModal('Successfully Imported!'));
-    dispatch(
-      setSubTextForSuccessModal(''),
-    );
+    dispatch(setSubTextForSuccessModal(''));
     dispatch(setJsonFileUploadScreen(false));
     history.push('/');
 
@@ -217,7 +234,11 @@ function ImportWallet() {
 
         // const res = await createAccount(pair);
         // console.log('res-------------', res);
-        await saveAccountInRedux(val.json.address, val.json.meta.name, password);
+        await saveAccountInRedux(
+          val.json.address,
+          val.json.meta.name,
+          password,
+        );
         dispatch(setLoadingForApi(false));
         dispatch(setJsonFileUploadScreen(false));
         setSelectedType('seed');
@@ -271,7 +292,8 @@ function ImportWallet() {
             console.log('r in else if ');
             setInvalidSeedMessage(seedDoesnotExist);
           }
-        }).catch((e) => console.log('err', e));
+        })
+        .catch((e) => console.log('err', e));
 
       return true;
     } catch (err) {
@@ -291,7 +313,8 @@ function ImportWallet() {
             console.log('r in else if ');
             setInvalidSeedMessage(seedDoesnotExist);
           }
-        }).catch((e) => console.log('err', e));
+        })
+        .catch((e) => console.log('err', e));
 
       return err;
     }
@@ -326,10 +349,11 @@ function ImportWallet() {
 
   function getOwnTabs() {
     return Promise.all(
-      chrome.extension.getViews({ type: 'tab' })
-        .map((view) => new Promise((resolve) => view.chrome.tabs.getCurrent((tab) => resolve(
-          Object.assign(tab, { url: view.location.href }),
-        )))),
+      chrome.extension
+        .getViews({ type: 'tab' })
+        .map(
+          (view) => new Promise((resolve) => view.chrome.tabs.getCurrent((tab) => resolve(Object.assign(tab, { url: view.location.href })))),
+        ),
     );
   }
 
@@ -372,7 +396,7 @@ function ImportWallet() {
       lineHeight: '1.7em',
     },
     className: subHeadingfontFamilyClass,
-    onChange: (e) => handleChange(e.target.value.replace(/[^A-Z\s]/ig, '')),
+    onChange: (e) => handleChange(e.target.value.replace(/[^A-Z\s]/gi, '')),
     value: seedPhrase,
     rows: 5,
     placeholder: 'Place your seed here',
@@ -418,7 +442,9 @@ function ImportWallet() {
       <div>
         <MainHeading {...mainHeading}>Restore your wallet : </MainHeading>
         <SubHeading textLightColor {...subHeading}>
-          To restore your wallet enter your Seed phrase.
+          Import your wallet with a seed phrase or json file. Set your wallet
+          name and password to proceed. Metadot will not save your passwords and
+          can not retrieve them for you.
         </SubHeading>
       </div>
       <SubMainWrapperForAuthScreens flexDirection="column" mt="40px">
@@ -427,33 +453,23 @@ function ImportWallet() {
 
         <MainHeading {...selectTypeHeading}>Select Type : </MainHeading>
         <OptionDiv>
-          <Option {...option1}>
-            Seed Phrase
-          </Option>
+          <Option {...option1}>Seed Phrase</Option>
           <div className="normalTooltip">
-            <Option {...option2}>
-              Upload Json
-            </Option>
+            <Option {...option2}>Upload Json</Option>
           </div>
         </OptionDiv>
 
         {selectedType === 'seed' && (
           <div style={{ marginTop: '1rem' }}>
-            <Input
-              {...input}
-              autoFocus
-              multiline
-              disableUnderline
-            />
+            <Input {...input} autoFocus multiline disableUnderline />
             <WarningText {...warningText}>{invalidSeedMessage}</WarningText>
           </div>
         )}
 
         {selectedType === 'json' && (
-        <div style={{ marginTop: '1rem' }}>
-          <CustomUploadFile {...customUploadFileProps} />
-
-        </div>
+          <div style={{ marginTop: '1rem' }}>
+            <CustomUploadFile {...customUploadFileProps} />
+          </div>
         )}
       </SubMainWrapperForAuthScreens>
 
