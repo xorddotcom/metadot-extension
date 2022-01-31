@@ -374,7 +374,9 @@ function ImportWallet() {
     onClick: () => {
       if (!jsonFileUploadScreen) {
         dispatch(setJsonFileUploadScreen(true));
+        setSelectedType('json');
         const url = `${chrome.extension.getURL('index.html')}`;
+        dispatch(setJsonFileUploadScreen(false));
         openOptions(url);
       } else {
         setSelectedType('json');
