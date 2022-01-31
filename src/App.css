@@ -1,0 +1,11 @@
+.App {
+  text-align: center;
+  background-color: rgba(20, 20, 20);
+}
+.primary-text-color {
+  color: '#fafafa';
+}
+
+.App::-webkit-scrollbar {
+  width: 0px;
+}

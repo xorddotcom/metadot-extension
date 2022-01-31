@@ -1,25 +1,60 @@
 import React from 'react';
-// import logo from './logo.svg';
-// import './App.css';
+import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+import { QueryClientProvider, QueryClient } from 'react-query';
+import { useSelector } from 'react-redux';
+import { RootState } from './redux/store';
+import './App.css';
+
+import { Welcome, WelcomeBack } from './components';
+import { routes } from './utils';
 
 function App(): JSX.Element {
+    const { activeAccount } = useSelector((state: RootState) => state);
+    const queryClient = new QueryClient();
+    const { AuthRoutes, UnAuthRoutes } = routes;
+
+    let content;
+    if (!activeAccount.isLoggedIn && activeAccount.publicKey) {
+        content = <WelcomeBack />;
+    } else if (activeAccount.isLoggedIn && activeAccount.publicKey) {
+        content = (
+            <div>
+                <QueryClientProvider client={queryClient}>
+                    {AuthRoutes.map((route) => {
+                        const { path, Component } = route;
+                        return (
+                            <Route path={path} key={path}>
+                                <Component />
+                            </Route>
+                        );
+                    })}
+                </QueryClientProvider>
+            </div>
+        );
+    } else {
+        content = (
+            <>
+                <Route path="/">
+                    <Welcome />
+                </Route>
+                {UnAuthRoutes.map((route) => {
+                    const { path, Component } = route;
+                    return (
+                        <Route path={path} key={path}>
+                            <Component />
+                        </Route>
+                    );
+                })}
+            </>
+        );
+    }
+
     return (
-        <div className="App" style={{ height: '500px', width: '300px' }}>
-            <header className="App-header">
-                {/* <img src={logo} className="App-logo" alt="logo" /> */}
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn Husky
-                </a>
-            </header>
-        </div>
+        <Router>
+            <div className="App">
+                <Routes>{content}</Routes>
+            </div>
+        </Router>
     );
 }
 
