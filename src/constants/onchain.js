@@ -158,6 +158,7 @@ const BITCOUNTRY_CONFIG = {
 const CONTEXTFREE_CONFIG = {
   CHAIN_NAME: 'ContextFree',
   TOKEN_NAME: 'CTX',
+  QUERY_ENDPOINT: 'https://api.subquery.network/sq/kumailraza404/context-free-indexer',
   LOGO: contextFree,
   RPC_URL: 'wss://cf-api.ata.network',
   PREFIX: 11820,
