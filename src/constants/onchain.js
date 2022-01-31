@@ -9,6 +9,7 @@ import PhalaIcon from '../assets/images/phala.svg';
 import BifrostIcon from '../assets/images/bifrost.svg';
 // Assests Token images
 import dusty from '../assets/images/tokenImg/dusty.png';
+import contextFree from '../assets/images/contextfree.png';
 import polkadotDot from '../assets/images/tokenImg/polkadot.png';
 import westendColour from '../assets/images/tokenImg/westend_colour.svg';
 import acala from '../assets/images/tokenImg/acala-circle.svg';
@@ -154,7 +155,16 @@ const BITCOUNTRY_CONFIG = {
   RPC_URL: 'wss://tewai-rpc.bit.country',
 };
 
+const CONTEXTFREE_CONFIG = {
+  CHAIN_NAME: 'ContextFree',
+  TOKEN_NAME: 'CTX',
+  LOGO: contextFree,
+  RPC_URL: 'wss://cf-api.ata.network',
+  PREFIX: 11820,
+};
+
 export default {
+  CONTEXTFREE_CONFIG,
   BITCOUNTRY_CONFIG,
   USD_PER_KSM_API,
   USD_PER_POLKADOT_API,
