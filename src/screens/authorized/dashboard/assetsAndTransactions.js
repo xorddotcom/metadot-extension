@@ -14,6 +14,7 @@ import {
 
 // Assests Token images
 import dusty from '../../../assets/images/tokenImg/dusty.png';
+import contextFree from '../../../assets/images/contextfree.png';
 import kusamaKsm from '../../../assets/images/tokenImg/kusama-ksm.svg';
 import polkadotDot from '../../../assets/images/tokenImg/polkadot.png';
 import westendColour from '../../../assets/images/tokenImg/westend_colour.svg';
@@ -60,8 +61,8 @@ function AssetsAndTransactions({
       return rococo;
     } else if (token === 'KAR') {
       return karura;
-    } else if (token === 'NUUM') {
-      return bitcountry;
+    } else if (token === 'CTX') {
+      return contextFree;
     } else {
       return polkadotDot;
     }

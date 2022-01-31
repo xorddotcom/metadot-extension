@@ -22,6 +22,7 @@ const {
   ASGARD_CONFIG,
   SHIBUYA_CONFIG,
   BITCOUNTRY_CONFIG,
+  CONTEXTFREE_CONFIG,
 } = constants;
 
 const availableNetworks = [
@@ -150,12 +151,19 @@ const TestNetworks = [
   //   prefix: ROCOCO_CONFIG.PREFIX,
   //   // disabled: false,
   // },
+  // {
+  //   name: BITCOUNTRY_CONFIG.CHAIN_NAME,
+  //   theme: BITCOUNTRY_CONFIG.LOGO,
+  //   rpcUrl: BITCOUNTRY_CONFIG.RPC_URL,
+  //   tokenName: BITCOUNTRY_CONFIG.TOKEN_NAME,
+  //   prefix: 42,
+  // },
   {
-    name: BITCOUNTRY_CONFIG.CHAIN_NAME,
-    theme: BITCOUNTRY_CONFIG.LOGO,
-    rpcUrl: BITCOUNTRY_CONFIG.RPC_URL,
-    tokenName: BITCOUNTRY_CONFIG.TOKEN_NAME,
-    prefix: 42,
+    name: CONTEXTFREE_CONFIG.CHAIN_NAME,
+    theme: CONTEXTFREE_CONFIG.LOGO,
+    rpcUrl: CONTEXTFREE_CONFIG.RPC_URL,
+    tokenName: CONTEXTFREE_CONFIG.TOKEN_NAME,
+    prefix: 11820,
   },
   {
     name: SHIBUYA_CONFIG.CHAIN_NAME,

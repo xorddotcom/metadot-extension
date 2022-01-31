@@ -188,31 +188,13 @@ const Send = () => {
 
   const convertTransactionFee = (fee) => {
     const splitFee = fee.split(' ');
-    if (currentUser.activeAccount.tokenName === 'WND') {
-      return (splitFee[0] * 10 ** -3).toFixed(4);
-    }
     if (currentUser.activeAccount.tokenName === 'KSM') {
       return (splitFee[0] * 10 ** -6).toFixed(4);
     }
     if (currentUser.activeAccount.tokenName === 'PLD') {
       return splitFee[0];
     }
-    if (currentUser.activeAccount.tokenName === 'ACA') {
-      return (splitFee[0] * 10 ** -3).toFixed(4);
-    }
-    if (currentUser.activeAccount.tokenName === 'ROC') {
-      return (splitFee[0] * 10 ** -3).toFixed(4);
-    }
-    if (currentUser.activeAccount.tokenName === 'DOT') {
-      return (splitFee[0] * 10 ** -3).toFixed(4);
-    }
-    if (currentUser.activeAccount.tokenName === 'SBY') {
-      return (splitFee[0] * 10 ** -3).toFixed(4);
-    }
-    if (currentUser.activeAccount.tokenName === 'NUUM') {
-      return (splitFee[0] * 10 ** -3).toFixed(4);
-    }
-    return true;
+    return (splitFee[0] * 10 ** -3).toFixed(4);
   };
 
   const getBloackDetails = async (blockHash, sender) => {
