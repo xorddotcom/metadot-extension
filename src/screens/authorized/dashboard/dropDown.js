@@ -198,7 +198,7 @@ const DropDown = ({
         handleClose={() => setAboutOpen(false)}
         style={{
           position: 'relative',
-          width: '78%',
+          width: '300px',
           minHeight: 380,
           background: '#141414',
           padding: '0 20px',
