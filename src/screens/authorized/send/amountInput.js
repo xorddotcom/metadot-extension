@@ -25,6 +25,19 @@ const AmountInput = ({
 }) => {
   const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
+  console.log('amount input', {
+    amountState,
+    amountHandler,
+    maxInputHandler,
+    amountIsValidHandler,
+    insufficientBal,
+    currentUser,
+    trimBalance,
+    errorMessages,
+    error,
+    transactionFee,
+  });
+
   const btn = {
     text: 'Max',
     width: '38.75px',
@@ -59,6 +72,8 @@ const AmountInput = ({
     className: subHeadingfontFamilyClass,
     style: { marginTop: '0.2rem' },
   };
+
+  console.log('transactionFee', { transactionFee });
 
   return (
     <VerticalContentDiv mb="25px">
