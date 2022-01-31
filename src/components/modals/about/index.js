@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/interactive-supports-focus */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable quote-props */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
@@ -5,7 +8,6 @@ import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { useDispatch, useSelector } from 'react-redux';
 import CloseIcon from '@mui/icons-material/Close';
-import { Link } from 'react-router-dom';
 import Button from '../../button';
 import {
   CloseIconDiv,
@@ -81,12 +83,20 @@ function About({ open, handleClose, style }) {
             its parachains.
           </SubText2>
           <MainLinks>
-            <Link to="/" className={subHeadingfontFamilyClass}>
+            <div
+              className={subHeadingfontFamilyClass}
+              style={{ textDecoration: 'underline', marginBottom: 5, cursor: 'pointer' }}
+              onClick={() => window.open('https://metadot.app/')}
+            >
               Privacy Policy
-            </Link>
-            <Link to="/" className={subHeadingfontFamilyClass}>
+            </div>
+            <div
+              className={subHeadingfontFamilyClass}
+              style={{ textDecoration: 'underline', marginBottom: 5, cursor: 'pointer' }}
+              onClick={() => window.open('https://metadot.app/')}
+            >
               Terms of Use
-            </Link>
+            </div>
           </MainLinks>
         </VerticalContentDiv>
       </Box>
