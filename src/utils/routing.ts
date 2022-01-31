@@ -1,4 +1,4 @@
-import { WelcomeBack, Dashboard } from '../components';
+import { WelcomeBack } from '../components';
 
 const UnAuthRoutes = [
     {
@@ -8,10 +8,6 @@ const UnAuthRoutes = [
 ];
 
 const AuthRoutes = [
-    {
-        path: '/',
-        Component: Dashboard,
-    },
     {
         path: '/welcomeBack',
         Component: WelcomeBack,

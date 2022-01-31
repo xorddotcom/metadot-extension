@@ -2,7 +2,7 @@ import React from 'react';
 
 import CircularProgress from '@mui/material/CircularProgress';
 import { dimension, colors } from '../../../utils';
-import { Props } from './types';
+import { Props, ButtonInterface } from './types';
 import { Button } from './styles';
 
 const index: React.FunctionComponent<Props> = ({
@@ -22,7 +22,7 @@ const index: React.FunctionComponent<Props> = ({
     const { _width } = dimension.button;
     const { primaryText } = colors;
 
-    const ButtonProps = {
+    const ButtonProps: ButtonInterface = {
         id,
         variant: 'contained',
         startIcon: StartIcon ? (

@@ -29,7 +29,6 @@ function Welcome(): JSX.Element {
         jsonFileUploadScreen,
     });
 
-    // generate new seed for parent account
     useEffect(() => {
         try {
             const newSeed = GenerateSeedPhrase();

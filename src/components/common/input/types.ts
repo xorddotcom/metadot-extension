@@ -13,7 +13,6 @@ export interface FieldInterface {
     placeholder: string;
     onKeyDown(e: React.KeyboardEvent): void;
     onChange(e: React.ChangeEvent<HTMLInputElement>): void;
-    disabled?: string;
     isCorrect?: boolean;
 }
 
@@ -41,7 +40,7 @@ export interface Props {
     hideState: boolean;
     marginBottom?: string;
     maxlength?: string;
-    disabled?: string;
+
     blockInvalidChar?: string;
     id: string;
     mt?: string;

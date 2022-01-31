@@ -25,7 +25,6 @@ const index: React.FunctionComponent<Props> = ({
     hideState,
     marginBottom,
     maxlength,
-    disabled,
     blockInvalidChar,
     id,
     mt,
@@ -53,7 +52,6 @@ const index: React.FunctionComponent<Props> = ({
         onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
             onChange(e.target.value);
         },
-        disabled,
         isCorrect,
     };
 
