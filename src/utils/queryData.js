@@ -7,20 +7,9 @@ import constants from '../../src/constants/onchain';
 
 const {
   POLKADOT_CONFIG,
-  KUSAMA_CONFIG,
-  PHALA_CONFIG,
-  KHALA_CONFIG,
-  BIFROST_CONFIG,
-  MOONRIVER_CONFIG,
-  SHIDEN_CONFIG,
-  KARURA_CONFIG,
   WESTEND_CONFIG,
-  ROCOCO_CONFIG,
   DUSTY_CONFIG,
-  ACALA_MANDALA_CONFIG,
-  ASTAR_CONFIG,
-  MOONBASE_CONFIG,
-  ASGARD_CONFIG,
+  CONTEXTFREE_CONFIG,
   SHIBUYA_CONFIG,
 } = constants;
 
@@ -50,6 +39,11 @@ export const queryData = (network) =>{
             endPoint = SHIBUYA_CONFIG.QUERY_ENDPOINT;    
             return {query, endPoint};
 
+        case 'ContextFree':
+            query = getQuery(CONTEXTFREE_CONFIG.PREFIX);
+            endPoint = CONTEXTFREE_CONFIG.QUERY_ENDPOINT;    
+            return {query, endPoint};
+        
         default:
             query = getQuery(POLKADOT_CONFIG.PREFIX);
             endPoint = POLKADOT_CONFIG.QUERY_ENDPOINT; 
