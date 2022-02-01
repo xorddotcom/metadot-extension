@@ -376,11 +376,13 @@ function ImportWallet() {
         dispatch(setJsonFileUploadScreen(true));
         setSelectedType('json');
         const url = `${chrome.extension.getURL('index.html')}`;
-        dispatch(setJsonFileUploadScreen(false));
+        // dispatch(setJsonFileUploadScreen(false));
         openOptions(url);
+        // history.push('/ImportWallet');
       } else {
         setSelectedType('json');
       }
+      history.push('/ImportWallet');
     },
     className: mainHeadingfontFamilyClass,
     selected: selectedType === 'json',

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
@@ -24,6 +25,7 @@ import {
   setAccountName,
   setPublicKey,
   resetAccountSlice,
+  setJsonFileUploadScreen,
 } from '../../../redux/slices/activeAccount';
 
 import {
@@ -92,8 +94,63 @@ function Dashboard(props) {
   const currentUser = useSelector((state) => state);
   const { apiInitializationStarts } = useSelector((state) => state.api);
   const {
-    publicKey, chainName, balance, tokenName, balanceInUsd, accountName, walletName, rpcUrl,
+    publicKey,
+    chainName,
+    balance,
+    tokenName,
+    balanceInUsd,
+    accountName,
+    walletName,
+    rpcUrl,
+    jsonFileUploadScreen,
   } = currentUser.activeAccount;
+
+  function getOwnTabs() {
+    return Promise.all(
+      chrome.extension
+        .getViews({ type: 'tab' })
+        .map(
+          // eslint-disable-next-line max-len
+          (view) => new Promise((resolve) => view.chrome.tabs.getCurrent((tab) => resolve(Object.assign(tab, { url: view.location.href })))),
+        ),
+    );
+  }
+
+  async function isTabViewOpened(url) {
+    const ownTabs = await getOwnTabs();
+    const tabd = ownTabs.find((tab) => tab.url.includes(url));
+    if (tabd) {
+      console.log('already opened!');
+      // chrome.tabs.update(tabd.id, { active: true });
+      return true;
+    }
+    console.log('not opened!');
+    // chrome.tabs.create({ url });
+    return false;
+  }
+
+  useEffect(() => {
+    if (jsonFileUploadScreen) {
+      const url = `${chrome.extension.getURL('index.html')}`;
+      const isTabOpen = isTabViewOpened(url);
+
+      console.log('isTabOpen', isTabOpen);
+
+      isTabOpen.then((res) => {
+        console.log('istab ', res);
+        if (res) {
+          // history.push('/ImportWallet');
+          dispatch(setJsonFileUploadScreen(false));
+          console.log('istab res in if', res);
+        } else {
+          console.log('istab res in else', res);
+        }
+      });
+    } else {
+      console.log('jsonFileUploadScreen--------------', jsonFileUploadScreen);
+    }
+  }, []);
+
   async function main() {
     const { api } = currentUser.api;
 
@@ -351,6 +408,20 @@ function Dashboard(props) {
 
   // --------XXXXXXXXXXXXXXX-----------
 
+  // isTabOpen.then((res) => {
+  //   console.log('istab ', res);
+  //   if (res) {
+  //     history.push('/ImportWallet');
+  //     console.log('istab res in if', res);
+  //     return null;
+  //   }
+  //   console.log('istab res in else', res);
+
+  if (jsonFileUploadScreen) {
+    history.push('/ImportWallet');
+    return null;
+  }
+
   return (
     <>
       <Wrapper pb>
@@ -485,6 +556,8 @@ function Dashboard(props) {
       <button type="button" onClick={() => getPairA()}>get pair</button> */}
     </>
   );
+
+  // });
 }
 
 export default Dashboard;
