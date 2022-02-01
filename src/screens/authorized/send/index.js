@@ -33,7 +33,9 @@ import SuccessCheckIcon from '../../../assets/images/success.png';
 // const { Keyring } = require('@polkadot/api');
 
 const { decodeAddress, encodeAddress } = require('@polkadot/keyring');
-const { hexToU8a, isHex } = require('@polkadot/util');
+const {
+  hexToU8a, isHex, BN_HUNDRED, formatBalance,
+} = require('@polkadot/util');
 
 const errorMessages = {
   invalidAddress: 'Invalid address',
@@ -231,13 +233,25 @@ const Send = () => {
   };
 
   const maxInputHandler = async () => {
+    console.clear();
+    const decimalPlaces = await api.registry.chainDecimals[0];
     const info = await api.tx.balances
       .transfer(currentUser.activeAccount.publicKey, 10)
       .paymentInfo(currentUser.activeAccount.publicKey);
+    const adjFee = info.partialFee.muln(110).div(BN_HUNDRED);
+    const humanReadableAdjFee = parseFloat(formatBalance(adjFee, { decimals: decimalPlaces, forceUnit: '-', withUnit: false }));
+    const { data: balance } = await
+    api.query.system.account(currentUser.activeAccount.publicKey);
+    console.log('Adj fee', adjFee, formatBalance(adjFee, { decimals: decimalPlaces, forceUnit: '-', withUnit: false }));
+    const maxTransfer = balance.free - adjFee;
+    console.log('Max transfer', maxTransfer / 10 ** decimalPlaces);
+    // const txFee = Number(await convertTransactionFee(adjFee));
 
-    const txFee = Number(await convertTransactionFee(info.partialFee.toHuman()));
+    const bala = formatBalance(balance.free, { decimals: decimalPlaces, forceUnit: '-', withUnit: false });
 
-    amountDispatch({ type: 'MAX_INPUT', bal: currentUser.activeAccount.balance, txFee: Number(txFee) + Number(txFee) / 10 });
+    console.log('balance readable', bala, parseFloat(bala), humanReadableAdjFee);
+
+    amountDispatch({ type: 'MAX_INPUT', bal: parseFloat(bala), txFee: humanReadableAdjFee });
   };
 
   // Check the sender existential deposit
@@ -266,8 +280,9 @@ const Send = () => {
         BigInt(amountState.value * 10 ** decimalPlacesForTxFee))
       .paymentInfo(accountToSate.value);
 
-    console.log('After info');
+    console.log('After info', info.partialFee.toHuman());
     const txFee = await convertTransactionFee(info.partialFee.toHuman());
+    setTransactionFee(txFee);
 
     // checking if balance is enough to send the amount with network fee
     if (currentUser.activeAccount.balance < (Number(amountState.value) + Number(txFee))) {
@@ -279,9 +294,6 @@ const Send = () => {
     if (currentUser.api.api.consts.balances.existentialDeposit
       // eslint-disable-next-line eqeqeq
       > (recipientBalance + amountState.value) * 10 ** decimalPlaces
-      // eslint-disable-next-line operator-linebreak
-      //    || senderBalance - amountState.value <
-      //  currentUser.api.api.consts.balances.existentialDeposit
     ) {
       // Show warning modal
       setSubTextForWarningModal('The receiver have insufficient balance to receive the transaction, Do you still want to confirm?');
@@ -291,14 +303,15 @@ const Send = () => {
       // The receiver have insufficient balance to receive the transaction');
       // alert('Warning modal, the transaction might get failed');
     }
-    console.log('the cond -------', (senderBalance - amountState.value) * 10 ** decimalPlaces, currentUser.api.api.consts.balances.existentialDeposit, (senderBalance - amountState.value) * 10 ** decimalPlaces
+    console.log('the cond -------', { txFee, senderBalance, value: amountState.value }, (senderBalance - amountState.value - txFee) * 10 ** decimalPlaces
     < currentUser.api.api.consts.balances.existentialDeposit);
-    if ((senderBalance - amountState.value) * 10 ** decimalPlaces
+    if ((senderBalance - amountState.value - txFee) * 10 ** decimalPlaces
     < currentUser.api.api.consts.balances.existentialDeposit) {
+      console.log('men chala');
       // alert('The sender account might get reaped');
       setSubTextForWarningModal('The sender account might get reaped');
       setIsWarningModalOpen(true);
-      return [false, null];
+      return [false, txFee];
     }
     //   return true;
     // } catch (er) {
@@ -773,9 +786,18 @@ const Send = () => {
     try {
       setLoading1(true);
       if (!validateInputValues(accountToSate.value)) throw new Error('An error occurred');
-      // const decimalPlaces = await api.registry.chainDecimals;
+      const decimalPlaces = await api.registry.chainDecimals;
       console.log('Before validate tx errors');
       const isTxValid = await validateTxErrors();
+
+      const info = await api.tx.balances
+        .transfer(currentUser.activeAccount.publicKey, amountState.value * 10 ** decimalPlaces)
+        .paymentInfo(accountToSate.value);
+
+      console.log('After info');
+      const txFee = await convertTransactionFee(info.partialFee.toHuman());
+      setTransactionFee(txFee);
+
       console.log('isTxValid------------------', { isTxValid });
       if (isTxValid[0]) {
         console.log('After validate tx errors');
@@ -900,7 +922,7 @@ const Send = () => {
   const warningModal = {
     open: isWarningModalOpen,
     handleClose: () => setIsWarningModalOpen(false),
-    onConfirm: () => SendTx(),
+    onConfirm: () => SendTx(transactionFee),
     style: {
       width: '290px',
       background: '#141414',
