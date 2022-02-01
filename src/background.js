@@ -3,9 +3,8 @@
 /* eslint-disable vars-on-top */
 // import keyring from '@polkadot/ui-keyring';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
-// import { accounts } from './utils';
-
-// const { CryptoAndKeyringInit } = accounts;
+import keyring from '@polkadot/ui-keyring';
+// import { AccountsStore } from '@polkadot/extension-base/stores';
 
 // eslint-disable-next-line block-scoped-var
 if (typeof browser === 'undefined') {
@@ -16,15 +15,16 @@ if (typeof browser === 'undefined') {
   var browser = chrome;
 }
 
-// chrome.runtime.onInstalled.addListener(() => {
-// CryptoAndKeyringInit();
-cryptoWaitReady()
-  .then(() => {
-    console.log('keyring init start');
-    // keyring.loadAll({ type: 'sr25519' });
-    console.log('keyring init end');
-  })
-  .catch((error) => {
-    console.error('initialization failed', error);
-  });
-// });
+chrome.runtime.onInstalled.addListener(() => {
+  (async () => {
+    cryptoWaitReady()
+      .then(() => {
+        // load all the keyring data
+        // keyring.loadAll({ store: new AccountsStore(), type: 'sr25519' });
+        keyring.loadAll({ ss58Format: 42, type: 'sr25519' });
+      })
+      .catch((error) => {
+        console.error('initialization failed', error);
+      });
+  })();
+});

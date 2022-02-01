@@ -1,3 +1,4 @@
+import axios from 'axios';
 import constants from '../constants/onchain';
 
 function arrayFromSeedSentence(seed) {
@@ -93,46 +94,26 @@ const trimBalance = (value) => {
 };
 
 async function getKSM() {
-  let amm;
-  await fetch(constants.USD_PER_KSM_API)
-    .then((response) => response.json())
-    .then((data) => {
-      amm = data;
-    });
-  return amm;
+  const oneKSMintoUsd = await axios.get(constants.USD_PER_KSM_API);
+  return oneKSMintoUsd;
 }
 
 async function getDOT() {
-  let amm;
-  await fetch(constants.USD_PER_POLKADOT_API)
-    .then((response) => response.json())
-    .then((data) => {
-      amm = data;
-    });
-  return amm;
+  const oneKSMintoUsd = await axios.get(constants.USD_PER_POLKADOT_API);
+  return oneKSMintoUsd;
 }
 
 async function convertIntoUsd(token, amountToConvert) {
   let converted = 0;
   if (token === 'KSM') {
     const oneKSMintoUsd = await getKSM();
-    converted = (Number(amountToConvert) * oneKSMintoUsd.kusama.usd).toFixed(3);
+    converted = (Number(amountToConvert) * oneKSMintoUsd.data.kusama.usd).toFixed(3);
   } else if (token === 'DOT') {
     const oneDOTIntoUsd = await getDOT();
-    converted = (Number(amountToConvert) * oneDOTIntoUsd.polkadot.usd).toFixed(3);
+    // setAmountInUsd((Number(amountToConvert) * oneDOTIntoUsd.data.kusama.usd).toFixed(3));
+    converted = (Number(amountToConvert) * oneDOTIntoUsd.data.polkadot.usd).toFixed(3);
   }
   return converted;
-}
-
-function showInternetSnackBar() {
-  // Get the snackbar DIV
-  const x = document.getElementById('snackbar');
-
-  // Add the "show" class to DIV
-  x.className = 'show';
-
-  // After 3 seconds, remove the show class from DIV
-  setTimeout(() => { x.className = x.className.replace('show', ''); }, 3500);
 }
 
 export default {
@@ -145,5 +126,4 @@ export default {
   validateAmount,
   trimBalance,
   convertIntoUsd,
-  showInternetSnackBar,
 };

@@ -3,35 +3,23 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 const path = require('path');
-// const WebpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const pkgJson = require('./package.json');
 
 module.exports = {
   entry: {
     popup: ['@babel/polyfill', './src/index.js'],
-    background: ['@babel/polyfill', './src/background.js'],
+    background: ['./src/background.js'],
+    content: ['./src/content.js'],
   },
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: '[name].js',
-    // chunkFilename: '[name].js',
   },
-  // optimization: {
-  //   splitChunks: {
-  //     cacheGroups: {
-  //       vendors: {
-  //         test: /[\\/]node_modules[\\/]/, /// < put all used node_modules modules in this chunk
-  //         name: 'vendor', /// < name of bundle
-  //         chunks: 'all', /// < type of code to put in this bundle
-  //       },
-  //     },
-  //   },
-  // },
   module: {
     rules: [
       {
         test: /\.js$/,
-        exclude: [/node_modules/],
+        exclude: /node_modules/,
         include: path.resolve(__dirname, 'src'),
         use: {
           loader: 'babel-loader',
@@ -101,7 +89,6 @@ module.exports = {
         PKG_VERSION: JSON.stringify(pkgJson.version),
       },
     }),
-    // new WebpackBundleAnalyzer(),
   ],
   resolve: {
     symlinks: false,

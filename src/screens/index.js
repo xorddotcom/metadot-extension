@@ -1,16 +1,12 @@
-import Dashboard from './authorized/dashboard';
-import Send from './authorized/send';
-import Support from './authorized/support';
-import ViewSeedPhrase from './authorized/viewSeedPhrase';
-import MultipleAccounts from './authorized/multipleAccounts';
-import CreateDerivedAccount from './authorized/CreateDerivedAccount';
+/* eslint-disable import/no-cycle */
+import Dashboard from './AppScreens/Dashboard';
+import Send from './AppScreens/Send';
 
-import ConfirmSeed from './unAuthorized/confirmSeed';
-import CreateWallet from './unAuthorized/createWallet';
-import ImportWallet from './unAuthorized/importWallet';
-import ShowSeed from './unAuthorized/showSeed';
-import Welcome from './unAuthorized/welcome';
-import WelcomeBack from './unAuthorized/welcomeBack';
+import ConfirmSeed from './AuthScreens/ConfirmSeed';
+import CreateWallet from './AuthScreens/CreateWallet';
+import ImportWallet from './AuthScreens/ImportWallet';
+import ShowSeed from './AuthScreens/ShowSeed';
+import Welcome from './AuthScreens/Welcome';
 
 const screens = {
   Welcome,
@@ -20,11 +16,6 @@ const screens = {
   CreateWallet,
   Dashboard,
   Send,
-  WelcomeBack,
-  Support,
-  ViewSeedPhrase,
-  MultipleAccounts,
-  CreateDerivedAccount,
 };
 
 export default screens;

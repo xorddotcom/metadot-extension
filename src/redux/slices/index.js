@@ -1,17 +1,13 @@
 import { combineReducers } from 'redux';
-import activeAccount from './activeAccount';
-import accounts from './accounts';
+import account from './account';
 import api from './api';
-import modalHandling from './modalHandling';
-import transactionProgressModalHandling from './transctionProgressModalHandling';
+import successModalHandling from './successModalHandling';
 import transactions from './transactions';
 
 // eslint-disable-next-line import/prefer-default-export
 export const rootReducer = combineReducers({
-  activeAccount,
-  accounts,
+  account,
   api,
-  modalHandling,
-  transactionProgressModalHandling,
+  successModalHandling,
   transactions,
 });

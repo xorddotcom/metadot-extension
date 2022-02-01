@@ -1,17 +1,1 @@
-{
-    "eslint.validate": [
-        "javascript"
-    ],
-    "[javascript]": {
-        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
-      },
-      "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
-      "editor.formatOnSave": true,
-      "editor.formatOnPaste": true,
-      "security.workspace.trust.untrustedFiles": "open",
-      "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
-      },
-    
-    "diffEditor.codeLens": true
-}
+{"files.associations":{"*.rsh":"javascript"}}

@@ -1,34 +1,30 @@
 // eslint-disable-next-line no-unused-vars
-import AuthWrapper from './authWrapper';
-import Header from './header';
-import Button from './button';
-import AssetCard from './assetCard';
-import TxCard from './txCard';
-import StyledInput from './styledInput';
-import { LightTooltip } from './lightTooltip';
-
+import AuthWrapper from './AuthWrapper';
+import Header from './Header';
+import Button from './Button';
+import AssetCard from './AssetCard';
+import TxCard from './TxCard';
 import {
   MainHeading,
   SubHeading,
   SubMainWrapperForAuthScreens,
   TextInputWrapper,
-  WarningText,
-  HorizontalContentDiv,
-} from './styledComponents';
+} from './CommonStyledComponents';
+import WarningModal from './Modals/WarningModal';
+import SelectNetwork from './Modals/SelectNetwork';
+import ConfirmSend from './Modals/ConfirmSend';
+import TxDetails from './Modals/TxDetails';
+import SuccessResponse from './Modals/SuccessResponse';
 
-import {
-  AuthModal,
-  ConfirmSend,
-  SelectNetwork,
-  ResponseModal,
-  TransactionProgress,
-  WarningModal,
-  TxDetails,
-} from './modals';
+import StyledInput from './StyledInput';
 
 export {
   AuthWrapper,
   Header,
+  MainHeading,
+  SubHeading,
+  SubMainWrapperForAuthScreens,
+  TextInputWrapper,
   StyledInput,
   Button,
   WarningModal,
@@ -37,14 +33,5 @@ export {
   TxCard,
   ConfirmSend,
   TxDetails,
-  ResponseModal,
-  TransactionProgress,
-  AuthModal,
-  MainHeading,
-  SubHeading,
-  SubMainWrapperForAuthScreens,
-  TextInputWrapper,
-  LightTooltip,
-  WarningText,
-  HorizontalContentDiv,
+  SuccessResponse,
 };
