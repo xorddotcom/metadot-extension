@@ -1,9 +1,11 @@
 const fonts = {
   welcomeScreenMainHeadingFontSize: '2rem',
   headerHeadingFontSize: '1.25rem',
-  mainHeadingFontSize: '1.125rem',
-  subHeadingFontSize: '1rem',
-  buttonFontSize: '0.875rem',
+  mainHeadingFontSize: '18px',
+  subHeadingFontSize: '14px',
+  buttonFontSize: '16px',
+
+  errorHeadingFontSize: '2px',
 
   mainHeadingfontFamilyClass: 'font-face-robotoB',
   subHeadingfontFamilyClass: 'font-face-robotoR',

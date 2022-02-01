@@ -1,21 +1,20 @@
-// eslint-disable-next-line import/no-cycle
 import screens from '../screens/index';
 
 const {
-  Welcome,
   ShowSeed,
   ConfirmSeed,
   ImportWallet,
   CreateWallet,
   Dashboard,
   Send,
+  WelcomeBack,
+  Support,
+  ViewSeedPhrase,
+  MultipleAccounts,
+  CreateDerivedAccount,
 } = screens;
 
 const UnAuthRoutes = [
-  {
-    path: '/',
-    Component: Welcome,
-  },
   {
     path: '/ShowSeed',
     Component: ShowSeed,
@@ -32,6 +31,10 @@ const UnAuthRoutes = [
     path: '/createWallet',
     Component: CreateWallet,
   },
+  {
+    path: '/welcomeBack',
+    Component: WelcomeBack,
+  },
 ];
 
 const AuthRoutes = [
@@ -42,6 +45,46 @@ const AuthRoutes = [
   {
     path: '/Send',
     Component: Send,
+  },
+  {
+    path: '/welcomeBack',
+    Component: WelcomeBack,
+  },
+  {
+    path: '/Support',
+    Component: Support,
+  },
+  {
+    path: '/viewSeed',
+    Component: ViewSeedPhrase,
+  },
+  {
+    path: '/accounts',
+    Component: MultipleAccounts,
+  },
+  {
+    path: '/ImportWallet',
+    Component: ImportWallet,
+  },
+  {
+    path: '/ImportWallet/:seed',
+    Component: ImportWallet,
+  },
+  {
+    path: '/ShowSeed',
+    Component: ShowSeed,
+  },
+  {
+    path: '/ConfirmSeed',
+    Component: ConfirmSeed,
+  },
+  {
+    path: '/createWallet',
+    Component: CreateWallet,
+  },
+  {
+    path: '/creatDerivedAccount',
+    Component: CreateDerivedAccount,
   },
 
 ];

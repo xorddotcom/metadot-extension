@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 /* hiding scrollbar in chrome */
 ::-webkit-scrollbar {
-  display: none;
+  /* display: none; */
+  width: 1px;
+  opacity: 0;
 }
 /* hiding scrollbar in firefox */
 *,
@@ -22,11 +24,19 @@ body {
 /* creating classess for font family we just imported above */
 .font-face-robotoB {
   font-family: 'Roboto', sans-serif;
-  font-weight: 700;
+  font-weight: 500;
 }
 .font-face-robotoR {
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
+}
+
+:root {
+  --primaryBackground: #2e9b9b;
+  --primaryText: #fafafa;
+  --boxShadowColor: rgba(46, 155, 155, 0.1);
+  --tooltipColor: #333333;
+  --tooltipBorderColor: #606060;
 }
 
 html {
@@ -42,6 +52,12 @@ html {
 @media screen and (min-width: 550px) {
   html {
     font-size: 23px;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  html {
+    font-size: 14px;
   }
 }
 
@@ -69,7 +85,8 @@ body {
       rgba(20, 20, 20, 0) 67.09%,
       rgba(20, 20, 20, 0) 100%
     ),
-    #880041 !important;
+    var(--primaryBackground) !important;
+  box-shadow: 0px 0px 20px 5px rgba(33, 154, 154, 0.14) !important;
 }
 
 .secondary-bg-color {
@@ -79,6 +96,14 @@ body {
 .btn-wrapper {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  margin-left: -4.2rem;
+}
+
+.btn-end {
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-end;
   align-items: center;
 }
 
@@ -91,15 +116,77 @@ input:focus {
   outline: none !important;
 }
 
+.scrollbar {
+  overflow-y: scroll;
+  margin: 1rem;
+  margin-right: 0;
+  width: 95%;
+  height: 300px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);     */
+  background-color: transparent !important;
+}
+
+.scrollbar::-webkit-scrollbar {
+  display: block;
+  background-color: transparent !important;
+  width: 3px !important;
+  height: 30px !important;
+  border-radius: 8px !important;
+  transform: rotate(-180deg) !important;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: var(--primaryBackground) !important;
+}
+
+/* Select Network Scrollbar */
+
+.network-scrollbar {
+  overflow-y: scroll;
+  margin: 1rem;
+  margin-right: 0;
+  width: 95%;
+}
+
+.network-scrollbar::-webkit-scrollbar-track {
+  /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);     */
+  background-color: transparent !important;
+  margin-top: 80px;
+}
+
+.network-scrollbar::-webkit-scrollbar {
+  display: block;
+  background-color: transparent !important;
+  /* width: 6px !important; */
+  border-radius: 0 !important;
+  transform: rotate(-180deg) !important;
+}
+
+.network-scrollbar::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  background-color: var(--primaryBackground) !important;
+}
+
+.network-scrollbar::-webkit-scrollbar-button {
+  min-height: 5px !important;
+}
+
 .warning-modal-style {
-  border: 0.8px solid rgb(136, 0, 65);
+  outline: none !important;
+  border: 0.8px solid var(--primaryBackground);
   box-sizing: border-box;
-  box-shadow: 1px 2px 20px 20px rgba(136, 0, 65, 0.12);
-  border-radius: 8px;
+  box-shadow: 0 0 20px 7px var(--boxShadowColor);
+  border-radius: 6px;
   margin: 200px auto;
   width: 100%;
-  max-width: 350px;
-  padding: 1.6rem 1.3rem !important;
+  max-width: 290px;
+  padding: 22px 1.3rem !important;
   text-align: left !important;
   position: relative;
 }
@@ -116,19 +203,26 @@ input:focus {
 }
 
 .select-network-modal-style {
-  border: 0.8px solid #880041;
+  outline: none;
+  border: 0.8px solid var(--primaryBackground) !important;
   box-sizing: border-box;
-  box-shadow: 0px 0px 20px 5px rgba(136, 0, 65, 0.12);
+  box-shadow: 0px 2px 20px 5px var(--boxShadowColor);
   border-radius: 8px;
   margin: 70px auto;
 }
 
+.auth-modal {
+  width: 78%;
+  background: #141414;
+}
+
 .txDetails-modal-style {
-  border: 0.8px solid #880041;
+  border: 0.8px solid var(--primaryBackground);
   box-sizing: border-box;
-  box-shadow: 0px 0px 20px 5px rgba(136, 0, 65, 0.12);
+  box-shadow: 0px 2px 20px 5px var(--boxShadowColor);
   border-radius: 8px;
   margin: 50px auto;
+  width: 300px;
 }
 
 .btn-row {
@@ -138,8 +232,14 @@ input:focus {
   width: 100%;
 }
 
+.btn-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 ::selection {
-  background-color: #880041;
+  background-color: var(--primaryBackground);
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -154,33 +254,175 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
+/* Arrow ToolTip */
 .tooltip {
   position: relative;
   display: inline-block;
+  /* border: 1px solid #777777 !important; */
 }
 
-/* Tooltip text */
 .tooltip .tooltiptext {
   visibility: hidden;
-  width: 100px;
-  background-color: #fafafa;
-  color: black;
+  width: 70px;
+  /* padding: 1rem; */
+  background-color: var(--tooltipColor) !important;
+  border: 1.09px solid var(--tooltipBorderColor) !important;
+  box-shadow: 0px 18.5334px 37.0668px rgba(0, 0, 0, 0.2) !important;
+  border-radius: 9.71px !important;
+  color: #fafafa;
   text-align: center;
-  padding: 5px 0;
-  border-radius: 6px;
-  font-size: 10px;
-
-  /* Position the tooltip text - see examples below! */
+  padding: 7px 0;
   position: absolute;
   z-index: 1;
-  top: 10%; /* At the bottom of the tooltip */
-  left: 63%;
-  margin-left: -5px;
+  bottom: 150%;
+  left: -130%;
+  margin-left: 0.3rem;
+}
+
+.tooltip .tooltiptext::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 17%;
+  border-radius: 2px;
+  margin-left: -6px;
+  border-width: 7px;
+  border-style: solid;
+  border-color: var(--tooltipColor) transparent transparent transparent;
 }
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+/* ----------------- */
+
+/* Main Card Tooltip */
+.main-card-tooltip {
+  position: relative;
+  display: inline-block;
+  /* border: 1px solid #777777 !important; */
+}
+
+.main-card-tooltip .main-card-tooltiptext {
+  visibility: hidden;
+  width: 100px;
+  /* padding: 1rem; */
+  background-color: var(--tooltipColor) !important;
+  border: 1.09px solid var(--tooltipBorderColor) !important;
+  box-shadow: 0px 18.5334px 37.0668px rgba(0, 0, 0, 0.2) !important;
+  border-radius: 9.71px !important;
+  color: #fafafa;
+  text-align: center;
+  padding: 7px 0;
+  position: absolute;
+  z-index: 1;
+  /* bottom: 150%; */
+  left: -130%;
+  /* top: -35px; */
+  margin-left: -0.3rem;
+  margin-bottom: 0.2rem;
+}
+
+.main-card-tooltip .main-card-tooltiptext::after {
+  content: '';
+  position: absolute;
+  top: 27px;
+  left: 17%;
+  border-radius: 2px;
+  margin-left: -3px;
+  border-width: 7px;
+  border-style: solid;
+  border-color: var(--tooltipColor) transparent transparent transparent;
+}
+
+.main-card-tooltip:hover .main-card-tooltiptext {
+  visibility: visible;
+}
+
+/* ---------------------------- */
+
+/* Top Arrow Tooltip */
+
+.topTooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.topTooltip .topTooltiptext {
+  visibility: hidden;
+  width: 90%;
+  background-color: var(--tooltipColor) !important;
+  border: 1.09px solid var(--tooltipBorderColor) !important;
+  box-shadow: 0px 18.5334px 37.0668px rgba(0, 0, 0, 0.2) !important;
+  border-radius: 9.71px !important;
+  color: #fafafa;
+  text-align: center;
+  border-radius: 6px;
+  padding: 0 2px !important;
+  position: absolute;
+  z-index: 1;
+  top: 35px;
+  left: 110px;
+  margin-left: -60px;
+  font-size: 0.7rem;
+  font-weight: 300;
+}
+
+.topTooltip .topTooltiptext::after {
+  content: ' ';
+  position: absolute;
+  bottom: 100%; /* At the top of the tooltip */
+  left: 20%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent var(--tooltipColor) transparent;
+}
+
+.topTooltip:hover .topTooltiptext {
+  visibility: visible;
+}
+
+/* ------------------------ */
+/* Normal Tooltip */
+.normalTooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.normalTooltip .normalTooltiptext {
+  visibility: hidden;
+  width: 100px;
+  background-color: var(--tooltipColor) !important;
+  border: 1.09px solid var(--tooltipBorderColor) !important;
+  box-shadow: 0px 18.5334px 37.0668px rgba(0, 0, 0, 0.2) !important;
+  color: #fafafa;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -58px;
+}
+
+.normalTooltip .normalTooltiptext::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--tooltipColor) transparent transparent transparent;
+}
+
+.normalTooltip:hover .normalTooltiptext {
+  visibility: visible;
+}
+/* ---------------------- */
 
 .d-none {
   display: none;
@@ -188,4 +430,88 @@ input[type='number'] {
 
 .border-white {
   border: 1px solid white;
+}
+
+.wave {
+  animation: wave 1.5s infinite linear forwards;
+  -webkit-animation: wave 1.5s infinite linear forwards;
+  background: rgba(196, 196, 196, 0.4);
+  background: linear-gradient(to right, #8f898966 8%, #a6b5b6 18%, #88878a 33%);
+  background-size: 800px 104px;
+}
+
+@keyframes wave {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+@-webkit-keyframes wave {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.MuiMenuItem-root:hover {
+  background: rgba(46, 155, 155, 0.26) !important;
+}
+
+.Dark-bg-network {
+  background-color: rgba(33, 33, 33, 0.6);
+}
+
+
+/* The snackbar - position it at the bottom and in the middle of the screen */
+#snackbar {
+  visibility: hidden; /* Hidden by default. Visible on click */
+  width: 45%; /* Set a default minimum width */
+  margin-left: -19px; /* Divide value of min-width by 2 */
+  background-color: var(--tooltipBorderColor) !important; /* Black background color */
+  color: #fafafa; /* White text color */
+  text-align: center; /* Centered text */
+  border-radius: 10px; /* Rounded borders */
+  position: fixed; /* Sit on top of the screen */
+  z-index: 1; /* Add a z-index if needed */
+  left: 30%; /* Center the snackbar */
+  bottom: 50px; /* 30px from the bottom */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+  visibility: visible; /* Show the snackbar */
+  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+  However, delay the fade out process for 2.5 seconds */
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 3s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 50px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 50px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 50px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 50px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
 }

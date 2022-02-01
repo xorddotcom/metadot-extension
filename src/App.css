@@ -9,19 +9,3 @@
 .App::-webkit-scrollbar {
   width: 0px;
 }
-
-.toast-success {
-  width: 30%;
-  height: 2px !important;
-  margin: 0 auto;
-  font-size: 12px !important;
-  border-radius: 18px !important;
-  color: #fafafa !important;
-  background-color: #212121 !important;
-}
-.Toastify__close-button {
-  display: none;
-}
-.Toastify__close-button--default {
-  display: none;
-}

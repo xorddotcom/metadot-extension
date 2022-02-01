@@ -1,14 +1,13 @@
 /* eslint-disable no-unused-vars */
-export const getTokenPrice = async (apiTokenName) => {
-  const tokenPrice = await fetch(
-    `https://api.coingecko.com/api/v3/simple/price?ids=${apiTokenName}&vs_currencies=usd`,
-  )
-    .then((res) => {
-      res.json().then((_res) => {
-        console.log(`${apiTokenName} === `, _res);
-      });
-    })
-    .catch((err) => {
-      console.warn('ERROR', err);
-    });
-};
+export default class ApiCalls {
+  // Get Request API Wrapper Function
+  GetRequest = async (url) => {
+    const data = await fetch(url)
+      .then((res) => {
+        res.json().then((_res) => {
+          console.log(_res);
+        });
+      }).catch((err) => err);
+    return data;
+  };
+}

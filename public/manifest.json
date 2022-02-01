@@ -1,11 +1,11 @@
 {
-  "name": "Polo Wallet",
+  "name": "Metadot",
   "description": "A crypto wallet for Polkadot based chains and their parachains",
-  "version": "0.0.3",
+  "version": "0.0.3.2",
   "manifest_version": 2,
   "browser_action": {
     "default_popup": "index.html",
-    "default_title": "Polo Wallet"
+    "default_title": "Metadot"
   },
   "icons": {
     "16": "static/media/16x16.png",
@@ -15,8 +15,9 @@
   "content_security_policy": "script-src 'self' blob: 'unsafe-eval' 'wasm-eval'; object-src 'self'",
   "background": {
     "scripts": ["background.js"],
-    "persistent": false
+    "persistent": true
   },
+  "permissions": ["storage", "tabs"],
   "browser_specific_settings": {
     "gecko": {
       "id": "{5f568f4f-6781-4a94-83cd-7e2a7cf1bf70}"
