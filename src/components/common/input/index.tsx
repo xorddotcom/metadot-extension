@@ -9,7 +9,7 @@ import { Props, FieldInterface } from './types';
 
 import { Wrapper, Field, Icon } from './styles';
 
-const index: React.FunctionComponent<Props> = ({
+const Input: React.FunctionComponent<Props> = ({
     placeholder,
     onChange,
     value,
@@ -109,4 +109,4 @@ const index: React.FunctionComponent<Props> = ({
     );
 };
 
-export default index;
+export default Input;

@@ -14,3 +14,16 @@ export interface SubHeadingInterface {
     mb?: string;
     ml?: string;
 }
+
+export interface WarningTextInterface {
+    visibility?: boolean;
+    ml?: string;
+    mb?: string;
+}
+
+export interface MainTextInterface {
+    id?: string;
+    className?: string;
+    color?: string;
+    balOverFlow?: boolean;
+}

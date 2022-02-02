@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
 import AppLogo from '../../assets/images/logo.svg';
 import { Button } from '../common';
-import { WarningText } from './styles';
+import { WarningText, MainHeading } from '../common/text';
 
-import { MainHeading } from '../common/text';
 import { fonts } from '../../utils';
 import accounts from '../../utils/accounts';
 import './index.css';

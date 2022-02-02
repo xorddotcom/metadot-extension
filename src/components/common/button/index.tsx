@@ -5,7 +5,7 @@ import { dimension, colors } from '../../../utils';
 import { Props, ButtonInterface } from './types';
 import { Button } from './styles';
 
-const index: React.FunctionComponent<Props> = ({
+const CButton: React.FunctionComponent<Props> = ({
     StartIcon,
     handleClick,
     text,
@@ -59,4 +59,4 @@ const index: React.FunctionComponent<Props> = ({
     );
 };
 
-export default index;
+export default CButton;

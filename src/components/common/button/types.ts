@@ -4,12 +4,12 @@ export interface ButtonInterface {
     startIcon: JSX.Element | null;
     onClick(): void;
     disabled: boolean;
-    height?: number;
+    height?: string;
     width?: string;
-    br?: boolean;
+    br?: string;
     cancel?: boolean;
     border?: number;
-    fontSize?: number;
+    fontSize?: string;
 }
 
 export interface Props {
@@ -17,9 +17,9 @@ export interface Props {
     handleClick(): void;
     text: string;
     width?: string;
-    height?: number;
-    br?: boolean;
-    fontSize?: number;
+    height?: string;
+    br?: string;
+    fontSize?: string;
     cancel?: boolean;
     disabled?: boolean;
     isLoading?: boolean;
