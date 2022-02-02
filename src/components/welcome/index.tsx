@@ -18,7 +18,7 @@ const { subHeadingfontFamilyClass } = fonts;
 const { GenerateSeedPhrase } = accounts;
 
 function Welcome(): JSX.Element {
-    const history: any = useNavigate();
+    const navigate = useNavigate();
     const { jsonFileUploadScreen } = useSelector(
         (state: RootState) => state.activeAccount
     );
@@ -42,21 +42,19 @@ function Welcome(): JSX.Element {
     }, []);
 
     const createHandler = (): void => {
-        history.push({
-            pathname: '/ShowSeed',
+        navigate('/ShowSeed', {
             state: { seedToPass },
         });
     };
 
     const importHandler = (): void => {
-        history.push({
-            pathname: '/ImportWallet',
+        navigate('/ImportWallet', {
             state: { seedToPass },
         });
     };
 
     if (jsonFileUploadScreen) {
-        history.push('/ImportWallet');
+        navigate('/ImportWallet');
     }
     return (
         <>

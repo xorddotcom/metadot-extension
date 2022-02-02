@@ -18,7 +18,7 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { validateAccount } = accounts;
 
 function WelcomeBack(): JSX.Element {
-    const history: any = useNavigate();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const [password, setPassword] = useState('');
@@ -35,7 +35,7 @@ function WelcomeBack(): JSX.Element {
             const validate = validateAccount(currentUser.publicKey, password);
             if (validate !== false) {
                 dispatch(setLoggedIn(true));
-                history.push('/');
+                navigate('/');
             } else {
                 setPasswordError('Invalid password!');
             }
