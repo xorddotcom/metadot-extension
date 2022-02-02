@@ -790,8 +790,12 @@ const Send = () => {
       console.log('Before validate tx errors');
       const isTxValid = await validateTxErrors();
 
+      console.log('checking ------', currentUser.activeAccount.publicKey, amountState.value * 10 ** decimalPlaces);
+
       const info = await api.tx.balances
-        .transfer(currentUser.activeAccount.publicKey, amountState.value * 10 ** decimalPlaces)
+        .transfer(currentUser.activeAccount.publicKey,
+          // eslint-disable-next-line no-undef
+          BigInt(amountState.value * 10 ** decimalPlaces))
         .paymentInfo(accountToSate.value);
 
       console.log('After info');
