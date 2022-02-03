@@ -7,7 +7,7 @@ function GenerateSeedPhrase(): string {
     return seed;
 }
 
-function validatingSeedPhrase(seedPhrase: string): boolean {
+function validatingSeedPhrase(seedPhrase: string): Promise<boolean> {
     const resp = true;
     // message pass for seed validation
     return resp;

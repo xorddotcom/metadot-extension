@@ -16,6 +16,8 @@ export interface SubHeadingInterface {
 }
 
 export interface WarningTextInterface {
+    className?: string;
+    id?: string;
     visibility?: boolean;
     ml?: string;
     mb?: string;

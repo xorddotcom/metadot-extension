@@ -6,3 +6,8 @@ export interface HorizontalContentInterface {
     backgroundColor?: string;
     borderRadius?: string;
 }
+
+export interface UnAuthScreensContentInterface {
+    flexDirection?: string;
+    mb?: string;
+}

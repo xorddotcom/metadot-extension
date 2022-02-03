@@ -34,17 +34,16 @@ export interface Props {
     fullWidth?: string;
     fontSize?: string;
     height?: string;
-    rightIcon?: string;
+    rightIcon?: boolean;
     typePassword?: boolean;
     hideHandler(): void;
     hideState: boolean;
     marginBottom?: string;
     maxlength?: string;
-
     blockInvalidChar?: string;
     id: string;
     mt?: string;
     mr?: string;
-    rightAbsPosition?: string;
-    leftAbsPosition?: string;
+    rightAbsPosition?: boolean;
+    leftAbsPosition?: boolean;
 }
