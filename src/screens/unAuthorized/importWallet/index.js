@@ -178,10 +178,13 @@ function ImportWallet() {
 
   const keyringFunc = async () => new Promise((resolve, reject) => {
     try {
+      console.log('keyFunc inner then');
+      console.log('Pair and pass', pair, password);
       const acc = keyring.addPair(pair, password);
       resolve(acc);
       return acc;
     } catch (err) {
+      console.log('keyFunc inner catch', err);
       reject(err);
       return err;
     }
@@ -193,9 +196,10 @@ function ImportWallet() {
   };
 
   const saveAccountInRedux = (add, name, pass) => {
+    console.log('Prefix from redux', prefix);
     console.log('params-------', add, name, pass);
     const publicKeyOfRespectiveChain = addressMapper(add, prefix);
-    console.log('In multiple accounts publick key of respective chain [][][]', { pk }, publicKeyOfRespectiveChain);
+    console.log('In multiple accounts publick key of respective chain [][][]', publicKeyOfRespectiveChain);
     // dispatch(setSeed(account.seed));
     dispatch(setPublicKey(publicKeyOfRespectiveChain));
     // update redux data and tracking flags accordingly
@@ -216,6 +220,7 @@ function ImportWallet() {
   };
 
   const showSuccessModalAndNavigateToDashboard = () => {
+    console.log('showsucessss================');
     dispatch(setIsResponseModalOpen(true));
     dispatch(setResponseImage(ImportIcon));
     dispatch(setMainTextForSuccessModal('Successfully Imported!'));
@@ -233,24 +238,35 @@ function ImportWallet() {
   const proceedToImportAccount = () => {
     keyringFunc()
       .then(async (val) => {
-        console.log('now my loading setting to false', val);
+        console.log('.then chala');
+        console.log('now my loading setting to true', val);
         setLoading(false);
         setPasswordError(false);
         console.log('SUCESS');
 
         // const res = await createAccount(pair);
         // console.log('res-------------', res);
+        console.log('mark1');
         await saveAccountInRedux(
           val.json.address,
           val.json.meta.name,
           password,
         );
+        console.log('mark2');
         dispatch(setLoadingForApi(false));
+        console.log('mark3');
+
         dispatch(setJsonFileUploadScreen(false));
+        console.log('mark4');
+
         setSelectedType('seed');
+        console.log('mark5-------------------');
+
         await showSuccessModalAndNavigateToDashboard();
+        console.log('mark6');
       })
       .catch((err) => {
+        console.log('.catch chala');
         console.log('now my loading setting to false', err);
         setLoading(false);
         setPasswordError(true);
