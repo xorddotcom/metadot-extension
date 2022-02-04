@@ -92,8 +92,8 @@ function WelcomeBack() {
         <img src={AppLogo} alt="logo" />
       </div>
 
-      <div className="main-content" style={{ minHeight: '136px' }}>
-        <MainHeading className={mainHeadingfontFamilyClass} weight={700}>
+      <div className="main-content-wb" style={{ minHeight: '136px' }}>
+        <MainHeading className={mainHeadingfontFamilyClass}>
           Welcome Back
         </MainHeading>
         <StyledInput
