@@ -79,14 +79,16 @@ function DerivedAccountModal({
   // };
 
   const styledInput = {
-    placeholder: 'Enter Password',
+    placeholder: 'Enter Parent Password',
     value: password,
     className: subHeadingfontFamilyClass,
     fontSize: '9px',
     height: '20px',
     onChange: (t) => {
-      setPassword(t);
-      setPasswordError('');
+      if (t.length < 38) {
+        setPassword(t);
+        setPasswordError('');
+      }
     },
     hideHandler: () => setShowPassword(!showPassword),
     hideState: showPassword,

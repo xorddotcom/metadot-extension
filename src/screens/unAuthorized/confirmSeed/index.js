@@ -192,7 +192,7 @@ function ConfirmSeed() {
           To confirm the mnemonic, enter the right words in the space provided below.
         </SubHeading>
       </div>
-      <SubMainWrapperForAuthScreens mb="2rem">
+      <SubMainWrapperForAuthScreens mb="18px">
         <StyledInput
           id="word-1"
           disableUnderline

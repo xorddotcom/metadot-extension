@@ -66,8 +66,10 @@ function WelcomeBack() {
     placeholder: 'Enter Password',
     value: password,
     onChange: (t) => {
-      setPassword(t);
-      setPasswordError('');
+      if (t.length < 40) {
+        setPassword(t);
+        setPasswordError('');
+      }
     },
     hideHandler: () => setShowPassword(!showPassword),
     hideState: showPassword,
