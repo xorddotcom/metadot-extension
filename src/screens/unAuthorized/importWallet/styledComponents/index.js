@@ -18,13 +18,14 @@ export const Option = styled.p`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${(props) => (props.selected ? 'rgba(33, 154, 154, 0.3);' : '#212121')};
+  background-color: ${(props) => (props.selected ? 'rgba(33, 154, 154, 0.1);' : 'rgba(188, 188, 188, 0.1)')};
+  border: ${(props) => (props.selected ? '1px solid #219A9A' : '1px solid #BCBCBC')};
   margin-right: 20px;
   font-weight: 500;
   font-size: ${subHeadingFontSize};
   line-height: 16px;
   letter-spacing: 0.02em;
-  color: ${primaryText};
+  color: ${(props) => (props.selected ? '#219A9A' : '#BCBCBC')};
   opacity: 0.8;
   border-radius: 20px;
   font-size: 0.8rem;
