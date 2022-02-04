@@ -219,7 +219,6 @@ const DropDown = ({
           background: '#141414',
           position: 'relative',
           bottom: 30,
-          p: 2,
           px: 2,
           pb: 3,
         }}

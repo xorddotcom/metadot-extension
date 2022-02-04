@@ -106,7 +106,6 @@ function ImportWallet() {
       background: '#141414',
       position: 'relative',
       bottom: 30,
-      p: 2,
       px: 2,
       pb: 3,
       marginTop: '10rem',
