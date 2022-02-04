@@ -11,3 +11,8 @@ export interface UnAuthScreensContentInterface {
     flexDirection?: string;
     mb?: string;
 }
+export interface VerticalContentDivPropsInterface {
+    marginTop?: string;
+    border?: string;
+    specialPadding?: string;
+}

@@ -1,6 +1,6 @@
 import { cryptoWaitReady, mnemonicGenerate } from '@polkadot/util-crypto';
-
-// import { AccountsStore } from '@polkadot/extension-base/stores';
+import keyring from '@polkadot/ui-keyring';
+import { UnlockPairReturnType } from './types';
 
 function GenerateSeedPhrase(): string {
     const seed = mnemonicGenerate(12);
@@ -75,6 +75,23 @@ function validateAccount(address: string, password: string): boolean {
     return true;
 }
 
+const unlockPair = (
+    publicKey: string,
+    password: string
+): UnlockPairReturnType => {
+    try {
+        const sende = keyring.getPair(publicKey);
+        sende.unlock(password);
+        console.log('sender pair', sende);
+        return sende.isLocked
+            ? { status: false, sender: {} }
+            : { status: true, sender: sende };
+    } catch (e) {
+        console.log('error in unlocking account', typeof e, e);
+        return { status: false, sender: {} };
+    }
+};
+
 export default {
     GenerateSeedPhrase,
     AccountCreation,
@@ -82,4 +99,5 @@ export default {
     getJsonBackup,
     derive,
     validateAccount,
+    unlockPair,
 };
