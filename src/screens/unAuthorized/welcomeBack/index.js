@@ -93,7 +93,7 @@ function WelcomeBack() {
       </div>
 
       <div className="main-content" style={{ minHeight: '136px' }}>
-        <MainHeading className={mainHeadingfontFamilyClass}>
+        <MainHeading className={mainHeadingfontFamilyClass} weight={700}>
           Welcome Back
         </MainHeading>
         <StyledInput
