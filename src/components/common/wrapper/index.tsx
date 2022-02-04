@@ -1,9 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
 import {
     HorizontalContentInterface,
+    VerticalContentDivPropsInterface,
     UnAuthScreensContentInterface,
 } from './type';
+
+import { colors } from '../../../utils';
+
+const { darkBackground1 } = colors;
 
 export const Wrapper = styled.div`
     padding: 18px 20px 8px;
@@ -14,6 +20,7 @@ const HorizontalContentDivPropsInterfaceWrapper: React.FunctionComponent<
 > = ({ children }) => {
     return <div>{children}</div>;
 };
+
 export const HorizontalContentDiv = styled(
     HorizontalContentDivPropsInterfaceWrapper
 )`
@@ -27,9 +34,32 @@ export const HorizontalContentDiv = styled(
     border-radius: ${(props) => props.borderRadius && props.borderRadius};
 `;
 
-export const VerticalContentDiv = styled.div`
+const verticalContentDivPropsInterfaceWrapper: React.FunctionComponent<
+    VerticalContentDivPropsInterface
+> = ({ children }) => {
+    return <div>{children}</div>;
+};
+
+export const VerticalContentDiv = styled(
+    verticalContentDivPropsInterfaceWrapper
+)`
     display: flex;
     flex-direction: column;
+    margin-top: ${(props) => props.marginTop && props.marginTop};
+    ${(props) =>
+        props.border &&
+        css`
+            border: 1px solid ${darkBackground1};
+            box-sizing: border-box;
+            filter: drop-shadow(0px 0px 40px rgba(13, 13, 13, 0.2));
+            border-radius: 8px;
+        `}
+    ${(props) =>
+        props.specialPadding &&
+        css`
+            padding-left: 10px;
+            padding-right: 10px;
+        `}
 `;
 
 const UnAuthScreensContentWrapperPropsInterfaceWrapper: React.FunctionComponent<

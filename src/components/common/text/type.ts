@@ -21,6 +21,7 @@ export interface WarningTextInterface {
     visibility?: boolean;
     ml?: string;
     mb?: string;
+    className?: string;
 }
 
 export interface MainTextInterface {
@@ -28,4 +29,11 @@ export interface MainTextInterface {
     className?: string;
     color?: string;
     balOverFlow?: boolean;
+}
+
+export interface ModalTextPropsInterface {
+    marginTop?: string;
+    textAlign?: string;
+    className?: string;
+    style?: object;
 }

@@ -34,7 +34,7 @@ export interface Props {
     fullWidth?: string;
     fontSize?: string;
     height?: string;
-    rightIcon?: boolean;
+    rightIcon?: string | boolean;
     typePassword?: boolean;
     hideHandler(): void;
     hideState: boolean;

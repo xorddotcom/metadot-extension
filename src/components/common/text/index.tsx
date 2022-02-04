@@ -6,6 +6,7 @@ import {
     SubHeadingInterface,
     MainTextInterface,
     WarningTextInterface,
+    ModalTextPropsInterface,
 } from './type';
 
 const { primaryText, secondaryText, warningText } = colors;
@@ -95,4 +96,18 @@ export const MainText = styled(MainTextPropsInterfaceWrapper)`
             text-overflow: ellipsis;
             width: 45px;
         `}
+`;
+
+const ModalTextPropsInterfaceWrapper: React.FunctionComponent<
+    ModalTextPropsInterface
+> = ({ children }) => {
+    return <p>{children}</p>;
+};
+
+export const ModalText = styled(ModalTextPropsInterfaceWrapper)`
+    font-size: ${mainHeadingFontSize};
+    line-height: 21px;
+    margin-top: ${(props) => props.marginTop && props.marginTop};
+    color: rgba(250, 250, 250, 0.85);
+    text-align: ${(props) => props.textAlign};
 `;
