@@ -508,7 +508,6 @@ function Dashboard(props) {
             width: '300px',
             background: '#141414',
             pb: 3,
-            height: '240px',
             overflowY: 'scroll',
             overflowX: 'hidden',
             marginTop: '9rem',
