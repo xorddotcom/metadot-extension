@@ -105,7 +105,7 @@ function AuthModal({
     >
       <Box sx={style} className="txDetails-modal-style auth-modal">
         <MainDiv>
-          <MainText1 marginTop="10px" textAlign="center" className={mainHeadingfontFamilyClass}>Authorization</MainText1>
+          <MainText1 textAlign="center" className={mainHeadingfontFamilyClass}>Authorization</MainText1>
           {/* <SubText
             marginTop="6px"
             textAlign="left"
@@ -115,7 +115,7 @@ function AuthModal({
             A json file will be downloaded to your device.
           </SubText> */}
 
-          <VerticalContentDiv marginTop="15px" mb="30px">
+          <VerticalContentDiv marginTop="15px" mb="20px">
             <MainText fs="14px" mb="15px" className={mainHeadingfontFamilyClass}>
               Password
             </MainText>

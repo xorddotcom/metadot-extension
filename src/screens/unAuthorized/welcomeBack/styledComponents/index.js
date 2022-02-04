@@ -11,6 +11,7 @@ export const MainHeading = styled.p`
   text-align: center;
   letter-spacing: 0.05em;
   text-transform: capitalize;
+  font-weight: ${(props) => props.weight && props.weight};
 `;
 
 export const SubHeading = styled.p`
