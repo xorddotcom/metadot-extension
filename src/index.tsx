@@ -13,7 +13,7 @@ ReactDOM.render(
             <PersistGate loading={null} persistor={persistor}>
                 <Router>
                     <Routes>
-                        <Route path="/" element={<App />} />
+                        <Route path="*" element={<App />} />
                     </Routes>
                 </Router>
             </PersistGate>

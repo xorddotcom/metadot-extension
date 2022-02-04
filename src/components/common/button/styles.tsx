@@ -11,8 +11,9 @@ const { _height } = dimension.button;
 
 const buttonPropsInterfaceWrapper: React.FunctionComponent<ButtonInterface> = ({
     children,
+    onClick,
 }) => {
-    return <MUIButton>{children}</MUIButton>;
+    return <MUIButton onClick={onClick}>{children}</MUIButton>;
 };
 
 export const Button = styled(buttonPropsInterfaceWrapper)`

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { RootState } from './redux/store';
 import './App.css';

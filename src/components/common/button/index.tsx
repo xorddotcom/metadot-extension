@@ -1,6 +1,6 @@
 import React from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Props, ButtonInterface } from './types';
+import { Props } from './types';
 import { dimension, colors } from '../../../utils';
 import { Button } from './styles';
 
@@ -21,13 +21,12 @@ const CButton: React.FunctionComponent<Props> = ({
     const { _width } = dimension.button;
     const { primaryText } = colors;
 
-    const ButtonProps: ButtonInterface = {
+    const ButtonProps = {
         id,
         variant: 'contained',
         startIcon: StartIcon ? (
             <img src={StartIcon} alt="icon" style={{ marginTop: '-0.2px' }} />
         ) : null,
-        onClick: () => handleClick(),
         disabled: !!disabled,
         height,
         br,
@@ -44,7 +43,7 @@ const CButton: React.FunctionComponent<Props> = ({
                 marginBottom: 10,
             }}
         >
-            <Button {...ButtonProps}>
+            <Button {...ButtonProps} onClick={handleClick}>
                 {!isLoading ? (
                     text
                 ) : (

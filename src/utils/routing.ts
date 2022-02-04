@@ -1,18 +1,22 @@
 import Views from '../components';
 
-const { Welcome } = Views;
+const { WelcomeBack, ImportWallet } = Views;
 
 const UnAuthRoutes = [
     {
-        path: '/',
-        Component: Welcome,
+        path: '/welcomeBack',
+        Component: WelcomeBack,
+    },
+    {
+        path: '/ImportWallet',
+        Component: ImportWallet,
     },
 ];
 
 const AuthRoutes = [
     {
-        path: '/',
-        Component: Welcome,
+        path: '/welcomeBack',
+        Component: WelcomeBack,
     },
 ];
 
