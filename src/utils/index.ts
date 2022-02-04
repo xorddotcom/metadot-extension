@@ -1,8 +1,8 @@
-import routes from './routing';
 import colors from './colors';
 import fonts from './fonts';
 import dimension from './dimension';
 import accounts from './accounts';
 import helpers from './helpers';
+import routes from './routing';
 
-export { routes, colors, fonts, dimension, accounts, helpers };
+export { colors, fonts, dimension, accounts, helpers, routes };

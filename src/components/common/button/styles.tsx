@@ -1,8 +1,9 @@
-import { styled } from '@mui/material/styles';
 import React from 'react';
 import MUIButton from '@mui/material/Button';
-import { colors, fonts, dimension } from '../../../utils';
+import { styled } from '@mui/material/styles';
 import { ButtonInterface } from './types';
+
+import { colors, fonts, dimension } from '../../../utils';
 
 const { primaryBackground } = colors;
 const { buttonFontSize } = fonts;

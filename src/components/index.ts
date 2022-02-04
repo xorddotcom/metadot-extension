@@ -1,4 +1,4 @@
 import Welcome from './welcome';
 import WelcomeBack from './welcomeback';
 
-export { Welcome, WelcomeBack };
+export default { Welcome, WelcomeBack };

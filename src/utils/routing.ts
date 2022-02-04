@@ -1,16 +1,18 @@
-import { WelcomeBack } from '../components';
+import Views from '../components';
+
+const { Welcome } = Views;
 
 const UnAuthRoutes = [
     {
-        path: '/welcomeBack',
-        Component: WelcomeBack,
+        path: '/',
+        Component: Welcome,
     },
 ];
 
 const AuthRoutes = [
     {
-        path: '/welcomeBack',
-        Component: WelcomeBack,
+        path: '/',
+        Component: Welcome,
     },
 ];
 

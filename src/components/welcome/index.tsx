@@ -2,17 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-
-import AddSharpIcon from '../../assets/images/icons/add.svg';
-import DownloadIcon from '../../assets/images/icons/download.svg';
-
-import AppLogo from '../../assets/images/logo.svg';
-import metaDot from '../../assets/images/metadot.svg';
+import { fonts, accounts } from '../../utils';
+import { MainHeading, SubHeading } from '../common/text';
 import Button from '../common/button';
 
-import { MainHeading, SubHeading } from '../common/text';
-import { fonts, accounts } from '../../utils';
 import './index.css';
+import AddSharpIcon from '../../assets/images/icons/add.svg';
+import DownloadIcon from '../../assets/images/icons/download.svg';
+import AppLogo from '../../assets/images/logo.svg';
+import metaDot from '../../assets/images/metadot.svg';
 
 const { subHeadingfontFamilyClass } = fonts;
 const { GenerateSeedPhrase } = accounts;

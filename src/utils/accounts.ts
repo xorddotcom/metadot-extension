@@ -7,10 +7,16 @@ function GenerateSeedPhrase(): string {
     return seed;
 }
 
-function validatingSeedPhrase(seedPhrase: string): Promise<boolean> {
+function validatingSeedPhrase(seedPhrase: string): Promise<unknown> {
     const resp = true;
-    // message pass for seed validation
-    return resp;
+
+    const myPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve('foo');
+        }, 300);
+    });
+
+    return myPromise;
 }
 
 function getJsonBackup(address: string, password: string): any {

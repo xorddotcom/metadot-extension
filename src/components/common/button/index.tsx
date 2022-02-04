@@ -1,8 +1,7 @@
 import React from 'react';
-
 import CircularProgress from '@mui/material/CircularProgress';
-import { dimension, colors } from '../../../utils';
 import { Props, ButtonInterface } from './types';
+import { dimension, colors } from '../../../utils';
 import { Button } from './styles';
 
 const CButton: React.FunctionComponent<Props> = ({
@@ -58,5 +57,4 @@ const CButton: React.FunctionComponent<Props> = ({
         </div>
     );
 };
-
 export default CButton;

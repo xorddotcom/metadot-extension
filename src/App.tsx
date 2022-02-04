@@ -1,17 +1,17 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClientProvider, QueryClient } from 'react-query';
-import { useSelector } from 'react-redux';
 import { RootState } from './redux/store';
 import './App.css';
-
-import { Welcome, WelcomeBack } from './components';
 import { routes } from './utils';
+import Views from './components';
 
 function App(): JSX.Element {
+    const { AuthRoutes, UnAuthRoutes } = routes;
+    const { Welcome, WelcomeBack } = Views;
     const { activeAccount } = useSelector((state: RootState) => state);
     const queryClient = new QueryClient();
-    const { AuthRoutes, UnAuthRoutes } = routes;
 
     let content;
     if (!activeAccount.isLoggedIn && activeAccount.publicKey) {
@@ -23,9 +23,11 @@ function App(): JSX.Element {
                     {AuthRoutes.map((route) => {
                         const { path, Component } = route;
                         return (
-                            <Route path={path} key={path}>
-                                <Component />
-                            </Route>
+                            <Route
+                                key={path}
+                                path={path}
+                                element={<Component />}
+                            />
                         );
                     })}
                 </QueryClientProvider>
@@ -34,15 +36,11 @@ function App(): JSX.Element {
     } else {
         content = (
             <>
-                <Route path="/">
-                    <Welcome />
-                </Route>
+                <Route path="/" element={<Welcome />} />;
                 {UnAuthRoutes.map((route) => {
                     const { path, Component } = route;
                     return (
-                        <Route path={path} key={path}>
-                            <Component />
-                        </Route>
+                        <Route key={path} path={path} element={<Component />} />
                     );
                 })}
             </>
@@ -50,11 +48,9 @@ function App(): JSX.Element {
     }
 
     return (
-        <Router>
-            <div className="App">
-                <Routes>{content}</Routes>
-            </div>
-        </Router>
+        <div className="App">
+            <Routes>{content}</Routes>
+        </div>
     );
 }
 
