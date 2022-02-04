@@ -48,6 +48,9 @@ import { fonts, colors } from '../../../utils';
 import accounts from '../../../utils/accounts';
 import ImportIcon from '../../../assets/images/modalIcons/import.svg';
 import AuthScreen from '../../../components/modals/authorization';
+import services from '../../../utils/services';
+
+const { addressMapper } = services;
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { primaryText, darkBackground1 } = colors;
@@ -69,7 +72,7 @@ function ImportWallet() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { jsonFileUploadScreen } = useSelector((state) => state.activeAccount);
+  const { jsonFileUploadScreen, prefix } = useSelector((state) => state.activeAccount);
   const params = useParams();
 
   const accounts = useSelector((state) => state.accounts);
@@ -191,9 +194,13 @@ function ImportWallet() {
 
   const saveAccountInRedux = (add, name, pass) => {
     console.log('params-------', add, name, pass);
+    const publicKeyOfRespectiveChain = addressMapper(add, prefix);
+    console.log('In multiple accounts publick key of respective chain [][][]', { pk }, publicKeyOfRespectiveChain);
+    // dispatch(setSeed(account.seed));
+    dispatch(setPublicKey(publicKeyOfRespectiveChain));
     // update redux data and tracking flags accordingly
     dispatch(setLoggedIn(true));
-    dispatch(setPublicKey(add));
+    // dispatch(setPublicKey(add));
     dispatch(setAccountName(name));
     // dispatch(setWalletPassword(hashedPassword));
 

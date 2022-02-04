@@ -63,6 +63,9 @@ export const activeAccountSlice = createSlice({
     setJsonFileUploadScreen: (state, action) => {
       state.jsonFileUploadScreen = action.payload;
     },
+    setPrefix: (state, action) => {
+      state.prefix = action.payload;
+    },
   },
 });
 
@@ -80,6 +83,7 @@ export const {
   deleteRedux,
   setKeyringInitialized,
   setJsonFileUploadScreen,
+  setPrefix,
 } = activeAccountSlice.actions;
 
 export default activeAccountSlice.reducer;
