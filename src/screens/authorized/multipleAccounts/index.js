@@ -22,6 +22,9 @@ import DrivedAccountList from './drivedAccount';
 import { helpers } from '../../../utils';
 import accounts from '../../../utils/accounts';
 import { resetTransactions } from '../../../redux/slices/transactions';
+import services from '../../../utils/services';
+
+const { addressMapper } = services;
 
 const { GenerateSeedPhrase } = accounts;
 
@@ -31,6 +34,7 @@ function MultipleAccounts(props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const allAccounts = useSelector((state) => state.accounts);
+  const { prefix } = useSelector((state) => state.activeAccount);
 
   const [seedToPass, setSeedToPass] = useState('');
   const [derivedDropDown, setDerivedDropDown] = useState(true);
@@ -107,8 +111,10 @@ function MultipleAccounts(props) {
   }, [allAccounts]);
 
   const accountActive = (pk, name) => {
+    const publicKeyOfRespectiveChain = addressMapper(pk, prefix);
+    console.log('In multiple accounts publick key of respective chain [][][]', { pk }, publicKeyOfRespectiveChain);
     // dispatch(setSeed(account.seed));
-    dispatch(setPublicKey(pk));
+    dispatch(setPublicKey(publicKeyOfRespectiveChain));
     dispatch(setAccountName(name));
     dispatch(resetTransactions());
     history.push('/');

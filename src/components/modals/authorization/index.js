@@ -86,7 +86,14 @@ function AuthModal({
     width: '110px',
     height: '40px',
     fontSize: '0.8rem',
-    handleClick: handleClose,
+    handleClick: () => {
+      setPassword('');
+      handleClose();
+    },
+  };
+
+  const test = () => {
+    console.log('Running');
   };
 
   const btnS = {

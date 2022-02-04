@@ -26,6 +26,7 @@ import {
   setPublicKey,
   resetAccountSlice,
   setJsonFileUploadScreen,
+  setPrefix
 } from '../../../redux/slices/activeAccount';
 
 import {
@@ -342,12 +343,13 @@ function Dashboard(props) {
         currentData: BetaNetworks,
       });
     } else if (rpcUrl !== data.rpcUrl) {
+      console.log('Change network ======>>>>>')
       dispatch(setApiInitializationStarts(true)); // for showing loading waves like preloader
       if (window.navigator.onLine) {
         dispatch(setLoadingForApi(true));
         dispatch(setRpcUrl({ rpcUrl: data.rpcUrl }));
         dispatch(setChainName({ chainName: data.name }));
-        // eslint-disable-next-line max-len
+        dispatch(setPrefix( data.prefix ));
         const publicKeyOfRespectiveChain = addressMapper(currentUser.activeAccount.publicKey, data.prefix);
         dispatch(setPublicKey(publicKeyOfRespectiveChain));
 
