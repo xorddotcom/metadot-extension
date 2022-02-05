@@ -1,22 +1,18 @@
-import { cryptoWaitReady, mnemonicGenerate } from '@polkadot/util-crypto';
+import { mnemonicGenerate } from '@polkadot/util-crypto';
 import keyring from '@polkadot/ui-keyring';
 import { UnlockPairReturnType } from './types';
+import { validateSeed } from '../messaging';
 
 function GenerateSeedPhrase(): string {
     const seed = mnemonicGenerate(12);
     return seed;
 }
 
-function validatingSeedPhrase(seedPhrase: string): Promise<unknown> {
-    const resp = true;
-
-    const myPromise = new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve('foo');
-        }, 300);
-    });
-
-    return myPromise;
+async function validatingSeedPhrase(
+    seedPhrase: string
+): Promise<{ address: string; suri: string }> {
+    const validated = await validateSeed(seedPhrase);
+    return validated;
 }
 
 function getJsonBackup(address: string, password: string): any {

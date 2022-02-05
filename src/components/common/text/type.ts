@@ -21,7 +21,6 @@ export interface WarningTextInterface {
     visibility?: boolean;
     ml?: string;
     mb?: string;
-    className?: string;
 }
 
 export interface MainTextInterface {

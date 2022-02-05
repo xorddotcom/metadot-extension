@@ -193,57 +193,32 @@ function ImportWallet(): JSX.Element {
     //     setPassword(e.target.value);
     // };
 
-    const validateSeed = async (): Promise<boolean | unknown | string> => {
-        const { minimumWords, maxWords, seedDoesnotExist } =
-            invalidSeedMessages;
-
-        let isErrorOccur = '';
-
+    const importAccountFromSeed = async (): Promise<void> => {
         try {
+            const { minimumWords, maxWords, seedDoesnotExist } =
+                invalidSeedMessages;
+
             if (seedPhrase.split(' ').length > 12) {
-                isErrorOccur = maxWords;
                 setInvalidSeedMessage(maxWords);
-                return maxWords;
+                return;
             }
 
             if (seedPhrase.split(' ').length < 12) {
-                isErrorOccur = minimumWords;
                 setInvalidSeedMessage(minimumWords);
-                return minimumWords;
+                return;
             }
-            const res = validatingSeedPhrase(seedPhrase);
-            res.then((r) => {
-                console.log('r value', r);
-                if (r) {
-                    console.log('r in if ');
-                    navigate('/createWallet', {
-                        state: { seedToPass: seedPhrase },
-                    });
-                } else if (!isErrorOccur) {
-                    console.log('r in else if ');
-                    setInvalidSeedMessage(seedDoesnotExist);
-                }
-            }).catch((e) => console.log('err', e));
 
-            return true;
+            const res = await validatingSeedPhrase(seedPhrase);
+            if (res) {
+                navigate('/createWallet', {
+                    state: { seedToPass: seedPhrase },
+                });
+            } else {
+                setInvalidSeedMessage(seedDoesnotExist);
+                return;
+            }
         } catch (err) {
-            console.log('error in import wallet', err);
-            const res = validatingSeedPhrase(seedPhrase);
-            res.then((r) => {
-                console.log('r value', r);
-                if (r) {
-                    console.log('r in if ');
-
-                    navigate('/createWallet', {
-                        state: { seedToPass: seedPhrase },
-                    });
-                } else if (!isErrorOccur) {
-                    console.log('r in else if ');
-                    setInvalidSeedMessage(seedDoesnotExist);
-                }
-            }).catch((e) => console.log('err', e));
-
-            return err;
+            console.log('errr', err);
         }
     };
 
@@ -319,7 +294,7 @@ function ImportWallet(): JSX.Element {
                 // Import account with message passing
                 // proceedToImportAccount();
             } else {
-                validateSeed();
+                importAccountFromSeed();
             }
         },
         disabled: seedPhrase.length === 0 && password.length === 0,

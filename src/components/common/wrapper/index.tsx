@@ -84,3 +84,12 @@ export const UnAuthScreensContentWrapper = styled(
     margin: 17px auto 25px;
     margin-bottom: ${(props) => (props.mb ? props.mb : '2rem')};
 `;
+
+export const LabelAndTextWrapper = styled.div`
+    width: 100%;
+    min-height: ${(props: { minHeight: string; marginTop: string }) =>
+        props.minHeight ? props.minHeight : '103px'};
+    margin-top: ${(props: { minHeight: string; marginTop: string }) =>
+        props.marginTop && props.marginTop};
+    position: relative;
+`;
