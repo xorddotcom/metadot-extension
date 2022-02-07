@@ -196,13 +196,16 @@ function MultipleAccounts(props) {
             };
 
             const derivedChild = () => {
+              // const publicKeyOfRespectiveChain = addressMapper(pk, prefix);
               // eslint-disable-next-line no-plusplus
               for (let i = 0; i < userAccounts.childAccounts.length; i++) {
                 const childAccountActive = () => {
                   console.log('Testing something child==>>', userAccounts.childAccounts[i]);
+                  const publicKeyOfRespectiveChain = addressMapper(userAccounts.childAccounts[i].publicKey, prefix);
                   // dispatch(setSeed(userAccounts.childAccounts[i].seed));
-                  dispatch(setPublicKey(userAccounts.childAccounts[i].publicKey));
+                  dispatch(setPublicKey(publicKeyOfRespectiveChain));
                   dispatch(setAccountName(userAccounts.childAccounts[i].accountName));
+                  // dispatch(resetTransactions());
                   history.push('/');
                 };
 

@@ -32,6 +32,8 @@ import {
 import ImportIcon from '../../../assets/images/modalIcons/import.svg';
 import { addAccount } from '../../../redux/slices/accounts';
 
+import services from '../../../utils/services';
+
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
 const {
@@ -46,6 +48,8 @@ const passwordErrorMessages = {
 
 const { minimumCharacterWarning, didnotMatchWarning, passwordValidation } = passwordErrorMessages;
 
+const { getBalance, addressMapper } = services;
+
 function CreateDerivedAccount() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -59,7 +63,7 @@ function CreateDerivedAccount() {
   console.log('--------------------------------');
 
   // eslint-disable-next-line no-unused-vars
-  const { seed } = useSelector((state) => state.activeAccount);
+  const { seed, prefix } = useSelector((state) => state.activeAccount);
 
   const [walletName, setWalletName] = useState('');
   const [isValidWalletName, setIsValidWalletName] = useState(false);
@@ -119,10 +123,12 @@ function CreateDerivedAccount() {
   // };
 
   const saveAccountInRedux = (add, name) => {
+    const publicKeyOfRespectiveChain = addressMapper(add, prefix);
+    console.log('In multiple accounts publick key of respective chain [][][]', publicKeyOfRespectiveChain);
     // update redux data and tracking flags accordingly
     console.log('hellow ww', { add, name });
     dispatch(setLoggedIn(true));
-    dispatch(setPublicKey(add));
+    dispatch(setPublicKey(publicKeyOfRespectiveChain));
     dispatch(setAccountName(name));
     // dispatch(setWalletPassword(hashedPassword));
 

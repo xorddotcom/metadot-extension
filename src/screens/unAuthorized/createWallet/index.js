@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
+// import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 import {
   AuthWrapper,
   Header,
@@ -28,6 +29,9 @@ import {
 import ImportIcon from '../../../assets/images/modalIcons/import.svg';
 import AccountCreate from '../../../assets/images/modalIcons/accountCreate.svg';
 import { addAccount } from '../../../redux/slices/accounts';
+import services from '../../../utils/services';
+
+const { addressMapper } = services;
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
@@ -69,7 +73,7 @@ function CreateWallet() {
   console.log('Parent Key ---------->', parentKey);
 
   // eslint-disable-next-line no-unused-vars
-  const { seed } = useSelector((state) => state.activeAccount);
+  const { seed, prefix } = useSelector((state) => state.activeAccount);
 
   const [walletName, setWalletName] = useState('');
   const [isValidWalletName, setIsValidWalletName] = useState(false);
@@ -124,9 +128,14 @@ function CreateWallet() {
   };
 
   const saveAccountInRedux = (add, name) => {
-    // update redux data and tracking flags accordingly
+    console.log('save acc in redux', add, name, prefix);
+    const publicKeyOfRespectiveChain = addressMapper(
+      add, prefix,
+    );
+    console.log('public key of respective chain', publicKeyOfRespectiveChain);
+    dispatch(setPublicKey(publicKeyOfRespectiveChain));
     dispatch(setLoggedIn(true));
-    dispatch(setPublicKey(add));
+    // dispatch(setPublicKey(add));
     dispatch(setAccountName(name));
     // dispatch(setWalletPassword(hashedPassword));
 
@@ -174,7 +183,7 @@ function CreateWallet() {
         return;
       }
       const res = await createAccount(walletName, password, currSeed);
-
+      console.log('Debug response [][]', res);
       await saveAccountInRedux(res.address, walletName);
       dispatch(setLoadingForApi(false));
       setIsLoading(false);

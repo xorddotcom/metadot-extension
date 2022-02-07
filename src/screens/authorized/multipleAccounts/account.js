@@ -35,7 +35,9 @@ import {
 import { DerivedAccountModal } from '../../../components/modals';
 import { AuthModal } from '../../../components';
 import AccountDropDown from './accountDropDown';
+import services from '../../../utils/services';
 
+const { addressMapper } = services;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { getJsonBackup } = accountUtils;
 
@@ -121,7 +123,8 @@ const AccountList = ({
       dispatch(setPublicKey(''));
       dispatch(setAccountName(''));
       // dispatch(setSeed(Object.values(accounts)[0].seed));
-      dispatch(setPublicKey(Object.values(accounts)[0].publicKey));
+      const publicKeyOfRespectiveChain = addressMapper(Object.values(accounts)[0].publicKey, activeAccount.prefix);
+      dispatch(setPublicKey(publicKeyOfRespectiveChain));
       dispatch(setAccountName(Object.values(accounts)[0].accountName));
       history.push('/');
     }

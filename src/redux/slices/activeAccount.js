@@ -16,7 +16,7 @@ const initialState = {
   balanceInUsd: 0,
   keyringInitialized: false,
   jsonFileUploadScreen: false,
-  prefix: 5,
+  prefix: 42,
 };
 
 export const activeAccountSlice = createSlice({
