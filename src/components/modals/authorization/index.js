@@ -127,7 +127,17 @@ function AuthModal({
               Password
             </MainText>
 
-            <StyledInput id="auth-password" typePassword rightIcon {...styledInput} />
+            <StyledInput
+              id="auth-password"
+              fullWidth="71%"
+              inputWrapperWidth="100%"
+              mr="1.2rem"
+              typePassword
+              rightIcon
+              {...styledInput}
+              style={{ paddingLeft: '10px !important' }}
+            />
+
             <WarningText
               className={subHeadingfontFamilyClass}
               visibility={!!passwordError}

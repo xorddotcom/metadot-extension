@@ -123,17 +123,14 @@ const CustomUploadFile = (props) => {
     className: subHeadingfontFamilyClass,
     value: password,
     height: '14px',
-    fullWidth: '267px',
     onChange: (t) => {
       setPasswordError(false);
       // eslint-disable-next-line no-unused-expressions
-      t.length < 20 && setPassword(t);
+      setPassword(t);
     },
     hideHandler: () => setShowPassword(!showPassword),
     hideState: showPassword,
     disabled: !pair,
-    rightAbsPosition: true,
-    leftAbsPosition: true,
   };
 
   console.log('pass ------', { password });
@@ -144,7 +141,7 @@ const CustomUploadFile = (props) => {
         {/*  our custom upload button --> */}
         <UploadFile htmlFor="actual-btn" onClick={() => handleClick('select')}>
 
-          <HorizontalContentDiv>
+          <HorizontalContentDiv width="91%">
 
             <img src={UploadFileIcon} alt="upload-file-icon" style={{ marginRight: '1rem' }} />
             <div>{!isFilePicked ? 'Choose File' : fileName.name.length > 20 ? `${fileName.name.slice(0, 8)}...${fileName.name.slice(fileName.name.length - 8, fileName.name.length)}` : fileName.name}</div>
@@ -181,7 +178,9 @@ const CustomUploadFile = (props) => {
           Password
         </SubHeading>
         <StyledInput
+          inputWrapperWidth="87%"
           id="password"
+          fullWidth="68%"
           {...styledInputPassword}
           typePassword
           isCorrect

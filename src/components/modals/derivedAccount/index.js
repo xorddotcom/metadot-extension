@@ -141,7 +141,7 @@ function DerivedAccountModal({
               Password
             </MainText>
 
-            <StyledInput id="auth-password" typePassword rightIcon {...styledInput} />
+            <StyledInput id="auth-password" fullWidth="76%" typePassword rightIcon {...styledInput} />
             <WarningText {...warningText}>
               {passwordError}
             </WarningText>
@@ -152,6 +152,7 @@ function DerivedAccountModal({
               Derivation Path
             </MainText>
             <StyledInput
+              fullWidth="76%"
               id="derived-seed"
               rightIconLock
               disabled

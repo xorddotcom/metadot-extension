@@ -35,14 +35,14 @@ export const Option = styled.p`
 export const UploadFileDiv = styled.div`
   margin-top: 30px;
   margin-left: 0.6rem;
-  width: 80%;
+  width: 100%;
 `;
 
 export const UploadFile = styled.label`
   background-color: ${darkBackground1};
   color: ${primaryText};
   padding: 0.6rem 1rem;
-  width: 254px;
+  width: 76%;
   height: 14px;
   font-weight: 500;
   font-size: 14px;

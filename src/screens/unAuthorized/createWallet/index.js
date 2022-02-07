@@ -281,6 +281,7 @@ function CreateWallet() {
           <StyledInput
             id="password"
             {...styledInputPassword}
+            fullWidth="76%"
             typePassword
             isCorrect
             rightIcon
@@ -325,6 +326,7 @@ function CreateWallet() {
           <StyledInput
             id="confirm-password"
             {...styledInputConfirmPass}
+            fullWidth="76%"
             typePassword
             rightIcon
             isCorrect
