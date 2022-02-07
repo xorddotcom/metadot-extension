@@ -15,6 +15,13 @@ export const Wrapper = styled.div`
     padding: 18px 20px 8px;
 `;
 
+export const MainDiv = styled.div`
+    margin-top: ${(props: { mt?: string; mb?: string }) =>
+        props.mt ? props.mt : '34px'};
+    margin-bottom: ${(props: { mt?: string; mb?: string }) =>
+        props.mb ? props.mb : '34px'};
+`;
+
 const HorizontalContentDivPropsInterfaceWrapper: React.FunctionComponent<
     HorizontalContentInterface
 > = ({ children }) => {
