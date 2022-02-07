@@ -24,10 +24,10 @@ export const Wrapper = styled(WrapperPropsInterfaceWrapper)`
     margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
 `;
 
-const FieldPropsInterfaceWrapper: React.FunctionComponent<
-    FieldInterface
-> = () => {
-    return <input />;
+const FieldPropsInterfaceWrapper: React.FunctionComponent<FieldInterface> = ({
+    disabled,
+}) => {
+    return <input disabled={disabled} />;
 };
 export const Field = styled(FieldPropsInterfaceWrapper)`
     /* padding-left: 25px; */

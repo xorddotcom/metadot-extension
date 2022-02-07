@@ -7,6 +7,7 @@ export interface MainHeadingInterface {
 
 export interface SubHeadingInterface {
     className?: string;
+    textLightColor?: boolean;
     textAlign?: string;
     textAlignLast?: string;
     lineHeight?: string;

@@ -31,6 +31,7 @@ const Input: React.FunctionComponent<Props> = ({
     mr,
     rightAbsPosition,
     leftAbsPosition,
+    disabled,
 }) => {
     const blockChar = (ev: React.KeyboardEvent): void => {
         const arr = ['e', 'E', '+', '-'];
@@ -53,6 +54,7 @@ const Input: React.FunctionComponent<Props> = ({
             onChange(e.target.value);
         },
         isCorrect,
+        disabled,
     };
 
     return (

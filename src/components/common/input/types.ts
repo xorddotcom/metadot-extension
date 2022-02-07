@@ -14,6 +14,7 @@ export interface FieldInterface {
     onKeyDown(e: React.KeyboardEvent): void;
     onChange(e: React.ChangeEvent<HTMLInputElement>): void;
     isCorrect?: boolean;
+    disabled?: boolean;
 }
 
 export interface IconInterface {
@@ -23,6 +24,7 @@ export interface IconInterface {
 }
 
 export interface Props {
+    className?: string;
     placeholder: string;
     onChange(v: string): void;
     value: string;
@@ -36,8 +38,8 @@ export interface Props {
     height?: string;
     rightIcon?: string | boolean;
     typePassword?: boolean;
-    hideHandler(): void;
-    hideState: boolean;
+    hideHandler?(): void;
+    hideState?: boolean;
     marginBottom?: string;
     maxlength?: string;
     blockInvalidChar?: string;
@@ -46,4 +48,5 @@ export interface Props {
     mr?: string;
     rightAbsPosition?: boolean;
     leftAbsPosition?: boolean;
+    disabled?: boolean;
 }
