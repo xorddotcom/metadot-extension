@@ -25,12 +25,12 @@ export interface IconInterface {
 
 export interface Props {
     className?: string;
-    placeholder: string;
+    placeholder?: string;
     onChange(v: string): void;
     value: string;
     rightIconCross?: string;
     rightIconCrossClickHandler?(): void;
-    rightIconLock?: string;
+    rightIconLock?: boolean;
     isCorrect?: boolean;
     type?: string;
     fullWidth?: string;

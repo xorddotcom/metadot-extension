@@ -13,6 +13,7 @@ export interface UnAuthScreensContentInterface {
 }
 export interface VerticalContentDivPropsInterface {
     marginTop?: string;
+    marginBottom?: string;
     border?: string;
     specialPadding?: string;
 }

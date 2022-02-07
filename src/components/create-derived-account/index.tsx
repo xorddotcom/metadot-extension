@@ -118,8 +118,6 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
         setTimeout(() => {
             dispatch(setIsResponseModalOpen(false));
         }, 2500);
-
-        // navigate to dashboard on success
     };
 
     const handleContinue = async (): Promise<void> => {

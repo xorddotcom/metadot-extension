@@ -53,6 +53,7 @@ export const VerticalContentDiv = styled(
     display: flex;
     flex-direction: column;
     margin-top: ${(props) => props.marginTop && props.marginTop};
+    margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
     ${(props) =>
         props.border &&
         css`

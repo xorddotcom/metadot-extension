@@ -1,5 +1,5 @@
 export interface AuthtModalProps {
-    open: true;
+    open: boolean;
     handleClose(): void;
     style: object;
     onConfirm(publicKey: string, password: string, sender: object): void;
