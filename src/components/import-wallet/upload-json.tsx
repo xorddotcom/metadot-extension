@@ -91,8 +91,7 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
         fullWidth: '267px',
         onChange: (t: string) => {
             setPasswordError(false);
-            // eslint-disable-next-line no-unused-expressions
-            t.length < 20 && setPassword(t);
+            if (t.length < 20) setPassword(t);
         },
         hideHandler: () => setShowPassword(!showPassword),
         hideState: showPassword,

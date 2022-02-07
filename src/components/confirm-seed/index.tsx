@@ -17,10 +17,10 @@ const {
 const fourRandomIndexes = arrayOfFourRandomNumbers();
 
 const ConfirmSeed: React.FunctionComponent = () => {
-    const navigate: any = useNavigate();
-    const location: any = useLocation();
+    const navigate = useNavigate();
+    const location = useLocation().state as { seedToPass: string };
 
-    const currSeed = location.state.seedToPass;
+    const currSeed = location.seedToPass;
 
     const shuffledSeed = shuffleItemsWithinArray(
         arrayFromSeedSentence(currSeed)

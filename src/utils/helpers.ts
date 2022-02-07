@@ -32,8 +32,7 @@ function shuffleItemsWithinArray(array: Array<string>): Array<string> {
     while (currentIndex !== 0) {
         // Pick a remaining element...
         randomIndex = Math.floor(Math.random() * currentIndex);
-        // eslint-disable-next-line no-plusplus
-        currentIndex--;
+        currentIndex -= 1;
 
         // And swap it with the current element.
         // eslint-disable-next-line no-param-reassign
@@ -92,8 +91,7 @@ function isUserNameValid(username: string): boolean {
     - Dots (.)
     - Underscores (_)
   */
-    // eslint-disable-next-line no-useless-escape
-    const res = /^[a-zA-Z0-9_\.]+$/.exec(username);
+    const res = /^[a-zA-Z0-9_.]+$/.exec(username);
     const valid = !!res;
     return valid;
 }

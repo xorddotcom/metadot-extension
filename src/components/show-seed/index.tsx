@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ContentCopyIcon from '../../assets/images/icons/copyIcon.svg';
@@ -27,7 +25,7 @@ const SinglePhrase: React.FunctionComponent<{
 
 const ShowSeed: React.FunctionComponent = () => {
     const navigate: any = useNavigate();
-    const location: any = useLocation();
+    const location = useLocation().state as { seedToPass: string };
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [copy, setCopy] = useState('Copy');
@@ -35,7 +33,7 @@ const ShowSeed: React.FunctionComponent = () => {
     let currSeed = '';
 
     if (navigate.entries[navigate.entries.length - 2].pathname === '/') {
-        currSeed = location.state.seedToPass && location.state.seedToPass;
+        currSeed = location.seedToPass && location.seedToPass;
     }
 
     if (
@@ -43,7 +41,7 @@ const ShowSeed: React.FunctionComponent = () => {
             '/accounts' ||
         navigate.entries[navigate.entries.length - 2].pathname === '/ShowSeed'
     ) {
-        currSeed = location.state.seedToPass && location.state.seedToPass;
+        currSeed = location.seedToPass && location.seedToPass;
     }
 
     const copySeedText = (): void => {
@@ -70,7 +68,7 @@ const ShowSeed: React.FunctionComponent = () => {
         handleClose: () => setIsModalOpen(false),
         onConfirm: () => {
             navigate('/ConfirmSeed', {
-                state: { seedToPass: location.state.seedToPass },
+                state: { seedToPass: location.seedToPass },
             });
         },
         style: {

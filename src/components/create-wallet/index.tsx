@@ -44,7 +44,10 @@ const { minimumCharacterWarning, didnotMatchWarning, passwordValidation } =
 const CreateWallet: React.FunctionComponent = () => {
     const dispatch = useDispatch();
     const navigate: any = useNavigate();
-    const location: any = useLocation();
+    const location = useLocation().state as {
+        seedToPass: string;
+        parentKey: string;
+    };
 
     const operation =
         navigate.routeNames[navigate.entries.length - 2].pathname ===
@@ -52,8 +55,8 @@ const CreateWallet: React.FunctionComponent = () => {
             ? 'Imported'
             : 'Created';
 
-    const currSeed = location.state.seedToPass && location.state.seedToPass;
-    const parentKey = location.state.parentKey && location.state.parentKey;
+    const currSeed = location.seedToPass && location.seedToPass;
+    const parentKey = location.parentKey && location.parentKey;
     console.log('Parent Key ---------->', parentKey);
 
     const [walletName, setWalletName] = useState('');
@@ -170,8 +173,7 @@ const CreateWallet: React.FunctionComponent = () => {
         value: walletName,
         onChange: (t: string) => {
             setIsValidWalletName(false);
-            // eslint-disable-next-line no-unused-expressions
-            t.length < 20 && setWalletName(t.replace(/[^A-Z0-9]/gi, ''));
+            if (t.length < 20) setWalletName(t.replace(/[^A-Z0-9]/gi, ''));
         },
     };
 
@@ -182,8 +184,7 @@ const CreateWallet: React.FunctionComponent = () => {
         height: '15px',
         onChange: (t: string) => {
             setPasswordError('');
-            // eslint-disable-next-line no-unused-expressions
-            t.length < 20 && setPassword(t);
+            if (t.length < 20) setPassword(t);
         },
         hideHandler: () => setShowPassword(!showPassword),
         hideState: showPassword,
@@ -196,8 +197,7 @@ const CreateWallet: React.FunctionComponent = () => {
         height: '15px',
         onChange: (t: string) => {
             setPasswordError('');
-            // eslint-disable-next-line no-unused-expressions
-            t.length < 20 && setConfirmPassword(t);
+            if (t.length < 20) setConfirmPassword(t);
         },
         hideHandler: () => setShowConfirmPassword(!showConfirmPassword),
         hideState: showConfirmPassword,

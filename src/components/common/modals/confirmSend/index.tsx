@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
@@ -67,10 +66,10 @@ const ConfirmSend: React.FunctionComponent<ConfirmSendModalProps> = ({
                 <CloseIconDiv
                     id="close-icon"
                     onClick={() => {
-                        // eslint-disable-next-line no-unused-expressions
-                        loading2
-                            ? console.log('tx is going on...')
-                            : handleClose();
+                        if (loading2) console.log('tx is going on...');
+                        else {
+                            handleClose();
+                        }
                     }}
                 >
                     <CloseIcon />

@@ -43,17 +43,14 @@ const { minimumCharacterWarning, didnotMatchWarning, passwordValidation } =
 
 const CreateDerivedAccount: React.FunctionComponent = () => {
     const dispatch = useDispatch();
-    const navigate: any = useNavigate();
-    const location: any = useLocation();
+    const navigate = useNavigate();
+    const location = useLocation().state as {
+        parentAddress: string;
+        parentPassword: string;
+    };
 
-    const parentPassword =
-        location.state.parentPassword && location.state.parentPassword;
-    const parentAddress =
-        navigate.state.parentAddress && location.state.parentAddress;
-    console.log('--------------------------------');
-    console.log('Parent Password ---------->', parentPassword);
-    console.log('Parent Address ---------->', parentAddress);
-    console.log('--------------------------------');
+    const parentPassword = location.parentPassword && location.parentPassword;
+    const parentAddress = location.parentAddress && location.parentAddress;
 
     const [walletName, setWalletName] = useState('');
     const [isValidWalletName, setIsValidWalletName] = useState(false);
@@ -167,8 +164,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
         value: walletName,
         onChange: (t: string) => {
             setIsValidWalletName(false);
-            // eslint-disable-next-line no-unused-expressions
-            t.length < 20 && setWalletName(t.replace(/[^A-Z0-9]/gi, ''));
+            if (t.length < 20) setWalletName(t.replace(/[^A-Z0-9]/gi, ''));
         },
     };
 
@@ -179,8 +175,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
         height: '15px',
         onChange: (t: string) => {
             setPasswordError('');
-            // eslint-disable-next-line no-unused-expressions
-            t.length < 20 && setPassword(t);
+            if (t.length < 20) setPassword(t);
         },
         hideHandler: () => setShowPassword(!showPassword),
         hideState: showPassword,
@@ -193,8 +188,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
         height: '15px',
         onChange: (t: string) => {
             setPasswordError('');
-            // eslint-disable-next-line no-unused-expressions
-            t.length < 20 && setConfirmPassword(t);
+            if (t.length < 20) setConfirmPassword(t);
         },
         hideHandler: () => setShowConfirmPassword(!showConfirmPassword),
         hideState: showConfirmPassword,
