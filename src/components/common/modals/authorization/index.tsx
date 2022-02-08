@@ -46,7 +46,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = ({
                 dispatch(setAuthScreenModal(false));
                 dispatch(setConfirmSendModal(true));
                 onConfirm(publicKey, password, sender);
-                setOpenAuthModal(false);
+                if (setOpenAuthModal) setOpenAuthModal(false);
                 return true;
             }
             throw new Error('Invalid password');

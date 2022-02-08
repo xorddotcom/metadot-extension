@@ -57,12 +57,12 @@ const AccountList: React.FunctionComponent<AccountListInterface> = ({
     const [selectedProject, setSelectedProject] =
         useState<{ publicKey: string; accountName: string; seed: string }>();
 
-    const isThisAParent =
-        childAccounts.filter(
-            (cAcc: { parentAddress: string }) =>
-                cAcc.parentAddress === account.publicKey
-        ).length > 0;
-    console.log('The account having name ', accountName, isThisAParent);
+    const isThisAParent = childAccounts
+        ? childAccounts.filter(
+              (cAcc: { parentAddress: string }) =>
+                  cAcc.parentAddress === account.publicKey
+          ).length > 0
+        : false;
 
     useEffect(() => {
         const checkIfClickedOutside = (e: Event): void => {
