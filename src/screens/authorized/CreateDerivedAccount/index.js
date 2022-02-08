@@ -235,7 +235,7 @@ function CreateDerivedAccount() {
     onChange: (t) => {
       setPasswordError('');
       // eslint-disable-next-line no-unused-expressions
-      t.length < 20 && setPassword(t);
+      setPassword(t);
     },
     hideHandler: () => setShowPassword(!showPassword),
     hideState: showPassword,
@@ -249,7 +249,7 @@ function CreateDerivedAccount() {
     onChange: (t) => {
       setPasswordError('');
       // eslint-disable-next-line no-unused-expressions
-      t.length < 20 && setConfirmPassword(t);
+      setConfirmPassword(t);
     },
     hideHandler: () => setShowConfirmPassword(!showConfirmPassword),
     hideState: showConfirmPassword,
@@ -301,10 +301,13 @@ function CreateDerivedAccount() {
           </SubHeading>
           <StyledInput
             id="password"
+            fullWidth="76%"
             {...styledInputPassword}
             typePassword
             isCorrect
             rightIcon
+            leftPosition="16px"
+            topPosition="2px"
           />
           {passwordError === minimumCharacterWarning && (
             <WarningText
@@ -346,10 +349,13 @@ function CreateDerivedAccount() {
           </SubHeading>
           <StyledInput
             id="confirm-password"
+            fullWidth="76%"
             {...styledInputConfirmPass}
             typePassword
             rightIcon
             isCorrect
+            leftPosition="16px"
+            topPosition="2px"
           />
           {/* {passwordError === minimumCharacterWarning && (
             <WarningText

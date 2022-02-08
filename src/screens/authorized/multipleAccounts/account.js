@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
+import { encodeAddress } from '@polkadot/util-crypto';
 import RemoveIcon from '../../../assets/images/icons/Remove.svg';
 import dropDownIcon from '../../../assets/images/icons/3Dots.svg';
 import derivedIcon from '../../../assets/images/icons/deriveAccount.svg';
@@ -116,21 +117,34 @@ const AccountList = ({
   }, [accounts]);
 
   const onOptionClicked = () => {
-    console.log('public key', { publicKey });
-    if (publicKeyy === activeAccount.publicKey) {
-      dispatch(deleteAccount(publicKeyy));
-      // dispatch(setSeed(''));
-      dispatch(setPublicKey(''));
-      dispatch(setAccountName(''));
-      // dispatch(setSeed(Object.values(accounts)[0].seed));
-      const publicKeyOfRespectiveChain = addressMapper(Object.values(accounts)[0].publicKey, activeAccount.prefix);
-      dispatch(setPublicKey(publicKeyOfRespectiveChain));
-      dispatch(setAccountName(Object.values(accounts)[0].accountName));
-      history.push('/');
-    }
+    console.clear();
+    console.log('mark1');
+    console.log('public key', { publicKey, publicKeyy });
+    console.log('activeAccount.publicKey', activeAccount.publicKey, 'encoded ->', encodeAddress(activeAccount.publicKey, 42), publicKeyy === encodeAddress(activeAccount.publicKey, 42));
+    console.log('mark3 this is going to delete', publicKeyy, Object.keys(accounts), Object.keys(accounts)[0] === publicKeyy);
+
     dispatch(deleteAccount(publicKeyy));
-    history.push('/');
-    setIsOpen(false);
+    if (publicKeyy === encodeAddress(activeAccount.publicKey, 42)) {
+      console.log('mark3 again this is going to delete', publicKeyy, Object.keys(accounts), Object.keys(accounts)[0] === publicKeyy);
+      if (Object.keys(accounts).length > 1) {
+        if (Object.keys(accounts)[0] !== publicKeyy) {
+          console.log('mark4 first this is going to SET', Object.values(accounts)[0].publicKey);
+          accountActive(Object.values(accounts)[0].publicKey, Object.values(accounts)[0].accountName);
+        } else {
+          console.log('mark4 second this is going to SET', Object.values(accounts)[1].publicKey);
+          accountActive(Object.values(accounts)[1].publicKey, Object.values(accounts)[1].accountName);
+        }
+      } else {
+        console.log('mark5 else ran becuz of Object.keys(accounts).length > 1 ', Object.keys(accounts).length > 1);
+        dispatch(resetAccountSlice());
+      }
+      history.push('/');
+      setIsOpen(false);
+    } else {
+      console.log('no need for swithcing');
+      history.push('/');
+      setIsOpen(false);
+    }
   };
 
   const downloadJson = async (address, password, sender = {}) => {
@@ -160,7 +174,7 @@ const AccountList = ({
         <AccountFlex>
           <AccountCircle />
           <AccountText
-            onClick={accountActive}
+            onClick={() => accountActive(publicKeyy, accountName)}
           >
             <AccountMainText
               className={mainHeadingfontFamilyClass}

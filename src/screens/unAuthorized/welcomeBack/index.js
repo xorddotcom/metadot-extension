@@ -66,10 +66,8 @@ function WelcomeBack() {
     placeholder: 'Enter Password',
     value: password,
     onChange: (t) => {
-      if (t.length < 40) {
         setPassword(t);
         setPasswordError('');
-      }
     },
     hideHandler: () => setShowPassword(!showPassword),
     hideState: showPassword,
@@ -95,7 +93,7 @@ function WelcomeBack() {
       </div>
 
       <div className="main-content-wb" style={{ minHeight: '136px' }}>
-        <MainHeading className={mainHeadingfontFamilyClass}>
+        <MainHeading className={mainHeadingfontFamilyClass} weight="bold">
           Welcome Back
         </MainHeading>
         <StyledInput

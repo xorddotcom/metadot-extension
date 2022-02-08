@@ -2,7 +2,9 @@
 import styled, { css } from 'styled-components';
 import { colors, fonts } from '../../utils';
 
-const { primaryText, secondaryText, warningText } = colors;
+const {
+  primaryText, secondaryText, warningText, darkBackground1,
+} = colors;
 const { mainHeadingFontSize, subHeadingFontSize, headerHeadingFontSize } = fonts;
 
 // ------------------ Asset cards styled components------------------ //
@@ -125,15 +127,18 @@ export const SubMainWrapperForAuthScreens = styled.div`
 `;
 
 export const TextInputWrapper = styled.div`
-  width: 100%;
+  width: ${(props) => (props.inputWrapperWidth ? props.inputWrapperWidth : '100%')};
   border: ${(props) => (props.isCorrect
     ? '0px'
     : props.isCorrect === false
       ? '1px solid red'
       : '0px')};
   border-radius: 8px;
-  position: relative;
+  background-color: ${darkBackground1};
   margin-bottom:${(props) => props.marginBottom && props.marginBottom};
+  display: flex;
+    align-items: center;
+    justify-content: start;
 `;
 
 // xxxxxxxxxx CommonComponents styled components xxxxxxxxxx //

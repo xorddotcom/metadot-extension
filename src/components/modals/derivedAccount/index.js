@@ -85,10 +85,8 @@ function DerivedAccountModal({
     fontSize: '9px',
     height: '20px',
     onChange: (t) => {
-      if (t.length < 38) {
-        setPassword(t);
-        setPasswordError('');
-      }
+      setPassword(t);
+      setPasswordError('');
     },
     hideHandler: () => setShowPassword(!showPassword),
     hideState: showPassword,
@@ -141,7 +139,15 @@ function DerivedAccountModal({
               Password
             </MainText>
 
-            <StyledInput id="auth-password" typePassword rightIcon {...styledInput} />
+            <StyledInput
+              id="auth-password"
+              fullWidth="76%"
+              typePassword
+              rightIcon
+              leftPosition="0px"
+              topPosition="0px"
+              {...styledInput}
+            />
             <WarningText {...warningText}>
               {passwordError}
             </WarningText>
@@ -152,8 +158,11 @@ function DerivedAccountModal({
               Derivation Path
             </MainText>
             <StyledInput
+              fullWidth="76%"
               id="derived-seed"
               rightIconLock
+              leftPosition="0px"
+              topPosition="2px"
               disabled
               {...input}
             />

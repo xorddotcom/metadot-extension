@@ -195,30 +195,42 @@ function ConfirmSeed() {
       <SubMainWrapperForAuthScreens mb="18px">
         <StyledInput
           id="word-1"
+          fullWidth="76%"
           disableUnderline
           {...styledInput1}
+          leftPosition="18px"
+          topPosition="3px"
           disabled
         />
 
         <StyledInput
           id="word-2"
+          fullWidth="76%"
           disableUnderline
           {...styledInput2}
           disabled
+          leftPosition="18px"
+          topPosition="3px"
         />
 
         <StyledInput
           id="word-3"
+          fullWidth="76%"
           disableUnderline
           {...styledInput3}
           disabled
+          leftPosition="18px"
+          topPosition="3px"
         />
 
         <StyledInput
           id="word-4"
+          fullWidth="76%"
           disableUnderline
           {...styledInput4}
           disabled
+          leftPosition="18px"
+          topPosition="3px"
         />
 
         <SeedGrid>

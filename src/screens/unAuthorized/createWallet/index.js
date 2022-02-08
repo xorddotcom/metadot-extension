@@ -281,9 +281,12 @@ function CreateWallet() {
           <StyledInput
             id="password"
             {...styledInputPassword}
+            fullWidth="76%"
             typePassword
             isCorrect
             rightIcon
+            leftPosition="15px"
+            topPosition="1px"
           />
           {passwordError === minimumCharacterWarning && (
             <WarningText
@@ -325,9 +328,12 @@ function CreateWallet() {
           <StyledInput
             id="confirm-password"
             {...styledInputConfirmPass}
+            fullWidth="76%"
             typePassword
             rightIcon
             isCorrect
+            leftPosition="15px"
+            topPosition="1px"
           />
           {/* {passwordError === minimumCharacterWarning && (
             <WarningText
