@@ -1,10 +1,11 @@
 export interface Account {
     publicKey: string;
     accountName: string;
+    parentAddress: string;
 }
 
 export interface Accounts {
-    account: { [key: string]: Account };
+    [key: string]: Account;
 }
 
 export interface Transaction {

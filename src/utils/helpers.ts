@@ -45,13 +45,13 @@ function shuffleItemsWithinArray(array: Array<string>): Array<string> {
     return array;
 }
 
-function addressModifier(address: string): string | null {
+function addressModifier(address: string): string | undefined {
     if (address)
         return `${address.slice(0, 5)}...${address.slice(
             address.length - 5,
             address.length
         )}`;
-    return null;
+    return undefined;
 }
 
 function validateAddress(
