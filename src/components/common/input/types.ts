@@ -10,7 +10,7 @@ export interface FieldInterface {
     height?: string;
     value: string;
     fullWidth?: string;
-    placeholder: string;
+    placeholder?: string;
     onKeyDown(e: React.KeyboardEvent): void;
     onChange(e: React.ChangeEvent<HTMLInputElement>): void;
     isCorrect?: boolean;
