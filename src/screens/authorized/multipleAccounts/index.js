@@ -175,6 +175,12 @@ function MultipleAccounts(props) {
 
   // return null;
 
+  const childAccountActive = (pk, name) => {
+    dispatch(setPublicKey(pk));
+    dispatch(setAccountName(name));
+    history.push('/');
+  };
+
   return (
     <Wrapper>
       <WrapperScroll>
@@ -188,7 +194,7 @@ function MultipleAccounts(props) {
               publicKey: addressModifier(account.publicKey),
               publicKeyy: account.publicKey,
               accountName: account.accountName,
-              accountActive: () => accountActive(account.publicKey, account.accountName),
+              accountActive,
               derivedChildAccount,
               account,
               derivedDropDown,
@@ -199,16 +205,6 @@ function MultipleAccounts(props) {
               // const publicKeyOfRespectiveChain = addressMapper(pk, prefix);
               // eslint-disable-next-line no-plusplus
               for (let i = 0; i < userAccounts.childAccounts.length; i++) {
-                const childAccountActive = () => {
-                  console.log('Testing something child==>>', userAccounts.childAccounts[i]);
-                  const publicKeyOfRespectiveChain = addressMapper(userAccounts.childAccounts[i].publicKey, prefix);
-                  // dispatch(setSeed(userAccounts.childAccounts[i].seed));
-                  dispatch(setPublicKey(publicKeyOfRespectiveChain));
-                  dispatch(setAccountName(userAccounts.childAccounts[i].accountName));
-                  // dispatch(resetTransactions());
-                  history.push('/');
-                };
-
                 if (
                   userAccounts.childAccounts[i].parentAddress === account.publicKey
                 ) {

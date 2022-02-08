@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { deleteAccount } from '../../../redux/slices/accounts';
 import {
+  resetAccountSlice,
   setAccountName,
   setPublicKey,
 } from '../../../redux/slices/activeAccount';
@@ -71,20 +72,30 @@ const DrivedAccountList = ({
   }, [isOpen]);
 
   const onOptionClicked = () => {
-    console.log('ran!!!!!', publicKey, activeAccount.publicKey);
+    console.clear();
+    console.log('mark1');
+    console.log('activeAccount.publicKey', activeAccount.publicKey, publicKey === activeAccount.publicKey);
+
+    console.log('mark3 this is going to delete', publicKey);
+    dispatch(deleteAccount(publicKey));
     if (publicKey === activeAccount.publicKey) {
-      dispatch(deleteAccount(publicKey));
-      // dispatch(setSeed(''));
-      dispatch(setPublicKey(''));
-      dispatch(setAccountName(''));
-      // dispatch(setSeed(Object.values(accounts)[0].seed));
-      dispatch(setPublicKey(Object.values(accounts)[0].publicKey));
-      dispatch(setAccountName(Object.values(accounts)[0].accountName));
+      if (Object.keys(accounts).length > 1) {
+        console.log('mark4 this is going to SET', Object.values(accounts)[0].publicKey);
+        childAccountActive(
+          Object.values(accounts)[0].publicKey, Object.values(accounts)[0].accountName,
+        );
+      } else {
+        console.log('mark5 else ran becuz of Object.keys(accounts).length > 1 ', Object.keys(accounts).length > 1);
+        dispatch(resetAccountSlice());
+      }
+      setIsOpen(false);
+
+      history.push('/');
+    } else {
+      console.log('no need for swithcing');
+      setIsOpen(false);
       history.push('/');
     }
-    dispatch(deleteAccount(publicKey));
-    // history.push('/');
-    setIsOpen(false);
   };
 
   // account dropdown
@@ -138,7 +149,9 @@ const DrivedAccountList = ({
           <Account margin="1rem 0">
             <AccountFlex>
               <AccountCircle />
-              <AccountText onClick={childAccountActive}>
+              <AccountText
+                onClick={() => childAccountActive(childAccount.publicKey, childAccount.accountName)}
+              >
                 <AccountMainText
                   className={mainHeadingfontFamilyClass}
                 >
