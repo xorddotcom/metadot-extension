@@ -198,7 +198,8 @@ function ConfirmSeed() {
           fullWidth="76%"
           disableUnderline
           {...styledInput1}
-          leftPosition="6px"
+          leftPosition="18px"
+          topPosition="3px"
           disabled
         />
 
@@ -208,7 +209,8 @@ function ConfirmSeed() {
           disableUnderline
           {...styledInput2}
           disabled
-          leftPosition="6px"
+          leftPosition="18px"
+          topPosition="3px"
         />
 
         <StyledInput
@@ -217,7 +219,8 @@ function ConfirmSeed() {
           disableUnderline
           {...styledInput3}
           disabled
-          leftPosition="6px"
+          leftPosition="18px"
+          topPosition="3px"
         />
 
         <StyledInput
@@ -226,7 +229,8 @@ function ConfirmSeed() {
           disableUnderline
           {...styledInput4}
           disabled
-          leftPosition="6px"
+          leftPosition="18px"
+          topPosition="3px"
         />
 
         <SeedGrid>

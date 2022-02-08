@@ -285,6 +285,8 @@ function CreateWallet() {
             typePassword
             isCorrect
             rightIcon
+            leftPosition="15px"
+            topPosition="1px"
           />
           {passwordError === minimumCharacterWarning && (
             <WarningText
@@ -330,6 +332,8 @@ function CreateWallet() {
             typePassword
             rightIcon
             isCorrect
+            leftPosition="15px"
+            topPosition="1px"
           />
           {/* {passwordError === minimumCharacterWarning && (
             <WarningText

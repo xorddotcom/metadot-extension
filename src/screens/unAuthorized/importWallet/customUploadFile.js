@@ -180,11 +180,13 @@ const CustomUploadFile = (props) => {
         <StyledInput
           inputWrapperWidth="87%"
           id="password"
-          fullWidth="68%"
+          fullWidth="82%"
           {...styledInputPassword}
           typePassword
           isCorrect
           rightIcon
+          leftPosition="-4px"
+          topPosition="2px"
         />
         {passwordError && (
         <WarningText

@@ -306,6 +306,8 @@ function CreateDerivedAccount() {
             typePassword
             isCorrect
             rightIcon
+            leftPosition="16px"
+            topPosition="2px"
           />
           {passwordError === minimumCharacterWarning && (
             <WarningText
@@ -352,6 +354,8 @@ function CreateDerivedAccount() {
             typePassword
             rightIcon
             isCorrect
+            leftPosition="16px"
+            topPosition="2px"
           />
           {/* {passwordError === minimumCharacterWarning && (
             <WarningText

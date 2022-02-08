@@ -135,8 +135,10 @@ export const TextInputWrapper = styled.div`
       : '0px')};
   border-radius: 8px;
   background-color: ${darkBackground1};
-  position: relative;
   margin-bottom:${(props) => props.marginBottom && props.marginBottom};
+  display: flex;
+    align-items: center;
+    justify-content: start;
 `;
 
 // xxxxxxxxxx CommonComponents styled components xxxxxxxxxx //

@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import { encodeAddress } from '@polkadot/util-crypto';
 import { deleteAccount } from '../../../redux/slices/accounts';
 import {
   resetAccountSlice,
@@ -74,11 +75,11 @@ const DrivedAccountList = ({
   const onOptionClicked = () => {
     console.clear();
     console.log('mark1');
-    console.log('activeAccount.publicKey', activeAccount.publicKey, publicKey === activeAccount.publicKey);
+    console.log('activeAccount.publicKey', activeAccount.publicKey, 'encoded -> ', encodeAddress(activeAccount.publicKey, 42), publicKey === encodeAddress(activeAccount.publicKey, 42));
 
     console.log('mark3 this is going to delete', publicKey);
     dispatch(deleteAccount(publicKey));
-    if (publicKey === activeAccount.publicKey) {
+    if (publicKey === encodeAddress(activeAccount.publicKey, 42)) {
       if (Object.keys(accounts).length > 1) {
         console.log('mark4 this is going to SET', Object.values(accounts)[0].publicKey);
         childAccountActive(

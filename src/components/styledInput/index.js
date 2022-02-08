@@ -67,8 +67,9 @@ function StyledInput({
   mr,
   rightPosition,
   leftPosition,
+  topPosition,
   style,
-  inputWrapperWidth
+  inputWrapperWidth,
 }) {
   const blockChar = (ev) => {
     const arr = ['e', 'E', '+', '-'];
@@ -103,19 +104,23 @@ function StyledInput({
     <TextInputWrapper marginBottom={marginBottom || '0px'} isCorrect={isCorrect} inputWrapperWidth={inputWrapperWidth}>
       <StyledInputField id={id} disableUnderline {...styledInputField} />
       {rightIcon && (
-        <Icon onClick={() => hideHandler()} rightPosition={rightPosition} leftPosition={leftPosition}>
+        <Icon onClick={() => hideHandler()} topPosition={topPosition} leftPosition={leftPosition}>
           {!hideState
             ? <VisibilityOffIcon id="eye-off-icon" fontSize="small" style={{ marginTop: !mt ? '-0.1rem' : mt, marginRight: mr && mr }} /> : <VisibilityIcon id="eye-on-icon" fontSize="small" style={{ marginTop: !mt ? '-0.1rem' : mt, marginRight: mr && mr }} />}
         </Icon>
       )}
       {rightIconCross && (
-      <Icon onClick={() => rightIconCrossClickHandler()}>
+      <Icon
+        onClick={() => rightIconCrossClickHandler()}
+        topPosition={topPosition}
+        leftPosition={leftPosition}
+      >
         <CancelIcon fontSize="small" style={{ marginTop: '-0.1rem', marginRight: '-0.3rem' }} />
       </Icon>
       )}
 
       {rightIconLock && (
-      <Icon>
+      <Icon topPosition={topPosition} leftPosition={leftPosition}>
         <LockOutlinedIcon fontSize="small" style={{ marginTop: '-0.1rem', marginRight: '-0.15rem' }} />
       </Icon>
       )}
