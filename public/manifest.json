@@ -1,7 +1,7 @@
 {
   "name": "Metadot",
   "description": "A crypto wallet for Polkadot based chains and their parachains",
-  "version": "0.0.3.5",
+  "version": "0.0.3.6",
   "manifest_version": 2,
   "browser_action": {
     "default_popup": "index.html",

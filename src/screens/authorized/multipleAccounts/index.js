@@ -176,8 +176,11 @@ function MultipleAccounts(props) {
   // return null;
 
   const childAccountActive = (pk, name) => {
-    dispatch(setPublicKey(pk));
+    const publicKeyOfRespectiveChain = addressMapper(pk, prefix);
+    console.log('In multiple accounts publick key of respective chain [][][]', { pk }, publicKeyOfRespectiveChain);
+    dispatch(setPublicKey(publicKeyOfRespectiveChain));
     dispatch(setAccountName(name));
+    dispatch(resetTransactions());
     history.push('/');
   };
 

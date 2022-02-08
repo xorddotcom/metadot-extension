@@ -23,6 +23,8 @@ const StyledInputField = styled.input`
   background-color: ${darkBackground1};
   border-bottom-color: rgb(33, 33, 33);
     border-right-color: rgb(33,33,33);
+    border-left-color: rgb(33, 33, 33);
+    border-top-color: rgb(33,33,33);
   font-size: 14px !important;
   line-height: 17px;
   border-radius: 8px;
