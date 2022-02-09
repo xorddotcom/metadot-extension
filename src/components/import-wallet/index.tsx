@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     setAccountName,
@@ -44,6 +44,7 @@ const invalidSeedMessages = {
 };
 
 function ImportWallet(): JSX.Element {
+    const location = useLocation().pathname;
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -209,9 +210,10 @@ function ImportWallet(): JSX.Element {
             }
 
             const res = await validatingSeedPhrase(seedPhrase);
+
             if (res) {
                 navigate('/createWallet', {
-                    state: { seedToPass: seedPhrase },
+                    state: { prevRoute: location, seedToPass: seedPhrase },
                 });
             } else {
                 setInvalidSeedMessage(seedDoesnotExist);

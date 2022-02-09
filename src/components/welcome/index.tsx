@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { fonts, accounts } from '../../utils';
@@ -16,6 +16,7 @@ const { subHeadingfontFamilyClass } = fonts;
 const { GenerateSeedPhrase } = accounts;
 
 function Welcome(): JSX.Element {
+    const location = useLocation().pathname;
     const navigate = useNavigate();
     const { jsonFileUploadScreen } = useSelector(
         (state: RootState) => state.activeAccount
@@ -41,7 +42,7 @@ function Welcome(): JSX.Element {
 
     const createHandler = (): void => {
         navigate('/ShowSeed', {
-            state: { seedToPass },
+            state: { prevRoute: location, seedToPass },
         });
     };
 

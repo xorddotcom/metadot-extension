@@ -24,22 +24,21 @@ const SinglePhrase: React.FunctionComponent<{
 );
 
 const ShowSeed: React.FunctionComponent = () => {
-    const navigate: any = useNavigate();
-    const location = useLocation().state as { seedToPass: string };
+    const navigate = useNavigate();
+    const location = useLocation().state as {
+        prevRoute: string;
+        seedToPass: string;
+    };
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [copy, setCopy] = useState('Copy');
 
     let currSeed = '';
 
-    if (navigate.entries[navigate.entries.length - 2].pathname === '/') {
-        currSeed = location.seedToPass && location.seedToPass;
-    }
-
     if (
-        navigate.entries[navigate.entries.length - 2].pathname ===
-            '/accounts' ||
-        navigate.entries[navigate.entries.length - 2].pathname === '/ShowSeed'
+        location.prevRoute === '/' ||
+        location.prevRoute === '/accounts' ||
+        location.prevRoute === '/ShowSeed'
     ) {
         currSeed = location.seedToPass && location.seedToPass;
     }
@@ -81,8 +80,8 @@ const ShowSeed: React.FunctionComponent = () => {
             pb: 3,
         },
         mainText: 'Warning',
-        subText:
-            'Proceeding will not let you view your mnemonic again. Do you still wish to continue?',
+        subText: `Proceeding will not let you view your
+          mnemonic again. Do you still wish to continue?`,
     };
 
     return (

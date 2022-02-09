@@ -1,6 +1,7 @@
 import Views from '../components';
 
-const { WelcomeBack, ImportWallet } = Views;
+const { WelcomeBack, ImportWallet, ShowSeed, ConfirmSeed, CreateWallet } =
+    Views;
 
 const UnAuthRoutes = [
     {
@@ -10,6 +11,18 @@ const UnAuthRoutes = [
     {
         path: '/ImportWallet',
         Component: ImportWallet,
+    },
+    {
+        path: '/ShowSeed',
+        Component: ShowSeed,
+    },
+    {
+        path: '/ConfirmSeed',
+        Component: ConfirmSeed,
+    },
+    {
+        path: '/CreateWallet',
+        Component: CreateWallet,
     },
 ];
 

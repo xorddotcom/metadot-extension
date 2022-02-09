@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-
 import {
     Wrapper,
     LabelAndTextWrapper,
@@ -9,11 +8,6 @@ import {
 } from '../common/wrapper';
 import { WarningText, SubHeading } from '../common/text';
 import { Button, Input, Header } from '../common';
-import {
-    setLoggedIn,
-    setPublicKey,
-    setAccountName,
-} from '../../redux/slices/activeAccount';
 import { fonts, helpers } from '../../utils';
 import accounts from '../../utils/accounts';
 import {
@@ -25,7 +19,6 @@ import {
 } from '../../redux/slices/modalHandling';
 import ImportIcon from '../../assets/images/modalIcons/import.svg';
 import AccountCreate from '../../assets/images/modalIcons/accountCreate.svg';
-import { addAccount } from '../../redux/slices/accounts';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
@@ -34,8 +27,8 @@ const { AccountCreation } = accounts;
 const passwordErrorMessages = {
     minimumCharacterWarning: 'Password should not be less than 8 characters',
     didnotMatchWarning: 'Password did not match!',
-    passwordValidation:
-        'Password must contain at least one lower case, one upper case, one number and a special character',
+    passwordValidation: `Password must contain at least one lower case,
+         one upper case, one number and a special character`,
 };
 
 const { minimumCharacterWarning, didnotMatchWarning, passwordValidation } =
@@ -43,21 +36,16 @@ const { minimumCharacterWarning, didnotMatchWarning, passwordValidation } =
 
 const CreateWallet: React.FunctionComponent = () => {
     const dispatch = useDispatch();
-    const navigate: any = useNavigate();
+    const navigate = useNavigate();
     const location = useLocation().state as {
+        prevRoute: string;
         seedToPass: string;
-        parentKey: string;
     };
 
     const operation =
-        navigate.routeNames[navigate.entries.length - 2].pathname ===
-        '/ImportWallet'
-            ? 'Imported'
-            : 'Created';
+        location.prevRoute === '/ImportWallet' ? 'Imported' : 'Created';
 
     const currSeed = location.seedToPass && location.seedToPass;
-    const parentKey = location.parentKey && location.parentKey;
-    console.log('Parent Key ---------->', parentKey);
 
     const [walletName, setWalletName] = useState('');
     const [isValidWalletName, setIsValidWalletName] = useState(false);
@@ -69,6 +57,7 @@ const CreateWallet: React.FunctionComponent = () => {
 
     const validatePassword = (): boolean => {
         const regexRes = password.match(
+            // eslint-disable-next-line max-len
             /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[\\~!><@#$%?,;.^/&}{*)(_+:[}="|`'-])[a-zA-Z0-9\\.~!><@,;#$%?^}{/&*)(+:[}=|"`'\w-]{7,19}/
         );
 
@@ -98,25 +87,10 @@ const CreateWallet: React.FunctionComponent = () => {
         pass: string,
         seedPhrase: string
     ): Promise<boolean> => {
+        console.log('create account ==>>', name, pass, seedPhrase);
         const res = await AccountCreation(name, pass, seedPhrase);
         return res;
     };
-
-    // const saveAccountInRedux = (add, name) => {
-    //     // update redux data and tracking flags accordingly
-    //     dispatch(setLoggedIn(true));
-    //     dispatch(setPublicKey(add));
-    //     dispatch(setAccountName(name));
-    //     // dispatch(setWalletPassword(hashedPassword));
-
-    //     dispatch(
-    //         addAccount({
-    //             accountName: name,
-    //             publicKey: add,
-    //             parentKey,
-    //         })
-    //     );
-    // };
 
     const showSuccessModalAndNavigateToDashboard = (): void => {
         if (operation === 'Imported') {
@@ -140,19 +114,18 @@ const CreateWallet: React.FunctionComponent = () => {
 
     const handleContinue = async (): Promise<void> => {
         try {
-            if (!isUserNameValid(walletName) || walletName.length < 3) {
-                setIsValidWalletName(true);
-                validatePassword();
-                setIsLoading(false);
-                return;
-            }
-            if (!validatePassword()) {
-                setIsLoading(false);
-                return;
-            }
-            await createAccount(walletName, password, currSeed);
-
-            // await saveAccountInRedux(res.address, walletName);
+            // if (!isUserNameValid(walletName) || walletName.length < 3) {
+            //     setIsValidWalletName(true);
+            //     validatePassword();
+            //     setIsLoading(false);
+            //     return;
+            // }
+            // if (!validatePassword()) {
+            //     setIsLoading(false);
+            //     return;
+            // }
+            const resultt = await createAccount(walletName, password, currSeed);
+            console.log('account created ==>>', resultt);
             dispatch(setLoadingForApi(false));
             setIsLoading(false);
             showSuccessModalAndNavigateToDashboard();
@@ -294,13 +267,7 @@ const CreateWallet: React.FunctionComponent = () => {
                         rightIcon
                         isCorrect
                     />
-                    {/* {passwordError === minimumCharacterWarning && (
-            <WarningText
-              className={subHeadingfontFamilyClass}
-            >
-              {minimumCharacterWarning}
-            </WarningText>
-          )} */}
+
                     {passwordError === didnotMatchWarning && (
                         <WarningText
                             id="warning-text"

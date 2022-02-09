@@ -1,5 +1,15 @@
 import Welcome from './welcome';
 import WelcomeBack from './welcome-back';
 import ImportWallet from './import-wallet';
+import ShowSeed from './show-seed';
+import ConfirmSeed from './confirm-seed';
+import CreateWallet from './create-wallet';
 
-export default { Welcome, WelcomeBack, ImportWallet };
+export default {
+    Welcome,
+    WelcomeBack,
+    ImportWallet,
+    ShowSeed,
+    ConfirmSeed,
+    CreateWallet,
+};

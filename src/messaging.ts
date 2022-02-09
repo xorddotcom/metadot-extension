@@ -36,7 +36,7 @@ interface Handler {
 
 type Handlers = Record<string, Handler>;
 
-const port = chrome.runtime.connect({ name: 'main' });
+const port = chrome.runtime.connect({ name: PORT_EXTENSION });
 const handlers: Handlers = {};
 
 // setup a listener for messages, any incoming resolves the promise
@@ -45,7 +45,6 @@ port.onMessage.addListener((data: Message['data']): void => {
 
     if (!handler) {
         console.error(`Unknown response: ${JSON.stringify(data)}`);
-
         return;
     }
 
@@ -80,11 +79,11 @@ function sendMessage<TMessageType extends MessageTypes>(
     request?: RequestTypes[TMessageType],
     subscriber?: (data: unknown) => void
 ): Promise<ResponseTypes[TMessageType]> {
+    console.log('send message', message, request);
     return new Promise((resolve, reject): void => {
         const id = getId();
-
         handlers[id] = { reject, resolve, subscriber };
-        // port.postMessage({ id, message, request: request || {} });
+        port.postMessage({ id, message, request: request || {} });
     });
 }
 

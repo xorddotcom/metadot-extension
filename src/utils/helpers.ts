@@ -83,14 +83,6 @@ function validateAmount(
 }
 
 function isUserNameValid(username: string): boolean {
-    /*
-    Usernames can only have:
-    - Lowercase Letters (a-z)
-    - Uppercase Letters (A-Z)
-    - Numbers (0-9)
-    - Dots (.)
-    - Underscores (_)
-  */
     const res = /^[a-zA-Z0-9_.]+$/.exec(username);
     const valid = !!res;
     return valid;
