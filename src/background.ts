@@ -18,7 +18,7 @@ void chrome.browserAction.setBadgeBackgroundColor({ color: '#d90000' });
 // listen to all messages and handle appropriately
 chrome.runtime.onConnect.addListener((port): void => {
     assert(
-        [PORT_CONTENT, PORT_EXTENSION].includes(port.name),
+        [PORT_CONTENT, 'main'].includes(port.name),
         `Unknown connection from ${port.name}`
     );
 
