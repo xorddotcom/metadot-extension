@@ -1,21 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { setJsonFileUploadScreen } from '../../redux/slices/activeAccount';
 import {
-    setAccountName,
-    setJsonFileUploadScreen,
-    setLoggedIn,
-    setPublicKey,
-} from '../../redux/slices/activeAccount';
-import {
-    // setAuthScreenModal,
     setIsResponseModalOpen,
-    setLoadingForApi,
     setMainTextForSuccessModal,
     setResponseImage,
     setSubTextForSuccessModal,
 } from '../../redux/slices/modalHandling';
-import { addAccount } from '../../redux/slices/accounts';
 
 import { Header, Button } from '../common';
 import { MainHeading, SubHeading } from '../common/text';
@@ -32,10 +24,8 @@ import { RootState } from '../../redux/store';
 
 import { Wrapper, UnAuthScreensContentWrapper } from '../common/wrapper';
 
-// import AuthScreen from '../../components/modals/authorization';
-
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-const { validatingSeedPhrase } = accounts;
+const { validatingSeedPhrase, createAccountFromJSON } = accounts;
 
 const invalidSeedMessages = {
     minimumWords: 'At least 12 words required!',
@@ -56,143 +46,53 @@ function ImportWallet(): JSX.Element {
     );
     const [seedPhrase, setSeedPhrase] = useState('');
     const [invalidSeedMessage, setInvalidSeedMessage] = useState('');
-    const [password, setPassword] = useState('');
-    // const [derivedAccountSeed, setDerivedAccountSeed] = useState('');
-
-    // const derivedAccountSeedHandler = (data) => {
-    //     setDerivedAccountSeed(data);
-    // };
-
-    // const authModal = {
-    //     open: currentUser.modalHandling.authScreenModal,
-    //     handleClose: () => {
-    //         dispatch(setAuthScreenModal(false));
-    //     },
-    //     derivedAccountSeedHandler,
-    //     style: {
-    //         width: '290px',
-    //         background: '#141414',
-    //         position: 'relative',
-    //         bottom: 30,
-    //         p: 2,
-    //         px: 2,
-    //         pb: 3,
-    //         marginTop: '10rem',
-    //     },
-    // };
+    const [password, setPassword] = useState('123456');
 
     const [fileName, setFileName] = useState<File | { name: string }>({
         name: 'file',
     });
     const [isFilePicked, setIsFilePicked] = useState(false);
 
-    const [pair, setPair] = useState('');
+    const [json, setJson] = useState<any>('');
 
     const [showPassword, setShowPassword] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
 
     const [isLoading, setIsLoading] = useState(false);
 
-    function setLoading(value: boolean): void {
-        console.log('setter ran with value', value);
-        setIsLoading(value);
-        console.log('setter end', value);
-    }
-
-    const UploadJsonProps = {
-        fileName,
-        isFilePicked,
-        pair,
-        password,
-        showPassword,
-        passwordError,
-        setFileName,
-        setIsFilePicked,
-        setPair,
-        setPassword,
-        setShowPassword,
-        setPasswordError,
+    const passwordChangeHandler = (value: string): void => {
+        setPassword(value);
     };
 
-    // const keyringFunc = async () =>
-    //     new Promise((resolve, reject) => {
-    //         try {
-    //             const acc = keyring.addPair(pair, password);
-    //             resolve(acc);
-    //             return acc;
-    //         } catch (err) {
-    //             reject(err);
-    //             return err;
-    //         }
-    //     });
+    const showSuccessModalAndNavigateToDashboard = (): void => {
+        dispatch(setIsResponseModalOpen(true));
+        dispatch(setResponseImage(ImportIcon));
+        dispatch(setMainTextForSuccessModal('Successfully Imported!'));
+        dispatch(setSubTextForSuccessModal(''));
+        dispatch(setJsonFileUploadScreen(true));
+        navigate('/');
 
-    // const createAccount = async (jsonKeyring) => {
-    //     const res = await keyring.createFromJson(jsonKeyring);
-    //     return res;
-    // };
-
-    // const saveAccountInRedux = (add, name, pass) => {
-    //     dispatch(setLoggedIn(true));
-    //     dispatch(setPublicKey(add));
-    //     dispatch(setAccountName(name));
-
-    //     dispatch(
-    //         addAccount({
-    //             accountName: name,
-    //             publicKey: add,
-    //         })
-    //     );
-    // };
-
-    // const showSuccessModalAndNavigateToDashboard = () => {
-    //     dispatch(setIsResponseModalOpen(true));
-    //     dispatch(setResponseImage(ImportIcon));
-    //     dispatch(setMainTextForSuccessModal('Successfully Imported!'));
-    //     dispatch(setSubTextForSuccessModal(''));
-    //     dispatch(setJsonFileUploadScreen(true));
-    //     navigate('/');
-
-    //     setTimeout(() => {
-    //         dispatch(setIsResponseModalOpen(false));
-    //     }, 2500);
-
-    //     // navigate to dashboard on success
-    // };
-
-    // const proceedToImportAccount = () => {
-    //     keyringFunc()
-    //         .then(async (val) => {
-    //             console.log('now my loading setting to false', val);
-    //             setLoading(false);
-    //             setPasswordError(false);
-    //             console.log('SUCESS');
-
-    //             // const res = await createAccount(pair);
-    //             // console.log('res-------------', res);
-    //             await saveAccountInRedux(
-    //                 val.json.address,
-    //                 val.json.meta.name,
-    //                 password
-    //             );
-    //             dispatch(setLoadingForApi(false));
-    //             await showSuccessModalAndNavigateToDashboard();
-    //         })
-    //         .catch((err) => {
-    //             console.log('now my loading setting to false', err);
-    //             setLoading(false);
-    //             setPasswordError(true);
-    //             console.log('FAIL');
-    //         });
-    // };
+        setTimeout(() => {
+            dispatch(setIsResponseModalOpen(false));
+        }, 2500);
+    };
 
     const handleChange = (input: string): void => {
         setInvalidSeedMessage('');
         setSeedPhrase(input);
     };
 
-    // const passwordChangeHandler = (e) => {
-    //     setPassword(e.target.value);
-    // };
+    const importAccountFromJson = async (): Promise<void> => {
+        try {
+            const res = await createAccountFromJSON(json, password);
+            console.log('Create account from json ==>>', res);
+            if (res) {
+                showSuccessModalAndNavigateToDashboard();
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     const importAccountFromSeed = async (): Promise<void> => {
         try {
@@ -291,16 +191,31 @@ function ImportWallet(): JSX.Element {
         text: 'Import',
         width: '300px',
         handleClick: () => {
+            setIsLoading(true);
             if (selectedType === 'json') {
-                setLoading(true);
-                // Import account with message passing
-                // proceedToImportAccount();
+                importAccountFromJson();
             } else {
                 importAccountFromSeed();
             }
+            setIsLoading(false);
         },
         disabled: seedPhrase.length === 0 && password.length === 0,
         isLoading,
+    };
+
+    const UploadJsonProps = {
+        fileName,
+        isFilePicked,
+        json,
+        password,
+        showPassword,
+        passwordError,
+        setFileName,
+        setIsFilePicked,
+        setJson,
+        passwordChangeHandler,
+        setShowPassword,
+        setPasswordError,
     };
 
     return (
@@ -344,8 +259,6 @@ function ImportWallet(): JSX.Element {
             <div style={{ marginLeft: '0' }} className="btn-wrapper">
                 <Button {...btn} />
             </div>
-
-            {/* <AuthScreen {...authModal} /> */}
         </Wrapper>
     );
 }

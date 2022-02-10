@@ -1,7 +1,8 @@
 import { mnemonicGenerate } from '@polkadot/util-crypto';
 import keyring from '@polkadot/ui-keyring';
+import type { KeyringPair$Json } from '@polkadot/keyring/types';
 import { UnlockPairReturnType } from './types';
-import { validateSeed, createAccountSuri } from '../messaging';
+import { validateSeed, createAccountSuri, jsonRestore } from '../messaging';
 
 function GenerateSeedPhrase(): string {
     const seed = mnemonicGenerate(12);
@@ -47,6 +48,18 @@ async function AccountCreation(
     return account;
 }
 
+async function createAccountFromJSON(
+    json: KeyringPair$Json,
+    password: string
+): Promise<boolean> {
+    try {
+        await jsonRestore(json, password);
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
+
 // derive account creation
 function derive(
     parentAddress: string,
@@ -87,6 +100,7 @@ const unlockPair = (
 export default {
     GenerateSeedPhrase,
     AccountCreation,
+    createAccountFromJSON,
     validatingSeedPhrase,
     getJsonBackup,
     derive,

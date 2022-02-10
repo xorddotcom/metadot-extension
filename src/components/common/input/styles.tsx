@@ -26,8 +26,9 @@ export const Wrapper = styled(WrapperPropsInterfaceWrapper)`
 
 const FieldPropsInterfaceWrapper: React.FunctionComponent<FieldInterface> = ({
     disabled,
+    onChange,
 }) => {
-    return <input disabled={disabled} />;
+    return <input disabled={disabled} onChange={onChange} />;
 };
 export const Field = styled(FieldPropsInterfaceWrapper)`
     /* padding-left: 25px; */

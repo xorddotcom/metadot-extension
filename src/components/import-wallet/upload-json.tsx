@@ -12,14 +12,14 @@ import { UploadJSONInterface } from './type';
 const UploadJson: React.FC<UploadJSONInterface> = ({
     fileName,
     isFilePicked,
-    pair,
+    json,
     password,
     showPassword,
     passwordError,
     setFileName,
     setIsFilePicked,
-    setPair,
-    setPassword,
+    setJson,
+    passwordChangeHandler,
     setShowPassword,
     setPasswordError,
 }) => {
@@ -33,23 +33,10 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
         const reader = new FileReader();
         if (e.target.files) {
             const file = e.target.files[0];
-            reader.onload = async (ev: Event) => {
+            reader.onload = async () => {
                 const fileContent = reader.result;
                 const parsedFileContent = JSON.parse(fileContent as string);
-                // handle this with message passing
-                // try {
-                //     const pairData =
-                // keyring.createFromJson(parsedFileContent);
-                //     setPair(pairData);
-                // } catch (e) {
-                //     console.log('mark5');
-                //     await KeyringInitialization();
-                //     const pairData =
-                // keyring.createFromJson(parsedFileContent);
-                //     console.log(' real val', pairData);
-                //     setPair(pairData);
-                //     console.log('pair in catch---------', e);
-                // }
+                setJson(parsedFileContent);
             };
             reader.readAsText(file);
             setFileName(
@@ -76,10 +63,10 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
             document.getElementsByTagName('input')[0].value = '';
             setFileName({ name: 'file' });
             setIsFilePicked(false);
-            setPassword('');
+            passwordChangeHandler('');
             setShowPassword(false);
             setPasswordError(false);
-            setPair('');
+            setJson('');
         }
     };
 
@@ -89,13 +76,10 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
         value: password,
         height: '14px',
         fullWidth: '267px',
-        onChange: (t: string) => {
-            setPasswordError(false);
-            if (t.length < 20) setPassword(t);
-        },
+        onChange: passwordChangeHandler,
         hideHandler: () => setShowPassword(!showPassword),
         hideState: showPassword,
-        disabled: !pair,
+        disabled: !json,
         rightAbsPosition: true,
         leftAbsPosition: true,
     };

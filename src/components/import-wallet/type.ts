@@ -13,15 +13,15 @@ export interface EnterSeedInterface {
 export interface UploadJSONInterface {
     fileName: File | { name: string };
     isFilePicked: boolean;
-    pair: object | string;
+    json: object | string;
     password: string;
     showPassword: boolean;
     passwordError: boolean;
     setFileName: React.Dispatch<React.SetStateAction<File | { name: string }>>;
 
     setIsFilePicked(value: boolean): void;
-    setPair(value: object | string): void;
-    setPassword(value: string): void;
+    setJson(value: object | string): void;
+    passwordChangeHandler(value: string): void;
     setShowPassword(value: boolean): void;
     setPasswordError(value: boolean): void;
 }

@@ -12,6 +12,7 @@ import type {
     SeedLengths,
     SigningRequest,
     SubscriptionMessageTypes,
+    ResponseJsonGetAccountInfo,
 } from 'metadot-extension-base/background/types';
 import type { Message } from 'metadot-extension-base/types';
 
@@ -227,4 +228,11 @@ export async function validateSeed(
     type?: KeypairType
 ): Promise<{ address: string; suri: string }> {
     return sendMessage('pri(seed.validate)', { suri, type });
+}
+
+export async function jsonRestore(
+    file: KeyringPair$Json,
+    password: string
+): Promise<void> {
+    return sendMessage('pri(json.restore)', { file, password });
 }
