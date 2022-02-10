@@ -71,7 +71,7 @@ const TxCard: React.FunctionComponent<Props> = ({
                         className={mainHeadingfontFamilyClass}
                         balOverFlow
                     >
-                        {`${trimBalance(amount)} ${coin}`}
+                        {`${trimBalance(Number(amount))} ${coin}`}
                     </MainText>
                     <TxHorizontalContentDiv>
                         <TxEquivalentInUSDT

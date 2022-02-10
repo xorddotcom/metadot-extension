@@ -157,7 +157,7 @@ const ChildAccountDropDown: React.FunctionComponent<
                 handleClose={() => {
                     setOpenAuthModa(false);
                 }}
-                setOpenAuthModal={setOpenAuthModa}
+                setOpenAuthModalHandler={authModalHandler}
                 onConfirm={downloadJson}
                 style={{
                     width: '290px',

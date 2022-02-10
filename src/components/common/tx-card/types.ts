@@ -5,5 +5,5 @@ export interface Props {
     amount?: string;
     amountInUsd?: string;
     logo?: string;
-    handleClick?(): void;
+    handleClick(): void;
 }

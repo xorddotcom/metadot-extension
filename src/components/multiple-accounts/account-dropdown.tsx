@@ -197,7 +197,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                     setOpenAuthModa(false);
                 }}
                 onConfirm={downloadJson}
-                setOpenAuthModal={setOpenAuthModa}
+                setOpenAuthModalHandler={authModalHandler}
                 style={{
                     width: '290px',
                     background: '#141414',
