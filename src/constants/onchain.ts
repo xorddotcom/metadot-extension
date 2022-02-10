@@ -15,6 +15,8 @@ import bitcountry from '../assets/images/tokenImg/bitcountry.svg';
 import rococoIcon from '../assets/images/rococo.svg';
 import astarIcon from '../assets/images/astar.png';
 import shibuyaIcon from '../assets/images/shibuya.svg';
+import contextFree from '../assets/images/contextfree.png';
+
 import { NetworkConfig } from './types';
 
 const USD_PER_POLKADOT_API =
@@ -41,6 +43,7 @@ const KUSAMA_CONFIG: NetworkConfig = {
     RPC_URL: 'wss://kusama-rpc.polkadot.io',
     EXISTENTIAL_DEPOSIT: 0.0000333333,
     PREFIX: 2,
+    QUERY_ENDPOINT: '',
 };
 
 const KARURA_CONFIG: NetworkConfig = {
@@ -48,6 +51,8 @@ const KARURA_CONFIG: NetworkConfig = {
     TOKEN_NAME: '',
     LOGO: KaruraIcon,
     RPC_URL: 'wss://karura-rpc-0.aca-api.network',
+    QUERY_ENDPOINT: '',
+    PREFIX: 0,
 };
 
 const MOONRIVER_CONFIG: NetworkConfig = {
@@ -55,6 +60,8 @@ const MOONRIVER_CONFIG: NetworkConfig = {
     TOKEN_NAME: '',
     LOGO: MoonriverIcon,
     RPC_URL: '',
+    QUERY_ENDPOINT: '',
+    PREFIX: 0,
 };
 
 const SHIDEN_CONFIG: NetworkConfig = {
@@ -62,6 +69,8 @@ const SHIDEN_CONFIG: NetworkConfig = {
     TOKEN_NAME: '',
     LOGO: ShidenIcon,
     RPC_URL: '',
+    QUERY_ENDPOINT: '',
+    PREFIX: 0,
 };
 
 const BIFROST_CONFIG: NetworkConfig = {
@@ -69,6 +78,8 @@ const BIFROST_CONFIG: NetworkConfig = {
     TOKEN_NAME: '',
     LOGO: BifrostIcon,
     RPC_URL: '',
+    QUERY_ENDPOINT: '',
+    PREFIX: 0,
 };
 
 const PHALA_CONFIG: NetworkConfig = {
@@ -76,6 +87,8 @@ const PHALA_CONFIG: NetworkConfig = {
     TOKEN_NAME: '',
     LOGO: PhalaIcon,
     RPC_URL: '',
+    QUERY_ENDPOINT: '',
+    PREFIX: 0,
 };
 
 const KHALA_CONFIG: NetworkConfig = {
@@ -83,6 +96,8 @@ const KHALA_CONFIG: NetworkConfig = {
     TOKEN_NAME: '',
     LOGO: PhalaIcon,
     RPC_URL: '',
+    QUERY_ENDPOINT: '',
+    PREFIX: 0,
 };
 
 const WESTEND_CONFIG: NetworkConfig = {
@@ -101,6 +116,7 @@ const ROCOCO_CONFIG: NetworkConfig = {
     LOGO: rococoIcon,
     RPC_URL: 'wss://rococo-rpc.polkadot.io',
     PREFIX: 42,
+    QUERY_ENDPOINT: '',
 };
 
 const ACALA_MANDALA_CONFIG: NetworkConfig = {
@@ -109,6 +125,7 @@ const ACALA_MANDALA_CONFIG: NetworkConfig = {
     LOGO: acala,
     RPC_URL: 'wss://acala-mandala.api.onfinality.io/public-ws',
     PREFIX: 42,
+    QUERY_ENDPOINT: '',
 };
 
 const MOONBASE_CONFIG: NetworkConfig = {
@@ -116,6 +133,8 @@ const MOONBASE_CONFIG: NetworkConfig = {
     TOKEN_NAME: '',
     LOGO: MoonriverIcon,
     RPC_URL: '',
+    QUERY_ENDPOINT: '',
+    PREFIX: 0,
 };
 
 const ASGARD_CONFIG: NetworkConfig = {
@@ -123,6 +142,8 @@ const ASGARD_CONFIG: NetworkConfig = {
     TOKEN_NAME: '',
     LOGO: BifrostIcon,
     RPC_URL: '',
+    QUERY_ENDPOINT: '',
+    PREFIX: 0,
 };
 
 const DUSTY_CONFIG: NetworkConfig = {
@@ -141,6 +162,7 @@ const ASTAR_CONFIG: NetworkConfig = {
     LOGO: astarIcon,
     RPC_URL: 'wss://rpc.plasmnet.io/',
     PREFIX: 5,
+    QUERY_ENDPOINT: '',
 };
 
 const SHIBUYA_CONFIG: NetworkConfig = {
@@ -158,9 +180,22 @@ const BITCOUNTRY_CONFIG: NetworkConfig = {
     TOKEN_NAME: '',
     LOGO: bitcountry,
     RPC_URL: 'wss://tewai-rpc.bit.country',
+    QUERY_ENDPOINT: '',
+    PREFIX: 0,
+};
+
+const CONTEXTFREE_CONFIG: NetworkConfig = {
+    CHAIN_NAME: 'ContextFree',
+    TOKEN_NAME: 'CTX',
+    QUERY_ENDPOINT:
+        'https://api.subquery.network/sq/kumailraza404/context-free-indexer',
+    LOGO: contextFree,
+    RPC_URL: 'wss://cf-api.ata.network',
+    PREFIX: 11820,
 };
 
 export default {
+    CONTEXTFREE_CONFIG,
     BITCOUNTRY_CONFIG,
     USD_PER_KSM_API,
     USD_PER_POLKADOT_API,

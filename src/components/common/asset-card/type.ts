@@ -1,6 +1,6 @@
 export interface Props {
     name: string;
-    amount: boolean;
+    amount: string;
     shortName: string;
     amountInUsd: number;
     logo: string;

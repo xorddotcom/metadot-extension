@@ -1,14 +1,4 @@
-export interface Account {
-    publicKey: string;
-    accountName: string;
-    parentAddress: string;
-}
-
-export interface Accounts {
-    [key: string]: Account;
-}
-
-export interface Transaction {
+interface TransactionRecord {
     accountFrom?: string;
     accountTo?: string;
     amount?: string;
@@ -19,4 +9,11 @@ export interface Transaction {
     tokenName?: string;
     transactionFee?: string;
     timestamp?: string;
+}
+
+export interface TxDetailsProps {
+    open: boolean;
+    handleClose(): void;
+    style?: object;
+    txDetailsModalData: TransactionRecord;
 }

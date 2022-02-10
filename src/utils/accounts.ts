@@ -59,6 +59,11 @@ async function createAccountFromJSON(
         return false;
     }
 }
+// need to invoke this function in background.js script
+async function KeyringInitialization(): Promise<void> {
+    // await keyring.loadAll({ store: new AccountsStore(), type: 'sr25519' });
+    await keyring.loadAll({ type: 'sr25519' });
+}
 
 // derive account creation
 function derive(
@@ -101,6 +106,7 @@ export default {
     GenerateSeedPhrase,
     AccountCreation,
     createAccountFromJSON,
+    KeyringInitialization,
     validatingSeedPhrase,
     getJsonBackup,
     derive,

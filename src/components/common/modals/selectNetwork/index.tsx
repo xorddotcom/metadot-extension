@@ -20,7 +20,6 @@ const SelectNetwork: React.FunctionComponent<SelectNetworkProps> = (props) => {
         style,
         handleClickForKusama,
         handleClickForOthers,
-        isLoading,
     } = props;
     const { firstStep, renderMethod, currentData } = modalState;
 
