@@ -1,9 +1,7 @@
-import React from 'react';
 import styled from 'styled-components';
 import { colors } from '../../../utils';
 import {
     BalancePropsInterface,
-    DashboardWrapperInterface,
     LabelAndTextInputPropsInterface,
     OptionsNameInterface,
     SelectChainInterface,
@@ -20,18 +18,12 @@ const {
     darkBackground2,
 } = colors;
 
-const DashboardWrapperPropsInterface: React.FunctionComponent<
-    DashboardWrapperInterface
-> = ({ children }) => {
-    return <div>{children}</div>;
-};
-
-export const Wrapper = styled(DashboardWrapperPropsInterface)`
+export const Wrapper = styled.div`
     padding: 25px 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-bottom: ${(props) => props.pb && '0'};
+    padding-bottom: ${(props: { pb: string | boolean }) => props.pb && '0'};
 `;
 
 export const DashboardHeader = styled.div`
@@ -179,13 +171,7 @@ export const ConnectionStatus = styled.p`
     margin-left: 6px;
 `;
 
-const BalancePropsInterfaceWrapper: React.FunctionComponent<
-    BalancePropsInterface
-> = ({ children }) => {
-    return <p>{children}</p>;
-};
-
-export const Balance = styled(BalancePropsInterfaceWrapper)`
+export const Balance = styled.p`
     font-weight: 500;
     font-size: 30px;
     line-height: 35px;
@@ -194,11 +180,12 @@ export const Balance = styled(BalancePropsInterfaceWrapper)`
     margin-bottom: 0px;
     margin-top: 0px;
 
-    height: ${(props) => props.height && props.height};
-    width: ${(props) => props.width && props.width};
-    background-color: ${(props) =>
+    height: ${(props: BalancePropsInterface) => props.height && props.height};
+    width: ${(props: BalancePropsInterface) => props.width && props.width};
+    background-color: ${(props: BalancePropsInterface) =>
         props.backgroundColor && props.backgroundColor};
-    border-radius: ${(props) => props.borderRadius && props.borderRadius};
+    border-radius: ${(props: BalancePropsInterface) =>
+        props.borderRadius && props.borderRadius};
 `;
 
 export const AccountName = styled.p`

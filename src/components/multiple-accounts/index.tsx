@@ -41,15 +41,13 @@ const MultipleAccounts: React.FunctionComponent = () => {
         return data;
     };
 
-    const [parentAccounts, setParentAccounts] =
-        useState<
-            { publicKey: string; accountName: string; parentAddress: string }[]
-        >();
+    const [parentAccounts, setParentAccounts] = useState<
+        { publicKey: string; accountName: string; parentAddress: string }[]
+    >([]);
 
-    const [childAccounts, setChildAccounts] =
-        useState<
-            { publicKey: string; parentAddress: string; accountName: string }[]
-        >();
+    const [childAccounts, setChildAccounts] = useState<
+        { publicKey: string; parentAddress: string; accountName: string }[]
+    >([]);
 
     const btn = {
         id: 'show-seed-button',

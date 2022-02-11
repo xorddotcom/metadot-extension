@@ -1,7 +1,3 @@
-export interface DashboardWrapperInterface {
-    pb?: string | boolean;
-}
-
 export interface SelectChainInterface {
     disabled?: boolean;
 }

@@ -7,6 +7,7 @@ const {
     ConfirmSeed,
     CreateWallet,
     Dashboard,
+    MultipleAccounts,
 } = Views;
 
 const UnAuthRoutes = [
@@ -40,6 +41,10 @@ const AuthRoutes = [
     {
         path: '/welcomeBack',
         Component: WelcomeBack,
+    },
+    {
+        path: '/accounts',
+        Component: MultipleAccounts,
     },
 ];
 

@@ -5,6 +5,7 @@ import ShowSeed from './show-seed';
 import ConfirmSeed from './confirm-seed';
 import CreateWallet from './create-wallet';
 import Dashboard from './dashboard';
+import MultipleAccounts from './multiple-accounts';
 
 export default {
     Welcome,
@@ -14,4 +15,5 @@ export default {
     ConfirmSeed,
     CreateWallet,
     Dashboard,
+    MultipleAccounts,
 };
