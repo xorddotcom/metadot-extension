@@ -1,7 +1,7 @@
 export interface Account {
     publicKey: string;
     accountName: string;
-    parentAddress: string;
+    parentAddress?: string;
 }
 
 export interface Accounts {

@@ -1,4 +1,4 @@
-// import constants from '../constants/onchain';
+import constants from '../constants/onchain';
 
 function arrayFromSeedSentence(seed: string): Array<string> {
     return seed.split(' ');
@@ -94,41 +94,44 @@ const trimBalance = (value: string | number): string => {
     return trimmedValue;
 };
 
-// async function getKSM() {
-//     let amm;
-//     await fetch(constants.USD_PER_KSM_API)
-//         .then((response) => response.json())
-//         .then((data) => {
-//             amm = data;
-//         });
-//     return amm;
-// }
+async function getKSM(): Promise<any> {
+    let amm;
+    await fetch(constants.USD_PER_KSM_API)
+        .then((response) => response.json())
+        .then((data) => {
+            amm = data;
+        });
+    return amm;
+}
 
-// async function getDOT() {
-//     let amm;
-//     await fetch(constants.USD_PER_POLKADOT_API)
-//         .then((response) => response.json())
-//         .then((data) => {
-//             amm = data;
-//         });
-//     return amm;
-// }
+async function getDOT(): Promise<any> {
+    let amm;
+    await fetch(constants.USD_PER_POLKADOT_API)
+        .then((response) => response.json())
+        .then((data) => {
+            amm = data;
+        });
+    return amm;
+}
 
-// async function convertIntoUsd(token, amountToConvert) {
-//     let converted = 0;
-//     if (token === 'KSM') {
-//         const oneKSMintoUsd = await getKSM();
-//         converted = (
-//             Number(amountToConvert) * oneKSMintoUsd.kusama.usd
-//         ).toFixed(3);
-//     } else if (token === 'DOT') {
-//         const oneDOTIntoUsd = await getDOT();
-//         converted = (
-//             Number(amountToConvert) * oneDOTIntoUsd.polkadot.usd
-//         ).toFixed(3);
-//     }
-//     return converted;
-// }
+async function convertIntoUsd(
+    token: string,
+    amountToConvert: number
+): Promise<number> {
+    let converted = 0;
+    if (token === 'KSM') {
+        const oneKSMintoUsd = await getKSM();
+        converted = Number(
+            (Number(amountToConvert) * oneKSMintoUsd.kusama.usd).toFixed(3)
+        );
+    } else if (token === 'DOT') {
+        const oneDOTIntoUsd = await getDOT();
+        converted = Number(
+            (Number(amountToConvert) * oneDOTIntoUsd.polkadot.usd).toFixed(3)
+        );
+    }
+    return converted;
+}
 
 // function showInternetSnackBar() {
 //     // Get the snackbar DIV
@@ -152,6 +155,6 @@ export default {
     validateAddress,
     validateAmount,
     trimBalance,
-    // convertIntoUsd,
+    convertIntoUsd,
     // showInternetSnackBar,
 };

@@ -1,7 +1,13 @@
 import Views from '../components';
 
-const { WelcomeBack, ImportWallet, ShowSeed, ConfirmSeed, CreateWallet } =
-    Views;
+const {
+    WelcomeBack,
+    ImportWallet,
+    ShowSeed,
+    ConfirmSeed,
+    CreateWallet,
+    Dashboard,
+} = Views;
 
 const UnAuthRoutes = [
     {
@@ -27,6 +33,10 @@ const UnAuthRoutes = [
 ];
 
 const AuthRoutes = [
+    {
+        path: '/',
+        Component: Dashboard,
+    },
     {
         path: '/welcomeBack',
         Component: WelcomeBack,

@@ -14,7 +14,7 @@ import services from '../../utils/services';
 import accountsUtils from '../../utils/accounts';
 
 import MainCard from './mainCard';
-import AssetsAndTransactions from './assetsAndTransactions';
+// import AssetsAndTransactions from './assetsAndTransactions';
 
 import { setApiInitializationStarts } from '../../redux/slices/api';
 import {
@@ -432,11 +432,11 @@ const Dashboard: React.FunctionComponent = (props) => {
                 accountName={accountName}
             />
 
-            <AssetsAndTransactions
+            {/* <AssetsAndTransactions
                 handleOpenTxDetailsModal={() => setIsTxDetailsModalOpen(true)}
                 setTxDetailsModalData={setTxDetailsModalData}
                 transactionData={transactions}
-            />
+            /> */}
 
             <SelectNetwork
                 open={isModalOpen}

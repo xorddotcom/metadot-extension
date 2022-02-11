@@ -1,10 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ApiTypes } from '@polkadot/api/types';
+import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 
-const api: ApiTypes | string = '';
-
-const initialState = {
-    api,
+interface initialStateInterface {
+    api: ApiPromiseType | string;
+    apiInitializationStarts: boolean;
+    apiInitializationEnds: boolean;
+    apiInitializationCompleted: boolean;
+}
+const initialState: initialStateInterface = {
+    api: '',
     apiInitializationStarts: false,
     apiInitializationEnds: false,
     apiInitializationCompleted: false,
@@ -14,7 +18,7 @@ export const apiSlice = createSlice({
     name: 'api',
     initialState,
     reducers: {
-        setApi: (state, action: PayloadAction<ApiTypes>) => {
+        setApi: (state, action: PayloadAction<ApiPromiseType>) => {
             return {
                 api: action.payload,
                 apiInitializationCompleted: true,
