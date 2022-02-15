@@ -46,6 +46,10 @@ const AuthRoutes = [
         path: '/accounts',
         Component: MultipleAccounts,
     },
+    {
+        path: '/ImportWallet',
+        Component: ImportWallet,
+    },
 ];
 
 export default { AuthRoutes, UnAuthRoutes };
