@@ -62,11 +62,14 @@ function Welcome(): JSX.Element {
             </div>
 
             <div className="main-content">
-                <MainHeading>
+                <MainHeading textAlign="center">
                     <img src={metaDot} alt="metadot" />
                 </MainHeading>
-                <SubHeading className={subHeadingfontFamilyClass}>
-                    Passion, Progress, Polkadot
+                <SubHeading
+                    className={subHeadingfontFamilyClass}
+                    textAlign="center"
+                >
+                    Passion, Progress, Polkad
                 </SubHeading>
             </div>
 

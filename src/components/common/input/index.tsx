@@ -32,6 +32,8 @@ const Input: React.FunctionComponent<Props> = ({
     rightAbsPosition,
     leftAbsPosition,
     disabled,
+    type,
+    typePassword,
 }) => {
     const blockChar = (ev: React.KeyboardEvent): void => {
         const arr = ['e', 'E', '+', '-'];
@@ -39,6 +41,8 @@ const Input: React.FunctionComponent<Props> = ({
             ev.preventDefault();
         }
     };
+
+    const hideStateRes = !hideState ? 'password' : 'text';
 
     const FieldProps: FieldInterface = {
         id,
@@ -56,6 +60,7 @@ const Input: React.FunctionComponent<Props> = ({
         },
         isCorrect,
         disabled,
+        type: typePassword ? hideStateRes : 'text',
     };
 
     return (

@@ -38,7 +38,7 @@ const getBalanceWithSingleToken = async (
     api: ApiPromiseType,
     acc: string
 ): Promise<number> => {
-    const { data: balance } = await api.query.system.account(acc);
+    const { data: balance }: any = await api.query.system.account(acc);
     const userBalance = formatBalance(balance.free, {
         decimals: api.registry.chainDecimals[0],
         forceUnit: '-',
@@ -53,7 +53,7 @@ const getBalanceWithMultipleTokens = async (
 ): Promise<number> => {
     // eslint-disable-next-line no-useless-catch
     try {
-        const [now, { data: balances }] = await Promise.all([
+        const [now, { data: balances }]: any = await Promise.all([
             api.query.timestamp.now(),
             api.query.system.account(account),
         ]);
