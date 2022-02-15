@@ -1,4 +1,3 @@
-import React from 'react';
 import styled, { css } from 'styled-components';
 
 import {
@@ -22,15 +21,7 @@ export const MainDiv = styled.div`
         props.mb ? props.mb : '34px'};
 `;
 
-const HorizontalContentDivPropsInterfaceWrapper: React.FunctionComponent<
-    HorizontalContentInterface
-> = ({ children }) => {
-    return <div>{children}</div>;
-};
-
-export const HorizontalContentDiv = styled(
-    HorizontalContentDivPropsInterfaceWrapper
-)`
+export const HorizontalContentDiv = styled.div<HorizontalContentInterface>`
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -41,15 +32,7 @@ export const HorizontalContentDiv = styled(
     border-radius: ${(props) => props.borderRadius && props.borderRadius};
 `;
 
-const verticalContentDivPropsInterfaceWrapper: React.FunctionComponent<
-    VerticalContentDivPropsInterface
-> = ({ children }) => {
-    return <div>{children}</div>;
-};
-
-export const VerticalContentDiv = styled(
-    verticalContentDivPropsInterfaceWrapper
-)`
+export const VerticalContentDiv = styled.div<VerticalContentDivPropsInterface>`
     display: flex;
     flex-direction: column;
     margin-top: ${(props) => props.marginTop && props.marginTop};
@@ -70,15 +53,9 @@ export const VerticalContentDiv = styled(
         `}
 `;
 
-const UnAuthScreensContentWrapperPropsInterfaceWrapper: React.FunctionComponent<
-    UnAuthScreensContentInterface
-> = ({ children }) => {
-    return <div>{children}</div>;
-};
+type NewType = UnAuthScreensContentInterface;
 
-export const UnAuthScreensContentWrapper = styled(
-    UnAuthScreensContentWrapperPropsInterfaceWrapper
-)`
+export const UnAuthScreensContentWrapper = styled.div<NewType>`
     display: ${(props) => (props.flexDirection ? 'block' : 'flex')};
     flex-direction: ${(props) =>
         props.flexDirection ? props.flexDirection : 'row'};

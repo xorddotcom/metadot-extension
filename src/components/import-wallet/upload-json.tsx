@@ -130,13 +130,7 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                 >
                     Password
                 </SubHeading>
-                <Input
-                    id="password"
-                    {...InputProps}
-                    typePassword
-                    isCorrect
-                    rightIcon
-                />
+                <Input id="password" {...InputProps} typePassword rightIcon />
                 {passwordError && (
                     <WarningText
                         id="warning-text-3"

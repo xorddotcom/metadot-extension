@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { WrapperInterface, FieldInterface, IconInterface } from './types';
 
@@ -7,30 +6,20 @@ import { colors, fonts } from '../../../utils';
 const { primaryText, darkBackground1 } = colors;
 const { subHeadingFontSize } = fonts;
 
-const WrapperPropsInterfaceWrapper: React.FunctionComponent<
-    WrapperInterface
-> = ({ children }) => {
-    return <div>{children}</div>;
-};
-export const Wrapper = styled(WrapperPropsInterfaceWrapper)`
+export const Wrapper = styled.div<WrapperInterface>`
     width: 100%;
-    border: ${(props) => {
+    /* border: ${(props) => {
         if (props.isCorrect) return '0px';
         if (!props.isCorrect) return '1px solid red';
         return '0px';
-    }};
+    }}; */
+    /* border: 1px solid red; */
     border-radius: 8px;
     position: relative;
     margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
 `;
 
-const FieldPropsInterfaceWrapper: React.FunctionComponent<FieldInterface> = ({
-    disabled,
-    onChange,
-}) => {
-    return <input disabled={disabled} onChange={onChange} />;
-};
-export const Field = styled(FieldPropsInterfaceWrapper)`
+export const Field = styled.input<FieldInterface>`
     /* padding-left: 25px; */
     padding: 10px 12.5px;
     color: ${primaryText};
@@ -43,20 +32,16 @@ export const Field = styled(FieldPropsInterfaceWrapper)`
     width: ${(props) => (props.fullWidth ? props.fullWidth : '90%')};
     font-family: ${subHeadingFontSize};
     border: ${(props) => {
-        if (props.isCorrect) return 'none';
-        if (!props.isCorrect) return '1px solid red';
-        return '0px';
+        let res;
+        if (props.isCorrect === true) res = 'none';
+        if (props.isCorrect === false) res = '1px solid red';
+        return res;
     }};
     font-size: ${(props) => (props.fontSize ? props.fontSize : '16px')};
     height: ${(props) => (props.height ? props.height : 'auto')};
 `;
 
-const IconPropsInterfaceWrapper: React.FunctionComponent<IconInterface> = ({
-    children,
-}) => {
-    return <span>{children}</span>;
-};
-export const Icon = styled(IconPropsInterfaceWrapper)`
+export const Icon = styled.span<IconInterface>`
     position: absolute;
     right: ${(props) =>
         props.rightAbsPosition ? props.rightAbsPosition : '18px'};
