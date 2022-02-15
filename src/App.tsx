@@ -50,7 +50,7 @@ function App(): JSX.Element {
 
     let content;
     if (!activeAccount.isLoggedIn && activeAccount.publicKey) {
-        content = <WelcomeBack />;
+        content = <Route path="/" element={<WelcomeBack />} />;
     } else if (activeAccount.isLoggedIn && activeAccount.publicKey) {
         try {
             content = (

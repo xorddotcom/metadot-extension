@@ -27,12 +27,15 @@ function WelcomeBack(): JSX.Element {
 
     const currentUser = useSelector((state: RootState) => state.activeAccount);
 
-    const handleSubmit = (): boolean | null => {
+    const handleSubmit = async (): Promise<boolean | null> => {
         if (!password) {
             return false;
         }
         try {
-            const validate = validateAccount(currentUser.publicKey, password);
+            const validate = await validateAccount(
+                currentUser.publicKey,
+                password
+            );
             if (validate !== false) {
                 dispatch(setLoggedIn(true));
                 navigate('/');

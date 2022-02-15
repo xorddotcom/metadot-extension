@@ -27,10 +27,10 @@ const About: React.FunctionComponent<AboutModalProps> = ({
     handleClose,
     style,
 }) => {
-    const [jsonData, setJsonData] = React.useState({});
+    const [jsonData, setJsonData] = React.useState('');
     useEffect(() => {
         const fetchJSON = async (): Promise<void> => {
-            const response = await fetch('mainfest.json', {
+            const response = await fetch('manifest.json', {
                 headers: { 'Content-Type': 'application/json' },
             });
             const json = await response.json();

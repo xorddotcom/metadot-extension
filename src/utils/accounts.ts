@@ -2,7 +2,13 @@ import { mnemonicGenerate } from '@polkadot/util-crypto';
 import keyring from '@polkadot/ui-keyring';
 import type { KeyringPair$Json } from '@polkadot/keyring/types';
 import { UnlockPairReturnType } from './types';
-import { validateSeed, createAccountSuri, jsonRestore } from '../messaging';
+import {
+    validateSeed,
+    createAccountSuri,
+    jsonRestore,
+    exportAccount,
+    validateAccount as validateAccountMessage,
+} from '../messaging';
 
 function GenerateSeedPhrase(): string {
     const seed = mnemonicGenerate(12);
@@ -16,10 +22,10 @@ async function validatingSeedPhrase(
     return validated;
 }
 
-function getJsonBackup(address: string, password: string): any {
+async function getJsonBackup(address: string, password: string): Promise<void> {
     try {
-        // message pass to get json backup
-        const backupJson = 'temp';
+        console.log('get json backup ==>>', address, password);
+        const backupJson = await exportAccount(address, password);
 
         // ***Download JSON file***
         const fileName = 'backup';
@@ -80,9 +86,12 @@ function derive(
     }
 }
 
-function validateAccount(address: string, password: string): boolean {
-    // message pass to validate password
-    return true;
+async function validateAccount(
+    address: string,
+    password: string
+): Promise<boolean> {
+    const result = await validateAccountMessage(address, password);
+    return result;
 }
 
 const unlockPair = (

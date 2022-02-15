@@ -6,6 +6,7 @@ import ConfirmSeed from './confirm-seed';
 import CreateWallet from './create-wallet';
 import Dashboard from './dashboard';
 import MultipleAccounts from './multiple-accounts';
+import Support from './support';
 
 export default {
     Welcome,
@@ -16,4 +17,5 @@ export default {
     CreateWallet,
     Dashboard,
     MultipleAccounts,
+    Support,
 };

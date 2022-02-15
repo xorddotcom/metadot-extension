@@ -45,8 +45,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = ({
 
     const downloadJson = async (
         address: string,
-        password: string,
-        sender = {}
+        password: string
     ): Promise<void> => {
         await getJsonBackup(address, password);
         dispatch(setAuthScreenModal(false));

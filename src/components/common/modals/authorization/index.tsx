@@ -5,11 +5,9 @@ import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 
 import { AuthtModalProps } from './types';
-import { RootState } from '../../../../redux/store';
 
 import Button from '../../button';
 import { fonts } from '../../../../utils';
-import accounts from '../../../../utils/accounts';
 import StyledInput from '../../input';
 import { MainDiv, MainText, VerticalContentDiv } from './styledComponent';
 import { ModalText, WarningText } from '../../text';
@@ -20,7 +18,6 @@ import {
 } from '../../../../redux/slices/modalHandling';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-const { unlockPair } = accounts;
 
 const AuthModal: React.FunctionComponent<AuthtModalProps> = ({
     open,
@@ -40,35 +37,15 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = ({
             return false;
         }
         try {
-            const sender = unlockPair(publicKey, password);
-            if (sender.status) {
-                dispatch(setAuthScreenModal(false));
-                dispatch(setConfirmSendModal(true));
-                onConfirm(publicKey, password, sender);
-                return true;
-            }
-            throw new Error('Invalid password');
+            dispatch(setAuthScreenModal(false));
+            dispatch(setConfirmSendModal(true));
+            onConfirm(publicKey, password);
+            return true;
         } catch (err) {
             console.log('error due to wrong ', err);
             setPasswordError('Invalid password!');
         }
         return false;
-    };
-
-    const viewSeedSubmit = (): null => {
-        if (!password) {
-            return null;
-        }
-        try {
-            const sender = unlockPair(publicKey, password);
-            if (!sender.status) {
-                dispatch(setAuthScreenModal(false));
-            }
-        } catch (err) {
-            console.log('error due to wrong ', err);
-            setPasswordError('Invalid password!');
-        }
-        return null;
     };
 
     const styledInput = {
@@ -99,7 +76,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = ({
         width: '110px',
         height: '40px',
         fontSize: '0.8rem',
-        handleClick: () => handleSubmit() || viewSeedSubmit(),
+        handleClick: () => handleSubmit(),
     };
 
     return (
@@ -121,14 +98,6 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = ({
                     >
                         Authorization
                     </ModalText>
-                    {/* <SubText
-            marginTop="6px"
-            textAlign="left"
-            className={subHeadingfontFamilyClass}
-          >
-            If you wish to export your wallet, verify your password to proceed.
-            A json file will be downloaded to your device.
-          </SubText> */}
 
                     <VerticalContentDiv marginTop="15px" mb="30px">
                         <MainText

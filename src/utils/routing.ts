@@ -8,6 +8,7 @@ const {
     CreateWallet,
     Dashboard,
     MultipleAccounts,
+    Support,
 } = Views;
 
 const UnAuthRoutes = [
@@ -53,6 +54,10 @@ const AuthRoutes = [
     {
         path: '/CreateWallet',
         Component: CreateWallet,
+    },
+    {
+        path: '/Support',
+        Component: Support,
     },
 ];
 
