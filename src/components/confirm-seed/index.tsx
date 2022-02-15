@@ -54,17 +54,17 @@ const ConfirmSeed: React.FunctionComponent = () => {
     const [validations, setValidations] = useState([true, true, true, true]);
 
     const checkWordsAndNavigate = (): void => {
-        // const first = word1 === phrase1;
-        // const second = word2 === phrase2;
-        // const third = word3 === phrase3;
-        // const fourth = word4 === phrase4;
+        const first = word1 === phrase1;
+        const second = word2 === phrase2;
+        const third = word3 === phrase3;
+        const fourth = word4 === phrase4;
 
-        // setValidations([first, second, third, fourth]);
+        setValidations([first, second, third, fourth]);
 
-        // if (first && second && third && fourth)
-        navigate('/createWallet', {
-            state: { seedToPass: currSeed },
-        });
+        if (first && second && third && fourth)
+            navigate('/createWallet', {
+                state: { seedToPass: currSeed },
+            });
     };
 
     const handleSelect = (seedObj: {
