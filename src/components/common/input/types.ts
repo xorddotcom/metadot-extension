@@ -15,6 +15,7 @@ export interface FieldInterface {
     onChange(e: React.ChangeEvent<HTMLInputElement>): void;
     isCorrect?: boolean;
     disabled?: boolean;
+    type?: string;
 }
 
 export interface IconInterface {

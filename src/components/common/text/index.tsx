@@ -12,37 +12,25 @@ import {
 const { primaryText, secondaryText, warningText } = colors;
 const { mainHeadingFontSize, subHeadingFontSize } = fonts;
 
-const MainHeadingPropsInterfaceWrapper: React.FunctionComponent<
-    MainHeadingInterface
-> = ({ children }) => {
-    return <p>{children}</p>;
-};
-export const MainHeading = styled(MainHeadingPropsInterfaceWrapper)`
+export const MainHeading = styled.p<MainHeadingInterface>`
     font-style: normal;
     font-size: ${mainHeadingFontSize};
     line-height: 18.75px;
-    text-align: start;
+    text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
     font-size: 16px;
     font-weight: ${(props) => (props.fw ? props.fw : '500')};
     color: ${(props) => (props.color ? props.color : primaryText)};
     margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
 `;
 
-const SubHeadingPropsInterfaceWrapper: React.FunctionComponent<
-    SubHeadingInterface
-> = ({ children }) => {
-    return <p>{children}</p>;
-};
-export const SubHeading = styled(SubHeadingPropsInterfaceWrapper)`
+export const SubHeading = styled.p<SubHeadingInterface>`
     font-style: normal;
     font-size: ${subHeadingFontSize};
     color: ${secondaryText};
     text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
-    text-align-last: ${(props) =>
-        props.textAlignLast ? props.textAlignLast : 'start'};
+    text-align-last: ${(props) => props.textAlignLast && props.textAlignLast};
     line-height: ${(props) => (props.lineHeight ? props.lineHeight : '22px')};
     font-size: 0.9rem;
-    text-align: justify;
     text-justify: auto;
     margin-top: ${(props) => props.marginTop && props.marginTop};
     margin-bottom: ${(props) => props.mb && props.mb};

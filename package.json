@@ -7,12 +7,14 @@
     "@craco/craco": "^6.4.3",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
+    "@material-ui/core": "^4.12.3",
     "@mui/icons-material": "^5.3.1",
     "@mui/material": "^5.3.1",
     "@mui/styles": "^5.4.1",
     "@mui/system": "^5.4.0",
     "@polkadot/api": "^7.6.1",
     "@polkadot/api-augment": "^7.7.1",
+    "@polkadot/extension-chains": "^0.42.7",
     "@polkadot/extension-inject": "^0.42.6",
     "@polkadot/types": "^7.6.1",
     "@polkadot/ui-keyring": "^1.0.1",
@@ -49,14 +51,14 @@
     "prepare": "husky install"
   },
   "browserslist": {
-      "production": [
+    "production": [
       "chrome >= 67",
       "edge >= 79",
       "firefox >= 68",
       "opera >= 54",
       "safari >= 14"
     ],
-      "development": [
+    "development": [
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"

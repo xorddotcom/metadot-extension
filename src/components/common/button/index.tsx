@@ -23,7 +23,7 @@ const CButton: React.FunctionComponent<Props> = ({
 
     const ButtonProps = {
         id,
-        variant: 'contained',
+        // variant: 'contained',
         startIcon: StartIcon ? (
             <img src={StartIcon} alt="icon" style={{ marginTop: '-0.2px' }} />
         ) : null,
@@ -43,7 +43,11 @@ const CButton: React.FunctionComponent<Props> = ({
                 marginBottom: 10,
             }}
         >
-            <Button {...ButtonProps} onClick={handleClick}>
+            <Button
+                {...ButtonProps}
+                onClick={handleClick}
+                className="myStyling"
+            >
                 {!isLoading ? (
                     text
                 ) : (

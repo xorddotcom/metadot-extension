@@ -3,6 +3,7 @@ export interface MainHeadingInterface {
     fw?: string;
     color?: string;
     marginBottom?: string;
+    textAlign?: string;
 }
 
 export interface SubHeadingInterface {

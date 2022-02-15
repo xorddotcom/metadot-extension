@@ -1,6 +1,6 @@
 export interface ButtonInterface {
     id: string;
-    variant: string;
+    variant?: string;
     startIcon: JSX.Element | null;
     onClick(): void;
     disabled: boolean;
