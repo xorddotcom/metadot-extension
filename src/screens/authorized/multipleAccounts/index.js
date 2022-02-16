@@ -9,6 +9,7 @@ import {
   setAccountCreationStep,
   setAccountName,
   setPublicKey,
+  setTempSeed,
 } from '../../../redux/slices/activeAccount';
 import { setDerivedAccountModal } from '../../../redux/slices/modalHandling';
 import {
@@ -45,6 +46,7 @@ function MultipleAccounts(props) {
     try {
       const newSeed = GenerateSeedPhrase();
       setSeedToPass(newSeed);
+      dispatch(setTempSeed(newSeed));
     } catch (error) {
       console.log('ERROR while generating new seed for parent account', error);
     }

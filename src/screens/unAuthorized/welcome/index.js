@@ -15,7 +15,7 @@ import { MainHeading, SubHeading } from './styledComponents';
 import { fonts } from '../../../utils';
 import accounts from '../../../utils/accounts';
 import './index.css';
-import { setAccountCreationStep } from '../../../redux/slices/activeAccount';
+import { setAccountCreationStep, setTempSeed } from '../../../redux/slices/activeAccount';
 
 const { subHeadingfontFamilyClass } = fonts;
 const { GenerateSeedPhrase } = accounts;
@@ -38,6 +38,7 @@ function Welcome() {
     try {
       const newSeed = GenerateSeedPhrase();
       setSeedToPass(newSeed);
+      dispatch(setTempSeed(newSeed));
     } catch (error) {
       console.log('ERROR while generating new seed for parent account', error);
     }
