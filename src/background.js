@@ -3,8 +3,8 @@
 /* eslint-disable vars-on-top */
 // import keyring from '@polkadot/ui-keyring';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
-import { setLastVisitedTimestamp } from './redux/slices/activeAccount';
-import store from './redux/store';
+// import { setLastVisitedTimestamp } from './redux/slices/activeAccount';
+// import store from './redux/store';
 // import { accounts } from './utils';
 
 // const { CryptoAndKeyringInit } = accounts;
@@ -31,14 +31,14 @@ cryptoWaitReady()
   });
 // });
 
-chrome.runtime.onConnect.addListener((port) => {
-  if (port.name === 'popup') {
-    port.onDisconnect.addListener(() => {
-      console.log('popup has been closed');
-      console.log('extension closed!!!!');
-      const currTime = Date.now();
-      console.log('currTime ----', { currTime });
-      store.dispatch(setLastVisitedTimestamp(currTime));
-    });
-  }
-});
+// chrome.runtime.onConnect.addListener((port) => {
+//   if (port.name === 'popup') {
+//     port.onDisconnect.addListener(() => {
+//       console.log('popup has been closed');
+//       console.log('extension closed!!!!');
+//       const currTime = Date.now();
+//       console.log('currTime ----', { currTime });
+//       store.dispatch(setLastVisitedTimestamp(currTime));
+//     });
+//   }
+// });
