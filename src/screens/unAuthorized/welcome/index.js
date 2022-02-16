@@ -38,7 +38,6 @@ function Welcome() {
     try {
       const newSeed = GenerateSeedPhrase();
       setSeedToPass(newSeed);
-      dispatch(setTempSeed(newSeed));
     } catch (error) {
       console.log('ERROR while generating new seed for parent account', error);
     }
@@ -49,6 +48,7 @@ function Welcome() {
     width: '270px',
     StartIcon: AddSharpIcon,
     handleClick: () => {
+      dispatch(setTempSeed(seedToPass));
       dispatch(setAccountCreationStep(1));
       history.push({
         pathname: '/ShowSeed',

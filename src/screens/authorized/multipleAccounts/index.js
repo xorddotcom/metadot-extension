@@ -46,7 +46,6 @@ function MultipleAccounts(props) {
     try {
       const newSeed = GenerateSeedPhrase();
       setSeedToPass(newSeed);
-      dispatch(setTempSeed(newSeed));
     } catch (error) {
       console.log('ERROR while generating new seed for parent account', error);
     }
@@ -87,6 +86,7 @@ function MultipleAccounts(props) {
     fontSize: '18px',
     handleClick: () => {
       dispatch(setAccountCreationStep(1));
+      dispatch(setTempSeed(seedToPass));
       history.push({
         pathname: '/ShowSeed',
         state: { seedToPass },
