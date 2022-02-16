@@ -105,7 +105,7 @@ export const SubHeading = styled.p`
   text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
   text-align-last: ${(props) => (props.textAlignLast ? props.textAlignLast : 'start')};
   line-height: ${(props) => (props.lineHeight ? props.lineHeight : '22px')};
-  font-size: 0.90rem;
+  font-size: ${(props) => (props.fontSize ? props.fontSize : '0.90rem')};
   text-align: justify;
   text-justify: auto;
   margin-top: ${(props) => props.marginTop && props.marginTop};

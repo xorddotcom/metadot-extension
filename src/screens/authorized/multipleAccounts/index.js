@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Header, Button } from '../../../components';
 import {
+  setAccountCreationStep,
   setAccountName,
   setPublicKey,
 } from '../../../redux/slices/activeAccount';
@@ -82,10 +83,13 @@ function MultipleAccounts(props) {
     text: 'Create New Account',
     width: '300px',
     fontSize: '18px',
-    handleClick: () => history.push({
-      pathname: '/ShowSeed',
-      state: { seedToPass },
-    }),
+    handleClick: () => {
+      dispatch(setAccountCreationStep(1));
+      history.push({
+        pathname: '/ShowSeed',
+        state: { seedToPass },
+      });
+    },
     // disabled: ,
   };
 

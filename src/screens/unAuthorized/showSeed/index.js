@@ -22,6 +22,7 @@ import {
 } from '../../../components';
 import { fonts } from '../../../utils';
 import accounts from '../../../utils/accounts';
+import { setAccountCreationStep, setTempSeed } from '../../../redux/slices/activeAccount';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { decrypt } = accounts;
@@ -32,8 +33,6 @@ function ShowSeed() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [copy, setCopy] = useState('Copy');
-
-  const { seed, isLoggedIn } = useSelector((state) => state.activeAccount);
 
   let currSeed = '';
 
@@ -74,7 +73,11 @@ function ShowSeed() {
 
   const contentCopyIcon = {
     id: 'copy-seed',
-    onClick: copySeedText,
+    onClick: () => {
+      copySeedText();
+      // for maintaining extension state if user closes it for pasting the seed
+      dispatch(setTempSeed(currSeed));
+    },
     onMouseOver: () => setCopy('Copy'),
     style: { cursor: 'pointer' },
   };
@@ -90,6 +93,9 @@ function ShowSeed() {
     open: isModalOpen,
     handleClose: () => setIsModalOpen(false),
     onConfirm: () => {
+      // for maintaining extension state if user closes it for pasting the seed
+      dispatch(setAccountCreationStep(2));
+
       history.push({
         pathname: '/ConfirmSeed',
         state: { seedToPass: location.state.seedToPass },
@@ -113,24 +119,28 @@ function ShowSeed() {
     <AuthWrapper>
       <Header
         centerText="Seed Phrase"
-        backHandler={() => console.log('goBack')}
+        backHandler={() => {
+          console.log('goBack');
+          dispatch(setTempSeed(''));
+          dispatch(setAccountCreationStep(0));
+        }}
       />
       <div style={{ marginTop: '29px' }}>
         <MainHeading className={mainHeadingfontFamilyClass}>
           Write down your seed phrase :
         </MainHeading>
-        <SubHeading className={subHeadingfontFamilyClass}>
+        <SubHeading className={subHeadingfontFamilyClass} fontSize="0.8rem">
           Please note down your mnemonic seed phrase. As of now, it is the only
           access point to your Metadot wallet in case of any mishap. Screenshots
           are not encouraged.
         </SubHeading>
-        <SubHeading className={mainHeadingfontFamilyClass}>
+        {/* <SubHeading className={mainHeadingfontFamilyClass}>
           Why the seed phrase?
         </SubHeading>
         <SubHeading className={mainHeadingfontFamilyClass}>
           To ensure the backup, a seed phrase is required. It will be your only
           access to the wallet in the future.
-        </SubHeading>
+        </SubHeading> */}
       </div>
       {/* <HorizontalContentDiv> */}
       <CopyText className={subHeadingfontFamilyClass}>

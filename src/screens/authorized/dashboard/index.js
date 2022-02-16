@@ -27,6 +27,8 @@ import {
   resetAccountSlice,
   setJsonFileUploadScreen,
   setPrefix,
+  // setTempSeed,
+  // setAccountCreationStep,
 } from '../../../redux/slices/activeAccount';
 
 import {
@@ -104,7 +106,12 @@ function Dashboard(props) {
     walletName,
     rpcUrl,
     jsonFileUploadScreen,
+    accountCreationStep,
+    tempSeed,
+    lastVisitedTimestamp,
   } = currentUser.activeAccount;
+
+  const lastVisited = (Date.now() - lastVisitedTimestamp) / 1000;
 
   function getOwnTabs() {
     return Promise.all(
@@ -420,6 +427,40 @@ function Dashboard(props) {
   //     return null;
   //   }
   //   console.log('istab res in else', res);
+
+  // useEffect(() => {
+  //   const currTime = Date.now();
+  //   console.log('currTime ----', { currTime });
+  //   // dispatch()
+  // }, []);
+
+  console.log(`visited ${lastVisited} seconds ago`, '--------> session expired  ', (lastVisited < 90));
+
+  if (accountCreationStep === 1) {
+    history.push({
+      pathname: '/ShowSeed',
+      state: { seedToPass: tempSeed },
+    });
+    return null;
+  }
+  if (accountCreationStep === 2 && tempSeed.length) {
+    history.push({
+      pathname: '/ConfirmSeed',
+      state: { seedToPass: tempSeed },
+    });
+    return null;
+  }
+  if (accountCreationStep === 3 && tempSeed.length) {
+    history.push({
+      pathname: '/createWallet',
+      state: { seedToPass: tempSeed },
+    });
+    return null;
+  }
+  // } else {
+  //   dispatch(setTempSeed(''));
+  //   dispatch(setAccountCreationStep(0));
+  // }
 
   if (jsonFileUploadScreen) {
     history.push('/ImportWallet');

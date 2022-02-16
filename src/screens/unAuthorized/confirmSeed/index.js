@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import {
   AuthWrapper,
@@ -17,6 +17,7 @@ import { fonts, helpers } from '../../../utils';
 import {
   SeedGridRow, SeedText, SeedGrid,
 } from './styledComponents';
+import { setAccountCreationStep } from '../../../redux/slices/activeAccount';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { arrayFromSeedSentence, arrayOfFourRandomNumbers, shuffleItemsWithinArray } = helpers;
@@ -24,12 +25,13 @@ const fourRandomIndexes = arrayOfFourRandomNumbers();
 
 function ConfirmSeed() {
   const history = useHistory();
-  const location = useLocation();
-
-  const currSeed = location.state.seedToPass;
+  const dispatch = useDispatch();
+  // const location = useLocation();
 
   // eslint-disable-next-line no-unused-vars
-  const { seed } = useSelector((state) => state.activeAccount);
+  const { tempSeed } = useSelector((state) => state.activeAccount);
+
+  const currSeed = tempSeed;
 
   // eslint-disable-next-line no-unused-vars
   const [shuffledSeed, setShuffledSeed] = useState(
@@ -63,10 +65,13 @@ function ConfirmSeed() {
     setValidations([first, second, third, fourth]);
 
     // eslint-disable-next-line no-unused-expressions
-    first && second && third && fourth && history.push({
-      pathname: '/createWallet',
-      state: { seedToPass: currSeed },
-    });
+    if (first && second && third && fourth) {
+      dispatch(setAccountCreationStep(3));
+      history.push({
+        pathname: '/createWallet',
+        state: { seedToPass: currSeed },
+      });
+    }
   };
 
   const handleSelect = (seedObj) => {
@@ -183,7 +188,14 @@ function ConfirmSeed() {
 
   return (
     <AuthWrapper>
-      <Header centerText="Confirm Seed" backHandler={() => console.log('goBack')} />
+      <Header
+        centerText="Confirm Seed"
+        backHandler={() => {
+          console.log('goBack');
+          // dispatch(setTempSeed(''));
+          dispatch(setAccountCreationStep(1));
+        }}
+      />
       <div>
         <MainHeading {...mainHeading}>
           Confirm seed phrase

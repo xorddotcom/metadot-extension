@@ -17,12 +17,24 @@ const initialState = {
   keyringInitialized: false,
   jsonFileUploadScreen: false,
   prefix: 42,
+  accountCreationStep: 0,
+  tempSeed: '',
+  lastVisitedTimestamp: '',
 };
 
 export const activeAccountSlice = createSlice({
   name: 'activeAccount',
   initialState,
   reducers: {
+    setLastVisitedTimestamp: (state, action) => {
+      state.lastVisitedTimestamp = action.payload;
+    },
+    setAccountCreationStep: (state, action) => {
+      state.accountCreationStep = action.payload;
+    },
+    setTempSeed: (state, action) => {
+      state.tempSeed = action.payload;
+    },
     setKeyringInitialized: (state, action) => {
       state.keyringInitialized = action.payload;
     },
@@ -85,6 +97,9 @@ export const {
   setKeyringInitialized,
   setJsonFileUploadScreen,
   setPrefix,
+  setAccountCreationStep,
+  setTempSeed,
+  setLastVisitedTimestamp,
 } = activeAccountSlice.actions;
 
 export default activeAccountSlice.reducer;

@@ -21,13 +21,10 @@ const StyledInputField = styled.input`
   padding: 10px 12px 10px 10px;
   color: ${primaryText};
   background-color: ${darkBackground1};
-  border-bottom-color: rgb(33, 33, 33);
-    border-right-color: rgb(33,33,33);
-    border-left-color: rgb(33, 33, 33);
-    border-top-color: rgb(33,33,33);
   font-size: 14px !important;
   line-height: 17px;
   border-radius: 8px;
+  border: 0px;
   opacity: 0.8;
   letter-spacing: 0.02em;
   width: ${(props) => (props.fullWidth ? props.fullWidth : '90%')};

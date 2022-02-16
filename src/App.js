@@ -141,6 +141,12 @@ function App() {
     transactionProgressSubText,
   };
 
+  useEffect(() => {
+    // popup.js
+    // eslint-disable-next-line no-undef
+    chrome.runtime.connect({ name: 'popup' });
+  }, []);
+
   return (
     <Router>
       <div className="App">

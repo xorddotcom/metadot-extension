@@ -15,6 +15,8 @@ import {
   setLoggedIn,
   setPublicKey,
   setAccountName,
+  setAccountCreationStep,
+  setTempSeed,
 } from '../../../redux/slices/activeAccount';
 import { fonts, helpers } from '../../../utils';
 import accounts from '../../../utils/accounts';
@@ -51,6 +53,8 @@ function CreateWallet() {
   const history = useHistory();
   const location = useLocation();
 
+  const { tempSeed } = useSelector((state) => state.activeAccount);
+
   const operation = history.entries[history.entries.length - 2].pathname === '/ImportWallet'
     ? 'Imported'
     : 'Created';
@@ -68,12 +72,11 @@ function CreateWallet() {
   //   console.log('Parent Key ---------->', parentKey);
   // }
 
-  const currSeed = location.state.seedToPass && location.state.seedToPass;
+  const currSeed = operation === 'Imported' ? location.state.seedToPass && location.state.seedToPass : tempSeed;
   const parentKey = location.state.parentKey && location.state.parentKey;
-  console.log('Parent Key ---------->', parentKey);
 
   // eslint-disable-next-line no-unused-vars
-  const { seed, prefix } = useSelector((state) => state.activeAccount);
+  const { prefix } = useSelector((state) => state.activeAccount);
 
   const [walletName, setWalletName] = useState('');
   const [isValidWalletName, setIsValidWalletName] = useState(false);
@@ -106,15 +109,6 @@ function CreateWallet() {
     }
     return true;
   };
-
-  // const validateWalletName = () => {
-  //   const regexRes = password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/);
-  //   console.log('Regex res [][]', regexRes);
-  //   if (regexRes == null) {
-  // setRegexError('Password must contain at least one lower case,
-  //  one upper case and one number'); }
-  //   setRegexError(true);
-  // };
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -187,6 +181,10 @@ function CreateWallet() {
       await saveAccountInRedux(res.address, walletName);
       dispatch(setLoadingForApi(false));
       setIsLoading(false);
+
+      dispatch(setTempSeed(''));
+      dispatch(setAccountCreationStep(0));
+
       await showSuccessModalAndNavigateToDashboard();
     } catch (err) {
       console.log('error n create wallet', err);
@@ -253,7 +251,11 @@ function CreateWallet() {
     <AuthWrapper>
       <Header
         centerText="Authentication"
-        backHandler={() => console.log('object')}
+        backHandler={() => {
+          console.log('goBack');
+          // dispatch(setTempSeed(''));
+          dispatch(setAccountCreationStep(2));
+        }}
       />
       <SubMainWrapperForAuthScreens mt="34px">
         <LabelAndTextInput>

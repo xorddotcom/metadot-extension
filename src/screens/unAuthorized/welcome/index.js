@@ -15,6 +15,7 @@ import { MainHeading, SubHeading } from './styledComponents';
 import { fonts } from '../../../utils';
 import accounts from '../../../utils/accounts';
 import './index.css';
+import { setAccountCreationStep } from '../../../redux/slices/activeAccount';
 
 const { subHeadingfontFamilyClass } = fonts;
 const { GenerateSeedPhrase } = accounts;
@@ -22,7 +23,11 @@ const { GenerateSeedPhrase } = accounts;
 function Welcome() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { jsonFileUploadScreen } = useSelector((state) => state.activeAccount);
+  const {
+    jsonFileUploadScreen,
+    tempSeed,
+    accountCreationStep,
+  } = useSelector((state) => state.activeAccount);
 
   const [seedToPass, setSeedToPass] = useState('');
 
@@ -43,6 +48,7 @@ function Welcome() {
     width: '270px',
     StartIcon: AddSharpIcon,
     handleClick: () => {
+      dispatch(setAccountCreationStep(1));
       history.push({
         pathname: '/ShowSeed',
         state: { seedToPass },
@@ -67,6 +73,27 @@ function Welcome() {
     style: { marginLeft: '0', marginBottom: 0 },
   };
 
+  if (accountCreationStep === 1 && tempSeed.length) {
+    history.push({
+      pathname: '/ShowSeed',
+      state: { seedToPass: tempSeed },
+    });
+    return null;
+  }
+  if (accountCreationStep === 2 && tempSeed.length) {
+    history.push({
+      pathname: '/ConfirmSeed',
+      state: { seedToPass: tempSeed },
+    });
+    return null;
+  }
+  if (accountCreationStep === 3 && tempSeed.length) {
+    history.push({
+      pathname: '/createWallet',
+      state: { seedToPass: tempSeed },
+    });
+    return null;
+  }
   if (jsonFileUploadScreen) {
     history.push('/ImportWallet');
     return null;
