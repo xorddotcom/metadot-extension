@@ -1,3 +1,8 @@
+export interface VerticalContentDivPropsInterface {
+    marginTop?: string;
+    mb?: string;
+}
+
 export interface HorizontalContentInterface {
     paddingBottom?: string;
     paddingTop?: boolean;

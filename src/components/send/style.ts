@@ -7,7 +7,6 @@ import {
     VerticalContentDivPropsInterface,
     MainTextPropsInterface,
 } from '../common/modals/authorization/styledComponent/types';
-import { verticalContentDivPropsInterfaceWrapper } from '../common/modals/confirmSend/styledComponents/types';
 // import { PlainIcon } from '../common/modals/selectNetwork/styledComponents';
 // import { PlainIcon as PlainIconInterface } from '../common/modals/selectNetwork/styledComponents/types';
 
@@ -24,7 +23,7 @@ export const VerticalContentDiv = styled.div<VerticalContentDivPropsInterface>`
     margin-bottom: ${(props) => (props.mb ? props.mb : '0px')};
 `;
 
-export const HorizontalContentDiv = styled.div<verticalContentDivPropsInterfaceWrapper>`
+export const HorizontalContentDiv = styled.div<VerticalContentDivPropsInterface>`
     display: flex;
     width: 100%;
     flex-direction: row;
@@ -50,7 +49,7 @@ export const PlainIcon = styled.div`
     border-radius: 50%;
     margin-left: 5px;
     margin-right: 20px;
-    background: ${(props) =>
+    background: ${(props: { bgColor?: string }) =>
         props.bgColor ? props.bgColor : primaryBackground};
 `;
 
@@ -76,7 +75,8 @@ export const Balance = styled.p`
     letter-spacing: 0.02em;
     margin: 0px;
     color: rgba(250, 250, 250, 0.8);
-    text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
+    text-align: ${(props: { textAlign?: string }) =>
+        props.textAlign ? props.textAlign : 'start'};
     margin-top: 5px;
 `;
 
