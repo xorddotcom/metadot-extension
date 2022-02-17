@@ -28,7 +28,7 @@ function index({
   const StyledButton = styled(Button)`
     width: ${width || '288px'};
     height: ${height || _height};
-    filter: drop-shadow(0px 10px 10px rgba(46, 155, 155, 0.07));
+    box-shadow: none !important;
     box-sizing: border-box;
     border-radius: ${br || '40px'};
     background: ${!cancel ? primaryBackground : secondaryBgColor};
@@ -42,7 +42,7 @@ function index({
     &:disabled {
       color: rgba(250, 250, 250, 0.8);
       background: rgba(46, 155, 155, 0.5);
-      box-shadow: 0px 10px 10px rgba(46, 155, 155, 0.02);
+      /* box-shadow: 0px 10px 10px rgba(46, 155, 155, 0.02); */
       border: none;
     }
   `;
@@ -74,6 +74,7 @@ function index({
         <StyledButton
           {...styledButtonF}
           style={{ fontSize: buttonFontSize }}
+          elevation={0}
         >
           {!isLoading ? text : <CircularProgress size={24} style={{ color: primaryText }} />}
         </StyledButton>
@@ -81,6 +82,7 @@ function index({
         <StyledButton
           {...styledButtonS}
           style={{ fontSize: fontSize || buttonFontSize }}
+          elevation={0}
         >
           {!isLoading ? text : <CircularProgress size={24} style={{ color: primaryText }} />}
         </StyledButton>
