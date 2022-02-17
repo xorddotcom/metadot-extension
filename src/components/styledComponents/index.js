@@ -10,8 +10,8 @@ const { mainHeadingFontSize, subHeadingFontSize, headerHeadingFontSize } = fonts
 // ------------------ Asset cards styled components------------------ //
 
 export const AssetCardWrapper = styled.div`
-  width: 89%;
-  height: 55px;
+  width: 86%;
+  height: 60px;
   background: linear-gradient(
     98.61deg,
     #1e1e1e -29.86%,
@@ -22,8 +22,8 @@ export const AssetCardWrapper = styled.div`
   border-radius: 5px;
   margin-top: 15px;
   margin-bottom: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -105,8 +105,7 @@ export const SubHeading = styled.p`
   text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
   text-align-last: ${(props) => (props.textAlignLast ? props.textAlignLast : 'start')};
   line-height: ${(props) => (props.lineHeight ? props.lineHeight : '22px')};
-  font-size: ${(props) => (props.fontSize ? props.fontSize : '0.90rem')};
-  text-align: justify;
+  font-size: ${(props) => (props.fontSize ? props.fontSize : '0.80rem')};
   text-justify: auto;
   margin-top: ${(props) => props.marginTop && props.marginTop};
   margin-bottom: ${(props) => props.mb && props.mb};
@@ -123,11 +122,12 @@ export const SubMainWrapperForAuthScreens = styled.div`
   height: auto;
   height: auto;
   margin: 17px auto 25px;
-  margin-bottom: ${(props) => (props.mb ? props.mb : '2rem')};
+  margin-bottom: ${(props) => (props.mb ? props.mb : '50px')};
 `;
 
 export const TextInputWrapper = styled.div`
   width: ${(props) => (props.inputWrapperWidth ? props.inputWrapperWidth : '100%')};
+  height: 40px;
   border: ${(props) => (props.isCorrect
     ? '0px'
     : props.isCorrect === false

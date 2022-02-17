@@ -22,7 +22,7 @@ function AssetCard({
   const history = useHistory();
   const sendBtn = {
     text: 'Send',
-    width: '60px',
+    width: '64px',
     fontSize: '12px',
     fontWeight: 500,
     height: '30px',

@@ -104,17 +104,17 @@ function ShowSeed() {
       });
     },
     style: {
-      width: '290px',
+      width: '300px',
       background: '#141414',
       position: 'relative',
       bottom: 30,
       p: 2,
       px: 2,
-      pb: 3,
+      pb: 2,
     },
     mainText: 'Warning',
     subText:
-      'Proceeding will not let you view your mnemonic again. Do you still wish to continue?',
+      'Proceeding will not let you view your seed phrase again, once account creation process is finished. Do you still wish to continue?',
   };
 
   return (

@@ -343,7 +343,8 @@ function ImportWallet() {
   };
 
   const mainHeading = {
-    marginTop: '29px',
+    marginTop: '34px',
+    marginBottom: '12px',
     className: mainHeadingfontFamilyClass,
   };
 
@@ -353,6 +354,8 @@ function ImportWallet() {
   };
 
   const selectTypeHeading = {
+    marginTop: '16px',
+    marginBottom: '8px',
     className: mainHeadingfontFamilyClass,
     fontWeight: 'bold',
     lineHeight: '21px',

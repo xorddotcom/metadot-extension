@@ -74,21 +74,28 @@ function Welcome() {
     style: { marginLeft: '0', marginBottom: 0 },
   };
 
-  if (accountCreationStep === 1 && tempSeed.length) {
+  const lastTime = localStorage.getItem('timestamp');
+
+  const lastVisited = (Date.now() - Number(lastTime) || 0) / 1000;
+
+  console.log(`visited ${lastVisited} seconds ago`, '--------> session expired  ', (lastVisited < 90));
+
+  if (accountCreationStep === 1 && lastVisited < 90) {
     history.push({
       pathname: '/ShowSeed',
       state: { seedToPass: tempSeed },
     });
     return null;
   }
-  if (accountCreationStep === 2 && tempSeed.length) {
+
+  if (accountCreationStep === 2 && tempSeed.length && lastVisited < 90) {
     history.push({
       pathname: '/ConfirmSeed',
       state: { seedToPass: tempSeed },
     });
     return null;
   }
-  if (accountCreationStep === 3 && tempSeed.length) {
+  if (accountCreationStep === 3 && tempSeed.length && lastVisited < 90) {
     history.push({
       pathname: '/createWallet',
       state: { seedToPass: tempSeed },

@@ -7,7 +7,7 @@ const { subHeadingFontSize } = fonts;
 export const OptionDiv = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   margin-top: 0;
 `;
@@ -33,8 +33,7 @@ export const Option = styled.p`
 `;
 
 export const UploadFileDiv = styled.div`
-  margin-top: 30px;
-  margin-left: 0.6rem;
+  margin-top: 24px;
   width: 100%;
 `;
 
@@ -42,8 +41,8 @@ export const UploadFile = styled.label`
   background-color: ${darkBackground1};
   color: ${primaryText};
   padding: 0.6rem 1rem;
-  width: 76%;
-  height: 14px;
+  width: 86%;
+  height: 20px;
   font-weight: 500;
   font-size: 14px;
   line-height: 16px;

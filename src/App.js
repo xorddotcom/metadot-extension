@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import {
@@ -19,6 +20,7 @@ import WelcomeBack from './screens/unAuthorized/welcomeBack';
 import Welcome from './screens/unAuthorized/welcome';
 
 import wifiOff from './assets/images/wifi-off.svg';
+import { setLastVisitedTimestamp } from './redux/slices/activeAccount';
 
 const { AuthRoutes, UnAuthRoutes } = routes;
 const { subHeadingfontFamilyClass, subHeadingFontSize } = fonts;
@@ -147,12 +149,23 @@ function App() {
     chrome.runtime.connect({ name: 'popup' });
   }, []);
 
+  // useEffect(() => {
+  //   const abc = 'ran abcksjs';
+  //   return console.log('ran!!!!!');
+  // }, []);
+
   return (
     <Router>
       <div className="App">
         <Switch>
           <div>
             {renderFunction()}
+
+            {/*
+            <button type="button" onClick={() => console.log(localStorage.getItem('timestamp'))}>
+            get timestamp
+            </button>
+            */}
 
             {/* Dynamic Modal controlled by redux for successfully and
             unsuccessfully  executed processes

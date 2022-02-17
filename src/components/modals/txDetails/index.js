@@ -126,14 +126,18 @@ function TxDetails({
 
               <VerticalContentDiv marginBottom="10px">
                 <MainText2 marginTop="10px" textAlign="start" className={subHeadingfontFamilyClass}>Amount</MainText2>
-                <MainText2 marginTop="10px" textAlign="start" className={subHeadingfontFamilyClass}>Network Fee</MainText2>
+                {/*
+                <MainText2 marginTop="10px" textAlign="start"
+                className={subHeadingfontFamilyClass}>Network Fee</MainText2>
+                */}
               </VerticalContentDiv>
 
               <VerticalContentDiv marginBottom="10px">
                 <MainText2 marginTop="10px" textAlign="end" className={mainHeadingfontFamilyClass}>{`${amount} ${tokenName}`}</MainText2>
+                {/*
                 <MainText2 marginTop="10px" textAlign="end" className={mainHeadingfontFamilyClass}>
                   {`${transactionFee} ${tokenName}`}
-                </MainText2>
+                </MainText2> */}
               </VerticalContentDiv>
             </HorizontalContentDiv>
 

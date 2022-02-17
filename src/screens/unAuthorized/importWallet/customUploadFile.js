@@ -172,13 +172,13 @@ const CustomUploadFile = (props) => {
         )}
         <SubHeading
           className={mainHeadingfontFamilyClass}
-          marginTop="40px"
+          marginTop="27px"
           mb="10px"
         >
           Password
         </SubHeading>
         <StyledInput
-          inputWrapperWidth="87%"
+          inputWrapperWidth="97%"
           id="password"
           fullWidth="82%"
           {...styledInputPassword}
