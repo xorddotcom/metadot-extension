@@ -1,6 +1,8 @@
+import type { KeyringPair } from '@polkadot/keyring/types';
+
 export interface UnlockPairReturnType {
     status: boolean;
-    sender: object;
+    sender: string | KeyringPair;
 }
 
 export interface QueryObjectInterface {

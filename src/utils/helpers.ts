@@ -45,7 +45,7 @@ function shuffleItemsWithinArray(array: Array<string>): Array<string> {
     return array;
 }
 
-function addressModifier(address: string): string | undefined {
+function addressModifier(address: string | undefined): string | undefined {
     if (address)
         return `${address.slice(0, 5)}...${address.slice(
             address.length - 5,
@@ -57,28 +57,29 @@ function addressModifier(address: string): string | undefined {
 function validateAddress(
     userPublicAddress: string,
     senderPublicAddress: string
-): boolean | unknown {
+): boolean | string {
     try {
         if (userPublicAddress === senderPublicAddress) {
             throw String('Address is matched from your public address');
         }
         return true;
     } catch (error) {
-        return error;
+        return 'Address does not match';
+        // return error;
     }
 }
 
 function validateAmount(
     userCurrentAmount: number,
     sendAmount: number
-): boolean | unknown {
+): boolean {
     try {
         if (userCurrentAmount < sendAmount) {
             throw String('Amount is exceeding from your current balance');
         }
         return true;
     } catch (error) {
-        return error;
+        return false;
     }
 }
 

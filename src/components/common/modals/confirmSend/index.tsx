@@ -24,7 +24,7 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const ConfirmSend: React.FunctionComponent<ConfirmSendModalProps> = ({
     open,
     handleClose,
-    handleConfirm,
+    // handleConfirm,
     style,
     accountTo,
     amount,

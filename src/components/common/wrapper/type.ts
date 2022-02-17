@@ -17,4 +17,5 @@ export interface VerticalContentDivPropsInterface {
     border?: string | boolean;
     specialPadding?: string | boolean;
     paddingBottom?: string | boolean;
+    mb?: string;
 }

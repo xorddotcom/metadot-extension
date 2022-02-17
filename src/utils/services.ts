@@ -1,8 +1,9 @@
 import { options as AcalaOptions } from '@acala-network/api';
 import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import { WsProvider, ApiPromise, Keyring } from '@polkadot/api';
-import { formatBalance } from '@polkadot/util';
 import '@polkadot/api-augment';
+
+import { formatBalance } from '@polkadot/util';
 import { encodeAddress } from '@polkadot/util-crypto';
 import type { KeyringJson } from '@polkadot/ui-keyring/types';
 import constants from '../constants/onchain';
@@ -53,10 +54,11 @@ const getBalanceWithMultipleTokens = async (
 ): Promise<number> => {
     // eslint-disable-next-line no-useless-catch
     try {
-        const [now, { data: balances }]: any = await Promise.all([
+        const { data: balances }: any = await Promise.all([
             api.query.timestamp.now(),
             api.query.system.account(account),
         ]);
+
         const userBalance = formatBalance(balances.free, {
             decimals: api.registry.chainDecimals[0],
             forceUnit: '-',
@@ -89,8 +91,10 @@ const getBalance = async (
 //     const info = await api.tx.balances
 //         .transfer(sender, BigInt(amount * 10 ** decimalPlaces))
 //         .paymentInfo(recipient);
+
 //     return info;
 // };
+
 const addressMapper = (address: string, prefix: number): string => {
     console.log(prefix, '||||||', address);
     const res = encodeAddress(address, prefix);

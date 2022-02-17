@@ -19,4 +19,6 @@ export interface MainTextPropsInterface {
     m?: string;
     mt?: string;
     className?: string;
+    fs?: string;
+    mb?: string;
 }
