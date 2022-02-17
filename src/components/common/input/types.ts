@@ -43,7 +43,7 @@ export interface Props {
     hideState?: boolean;
     marginBottom?: string;
     maxlength?: string;
-    blockInvalidChar?: string;
+    blockInvalidChar?: boolean;
     id: string;
     mt?: string;
     mr?: string;

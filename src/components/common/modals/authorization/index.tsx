@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 
+import type { KeyringPair } from '@polkadot/keyring/types';
+
 import { AuthtModalProps } from './types';
 
 import Button from '../../button';
@@ -31,6 +33,8 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = ({
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+
+    type Sender = KeyringPair | string;
 
     const handleSubmit = (): boolean => {
         if (!password) {

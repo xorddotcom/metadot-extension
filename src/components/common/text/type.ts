@@ -23,6 +23,7 @@ export interface WarningTextInterface {
     visibility?: boolean;
     ml?: string;
     mb?: string;
+    style?: object;
 }
 
 export interface MainTextInterface {

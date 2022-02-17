@@ -1,3 +1,7 @@
+import type { KeyringPair } from '@polkadot/keyring/types';
+
+type Sender = KeyringPair | string;
+
 export interface AuthtModalProps {
     open: boolean;
     handleClose(): void;

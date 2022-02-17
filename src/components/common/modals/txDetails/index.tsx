@@ -146,7 +146,7 @@ const TxDetails: React.FunctionComponent<TxDetailsProps> = (props) => {
                                 textAlign="start"
                                 className={subHeadingfontFamilyClass}
                             >
-                                {addressModifier(accountFrom || 'abc')}
+                                {addressModifier(accountFrom)}
                             </SubText2>
                         </VerticalContentDiv>
 
@@ -161,7 +161,7 @@ const TxDetails: React.FunctionComponent<TxDetailsProps> = (props) => {
                                 textAlign="end"
                                 className={subHeadingfontFamilyClass}
                             >
-                                {addressModifier(accountTo || 'abc')}
+                                {addressModifier(accountTo)}
                             </SubText2>
                         </VerticalContentDiv>
                     </HorizontalContentDiv>
