@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
 import { AccountJson } from 'metadot-extension-base/background/types';
+import { QueryClientProvider, QueryClient } from 'react-query';
 import {
     setLoggedIn,
     setPublicKey,
@@ -21,6 +22,7 @@ function App(): JSX.Element {
     const { Welcome, WelcomeBack } = Views;
     const { activeAccount } = useSelector((state: RootState) => state);
     const dispatch = useDispatch();
+    const queryClient = new QueryClient();
 
     useEffect(() => {
         subscribeAccounts(setAccounts);
@@ -91,8 +93,10 @@ function App(): JSX.Element {
 
     return (
         <div className="App">
-            <ApiManager rpc={activeAccount.rpcUrl} />
-            <Routes>{content}</Routes>
+            <QueryClientProvider client={queryClient}>
+                <ApiManager rpc={activeAccount.rpcUrl} />
+                <Routes>{content}</Routes>
+            </QueryClientProvider>
         </div>
     );
 }

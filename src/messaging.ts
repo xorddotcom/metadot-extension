@@ -36,31 +36,31 @@ interface Handler {
 
 type Handlers = Record<string, Handler>;
 
-const port = chrome.runtime.connect({ name: PORT_EXTENSION });
+// const port = chrome.runtime.connect({ name: PORT_EXTENSION });
 const handlers: Handlers = {};
 
 // setup a listener for messages, any incoming resolves the promise
-port.onMessage.addListener((data: Message['data']): void => {
-    const handler = handlers[data.id];
+// port.onMessage.addListener((data: Message['data']): void => {
+//     const handler = handlers[data.id];
 
-    if (!handler) {
-        console.error(`Unknown response: ${JSON.stringify(data)}`);
-        return;
-    }
+//     if (!handler) {
+//         console.error(`Unknown response: ${JSON.stringify(data)}`);
+//         return;
+//     }
 
-    if (!handler.subscriber) {
-        delete handlers[data.id];
-    }
+//     if (!handler.subscriber) {
+//         delete handlers[data.id];
+//     }
 
-    if (data.subscription) {
-        // eslint-disable-next-line @typescript-eslint/ban-types
-        (handler.subscriber as Function)(data.subscription);
-    } else if (data.error) {
-        handler.reject(new Error(data.error));
-    } else {
-        handler.resolve(data.response);
-    }
-});
+//     if (data.subscription) {
+//         // eslint-disable-next-line @typescript-eslint/ban-types
+//         (handler.subscriber as Function)(data.subscription);
+//     } else if (data.error) {
+//         handler.reject(new Error(data.error));
+//     } else {
+//         handler.resolve(data.response);
+//     }
+// });
 
 function sendMessage<TMessageType extends MessageTypesWithNullRequest>(
     message: TMessageType
@@ -83,7 +83,7 @@ function sendMessage<TMessageType extends MessageTypes>(
     return new Promise((resolve, reject): void => {
         const id = getId();
         handlers[id] = { reject, resolve, subscriber };
-        port.postMessage({ id, message, request: request || {} });
+        // port.postMessage({ id, message, request: request || {} });
     });
 }
 
