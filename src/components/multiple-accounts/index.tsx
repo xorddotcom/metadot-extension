@@ -62,24 +62,47 @@ const MultipleAccounts: React.FunctionComponent = () => {
 
     useEffect(() => {
         const parentChildR = (): void => {
-            Object.values(allAccounts).map((account) => {
+            const ParentAccounts: {
+                publicKey: string;
+                accountName: string;
+                parentAddress: string;
+            }[] = [];
+            const ChildAccounts: {
+                publicKey: string;
+                accountName: string;
+                parentAddress: string;
+            }[] = [];
+            Object.values(allAccounts).forEach((account) => {
+                console.log('account mapping ==>>', account);
                 if (account && !account.parentAddress) {
-                    setParentAccounts([
-                        account,
-                        ...(parentAccounts as Array<any>),
-                    ]);
+                    console.log('setting parent account');
+                    ParentAccounts.push(account as any);
+                    // setParentAccounts([
+                    //     account,
+                    //     ...(parentAccounts as Array<any>),
+                    // ]);
                 } else {
-                    setChildAccounts([
-                        account,
-                        ...(childAccounts as Array<any>),
-                    ]);
+                    ChildAccounts.push(account as any);
+                    // setChildAccounts([
+                    //     account,
+                    //     ...(childAccounts as Array<any>),
+                    // ]);
                 }
-                return null;
             });
+            setParentAccounts(ParentAccounts);
+            setChildAccounts(ChildAccounts);
         };
 
         parentChildR();
-    }, [allAccounts, childAccounts, parentAccounts]);
+    }, [allAccounts]);
+
+    useEffect(() => {
+        console.log(
+            'parentAccounts childAccounts ==>>',
+            parentAccounts,
+            childAccounts
+        );
+    }, [parentAccounts, childAccounts]);
 
     const accountActive = (pk: string, name: string): void => {
         dispatch(setPublicKey(pk));

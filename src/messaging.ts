@@ -235,3 +235,21 @@ export async function jsonRestore(
 ): Promise<void> {
     return sendMessage('pri(json.restore)', { file, password });
 }
+
+export async function deriveAccount(
+    parentAddress: string,
+    suri: string,
+    parentPassword: string,
+    name: string,
+    password: string,
+    genesisHash: string | null
+): Promise<boolean> {
+    return sendMessage('pri(derivation.create)', {
+        genesisHash,
+        name,
+        parentAddress,
+        parentPassword,
+        password,
+        suri,
+    });
+}

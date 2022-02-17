@@ -29,7 +29,7 @@ import { addAccount } from '../../redux/slices/accounts';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
-const { AccountCreation, derive } = accounts;
+const { derive } = accounts;
 
 const passwordErrorMessages = {
     minimumCharacterWarning: 'Password should not be less than 8 characters',
@@ -90,24 +90,6 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const derivationCreate = (
-        parentAddresss: string,
-        parentPasswoord: string,
-        suri: string,
-        childPassword: string,
-        name: string
-    ): boolean => {
-        const deriveObject = {
-            parentAddresss,
-            parentPasswoord,
-            suri,
-            childPassword,
-            name,
-        };
-
-        return true;
-    };
-
     const showSuccessModalAndNavigateToDashboard = (): void => {
         dispatch(setIsResponseModalOpen(true));
         dispatch(setResponseImage(ImportIcon));
@@ -132,15 +114,14 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                 setIsLoading(false);
                 return;
             }
-            const res = await derivationCreate(
+            await derive(
                 parentAddress,
-                parentPassword,
                 '//0',
+                parentPassword,
+                walletName,
                 password,
-                walletName
+                null
             );
-
-            console.log('response handle continue ----', res);
 
             dispatch(setLoadingForApi(false));
             setIsLoading(false);

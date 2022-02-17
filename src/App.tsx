@@ -27,7 +27,11 @@ function App(): JSX.Element {
     }, []);
 
     useEffect(() => {
-        const saveAccountInRedux = ({ name, address }: any): void => {
+        const saveAccountInRedux = ({
+            name,
+            address,
+            parentAddress,
+        }: any): void => {
             // setting active account
             dispatch(setLoggedIn(true));
             dispatch(setPublicKey(address));
@@ -38,6 +42,7 @@ function App(): JSX.Element {
                 addAccount({
                     accountName: name,
                     publicKey: address,
+                    parentAddress,
                 })
             );
         };

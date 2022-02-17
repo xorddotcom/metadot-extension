@@ -227,10 +227,6 @@ const Dashboard: React.FunctionComponent = (props) => {
     // main().catch(console.error);
 
     useEffect(() => {
-        console.log('accounts in use effect==>>', accounts);
-    }, [accounts]);
-
-    useEffect(() => {
         if (Object.values(accounts).length === 0) {
             dispatch(resetAccountSlice());
             navigate('/');

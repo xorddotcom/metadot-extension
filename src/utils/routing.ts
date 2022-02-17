@@ -1,3 +1,4 @@
+import { Component } from 'react';
 import Views from '../components';
 
 const {
@@ -9,6 +10,7 @@ const {
     Dashboard,
     MultipleAccounts,
     Support,
+    CreateDerivedAccount,
 } = Views;
 
 const UnAuthRoutes = [
@@ -58,6 +60,10 @@ const AuthRoutes = [
     {
         path: '/Support',
         Component: Support,
+    },
+    {
+        path: '/creatDerivedAccount',
+        Component: CreateDerivedAccount,
     },
 ];
 

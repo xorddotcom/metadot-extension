@@ -7,6 +7,7 @@ import CreateWallet from './create-wallet';
 import Dashboard from './dashboard';
 import MultipleAccounts from './multiple-accounts';
 import Support from './support';
+import CreateDerivedAccount from './create-derived-account';
 
 export default {
     Welcome,
@@ -18,4 +19,5 @@ export default {
     Dashboard,
     MultipleAccounts,
     Support,
+    CreateDerivedAccount,
 };

@@ -8,6 +8,7 @@ import {
     jsonRestore,
     exportAccount,
     validateAccount as validateAccountMessage,
+    deriveAccount,
 } from '../messaging';
 
 function GenerateSeedPhrase(): string {
@@ -72,15 +73,24 @@ async function KeyringInitialization(): Promise<void> {
 }
 
 // derive account creation
-function derive(
+async function derive(
     parentAddress: string,
     suri: string,
-    passwoord: string,
-    metadata: object
-): object | undefined {
+    parentPassword: string,
+    name: string,
+    password: string,
+    genesisHash: string | null
+): Promise<boolean> {
     try {
-        // message pass to derive an account
-        return {};
+        const res = await deriveAccount(
+            parentAddress,
+            suri,
+            parentPassword,
+            name,
+            password,
+            genesisHash
+        );
+        return res;
     } catch (e) {
         throw new Error('invalid password');
     }
