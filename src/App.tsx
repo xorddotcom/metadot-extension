@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
-import { AccountJson } from 'metadot-extension-base/background/types';
+import type {
+    AccountJson,
+    AuthorizeRequest,
+    MetadataRequest,
+    SigningRequest,
+} from 'metadot-extension-base/background/types';
+
 import { QueryClientProvider, QueryClient } from 'react-query';
 import {
     setLoggedIn,
@@ -14,18 +20,37 @@ import './App.css';
 import ApiManager from './components/api-manager';
 import { routes } from './utils';
 import Views from './components';
-import { subscribeAccounts } from './messaging';
+import {
+    subscribeAccounts,
+    subscribeAuthorizeRequests,
+    subscribeMetadataRequests,
+    subscribeSigningRequests,
+} from './messaging';
 
 function App(): JSX.Element {
     const [accounts, setAccounts] = useState<null | AccountJson[]>(null);
+    const [authRequests, setAuthRequests] = useState<null | AuthorizeRequest[]>(
+        null
+    );
+    const [metaRequests, setMetaRequests] = useState<null | MetadataRequest[]>(
+        null
+    );
+    const [signRequests, setSignRequests] = useState<null | SigningRequest[]>(
+        null
+    );
     const { AuthRoutes, UnAuthRoutes } = routes;
-    const { Welcome, WelcomeBack } = Views;
+    const { Welcome, WelcomeBack, PopupAuth, PopupSign, PopupMeta } = Views;
     const { activeAccount } = useSelector((state: RootState) => state);
     const dispatch = useDispatch();
     const queryClient = new QueryClient();
 
     useEffect(() => {
-        subscribeAccounts(setAccounts);
+        Promise.all([
+            subscribeAccounts(setAccounts),
+            subscribeAuthorizeRequests(setAuthRequests),
+            subscribeMetadataRequests(setMetaRequests),
+            subscribeSigningRequests(setSignRequests),
+        ]).catch(console.error);
     }, []);
 
     useEffect(() => {
@@ -59,7 +84,28 @@ function App(): JSX.Element {
     if (!activeAccount.isLoggedIn && activeAccount.publicKey) {
         content = <Route path="/" element={<WelcomeBack />} />;
     } else if (activeAccount.isLoggedIn && activeAccount.publicKey) {
-        try {
+        if (authRequests && authRequests.length > 0) {
+            content = (
+                <Route
+                    path="/"
+                    element={<PopupAuth requests={authRequests} />}
+                />
+            );
+        } else if (signRequests && signRequests.length > 0) {
+            content = (
+                <Route
+                    path="/"
+                    element={<PopupSign requests={signRequests} />}
+                />
+            );
+        } else if (metaRequests && metaRequests.length > 0) {
+            content = (
+                <Route
+                    path="/"
+                    element={<PopupMeta requests={metaRequests} />}
+                />
+            );
+        } else {
             content = (
                 <>
                     {AuthRoutes.map((route) => {
@@ -74,8 +120,6 @@ function App(): JSX.Element {
                     })}
                 </>
             );
-        } catch (error) {
-            console.log('error in app.js', error);
         }
     } else {
         content = (

@@ -104,7 +104,7 @@ const Send: React.FunctionComponent = () => {
     // eslint-disable-next-line no-unused-vars
     const [accountFrom, setAccountFrom] = useState('');
     const [isCorrect, setIsCorrect] = useState(true);
-    const [transactionFee, setTransactionFee] = useState(0);
+    const [transactionFee, setTransactionFee] = useState<any>(0);
     const [error, setError] = useState({
         amountError: false,
         address: false,
@@ -124,7 +124,7 @@ const Send: React.FunctionComponent = () => {
     const [isSendModalOpen, setIsSendModalOpen] = useState(false);
 
     // const [accountTo, setAccountTo] = useState('');
-    const [accountToSate, accountDispatch] = useReducer(accountReducer, {
+    const [accountToSate, accountDispatch]: any = useReducer(accountReducer, {
         value: '',
         isValid: null,
     });

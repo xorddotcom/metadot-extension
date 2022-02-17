@@ -8,6 +8,9 @@ import Dashboard from './dashboard';
 import MultipleAccounts from './multiple-accounts';
 import Support from './support';
 import CreateDerivedAccount from './create-derived-account';
+import PopupAuth from './popup-authorize';
+import PopupSign from './popup-sign';
+import PopupMeta from './popup-meta';
 
 export default {
     Welcome,
@@ -20,4 +23,7 @@ export default {
     MultipleAccounts,
     Support,
     CreateDerivedAccount,
+    PopupAuth,
+    PopupSign,
+    PopupMeta,
 };

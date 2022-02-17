@@ -104,23 +104,6 @@ async function validateAccount(
     return result;
 }
 
-const unlockPair = (
-    publicKey: string,
-    password: string
-): UnlockPairReturnType => {
-    try {
-        const sende = keyring.getPair(publicKey);
-        sende.unlock(password);
-        console.log('sender pair', sende);
-        return sende.isLocked
-            ? { status: false, sender: {} }
-            : { status: true, sender: sende };
-    } catch (e) {
-        console.log('error in unlocking account', typeof e, e);
-        return { status: false, sender: {} };
-    }
-};
-
 export default {
     GenerateSeedPhrase,
     AccountCreation,
@@ -130,5 +113,4 @@ export default {
     getJsonBackup,
     derive,
     validateAccount,
-    unlockPair,
 };

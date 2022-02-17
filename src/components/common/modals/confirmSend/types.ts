@@ -3,10 +3,10 @@ export interface ConfirmSendModalProps {
     handleClose(): void;
     // handleConfirm(): void;
     style?: object;
-    accountTo: string | object | undefined;
+    accountTo: string;
     amount: string;
     accountFrom: string;
-    transactionFee: number;
+    transactionFee: string;
     tokenName: string;
     loading2: boolean;
 }
