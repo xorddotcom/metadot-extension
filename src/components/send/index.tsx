@@ -314,7 +314,7 @@ const Send: React.FunctionComponent = () => {
         console.log('ED type', typeof api.consts.balances.existentialDeposit);
         if (
             (senderBalance - amountState.value) * 10 ** decimalPlaces <
-            (api.consts.balances.existentialDeposit as unknown as object)
+            (api.consts.balances.existentialDeposit as unknown as number)
         ) {
             console.log('IN IF [][] account reap');
             // alert('The sender account might get reaped');

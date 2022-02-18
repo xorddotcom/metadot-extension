@@ -8,7 +8,6 @@ const {
     ConfirmSeed,
     CreateWallet,
     Dashboard,
-    Send,
     MultipleAccounts,
     Support,
     CreateDerivedAccount,
@@ -70,10 +69,6 @@ const AuthRoutes = [
     {
         path: '/creatDerivedAccount',
         Component: CreateDerivedAccount,
-    },
-    {
-        path: '/Send',
-        Component: Send,
     },
 ];
 
