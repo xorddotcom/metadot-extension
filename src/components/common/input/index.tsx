@@ -65,6 +65,7 @@ const Input: React.FunctionComponent<Props> = ({
 
     return (
         <Wrapper marginBottom={marginBottom || '0px'}>
+            {console.log('Is correct', isCorrect)};
             <Field {...FieldProps} />
             {rightIcon && (
                 <Icon
@@ -101,7 +102,6 @@ const Input: React.FunctionComponent<Props> = ({
                     />
                 </Icon>
             )}
-
             {rightIconLock && (
                 <Icon>
                     <LockOutlinedIcon

@@ -8,10 +8,12 @@ import type { KeyringPair } from '@polkadot/keyring/types';
 import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 import { EventRecord, ExtrinsicStatus } from '@polkadot/types/interfaces';
-import type { Codec } from '@polkadot/types/types';
+import type { Codec, SignerPayloadJSON } from '@polkadot/types/types';
 
 import { hexToU8a, isHex } from '@polkadot/util';
 
+import { GenericExtrinsicPayload } from '@polkadot/types';
+import type { ExtrinsicPayload } from '@polkadot/types/interfaces';
 import {
     accountReducerStateType,
     amountReducerStateType,
@@ -26,6 +28,7 @@ import Button from '../common/button';
 import { Wrapper as AuthWrapper } from '../common/wrapper';
 import { WarningModal, AuthModal } from '../common/modals';
 import { MainContent, CenterContent } from './style';
+import { signTransaction } from '../../messaging';
 import ConfirmSend from '../common/modals/confirmSend';
 import {
     setAuthScreenModal,
@@ -90,7 +93,7 @@ const amountReducer = (
 };
 
 const { addressModifier } = helpers;
-const { getBalance, convertTransactionFee } = services;
+const { getBalance, convertTransactionFee, getTransactionFee } = services;
 
 const Send: React.FunctionComponent = () => {
     // eslint-disable-next-line no-unused-vars
@@ -154,6 +157,7 @@ const Send: React.FunctionComponent = () => {
             const info = await api.tx.balances
                 .transfer(currentUser.activeAccount.publicKey, 10)
                 .paymentInfo(currentUser.activeAccount.publicKey);
+            console.log('Token name ====>>>>', currentUser);
             const res = await convertTransactionFee(
                 currentUser.activeAccount.tokenName,
                 info.partialFee.toHuman()
@@ -180,9 +184,14 @@ const Send: React.FunctionComponent = () => {
     const [isInputEmpty, setIsInputEmpty] = useState(false);
 
     const amountHandler = (e: string): void => {
+        // eslint-disable-next-line no-restricted-syntax
+        console.clear();
+        console.log('E value', e);
+        console.log('E length', e.length);
         // const temp: string = e as unknown as string;
         setInsufficientBal(false);
         if (e.length === 0) {
+            console.log('In amount handler IF');
             amountDispatch({
                 type: 'USER_INPUT',
                 val: Number(e),
@@ -299,10 +308,15 @@ const Send: React.FunctionComponent = () => {
             // alert('Warning modal, the transaction might get failed');
         }
 
+        // eslint-disable-next-line no-restricted-syntax
+        console.clear();
+        console.log('ED', api.consts.balances.existentialDeposit);
+        console.log('ED type', typeof api.consts.balances.existentialDeposit);
         if (
             (senderBalance - amountState.value) * 10 ** decimalPlaces <
-            (api.consts.balances.existentialDeposit as unknown as number)
+            (api.consts.balances.existentialDeposit as unknown as object)
         ) {
+            console.log('IN IF [][] account reap');
             // alert('The sender account might get reaped');
             setSubTextForWarningModal('The sender account might get reaped');
             setIsWarningModalOpen(true);
@@ -313,15 +327,14 @@ const Send: React.FunctionComponent = () => {
 
     // publicKey: string, password: string, sender: object
     const doTransaction = async (
-        sender: Sender,
         address = '',
         password = ''
     ): Promise<void> => {
-        console.log('sender unlocked-------------', sender);
         // const keyring1 = new Keyring({ type: 'sr25519' });
-
+        console.log('Address', address);
+        console.log('Password', password);
         const decimalPlaces = await api.registry.chainDecimals[0];
-
+        console.log('Decimals', decimalPlaces);
         const decimals: number = decimalPlaces;
         console.log('b');
         setLoading2(true);
@@ -331,76 +344,112 @@ const Send: React.FunctionComponent = () => {
         //     decimalPlaces.length > 1 ? decimalPlaces[0] : decimalPlaces;
 
         const amountSending = amountState.value * 10 ** decimals;
-
+        console.log('Amount sending ====>>>', amountSending);
         const tx = api.tx.balances.transfer(
             accountToSate.value as string,
             BigInt(amountSending)
         );
 
+        console.log('Tx [][]', tx);
+        const nonce = await api.rpc.system.accountNextIndex(address);
+        console.log('Nonce', nonce);
+
+        const signer = api.createType('SignerPayload', {
+            method: tx,
+            nonce,
+            genesisHash: api.genesisHash,
+            blockHash: api.genesisHash,
+            runtimeVersion: api.runtimeVersion,
+            version: api.extrinsicVersion,
+        });
+
+        console.log('Signer [][]', signer);
+        const txPayload: any = api.createType(
+            'ExtrinsicPayload',
+            signer.toPayload(),
+            { version: api.extrinsicVersion }
+        );
+
+        const txHex = txPayload.toU8a(true);
+
+        console.log(
+            'execute transaction params ==>>',
+            address,
+            password,
+            txHex
+        );
+
+        const response = await signTransaction(address, password, txHex);
+
+        console.log('execute transaction returns ==>>', response);
+
+        const { signature } = response;
+
+        tx.addSignature(address, signature, txPayload);
+
         type signAndSendResponseType = {
             status: ExtrinsicStatus;
             events: EventRecord[];
         };
-        const result = await tx
-            .signAndSend(
-                sender,
-                ({ status, events }: signAndSendResponseType) => {
-                    // if (status.isInBlock) txStatus = status.isInBlock;
-                    const txResSuccess = events.filter(
-                        ({ event }: EventRecord) =>
-                            api.events.system.ExtrinsicSuccess.is(event)
-                    );
-                    const txResFail = events.filter(({ event }: EventRecord) =>
-                        api.events.system.ExtrinsicFailed.is(event)
-                    );
-                    console.log('Tx res Success', txResSuccess.length);
-                    console.log('Tx res Fail', txResFail.length);
-                    if (status.isInBlock) {
-                        if (txResFail.length >= 1) {
-                            // dispatch(addTransaction(data));
-                            setLoading2(false);
-                            dispatch(setConfirmSendModal(false));
-                            dispatch(setIsResponseModalOpen(true));
-                            setIsSendModalOpen(false);
-                            dispatch(setResponseImage(UnsuccessCheckIcon));
-                            dispatch(
-                                setMainTextForSuccessModal(
-                                    'Transaction Failed!'
-                                )
-                            );
-                            dispatch(setSubTextForSuccessModal(''));
-                            setTimeout(() => {
-                                dispatch(setIsResponseModalOpen(false));
-                            }, 4000);
-                            // navigate to dashboard on success
-                            navigate('/');
-                        }
-                        if (txResSuccess.length >= 1) {
-                            console.log('Tx successfull');
-                            // dispatch(addTransaction(data));
-                            setLoading2(false);
-                            dispatch(setConfirmSendModal(false));
-                            setIsSendModalOpen(false);
-                            dispatch(setIsResponseModalOpen(true));
-                            dispatch(setResponseImage(SuccessCheckIcon));
-                            dispatch(
-                                setMainTextForSuccessModal(
-                                    'Transaction Successful!'
-                                )
-                            );
-                            dispatch(setSubTextForSuccessModal(''));
-                            setTimeout(() => {
-                                dispatch(setIsResponseModalOpen(false));
-                            }, 4000);
-                            navigate('/');
-                        }
+
+        await tx
+            .send(({ status, events }) => {
+                // await tx.signAndSend(
+                // sender,
+                // ({ status, events }: signAndSendResponseType) => {
+                // if (status.isInBlock) txStatus = status.isInBlock;
+                const txResSuccess = events.filter(({ event }: EventRecord) =>
+                    api.events.system.ExtrinsicSuccess.is(event)
+                );
+                const txResFail = events.filter(({ event }: EventRecord) =>
+                    api.events.system.ExtrinsicFailed.is(event)
+                );
+                console.log('Tx res Success', txResSuccess.length);
+                console.log('Tx res Fail', txResFail.length);
+                if (status.isInBlock) {
+                    if (txResFail.length >= 1) {
+                        // dispatch(addTransaction(data));
+                        setLoading2(false);
+                        dispatch(setConfirmSendModal(false));
+                        dispatch(setIsResponseModalOpen(true));
+                        setIsSendModalOpen(false);
+                        dispatch(setResponseImage(UnsuccessCheckIcon));
+                        dispatch(
+                            setMainTextForSuccessModal('Transaction Failed!')
+                        );
+                        dispatch(setSubTextForSuccessModal(''));
+                        setTimeout(() => {
+                            dispatch(setIsResponseModalOpen(false));
+                        }, 4000);
+                        // navigate to dashboard on success
+                        navigate('/');
+                    }
+                    if (txResSuccess.length >= 1) {
+                        console.log('Tx successfull');
+                        // dispatch(addTransaction(data));
+                        setLoading2(false);
+                        dispatch(setConfirmSendModal(false));
+                        setIsSendModalOpen(false);
+                        dispatch(setIsResponseModalOpen(true));
+                        dispatch(setResponseImage(SuccessCheckIcon));
+                        dispatch(
+                            setMainTextForSuccessModal(
+                                'Transaction Successful!'
+                            )
+                        );
+                        dispatch(setSubTextForSuccessModal(''));
+                        setTimeout(() => {
+                            dispatch(setIsResponseModalOpen(false));
+                        }, 4000);
+                        navigate('/');
                     }
                 }
-            )
+            })
             .then((res) => {
                 console.log('Res', res);
             })
             .catch((err) => {
+                console.log('Error =====>>>', err);
                 console.log('Tx hash', tx.hash.toHex());
                 // dispatch(addTransaction(data));
                 setLoading2(false);
@@ -495,7 +544,7 @@ const Send: React.FunctionComponent = () => {
             setLoading1(true);
             if (!validateInputValues(accountToSate.value as string))
                 throw new Error('An error occurred');
-            // const decimalPlaces = await api.registry.chainDecimals;
+            const decimalPlaces = await api.registry.chainDecimals;
             console.log('Before validate tx errors');
             const isTxValid = await validateTxErrors();
             console.log('isTxValid------------------', { isTxValid });
@@ -503,33 +552,37 @@ const Send: React.FunctionComponent = () => {
                 console.log('After validate tx errors');
                 console.log('Before info');
                 SendTx(isTxValid[1]);
-                // const info = await
-                // getTransactionFee(api, currentUser.activeAccount.publicKey,
-                // accountToSate.value, decimalPlaces, amountState.value);
-                // const info = await api.tx.balances
-                //   .transfer(currentUser.activeAccount.publicKey,
-                //  amountState.value * 10 ** decimalPlaces)
-                //   .paymentInfo(accountToSate.value);
+                const info = await getTransactionFee(
+                    api,
+                    currentUser.activeAccount.publicKey,
+                    accountToSate.value,
+                    decimalPlaces[0],
+                    amountState.value
+                );
 
-                // console.log('After info');
-                // const txFee = await
-                // convertTransactionFee(info.partialFee.toHuman());
-                // // const txFee = 0.1;
-                // console.log('After tx');
-                // console.log('TX fee', txFee);
+                console.log('After info');
+                const txFee = await convertTransactionFee(
+                    currentUser.activeAccount.tokenName,
+                    info.partialFee.toHuman()
+                );
+                // const txFee = 0.1;
+                console.log('After tx');
+                console.log('TX fee', txFee);
                 // data.txFee = txFee;
                 // data.chainName = currentUser.activeAccount.chainName;
-                // setTransactionFee(txFee);
-                // setLoading1(false);
-                // // checking if balance is enough
+                setTransactionFee(txFee);
+                setLoading1(false);
+                // checking if balance is enough
                 // to send the amount with network fee
-                // if (currentUser.activeAccount.balance
-                // < (Number(amountState.value) + Number(txFee))) {
-                //   setInsufficientBal(true);
-                //   console.log('hello');
-                // } else {
-                //   dispatch(setConfirmSendModal(true));
-                // }
+                if (
+                    currentUser.activeAccount.balance <
+                    Number(amountState.value) + Number(txFee)
+                ) {
+                    setInsufficientBal(true);
+                    console.log('hello');
+                } else {
+                    dispatch(setConfirmSendModal(true));
+                }
             } else {
                 console.log('abc abc abc');
                 setLoading1(false);
@@ -541,6 +594,7 @@ const Send: React.FunctionComponent = () => {
     };
 
     const trimBalance = (value: number): string => {
+        console.log('Value here ====>>>', value);
         const val = value.toString();
         const trimmedValue = val.slice(0, val.indexOf('.') + 6);
         return trimmedValue;

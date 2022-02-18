@@ -12,6 +12,7 @@ const {
     MultipleAccounts,
     Support,
     CreateDerivedAccount,
+    Send,
 } = Views;
 
 const UnAuthRoutes = [
@@ -69,6 +70,10 @@ const AuthRoutes = [
     {
         path: '/creatDerivedAccount',
         Component: CreateDerivedAccount,
+    },
+    {
+        path: '/Send',
+        Component: Send,
     },
 ];
 

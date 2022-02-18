@@ -110,6 +110,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                 </Balance>
             </CalculatedAmount>
 
+            {console.log('Transaction fee', transactionFee)}
             <CalculatedAmount>
                 <Balance {...txFeeProps}>
                     Estimated Tx Fee: {`${trimBalance(transactionFee)}`}
