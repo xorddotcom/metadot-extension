@@ -1,6 +1,6 @@
 export interface OptionRowPropsInterface {
     disabled?: boolean;
-    className?: string | boolean;
+    className: string;
     onClick?(): void;
 }
 

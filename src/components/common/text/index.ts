@@ -1,4 +1,3 @@
-import React from 'react';
 import styled, { css } from 'styled-components';
 import { colors, fonts } from '../../../utils';
 import {
@@ -37,12 +36,7 @@ export const SubHeading = styled.p<SubHeadingInterface>`
     margin-left: ${(props) => props.ml && props.ml};
 `;
 
-const WarningTextPropsInterfaceWrapper: React.FunctionComponent<
-    WarningTextInterface
-> = ({ children }) => {
-    return <p>{children}</p>;
-};
-export const WarningText = styled(WarningTextPropsInterfaceWrapper)`
+export const WarningText = styled.p<WarningTextInterface>`
     font-size: ${subHeadingFontSize};
     font-size: 12.5px;
     color: ${warningText} !important;
@@ -52,6 +46,7 @@ export const WarningText = styled(WarningTextPropsInterfaceWrapper)`
     margin-left: 2px;
     margin-bottom: 0px;
     visibility: ${(props) => (props.visibility ? 'visible' : 'hidden')};
+    /* display: ${(props) => (props.visibility ? 'none' : 'block')} */
     margin-left: ${(props) => props.ml && props.ml};
     margin-bottom: ${(props) => props.mb && props.mb};
 `;
@@ -62,12 +57,7 @@ export const EquivalentInUSDT = styled.p`
     margin-left: 8px;
 `;
 
-const MainTextPropsInterfaceWrapper: React.FunctionComponent<
-    MainTextInterface
-> = ({ children }) => {
-    return <p>{children}</p>;
-};
-export const MainText = styled(MainTextPropsInterfaceWrapper)`
+export const MainText = styled.p<MainTextInterface>`
     height: 14px;
     font-size: 12px;
     line-height: 14px;
@@ -86,13 +76,7 @@ export const MainText = styled(MainTextPropsInterfaceWrapper)`
         `}
 `;
 
-const ModalTextPropsInterfaceWrapper: React.FunctionComponent<
-    ModalTextPropsInterface
-> = ({ children }) => {
-    return <p>{children}</p>;
-};
-
-export const ModalText = styled(ModalTextPropsInterfaceWrapper)`
+export const ModalText = styled.p<ModalTextPropsInterface>`
     font-size: ${mainHeadingFontSize};
     line-height: 21px;
     margin-top: ${(props) => props.marginTop && props.marginTop};

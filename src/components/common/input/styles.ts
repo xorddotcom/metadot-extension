@@ -13,6 +13,7 @@ export const Wrapper = styled.div<WrapperInterface>`
         if (!props.isCorrect) return '1px solid red';
         return '0px';
     }}; */
+    border: ${(props) => (props.isCorrect === false ? '1px solid red' : '0px')};
     /* border: 1px solid red; */
     border-radius: 8px;
     position: relative;
@@ -31,12 +32,13 @@ export const Field = styled.input<FieldInterface>`
     letter-spacing: 0.02em;
     width: ${(props) => (props.fullWidth ? props.fullWidth : '90%')};
     font-family: ${subHeadingFontSize};
-    border: ${(props) => {
+    /* border: ${(props) => {
         let res;
         if (props.isCorrect === true) res = 'none';
         if (props.isCorrect === false) res = '1px solid red';
         return res;
-    }};
+    }}; */
+    border: 0px;
     font-size: ${(props) => (props.fontSize ? props.fontSize : '16px')};
     height: ${(props) => (props.height ? props.height : 'auto')};
 `;

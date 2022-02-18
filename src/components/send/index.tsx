@@ -604,7 +604,6 @@ const Send: React.FunctionComponent = () => {
         fromAccountName: currentUser.activeAccount.accountName,
 
         handleClose: () => dispatch(setConfirmSendModal(false)),
-        // handleConfirm: doTransaction,
         loading2,
     };
 

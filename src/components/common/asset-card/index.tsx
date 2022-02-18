@@ -35,7 +35,7 @@ const AssetCard: React.FunctionComponent<Props> = ({
         fontWeight: 500,
         height: '30px',
         br: '4px',
-        handleClick: () => navigate('/Send'),
+        handleClick: () => navigate('/send'),
         disabled: !!apiInitializationStarts,
     };
 

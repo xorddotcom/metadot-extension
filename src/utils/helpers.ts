@@ -57,16 +57,11 @@ function addressModifier(address: string | undefined): string | undefined {
 function validateAddress(
     userPublicAddress: string,
     senderPublicAddress: string
-): boolean | string {
-    try {
-        if (userPublicAddress === senderPublicAddress) {
-            throw String('Address is matched from your public address');
-        }
-        return true;
-    } catch (error) {
-        return 'Address does not match';
-        // return error;
+): string {
+    if (userPublicAddress === senderPublicAddress) {
+        return 'Address is matched from your public address';
     }
+    return '';
 }
 
 function validateAmount(

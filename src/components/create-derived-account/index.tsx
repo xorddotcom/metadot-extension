@@ -199,6 +199,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                         <WarningText
                             id="warning-text"
                             className={subHeadingfontFamilyClass}
+                            visibility={isValidWalletName}
                         >
                             Name should not be less than 3 characters and can
                             only contain alphanumeric data
@@ -225,6 +226,9 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                         <WarningText
                             id="warning-text-1"
                             mb="10px"
+                            visibility={
+                                passwordError === minimumCharacterWarning
+                            }
                             className={subHeadingfontFamilyClass}
                         >
                             {minimumCharacterWarning}
@@ -234,6 +238,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                         <WarningText
                             id="warning-text-2"
                             mb="10px"
+                            visibility={passwordError === passwordValidation}
                             className={subHeadingfontFamilyClass}
                         >
                             {passwordValidation}
@@ -243,6 +248,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                         <WarningText
                             id="warning-text-3"
                             mb="10px"
+                            visibility={passwordError === didnotMatchWarning}
                             className={subHeadingfontFamilyClass}
                         >
                             {didnotMatchWarning}
@@ -271,6 +277,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                             id="warning-text"
                             mb="5px"
                             className={subHeadingfontFamilyClass}
+                            visibility={passwordError === didnotMatchWarning}
                         >
                             {didnotMatchWarning}
                         </WarningText>

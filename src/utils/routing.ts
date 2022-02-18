@@ -1,4 +1,4 @@
-import { Component } from 'react';
+// import { Component } from 'react';
 import Views from '../components';
 
 const {
@@ -8,6 +8,7 @@ const {
     ConfirmSeed,
     CreateWallet,
     Dashboard,
+    Send,
     MultipleAccounts,
     Support,
     CreateDerivedAccount,
@@ -40,6 +41,10 @@ const AuthRoutes = [
     {
         path: '/',
         Component: Dashboard,
+    },
+    {
+        path: '/send',
+        Component: Send,
     },
     {
         path: '/welcomeBack',

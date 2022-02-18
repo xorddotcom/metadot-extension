@@ -41,13 +41,7 @@ export const CloseIconDiv = styled.div`
     cursor: pointer;
 `;
 
-const OptionRowPropsInterfaceWrapper: React.FunctionComponent<
-    OptionRowPropsInterface
-> = ({ children }) => {
-    return <div>{children}</div>;
-};
-
-export const OptionRow = styled(OptionRowPropsInterfaceWrapper)`
+export const OptionRow = styled.div<OptionRowPropsInterface>`
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -76,13 +70,7 @@ export const HorizontalContentDiv = styled.div`
     }
 `;
 
-const PlainIconPropsInterfaceWrapper: React.FunctionComponent<
-    PlainIconPropsInterface
-> = ({ children }) => {
-    return <div>{children}</div>;
-};
-
-export const PlainIcon = styled(PlainIconPropsInterfaceWrapper)`
+export const PlainIcon = styled.div<PlainIconPropsInterface>`
     width: 25px;
     height: 25px;
     border-radius: 25px;

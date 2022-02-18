@@ -14,15 +14,7 @@ export const CloseIconDiv = styled.div`
     cursor: pointer;
 `;
 
-const HorizontalContentDivPropsInterfaceWrapper: React.FunctionComponent<
-    HorizontalContentInterface
-> = ({ children }) => {
-    return <div>{children}</div>;
-};
-
-export const HorizontalContentDiv = styled(
-    HorizontalContentDivPropsInterfaceWrapper
-)`
+export const HorizontalContentDiv = styled.div<HorizontalContentInterface>`
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -35,13 +27,7 @@ export const HorizontalContentDiv = styled(
     margin-top: ${(props) => props.marginTop && props.marginTop};
 `;
 
-const CommonTextPropsInterfaceWrapper: React.FunctionComponent<
-    CommonTextInterface
-> = ({ children }) => {
-    return <p>{children}</p>;
-};
-
-export const MainText1 = styled(CommonTextPropsInterfaceWrapper)`
+export const MainText1 = styled.p<CommonTextInterface>`
     font-size: ${mainHeadingFontSize};
     margin-top: ${(props) => props.marginTop && props.marginTop};
     line-height: 19px;
@@ -50,7 +36,7 @@ export const MainText1 = styled(CommonTextPropsInterfaceWrapper)`
     text-align: ${(props) => props.textAlign};
 `;
 
-export const MainText2 = styled(CommonTextPropsInterfaceWrapper)`
+export const MainText2 = styled.p<CommonTextInterface>`
     font-size: ${buttonFontSize};
     line-height: 20px;
     height: 20px;
@@ -60,7 +46,7 @@ export const MainText2 = styled(CommonTextPropsInterfaceWrapper)`
     margin-top: ${(props) => props.marginTop && props.marginTop};
 `;
 
-export const SubText1 = styled(CommonTextPropsInterfaceWrapper)`
+export const SubText1 = styled.p<CommonTextInterface>`
     font-size: 0.803rem;
     line-height: 16px;
     height: 16px;
@@ -74,7 +60,7 @@ export const SubText1 = styled(CommonTextPropsInterfaceWrapper)`
     margin: 0px 0px 3px 0px;
 `;
 
-export const SubText2 = styled(CommonTextPropsInterfaceWrapper)`
+export const SubText2 = styled.p<CommonTextInterface>`
     font-size: 0.803rem;
     line-height: 16px;
     height: 16px;

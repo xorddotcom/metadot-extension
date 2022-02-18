@@ -201,6 +201,7 @@ const CreateWallet: React.FunctionComponent = () => {
                         <WarningText
                             id="warning-text"
                             className={subHeadingfontFamilyClass}
+                            visibility={isValidWalletName}
                         >
                             Name should not be less than 3 characters and can
                             only contain alphanumeric data
@@ -228,6 +229,9 @@ const CreateWallet: React.FunctionComponent = () => {
                             id="warning-text-1"
                             mb="10px"
                             className={subHeadingfontFamilyClass}
+                            visibility={
+                                passwordError === minimumCharacterWarning
+                            }
                         >
                             {minimumCharacterWarning}
                         </WarningText>
@@ -237,6 +241,7 @@ const CreateWallet: React.FunctionComponent = () => {
                             id="warning-text-2"
                             mb="10px"
                             className={subHeadingfontFamilyClass}
+                            visibility={passwordError === passwordValidation}
                         >
                             {passwordValidation}
                         </WarningText>
@@ -246,6 +251,7 @@ const CreateWallet: React.FunctionComponent = () => {
                             id="warning-text-3"
                             mb="10px"
                             className={subHeadingfontFamilyClass}
+                            visibility={passwordError === didnotMatchWarning}
                         >
                             {didnotMatchWarning}
                         </WarningText>
@@ -273,6 +279,7 @@ const CreateWallet: React.FunctionComponent = () => {
                             id="warning-text"
                             mb="5px"
                             className={subHeadingfontFamilyClass}
+                            visibility={passwordError === didnotMatchWarning}
                         >
                             {didnotMatchWarning}
                         </WarningText>

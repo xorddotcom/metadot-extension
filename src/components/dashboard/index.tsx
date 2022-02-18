@@ -91,7 +91,7 @@ const RenderContentForAvailableNetwroks = ({
     const { name, theme, moreOptions, disabled } = data;
     return (
         <OptionRow
-            className={disabled && 'tooltip'}
+            className={disabled ? 'tooltip' : 'abc'}
             key={name}
             onClick={() => handleClick(data)}
             disabled={disabled}
@@ -367,6 +367,8 @@ const Dashboard: React.FunctionComponent = (props) => {
         ? `${chainName} Main Network`
         : `${chainName} Network`;
 
+    console.log('transactions ------> ', transactions);
+
     return (
         <Wrapper pb>
             <DashboardHeader>
@@ -453,11 +455,11 @@ const Dashboard: React.FunctionComponent = (props) => {
                 }}
                 isLoading={isLoading}
             />
-            {/* <TxDetails
+            <TxDetails
                 open={isTxDetailsModalOpen}
                 handleClose={() => setIsTxDetailsModalOpen(false)}
                 txDetailsModalData={txDetailsModalData}
-                transactionData={transactions[0]}
+                // transactionData={transactions[0]}
                 style={{
                     width: '300px',
                     background: '#141414',
@@ -466,7 +468,7 @@ const Dashboard: React.FunctionComponent = (props) => {
                     px: 2,
                     pb: 3,
                 }}
-            /> */}
+            />
             <About
                 open={false}
                 handleClose={() => console.log(false)}
