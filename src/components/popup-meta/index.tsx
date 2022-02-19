@@ -1,7 +1,8 @@
 import React from 'react';
+import { approveMetaRequest } from '../../messaging';
 
 const PopupMeta: React.FunctionComponent<any> = ({ requests }) => {
-    console.log('requests ==>>', requests);
+    console.log('meta requests ==>>', requests);
     return (
         <>
             <p>Popup Meta</p>
