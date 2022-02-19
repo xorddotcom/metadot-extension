@@ -41,12 +41,15 @@ const ToInput: React.FunctionComponent<ToInputInterface> = ({
         <VerticalContentDiv mb="10px">
             <MainText className={mainHeadingfontFamilyClass}>To</MainText>
             <StyledInput id="to-address" {...styledInput} />
-            <WarningText
-                id="warning-text"
-                className={subHeadingfontFamilyClass}
-            >
-                {helpers.validateAddress(accountToSate.value, publicKey)}
-            </WarningText>
+            {!accountToSate.isValid && (
+                <WarningText
+                    id="warning-text"
+                    className={subHeadingfontFamilyClass}
+                    visibility={!accountToSate.isValid}
+                >
+                    {helpers.validateAddress(accountToSate.value, publicKey)}
+                </WarningText>
+            )}
             <div style={{ height: '1rem' }}>
                 {!isCorrect && (
                     <WarningText

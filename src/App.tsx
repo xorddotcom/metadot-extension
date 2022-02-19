@@ -26,6 +26,8 @@ import {
     subscribeMetadataRequests,
     subscribeSigningRequests,
 } from './messaging';
+import { setIsResponseModalOpen } from './redux/slices/modalHandling';
+import { ResponseModal } from './components/common/modals';
 
 function App(): JSX.Element {
     const [accounts, setAccounts] = useState<null | AccountJson[]>(null);
@@ -41,6 +43,9 @@ function App(): JSX.Element {
     const { AuthRoutes, UnAuthRoutes } = routes;
     const { Welcome, WelcomeBack, PopupAuth, PopupSign, PopupMeta } = Views;
     const { activeAccount } = useSelector((state: RootState) => state);
+
+    const { isResponseModalOpen, mainText, subText, responseImage } =
+        useSelector((state: RootState) => state.modalHandling);
     const dispatch = useDispatch();
     const queryClient = new QueryClient();
 
@@ -135,11 +140,37 @@ function App(): JSX.Element {
         );
     }
 
+    const responseModalStyle = {
+        width: '78%',
+        background: '#141414',
+        p: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+        bottom: 40,
+        zIndex: 10000,
+    };
+
+    const responseModal = {
+        open: isResponseModalOpen,
+        handleClose: () => dispatch(setIsResponseModalOpen(false)),
+        style: responseModalStyle,
+        subText,
+        mainText,
+        responseImage,
+    };
+
     return (
         <div className="App">
             <QueryClientProvider client={queryClient}>
                 <ApiManager rpc={activeAccount.rpcUrl} />
                 <Routes>{content}</Routes>
+                {/* Dynamic Modal controlled by redux for successfully and
+            unsuccessfully  executed processes
+            overall the application */}
+                <ResponseModal {...responseModal} />
             </QueryClientProvider>
         </div>
     );
