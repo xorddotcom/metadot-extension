@@ -3,12 +3,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import { makeStyles } from '@mui/styles';
+import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 
 // Drop Down Icons
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
-import keyring from '@polkadot/ui-keyring';
+import type {
+    AccountInfoWithProviders,
+    AccountInfoWithRefCount,
+} from '@polkadot/types/interfaces';
+
 import { fonts } from '../../utils';
 import services from '../../utils/services';
 import accountsUtils from '../../utils/accounts';
@@ -181,50 +186,30 @@ const Dashboard: React.FunctionComponent = (props) => {
         rpcUrl,
     } = currentUser.activeAccount;
 
-    // const main = async (): Promise<void> => {
-    //     const { api } = currentUser.api;
-
-    //     // Retrieve the initial balance.
-    //     // Since the call has no callback, it is simply a promise
-    //     // that resolves to the current on-chain value
-    //     let {
-    //         data: { free: previousFree },
-    //         // eslint-disable-next-line no-unused-vars
-    //         nonce: previousNonce,
-    //     } = await api.query.system.account(publicKey);
-    //     // const decimalPlaces = await api.registry.chainDecimals;
-    //     // Here we subscribe to any
-    //     // balance changes and update the on-screen value
-    //     api.query.system.account(
-    //         publicKey,
-    //         // eslint-disable-next-line consistent-return
-    //         ({ data: { free: currentFree }, nonce: currentNonce }) => {
-    //             // Calculate the delta
-    //             const change = currentFree.sub(previousFree);
-
-    //             // Only display positive value
-    //             // changes (Since we are pulling `previous` above already,
-    //             // the initial balance change will also be zero)
-    //             if (!change.isZero()) {
-    //                 const bal = getBalance(api, publicKey)
-    //                     .then((res) => {
-    //                         console.log('live balance', res);
-    //                         dispatch(setBalance(res));
-    //                     })
-    //                     .catch((err) => console.log('Err', err));
-    //                 // const newBalance =
-    //                 // chainName === 'AcalaMandala' ? change /
-    //                 // 10 ** decimalPlaces[0] : change / 10 ** decimalPlaces;
-    //                 // dispatch(setBalance(newBalance + balance));
-
-    //                 previousFree = currentFree;
-    //                 return bal;
-    //             }
-    //         }
-    //     );
-    // };
-
-    // main().catch(console.error);
+    const api = currentUser.api.api as ApiPromiseType;
+    async function main(): Promise<void> {
+        const {
+            data: { free: previousFree },
+        }: AccountInfoWithProviders | AccountInfoWithRefCount =
+            await api.query.system.account(publicKey);
+        // Listener
+        api.query.system.account(
+            publicKey,
+            ({
+                data: { free: currentFree },
+            }: AccountInfoWithProviders | AccountInfoWithRefCount) => {
+                const change = currentFree.sub(previousFree);
+                if (!change.isZero()) {
+                    const bal = getBalance(api, publicKey)
+                        .then((res) => {
+                            dispatch(setBalance(res));
+                        })
+                        .catch((err) => console.log('Err', err));
+                }
+            }
+        );
+    }
+    main().catch(console.error);
 
     useEffect(() => {
         if (Object.values(accounts).length === 0) {

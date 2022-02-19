@@ -55,7 +55,9 @@ const Input: React.FunctionComponent<Props> = ({
         onKeyDown: (e: React.KeyboardEvent) =>
             blockInvalidChar ? blockChar(e) : null,
         onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-            console.log('e', e);
+            // eslint-disable-next-line no-restricted-syntax
+            console.clear();
+            console.log('e', e.target.value);
             onChange(e.target.value);
         },
         isCorrect,

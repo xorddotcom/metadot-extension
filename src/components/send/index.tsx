@@ -153,6 +153,17 @@ const Send: React.FunctionComponent = () => {
 
     // Getting estimated Transaction fee
     useEffect(() => {
+        console.log(
+            'ED of the chain',
+            api.consts.balances.existentialDeposit.toString()
+        );
+
+        console.log('ED decimal places', api.registry.chainDecimals);
+        const ED: number =
+            Number(api.consts.balances.existentialDeposit.toString()) /
+            10 ** api.registry.chainDecimals[0];
+
+        console.log('ED of the chain in number', ED);
         async function get(): Promise<void> {
             const info = await api.tx.balances
                 .transfer(currentUser.activeAccount.publicKey, 10)
@@ -162,7 +173,7 @@ const Send: React.FunctionComponent = () => {
                 currentUser.activeAccount.tokenName,
                 info.partialFee.toHuman()
             );
-            console.log('Res tx fee', res, res / 10);
+            console.log('Res tx fee', res, res / 5);
             setTransactionFee(res);
         }
         get();
@@ -184,9 +195,7 @@ const Send: React.FunctionComponent = () => {
     const [isInputEmpty, setIsInputEmpty] = useState(false);
 
     const amountHandler = (e: string): void => {
-        // eslint-disable-next-line no-restricted-syntax
-        console.clear();
-        console.log('E value', e);
+        console.log('E value', Number(e));
         console.log('E length', e.length);
         // const temp: string = e as unknown as string;
         setInsufficientBal(false);
@@ -223,7 +232,7 @@ const Send: React.FunctionComponent = () => {
                 info.partialFee.toHuman()
             )
         );
-
+        console.log('Tx fee', txFee);
         amountDispatch({
             type: 'MAX_INPUT',
             bal: currentUser.activeAccount.balance,
@@ -233,6 +242,7 @@ const Send: React.FunctionComponent = () => {
 
     // Check the sender existential deposit
     const validateTxErrors = async (): Promise<[boolean, number]> => {
+        console.log('Validate tx errors running');
         // try {
         const decimalPlaces = await api.registry.chainDecimals[0];
 
@@ -290,14 +300,25 @@ const Send: React.FunctionComponent = () => {
             return [false, txFee];
         }
 
-        if (
-            (api.consts.balances.existentialDeposit as unknown as number) >
-            (recipientBalance + amountState.value) * 10 ** decimalPlaces
-        ) {
+        const ED: number =
+            Number(api.consts.balances.existentialDeposit.toString()) /
+            10 ** decimalPlaces;
+        console.log('Hello ED', ED);
+        console.log(
+            'Hello amount sending',
+            recipientBalance + amountState.value
+        );
+        console.log(
+            'Sending amount ====>>>',
+            recipientBalance,
+            amountState.value
+        );
+        if (Number(ED) > Number(recipientBalance + amountState.value)) {
+            console.log('Open ED modal');
             // Show warning modal
             setSubTextForWarningModal(
                 `The receiver have insufficient balance
-                 to receive the transaction,
+                 to receive the transaction.
                  Do you still want to confirm?`
             );
             setIsWarningModalOpen(true);
@@ -308,14 +329,16 @@ const Send: React.FunctionComponent = () => {
             // alert('Warning modal, the transaction might get failed');
         }
 
-        // eslint-disable-next-line no-restricted-syntax
-        console.clear();
         console.log('ED', api.consts.balances.existentialDeposit);
         console.log('ED type', typeof api.consts.balances.existentialDeposit);
-        if (
-            (senderBalance - amountState.value) * 10 ** decimalPlaces <
-            (api.consts.balances.existentialDeposit as unknown as number)
-        ) {
+        // eslint-disable-next-line no-restricted-syntax
+        console.clear();
+        console.log(
+            'Sender balance - amount state value',
+            senderBalance - amountState.value
+        );
+        console.log('Sender balance ED', ED);
+        if (Number(senderBalance - amountState.value - txFee) < Number(ED)) {
             console.log('IN IF [][] account reap');
             // alert('The sender account might get reaped');
             setSubTextForWarningModal('The sender account might get reaped');
@@ -392,8 +415,12 @@ const Send: React.FunctionComponent = () => {
             events: EventRecord[];
         };
 
+        // eslint-disable-next-line no-restricted-syntax
+        console.clear();
+
         await tx
             .send(({ status, events }) => {
+                console.log('Tx hash', tx.hash.toHex());
                 // await tx.signAndSend(
                 // sender,
                 // ({ status, events }: signAndSendResponseType) => {
@@ -408,6 +435,7 @@ const Send: React.FunctionComponent = () => {
                 console.log('Tx res Fail', txResFail.length);
                 if (status.isInBlock) {
                     if (txResFail.length >= 1) {
+                        console.log('In IF tx fail');
                         // dispatch(addTransaction(data));
                         setLoading2(false);
                         dispatch(setConfirmSendModal(false));
