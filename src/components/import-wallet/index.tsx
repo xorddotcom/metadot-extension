@@ -103,10 +103,9 @@ function ImportWallet(): JSX.Element {
     };
 
     const importAccountFromSeed = async (): Promise<void> => {
+        const { minimumWords, maxWords, seedDoesnotExist } =
+            invalidSeedMessages;
         try {
-            const { minimumWords, maxWords, seedDoesnotExist } =
-                invalidSeedMessages;
-
             if (seedPhrase.split(' ').length > 12) {
                 setInvalidSeedMessage(maxWords);
                 return;
@@ -128,7 +127,7 @@ function ImportWallet(): JSX.Element {
                 return;
             }
         } catch (err) {
-            console.log('errr', err);
+            setInvalidSeedMessage(seedDoesnotExist);
         }
     };
 

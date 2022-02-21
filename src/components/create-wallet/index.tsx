@@ -10,7 +10,6 @@ import { WarningText, SubHeading } from '../common/text';
 import { Button, Input, Header } from '../common';
 import { fonts, helpers } from '../../utils';
 import accounts from '../../utils/accounts';
-import services from '../../utils/services';
 
 import {
     setIsResponseModalOpen,
@@ -30,6 +29,7 @@ import { RootState } from '../../redux/store';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { AccountCreation } = accounts;
+const { isUserNameValid } = helpers;
 
 const passwordErrorMessages = {
     minimumCharacterWarning: 'Password should not be less than 8 characters',
@@ -125,16 +125,16 @@ const CreateWallet: React.FunctionComponent = () => {
 
     const handleContinue = async (): Promise<void> => {
         try {
-            // if (!isUserNameValid(walletName) || walletName.length < 3) {
-            //     setIsValidWalletName(true);
-            //     validatePassword();
-            //     setIsLoading(false);
-            //     return;
-            // }
-            // if (!validatePassword()) {
-            //     setIsLoading(false);
-            //     return;
-            // }
+            if (!isUserNameValid(walletName) || walletName.length < 3) {
+                setIsValidWalletName(true);
+                validatePassword();
+                setIsLoading(false);
+                return;
+            }
+            if (!validatePassword()) {
+                setIsLoading(false);
+                return;
+            }
             await createAccount(walletName, password, currSeed);
             dispatch(setTempSeed(''));
             dispatch(setAccountCreationStep(0));
