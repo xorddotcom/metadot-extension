@@ -21,20 +21,20 @@ const Input: React.FunctionComponent<Props> = ({
     fontSize,
     height,
     rightIcon,
+    typePassword = false,
     hideHandler,
     hideState,
     marginBottom,
     maxlength,
+    disabled,
     blockInvalidChar,
     id,
     mt,
     mr,
-    rightAbsPosition,
-    leftAbsPosition,
-    disabled,
-    type,
-    typePassword,
-    amount,
+    leftPosition,
+    topPosition,
+    style,
+    inputWrapperWidth,
 }) => {
     const blockChar = (ev: React.KeyboardEvent): void => {
         const arr = ['e', 'E', '+', '-'];
@@ -65,17 +65,21 @@ const Input: React.FunctionComponent<Props> = ({
         isCorrect,
         disabled,
         type: typePassword ? hideStateRes : 'text',
+        ...style,
     };
 
     return (
-        <Wrapper marginBottom={marginBottom || '0px'}>
-            {console.log('Is correct', isCorrect)};
+        <Wrapper
+            marginBottom={marginBottom || '0px'}
+            isCorrect={isCorrect}
+            inputWrapperWidth={inputWrapperWidth}
+        >
             <Field {...FieldProps} />
             {rightIcon && (
                 <Icon
                     onClick={hideHandler}
-                    rightAbsPosition={rightAbsPosition ? '-25px' : ''}
-                    leftAbsPosition={leftAbsPosition ? '7px' : ''}
+                    topPosition={topPosition}
+                    leftPosition={leftPosition}
                 >
                     {!hideState ? (
                         <VisibilityOffIcon
@@ -99,7 +103,11 @@ const Input: React.FunctionComponent<Props> = ({
                 </Icon>
             )}
             {rightIconCross && (
-                <Icon onClick={rightIconCrossClickHandler}>
+                <Icon
+                    onClick={rightIconCrossClickHandler}
+                    topPosition={topPosition}
+                    leftPosition={leftPosition}
+                >
                     <CancelIcon
                         fontSize="small"
                         style={{ marginTop: '-0.1rem', marginRight: '-0.3rem' }}
@@ -107,7 +115,7 @@ const Input: React.FunctionComponent<Props> = ({
                 </Icon>
             )}
             {rightIconLock && (
-                <Icon>
+                <Icon topPosition={topPosition} leftPosition={leftPosition}>
                     <LockOutlinedIcon
                         fontSize="small"
                         style={{

@@ -10,6 +10,7 @@ export interface ButtonInterface {
     cancel?: boolean;
     border?: number;
     fontSize?: string;
+    elevation?: number;
 }
 
 export interface Props {

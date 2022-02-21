@@ -4,8 +4,6 @@ import { useDispatch } from 'react-redux';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 
-import type { KeyringPair } from '@polkadot/keyring/types';
-
 import { AuthtModalProps } from './types';
 
 import Button from '../../button';
@@ -34,8 +32,6 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = ({
     const [passwordError, setPasswordError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
-    type Sender = KeyringPair | string;
-
     const handleSubmit = (): boolean => {
         if (!password) {
             return false;
@@ -46,7 +42,6 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = ({
             onConfirm(publicKey, password);
             return true;
         } catch (err) {
-            console.log('error due to wrong ', err);
             setPasswordError('Invalid password!');
         }
         return false;
@@ -72,7 +67,10 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = ({
         width: '110px',
         height: '40px',
         fontSize: '0.8rem',
-        handleClick: handleClose,
+        handleClick: () => {
+            setPassword('');
+            handleClose();
+        },
     };
 
     const btnS = {
@@ -96,14 +94,13 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = ({
             <Box sx={style} className="txDetails-modal-style auth-modal">
                 <MainDiv>
                     <ModalText
-                        marginTop="10px"
                         textAlign="center"
                         className={mainHeadingfontFamilyClass}
                     >
                         Authorization
                     </ModalText>
 
-                    <VerticalContentDiv marginTop="15px" mb="30px">
+                    <VerticalContentDiv marginTop="15px" mb="20px">
                         <MainText
                             fontSize="14px"
                             marginBottom="15px"
@@ -114,9 +111,15 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = ({
 
                         <StyledInput
                             id="auth-password"
+                            fullWidth="75%"
+                            inputWrapperWidth="100%"
+                            mr="1.2rem"
                             typePassword
                             rightIcon
+                            leftPosition="9px"
+                            topPosition="0px"
                             {...styledInput}
+                            style={{ paddingLeft: '10px !important' }}
                         />
                         <WarningText
                             className={subHeadingfontFamilyClass}

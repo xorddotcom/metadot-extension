@@ -46,7 +46,6 @@ const ConfirmSend: React.FunctionComponent<ConfirmSendModalProps> = ({
         text: 'Confirm',
         width: '100%',
         handleClick: () => {
-            console.log('in else');
             dispatch(setConfirmSendModal(false));
             dispatch(setAuthScreenModal(true));
         },

@@ -28,7 +28,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
     const { activeAccount, modalHandling } = currentUser;
     const { loadingForApi } = modalHandling;
 
-    // const { publicKey, chainName } = account;
     const { convertIntoUsd } = helpers;
     const { getBalance, providerInitialization } = services;
     const { publicKey, chainName } = activeAccount;
@@ -79,7 +78,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                         }, 2500);
                     }
                 } else {
-                    console.log('Internet is down! in api manager');
                     dispatch(setMainTextForSuccessModal('Internet is down!'));
                     dispatch(setSubTextForSuccessModal(''));
                     dispatch(setResponseImage(wifiOff));
@@ -99,6 +97,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
         };
 
         setAPI(rpc);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [chainName, publicKey, loadingForApi, dispatch, rpc]);
 
     return null;

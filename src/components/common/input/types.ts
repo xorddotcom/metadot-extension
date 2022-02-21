@@ -1,6 +1,7 @@
 export interface WrapperInterface {
     isCorrect?: boolean;
     marginBottom: string;
+    inputWrapperWidth?: string;
 }
 
 export interface FieldInterface {
@@ -19,8 +20,8 @@ export interface FieldInterface {
 }
 
 export interface IconInterface {
-    rightAbsPosition?: string;
-    leftAbsPosition?: string;
+    leftPosition?: string;
+    topPosition?: string;
     onClick?(): void;
 }
 
@@ -47,8 +48,10 @@ export interface Props {
     id: string;
     mt?: string;
     mr?: string;
-    rightAbsPosition?: boolean;
-    leftAbsPosition?: boolean;
+    leftPosition?: string;
+    topPosition?: string;
     disabled?: boolean;
     amount?: any;
+    style?: any;
+    inputWrapperWidth?: string;
 }
