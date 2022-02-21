@@ -1,6 +1,6 @@
 export interface MainHeadingInterface {
     className?: string;
-    fw?: string;
+    weight?: string;
     color?: string;
     marginBottom?: string;
     textAlign?: string;

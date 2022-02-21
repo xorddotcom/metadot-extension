@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import ContentCopyIcon from '../../assets/images/icons/copyIcon.svg';
 import { CopyIcon, CopyText, IndexText, SeedText, SeedWrapper } from './styles';
 import { Wrapper, UnAuthScreensContentWrapper } from '../common/wrapper';
 import { MainHeading, SubHeading } from '../common/text';
 import { WarningModal } from '../common/modals';
 import { Header, Button } from '../common';
+import {
+    setAccountCreationStep,
+    setTempSeed,
+} from '../../redux/slices/activeAccount';
 
 import { fonts } from '../../utils';
+import { RootState } from '../../redux/store';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -25,23 +31,26 @@ const SinglePhrase: React.FunctionComponent<{
 
 const ShowSeed: React.FunctionComponent = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const location = useLocation().state as {
         prevRoute: string;
         seedToPass: string;
     };
 
+    const { tempSeed } = useSelector((state: RootState) => state.activeAccount);
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [copy, setCopy] = useState('Copy');
 
-    let currSeed = '';
+    const currSeed = tempSeed;
 
-    if (
-        location.prevRoute === '/' ||
-        location.prevRoute === '/accounts' ||
-        location.prevRoute === '/ShowSeed'
-    ) {
-        currSeed = location.seedToPass && location.seedToPass;
-    }
+    // if (
+    //     location.prevRoute === '/' ||
+    //     location.prevRoute === '/accounts' ||
+    //     location.prevRoute === '/ShowSeed'
+    // ) {
+    //     currSeed = location.seedToPass && location.seedToPass;
+    // }
 
     const copySeedText = (): void => {
         navigator.clipboard.writeText(currSeed);
@@ -50,7 +59,12 @@ const ShowSeed: React.FunctionComponent = () => {
 
     const contentCopyIcon = {
         id: 'copy-seed',
-        onClick: copySeedText,
+        onClick: () => {
+            copySeedText();
+            // for maintaining extension state
+            // if user closes it for pasting the seed
+            dispatch(setTempSeed(currSeed));
+        },
         onMouseOver: () => setCopy('Copy'),
         style: { cursor: 'pointer' },
     };
@@ -66,40 +80,45 @@ const ShowSeed: React.FunctionComponent = () => {
         open: isModalOpen,
         handleClose: () => setIsModalOpen(false),
         onConfirm: () => {
+            // for maintaining extension state
+            // if user closes it for pasting the seed
+            dispatch(setAccountCreationStep(2));
             navigate('/ConfirmSeed', {
                 state: { seedToPass: location.seedToPass },
             });
         },
         style: {
-            width: '290px',
+            width: '300px',
             background: '#141414',
             position: 'relative',
             bottom: 30,
             p: 2,
             px: 2,
-            pb: 3,
+            pb: 2,
         },
         mainText: 'Warning',
-        subText: `Proceeding will not let you view your
-          mnemonic again. Do you still wish to continue?`,
+        subText: `Proceeding will not let you view your 
+        seed phrase again, once account creation process is
+         finished. Do you still wish to continue?`,
     };
 
     return (
         <Wrapper>
             <Header
                 centerText="Seed Phrase"
-                backHandler={() => console.log('goBack')}
+                backHandler={() => {
+                    dispatch(setTempSeed(''));
+                    dispatch(setAccountCreationStep(0));
+                }}
             />
             <div style={{ marginTop: '29px' }}>
                 <MainHeading className={mainHeadingfontFamilyClass}>
                     Write down your seed phrase :
                 </MainHeading>
                 <SubHeading className={subHeadingfontFamilyClass}>
-                    To ensure backup a mnemonic is required. It would be used to
-                    access your wallet in future. Please write down this
-                    mnemonic and memorize it. Once your sentence has been set,
-                    it cannot be viewed again. Losing the mnemonic may cause
-                    permanent asset loss. Taking screenshots is not encouraged.
+                    Please note down your mnemonic seed phrase. As of now, it is
+                    the only access point to your Metadot wallet in case of any
+                    mishap. Screenshots are not encouraged.
                 </SubHeading>
             </div>
             <CopyText className={subHeadingfontFamilyClass}>

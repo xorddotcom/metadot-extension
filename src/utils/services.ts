@@ -3,9 +3,9 @@ import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import { WsProvider, ApiPromise, Keyring } from '@polkadot/api';
 import '@polkadot/api-augment';
 
-import { formatBalance } from '@polkadot/util';
 import { encodeAddress } from '@polkadot/util-crypto';
 import type { KeyringJson } from '@polkadot/ui-keyring/types';
+import { formatBalance } from '@polkadot/util';
 import constants from '../constants/onchain';
 
 const { ACALA_MANDALA_CONFIG } = constants;
@@ -98,12 +98,9 @@ const getTransactionFee = async (
     return info;
 };
 
-const addressMapper = (address: string, prefix: number): string => {
-    console.log(prefix, '||||||', address);
-    const res = encodeAddress(address, prefix);
-    console.log('Result ====>>', res);
-    return res;
-};
+const addressMapper = (address: string, prefix: number): string =>
+    encodeAddress(address, prefix);
+
 export default {
     providerInitialization,
     getBalance,

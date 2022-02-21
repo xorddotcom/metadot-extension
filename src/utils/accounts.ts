@@ -25,7 +25,6 @@ async function validatingSeedPhrase(
 
 async function getJsonBackup(address: string, password: string): Promise<void> {
     try {
-        console.log('get json backup ==>>', address, password);
         const backupJson = await exportAccount(address, password);
 
         // ***Download JSON file***

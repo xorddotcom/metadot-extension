@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setJsonFileUploadScreen } from '../../redux/slices/activeAccount';
@@ -16,9 +16,10 @@ import Options from './options';
 import EnterSeed from './enter-seed';
 import UploadJson from './upload-json';
 
+import ImportIcon from '../../assets/images/modalIcons/import.svg';
 import { fonts } from '../../utils';
 import accounts from '../../utils/accounts';
-import ImportIcon from '../../assets/images/modalIcons/import.svg';
+import services from '../../utils/services';
 
 import { RootState } from '../../redux/store';
 
@@ -26,6 +27,7 @@ import { Wrapper, UnAuthScreensContentWrapper } from '../common/wrapper';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { validatingSeedPhrase, createAccountFromJSON } = accounts;
+const { addressMapper } = services;
 
 const invalidSeedMessages = {
     minimumWords: 'At least 12 words required!',
@@ -39,7 +41,7 @@ function ImportWallet(): JSX.Element {
     const dispatch = useDispatch();
 
     const currentUser = useSelector((state: RootState) => state);
-    const { jsonFileUploadScreen } = currentUser.activeAccount;
+    const { jsonFileUploadScreen, prefix } = currentUser.activeAccount;
 
     const [selectedType, setSelectedType] = useState(
         jsonFileUploadScreen ? 'json' : 'seed'
@@ -60,6 +62,10 @@ function ImportWallet(): JSX.Element {
 
     const [isLoading, setIsLoading] = useState(false);
 
+    useEffect(() => {
+        setSelectedType(jsonFileUploadScreen ? 'json' : 'seed');
+    }, []);
+
     const passwordChangeHandler = (value: string): void => {
         setPassword(value);
     };
@@ -69,7 +75,8 @@ function ImportWallet(): JSX.Element {
         dispatch(setResponseImage(ImportIcon));
         dispatch(setMainTextForSuccessModal('Successfully Imported!'));
         dispatch(setSubTextForSuccessModal(''));
-        dispatch(setJsonFileUploadScreen(true));
+        dispatch(setJsonFileUploadScreen(false));
+        setSelectedType('seed');
         navigate('/');
 
         setTimeout(() => {
@@ -85,9 +92,7 @@ function ImportWallet(): JSX.Element {
     const importAccountFromJson = async (): Promise<void> => {
         try {
             const res = await createAccountFromJSON(json, password);
-            console.log('Create account from json this is here ==>>', res);
             if (res) {
-                console.log('aksk in if', res);
                 showSuccessModalAndNavigateToDashboard();
             } else {
                 console.log('aksk', res);
@@ -149,10 +154,8 @@ function ImportWallet(): JSX.Element {
         const ownTabs = await getOwnTabs();
         const tabd = ownTabs.find((tab: any) => tab.url.includes(url));
         if (tabd) {
-            console.log('already opened!');
             chrome.tabs.update(tabd.id, { active: true });
         } else {
-            console.log('not opened!');
             chrome.tabs.create({ url });
         }
     }
@@ -165,15 +168,18 @@ function ImportWallet(): JSX.Element {
     const uploadButtonHandler = (): void => {
         if (!jsonFileUploadScreen) {
             dispatch(setJsonFileUploadScreen(true));
+            setSelectedType('json');
             const url = `${chrome.extension.getURL('index.html')}`;
             openOptions(url);
         } else {
             setSelectedType('json');
         }
+        navigate('/ImportWallet');
     };
 
     const mainHeading = {
-        marginTop: '29px',
+        marginTop: '34px',
+        marginBottom: '12px',
         className: mainHeadingfontFamilyClass,
     };
 
@@ -183,6 +189,8 @@ function ImportWallet(): JSX.Element {
     };
 
     const selectTypeHeading = {
+        marginTop: '16px',
+        marginBottom: '8px',
         className: mainHeadingfontFamilyClass,
         fontWeight: 'bold',
         lineHeight: '21px',
@@ -233,8 +241,10 @@ function ImportWallet(): JSX.Element {
                 <MainHeading {...mainHeading}>
                     Restore your wallet :{' '}
                 </MainHeading>
-                <SubHeading {...subHeading}>
-                    To restore your wallet enter your Seed phrase.
+                <SubHeading {...subHeading} textLightColor>
+                    Import your wallet with a seed phrase or json file. Set your
+                    wallet name and password to proceed. Metadot will not save
+                    your passwords and can not retrieve them for you.
                 </SubHeading>
             </div>
             <UnAuthScreensContentWrapper flexDirection="column">

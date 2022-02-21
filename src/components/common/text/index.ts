@@ -17,7 +17,7 @@ export const MainHeading = styled.p<MainHeadingInterface>`
     line-height: 18.75px;
     text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
     font-size: 16px;
-    font-weight: ${(props) => (props.fw ? props.fw : '500')};
+    font-weight: ${(props) => props.weight && props.weight};
     color: ${(props) => (props.color ? props.color : primaryText)};
     margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
 `;

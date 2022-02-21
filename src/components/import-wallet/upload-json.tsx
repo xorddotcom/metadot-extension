@@ -75,13 +75,10 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
         className: subHeadingfontFamilyClass,
         value: password,
         height: '14px',
-        fullWidth: '267px',
         onChange: passwordChangeHandler,
         hideHandler: () => setShowPassword(!showPassword),
         hideState: showPassword,
         disabled: !json,
-        rightAbsPosition: true,
-        leftAbsPosition: true,
     };
 
     const fileNameRender = (): string => {
@@ -102,7 +99,7 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                     htmlFor="actual-btn"
                     onClick={() => handleClick('select')}
                 >
-                    <HorizontalContentDiv>
+                    <HorizontalContentDiv width="91%">
                         <img
                             src={UploadFileIcon}
                             alt="upload-file-icon"
@@ -125,12 +122,21 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                 </UploadFile>
                 <SubHeading
                     className={mainHeadingfontFamilyClass}
-                    marginTop="40px"
+                    marginTop="27px"
                     mb="10px"
                 >
                     Password
                 </SubHeading>
-                <Input id="password" {...InputProps} typePassword rightIcon />
+                <Input
+                    id="password"
+                    inputWrapperWidth="97%"
+                    fullWidth="82%"
+                    {...InputProps}
+                    typePassword
+                    rightIcon
+                    leftPosition="-4px"
+                    topPosition="2px"
+                />
                 {passwordError && (
                     <WarningText
                         id="warning-text-3"
