@@ -54,7 +54,7 @@ export interface ChildAccountDropDownInterface {
 
 export interface DerivedAccountInterface {
     childAccount: { publicKey: string; accountName: string };
-    childAccountActive(): void;
+    childAccountActive(v1: string, v2: string): void;
     checkDrivedDropdownOpen(value: boolean): void;
 }
 

@@ -32,7 +32,7 @@ export const HorizontalContentDiv = styled.div<VerticalContentDivPropsInterface>
 
 export const FromAccount = styled(HorizontalContentDiv)`
     width: 92%;
-    height: 50px;
+    height: 60px;
     align-items: center;
     justify-content: space-between;
     padding-left: 10px;
@@ -44,9 +44,9 @@ export const FromAccount = styled(HorizontalContentDiv)`
 `;
 
 export const PlainIcon = styled.div`
-    width: 28px;
-    height: 25px;
-    border-radius: 50%;
+    width: 34px;
+    height: 28px;
+    border-radius: 23px;
     margin-left: 5px;
     margin-right: 20px;
     background: ${(props: { bgColor?: string }) =>

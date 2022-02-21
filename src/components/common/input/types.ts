@@ -17,6 +17,7 @@ export interface FieldInterface {
     isCorrect?: boolean;
     disabled?: boolean;
     type?: string;
+    disableUnderline?: boolean;
 }
 
 export interface IconInterface {

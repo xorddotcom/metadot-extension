@@ -47,10 +47,8 @@ const SelfDrivedAccountList: React.FunctionComponent<
     const onOptionClicked = (): void => {
         if (publicKey === activeAccount.publicKey) {
             dispatch(deleteAccount(publicKey));
-            // dispatch(setSeed(''));
             dispatch(setPublicKey(''));
             dispatch(setAccountName(''));
-            // dispatch(setSeed(Object.values(accounts)[0].seed));
             dispatch(setPublicKey('')); // Object.values(accounts)[0].publicKey
             dispatch(setAccountName('')); // Object.values(accounts)[0].publicKey
             navigate('/');

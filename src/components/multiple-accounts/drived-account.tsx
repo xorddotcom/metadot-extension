@@ -124,7 +124,14 @@ const DrivedAccountList: React.FunctionComponent<DerivedAccountInterface> = ({
                 <Account margin="1rem 0">
                     <AccountFlex>
                         <AccountCircle />
-                        <AccountText onClick={childAccountActive}>
+                        <AccountText
+                            onClick={() =>
+                                childAccountActive(
+                                    publicKey,
+                                    childAccount.accountName
+                                )
+                            }
+                        >
                             <AccountMainText
                                 className={mainHeadingfontFamilyClass}
                             >
