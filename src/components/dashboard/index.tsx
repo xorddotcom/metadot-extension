@@ -16,7 +16,6 @@ import type {
 
 import { fonts } from '../../utils';
 import services from '../../utils/services';
-import accountsUtils from '../../utils/accounts';
 
 import MainCard from './mainCard';
 import AssetsAndTransactions from './assetsAndTransactions';
@@ -29,6 +28,8 @@ import {
     setAccountName,
     setPublicKey,
     resetAccountSlice,
+    setJsonFileUploadScreen,
+    setPrefix,
 } from '../../redux/slices/activeAccount';
 
 import {
@@ -74,7 +75,6 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 // const { showInternetSnackBar } = helpers;
 
 const { getBalance, addressMapper } = services;
-const { KeyringInitialization } = accountsUtils;
 
 const { availableNetworks, KusamaMainNetworks, TestNetworks, BetaNetworks } =
     networks;
@@ -184,6 +184,9 @@ const Dashboard: React.FunctionComponent = (props) => {
         balanceInUsd,
         accountName,
         rpcUrl,
+        jsonFileUploadScreen,
+        accountCreationStep,
+        tempSeed,
     } = currentUser.activeAccount;
 
     const api = currentUser.api.api as ApiPromiseType;
@@ -210,6 +213,50 @@ const Dashboard: React.FunctionComponent = (props) => {
         );
     }
     main().catch(console.error);
+    const lastTime = localStorage.getItem('timestamp');
+
+    const lastVisited = (Date.now() - Number(lastTime) || 0) / 1000;
+
+    const getOwnTabs = (): Promise<unknown[]> => {
+        return Promise.all(
+            chrome.extension.getViews({ type: 'tab' }).map(
+                // eslint-disable-next-line max-len
+                (view) =>
+                    new Promise((resolve) =>
+                        // eslint-disable-next-line no-promise-executor-return
+                        view.chrome.tabs.getCurrent((tab) =>
+                            resolve(
+                                Object.assign(tab, { url: view.location.href })
+                            )
+                        )
+                    )
+            )
+        );
+    };
+
+    const isTabViewOpened = async (url: string): Promise<boolean> => {
+        const ownTabs = await getOwnTabs();
+        const tabd = ownTabs.find((tab: any) => tab.url.includes(url));
+        if (tabd) {
+            // chrome.tabs.update(tabd.id, { active: true });
+            return true;
+        }
+        // chrome.tabs.create({ url });
+        return false;
+    };
+
+    useEffect(() => {
+        if (jsonFileUploadScreen) {
+            const url = `${chrome.extension.getURL('index.html')}`;
+            const isTabOpen = isTabViewOpened(url);
+
+            isTabOpen.then((res) => {
+                if (res) {
+                    dispatch(setJsonFileUploadScreen(false));
+                }
+            });
+        }
+    }, []);
 
     useEffect(() => {
         if (Object.values(accounts).length === 0) {
@@ -249,17 +296,6 @@ const Dashboard: React.FunctionComponent = (props) => {
         }
     };
 
-    // const tootltipText = {
-    //   className: 'normalTooltiptext',
-    //   style: {
-    //     width: '90px',
-    //     left: '65%',
-    //     fontSize: '0.7rem',
-    //     bottom: '110%',
-    //     fontWeight: 300,
-    //   },
-    // };
-
     // prettier-ignore
     const handleSelection = async (data: NetworkConfigType): Promise<void> => {
     setIsLoading(true);
@@ -267,11 +303,6 @@ const Dashboard: React.FunctionComponent = (props) => {
       setIsLoading(false);
       return;
     } if (data.name === 'Test Networks') {
-    //     const objForModalState: ModalStateInterface = {
-    //     firstStep: false,
-    //     renderMethod: RenderContentForAvailableNetwroks,
-    //     currentData: TestNetworks,
-    //   }
       setModalState({
         firstStep: false,
         renderMethod: RenderContentForAvailableNetwroks,
@@ -298,6 +329,7 @@ const Dashboard: React.FunctionComponent = (props) => {
         dispatch(setLoadingForApi(true));
         dispatch(setRpcUrl(data.rpcUrl ? data.rpcUrl : ''));
         dispatch(setChainName(data.name));
+        dispatch(setPrefix(data.prefix));
         // eslint-disable-next-line max-len
         const publicKeyOfRespectiveChain = addressMapper(currentUser.activeAccount.publicKey, data.prefix ? data.prefix : 42);
         dispatch(setPublicKey(publicKeyOfRespectiveChain));
@@ -306,7 +338,6 @@ const Dashboard: React.FunctionComponent = (props) => {
 
         selectAndGoBack();
       } else {
-        console.log('Internet is down!');
         // showInternetSnackBar();
 
         dispatch(setMainTextForSuccessModal('Internet is down!'));
@@ -328,7 +359,6 @@ const Dashboard: React.FunctionComponent = (props) => {
         }, 2000);
       }
     } else {
-      console.log('Already selected!');
       setIsLoading(false);
       selectAndGoBack();
     }
@@ -352,7 +382,29 @@ const Dashboard: React.FunctionComponent = (props) => {
         ? `${chainName} Main Network`
         : `${chainName} Network`;
 
-    console.log('transactions ------> ', transactions);
+    if (accountCreationStep === 1 && lastVisited < 90) {
+        navigate('/ShowSeed', {
+            state: { seedToPass: tempSeed },
+        });
+        return null;
+    }
+    if (accountCreationStep === 2 && tempSeed.length && lastVisited < 90) {
+        navigate('/ConfirmSeed', {
+            state: { seedToPass: tempSeed },
+        });
+        return null;
+    }
+    if (accountCreationStep === 3 && tempSeed.length && lastVisited < 90) {
+        navigate('/createWallet', {
+            state: { seedToPass: tempSeed },
+        });
+        return null;
+    }
+
+    if (jsonFileUploadScreen) {
+        navigate('/ImportWallet');
+        return null;
+    }
 
     return (
         <Wrapper pb>
@@ -369,9 +421,7 @@ const Dashboard: React.FunctionComponent = (props) => {
                 <NetworkContainer>
                     <SelectChain
                         onClick={() =>
-                            apiInitializationStarts
-                                ? console.log('abc')
-                                : setIsModalOpen(true)
+                            !apiInitializationStarts && setIsModalOpen(true)
                         }
                         disabled={!!apiInitializationStarts}
                     >
@@ -433,7 +483,6 @@ const Dashboard: React.FunctionComponent = (props) => {
                     width: '300px',
                     background: '#141414',
                     pb: 3,
-                    height: '240px',
                     overflowY: 'scroll',
                     overflowX: 'hidden',
                     marginTop: '9rem',
@@ -444,7 +493,6 @@ const Dashboard: React.FunctionComponent = (props) => {
                 open={isTxDetailsModalOpen}
                 handleClose={() => setIsTxDetailsModalOpen(false)}
                 txDetailsModalData={txDetailsModalData}
-                // transactionData={transactions[0]}
                 style={{
                     width: '300px',
                     background: '#141414',

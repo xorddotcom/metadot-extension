@@ -51,7 +51,7 @@ export interface NetworkConfigType {
     theme?: string;
     moreOptions?: boolean;
     rpcUrl?: string;
-    prefix?: number;
+    prefix: number;
     disabled?: boolean;
     icon?: string;
     tokenName?: string;
