@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-unused-vars */
 /* eslint import/no-cycle: [2, { maxDepth: 1 }] */
 import '@polkadot/api-augment';
@@ -43,11 +44,13 @@ import ToInput from './toInput';
 import AmountInput from './amountInput';
 import UnsuccessCheckIcon from '../../assets/images/modalIcons/failed.svg';
 import SuccessCheckIcon from '../../assets/images/success.png';
+import activeAccount from '../../redux/slices/activeAccount';
 
 const errorMessages = {
     invalidAddress: 'Invalid address',
     enterAddress: 'Enter address',
     enterAmount: 'Enter amount',
+    sameAddressError: 'Addresses must not be same',
 };
 
 type Sender = KeyringPair | string;
@@ -92,7 +95,7 @@ const amountReducer = (
     return { value: '', isValid: false };
 };
 
-const { addressModifier } = helpers;
+const { addressModifier, validateAddress } = helpers;
 const { getBalance, convertTransactionFee, getTransactionFee } = services;
 
 const Send: React.FunctionComponent = () => {
@@ -106,6 +109,7 @@ const Send: React.FunctionComponent = () => {
     // fill this state  from redux
     // eslint-disable-next-line no-unused-vars
     const [accountFrom, setAccountFrom] = useState('');
+    const [toAddressError, setToAddressError] = useState(false);
     const [isCorrect, setIsCorrect] = useState(true);
     const [transactionFee, setTransactionFee] = useState<any>(0);
     const [error, setError] = useState({
@@ -113,6 +117,8 @@ const Send: React.FunctionComponent = () => {
         address: false,
     });
 
+    const [amount, setAmount] = useState<any>('');
+    const [receiverAddress, setReceiverAddress] = useState('');
     // eslint-disable-next-line no-unused-vars
     const [isLoading, setIsLoading] = useState(false);
 
@@ -174,47 +180,82 @@ const Send: React.FunctionComponent = () => {
                 info.partialFee.toHuman()
             );
             console.log('Res tx fee', res, res / 5);
-            setTransactionFee(res);
+            setTransactionFee(res + res / 5);
         }
         get();
     });
 
     const accountToChangeHandler = (e: string): void => {
         setIsCorrect(true);
-        accountDispatch({
-            type: 'USER_INPUT',
-            val: e,
-            valid: currentUser.activeAccount.publicKey,
-        });
+        setToAddressError(false);
+        // const res = validate(e, currentUser.activeAccount.publicKey)
+        const res = e === currentUser.activeAccount.publicKey;
+        setToAddressError(res);
+        console.log('EE', e);
+        setReceiverAddress(e);
+
+        // setIsCorrect(true);
+        // accountDispatch({
+        //     type: 'USER_INPUT',
+        //     val: e,
+        //     valid: currentUser.activeAccount.publicKey,
+        // });
     };
 
     const accountToIsValid = (): void => {
         accountDispatch({ type: 'IS_BLUR' });
     };
 
-    const [isInputEmpty, setIsInputEmpty] = useState(false);
+    const [isInputEmpty, setIsInputEmpty] = useState(true);
 
-    const amountHandler = (e: string): void => {
-        console.log('E value', Number(e));
-        console.log('E length', e.length);
+    const amountHandler = (e: string): boolean => {
+        const reg = /^-?\d+\.?\d*$/;
+        const test = reg.test(e);
+
+        if (!test && e.length !== 0) {
+            console.log('Regex fail');
+            return false;
+        }
+        console.log('Transaction fee ===>>>', transactionFee);
+        console.log('Total balance + fee', {
+            data: Number(e) + transactionFee,
+        });
+        console.log(
+            'Total transferrable',
+            currentUser.activeAccount.balance - transactionFee
+        );
+        if (Number(e) + transactionFee >= currentUser.activeAccount.balance) {
+            console.log('Balance too low');
+            return false;
+        }
+        console.log('Amount handler working');
         // const temp: string = e as unknown as string;
         setInsufficientBal(false);
         if (e.length === 0) {
-            console.log('In amount handler IF');
-            amountDispatch({
-                type: 'USER_INPUT',
-                val: Number(e),
-                amountIsValid: currentUser.activeAccount.balance,
-            });
+            setAmount(e);
             setIsInputEmpty(true);
         } else {
-            amountDispatch({
-                type: 'USER_INPUT',
-                val: Number(e),
-                amountIsValid: currentUser.activeAccount.balance,
-            });
+            setAmount(e);
             setIsInputEmpty(false);
         }
+        setInsufficientBal(true);
+        return true;
+        // if (e.length === 0) {
+        //     console.log('In amount handler IF');
+        //     amountDispatch({
+        //         type: 'USER_INPUT',
+        //         val: Number(e),
+        //         amountIsValid: currentUser.activeAccount.balance,
+        //     });
+        //     setIsInputEmpty(true);
+        // } else {
+        //     amountDispatch({
+        //         type: 'USER_INPUT',
+        //         val: Number(e),
+        //         amountIsValid: currentUser.activeAccount.balance,
+        //     });
+        //     setIsInputEmpty(false);
+        // }
     };
 
     const amountIsValidHandler = (): void => {
@@ -232,17 +273,23 @@ const Send: React.FunctionComponent = () => {
                 info.partialFee.toHuman()
             )
         );
-        console.log('Tx fee', txFee);
-        amountDispatch({
-            type: 'MAX_INPUT',
-            bal: currentUser.activeAccount.balance,
-            txFee: Number(txFee) + Number(txFee) / 10,
-        });
+        setTransactionFee(Number(txFee) + Number(txFee) / 5);
+        console.log(
+            'Transaction fee with margin',
+            Number(txFee) + Number(txFee) / 5
+        );
+        setAmount(
+            (
+                currentUser.activeAccount.balance -
+                (Number(txFee) + Number(txFee / 5))
+            ).toFixed(5)
+        );
+        setIsInputEmpty(false);
     };
 
     // Check the sender existential deposit
     const validateTxErrors = async (): Promise<[boolean, number]> => {
-        console.log('Validate tx errors running');
+        console.log('Validate tx errors running', receiverAddress);
         // try {
         const decimalPlaces = await api.registry.chainDecimals[0];
 
@@ -252,10 +299,7 @@ const Send: React.FunctionComponent = () => {
         //   recipientBalance = await
         //   getBalanceWithMultipleTokens(api, accountToSate.value);
         // } else {
-        const recipientBalance = await getBalance(
-            api,
-            accountToSate.value as string
-        );
+        const recipientBalance = await getBalance(api, receiverAddress);
         // }
         const senderBalance = currentUser.activeAccount.balance;
         console.log(
@@ -265,12 +309,12 @@ const Send: React.FunctionComponent = () => {
         );
         console.log(
             'Recipient balance + amount to state',
-            Number(recipientBalance) + Number(amountState.value)
+            Number(recipientBalance) + Number(amount)
         );
 
         console.log(
             'Sender balance after tx',
-            (senderBalance - amountState.value) * 10 ** decimalPlaces
+            (senderBalance - amount) * 10 ** decimalPlaces
         );
         console.log('ED of the chain', api.consts.balances.existentialDeposit);
 
@@ -280,9 +324,9 @@ const Send: React.FunctionComponent = () => {
             .transfer(
                 currentUser.activeAccount.publicKey,
                 // eslint-disable-next-line no-undef
-                BigInt(amountState.value * 10 ** decimalPlacesForTxFee)
+                BigInt(amount * 10 ** decimalPlacesForTxFee)
             )
-            .paymentInfo(accountToSate.value as string);
+            .paymentInfo(receiverAddress as string);
 
         console.log('After info');
         const txFee = await convertTransactionFee(
@@ -290,10 +334,12 @@ const Send: React.FunctionComponent = () => {
             info.partialFee.toHuman()
         );
 
+        console.log('Hello', Number(amount) + Number(txFee + txFee / 10));
+
         // checking if balance is enough to send the amount with network fee
         if (
             currentUser.activeAccount.balance <
-            Number(amountState.value) + Number(txFee)
+            Number(amount) + Number(txFee)
         ) {
             setInsufficientBal(true);
             console.log('hello');
@@ -304,16 +350,9 @@ const Send: React.FunctionComponent = () => {
             Number(api.consts.balances.existentialDeposit.toString()) /
             10 ** decimalPlaces;
         console.log('Hello ED', ED);
-        console.log(
-            'Hello amount sending',
-            recipientBalance + amountState.value
-        );
-        console.log(
-            'Sending amount ====>>>',
-            recipientBalance,
-            amountState.value
-        );
-        if (Number(ED) > Number(recipientBalance + amountState.value)) {
+        console.log('Hello amount sending', recipientBalance + amount);
+        console.log('Sending amount ====>>>', recipientBalance, amount);
+        if (Number(ED) > Number(recipientBalance + amount)) {
             console.log('Open ED modal');
             // Show warning modal
             setSubTextForWarningModal(
@@ -331,14 +370,21 @@ const Send: React.FunctionComponent = () => {
 
         console.log('ED', api.consts.balances.existentialDeposit);
         console.log('ED type', typeof api.consts.balances.existentialDeposit);
-        // eslint-disable-next-line no-restricted-syntax
-        console.clear();
         console.log(
             'Sender balance - amount state value',
             senderBalance - amountState.value
         );
         console.log('Sender balance ED', ED);
-        if (Number(senderBalance - amountState.value - txFee) < Number(ED)) {
+        console.log(
+            'Test ED ===>>',
+            Number(senderBalance - amount - txFee) < Number(ED)
+        );
+        console.log(
+            'Hi sender balance after tx',
+            Number(senderBalance - amount - txFee)
+        );
+        console.log('Hi ED', ED);
+        if (Number(senderBalance - amount - txFee) < Number(ED)) {
             console.log('IN IF [][] account reap');
             // alert('The sender account might get reaped');
             setSubTextForWarningModal('The sender account might get reaped');
@@ -366,10 +412,10 @@ const Send: React.FunctionComponent = () => {
         // const decimals =
         //     decimalPlaces.length > 1 ? decimalPlaces[0] : decimalPlaces;
 
-        const amountSending = amountState.value * 10 ** decimals;
+        const amountSending = amount * 10 ** decimals;
         console.log('Amount sending ====>>>', amountSending);
         const tx = api.tx.balances.transfer(
-            accountToSate.value as string,
+            receiverAddress as string,
             BigInt(amountSending)
         );
 
@@ -414,9 +460,6 @@ const Send: React.FunctionComponent = () => {
             status: ExtrinsicStatus;
             events: EventRecord[];
         };
-
-        // eslint-disable-next-line no-restricted-syntax
-        console.clear();
 
         await tx
             .send(({ status, events }) => {
@@ -496,6 +539,7 @@ const Send: React.FunctionComponent = () => {
     };
 
     const isValidAddressPolkadotAddress = (address: string): boolean => {
+        console.log('isValidAddressPolkadotAddress running', address);
         try {
             encodeAddress(
                 isHex(address) ? hexToU8a(address) : decodeAddress(address)
@@ -509,32 +553,34 @@ const Send: React.FunctionComponent = () => {
     };
 
     const validateInputValues = (address: string): boolean => {
-        if (currentUser.activeAccount.balance < amountState.value) {
+        console.log('User Balance', currentUser.activeAccount.balance);
+        console.log('Amount + transactionfee', amount + transactionFee);
+        if (currentUser.activeAccount.balance < amount + transactionFee) {
             throw new Error('Insufficient funds');
         }
-        if (!accountToSate.value) {
-            setError((prevState) => ({
-                ...prevState,
-                address: true,
-            }));
-            throw new Error('Please enter address');
-        }
-        setError((prevState) => ({
-            ...prevState,
-            address: false,
-        }));
+        // if (!accountToSate.value) {
+        //     setError((prevState) => ({
+        //         ...prevState,
+        //         address: true,
+        //     }));
+        //     throw new Error('Please enter address');
+        // }
+        // setError((prevState) => ({
+        //     ...prevState,
+        //     address: false,
+        // }));
         if (!isValidAddressPolkadotAddress(address)) return false;
-        if (!amountState.value) {
-            setError((prevState) => ({
-                ...prevState,
-                amountError: true,
-            }));
-            throw new Error('Please enter amount');
-        }
-        setError((prevState) => ({
-            ...prevState,
-            amountError: false,
-        }));
+        // if (!amountState.value) {
+        //     setError((prevState) => ({
+        //         ...prevState,
+        //         amountError: true,
+        //     }));
+        //     throw new Error('Please enter amount');
+        // }
+        // setError((prevState) => ({
+        //     ...prevState,
+        //     amountError: false,
+        // }));
         return true;
     };
 
@@ -543,22 +589,9 @@ const Send: React.FunctionComponent = () => {
         setLoading1(false);
         setIsWarningModalOpen(false);
         dispatch(setConfirmSendModal(true));
-
-        // // checking if balance is enough to send the amount with network fee
-        // if (currentUser.activeAccount.balance <
-        //  (Number(amountState.value) + Number(txFee))) {
-        //   setInsufficientBal(true);
-        //   console.log('hello');
-        // } else {
-        //   dispatch(setConfirmSendModal(true));
-        // }
     };
 
-    // eslint-disable-next-line no-unused-vars
     const handleSubmit = async (): Promise<void> => {
-        console.log('User balance', currentUser.activeAccount.balance);
-        console.log('Redux state api []][]', rpcUrl);
-        console.log('Check existential deposit', accountToSate);
         // if (rpcUrl === constants.ACALA_MANDALA_CONFIG.RPC_URL) {
         //   const bal = await getBalanceWithMultipleTokens(
         // api, accountToSate.value);
@@ -570,11 +603,12 @@ const Send: React.FunctionComponent = () => {
         console.log('Submit working');
         try {
             setLoading1(true);
-            if (!validateInputValues(accountToSate.value as string))
+            if (!validateInputValues(receiverAddress))
                 throw new Error('An error occurred');
             const decimalPlaces = await api.registry.chainDecimals;
             console.log('Before validate tx errors');
             const isTxValid = await validateTxErrors();
+            console.log('Validate tx ran');
             console.log('isTxValid------------------', { isTxValid });
             if (isTxValid[0]) {
                 console.log('After validate tx errors');
@@ -583,9 +617,9 @@ const Send: React.FunctionComponent = () => {
                 const info = await getTransactionFee(
                     api,
                     currentUser.activeAccount.publicKey,
-                    accountToSate.value,
+                    receiverAddress,
                     decimalPlaces[0],
-                    amountState.value
+                    amount
                 );
 
                 console.log('After info');
@@ -604,7 +638,7 @@ const Send: React.FunctionComponent = () => {
                 // to send the amount with network fee
                 if (
                     currentUser.activeAccount.balance <
-                    Number(amountState.value) + Number(txFee)
+                    Number(amount) + Number(txFee)
                 ) {
                     setInsufficientBal(true);
                     console.log('hello');
@@ -642,6 +676,8 @@ const Send: React.FunctionComponent = () => {
         error,
         accountToChangeHandler,
         accountToIsValid,
+        receiverAddress,
+        toAddressError,
     };
 
     const amountInput = {
@@ -655,6 +691,7 @@ const Send: React.FunctionComponent = () => {
         errorMessages,
         error,
         transactionFee,
+        amount,
     };
 
     const btn = {
@@ -662,7 +699,12 @@ const Send: React.FunctionComponent = () => {
         text: 'Next',
         width: '300px',
         handleClick: handleSubmit,
-        disabled: !formIsValid || loading1 || isInputEmpty,
+        disabled:
+            loading1 ||
+            isInputEmpty ||
+            receiverAddress.length === 0 ||
+            toAddressError,
+        // disabled: !formIsValid || loading1 || isInputEmpty,
         isLoading: loading1,
     };
 
@@ -678,8 +720,8 @@ const Send: React.FunctionComponent = () => {
             mt: 10,
         },
         accountFrom: currentUser.activeAccount.publicKey,
-        accountTo: accountToSate.value,
-        amount: amountState.value,
+        accountTo: receiverAddress,
+        amount,
         open: currentUser.modalHandling.confirmSendModal,
         transactionFee,
         tokenName: currentUser.activeAccount.tokenName,

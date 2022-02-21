@@ -10,6 +10,7 @@ export interface errorMessages {
     invalidAddress?: string;
     enterAddress?: string;
     enterAmount?: string;
+    sameAddressError?: string;
 }
 
 export interface error {
@@ -51,6 +52,8 @@ export interface ToInputInterface {
     accountToIsValid(): void;
     isCorrect: boolean;
     error: error;
+    receiverAddress: string;
+    toAddressError: boolean;
 }
 
 export interface AmountInputInterface {
@@ -64,4 +67,5 @@ export interface AmountInputInterface {
     errorMessages: errorMessages;
     error: error;
     transactionFee: number;
+    amount: any;
 }

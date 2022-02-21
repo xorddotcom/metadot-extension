@@ -13,11 +13,13 @@ const ToInput: React.FunctionComponent<ToInputInterface> = ({
     accountToIsValid,
     isCorrect,
     error,
+    receiverAddress,
+    toAddressError,
 }) => {
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
     const styledInput = {
         placeholder: 'Enter Wallet Address',
-        value: accountToSate.value,
+        value: receiverAddress,
         className: subHeadingfontFamilyClass,
         onChange: accountToChangeHandler,
         onBlur: accountToIsValid,
@@ -34,22 +36,19 @@ const ToInput: React.FunctionComponent<ToInputInterface> = ({
     console.log(
         'accountToSate.isValid -----',
         accountToSate.isValid,
-        helpers.validateAddress(accountToSate.value, publicKey)
+        helpers.validateAddress(receiverAddress, publicKey)
     );
 
     return (
         <VerticalContentDiv mb="10px">
             <MainText className={mainHeadingfontFamilyClass}>To</MainText>
             <StyledInput id="to-address" {...styledInput} />
-            {!accountToSate.isValid && (
-                <WarningText
-                    id="warning-text"
-                    className={subHeadingfontFamilyClass}
-                    visibility={!accountToSate.isValid}
-                >
-                    {helpers.validateAddress(accountToSate.value, publicKey)}
-                </WarningText>
-            )}
+            <WarningText
+                id="warning-text"
+                className={subHeadingfontFamilyClass}
+            >
+                {helpers.validateAddress(receiverAddress, publicKey)}
+            </WarningText>
             <div style={{ height: '1rem' }}>
                 {!isCorrect && (
                     <WarningText
@@ -59,6 +58,17 @@ const ToInput: React.FunctionComponent<ToInputInterface> = ({
                         visibility={!isCorrect}
                     >
                         {errorMessages.invalidAddress}
+                    </WarningText>
+                )}
+
+                {toAddressError && (
+                    <WarningText
+                        id="warning-text-1"
+                        className={subHeadingfontFamilyClass}
+                        style={warningTextInlineStyle}
+                        visibility={toAddressError}
+                    >
+                        {errorMessages.sameAddressError}
                     </WarningText>
                 )}
             </div>

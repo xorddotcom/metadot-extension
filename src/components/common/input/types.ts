@@ -50,4 +50,5 @@ export interface Props {
     rightAbsPosition?: boolean;
     leftAbsPosition?: boolean;
     disabled?: boolean;
+    amount?: any;
 }

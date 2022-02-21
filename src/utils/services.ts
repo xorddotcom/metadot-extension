@@ -46,6 +46,8 @@ const getBalanceWithSingleToken = async (
         forceUnit: '-',
         withUnit: false,
     });
+    console.log('In service user balance', userBalance);
+    console.log('In service user balance in float', parseFloat(userBalance));
     return parseFloat(userBalance);
 };
 // Get balance of a chain with multiple tokens

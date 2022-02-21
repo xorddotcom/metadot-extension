@@ -23,6 +23,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     errorMessages,
     error,
     transactionFee,
+    amount,
 }) => {
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -42,12 +43,13 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         id: 'InputField',
         placeholder: 'Amount',
         type: 'Number',
-        value: amountState.value,
+        value: amount,
         className: subHeadingfontFamilyClass,
         onChange: amountHandler,
         fontSize: '14px',
         height: '25px',
         onBlur: amountIsValidHandler,
+        amount,
         isCorrect: amountState.isValid || insufficientBal,
     };
 
