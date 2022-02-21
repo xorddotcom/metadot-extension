@@ -70,6 +70,14 @@ const AuthRoutes = [
         path: '/creatDerivedAccount',
         Component: CreateDerivedAccount,
     },
+    {
+        path: '/ShowSeed',
+        Component: ShowSeed,
+    },
+    {
+        path: '/ConfirmSeed',
+        Component: ConfirmSeed,
+    },
 ];
 
 export default { AuthRoutes, UnAuthRoutes };
