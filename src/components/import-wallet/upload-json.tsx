@@ -133,6 +133,7 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                     fullWidth="82%"
                     {...InputProps}
                     typePassword
+                    isCorrect
                     rightIcon
                     leftPosition="-4px"
                     topPosition="2px"

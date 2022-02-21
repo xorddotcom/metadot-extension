@@ -3,7 +3,7 @@ const fonts = {
     headerHeadingFontSize: '1.25rem',
     mainHeadingFontSize: '18px',
     subHeadingFontSize: '14px',
-    buttonFontSize: '16px',
+    buttonFontSize: '13px',
     errorHeadingFontSize: '2px',
 
     mainHeadingfontFamilyClass: 'font-face-robotoB',
