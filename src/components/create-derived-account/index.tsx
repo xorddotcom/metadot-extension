@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
     Wrapper,
@@ -43,8 +43,6 @@ const passwordErrorMessages = {
 const { minimumCharacterWarning, didnotMatchWarning, passwordValidation } =
     passwordErrorMessages;
 
-const { getBalance, addressMapper } = services;
-
 const CreateDerivedAccount: React.FunctionComponent = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -55,8 +53,6 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
 
     const parentPassword = location.parentPassword && location.parentPassword;
     const parentAddress = location.parentAddress && location.parentAddress;
-
-    const { prefix } = useSelector((state: RootState) => state.activeAccount);
 
     const [walletName, setWalletName] = useState('');
     const [isValidWalletName, setIsValidWalletName] = useState(false);

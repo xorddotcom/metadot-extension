@@ -28,6 +28,9 @@ import {
     subscribeMetadataRequests,
     subscribeSigningRequests,
 } from './messaging';
+import services from './utils/services';
+
+const { addressMapper } = services;
 
 function App(): JSX.Element {
     const [accounts, setAccounts] = useState<null | AccountJson[]>(null);
@@ -67,8 +70,14 @@ function App(): JSX.Element {
             parentAddress,
         }: any): void => {
             // setting active account
+
+            const publicKeyOfRespectiveChain = addressMapper(
+                address,
+                activeAccount.prefix
+            );
+
             dispatch(setLoggedIn(true));
-            dispatch(setPublicKey(address));
+            dispatch(setPublicKey(publicKeyOfRespectiveChain));
             dispatch(setAccountName(name));
 
             // setting all accounts

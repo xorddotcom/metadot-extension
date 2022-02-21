@@ -1,8 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { encodeAddress } from '@polkadot/util-crypto';
 import { deleteAccount } from '../../redux/slices/accounts';
-import { setAccountName, setPublicKey } from '../../redux/slices/activeAccount';
+import {
+    resetAccountSlice,
+    setAccountName,
+    setPublicKey,
+} from '../../redux/slices/activeAccount';
 import {
     Account,
     AccountCircle,
@@ -65,16 +70,23 @@ const DrivedAccountList: React.FunctionComponent<DerivedAccountInterface> = ({
     }, [isOpen]);
 
     const onOptionClicked = (): void => {
-        if (publicKey === activeAccount.publicKey) {
-            dispatch(deleteAccount(publicKey));
-            dispatch(setPublicKey(''));
-            dispatch(setAccountName(''));
-            dispatch(setPublicKey('')); // Object.values(accounts)[0].publicKey
-            dispatch(setAccountName('')); // Object.values(accounts)[0].accountName
+        dispatch(deleteAccount(publicKey));
+        if (publicKey === encodeAddress(activeAccount.publicKey, 42)) {
+            if (Object.keys(accounts).length > 1) {
+                childAccountActive(
+                    Object.values(accounts)[0].publicKey,
+                    Object.values(accounts)[0].accountName
+                );
+            } else {
+                dispatch(resetAccountSlice());
+            }
+            setIsOpen(false);
+
+            navigate('/');
+        } else {
+            setIsOpen(false);
             navigate('/');
         }
-        dispatch(deleteAccount(publicKey));
-        setIsOpen(false);
     };
 
     // account dropdown

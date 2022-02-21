@@ -20,7 +20,6 @@ import {
     setSubTextForSuccessModal,
 } from '../../redux/slices/modalHandling';
 import {
-    setLoggedIn,
     setAccountCreationStep,
     setTempSeed,
 } from '../../redux/slices/activeAccount';
@@ -30,9 +29,7 @@ import AccountCreate from '../../assets/images/modalIcons/accountCreate.svg';
 import { RootState } from '../../redux/store';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-const { isUserNameValid } = helpers;
 const { AccountCreation } = accounts;
-const { addressMapper } = services;
 
 const passwordErrorMessages = {
     minimumCharacterWarning: 'Password should not be less than 8 characters',
@@ -52,9 +49,7 @@ const CreateWallet: React.FunctionComponent = () => {
         seedToPass: string;
     };
 
-    const { tempSeed, prefix } = useSelector(
-        (state: RootState) => state.activeAccount
-    );
+    const { tempSeed } = useSelector((state: RootState) => state.activeAccount);
 
     const operation =
         location.prevRoute === '/ImportWallet' ? 'Imported' : 'Created';

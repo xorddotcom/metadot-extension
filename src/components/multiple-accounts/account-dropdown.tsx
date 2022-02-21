@@ -64,7 +64,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
         },
         mainText: 'Warning',
         subText:
-            'On confirm, your account will be deleted from Metadot permanently, make sure you have your json file backup or seed stored',
+            'Once the account is deleted, it can not be restored again. Do you wish to continue?',
     };
 
     return (
@@ -203,7 +203,6 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                     background: '#141414',
                     position: 'relative',
                     bottom: 30,
-                    p: 2,
                     px: 2,
                     pb: 3,
                 }}
