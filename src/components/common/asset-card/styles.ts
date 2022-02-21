@@ -4,8 +4,8 @@ import { colors } from '../../../utils';
 const { primaryText } = colors;
 
 export const AssetCardWrapper = styled.div`
-    width: 89%;
-    height: 55px;
+    width: 86%;
+    height: 60px;
     background: linear-gradient(
         98.61deg,
         #1e1e1e -29.86%,
@@ -16,8 +16,8 @@ export const AssetCardWrapper = styled.div`
     border-radius: 5px;
     margin-top: 15px;
     margin-bottom: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
     display: flex;
     align-items: center;
     justify-content: space-between;

@@ -30,6 +30,7 @@ const DeriveModal: React.FunctionComponent<DeriveModalInterface> = ({
         parentPassword: string
     ): void => {
         try {
+            // message pass to validate seed
             navigate('/creatDerivedAccount', {
                 state: {
                     parentPassword,
@@ -37,13 +38,12 @@ const DeriveModal: React.FunctionComponent<DeriveModalInterface> = ({
                 },
             });
         } catch (err) {
-            console.log('error due to wrong ', err);
             setPasswordError('Invalid password!');
         }
     };
 
     const styledInput = {
-        placeholder: 'Enter Password',
+        placeholder: 'Enter Parent Password',
         value: password,
         className: subHeadingfontFamilyClass,
         fontSize: '9px',
@@ -110,8 +110,11 @@ const DeriveModal: React.FunctionComponent<DeriveModalInterface> = ({
 
                         <Input
                             id="auth-password"
+                            fullWidth="76%"
                             typePassword
                             rightIcon
+                            leftPosition="0px"
+                            topPosition="0px"
                             {...styledInput}
                         />
                         <WarningText {...warningText}>
@@ -127,7 +130,14 @@ const DeriveModal: React.FunctionComponent<DeriveModalInterface> = ({
                         >
                             Derivation Path
                         </MainText>
-                        <Input rightIconLock disabled {...input} />
+                        <Input
+                            fullWidth="76%"
+                            rightIconLock
+                            leftPosition="0px"
+                            topPosition="2px"
+                            disabled
+                            {...input}
+                        />
                     </VerticalContentDiv>
 
                     <div className="btn-center" style={{ marginTop: '30px' }}>

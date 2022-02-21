@@ -9,16 +9,19 @@ const { subHeadingFontSize } = fonts;
 export const Wrapper = styled.div<WrapperInterface>`
     width: ${(props) =>
         props.inputWrapperWidth ? props.inputWrapperWidth : '100%'};
+    height: 40px;
     border: ${(props) => {
         if (props.isCorrect) return '0px';
         if (!props.isCorrect) return '1px solid red';
         return '0px';
     }};
     border: ${(props) => (props.isCorrect === false ? '1px solid red' : '0px')};
-    /* border: 1px solid red; */
     border-radius: 8px;
-    position: relative;
+    background-color: ${darkBackground1};
     margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
+    display: flex;
+    align-items: center;
+    justify-content: start;
 `;
 
 export const Field = styled.input<FieldInterface>`
