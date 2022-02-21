@@ -16,6 +16,7 @@ import {
 
 // Assests Token images
 import dusty from '../../assets/images/tokenImg/dusty.png';
+import contextFree from '../../assets/images/contextfree.png';
 import kusamaKsm from '../../assets/images/tokenImg/kusama-ksm.svg';
 import polkadotDot from '../../assets/images/tokenImg/polkadot.png';
 import westendColour from '../../assets/images/tokenImg/westend_colour.svg';
@@ -73,8 +74,8 @@ const AssetsAndTransactions: React.FunctionComponent<
         if (token === 'KAR') {
             return karura;
         }
-        if (token === 'NUUM') {
-            return bitcountry;
+        if (token === 'CTX') {
+            return contextFree;
         }
         return polkadotDot;
     };
@@ -100,8 +101,6 @@ const AssetsAndTransactions: React.FunctionComponent<
     const handleTransaction = (transactionObject: any): TransactionRecord => {
         // list all the previous hashes
         // and then dispatch new data if it's txhash is not in previousHashes
-
-        console.log('handle transaction running:', transactionObject);
 
         const previousTransactionHashList = transactionData.map(
             (transaction: any) => transaction.hash

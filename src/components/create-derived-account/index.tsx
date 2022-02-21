@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
     Wrapper,
@@ -25,7 +25,9 @@ import {
     setSubTextForSuccessModal,
 } from '../../redux/slices/modalHandling';
 import ImportIcon from '../../assets/images/modalIcons/import.svg';
-import { addAccount } from '../../redux/slices/accounts';
+
+import services from '../../utils/services';
+import { RootState } from '../../redux/store';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
@@ -41,6 +43,8 @@ const passwordErrorMessages = {
 const { minimumCharacterWarning, didnotMatchWarning, passwordValidation } =
     passwordErrorMessages;
 
+const { getBalance, addressMapper } = services;
+
 const CreateDerivedAccount: React.FunctionComponent = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -51,6 +55,8 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
 
     const parentPassword = location.parentPassword && location.parentPassword;
     const parentAddress = location.parentAddress && location.parentAddress;
+
+    const { prefix } = useSelector((state: RootState) => state.activeAccount);
 
     const [walletName, setWalletName] = useState('');
     const [isValidWalletName, setIsValidWalletName] = useState(false);
@@ -154,7 +160,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
         height: '15px',
         onChange: (t: string) => {
             setPasswordError('');
-            if (t.length < 20) setPassword(t);
+            setPassword(t);
         },
         hideHandler: () => setShowPassword(!showPassword),
         hideState: showPassword,
@@ -167,7 +173,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
         height: '15px',
         onChange: (t: string) => {
             setPasswordError('');
-            if (t.length < 20) setConfirmPassword(t);
+            setConfirmPassword(t);
         },
         hideHandler: () => setShowConfirmPassword(!showConfirmPassword),
         hideState: showConfirmPassword,
@@ -181,7 +187,6 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
             setIsLoading(true);
             await handleContinue();
         },
-        // handleClick: () => console.log('clicked'),
         isLoading,
     };
 
@@ -189,7 +194,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
         <Wrapper>
             <Header
                 centerText="Derive Account"
-                backHandler={() => console.log('object')}
+                backHandler={() => console.log('go back')}
             />
             <UnAuthScreensContentWrapper>
                 <LabelAndTextWrapper>
@@ -217,10 +222,13 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                     </SubHeading>
                     <Input
                         id="password"
+                        fullWidth="76%"
                         {...styledInputPassword}
                         typePassword
                         isCorrect
                         rightIcon
+                        leftPosition="16px"
+                        topPosition="2px"
                     />
                     {passwordError === minimumCharacterWarning && (
                         <WarningText
@@ -266,10 +274,13 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                     </SubHeading>
                     <Input
                         id="confirm-password"
+                        fullWidth="76%"
                         {...styledInputConfirmPass}
                         typePassword
                         rightIcon
                         isCorrect
+                        leftPosition="16px"
+                        topPosition="2px"
                     />
 
                     {passwordError === didnotMatchWarning && (

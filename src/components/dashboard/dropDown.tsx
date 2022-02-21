@@ -226,11 +226,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = ({
                             id="menu-item-1"
                             style={{ minHeight: '37px', color: '#fafafa' }}
                             onClick={() => {
-                                console.log('abc');
-                                // const logOut = async () => {
-                                console.log('Log Out working');
                                 dispatch(setLoggedIn(false));
-                                // };
                             }}
                         >
                             <ListItemIcon
@@ -258,7 +254,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = ({
                 handleClose={() => setAboutOpen(false)}
                 style={{
                     position: 'relative',
-                    width: '78%',
+                    width: '300px',
                     minHeight: 380,
                     background: '#141414',
                     padding: '0 20px',
@@ -279,7 +275,6 @@ const DropDown: React.FunctionComponent<DropDownProps> = ({
                     background: '#141414',
                     position: 'relative',
                     bottom: 30,
-                    p: 2,
                     px: 2,
                     pb: 3,
                 }}

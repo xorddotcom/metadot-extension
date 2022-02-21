@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
+import { encodeAddress } from '@polkadot/util-crypto';
 import dropDownIcon from '../../assets/images/icons/3Dots.svg';
 import { fonts } from '../../utils';
 import accountUtils from '../../utils/accounts';
@@ -25,11 +26,13 @@ import { setAuthScreenModal } from '../../redux/slices/modalHandling';
 import { AuthModal } from '../common/modals';
 import DerivedAccountModal from './derive-modal';
 import AccountDropDown from './account-dropdown';
+import services from '../../utils/services';
 import { AccountListInterface } from './types';
 import { RootState } from '../../redux/store';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { getJsonBackup } = accountUtils;
+const { addressMapper } = services;
 
 const AccountList: React.FunctionComponent<AccountListInterface> = ({
     publicKey,
@@ -99,17 +102,29 @@ const AccountList: React.FunctionComponent<AccountListInterface> = ({
     }, [accounts]);
 
     const onOptionClicked = (): void => {
-        if (publicKeyy === activeAccount.publicKey) {
-            dispatch(deleteAccount(publicKeyy));
-            dispatch(setPublicKey(''));
-            dispatch(setAccountName(''));
-            dispatch(setPublicKey(publicKeyy));
-            dispatch(setAccountName(accountName));
-            navigate('/');
-        }
         dispatch(deleteAccount(publicKeyy));
-        navigate('/');
-        setIsOpen(false);
+        if (publicKeyy === encodeAddress(activeAccount.publicKey, 42)) {
+            if (Object.keys(accounts).length > 1) {
+                if (Object.keys(accounts)[0] !== publicKeyy) {
+                    accountActive(
+                        Object.values(accounts)[0].publicKey,
+                        Object.values(accounts)[0].accountName
+                    );
+                } else {
+                    accountActive(
+                        Object.values(accounts)[1].publicKey,
+                        Object.values(accounts)[1].accountName
+                    );
+                }
+            } else {
+                dispatch(resetAccountSlice());
+            }
+            navigate('/');
+            setIsOpen(false);
+        } else {
+            navigate('/');
+            setIsOpen(false);
+        }
     };
 
     const downloadJson = async (
@@ -142,7 +157,9 @@ const AccountList: React.FunctionComponent<AccountListInterface> = ({
             <Account marginBottom={marginBottom} marginTop={marginTop}>
                 <AccountFlex>
                     <AccountCircle />
-                    <AccountText onClick={accountActive}>
+                    <AccountText
+                        onClick={() => accountActive(publicKeyy, accountName)}
+                    >
                         <AccountMainText className={mainHeadingfontFamilyClass}>
                             {accountName}
                         </AccountMainText>

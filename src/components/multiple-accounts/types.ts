@@ -3,7 +3,7 @@ export interface AccountListInterface {
     accountName: string;
     marginBottom?: string;
     marginTop?: string;
-    accountActive?(): void;
+    accountActive(publicKey: string, accountName: string): void;
     publicKeyy: string;
     account: { publicKey: string; accountName: string; parentAddress: string };
     childAccounts?: {
