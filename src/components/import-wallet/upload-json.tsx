@@ -36,7 +36,7 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
             reader.onload = async () => {
                 const fileContent = reader.result;
                 const parsedFileContent = JSON.parse(fileContent as string);
-                setJson(parsedFileContent);
+                setJson(parsedFileContent.exportedJson);
             };
             reader.readAsText(file);
             setFileName(

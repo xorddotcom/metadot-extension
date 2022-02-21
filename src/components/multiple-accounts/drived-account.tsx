@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { encodeAddress } from '@polkadot/util-crypto';
-import { deleteAccount } from '../../redux/slices/accounts';
+import { deleteAccount as deleteAccountRdx } from '../../redux/slices/accounts';
 import {
     resetAccountSlice,
     setAccountName,
@@ -22,7 +22,7 @@ import {
     DropDownContainer,
     DropDownIcon,
 } from './styles';
-import { fonts, helpers } from '../../utils';
+import { fonts, helpers, accounts as accountUtils } from '../../utils';
 import downIcon from '../../assets/images/icons/downArrow.svg';
 import upArrowIcon from '../../assets/images/icons/upArrow.svg';
 import dropDownIcon from '../../assets/images/icons/3Dots.svg';
@@ -32,6 +32,7 @@ import { RootState } from '../../redux/store';
 
 const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
 const { addressModifier } = helpers;
+const { deleteAccount } = accountUtils;
 
 const DrivedAccountList: React.FunctionComponent<DerivedAccountInterface> = ({
     childAccount,
@@ -69,8 +70,9 @@ const DrivedAccountList: React.FunctionComponent<DerivedAccountInterface> = ({
         };
     }, [isOpen]);
 
-    const onOptionClicked = (): void => {
-        dispatch(deleteAccount(publicKey));
+    const onOptionClicked = async (): Promise<void> => {
+        await deleteAccount(publicKey);
+        dispatch(deleteAccountRdx(publicKey));
         if (publicKey === encodeAddress(activeAccount.publicKey, 42)) {
             if (Object.keys(accounts).length > 1) {
                 childAccountActive(
