@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { fonts } from '../../utils';
 
@@ -23,9 +23,26 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
     setShowPassword,
     setPasswordError,
     invalidJSONFileError,
+    setInvalidJSONFileError,
+    setSeedPhrase,
+    setInvalidSeedMessage,
 }) => {
     const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
     const hiddenFileInput = React.useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        setSeedPhrase('');
+        setInvalidSeedMessage('');
+    });
+
+    useEffect(() => {
+        console.log('Use effect running');
+        setIsFilePicked(false);
+        setJson('');
+        setFileName({ name: '' });
+        setInvalidJSONFileError(false);
+        setPasswordError(false);
+    }, []);
 
     const showFile = async (
         e: React.ChangeEvent<HTMLInputElement>
@@ -36,9 +53,20 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
             if (e.target.files) {
                 const file = e.target.files[0];
                 reader.onload = async () => {
-                    const fileContent = reader.result;
-                    const parsedFileContent = JSON.parse(fileContent as string);
-                    setJson(parsedFileContent.exportedJson);
+                    try {
+                        const fileContent = reader.result;
+                        console.log(1);
+                        const parsedFileContent = JSON.parse(
+                            fileContent as string
+                        );
+                        console.log(2);
+                        setJson(parsedFileContent.exportedJson);
+                        console.log(3);
+                        setInvalidJSONFileError(false);
+                    } catch (err) {
+                        console.log('In catch here', err);
+                        setInvalidJSONFileError(true);
+                    }
                 };
                 reader.readAsText(file);
                 setFileName(
@@ -52,6 +80,8 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
     };
 
     const handleClick = (operation: string): void => {
+        setInvalidJSONFileError(false);
+        setPasswordError(false);
         try {
             if (operation === 'select') {
                 if (isFilePicked) {
@@ -135,6 +165,7 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                         id="warning-text-3"
                         mb="10px"
                         className={subHeadingfontFamilyClass}
+                        visibility
                     >
                         Invalid Json file!
                     </WarningText>
@@ -162,6 +193,7 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                         id="warning-text-3"
                         mb="10px"
                         className={subHeadingfontFamilyClass}
+                        visibility
                     >
                         Invalid Password!
                     </WarningText>

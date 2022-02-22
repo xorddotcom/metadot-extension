@@ -20,6 +20,7 @@ import ImportIcon from '../../assets/images/modalIcons/import.svg';
 import { fonts } from '../../utils';
 import accounts from '../../utils/accounts';
 import services from '../../utils/services';
+import { EnterSeedInterface } from './type';
 
 import { RootState } from '../../redux/store';
 
@@ -99,7 +100,7 @@ function ImportWallet(): JSX.Element {
                 showSuccessModalAndNavigateToDashboard();
             } else {
                 console.log('aksk', res);
-                setInvalidJSONFileError(true);
+                setPasswordError(true);
             }
         } catch (err) {
             console.log('In import account from JSON error ===>>>>');
@@ -232,6 +233,9 @@ function ImportWallet(): JSX.Element {
         setShowPassword,
         setPasswordError,
         invalidJSONFileError,
+        setInvalidJSONFileError,
+        setSeedPhrase,
+        setInvalidSeedMessage,
     };
 
     return (
@@ -264,6 +268,7 @@ function ImportWallet(): JSX.Element {
                         handleChange={handleChange}
                         seedPhrase={seedPhrase}
                         invalidSeedMessage={invalidSeedMessage}
+                        setPassword={setPassword}
                     />
                 )}
 

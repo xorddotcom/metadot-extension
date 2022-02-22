@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Input } from '@mui/material';
 import { WarningText } from '../common/text';
 import { colors, fonts } from '../../utils';
@@ -8,6 +8,7 @@ const index: React.FunctionComponent<EnterSeedInterface> = ({
     handleChange,
     seedPhrase,
     invalidSeedMessage,
+    setPassword,
 }) => {
     const { primaryText, darkBackground1 } = colors;
     const { subHeadingfontFamilyClass } = fonts;
@@ -29,6 +30,9 @@ const index: React.FunctionComponent<EnterSeedInterface> = ({
         rows: 5,
         placeholder: 'Place your seed here',
     };
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => setPassword(''));
 
     return (
         <div style={{ marginTop: '1rem' }}>
