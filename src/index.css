@@ -186,7 +186,7 @@ input:focus {
   margin: 200px auto;
   width: 100%;
   max-width: 290px;
-  padding: 22px 1.3rem !important;
+  /* padding: 22px 1.3rem !important; */
   text-align: left !important;
   position: relative;
 }
@@ -265,9 +265,7 @@ input[type='number'] {
 .tooltip .tooltiptext {
   visibility: hidden;
   width: 70px;
-  /* padding: 1rem; */
   background-color: var(--tooltipColor) !important;
-  border: 1.09px solid var(--tooltipBorderColor) !important;
   box-shadow: 0px 18.5334px 37.0668px rgba(0, 0, 0, 0.2) !important;
   border-radius: 9.71px !important;
   color: #fafafa;
@@ -308,9 +306,7 @@ input[type='number'] {
 .main-card-tooltip .main-card-tooltiptext {
   visibility: hidden;
   width: 100px;
-  /* padding: 1rem; */
   background-color: var(--tooltipColor) !important;
-  border: 1.09px solid var(--tooltipBorderColor) !important;
   box-shadow: 0px 18.5334px 37.0668px rgba(0, 0, 0, 0.2) !important;
   border-radius: 9.71px !important;
   color: #fafafa;
@@ -354,7 +350,6 @@ input[type='number'] {
   visibility: hidden;
   width: 90%;
   background-color: var(--tooltipColor) !important;
-  border: 1.09px solid var(--tooltipBorderColor) !important;
   box-shadow: 0px 18.5334px 37.0668px rgba(0, 0, 0, 0.2) !important;
   border-radius: 9.71px !important;
   color: #fafafa;

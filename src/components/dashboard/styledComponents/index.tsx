@@ -49,7 +49,7 @@ export const SelectChain = styled.div`
     width: 100%;
     height: 34px;
     cursor: pointer;
-    padding-left: 10px;
+    padding-left: 15px;
     padding-right: 5px;
     background: ${darkBackground1};
     border: 0.5px solid ${primaryBackground};

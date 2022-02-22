@@ -43,7 +43,6 @@ function WelcomeBack(): JSX.Element {
                 setPasswordError('Invalid password!');
             }
         } catch (err) {
-            console.log('error due to wrong ', err);
             setPasswordError('Invalid password!');
         }
         return null;
@@ -84,8 +83,11 @@ function WelcomeBack(): JSX.Element {
                 <img src={AppLogo} alt="logo" />
             </div>
 
-            <div className="main-content" style={{ minHeight: '136px' }}>
-                <MainHeading className={mainHeadingfontFamilyClass}>
+            <div className="main-content-wb" style={{ minHeight: '136px' }}>
+                <MainHeading
+                    className={mainHeadingfontFamilyClass}
+                    weight="bold"
+                >
                     Welcome Back
                 </MainHeading>
                 <Input {...InputProps} />

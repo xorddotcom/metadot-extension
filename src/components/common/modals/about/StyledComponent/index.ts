@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 import { MainText1PropsInterface } from './types';
@@ -16,19 +15,7 @@ export const CloseIconDiv = styled.div`
     cursor: pointer;
 `;
 
-const CommonTextPropsInterfaceWrapper: React.FunctionComponent<
-    MainText1PropsInterface
-> = ({ children }) => {
-    return <p>{children}</p>;
-};
-
-const MainText1PropsInterfaceWrapper: React.FunctionComponent<
-    MainText1PropsInterface
-> = ({ children }) => {
-    return <h3>{children}</h3>;
-};
-
-export const MainText1 = styled(MainText1PropsInterfaceWrapper)`
+export const MainText1 = styled.h3<MainText1PropsInterface>`
     font-size: ${mainHeadingFontSize};
     font-weight: 500;
     font-size: 18px;
@@ -38,7 +25,7 @@ export const MainText1 = styled(MainText1PropsInterfaceWrapper)`
     text-align: ${(props) => props.textAlign};
 `;
 
-export const MainText2 = styled(CommonTextPropsInterfaceWrapper)`
+export const MainText2 = styled.h3<MainText1PropsInterface>`
     font-size: 16px;
     line-height: 16px;
     color: ${primaryText};
@@ -47,7 +34,7 @@ export const MainText2 = styled(CommonTextPropsInterfaceWrapper)`
     margin-top: ${(props) => props.marginTop && props.marginTop};
 `;
 
-export const SubText2 = styled(CommonTextPropsInterfaceWrapper)`
+export const SubText2 = styled.h3<MainText1PropsInterface>`
     font-weight: 500;
     font-size: 14px;
     line-height: 21px;

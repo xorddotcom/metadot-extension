@@ -8,10 +8,10 @@ const {
     ConfirmSeed,
     CreateWallet,
     Dashboard,
-    Send,
     MultipleAccounts,
     Support,
     CreateDerivedAccount,
+    Send,
 } = Views;
 
 const UnAuthRoutes = [
@@ -69,6 +69,14 @@ const AuthRoutes = [
     {
         path: '/creatDerivedAccount',
         Component: CreateDerivedAccount,
+    },
+    {
+        path: '/ShowSeed',
+        Component: ShowSeed,
+    },
+    {
+        path: '/ConfirmSeed',
+        Component: ConfirmSeed,
     },
 ];
 

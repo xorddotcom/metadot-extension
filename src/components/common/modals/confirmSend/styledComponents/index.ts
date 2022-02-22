@@ -1,4 +1,3 @@
-import React from 'react';
 import styled, { css } from 'styled-components';
 import { colors, fonts } from '../../../../../utils';
 import {
@@ -9,7 +8,7 @@ import {
 } from './types';
 
 const { primaryText, darkBackground1 } = colors;
-const { mainHeadingFontSize, buttonFontSize } = fonts;
+const { buttonFontSize } = fonts;
 
 export const CloseIconDiv = styled.div`
     position: absolute;
@@ -19,15 +18,7 @@ export const CloseIconDiv = styled.div`
     cursor: pointer;
 `;
 
-const HorizontalContentDivPropsInterfaceWrapper: React.FunctionComponent<
-    HorizontalContentInterface
-> = ({ children }) => {
-    return <div>{children}</div>;
-};
-
-export const HorizontalContentDiv = styled(
-    HorizontalContentDivPropsInterfaceWrapper
-)`
+export const HorizontalContentDiv = styled.div<HorizontalContentInterface>`
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -40,15 +31,7 @@ export const HorizontalContentDiv = styled(
         props.borderBottom && '1px solid rgba(250, 250, 250, 0.15)'};
 `;
 
-const VerticalContentDivPropsInterfaceWrapper: React.FunctionComponent<
-    VerticalContentInterface
-> = ({ children }) => {
-    return <div>{children}</div>;
-};
-
-export const VerticalContentDiv = styled(
-    VerticalContentDivPropsInterfaceWrapper
-)`
+export const VerticalContentDiv = styled.div<VerticalContentInterface>`
     display: flex;
     flex-direction: column;
     margin-top: ${(props) => props.marginTop && props.marginTop};
@@ -68,13 +51,7 @@ export const VerticalContentDiv = styled(
         `}
 `;
 
-const ModalText2PropsInterfaceWrapper: React.FunctionComponent<
-    ModalText2Interface
-> = ({ children }) => {
-    return <p>{children}</p>;
-};
-
-export const ModalText2 = styled(ModalText2PropsInterfaceWrapper)`
+export const ModalText2 = styled.p<ModalText2Interface>`
     font-size: ${buttonFontSize};
     font-weight: 500;
     line-height: 19px;
@@ -87,13 +64,7 @@ export const ModalText2 = styled(ModalText2PropsInterfaceWrapper)`
     margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
 `;
 
-const SubTextPropsInterfaceWrapper: React.FunctionComponent<
-    SubTextInterface
-> = ({ children }) => {
-    return <p>{children}</p>;
-};
-
-export const SubText1 = styled(SubTextPropsInterfaceWrapper)`
+export const SubText1 = styled.p<SubTextInterface>`
     font-size: 0.803rem;
     line-height: 16px;
     height: 16px;
@@ -107,7 +78,7 @@ export const SubText1 = styled(SubTextPropsInterfaceWrapper)`
     margin: 0px 0px 3px 0px;
 `;
 
-export const SubText2 = styled(SubTextPropsInterfaceWrapper)`
+export const SubText2 = styled.p<SubTextInterface>`
     font-size: 0.803rem;
     line-height: 16px;
     height: 16px;

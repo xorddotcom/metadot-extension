@@ -15,6 +15,7 @@ const {
     ASTAR_CONFIG,
     SHIBUYA_CONFIG,
     BITCOUNTRY_CONFIG,
+    CONTEXTFREE_CONFIG,
 } = constants;
 
 const availableNetworks: NetworkConfigType[] = [
@@ -42,6 +43,7 @@ const availableNetworks: NetworkConfigType[] = [
         name: 'Test Networks',
         theme: yellow,
         moreOptions: true,
+        prefix: 0,
     },
 
     // Will use this setting in future
@@ -100,6 +102,7 @@ const KusamaMainNetworks: NetworkConfigType[] = [
         parachain: true,
         mainNetwork: true,
         disabled: true,
+        prefix: 0,
     },
     {
         name: SHIDEN_CONFIG.CHAIN_NAME,
@@ -108,6 +111,7 @@ const KusamaMainNetworks: NetworkConfigType[] = [
         mainNetwork: true,
         testNet: 'Dusty',
         disabled: true,
+        prefix: 0,
     },
     {
         name: KHALA_CONFIG.CHAIN_NAME,
@@ -116,6 +120,7 @@ const KusamaMainNetworks: NetworkConfigType[] = [
         mainNetwork: true,
         testNet: 'Phala',
         disabled: true,
+        prefix: 0,
     },
     {
         name: BIFROST_CONFIG.CHAIN_NAME,
@@ -124,6 +129,7 @@ const KusamaMainNetworks: NetworkConfigType[] = [
         mainNetwork: true,
         testNet: 'Asgard',
         disabled: true,
+        prefix: 0,
     },
 ];
 
@@ -143,12 +149,19 @@ const TestNetworks: NetworkConfigType[] = [
     //   prefix: ROCOCO_CONFIG.PREFIX,
     //   // disabled: false,
     // },
+    // {
+    //     name: BITCOUNTRY_CONFIG.CHAIN_NAME,
+    //     theme: BITCOUNTRY_CONFIG.LOGO,
+    //     rpcUrl: BITCOUNTRY_CONFIG.RPC_URL,
+    //     tokenName: BITCOUNTRY_CONFIG.TOKEN_NAME,
+    //     prefix: 42,
+    // },
     {
-        name: BITCOUNTRY_CONFIG.CHAIN_NAME,
-        theme: BITCOUNTRY_CONFIG.LOGO,
-        rpcUrl: BITCOUNTRY_CONFIG.RPC_URL,
-        tokenName: BITCOUNTRY_CONFIG.TOKEN_NAME,
-        prefix: 42,
+        name: CONTEXTFREE_CONFIG.CHAIN_NAME,
+        theme: CONTEXTFREE_CONFIG.LOGO,
+        rpcUrl: CONTEXTFREE_CONFIG.RPC_URL,
+        tokenName: CONTEXTFREE_CONFIG.TOKEN_NAME,
+        prefix: 11820,
     },
     {
         name: SHIBUYA_CONFIG.CHAIN_NAME,

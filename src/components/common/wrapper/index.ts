@@ -67,7 +67,7 @@ export const UnAuthScreensContentWrapper = styled.div<NewType>`
     height: auto;
     height: auto;
     margin: 17px auto 25px;
-    margin-bottom: ${(props) => (props.mb ? props.mb : '2rem')};
+    margin-bottom: ${(props) => (props.mb ? props.mb : '50px')};
 `;
 
 export const LabelAndTextWrapper = styled.div`

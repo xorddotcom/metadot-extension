@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
+import { useDispatch, useSelector } from 'react-redux';
 import { Header, Input, Button } from '../common';
 import { Wrapper, UnAuthScreensContentWrapper } from '../common/wrapper';
 import { MainHeading, SubHeading } from '../common/text';
 
+import { setAccountCreationStep } from '../../redux/slices/activeAccount';
+
 import { fonts, helpers } from '../../utils';
 import { SeedGridRow, SeedText, SeedGrid } from './styles';
+import { RootState } from '../../redux/store';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const {
@@ -17,10 +21,11 @@ const {
 const fourRandomIndexes = arrayOfFourRandomNumbers();
 
 const ConfirmSeed: React.FunctionComponent = () => {
+    const dispatch = useDispatch();
+    const { tempSeed } = useSelector((state: RootState) => state.activeAccount);
     const navigate = useNavigate();
-    const location = useLocation().state as { seedToPass: string };
 
-    const currSeed = location.seedToPass;
+    const currSeed = tempSeed;
 
     const shuffledSeed = shuffleItemsWithinArray(
         arrayFromSeedSentence(currSeed)
@@ -61,10 +66,12 @@ const ConfirmSeed: React.FunctionComponent = () => {
 
         setValidations([first, second, third, fourth]);
 
-        if (first && second && third && fourth)
+        if (first && second && third && fourth) {
+            dispatch(setAccountCreationStep(3));
             navigate('/createWallet', {
                 state: { seedToPass: currSeed },
             });
+        }
     };
 
     const handleSelect = (seedObj: {
@@ -204,7 +211,7 @@ const ConfirmSeed: React.FunctionComponent = () => {
         <Wrapper>
             <Header
                 centerText="Confirm Seed"
-                backHandler={() => console.log('goBack')}
+                backHandler={() => dispatch(setAccountCreationStep(1))}
             />
             <div>
                 <MainHeading {...mainHeading}>Confirm seed phrase</MainHeading>
@@ -213,14 +220,40 @@ const ConfirmSeed: React.FunctionComponent = () => {
                     provided below.
                 </SubHeading>
             </div>
-            <UnAuthScreensContentWrapper mb="2rem">
-                <Input id="word-1" {...styledInput1} disabled />
+            <UnAuthScreensContentWrapper mb="18px">
+                <Input
+                    id="word-1"
+                    fullWidth="76%"
+                    {...styledInput1}
+                    leftPosition="18px"
+                    topPosition="3px"
+                    disabled
+                />
 
-                <Input id="word-2" {...styledInput2} disabled />
+                <Input
+                    id="word-2"
+                    {...styledInput2}
+                    fullWidth="76%"
+                    leftPosition="18px"
+                    topPosition="3px"
+                    disabled
+                />
 
-                <Input id="word-3" {...styledInput3} disabled />
+                <Input
+                    id="word-3"
+                    {...styledInput3}
+                    leftPosition="18px"
+                    topPosition="3px"
+                    disabled
+                />
 
-                <Input id="word-4" {...styledInput4} disabled />
+                <Input
+                    id="word-4"
+                    {...styledInput4}
+                    leftPosition="18px"
+                    topPosition="3px"
+                    disabled
+                />
 
                 <SeedGrid>
                     <SeedGridRow>

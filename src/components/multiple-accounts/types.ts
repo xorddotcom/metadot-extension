@@ -3,7 +3,7 @@ export interface AccountListInterface {
     accountName: string;
     marginBottom?: string;
     marginTop?: string;
-    accountActive?(): void;
+    accountActive(publicKey: string, accountName: string): void;
     publicKeyy: string;
     account: { publicKey: string; accountName: string; parentAddress: string };
     childAccounts?: {
@@ -54,7 +54,7 @@ export interface ChildAccountDropDownInterface {
 
 export interface DerivedAccountInterface {
     childAccount: { publicKey: string; accountName: string };
-    childAccountActive(): void;
+    childAccountActive(v1: string, v2: string): void;
     checkDrivedDropdownOpen(value: boolean): void;
 }
 

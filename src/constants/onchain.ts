@@ -8,6 +8,7 @@ import PhalaIcon from '../assets/images/phala.svg';
 import BifrostIcon from '../assets/images/bifrost.svg';
 // Assests Token images
 import dusty from '../assets/images/tokenImg/dusty.png';
+import contextFree from '../assets/images/contextfree.png';
 import polkadotDot from '../assets/images/tokenImg/polkadot.png';
 import westendColour from '../assets/images/tokenImg/westend_colour.svg';
 import acala from '../assets/images/tokenImg/acala-circle.svg';
@@ -15,7 +16,6 @@ import bitcountry from '../assets/images/tokenImg/bitcountry.svg';
 import rococoIcon from '../assets/images/rococo.svg';
 import astarIcon from '../assets/images/astar.png';
 import shibuyaIcon from '../assets/images/shibuya.svg';
-import contextFree from '../assets/images/contextfree.png';
 
 import { NetworkConfig } from './types';
 

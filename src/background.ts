@@ -28,9 +28,10 @@ chrome.runtime.onConnect.addListener((port): void => {
             handlers(data, port);
         }
     );
-    port.onDisconnect.addListener(() =>
-        console.log(`Disconnected from ${port.name}`)
-    );
+    port.onDisconnect.addListener(() => {
+        console.log(`Disconnected from ${port.name}`);
+        localStorage.setItem('timestamp', Date.now().toString());
+    });
 });
 
 // initialization crypto and keyring

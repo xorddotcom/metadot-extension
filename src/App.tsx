@@ -9,11 +9,13 @@ import type {
 } from 'metadot-extension-base/background/types';
 
 import { QueryClientProvider, QueryClient } from 'react-query';
+import { ResponseModal } from './components/common/modals';
 import {
     setLoggedIn,
     setPublicKey,
     setAccountName,
 } from './redux/slices/activeAccount';
+import { setIsResponseModalOpen } from './redux/slices/modalHandling';
 import { addAccount } from './redux/slices/accounts';
 import { RootState } from './redux/store';
 import './App.css';
@@ -26,6 +28,9 @@ import {
     subscribeMetadataRequests,
     subscribeSigningRequests,
 } from './messaging';
+import services from './utils/services';
+
+const { addressMapper } = services;
 
 function App(): JSX.Element {
     const [accounts, setAccounts] = useState<null | AccountJson[]>(null);
@@ -40,7 +45,12 @@ function App(): JSX.Element {
     );
     const { AuthRoutes, UnAuthRoutes } = routes;
     const { Welcome, WelcomeBack, PopupAuth, PopupSign, PopupMeta } = Views;
-    const { activeAccount } = useSelector((state: RootState) => state);
+    const { activeAccount, modalHandling } = useSelector(
+        (state: RootState) => state
+    );
+
+    const { isResponseModalOpen, mainText, subText, responseImage } =
+        modalHandling;
     const dispatch = useDispatch();
     const queryClient = new QueryClient();
 
@@ -60,8 +70,14 @@ function App(): JSX.Element {
             parentAddress,
         }: any): void => {
             // setting active account
+
+            const publicKeyOfRespectiveChain = addressMapper(
+                address,
+                activeAccount.prefix
+            );
+
             dispatch(setLoggedIn(true));
-            dispatch(setPublicKey(address));
+            dispatch(setPublicKey(publicKeyOfRespectiveChain));
             dispatch(setAccountName(name));
 
             // setting all accounts
@@ -135,11 +151,38 @@ function App(): JSX.Element {
         );
     }
 
+    const responseModalStyle = {
+        width: '78%',
+        background: '#141414',
+        p: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+        bottom: 40,
+        zIndex: 10000,
+    };
+
+    const responseModal = {
+        open: isResponseModalOpen,
+        handleClose: () => dispatch(setIsResponseModalOpen(false)),
+        style: responseModalStyle,
+        subText,
+        mainText,
+        responseImage,
+    };
+
     return (
         <div className="App">
             <QueryClientProvider client={queryClient}>
+                <ResponseModal {...responseModal} />
                 <ApiManager rpc={activeAccount.rpcUrl} />
                 <Routes>{content}</Routes>
+                {/* Dynamic Modal controlled by redux for successfully and
+            unsuccessfully  executed processes
+            overall the application */}
+                <ResponseModal {...responseModal} />
             </QueryClientProvider>
         </div>
     );

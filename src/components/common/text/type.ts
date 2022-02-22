@@ -1,6 +1,6 @@
 export interface MainHeadingInterface {
     className?: string;
-    fw?: string;
+    weight?: string;
     color?: string;
     marginBottom?: string;
     textAlign?: string;
@@ -8,6 +8,7 @@ export interface MainHeadingInterface {
 
 export interface SubHeadingInterface {
     className?: string;
+    fontSize?: string;
     textLightColor?: boolean;
     textAlign?: string;
     textAlignLast?: string;

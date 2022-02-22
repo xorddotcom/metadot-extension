@@ -30,7 +30,7 @@ const AssetCard: React.FunctionComponent<Props> = ({
     const sendBtn = {
         id: 'send-button',
         text: 'Send',
-        width: '60px',
+        width: '64px',
         fontSize: '12px',
         fontWeight: 500,
         height: '30px',

@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Header, Button } from '../common';
-import { setAccountName, setPublicKey } from '../../redux/slices/activeAccount';
+import {
+    setAccountName,
+    setPublicKey,
+    setAccountCreationStep,
+    setTempSeed,
+} from '../../redux/slices/activeAccount';
 import { setDerivedAccountModal } from '../../redux/slices/modalHandling';
 import { Wrapper, Div, ButtonDiv, MarginSet, WrapperScroll } from './styles';
 import AccountList from './account-list';
@@ -11,6 +16,9 @@ import { helpers } from '../../utils';
 import accounts from '../../utils/accounts';
 import { resetTransactions } from '../../redux/slices/transactions';
 import { RootState } from '../../redux/store';
+import services from '../../utils/services';
+
+const { addressMapper } = services;
 
 const { GenerateSeedPhrase } = accounts;
 
@@ -20,6 +28,7 @@ const MultipleAccounts: React.FunctionComponent = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const allAccounts = useSelector((state: RootState) => state.accounts);
+    const { prefix } = useSelector((state: RootState) => state.activeAccount);
 
     const [seedToPass, setSeedToPass] = useState('');
     const [derivedDropDown, setDerivedDropDown] = useState(true);
@@ -50,14 +59,17 @@ const MultipleAccounts: React.FunctionComponent = () => {
     >([]);
 
     const btn = {
-        id: 'show-seed-button',
+        id: 'create-new-button',
         text: 'Create New Account',
         width: '300px',
         fontSize: '18px',
-        handleClick: () =>
+        handleClick: () => {
+            dispatch(setAccountCreationStep(1));
+            dispatch(setTempSeed(seedToPass));
             navigate('/ShowSeed', {
                 state: { seedToPass },
-            }),
+            });
+        },
     };
 
     useEffect(() => {
@@ -105,7 +117,8 @@ const MultipleAccounts: React.FunctionComponent = () => {
     }, [parentAccounts, childAccounts]);
 
     const accountActive = (pk: string, name: string): void => {
-        dispatch(setPublicKey(pk));
+        const publicKeyOfRespectiveChain = addressMapper(pk, prefix);
+        dispatch(setPublicKey(publicKeyOfRespectiveChain));
         dispatch(setAccountName(name));
         dispatch(resetTransactions());
         navigate('/');
@@ -146,6 +159,14 @@ const MultipleAccounts: React.FunctionComponent = () => {
             return <AccountList key={account.publicKey} {...accountList} />;
         });
 
+    const childAccountActive = (pk: string, name: string): void => {
+        const publicKeyOfRespectiveChain = addressMapper(pk, prefix);
+        dispatch(setPublicKey(publicKeyOfRespectiveChain));
+        dispatch(setAccountName(name));
+        dispatch(resetTransactions());
+        navigate('/');
+    };
+
     return (
         <Wrapper>
             <WrapperScroll>
@@ -159,11 +180,7 @@ const MultipleAccounts: React.FunctionComponent = () => {
                             publicKey: addressModifier(account.publicKey),
                             publicKeyy: account.publicKey,
                             accountName: account.accountName,
-                            accountActive: () =>
-                                accountActive(
-                                    account.publicKey,
-                                    account.accountName
-                                ),
+                            accountActive,
                             derivedChildAccount,
                             account,
                             derivedDropDown,
@@ -174,27 +191,6 @@ const MultipleAccounts: React.FunctionComponent = () => {
                             if (childAccounts)
                                 // eslint-disable-next-line no-plusplus
                                 for (let i = 0; i < childAccounts.length; i++) {
-                                    const childAccountActive = (): void => {
-                                        dispatch(
-                                            setPublicKey(
-                                                childAccounts &&
-                                                    childAccounts[i]
-                                                    ? childAccounts[i].publicKey
-                                                    : ''
-                                            )
-                                        );
-                                        dispatch(
-                                            setAccountName(
-                                                childAccounts &&
-                                                    childAccounts[i]
-                                                    ? childAccounts[i]
-                                                          .accountName
-                                                    : ''
-                                            )
-                                        );
-                                        navigate('/');
-                                    };
-
                                     if (
                                         childAccounts &&
                                         childAccounts[i].parentAddress ===

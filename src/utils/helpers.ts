@@ -58,7 +58,13 @@ function validateAddress(
     userPublicAddress: string,
     senderPublicAddress: string
 ): string {
+    console.log(
+        'Validate address running',
+        userPublicAddress,
+        senderPublicAddress
+    );
     if (userPublicAddress === senderPublicAddress) {
+        console.log('Address matched');
         return 'Address is matched from your public address';
     }
     return '';

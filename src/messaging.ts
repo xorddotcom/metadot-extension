@@ -236,6 +236,18 @@ export async function jsonRestore(
     return sendMessage('pri(json.restore)', { file, password });
 }
 
+export async function signTransaction(
+    address: string,
+    password: string,
+    transaction: any
+): Promise<any> {
+    return sendMessage('pri(accounts.sign)', {
+        address,
+        password,
+        transaction,
+    });
+}
+
 export async function deriveAccount(
     parentAddress: string,
     suri: string,

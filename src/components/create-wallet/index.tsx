@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
     Wrapper,
@@ -10,6 +10,7 @@ import { WarningText, SubHeading } from '../common/text';
 import { Button, Input, Header } from '../common';
 import { fonts, helpers } from '../../utils';
 import accounts from '../../utils/accounts';
+
 import {
     setIsResponseModalOpen,
     setLoadingForApi,
@@ -17,12 +18,18 @@ import {
     setResponseImage,
     setSubTextForSuccessModal,
 } from '../../redux/slices/modalHandling';
+import {
+    setAccountCreationStep,
+    setTempSeed,
+} from '../../redux/slices/activeAccount';
+
 import ImportIcon from '../../assets/images/modalIcons/import.svg';
 import AccountCreate from '../../assets/images/modalIcons/accountCreate.svg';
+import { RootState } from '../../redux/store';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-const { isUserNameValid } = helpers;
 const { AccountCreation } = accounts;
+const { isUserNameValid } = helpers;
 
 const passwordErrorMessages = {
     minimumCharacterWarning: 'Password should not be less than 8 characters',
@@ -42,10 +49,15 @@ const CreateWallet: React.FunctionComponent = () => {
         seedToPass: string;
     };
 
+    const { tempSeed } = useSelector((state: RootState) => state.activeAccount);
+
     const operation =
         location.prevRoute === '/ImportWallet' ? 'Imported' : 'Created';
 
-    const currSeed = location.seedToPass && location.seedToPass;
+    const currSeed =
+        operation === 'Imported'
+            ? location.seedToPass && location.seedToPass
+            : tempSeed;
 
     const [walletName, setWalletName] = useState('');
     const [isValidWalletName, setIsValidWalletName] = useState(false);
@@ -87,7 +99,6 @@ const CreateWallet: React.FunctionComponent = () => {
         pass: string,
         seedPhrase: string
     ): Promise<boolean> => {
-        console.log('create account ==>>', name, pass, seedPhrase);
         const res = await AccountCreation(name, pass, seedPhrase);
         return res;
     };
@@ -114,18 +125,19 @@ const CreateWallet: React.FunctionComponent = () => {
 
     const handleContinue = async (): Promise<void> => {
         try {
-            // if (!isUserNameValid(walletName) || walletName.length < 3) {
-            //     setIsValidWalletName(true);
-            //     validatePassword();
-            //     setIsLoading(false);
-            //     return;
-            // }
-            // if (!validatePassword()) {
-            //     setIsLoading(false);
-            //     return;
-            // }
-            const resultt = await createAccount(walletName, password, currSeed);
-            console.log('account created ==>>', resultt);
+            if (!isUserNameValid(walletName) || walletName.length < 3) {
+                setIsValidWalletName(true);
+                validatePassword();
+                setIsLoading(false);
+                return;
+            }
+            if (!validatePassword()) {
+                setIsLoading(false);
+                return;
+            }
+            await createAccount(walletName, password, currSeed);
+            dispatch(setTempSeed(''));
+            dispatch(setAccountCreationStep(0));
             dispatch(setLoadingForApi(false));
             setIsLoading(false);
             showSuccessModalAndNavigateToDashboard();
@@ -191,7 +203,7 @@ const CreateWallet: React.FunctionComponent = () => {
         <Wrapper>
             <Header
                 centerText="Authentication"
-                backHandler={() => console.log('object')}
+                backHandler={() => dispatch(setAccountCreationStep(2))}
             />
             <UnAuthScreensContentWrapper>
                 <LabelAndTextWrapper>
@@ -219,10 +231,13 @@ const CreateWallet: React.FunctionComponent = () => {
                     </SubHeading>
                     <Input
                         id="password"
+                        fullWidth="76%"
                         {...styledInputPassword}
                         typePassword
                         isCorrect
                         rightIcon
+                        leftPosition="15px"
+                        topPosition="1px"
                     />
                     {passwordError === minimumCharacterWarning && (
                         <WarningText
@@ -268,10 +283,13 @@ const CreateWallet: React.FunctionComponent = () => {
                     </SubHeading>
                     <Input
                         id="confirm-password"
+                        fullWidth="76%"
                         {...styledInputConfirmPass}
                         typePassword
                         rightIcon
                         isCorrect
+                        leftPosition="15px"
+                        topPosition="1px"
                     />
 
                     {passwordError === didnotMatchWarning && (
@@ -292,9 +310,8 @@ const CreateWallet: React.FunctionComponent = () => {
                     marginTop="5px"
                     className={subHeadingfontFamilyClass}
                 >
-                    This password will be used as the transaction password for
-                    the wallet, Metadot does not save passwords and cannot
-                    retrieve them for you. Please keep your password safe!
+                    Create your wallet name and your password. Make sure that
+                    you memorise or save your password.
                 </SubHeading>
             </UnAuthScreensContentWrapper>
             <div

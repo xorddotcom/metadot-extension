@@ -20,12 +20,14 @@ export const Option = styled.p`
     align-items: center;
     background-color: ${(props: { selected: boolean }) =>
         props.selected ? 'rgba(33, 154, 154, 0.3);' : '#212121'};
+    border: ${(props) =>
+        props.selected ? '1px solid #219A9A' : '1px solid #BCBCBC'};
     margin-right: 20px;
     font-weight: 500;
     font-size: ${subHeadingFontSize};
     line-height: 16px;
     letter-spacing: 0.02em;
-    color: ${primaryText};
+    color: ${(props) => (props.selected ? '#219A9A' : '#BCBCBC')};
     opacity: 0.8;
     border-radius: 20px;
     font-size: 0.8rem;
@@ -33,17 +35,16 @@ export const Option = styled.p`
 `;
 
 export const UploadFileDiv = styled.div`
-    margin-top: 30px;
-    margin-left: 0.6rem;
-    width: 80%;
+    margin-top: 24px;
+    width: 100%;
 `;
 
 export const UploadFile = styled.label`
     background-color: ${darkBackground1};
     color: ${primaryText};
     padding: 0.6rem 1rem;
-    width: 254px;
-    height: 14px;
+    width: 86%;
+    height: 20px;
     font-weight: 500;
     font-size: 14px;
     line-height: 16px;

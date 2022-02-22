@@ -1,8 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { deleteAccount } from '../../redux/slices/accounts';
-import { setAccountName, setPublicKey } from '../../redux/slices/activeAccount';
+import { encodeAddress } from '@polkadot/util-crypto';
+import { deleteAccount as deleteAccountRdx } from '../../redux/slices/accounts';
+import {
+    resetAccountSlice,
+    setAccountName,
+    setPublicKey,
+} from '../../redux/slices/activeAccount';
 import {
     Account,
     AccountCircle,
@@ -17,7 +22,7 @@ import {
     DropDownContainer,
     DropDownIcon,
 } from './styles';
-import { fonts, helpers } from '../../utils';
+import { fonts, helpers, accounts as accountUtils } from '../../utils';
 import downIcon from '../../assets/images/icons/downArrow.svg';
 import upArrowIcon from '../../assets/images/icons/upArrow.svg';
 import dropDownIcon from '../../assets/images/icons/3Dots.svg';
@@ -27,6 +32,7 @@ import { RootState } from '../../redux/store';
 
 const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
 const { addressModifier } = helpers;
+const { deleteAccount } = accountUtils;
 
 const DrivedAccountList: React.FunctionComponent<DerivedAccountInterface> = ({
     childAccount,
@@ -64,17 +70,25 @@ const DrivedAccountList: React.FunctionComponent<DerivedAccountInterface> = ({
         };
     }, [isOpen]);
 
-    const onOptionClicked = (): void => {
-        if (publicKey === activeAccount.publicKey) {
-            dispatch(deleteAccount(publicKey));
-            dispatch(setPublicKey(''));
-            dispatch(setAccountName(''));
-            dispatch(setPublicKey('')); // Object.values(accounts)[0].publicKey
-            dispatch(setAccountName('')); // Object.values(accounts)[0].accountName
+    const onOptionClicked = async (): Promise<void> => {
+        await deleteAccount(publicKey);
+        dispatch(deleteAccountRdx(publicKey));
+        if (publicKey === encodeAddress(activeAccount.publicKey, 42)) {
+            if (Object.keys(accounts).length > 1) {
+                childAccountActive(
+                    Object.values(accounts)[0].publicKey,
+                    Object.values(accounts)[0].accountName
+                );
+            } else {
+                dispatch(resetAccountSlice());
+            }
+            setIsOpen(false);
+
+            navigate('/');
+        } else {
+            setIsOpen(false);
             navigate('/');
         }
-        dispatch(deleteAccount(publicKey));
-        setIsOpen(false);
     };
 
     // account dropdown
@@ -124,7 +138,14 @@ const DrivedAccountList: React.FunctionComponent<DerivedAccountInterface> = ({
                 <Account margin="1rem 0">
                     <AccountFlex>
                         <AccountCircle />
-                        <AccountText onClick={childAccountActive}>
+                        <AccountText
+                            onClick={() =>
+                                childAccountActive(
+                                    publicKey,
+                                    childAccount.accountName
+                                )
+                            }
+                        >
                             <AccountMainText
                                 className={mainHeadingfontFamilyClass}
                             >

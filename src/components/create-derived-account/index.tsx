@@ -25,7 +25,9 @@ import {
     setSubTextForSuccessModal,
 } from '../../redux/slices/modalHandling';
 import ImportIcon from '../../assets/images/modalIcons/import.svg';
-import { addAccount } from '../../redux/slices/accounts';
+
+import services from '../../utils/services';
+import { RootState } from '../../redux/store';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
@@ -154,7 +156,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
         height: '15px',
         onChange: (t: string) => {
             setPasswordError('');
-            if (t.length < 20) setPassword(t);
+            setPassword(t);
         },
         hideHandler: () => setShowPassword(!showPassword),
         hideState: showPassword,
@@ -167,7 +169,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
         height: '15px',
         onChange: (t: string) => {
             setPasswordError('');
-            if (t.length < 20) setConfirmPassword(t);
+            setConfirmPassword(t);
         },
         hideHandler: () => setShowConfirmPassword(!showConfirmPassword),
         hideState: showConfirmPassword,
@@ -181,7 +183,6 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
             setIsLoading(true);
             await handleContinue();
         },
-        // handleClick: () => console.log('clicked'),
         isLoading,
     };
 
@@ -189,7 +190,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
         <Wrapper>
             <Header
                 centerText="Derive Account"
-                backHandler={() => console.log('object')}
+                backHandler={() => console.log('go back')}
             />
             <UnAuthScreensContentWrapper>
                 <LabelAndTextWrapper>
@@ -217,10 +218,13 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                     </SubHeading>
                     <Input
                         id="password"
+                        fullWidth="76%"
                         {...styledInputPassword}
                         typePassword
                         isCorrect
                         rightIcon
+                        leftPosition="16px"
+                        topPosition="2px"
                     />
                     {passwordError === minimumCharacterWarning && (
                         <WarningText
@@ -266,10 +270,13 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                     </SubHeading>
                     <Input
                         id="confirm-password"
+                        fullWidth="76%"
                         {...styledInputConfirmPass}
                         typePassword
                         rightIcon
                         isCorrect
+                        leftPosition="16px"
+                        topPosition="2px"
                     />
 
                     {passwordError === didnotMatchWarning && (

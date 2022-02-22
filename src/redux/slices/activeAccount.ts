@@ -4,9 +4,9 @@ import constants from '../../constants/onchain';
 const { WESTEND_CONFIG } = constants;
 
 const initialState = {
-    isLoggedIn: false,
-    publicKey: '',
-    accountName: '',
+    isLoggedIn: true,
+    publicKey: '5GjSQRFYEFBY1nmVuGHTyKkRHrodQmUKdA7kWzfmfLp262xG',
+    accountName: 'Hello',
     rpcUrl: WESTEND_CONFIG.RPC_URL,
     chainName: WESTEND_CONFIG.CHAIN_NAME,
     tokenName: WESTEND_CONFIG.TOKEN_NAME,
@@ -14,6 +14,10 @@ const initialState = {
     balanceInUsd: 0,
     keyringInitialized: false,
     jsonFileUploadScreen: false,
+    prefix: 42,
+    accountCreationStep: 0,
+    tempSeed: '',
+    lastVisitedTimestamp: '',
 };
 
 export const activeAccountSlice = createSlice({
@@ -26,6 +30,26 @@ export const activeAccountSlice = createSlice({
                 keyringInitialized: action.payload,
             };
         },
+
+        setLastVisitedTimestamp: (state, action: PayloadAction<string>) => {
+            return {
+                ...state,
+                lastVisitedTimestamp: action.payload,
+            };
+        },
+        setAccountCreationStep: (state, action: PayloadAction<number>) => {
+            return {
+                ...state,
+                accountCreationStep: action.payload,
+            };
+        },
+        setTempSeed: (state, action: PayloadAction<string>) => {
+            return {
+                ...state,
+                tempSeed: action.payload,
+            };
+        },
+
         deleteRedux: (state, action: PayloadAction<string>) => {
             return {
                 ...state,
@@ -82,6 +106,9 @@ export const activeAccountSlice = createSlice({
         setJsonFileUploadScreen: (state, action: PayloadAction<boolean>) => {
             return { ...state, jsonFileUploadScreen: action.payload };
         },
+        setPrefix: (state, action: PayloadAction<number>) => {
+            return { ...state, prefix: action.payload };
+        },
     },
 });
 
@@ -99,6 +126,10 @@ export const {
     deleteRedux,
     setKeyringInitialized,
     setJsonFileUploadScreen,
+    setPrefix,
+    setAccountCreationStep,
+    setTempSeed,
+    setLastVisitedTimestamp,
 } = activeAccountSlice.actions;
 
 export default activeAccountSlice.reducer;

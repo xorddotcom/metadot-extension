@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
-import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import crossIcon from '../../../../assets/images/icons/cross.svg';
 
 import { NetworkConfigType, SelectNetworkProps } from './types';
 import { BackButton, CloseIconDiv, Title, TitleDiv } from './styledComponents';
@@ -50,7 +50,7 @@ const SelectNetwork: React.FunctionComponent<SelectNetworkProps> = (props) => {
                                 handleClose();
                             }}
                         >
-                            <CloseIcon fontSize="small" />
+                            <img src={crossIcon} alt="cross icon" />
                         </CloseIconDiv>
                     </TitleDiv>
 

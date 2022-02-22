@@ -7,47 +7,43 @@ const { primaryText, darkBackground1 } = colors;
 const { subHeadingFontSize } = fonts;
 
 export const Wrapper = styled.div<WrapperInterface>`
-    width: 100%;
-    /* border: ${(props) => {
+    width: ${(props) =>
+        props.inputWrapperWidth ? props.inputWrapperWidth : '100%'};
+    height: 40px;
+    border: ${(props) => {
         if (props.isCorrect) return '0px';
         if (!props.isCorrect) return '1px solid red';
         return '0px';
-    }}; */
+    }};
     border: ${(props) => (props.isCorrect === false ? '1px solid red' : '0px')};
-    /* border: 1px solid red; */
     border-radius: 8px;
-    position: relative;
+    background-color: ${darkBackground1};
     margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
+    display: flex;
+    align-items: center;
+    justify-content: start;
 `;
 
 export const Field = styled.input<FieldInterface>`
-    /* padding-left: 25px; */
-    padding: 10px 12.5px;
+    padding: 10px 12px 10px 15px;
     color: ${primaryText};
     background-color: ${darkBackground1};
     font-size: 14px !important;
     line-height: 17px;
     border-radius: 8px;
+    border: 0px;
     opacity: 0.8;
     letter-spacing: 0.02em;
     width: ${(props) => (props.fullWidth ? props.fullWidth : '90%')};
     font-family: ${subHeadingFontSize};
-    /* border: ${(props) => {
-        let res;
-        if (props.isCorrect === true) res = 'none';
-        if (props.isCorrect === false) res = '1px solid red';
-        return res;
-    }}; */
-    border: 0px;
     font-size: ${(props) => (props.fontSize ? props.fontSize : '16px')};
     height: ${(props) => (props.height ? props.height : 'auto')};
 `;
 
 export const Icon = styled.span<IconInterface>`
-    position: absolute;
-    right: ${(props) =>
-        props.rightAbsPosition ? props.rightAbsPosition : '18px'};
-    top: ${(props) => (props.leftAbsPosition ? props.leftAbsPosition : '11px')};
+    position: relative;
+    left: ${(props) => (props.leftPosition ? props.leftPosition : '7px')};
+    top: ${(props) => (props.topPosition ? props.topPosition : '4px')};
     color: rgba(250, 250, 250, 0.8);
     cursor: pointer;
 `;

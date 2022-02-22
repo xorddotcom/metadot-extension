@@ -184,13 +184,13 @@ const TxDetails: React.FunctionComponent<TxDetailsProps> = (props) => {
                                 >
                                     Amount
                                 </MainText2>
-                                <MainText2
+                                {/* <MainText2
                                     marginTop="10px"
                                     textAlign="start"
                                     className={subHeadingfontFamilyClass}
                                 >
                                     Network Fee
-                                </MainText2>
+                                </MainText2> */}
                             </VerticalContentDiv>
 
                             <VerticalContentDiv marginBottom="10px">
@@ -199,13 +199,13 @@ const TxDetails: React.FunctionComponent<TxDetailsProps> = (props) => {
                                     textAlign="end"
                                     className={mainHeadingfontFamilyClass}
                                 >{`${amount} ${tokenName}`}</MainText2>
-                                <MainText2
+                                {/* <MainText2
                                     marginTop="10px"
                                     textAlign="end"
                                     className={mainHeadingfontFamilyClass}
                                 >
                                     {`${transactionFee} ${tokenName}`}
-                                </MainText2>
+                                </MainText2> */}
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
 

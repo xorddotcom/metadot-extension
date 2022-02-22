@@ -21,19 +21,20 @@ const Input: React.FunctionComponent<Props> = ({
     fontSize,
     height,
     rightIcon,
+    typePassword = false,
     hideHandler,
     hideState,
     marginBottom,
     maxlength,
+    disabled,
     blockInvalidChar,
     id,
     mt,
     mr,
-    rightAbsPosition,
-    leftAbsPosition,
-    disabled,
-    type,
-    typePassword,
+    leftPosition,
+    topPosition,
+    style,
+    inputWrapperWidth,
 }) => {
     const blockChar = (ev: React.KeyboardEvent): void => {
         const arr = ['e', 'E', '+', '-'];
@@ -55,22 +56,30 @@ const Input: React.FunctionComponent<Props> = ({
         onKeyDown: (e: React.KeyboardEvent) =>
             blockInvalidChar ? blockChar(e) : null,
         onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-            console.log('e', e);
+            // eslint-disable-next-line no-restricted-syntax
+            console.clear();
+            console.log('e', e.target.value);
             onChange(e.target.value);
+            // setAmount(e.target.value);
         },
         isCorrect,
         disabled,
         type: typePassword ? hideStateRes : 'text',
+        ...style,
     };
 
     return (
-        <Wrapper marginBottom={marginBottom || '0px'}>
+        <Wrapper
+            marginBottom={marginBottom || '0px'}
+            isCorrect={isCorrect}
+            inputWrapperWidth={inputWrapperWidth}
+        >
             <Field {...FieldProps} />
             {rightIcon && (
                 <Icon
                     onClick={hideHandler}
-                    rightAbsPosition={rightAbsPosition ? '-25px' : ''}
-                    leftAbsPosition={leftAbsPosition ? '7px' : ''}
+                    topPosition={topPosition}
+                    leftPosition={leftPosition}
                 >
                     {!hideState ? (
                         <VisibilityOffIcon
@@ -94,16 +103,19 @@ const Input: React.FunctionComponent<Props> = ({
                 </Icon>
             )}
             {rightIconCross && (
-                <Icon onClick={rightIconCrossClickHandler}>
+                <Icon
+                    onClick={rightIconCrossClickHandler}
+                    topPosition={topPosition}
+                    leftPosition={leftPosition}
+                >
                     <CancelIcon
                         fontSize="small"
                         style={{ marginTop: '-0.1rem', marginRight: '-0.3rem' }}
                     />
                 </Icon>
             )}
-
             {rightIconLock && (
-                <Icon>
+                <Icon topPosition={topPosition} leftPosition={leftPosition}>
                     <LockOutlinedIcon
                         fontSize="small"
                         style={{

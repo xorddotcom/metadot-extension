@@ -47,6 +47,7 @@ const CButton: React.FunctionComponent<Props> = ({
                 {...ButtonProps}
                 onClick={handleClick}
                 className="myStyling"
+                elevation={0}
             >
                 {!isLoading ? (
                     text

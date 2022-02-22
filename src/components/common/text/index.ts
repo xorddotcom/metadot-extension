@@ -17,7 +17,7 @@ export const MainHeading = styled.p<MainHeadingInterface>`
     line-height: 18.75px;
     text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
     font-size: 16px;
-    font-weight: ${(props) => (props.fw ? props.fw : '500')};
+    font-weight: ${(props) => props.weight && props.weight};
     color: ${(props) => (props.color ? props.color : primaryText)};
     margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
 `;
@@ -29,8 +29,7 @@ export const SubHeading = styled.p<SubHeadingInterface>`
     text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
     text-align-last: ${(props) => props.textAlignLast && props.textAlignLast};
     line-height: ${(props) => (props.lineHeight ? props.lineHeight : '22px')};
-    font-size: 0.9rem;
-    text-justify: auto;
+    font-size: ${(props) => (props.fontSize ? props.fontSize : '0.80rem')};
     margin-top: ${(props) => props.marginTop && props.marginTop};
     margin-bottom: ${(props) => props.mb && props.mb};
     margin-left: ${(props) => props.ml && props.ml};

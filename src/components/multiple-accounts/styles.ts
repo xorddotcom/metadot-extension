@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { colors, fonts } from '../../utils';
 import { MainTextInterface } from './types';
@@ -221,12 +220,7 @@ export const MainText1 = styled.p`
         props.textAlign};
 `;
 
-const IconPropsInterfaceWrapper: React.FunctionComponent<MainTextInterface> = ({
-    children,
-}) => {
-    return <p>{children}</p>;
-};
-export const MainText = styled(IconPropsInterfaceWrapper)`
+export const MainText = styled.p<MainTextInterface>`
     height: 14px;
     font-size: ${(props) => (props.fs ? props.fs : '16px')};
     line-height: ${(props) => (props.lh ? props.lh : '19px')};

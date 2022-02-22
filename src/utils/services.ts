@@ -3,9 +3,9 @@ import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import { WsProvider, ApiPromise, Keyring } from '@polkadot/api';
 import '@polkadot/api-augment';
 
-import { formatBalance } from '@polkadot/util';
 import { encodeAddress } from '@polkadot/util-crypto';
 import type { KeyringJson } from '@polkadot/ui-keyring/types';
+import { formatBalance } from '@polkadot/util';
 import constants from '../constants/onchain';
 
 const { ACALA_MANDALA_CONFIG } = constants;
@@ -15,25 +15,26 @@ const getSender = async (seed: string): Promise<KeyringJson> => {
     return sender;
 };
 const providerInitialization = async (rpc: string): Promise<ApiPromiseType> => {
-    // eslint-disable-next-line no-underscore-dangle
-    const _provider = new WsProvider(rpc);
+    const provider = new WsProvider(rpc);
     let apiR;
     if (rpc === ACALA_MANDALA_CONFIG.RPC_URL) {
-        apiR = await ApiPromise.create(AcalaOptions({ provider: _provider }));
+        apiR = await ApiPromise.create(AcalaOptions({ provider }));
     } else {
-        apiR = await ApiPromise.create({ provider: _provider });
+        apiR = await ApiPromise.create({ provider });
     }
     return apiR;
 };
 const convertTransactionFee = (tokenName: string, fee: any): number => {
+    console.log('Convert tx fee', tokenName, fee);
     const splitFee = fee.split(' ');
+    console.log('Split fee', splitFee[0]);
     if (tokenName === 'KSM') {
-        return parseInt((splitFee[0] * 10 ** -6).toFixed(4), 10);
+        return Number((splitFee[0] * 10 ** -6).toFixed(4));
     }
     if (tokenName === 'PLD') {
         return splitFee[0];
     }
-    return parseInt((splitFee[0] * 10 ** -3).toFixed(4), 10);
+    return Number((splitFee[0] * 10 ** -3).toFixed(4));
 };
 const getBalanceWithSingleToken = async (
     api: ApiPromiseType,
@@ -45,6 +46,8 @@ const getBalanceWithSingleToken = async (
         forceUnit: '-',
         withUnit: false,
     });
+    console.log('In service user balance', userBalance);
+    console.log('In service user balance in float', parseFloat(userBalance));
     return parseFloat(userBalance);
 };
 // Get balance of a chain with multiple tokens
@@ -81,31 +84,28 @@ const getBalance = async (
     const balance = await getBalanceWithSingleToken(api, account);
     return balance;
 };
-// const getTransactionFee = async (
-//     api: ApiPromiseType,
-//     sender: string,
-//     recipient: string,
-//     decimalPlaces: number,
-//     amount: number
-// ) => {
-//     const info = await api.tx.balances
-//         .transfer(sender, BigInt(amount * 10 ** decimalPlaces))
-//         .paymentInfo(recipient);
+const getTransactionFee = async (
+    api: ApiPromiseType,
+    sender: string,
+    recipient: string,
+    decimalPlaces: number,
+    amount: number
+): Promise<any> => {
+    const info = await api.tx.balances
+        .transfer(sender, BigInt(amount * 10 ** decimalPlaces))
+        .paymentInfo(recipient);
 
-//     return info;
-// };
-
-const addressMapper = (address: string, prefix: number): string => {
-    console.log(prefix, '||||||', address);
-    const res = encodeAddress(address, prefix);
-    console.log('Result ====>>', res);
-    return res;
+    return info;
 };
+
+const addressMapper = (address: string, prefix: number): string =>
+    encodeAddress(address, prefix);
+
 export default {
     providerInitialization,
     getBalance,
     getSender,
-    // getTransactionFee,
+    getTransactionFee,
     addressMapper,
     convertTransactionFee,
 };

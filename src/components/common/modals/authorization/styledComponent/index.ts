@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 import {
@@ -17,18 +16,12 @@ export const MainDiv = styled.div`
     flex-flow: column;
     justify-content: center;
     align-items: center;
-    padding: 1rem 0.5rem;
+    padding: 0rem 0.5rem;
     box-sizing: border-box;
     border-radius: 6px;
 `;
 
-const MainText1PropsInterfaceWrapper: React.FunctionComponent<
-    MainText1PropsInterface
-> = ({ children }) => {
-    return <p>{children}</p>;
-};
-
-export const SubText = styled(MainText1PropsInterfaceWrapper)`
+export const SubText = styled.p<MainText1PropsInterface>`
     font-size: ${subHeadingFontSize};
     line-height: 19px;
     margin-top: ${(props) => props.marginTop && props.marginTop};
@@ -36,15 +29,7 @@ export const SubText = styled(MainText1PropsInterfaceWrapper)`
     text-align: ${(props) => props.textAlign};
 `;
 
-const verticalContentDivPropsInterfaceWrapper: React.FunctionComponent<
-    VerticalContentDivPropsInterface
-> = ({ children }) => {
-    return <div>{children}</div>;
-};
-
-export const VerticalContentDiv = styled(
-    verticalContentDivPropsInterfaceWrapper
-)`
+export const VerticalContentDiv = styled.div<VerticalContentDivPropsInterface>`
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -52,13 +37,7 @@ export const VerticalContentDiv = styled(
     margin-top: ${(props) => props.marginTop && props.marginTop};
 `;
 
-const mainTextPropsInterfaceWrapper: React.FunctionComponent<
-    MainTextPropsInterface
-> = ({ children }) => {
-    return <p>{children}</p>;
-};
-
-export const MainText = styled(mainTextPropsInterfaceWrapper)`
+export const MainText = styled.p<MainTextPropsInterface>`
     height: 14px;
     font-size: ${(props) => (props.fontSize ? props.fontSize : '16px')};
     line-height: ${(props) => (props.lh ? props.lh : '19px')};

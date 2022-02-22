@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { fonts, accounts } from '../../utils';
 import { MainHeading, SubHeading } from '../common/text';
@@ -12,21 +12,23 @@ import DownloadIcon from '../../assets/images/icons/download.svg';
 import AppLogo from '../../assets/images/logo.svg';
 import metaDot from '../../assets/images/metadot.svg';
 
+import {
+    setAccountCreationStep,
+    setTempSeed,
+} from '../../redux/slices/activeAccount';
+
 const { subHeadingfontFamilyClass } = fonts;
 const { GenerateSeedPhrase } = accounts;
 
-function Welcome(): JSX.Element {
+function Welcome(): JSX.Element | null {
     const location = useLocation().pathname;
     const navigate = useNavigate();
-    const { jsonFileUploadScreen } = useSelector(
+    const dispatch = useDispatch();
+    const { jsonFileUploadScreen, tempSeed, accountCreationStep } = useSelector(
         (state: RootState) => state.activeAccount
     );
 
     const [seedToPass, setSeedToPass] = useState('');
-
-    console.log('location on welcome.js ============>>>', {
-        jsonFileUploadScreen,
-    });
 
     useEffect(() => {
         try {
@@ -41,6 +43,8 @@ function Welcome(): JSX.Element {
     }, []);
 
     const createHandler = (): void => {
+        dispatch(setTempSeed(seedToPass));
+        dispatch(setAccountCreationStep(1));
         navigate('/ShowSeed', {
             state: { prevRoute: location, seedToPass },
         });
@@ -51,6 +55,30 @@ function Welcome(): JSX.Element {
             state: { seedToPass },
         });
     };
+
+    const lastTime = localStorage.getItem('timestamp');
+
+    const lastVisited = (Date.now() - Number(lastTime) || 0) / 1000;
+
+    if (accountCreationStep === 1 && lastVisited < 90) {
+        navigate('/ShowSeed', {
+            state: { seedToPass: tempSeed },
+        });
+        return null;
+    }
+
+    if (accountCreationStep === 2 && tempSeed.length && lastVisited < 90) {
+        navigate('/ConfirmSeed', {
+            state: { seedToPass: tempSeed },
+        });
+        return null;
+    }
+    if (accountCreationStep === 3 && tempSeed.length && lastVisited < 90) {
+        navigate('/createWallet', {
+            state: { seedToPass: tempSeed },
+        });
+        return null;
+    }
 
     if (jsonFileUploadScreen) {
         navigate('/ImportWallet');
@@ -69,7 +97,7 @@ function Welcome(): JSX.Element {
                     className={subHeadingfontFamilyClass}
                     textAlign="center"
                 >
-                    Passion, Progress, Polkad
+                    Your Gateway To Polkadot And Its Parachains.
                 </SubHeading>
             </div>
 
