@@ -33,6 +33,7 @@ export const SubHeading = styled.p<SubHeadingInterface>`
     margin-top: ${(props) => props.marginTop && props.marginTop};
     margin-bottom: ${(props) => props.mb && props.mb};
     margin-left: ${(props) => props.ml && props.ml};
+    opacity: ${(props) => props.opacity && props.opacity};
 `;
 
 export const WarningText = styled.p<WarningTextInterface>`
