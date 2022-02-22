@@ -16,7 +16,7 @@ import {
     DropDownIcon,
 } from './styles';
 
-import { deleteAccount } from '../../redux/slices/accounts';
+import { deleteAccount as deleteAccountRdx } from '../../redux/slices/accounts';
 import {
     resetAccountSlice,
     setAccountName,
@@ -31,7 +31,7 @@ import { AccountListInterface } from './types';
 import { RootState } from '../../redux/store';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-const { getJsonBackup } = accountUtils;
+const { getJsonBackup, deleteAccount } = accountUtils;
 const { addressMapper } = services;
 
 const AccountList: React.FunctionComponent<AccountListInterface> = ({
@@ -101,8 +101,9 @@ const AccountList: React.FunctionComponent<AccountListInterface> = ({
         deleteActiveAccount();
     }, [accounts]);
 
-    const onOptionClicked = (): void => {
-        dispatch(deleteAccount(publicKeyy));
+    const onOptionClicked = async (): Promise<void> => {
+        await deleteAccount(publicKeyy);
+        dispatch(deleteAccountRdx(publicKeyy));
         if (publicKeyy === encodeAddress(activeAccount.publicKey, 42)) {
             if (Object.keys(accounts).length > 1) {
                 if (Object.keys(accounts)[0] !== publicKeyy) {
