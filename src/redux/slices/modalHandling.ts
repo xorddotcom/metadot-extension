@@ -13,7 +13,7 @@ const initialState = {
     isAuthorizedForSigning: false, // because this is a blacklisted reducer
 };
 
-export const modalHandling = createSlice({
+export const modalHandlingSlice = createSlice({
     name: 'modalHandling',
     initialState,
     reducers: {
@@ -58,6 +58,6 @@ export const {
     setConfirmSendModal,
     setResponseImage,
     setDerivedAccountModal,
-} = modalHandling.actions;
+} = modalHandlingSlice.actions;
 
-export default modalHandling.reducer;
+export default modalHandlingSlice.reducer;

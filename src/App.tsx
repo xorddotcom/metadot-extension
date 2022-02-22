@@ -20,7 +20,7 @@ import { addAccount } from './redux/slices/accounts';
 import { RootState } from './redux/store';
 import './App.css';
 import ApiManager from './components/api-manager';
-import { routes } from './utils';
+import routes from './routing';
 import Views from './components';
 import {
     subscribeAccounts,

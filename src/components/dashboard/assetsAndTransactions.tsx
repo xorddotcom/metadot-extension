@@ -6,8 +6,8 @@ import { useQuery } from 'react-query';
 import AssetCard from '../common/asset-card';
 import TxCard from '../common/tx-card';
 
-import { fonts, helpers } from '../../utils';
 import { queryData } from '../../utils/queryData';
+import { fonts, helpers } from '../../utils';
 import {
     AssetsAndTransactionsWrapper,
     Tabs,

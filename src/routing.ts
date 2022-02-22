@@ -1,5 +1,4 @@
-// import { Component } from 'react';
-import Views from '../components';
+import Views from './components';
 
 const {
     WelcomeBack,
