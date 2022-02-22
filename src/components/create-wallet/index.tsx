@@ -26,6 +26,18 @@ import {
 import ImportIcon from '../../assets/images/modalIcons/import.svg';
 import AccountCreate from '../../assets/images/modalIcons/accountCreate.svg';
 import { RootState } from '../../redux/store';
+import { DASHBOARD, IMPORT_WALLET } from '../../constants';
+import {
+    CONFIRM_PASSWORD_LABEL,
+    CONTINUE_BUTTON,
+    CREATE_WALLET_DESCRIPTION,
+    CREATE_WALLET_HEADER,
+    NAME_WARNING,
+    PASSWORD,
+    PASSWORD_LABEL,
+    RE_ENTER_PASSWORD,
+    WALLET_NAME_LABEL,
+} from '../../utils/app-content';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { AccountCreation } = accounts;
@@ -52,7 +64,7 @@ const CreateWallet: React.FunctionComponent = () => {
     const { tempSeed } = useSelector((state: RootState) => state.activeAccount);
 
     const operation =
-        location.prevRoute === '/ImportWallet' ? 'Imported' : 'Created';
+        location.prevRoute === IMPORT_WALLET ? 'Imported' : 'Created';
 
     const currSeed =
         operation === 'Imported'
@@ -109,13 +121,13 @@ const CreateWallet: React.FunctionComponent = () => {
             dispatch(setResponseImage(ImportIcon));
             dispatch(setMainTextForSuccessModal(`Successfully ${operation}!`));
             dispatch(setSubTextForSuccessModal(''));
-            navigate('/');
+            navigate(DASHBOARD);
         } else {
             dispatch(setIsResponseModalOpen(true));
             dispatch(setResponseImage(AccountCreate));
             dispatch(setMainTextForSuccessModal(`Successfully ${operation}!`));
             dispatch(setSubTextForSuccessModal(''));
-            navigate('/');
+            navigate(DASHBOARD);
         }
 
         setTimeout(() => {
@@ -153,7 +165,7 @@ const CreateWallet: React.FunctionComponent = () => {
 
     const styledInputName = {
         className: subHeadingfontFamilyClass,
-        placeholder: 'Wallet Name',
+        placeholder: WALLET_NAME_LABEL,
         height: '15px',
         value: walletName,
         onChange: (t: string) => {
@@ -163,7 +175,7 @@ const CreateWallet: React.FunctionComponent = () => {
     };
 
     const styledInputPassword = {
-        placeholder: 'Password',
+        placeholder: PASSWORD,
         className: subHeadingfontFamilyClass,
         value: password,
         height: '15px',
@@ -176,7 +188,7 @@ const CreateWallet: React.FunctionComponent = () => {
     };
 
     const styledInputConfirmPass = {
-        placeholder: 're-enter password',
+        placeholder: RE_ENTER_PASSWORD,
         className: subHeadingfontFamilyClass,
         value: confirmPassword,
         height: '15px',
@@ -189,7 +201,7 @@ const CreateWallet: React.FunctionComponent = () => {
     };
 
     const btn = {
-        text: 'Continue',
+        text: CONTINUE_BUTTON,
         width: '300px',
         disabled: !(walletName && password && confirmPassword) && true,
         handleClick: async () => {
@@ -202,12 +214,14 @@ const CreateWallet: React.FunctionComponent = () => {
     return (
         <Wrapper>
             <Header
-                centerText="Authentication"
+                centerText={CREATE_WALLET_HEADER}
                 backHandler={() => dispatch(setAccountCreationStep(2))}
             />
             <UnAuthScreensContentWrapper>
                 <LabelAndTextWrapper>
-                    <SubHeading {...walletNameText}>Wallet Name</SubHeading>
+                    <SubHeading {...walletNameText}>
+                        {WALLET_NAME_LABEL}
+                    </SubHeading>
                     <Input id="wallet-name" isCorrect {...styledInputName} />
                     {isValidWalletName && (
                         <WarningText
@@ -215,8 +229,7 @@ const CreateWallet: React.FunctionComponent = () => {
                             className={subHeadingfontFamilyClass}
                             visibility={isValidWalletName}
                         >
-                            Name should not be less than 3 characters and can
-                            only contain alphanumeric data
+                            {NAME_WARNING}
                         </WarningText>
                     )}
                 </LabelAndTextWrapper>
@@ -227,7 +240,7 @@ const CreateWallet: React.FunctionComponent = () => {
                         marginTop="0px"
                         mb="10px"
                     >
-                        Password
+                        {PASSWORD_LABEL}
                     </SubHeading>
                     <Input
                         id="password"
@@ -279,7 +292,7 @@ const CreateWallet: React.FunctionComponent = () => {
                         marginTop="0"
                         mb="10px"
                     >
-                        Confirm Password
+                        {CONFIRM_PASSWORD_LABEL}
                     </SubHeading>
                     <Input
                         id="confirm-password"
@@ -310,8 +323,7 @@ const CreateWallet: React.FunctionComponent = () => {
                     marginTop="5px"
                     className={subHeadingfontFamilyClass}
                 >
-                    Create your wallet name and your password. Make sure that
-                    you memorise or save your password.
+                    {CREATE_WALLET_DESCRIPTION}
                 </SubHeading>
             </UnAuthScreensContentWrapper>
             <div

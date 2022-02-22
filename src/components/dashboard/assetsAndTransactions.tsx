@@ -33,6 +33,7 @@ import {
 } from './types';
 import { RootState } from '../../redux/store';
 import { addTransaction } from '../../redux/slices/transactions';
+import { ASSETS, TRANSACTIONS } from '../../utils/app-content';
 
 const { mainHeadingfontFamilyClass } = fonts;
 const { trimBalance } = helpers;
@@ -193,9 +194,9 @@ const AssetsAndTransactions: React.FunctionComponent<
     return (
         <AssetsAndTransactionsWrapper>
             <Tabs>
-                <TabSection {...tabSectionAssets}>Assets</TabSection>
+                <TabSection {...tabSectionAssets}>{ASSETS}</TabSection>
                 <TabSection {...tabSectionTransactions}>
-                    Transactions
+                    {TRANSACTIONS}
                 </TabSection>
             </Tabs>
             <div className="scrollbar" style={{ marginTop: '0' }}>

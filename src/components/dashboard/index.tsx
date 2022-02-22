@@ -70,6 +70,13 @@ import {
     RenderMethodProps,
     TransactionRecord,
 } from './types';
+import {
+    CONFIRM_SEED,
+    CREATE_WALLET,
+    IMPORT_WALLET,
+    SHOW_SEED,
+    WELCOME,
+} from '../../constants';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 // const { showInternetSnackBar } = helpers;
@@ -261,7 +268,7 @@ const Dashboard: React.FunctionComponent = (props) => {
     useEffect(() => {
         if (Object.values(accounts).length === 0) {
             dispatch(resetAccountSlice());
-            navigate('/');
+            navigate(WELCOME);
         }
     }, [accounts]);
 
@@ -383,26 +390,26 @@ const Dashboard: React.FunctionComponent = (props) => {
         : `${chainName} Network`;
 
     if (accountCreationStep === 1 && lastVisited < 90) {
-        navigate('/ShowSeed', {
+        navigate(SHOW_SEED, {
             state: { seedToPass: tempSeed },
         });
         return null;
     }
     if (accountCreationStep === 2 && tempSeed.length && lastVisited < 90) {
-        navigate('/ConfirmSeed', {
+        navigate(CONFIRM_SEED, {
             state: { seedToPass: tempSeed },
         });
         return null;
     }
     if (accountCreationStep === 3 && tempSeed.length && lastVisited < 90) {
-        navigate('/createWallet', {
+        navigate(CREATE_WALLET, {
             state: { seedToPass: tempSeed },
         });
         return null;
     }
 
     if (jsonFileUploadScreen) {
-        navigate('/ImportWallet');
+        navigate(IMPORT_WALLET);
         return null;
     }
 

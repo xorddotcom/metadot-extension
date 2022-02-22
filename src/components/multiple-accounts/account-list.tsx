@@ -29,6 +29,7 @@ import AccountDropDown from './account-dropdown';
 import services from '../../utils/services';
 import { AccountListInterface } from './types';
 import { RootState } from '../../redux/store';
+import { WELCOME } from '../../constants';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { getJsonBackup, deleteAccount } = accountUtils;
@@ -95,7 +96,7 @@ const AccountList: React.FunctionComponent<AccountListInterface> = ({
         const deleteActiveAccount = (): void => {
             if (Object.keys(accounts).length === 0) {
                 dispatch(resetAccountSlice());
-                navigate('/');
+                navigate(WELCOME);
             }
         };
         deleteActiveAccount();

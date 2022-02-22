@@ -25,6 +25,12 @@ import { EnterSeedInterface } from './type';
 import { RootState } from '../../redux/store';
 
 import { Wrapper, UnAuthScreensContentWrapper } from '../common/wrapper';
+import { CREATE_WALLET, DASHBOARD, IMPORT_WALLET } from '../../constants';
+import {
+    IMPORT_WALLET_HEADER,
+    RESTORE_WALLET,
+    RESTORE_WALLET_DESCRIPTION,
+} from '../../utils/app-content';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { validatingSeedPhrase, createAccountFromJSON } = accounts;
@@ -79,7 +85,7 @@ function ImportWallet(): JSX.Element {
         dispatch(setSubTextForSuccessModal(''));
         dispatch(setJsonFileUploadScreen(false));
         setSelectedType('seed');
-        navigate('/');
+        navigate(DASHBOARD);
 
         setTimeout(() => {
             dispatch(setIsResponseModalOpen(false));
@@ -125,7 +131,7 @@ function ImportWallet(): JSX.Element {
             const res = await validatingSeedPhrase(seedPhrase);
 
             if (res) {
-                navigate('/createWallet', {
+                navigate(CREATE_WALLET, {
                     state: { prevRoute: location, seedToPass: seedPhrase },
                 });
             } else {
@@ -179,7 +185,7 @@ function ImportWallet(): JSX.Element {
         } else {
             setSelectedType('json');
         }
-        navigate('/ImportWallet');
+        navigate(IMPORT_WALLET);
     };
 
     const mainHeading = {
@@ -241,19 +247,17 @@ function ImportWallet(): JSX.Element {
     return (
         <Wrapper>
             <Header
-                centerText="Import Wallet"
+                centerText={IMPORT_WALLET_HEADER}
                 backHandler={() => {
                     dispatch(setJsonFileUploadScreen(false));
                 }}
             />
             <div>
                 <MainHeading {...mainHeading}>
-                    Restore your wallet :{' '}
+                    {`${RESTORE_WALLET} `}
                 </MainHeading>
                 <SubHeading {...subHeading} textLightColor>
-                    Import your wallet with a seed phrase or json file. Set your
-                    wallet name and password to proceed. Metadot will not save
-                    your passwords and can not retrieve them for you.
+                    {RESTORE_WALLET_DESCRIPTION}
                 </SubHeading>
             </div>
             <UnAuthScreensContentWrapper flexDirection="column">

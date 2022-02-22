@@ -16,6 +16,13 @@ import {
     setAccountCreationStep,
     setTempSeed,
 } from '../../redux/slices/activeAccount';
+import {
+    CONFIRM_SEED,
+    CREATE_WALLET,
+    IMPORT_WALLET,
+    SHOW_SEED,
+} from '../../constants';
+import { WELCOME_TAG_LINE } from '../../utils/app-content';
 
 const { subHeadingfontFamilyClass } = fonts;
 const { GenerateSeedPhrase } = accounts;
@@ -45,13 +52,13 @@ function Welcome(): JSX.Element | null {
     const createHandler = (): void => {
         dispatch(setTempSeed(seedToPass));
         dispatch(setAccountCreationStep(1));
-        navigate('/ShowSeed', {
+        navigate(SHOW_SEED, {
             state: { prevRoute: location, seedToPass },
         });
     };
 
     const importHandler = (): void => {
-        navigate('/ImportWallet', {
+        navigate(IMPORT_WALLET, {
             state: { seedToPass },
         });
     };
@@ -61,27 +68,27 @@ function Welcome(): JSX.Element | null {
     const lastVisited = (Date.now() - Number(lastTime) || 0) / 1000;
 
     if (accountCreationStep === 1 && lastVisited < 90) {
-        navigate('/ShowSeed', {
+        navigate(IMPORT_WALLET, {
             state: { seedToPass: tempSeed },
         });
         return null;
     }
 
     if (accountCreationStep === 2 && tempSeed.length && lastVisited < 90) {
-        navigate('/ConfirmSeed', {
+        navigate(CONFIRM_SEED, {
             state: { seedToPass: tempSeed },
         });
         return null;
     }
     if (accountCreationStep === 3 && tempSeed.length && lastVisited < 90) {
-        navigate('/createWallet', {
+        navigate(CREATE_WALLET, {
             state: { seedToPass: tempSeed },
         });
         return null;
     }
 
     if (jsonFileUploadScreen) {
-        navigate('/ImportWallet');
+        navigate(IMPORT_WALLET);
     }
     return (
         <>
@@ -97,7 +104,7 @@ function Welcome(): JSX.Element | null {
                     className={subHeadingfontFamilyClass}
                     textAlign="center"
                 >
-                    Your Gateway To Polkadot And Its Parachains.
+                    {WELCOME_TAG_LINE}
                 </SubHeading>
             </div>
 

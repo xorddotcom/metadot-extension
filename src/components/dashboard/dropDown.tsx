@@ -25,6 +25,16 @@ import FileDownloadOutlinedIcon from '../../assets/images/icons/download.svg';
 import { DropDownMainText } from './styledComponents';
 import { DropDownProps } from './types';
 import { RootState } from '../../redux/store';
+import { ACCOUNTS, IMPORT_WALLET, SUPPORT } from '../../constants';
+import {
+    MY_PROFILE,
+    ACCOUNTS_HEADING,
+    IMPORT_ACCOUNT,
+    EXPORT_ACCOUNT,
+    SUPPORT_TEXT,
+    ABOUT_TEXT,
+    LOCK_TEXT,
+} from '../../utils/app-content';
 
 const { mainHeadingfontFamilyClass } = fonts;
 const { getJsonBackup } = account;
@@ -98,7 +108,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = ({
                         <DropDownMainText
                             className={mainHeadingfontFamilyClass}
                         >
-                            My Profile
+                            {MY_PROFILE}
                         </DropDownMainText>
                         <MenuItem
                             style={{
@@ -107,7 +117,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = ({
                                 fontSize: '15px',
                             }}
                             onClick={() => {
-                                navigate('/accounts');
+                                navigate(ACCOUNTS);
                             }}
                         >
                             <ListItemIcon
@@ -121,7 +131,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = ({
                                 />
                                 &nbsp; &nbsp;
                                 <span style={{ fontSize: '0.85rem' }}>
-                                    Accounts
+                                    {ACCOUNTS_HEADING}
                                 </span>
                             </ListItemIcon>
                         </MenuItem>
@@ -130,7 +140,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = ({
                             id="menu-item-2"
                             style={{ minHeight: '37px', color: '#fafafa' }}
                             onClick={() => {
-                                navigate('/ImportWallet');
+                                navigate(IMPORT_WALLET);
                             }}
                         >
                             <ListItemIcon
@@ -144,7 +154,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = ({
                                 />
                                 &nbsp; &nbsp;
                                 <span style={{ fontSize: '0.85rem' }}>
-                                    Import Account
+                                    {IMPORT_ACCOUNT}
                                 </span>
                             </ListItemIcon>
                         </MenuItem>
@@ -167,7 +177,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = ({
                                 />
                                 &nbsp; &nbsp;
                                 <span style={{ fontSize: '0.85rem' }}>
-                                    Export Account
+                                    {EXPORT_ACCOUNT}
                                 </span>
                             </ListItemIcon>
                         </MenuItem>
@@ -179,7 +189,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = ({
                                 fontSize: '15px',
                             }}
                             onClick={() => {
-                                navigate('/Support');
+                                navigate(SUPPORT);
                             }}
                         >
                             <ListItemIcon
@@ -193,7 +203,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = ({
                                 />
                                 &nbsp; &nbsp;
                                 <span style={{ fontSize: '0.85rem' }}>
-                                    Support
+                                    {SUPPORT_TEXT}
                                 </span>
                             </ListItemIcon>
                         </MenuItem>
@@ -217,7 +227,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = ({
                                 />
                                 &nbsp; &nbsp;
                                 <span style={{ fontSize: '0.85rem' }}>
-                                    About
+                                    {ABOUT_TEXT}
                                 </span>
                             </ListItemIcon>
                         </MenuItem>
@@ -240,7 +250,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = ({
                                 />
                                 &nbsp; &nbsp;
                                 <span style={{ fontSize: '0.85rem' }}>
-                                    Lock
+                                    {LOCK_TEXT}
                                 </span>
                             </ListItemIcon>
                         </MenuItem>

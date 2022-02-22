@@ -17,6 +17,7 @@ import accounts from '../../utils/accounts';
 import { resetTransactions } from '../../redux/slices/transactions';
 import { RootState } from '../../redux/store';
 import services from '../../utils/services';
+import { DASHBOARD, SHOW_SEED } from '../../constants';
 
 const { addressMapper } = services;
 
@@ -66,7 +67,7 @@ const MultipleAccounts: React.FunctionComponent = () => {
         handleClick: () => {
             dispatch(setAccountCreationStep(1));
             dispatch(setTempSeed(seedToPass));
-            navigate('/ShowSeed', {
+            navigate(SHOW_SEED, {
                 state: { seedToPass },
             });
         },
@@ -121,7 +122,7 @@ const MultipleAccounts: React.FunctionComponent = () => {
         dispatch(setPublicKey(publicKeyOfRespectiveChain));
         dispatch(setAccountName(name));
         dispatch(resetTransactions());
-        navigate('/');
+        navigate(DASHBOARD);
     };
 
     const derivedChildAccount = (): void => {
@@ -164,7 +165,7 @@ const MultipleAccounts: React.FunctionComponent = () => {
         dispatch(setPublicKey(publicKeyOfRespectiveChain));
         dispatch(setAccountName(name));
         dispatch(resetTransactions());
-        navigate('/');
+        navigate(DASHBOARD);
     };
 
     return (

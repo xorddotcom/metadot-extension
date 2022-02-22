@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
+
 import {
     Wrapper,
     LabelAndTextWrapper,
@@ -10,24 +11,30 @@ import { SubHeading, WarningText } from '../common/text';
 import { Header, Input, Button } from '../common';
 
 import {
-    setLoggedIn,
-    setPublicKey,
-    setAccountName,
-} from '../../redux/slices/activeAccount';
-import { fonts, helpers } from '../../utils';
-import accounts from '../../utils/accounts';
-
-import {
     setIsResponseModalOpen,
     setLoadingForApi,
     setMainTextForSuccessModal,
     setResponseImage,
     setSubTextForSuccessModal,
 } from '../../redux/slices/modalHandling';
+import { fonts, helpers } from '../../utils';
+import accounts from '../../utils/accounts';
+
 import ImportIcon from '../../assets/images/modalIcons/import.svg';
 
-import services from '../../utils/services';
-import { RootState } from '../../redux/store';
+import { DASHBOARD } from '../../constants';
+import {
+    CONFIRM_PASSWORD_LABEL,
+    CONTINUE_BUTTON,
+    DERIVED_ACCOUNT_HEADER,
+    DERIVED_ACCOUNT_WALLET_NAME_PLACEHOLDER,
+    DERIVED_PASSWORD_PLACEHOLDER,
+    NAME_WARNING,
+    PASSWORD,
+    RE_ENTER_PASSWORD,
+    SUCCESSFULLY_DERIVED,
+    WALLET_NAME_LABEL,
+} from '../../utils/app-content';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
@@ -95,9 +102,9 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
     const showSuccessModalAndNavigateToDashboard = (): void => {
         dispatch(setIsResponseModalOpen(true));
         dispatch(setResponseImage(ImportIcon));
-        dispatch(setMainTextForSuccessModal('Successfully Derived!'));
+        dispatch(setMainTextForSuccessModal(SUCCESSFULLY_DERIVED));
         dispatch(setSubTextForSuccessModal(''));
-        navigate('/');
+        navigate(DASHBOARD);
 
         setTimeout(() => {
             dispatch(setIsResponseModalOpen(false));
@@ -140,7 +147,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
 
     const styledInputName = {
         className: subHeadingfontFamilyClass,
-        placeholder: 'Enter wallet name for the derive account',
+        placeholder: DERIVED_ACCOUNT_WALLET_NAME_PLACEHOLDER,
         height: '15px',
         value: walletName,
         onChange: (t: string) => {
@@ -150,7 +157,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
     };
 
     const styledInputPassword = {
-        placeholder: 'Enter password for the derive account',
+        placeholder: DERIVED_PASSWORD_PLACEHOLDER,
         className: subHeadingfontFamilyClass,
         value: password,
         height: '15px',
@@ -163,7 +170,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
     };
 
     const styledInputConfirmPass = {
-        placeholder: 'Re-enter password',
+        placeholder: RE_ENTER_PASSWORD,
         className: subHeadingfontFamilyClass,
         value: confirmPassword,
         height: '15px',
@@ -176,7 +183,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
     };
 
     const btn = {
-        text: 'Continue',
+        text: CONTINUE_BUTTON,
         width: '300px',
         disabled: !(walletName && password && confirmPassword) && true,
         handleClick: async () => {
@@ -189,12 +196,14 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
     return (
         <Wrapper>
             <Header
-                centerText="Derive Account"
+                centerText={DERIVED_ACCOUNT_HEADER}
                 backHandler={() => console.log('go back')}
             />
             <UnAuthScreensContentWrapper>
                 <LabelAndTextWrapper>
-                    <SubHeading {...walletNameText}>Wallet Name</SubHeading>
+                    <SubHeading {...walletNameText}>
+                        {WALLET_NAME_LABEL}
+                    </SubHeading>
                     <Input id="wallet-name" isCorrect {...styledInputName} />
                     {isValidWalletName && (
                         <WarningText
@@ -202,8 +211,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                             className={subHeadingfontFamilyClass}
                             visibility={isValidWalletName}
                         >
-                            Name should not be less than 3 characters and can
-                            only contain alphanumeric data
+                            {NAME_WARNING}
                         </WarningText>
                     )}
                 </LabelAndTextWrapper>
@@ -214,7 +222,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                         marginTop="0px"
                         mb="10px"
                     >
-                        Password
+                        {PASSWORD}
                     </SubHeading>
                     <Input
                         id="password"
@@ -266,7 +274,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                         marginTop="0"
                         mb="10px"
                     >
-                        Confirm Password
+                        {CONFIRM_PASSWORD_LABEL}
                     </SubHeading>
                     <Input
                         id="confirm-password"

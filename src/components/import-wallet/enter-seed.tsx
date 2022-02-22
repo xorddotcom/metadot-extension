@@ -3,6 +3,7 @@ import { Input } from '@mui/material';
 import { WarningText } from '../common/text';
 import { colors, fonts } from '../../utils';
 import { EnterSeedInterface } from './type';
+import { SEED_INPUT_PLACEHOLDER } from '../../utils/app-content';
 
 const index: React.FunctionComponent<EnterSeedInterface> = ({
     handleChange,
@@ -28,7 +29,7 @@ const index: React.FunctionComponent<EnterSeedInterface> = ({
             handleChange(e.target.value.replace(/[^A-Z\s]/gi, '')),
         value: seedPhrase,
         rows: 5,
-        placeholder: 'Place your seed here',
+        placeholder: SEED_INPUT_PLACEHOLDER,
     };
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
