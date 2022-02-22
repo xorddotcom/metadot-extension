@@ -68,8 +68,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = ({
         height: '40px',
         fontSize: '0.8rem',
         handleClick: () => {
-            setPassword('');
-            handleClose();
+            handleClose(setPassword);
         },
     };
 
@@ -84,7 +83,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = ({
     return (
         <Modal
             open={open}
-            onClose={handleClose}
+            onClose={() => handleClose(setPassword)}
             style={{
                 display: 'flex',
                 alignItems: 'center',

@@ -24,4 +24,5 @@ export interface UploadJSONInterface {
     passwordChangeHandler(value: string): void;
     setShowPassword(value: boolean): void;
     setPasswordError(value: boolean): void;
+    invalidJSONFileError: boolean;
 }

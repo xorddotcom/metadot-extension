@@ -22,6 +22,7 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
     passwordChangeHandler,
     setShowPassword,
     setPasswordError,
+    invalidJSONFileError,
 }) => {
     const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
     const hiddenFileInput = React.useRef<HTMLInputElement>(null);
@@ -29,44 +30,53 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
     const showFile = async (
         e: React.ChangeEvent<HTMLInputElement>
     ): Promise<void> => {
-        e.preventDefault();
-        const reader = new FileReader();
-        if (e.target.files) {
-            const file = e.target.files[0];
-            reader.onload = async () => {
-                const fileContent = reader.result;
-                const parsedFileContent = JSON.parse(fileContent as string);
-                setJson(parsedFileContent.exportedJson);
-            };
-            reader.readAsText(file);
-            setFileName(
-                e.target.files[0] ? e.target.files[0] : { name: 'file' }
-            );
-            setIsFilePicked(true);
+        try {
+            e.preventDefault();
+            const reader = new FileReader();
+            if (e.target.files) {
+                const file = e.target.files[0];
+                reader.onload = async () => {
+                    const fileContent = reader.result;
+                    const parsedFileContent = JSON.parse(fileContent as string);
+                    setJson(parsedFileContent.exportedJson);
+                };
+                reader.readAsText(file);
+                setFileName(
+                    e.target.files[0] ? e.target.files[0] : { name: 'file' }
+                );
+                setIsFilePicked(true);
+            }
+        } catch (err) {
+            console.log('err here ===>>>>');
         }
     };
 
     const handleClick = (operation: string): void => {
-        if (operation === 'select') {
-            if (isFilePicked) {
-                console.log('already selected!');
-            } else {
-                if (hiddenFileInput.current) hiddenFileInput.current.click();
-                console.log('select');
+        try {
+            if (operation === 'select') {
+                if (isFilePicked) {
+                    console.log('already selected!');
+                } else {
+                    if (hiddenFileInput.current)
+                        hiddenFileInput.current.click();
+                    console.log('select in handle click');
+                }
+            } else if (operation === 'cancel') {
+                console.log('cancel');
+                console.log(
+                    'file value',
+                    document.getElementsByTagName('input')[0].value
+                );
+                document.getElementsByTagName('input')[0].value = '';
+                setFileName({ name: 'file' });
+                setIsFilePicked(false);
+                passwordChangeHandler('');
+                setShowPassword(false);
+                setPasswordError(false);
+                setJson('');
             }
-        } else if (operation === 'cancel') {
-            console.log('cancel');
-            console.log(
-                'file value',
-                document.getElementsByTagName('input')[0].value
-            );
-            document.getElementsByTagName('input')[0].value = '';
-            setFileName({ name: 'file' });
-            setIsFilePicked(false);
-            passwordChangeHandler('');
-            setShowPassword(false);
-            setPasswordError(false);
-            setJson('');
+        } catch (err) {
+            console.log('in handle click error', err);
         }
     };
 
@@ -120,6 +130,15 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                         </div>
                     )}
                 </UploadFile>
+                {invalidJSONFileError && (
+                    <WarningText
+                        id="warning-text-3"
+                        mb="10px"
+                        className={subHeadingfontFamilyClass}
+                    >
+                        Invalid Json file!
+                    </WarningText>
+                )}
                 <SubHeading
                     className={mainHeadingfontFamilyClass}
                     marginTop="27px"
@@ -147,6 +166,8 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                         Invalid Password!
                     </WarningText>
                 )}
+
+                {console.log('Invalid json error state', invalidJSONFileError)}
 
                 <input
                     id="upload-file"

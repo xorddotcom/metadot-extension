@@ -49,6 +49,7 @@ function ImportWallet(): JSX.Element {
     const [seedPhrase, setSeedPhrase] = useState('');
     const [invalidSeedMessage, setInvalidSeedMessage] = useState('');
     const [password, setPassword] = useState('');
+    const [invalidJSONFileError, setInvalidJSONFileError] = useState(false);
 
     const [fileName, setFileName] = useState<File | { name: string }>({
         name: 'file',
@@ -91,13 +92,17 @@ function ImportWallet(): JSX.Element {
 
     const importAccountFromJson = async (): Promise<void> => {
         try {
+            console.log('In import account from JSON');
             const res = await createAccountFromJSON(json, password);
+            console.log('Res [][]', res);
             if (res) {
                 showSuccessModalAndNavigateToDashboard();
             } else {
                 console.log('aksk', res);
+                setInvalidJSONFileError(true);
             }
         } catch (err) {
+            console.log('In import account from JSON error ===>>>>');
             console.log(err);
         }
     };
@@ -226,6 +231,7 @@ function ImportWallet(): JSX.Element {
         passwordChangeHandler,
         setShowPassword,
         setPasswordError,
+        invalidJSONFileError,
     };
 
     return (

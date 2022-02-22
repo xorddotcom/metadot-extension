@@ -266,7 +266,8 @@ const DropDown: React.FunctionComponent<DropDownProps> = ({
             <AuthModal
                 publicKey={publicKey}
                 open={modalHandling.authScreenModal}
-                handleClose={() => {
+                handleClose={(setPassword) => {
+                    setPassword('');
                     dispatch(setAuthScreenModal(false));
                 }}
                 onConfirm={downloadJson}

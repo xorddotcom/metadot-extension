@@ -4,7 +4,7 @@ type Sender = KeyringPair | string;
 
 export interface AuthtModalProps {
     open: boolean;
-    handleClose(): void;
+    handleClose(e?: any): void;
     style?: object;
     onConfirm(publicKey: string, password: string): void;
     publicKey: string;
