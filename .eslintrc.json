@@ -9,7 +9,8 @@
         "plugin:@typescript-eslint/recommended",
         "prettier",
         "prettier/prettier",
-        "plugin:prettier/recommended"
+        "plugin:prettier/recommended",
+        "plugin:import/typescript"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -26,6 +27,7 @@
     ],
     "rules": {
         "no-use-before-define": "off",
+        "react/jsx-props-no-spreading": "off",
         "react/jsx-filename-extension": [ "warn", {"extensions": [".tsx"]} ],
         "@typescript-eslint/no-use-before-define": ["error"],
         "import/extensions": [
@@ -45,9 +47,11 @@
             }
         ],
         "max-len": ["warn", { "code": 80 }],
+        "react/function-component-definition":"off",
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
         "import/prefer-default-export": "off",
+        "import/no-cycle": "error",
         "react/prop-types": "off",
         "no-console": "off",
         "no-restricted-syntax": [

@@ -12,6 +12,8 @@ module.exports = {
                         paths.appIndexJs,
                     ].filter(Boolean),
                     background: './src/background.ts',
+                    content: './src/content.ts',
+                    page: './src/page.ts',
                 },
                 output: {
                     ...webpackConfig.output,
