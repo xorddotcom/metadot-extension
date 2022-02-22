@@ -4,14 +4,19 @@ import {
     HorizontalContentInterface,
     VerticalContentDivPropsInterface,
     UnAuthScreensContentInterface,
+    AuthorizationPopupWrapperInterface,
 } from './type';
 
 import { colors } from '../../../utils';
 
 const { darkBackground1 } = colors;
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<AuthorizationPopupWrapperInterface>`
     padding: 18px 20px 8px;
+    height: ${(props) => props.height && props.height};
+    width: ${(props) => props.width && props.width};
+    border-radius: ${(props) => props.borderRadius && props.borderRadius};
+    border-color: ${(props) => props.borderRadius && props.borderRadius};
 `;
 
 export const MainDiv = styled.div`
@@ -50,6 +55,50 @@ export const VerticalContentDiv = styled.div<VerticalContentDivPropsInterface>`
         css`
             padding-left: 10px;
             padding-right: 10px;
+        `}
+    ${(props) =>
+        props.warningDiv &&
+        css`
+            background: linear-gradient(
+                100deg,
+                rgba(27, 26, 26, 0.217) -55.79%,
+                rgba(56, 56, 56, 0.7) 216.81%,
+                rgba(22, 22, 22, 0.161) 216.81%
+            );
+            box-shadow: 0px 0px 40px rgba(13, 13, 13, 0.2);
+            border-radius: 5px;
+            height: 115px;
+            padding: 15px;
+        `}
+    ${(props) =>
+        props.transactionTitleDiv &&
+        css`
+            height: 85px;
+            background: linear-gradient(
+                99.81deg,
+                #1e1e1e -3.09%,
+                rgba(67, 67, 67, 0.72) 108.08%
+            );
+            box-shadow: 0px 0px 40px rgba(13, 13, 13, 0.2);
+            border-radius: 8px;
+        `}
+    ${(props) =>
+        props.transactionDetailDiv &&
+        css`
+            height: 195px;
+            border: 1px solid #212121;
+            box-sizing: border-box;
+            filter: drop-shadow(0px 0px 40px rgba(13, 13, 13, 0.2));
+            border-radius: 8px;
+            padding: 5px;
+        `}
+    
+    ${(props) =>
+        props.transactionPasswordDiv &&
+        css`
+            height: 110px;
+            display: flex;
+            justify-content: space-between;
         `}
 `;
 

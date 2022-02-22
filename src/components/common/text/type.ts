@@ -16,6 +16,7 @@ export interface SubHeadingInterface {
     marginTop?: string;
     mb?: string;
     ml?: string;
+    opacity?: string;
 }
 
 export interface WarningTextInterface {
