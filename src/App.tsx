@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
+import { QueryClientProvider, QueryClient } from 'react-query';
+
 import type {
     AccountJson,
     AuthorizeRequest,
@@ -8,8 +10,6 @@ import type {
     SigningRequest,
 } from 'metadot-extension-base/background/types';
 
-import { QueryClientProvider, QueryClient } from 'react-query';
-import { ResponseModal } from './components/common/modals';
 import {
     setLoggedIn,
     setPublicKey,
@@ -18,17 +18,22 @@ import {
 import { setIsResponseModalOpen } from './redux/slices/modalHandling';
 import { addAccount } from './redux/slices/accounts';
 import { RootState } from './redux/store';
-import './App.css';
+
+import Screens from './components';
 import ApiManager from './components/api-manager';
-import routes from './routing';
-import Views from './components';
+import { AuthorizedRoutes, UnAuthorizedRoutes } from './routing';
+import { ResponseModal } from './components/common/modals';
+
+import services from './utils/services';
 import {
     subscribeAccounts,
     subscribeAuthorizeRequests,
     subscribeMetadataRequests,
     subscribeSigningRequests,
 } from './messaging';
-import services from './utils/services';
+import { WELCOME } from './constants';
+
+import './App.css';
 
 const { addressMapper } = services;
 
@@ -43,8 +48,7 @@ function App(): JSX.Element {
     const [signRequests, setSignRequests] = useState<null | SigningRequest[]>(
         null
     );
-    const { AuthRoutes, UnAuthRoutes } = routes;
-    const { Welcome, WelcomeBack, PopupAuth, PopupSign, PopupMeta } = Views;
+    const { Welcome, WelcomeBack, PopupAuth, PopupSign, PopupMeta } = Screens;
     const { activeAccount, modalHandling } = useSelector(
         (state: RootState) => state
     );
@@ -114,7 +118,7 @@ function App(): JSX.Element {
     } else if (activeAccount.isLoggedIn && activeAccount.publicKey) {
         content = (
             <>
-                {AuthRoutes.map((route) => {
+                {AuthorizedRoutes.map((route) => {
                     const { path, Component } = route;
                     return (
                         <Route key={path} path={path} element={<Component />} />
@@ -125,8 +129,8 @@ function App(): JSX.Element {
     } else {
         content = (
             <>
-                <Route path="/" element={<Welcome />} />;
-                {UnAuthRoutes.map((route) => {
+                <Route path={WELCOME} element={<Welcome />} />;
+                {UnAuthorizedRoutes.map((route) => {
                     const { path, Component } = route;
                     return (
                         <Route key={path} path={path} element={<Component />} />

@@ -14,6 +14,7 @@ import {
 
 import { fonts } from '../../utils';
 import { RootState } from '../../redux/store';
+import { CONFIRM_SEED } from '../../constants';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -83,7 +84,7 @@ const ShowSeed: React.FunctionComponent = () => {
             // for maintaining extension state
             // if user closes it for pasting the seed
             dispatch(setAccountCreationStep(2));
-            navigate('/ConfirmSeed', {
+            navigate(CONFIRM_SEED, {
                 state: { seedToPass: location.seedToPass },
             });
         },

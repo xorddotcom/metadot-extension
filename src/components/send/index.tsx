@@ -45,6 +45,7 @@ import AmountInput from './amountInput';
 import UnsuccessCheckIcon from '../../assets/images/modalIcons/failed.svg';
 import SuccessCheckIcon from '../../assets/images/success.png';
 import activeAccount from '../../redux/slices/activeAccount';
+import { DASHBOARD } from '../../constants';
 
 const errorMessages = {
     invalidAddress: 'Invalid address',
@@ -493,7 +494,7 @@ const Send: React.FunctionComponent = () => {
                             dispatch(setIsResponseModalOpen(false));
                         }, 4000);
                         // navigate to dashboard on success
-                        navigate('/');
+                        navigate(DASHBOARD);
                     }
                     if (txResSuccess.length >= 1) {
                         console.log('Tx successfull');
@@ -512,7 +513,7 @@ const Send: React.FunctionComponent = () => {
                         setTimeout(() => {
                             dispatch(setIsResponseModalOpen(false));
                         }, 4000);
-                        navigate('/');
+                        navigate(DASHBOARD);
                     }
                 }
             })
@@ -534,7 +535,7 @@ const Send: React.FunctionComponent = () => {
                     dispatch(setIsResponseModalOpen(false));
                 }, 4000);
                 // navigate to dashboard on success
-                navigate('/');
+                navigate(DASHBOARD);
             });
     };
 

@@ -13,6 +13,13 @@ import { AuthModal, WarningModal } from '../common/modals';
 import { setAuthScreenModal } from '../../redux/slices/modalHandling';
 import accounts from '../../utils/accounts';
 import { AccountDropDownInterface } from './types';
+import {
+    ACCOUNT_DELETION_WARNING,
+    CREATE_DERIVE_ACCOUNT_TEXT,
+    EXPORT_ACCOUNT,
+    REMOVE_ACCOUNT,
+    WARNING,
+} from '../../utils/app-content';
 
 const { getJsonBackup } = accounts;
 
@@ -62,9 +69,8 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
             px: 2,
             pb: 3,
         },
-        mainText: 'Warning',
-        subText:
-            'Once the account is deleted, it can not be restored again. Do you wish to continue?',
+        mainText: WARNING,
+        subText: ACCOUNT_DELETION_WARNING,
     };
 
     return (
@@ -134,7 +140,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                                     />
                                     &nbsp; &nbsp;
                                     <span style={{ fontSize: '0.85rem' }}>
-                                        Create Derive Account
+                                        {CREATE_DERIVE_ACCOUNT_TEXT}
                                     </span>
                                 </ListItemIcon>
                             </MenuItem>
@@ -158,7 +164,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                                 />
                                 &nbsp; &nbsp;
                                 <span style={{ fontSize: '0.85rem' }}>
-                                    Export Account
+                                    {EXPORT_ACCOUNT}
                                 </span>
                             </ListItemIcon>
                         </MenuItem>
@@ -182,7 +188,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                                 />
                                 &nbsp; &nbsp;
                                 <span style={{ fontSize: '0.85rem' }}>
-                                    Remove Account
+                                    {REMOVE_ACCOUNT}
                                 </span>
                             </ListItemIcon>
                         </MenuItem>

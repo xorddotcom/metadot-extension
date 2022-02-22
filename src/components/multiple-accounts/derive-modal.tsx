@@ -10,6 +10,7 @@ import { fonts } from '../../utils';
 import { WarningText } from '../common/text';
 import { VerticalContentDiv } from '../common/wrapper';
 import { DeriveModalInterface } from './types';
+import { CREATE_DERIVED_ACCOUNT } from '../../constants';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -31,7 +32,7 @@ const DeriveModal: React.FunctionComponent<DeriveModalInterface> = ({
     ): void => {
         try {
             // message pass to validate seed
-            navigate('/creatDerivedAccount', {
+            navigate(CREATE_DERIVED_ACCOUNT, {
                 state: {
                     parentPassword,
                     parentAddress,

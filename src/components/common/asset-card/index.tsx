@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+
 import {
     AssetCardWrapper,
     CoinAmount,
@@ -10,9 +11,11 @@ import {
 import { EquivalentInUSDT } from '../text';
 import { HorizontalContentDiv } from '../wrapper';
 import Button from '../button';
-import { fonts } from '../../../utils';
+import { SEND } from '../../../constants';
+
 import { Props } from './type';
 import { RootState } from '../../../redux/store';
+import { fonts } from '../../../utils';
 
 const AssetCard: React.FunctionComponent<Props> = ({
     name,
@@ -35,7 +38,7 @@ const AssetCard: React.FunctionComponent<Props> = ({
         fontWeight: 500,
         height: '30px',
         br: '4px',
-        handleClick: () => navigate('/send'),
+        handleClick: () => navigate(SEND),
         disabled: !!apiInitializationStarts,
     };
 

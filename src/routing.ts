@@ -1,5 +1,18 @@
 import Views from './components';
 
+import {
+    ACCOUNTS,
+    CONFIRM_SEED,
+    CREATE_DERIVED_ACCOUNT,
+    CREATE_WALLET,
+    DASHBOARD,
+    IMPORT_WALLET,
+    SEND,
+    SHOW_SEED,
+    SUPPORT,
+    WELCOME_BACK,
+} from './constants';
+
 const {
     WelcomeBack,
     ImportWallet,
@@ -13,70 +26,68 @@ const {
     Send,
 } = Views;
 
-const UnAuthRoutes = [
+export const UnAuthorizedRoutes = [
     {
-        path: '/welcomeBack',
+        path: WELCOME_BACK,
         Component: WelcomeBack,
     },
     {
-        path: '/ImportWallet',
+        path: IMPORT_WALLET,
         Component: ImportWallet,
     },
     {
-        path: '/ShowSeed',
+        path: SHOW_SEED,
         Component: ShowSeed,
     },
     {
-        path: '/ConfirmSeed',
+        path: CONFIRM_SEED,
         Component: ConfirmSeed,
     },
     {
-        path: '/CreateWallet',
+        path: CREATE_WALLET,
         Component: CreateWallet,
     },
 ];
 
-const AuthRoutes = [
+export const AuthorizedRoutes = [
     {
-        path: '/',
+        path: DASHBOARD,
         Component: Dashboard,
     },
     {
-        path: '/send',
+        path: SEND,
         Component: Send,
     },
     {
-        path: '/welcomeBack',
+        path: WELCOME_BACK,
         Component: WelcomeBack,
     },
     {
-        path: '/accounts',
+        path: ACCOUNTS,
         Component: MultipleAccounts,
     },
     {
-        path: '/ImportWallet',
+        path: IMPORT_WALLET,
         Component: ImportWallet,
     },
     {
-        path: '/CreateWallet',
+        path: CREATE_WALLET,
         Component: CreateWallet,
     },
     {
-        path: '/Support',
+        path: SUPPORT,
         Component: Support,
     },
     {
-        path: '/creatDerivedAccount',
+        path: CREATE_DERIVED_ACCOUNT,
         Component: CreateDerivedAccount,
     },
     {
-        path: '/ShowSeed',
+        path: SHOW_SEED,
         Component: ShowSeed,
     },
     {
-        path: '/ConfirmSeed',
+        path: CONFIRM_SEED,
         Component: ConfirmSeed,
     },
 ];
-
-export default { AuthRoutes, UnAuthRoutes };

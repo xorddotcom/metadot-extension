@@ -8,6 +8,7 @@ import { SubHeading, WarningText } from '../common/text';
 import { HorizontalContentDiv } from '../common/wrapper';
 import { Input } from '../common';
 import { UploadJSONInterface } from './type';
+import { PASSWORD } from '../../utils/app-content';
 
 const UploadJson: React.FC<UploadJSONInterface> = ({
     fileName,
@@ -111,7 +112,7 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
     };
 
     const InputProps = {
-        placeholder: 'Password',
+        placeholder: PASSWORD,
         className: subHeadingfontFamilyClass,
         value: password,
         height: '14px',

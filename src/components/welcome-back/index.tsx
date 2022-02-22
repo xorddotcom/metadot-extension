@@ -13,6 +13,7 @@ import Input from '../common/input';
 import { setLoggedIn } from '../../redux/slices/activeAccount';
 
 import { RootState } from '../../redux/store';
+import { DASHBOARD } from '../../constants';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { validateAccount } = accounts;
@@ -38,7 +39,7 @@ function WelcomeBack(): JSX.Element {
             );
             if (validate !== false) {
                 dispatch(setLoggedIn(true));
-                navigate('/');
+                navigate(DASHBOARD);
             } else {
                 setPasswordError('Invalid password!');
             }

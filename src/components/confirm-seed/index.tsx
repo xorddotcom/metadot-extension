@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { useDispatch, useSelector } from 'react-redux';
+
 import { Header, Input, Button } from '../common';
 import { Wrapper, UnAuthScreensContentWrapper } from '../common/wrapper';
 import { MainHeading, SubHeading } from '../common/text';
+import { SeedGridRow, SeedText, SeedGrid } from './styles';
 
 import { setAccountCreationStep } from '../../redux/slices/activeAccount';
-
-import { fonts, helpers } from '../../utils';
-import { SeedGridRow, SeedText, SeedGrid } from './styles';
 import { RootState } from '../../redux/store';
+import { fonts, helpers } from '../../utils';
+import { CREATE_WALLET } from '../../constants';
+import {
+    CONFIRM_SEED_DESCRIPTION,
+    CONFIRM_SEED_HEADER,
+    CONFIRM_SEED_MAIN_HEADING,
+    CONTINUE_BUTTON,
+} from '../../utils/app-content';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const {
@@ -68,7 +74,7 @@ const ConfirmSeed: React.FunctionComponent = () => {
 
         if (first && second && third && fourth) {
             dispatch(setAccountCreationStep(3));
-            navigate('/createWallet', {
+            navigate(CREATE_WALLET, {
                 state: { seedToPass: currSeed },
             });
         }
@@ -191,7 +197,7 @@ const ConfirmSeed: React.FunctionComponent = () => {
     };
 
     const btn = {
-        text: 'Continue',
+        text: CONTINUE_BUTTON,
         width: '300px',
         disabled: !(word1 && word2 && word3 && word4),
         handleClick: () => checkWordsAndNavigate(),
@@ -210,14 +216,15 @@ const ConfirmSeed: React.FunctionComponent = () => {
     return (
         <Wrapper>
             <Header
-                centerText="Confirm Seed"
+                centerText={CONFIRM_SEED_HEADER}
                 backHandler={() => dispatch(setAccountCreationStep(1))}
             />
             <div>
-                <MainHeading {...mainHeading}>Confirm seed phrase</MainHeading>
+                <MainHeading {...mainHeading}>
+                    {CONFIRM_SEED_MAIN_HEADING}
+                </MainHeading>
                 <SubHeading textLightColor {...subHeading}>
-                    To confirm the mnemonic, enter the right words in the space
-                    provided below.
+                    {CONFIRM_SEED_DESCRIPTION}
                 </SubHeading>
             </div>
             <UnAuthScreensContentWrapper mb="18px">
