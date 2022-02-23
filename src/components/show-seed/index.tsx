@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import ContentCopyIcon from '../../assets/images/icons/copyIcon.svg';
 import { CopyIcon, CopyText, IndexText, SeedText, SeedWrapper } from './styles';
 import { Wrapper, UnAuthScreensContentWrapper } from '../common/wrapper';
 import { MainHeading, SubHeading } from '../common/text';
@@ -12,10 +11,11 @@ import {
     setTempSeed,
 } from '../../redux/slices/activeAccount';
 
-import { fonts } from '../../utils';
+import { fonts, images } from '../../utils';
 import { RootState } from '../../redux/store';
 import { CONFIRM_SEED } from '../../constants';
 
+const { ContentCopyIcon } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 const SinglePhrase: React.FunctionComponent<{

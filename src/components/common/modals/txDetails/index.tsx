@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import CloseIcon from '@mui/icons-material/Close';
-import ContentCopyIcon from '../../../../assets/images/icons/copyIcon.svg';
+
 import {
     CloseIconDiv,
     HorizontalContentDiv,
@@ -12,9 +12,10 @@ import {
     SubText2,
 } from './styledComponents';
 import { VerticalContentDiv } from '../../wrapper';
-import { fonts, helpers, colors } from '../../../../utils';
+import { fonts, helpers, colors, images } from '../../../../utils';
 import { TxDetailsProps } from './types';
 
+const { ContentCopyIcon } = images;
 const { addressModifier } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 

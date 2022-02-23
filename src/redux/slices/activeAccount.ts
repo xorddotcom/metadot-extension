@@ -7,12 +7,11 @@ const initialState = {
     isLoggedIn: true,
     publicKey: '5GjSQRFYEFBY1nmVuGHTyKkRHrodQmUKdA7kWzfmfLp262xG',
     accountName: 'Hello',
-    rpcUrl: WESTEND_CONFIG.RPC_URL,
-    chainName: WESTEND_CONFIG.CHAIN_NAME,
-    tokenName: WESTEND_CONFIG.TOKEN_NAME,
+    rpcUrl: WESTEND_CONFIG.rpcUrl,
+    chainName: WESTEND_CONFIG.name,
+    tokenName: WESTEND_CONFIG.tokenName,
     balance: 0,
     balanceInUsd: 0,
-    keyringInitialized: false,
     jsonFileUploadScreen: false,
     prefix: 42,
     accountCreationStep: 0,
@@ -24,13 +23,6 @@ export const activeAccountSlice = createSlice({
     name: 'activeAccount',
     initialState,
     reducers: {
-        setKeyringInitialized: (state, action: PayloadAction<boolean>) => {
-            return {
-                ...state,
-                keyringInitialized: action.payload,
-            };
-        },
-
         setLastVisitedTimestamp: (state, action: PayloadAction<string>) => {
             return {
                 ...state,
@@ -124,7 +116,6 @@ export const {
     setBalance,
     setBalanceInUsd,
     deleteRedux,
-    setKeyringInitialized,
     setJsonFileUploadScreen,
     setPrefix,
     setAccountCreationStep,

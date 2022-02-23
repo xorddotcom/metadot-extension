@@ -47,14 +47,17 @@ export interface TransactionRecordFromSubQuery {
 }
 
 export interface NetworkConfigType {
+    EXISTENTIAL_DEPOSIT?: number;
+    queryEndpoint: string;
     name: string;
-    theme?: string;
+    logo?: string;
     moreOptions?: boolean;
-    rpcUrl?: string;
+    relayChain?: boolean;
+    rpcUrl: string;
     prefix: number;
     disabled?: boolean;
     icon?: string;
-    tokenName?: string;
+    tokenName: string;
     parachain?: boolean;
     mainNetwork?: boolean;
     testNet?: null | string;

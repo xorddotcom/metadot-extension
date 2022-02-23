@@ -17,7 +17,7 @@ const getSender = async (seed: string): Promise<KeyringJson> => {
 const providerInitialization = async (rpc: string): Promise<ApiPromiseType> => {
     const provider = new WsProvider(rpc);
     let apiR;
-    if (rpc === ACALA_MANDALA_CONFIG.RPC_URL) {
+    if (rpc === ACALA_MANDALA_CONFIG.rpcUrl) {
         apiR = await ApiPromise.create(AcalaOptions({ provider }));
     } else {
         apiR = await ApiPromise.create({ provider });

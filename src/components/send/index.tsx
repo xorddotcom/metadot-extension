@@ -21,7 +21,7 @@ import {
     actionAccountReducerType,
     actionAmountReducerType,
 } from './types';
-import { helpers } from '../../utils';
+import { helpers, images } from '../../utils';
 import { RootState } from '../../redux/store';
 import services from '../../utils/services';
 import Header from '../common/header';
@@ -42,10 +42,10 @@ import {
 import FromInput from './fromInput';
 import ToInput from './toInput';
 import AmountInput from './amountInput';
-import UnsuccessCheckIcon from '../../assets/images/modalIcons/failed.svg';
-import SuccessCheckIcon from '../../assets/images/success.png';
 import activeAccount from '../../redux/slices/activeAccount';
 import { DASHBOARD } from '../../constants';
+
+const { UnsuccessCheckIcon, SuccessCheckPngIcon } = images;
 
 const errorMessages = {
     invalidAddress: 'Invalid address',
@@ -503,7 +503,7 @@ const Send: React.FunctionComponent = () => {
                         dispatch(setConfirmSendModal(false));
                         setIsSendModalOpen(false);
                         dispatch(setIsResponseModalOpen(true));
-                        dispatch(setResponseImage(SuccessCheckIcon));
+                        dispatch(setResponseImage(SuccessCheckPngIcon));
                         dispatch(
                             setMainTextForSuccessModal(
                                 'Transaction Successful!'

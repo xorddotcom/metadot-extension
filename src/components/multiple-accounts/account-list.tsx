@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { encodeAddress } from '@polkadot/util-crypto';
-import dropDownIcon from '../../assets/images/icons/3Dots.svg';
-import { fonts } from '../../utils';
+import { fonts, images } from '../../utils';
 import accountUtils from '../../utils/accounts';
 import {
     Account,
@@ -31,6 +30,7 @@ import { AccountListInterface } from './types';
 import { RootState } from '../../redux/store';
 import { WELCOME } from '../../constants';
 
+const { dropDownIcon } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { getJsonBackup, deleteAccount } = accountUtils;
 const { addressMapper } = services;

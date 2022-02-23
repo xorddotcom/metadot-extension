@@ -2,16 +2,15 @@ import './index.css';
 import React from 'react';
 import { approveAuthRequest } from '../../messaging';
 import { MainHeading, SubHeading } from '../common/text';
-import { colors } from '../../utils';
+import { colors, images } from '../../utils';
 import {
     HorizontalContentDiv,
     VerticalContentDiv,
     Wrapper,
 } from '../common/wrapper';
-import WarningIcon from '../../assets/images/icons/warning_cross_icon.png';
-import WarningTriangleIcon from '../../assets/images/icons/warning_triangle.png';
 import { Button } from '../common';
 
+const { WarningIcon, WarningTriangleIcon } = images;
 const { green } = colors;
 
 const PopupAuth: React.FunctionComponent<any> = ({ requests }) => {

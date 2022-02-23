@@ -15,11 +15,10 @@ import {
 } from '../../redux/slices/modalHandling';
 import { RootState } from '../../redux/store';
 
-import { helpers } from '../../utils';
+import { helpers, images } from '../../utils';
 import services from '../../utils/services';
 
-import wifiOff from '../../assets/images/wifi-off.svg';
-import SuccessCheckIcon from '../../assets/images/modalIcons/success.svg';
+const { wifiOff, SuccessCheckIcon } = images;
 
 const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
     const dispatch = useDispatch();

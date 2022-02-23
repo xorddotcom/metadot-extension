@@ -54,28 +54,28 @@ export const queryData = (
     let endPoint = '';
     switch (network) {
         case 'Polkadot Main Network':
-            query = getQuery(POLKADOT_CONFIG.PREFIX, publicKey);
-            endPoint = POLKADOT_CONFIG.QUERY_ENDPOINT;
+            query = getQuery(POLKADOT_CONFIG.prefix, publicKey);
+            endPoint = POLKADOT_CONFIG.queryEndpoint;
             return { query, endPoint };
         case 'Westend':
-            query = getQuery(WESTEND_CONFIG.PREFIX, publicKey);
-            endPoint = WESTEND_CONFIG.QUERY_ENDPOINT;
+            query = getQuery(WESTEND_CONFIG.prefix, publicKey);
+            endPoint = WESTEND_CONFIG.queryEndpoint;
             return { query, endPoint };
         case 'Dusty':
-            query = getQuery(DUSTY_CONFIG.PREFIX, publicKey);
-            endPoint = DUSTY_CONFIG.QUERY_ENDPOINT;
+            query = getQuery(DUSTY_CONFIG.prefix, publicKey);
+            endPoint = DUSTY_CONFIG.queryEndpoint;
             return { query, endPoint };
         case 'Shibuya':
-            query = getQuery(SHIBUYA_CONFIG.PREFIX, publicKey);
-            endPoint = SHIBUYA_CONFIG.QUERY_ENDPOINT;
+            query = getQuery(SHIBUYA_CONFIG.prefix, publicKey);
+            endPoint = SHIBUYA_CONFIG.queryEndpoint;
             return { query, endPoint };
         case 'ContextFree':
-            query = getQuery(CONTEXTFREE_CONFIG.PREFIX, publicKey);
-            endPoint = CONTEXTFREE_CONFIG.QUERY_ENDPOINT;
+            query = getQuery(CONTEXTFREE_CONFIG.prefix, publicKey);
+            endPoint = CONTEXTFREE_CONFIG.queryEndpoint;
             return { query, endPoint };
         default:
-            query = getQuery(POLKADOT_CONFIG.PREFIX, publicKey);
-            endPoint = POLKADOT_CONFIG.QUERY_ENDPOINT;
+            query = getQuery(POLKADOT_CONFIG.prefix, publicKey);
+            endPoint = POLKADOT_CONFIG.queryEndpoint;
             return { query, endPoint };
     }
 };

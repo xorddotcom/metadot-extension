@@ -15,11 +15,11 @@ import {
 } from './StyledComponent';
 import { VerticalContentDiv } from '../../wrapper';
 
-import { fonts } from '../../../../utils';
-import logo from '../../../../assets/images/logo.svg';
+import { fonts, images } from '../../../../utils';
 
 import './StyledComponent/style.css';
 
+const { logo } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 const About: React.FunctionComponent<AboutModalProps> = ({

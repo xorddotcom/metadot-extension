@@ -3,11 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../redux/store';
 import { MainCardPropsInterface } from './types';
-import { fonts, helpers } from '../../utils';
+import { fonts, helpers, images } from '../../utils';
 import { setApiInitializationStarts } from '../../redux/slices/api';
-
-import refreshIcon from '../../assets/images/icons/refresh.svg';
-import copyicon from '../../assets/images/icons/copyIcon.svg';
 
 import {
     AccountName,
@@ -20,6 +17,7 @@ import {
     CopyIconImg,
 } from './styledComponents';
 
+const { refreshIcon, ContentCopyIcon } = images;
 const { addressModifier, trimBalance } = helpers;
 const { mainHeadingfontFamilyClass } = fonts;
 
@@ -101,7 +99,7 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
                     ({addressModifier(address)})
                 </PublicAddress>
                 <div {...copyIconTooltip}>
-                    <CopyIconImg src={copyicon} alt="copy-icon" />
+                    <CopyIconImg src={ContentCopyIcon} alt="copy-icon" />
                     <span {...copyIconTooltipText}>{copy}</span>
                 </div>
             </VerticalContentDiv>

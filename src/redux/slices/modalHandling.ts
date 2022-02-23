@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import SuccessCheckIcon from '../../assets/images/modalIcons/success.svg';
+import { images } from '../../utils';
+
+const { SuccessCheckIcon } = images;
 
 const initialState = {
     mainText: 'Success!',

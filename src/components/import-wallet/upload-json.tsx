@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { fonts } from '../../utils';
+import { fonts, images } from '../../utils';
 
 import { UploadFile, UploadFileDiv } from './style';
-import UploadFileIcon from '../../assets/images/icons/uploadFile.svg';
 import { SubHeading, WarningText } from '../common/text';
 import { HorizontalContentDiv } from '../common/wrapper';
 import { Input } from '../common';
 import { UploadJSONInterface } from './type';
 import { PASSWORD } from '../../utils/app-content';
+
+const { UploadFileIcon } = images;
 
 const UploadJson: React.FC<UploadJSONInterface> = ({
     fileName,

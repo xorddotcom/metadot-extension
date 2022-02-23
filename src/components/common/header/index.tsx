@@ -1,10 +1,11 @@
 import React from 'react';
 import { IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import ArrowBackIcon from '../../../assets/images/icons/backArrow.svg';
 import { HeaderWrapper, HeaderHeading } from './style';
-import { fonts } from '../../../utils';
+import { fonts, images } from '../../../utils';
 import { Props } from './type';
+
+const { ArrowBackIcon } = images;
 
 const Header: React.FunctionComponent<Props> = ({
     centerText,

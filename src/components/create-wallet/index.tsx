@@ -8,7 +8,7 @@ import {
 } from '../common/wrapper';
 import { WarningText, SubHeading } from '../common/text';
 import { Button, Input, Header } from '../common';
-import { fonts, helpers } from '../../utils';
+import { fonts, helpers, images } from '../../utils';
 import accounts from '../../utils/accounts';
 
 import {
@@ -23,8 +23,6 @@ import {
     setTempSeed,
 } from '../../redux/slices/activeAccount';
 
-import ImportIcon from '../../assets/images/modalIcons/import.svg';
-import AccountCreate from '../../assets/images/modalIcons/accountCreate.svg';
 import { RootState } from '../../redux/store';
 import { DASHBOARD, IMPORT_WALLET } from '../../constants';
 import {
@@ -39,6 +37,7 @@ import {
     WALLET_NAME_LABEL,
 } from '../../utils/app-content';
 
+const { ImportIcon, AccountCreate } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { AccountCreation } = accounts;
 const { isUserNameValid } = helpers;

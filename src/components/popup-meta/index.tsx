@@ -1,16 +1,15 @@
 import React from 'react';
 import { approveMetaRequest } from '../../messaging';
-import { colors } from '../../utils';
+import { colors, images } from '../../utils';
 import {
     HorizontalContentDiv,
     VerticalContentDiv,
     Wrapper,
 } from '../common/wrapper';
-import WarningIcon from '../../assets/images/icons/warning_cross_icon.png';
-import WarningTriangleIcon from '../../assets/images/icons/warning_triangle.png';
 import { MainHeading, SubHeading } from '../common/text';
 import { Button } from '../common';
 
+const { WarningTriangleIcon } = images;
 const { green } = colors;
 
 const Metadata = [
