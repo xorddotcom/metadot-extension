@@ -17,13 +17,11 @@ import {
     ListItem,
     DropDownListContainer,
 } from './styles';
-import { fonts, helpers } from '../../utils';
-import RemoveIcon from '../../assets/images/icons/Remove.svg';
-import exportIcon from '../../assets/images/icons/export.svg';
-import dropDownIcon from '../../assets/images/icons/3Dots.svg';
+import { fonts, helpers, images } from '../../utils';
 import { SelfDrivedAccountListInterface } from './types';
 import { RootState } from '../../redux/store';
 
+const { RemoveIcon, dropDownIcon, FileUploadOutlinedIcon } = images;
 const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
 const { addressModifier } = helpers;
 
@@ -89,7 +87,7 @@ const SelfDrivedAccountList: React.FunctionComponent<
                                     key={Math.random()}
                                 >
                                     <img
-                                        src={exportIcon}
+                                        src={FileUploadOutlinedIcon}
                                         alt="remove-account"
                                         width="16"
                                         height="17"

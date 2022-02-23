@@ -8,10 +8,9 @@ import {
 } from '../common/wrapper';
 import { MainHeading, SubHeading } from '../common/text';
 import { Button, Input } from '../common';
-import CopyIcon from '../../assets/images/icons/copyIcon.svg';
-import CheckboxDisabled from '../../assets/images/icons/checkbox_disabled.svg';
-import CheckboxEnabled from '../../assets/images/icons/checkbox_enabled.svg';
+import { images } from '../../utils';
 
+const { CheckboxDisabled, CheckboxEnabled, ContentCopyIcon } = images;
 const registry = new TypeRegistry();
 console.log('registry in sign popup', registry);
 
@@ -122,7 +121,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                         }}
                     >
                         <img
-                            src={CopyIcon}
+                            src={ContentCopyIcon}
                             alt="copy"
                             style={{ cursor: 'pointer' }}
                         />
@@ -152,7 +151,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                                 </div>
                                 <div style={{ width: '15%' }}>
                                     <img
-                                        src={CopyIcon}
+                                        src={ContentCopyIcon}
                                         alt="copy"
                                         style={{ cursor: 'pointer' }}
                                     />

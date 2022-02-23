@@ -22,14 +22,12 @@ import {
     DropDownContainer,
     DropDownIcon,
 } from './styles';
-import { fonts, helpers, accounts as accountUtils } from '../../utils';
-import downIcon from '../../assets/images/icons/downArrow.svg';
-import upArrowIcon from '../../assets/images/icons/upArrow.svg';
-import dropDownIcon from '../../assets/images/icons/3Dots.svg';
+import { fonts, helpers, accounts as accountUtils, images } from '../../utils';
 import ChildAccountDropDown from './child-account-dropdown';
 import { DerivedAccountInterface } from './types';
 import { RootState } from '../../redux/store';
 
+const { dropDownIcon, downIcon, upArrowIcon } = images;
 const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
 const { addressModifier } = helpers;
 const { deleteAccount } = accountUtils;

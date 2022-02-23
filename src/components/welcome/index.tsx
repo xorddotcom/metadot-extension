@@ -2,15 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { fonts, accounts } from '../../utils';
+import { fonts, accounts, images } from '../../utils';
 import { MainHeading, SubHeading } from '../common/text';
 import Button from '../common/button';
 
 import './index.css';
-import AddSharpIcon from '../../assets/images/icons/add.svg';
-import DownloadIcon from '../../assets/images/icons/download.svg';
-import AppLogo from '../../assets/images/logo.svg';
-import metaDot from '../../assets/images/metadot.svg';
 
 import {
     setAccountCreationStep,
@@ -24,6 +20,7 @@ import {
 } from '../../constants';
 import { WELCOME_TAG_LINE } from '../../utils/app-content';
 
+const { logo, FileDownloadOutlinedIcon, AddSharpIcon, metaDot } = images;
 const { subHeadingfontFamilyClass } = fonts;
 const { GenerateSeedPhrase } = accounts;
 
@@ -93,7 +90,7 @@ function Welcome(): JSX.Element | null {
     return (
         <>
             <div className="app-logo1">
-                <img src={AppLogo} alt="logo" />
+                <img src={logo} alt="logo" />
             </div>
 
             <div className="main-content">
@@ -125,7 +122,7 @@ function Welcome(): JSX.Element | null {
                     cancel
                     text="Import"
                     width="270px"
-                    StartIcon={DownloadIcon}
+                    StartIcon={FileDownloadOutlinedIcon}
                     handleClick={importHandler}
                 />
             </div>

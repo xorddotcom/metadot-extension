@@ -14,7 +14,7 @@ import type {
     AccountInfoWithRefCount,
 } from '@polkadot/types/interfaces';
 
-import { fonts } from '../../utils';
+import { fonts, images } from '../../utils';
 import services from '../../utils/services';
 
 import MainCard from './mainCard';
@@ -43,8 +43,7 @@ import {
     SelectedChain,
     Wrapper,
 } from './styledComponents';
-import Logo from '../../assets/images/topLogo.svg';
-import wifiOff from '../../assets/images/wifi-off.svg';
+
 import { SelectNetwork, TxDetails, About } from '../common/modals';
 import {
     HorizontalContentDiv,
@@ -78,13 +77,13 @@ import {
     WELCOME,
 } from '../../constants';
 
+const { MainLogo, wifiOff } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 // const { showInternetSnackBar } = helpers;
 
 const { getBalance, addressMapper } = services;
 
-const { availableNetworks, KusamaMainNetworks, TestNetworks, BetaNetworks } =
-    networks;
+const { availableNetworks, KusamaMainNetworks, TestNetworks } = networks;
 
 const useStyles = makeStyles(() => ({
     customWidth: {
@@ -100,7 +99,7 @@ const RenderContentForAvailableNetwroks = ({
     data,
     handleClick,
 }: RenderMethodProps): JSX.Element => {
-    const { name, theme, moreOptions, disabled } = data;
+    const { name, logo, relayChain, disabled } = data;
     return (
         <OptionRow
             className={disabled ? 'tooltip' : 'abc'}
@@ -109,20 +108,12 @@ const RenderContentForAvailableNetwroks = ({
             disabled={disabled}
         >
             <HorizontalContentDiv>
-                <img src={theme} alt="token" />
+                <img src={logo} alt="token" />
                 <OptionText
                     className={mainHeadingfontFamilyClass}
                 >{`${name}`}</OptionText>
-                {/* {
-        disabled
-         && (
-         <span {...tootltipText}>
-           Coming Soon
-         </span>
-         )
-        } */}
             </HorizontalContentDiv>
-            {moreOptions && (
+            {relayChain && (name === 'Kusama' || name === 'Test Networks') && (
                 <NextIcon>
                     <ArrowRightIcon />
                 </NextIcon>
@@ -135,7 +126,7 @@ const RenderContentForKusamaMainNetwork = ({
     data,
     handleClick,
 }: RenderMethodProps): JSX.Element => {
-    const { name, icon, disabled } = data;
+    const { name, logo, disabled } = data;
     const optionRow = {
         className: disabled ? 'tooltip' : 'abc',
         key: name,
@@ -148,7 +139,7 @@ const RenderContentForKusamaMainNetwork = ({
         <OptionRow {...optionRow}>
             {disabled && <span className="tooltiptext">Coming Soon!</span>}
             <HorizontalContentDiv>
-                <img src={icon} alt="icon" />
+                <img src={logo} alt="icon" />
                 <OptionText className={mainHeadingfontFamilyClass}>
                     {`${name}`}
                 </OptionText>
@@ -316,19 +307,12 @@ const Dashboard: React.FunctionComponent = (props) => {
         currentData: TestNetworks,
       });
       setIsLoading(false);
-    } else if (data.name === 'Kusama Main Networks') { // this condition is not in use at the moment
+    } else if (data.name === 'Kusama') { // this condition is not in use at the moment
       setIsLoading(false);
       setModalState({
         firstStep: false,
         renderMethod: RenderContentForKusamaMainNetwork,
         currentData: KusamaMainNetworks,
-      });
-    } else if (data.name === 'Beta Networks') {
-      setIsLoading(false);
-      setModalState({
-        firstStep: false,
-        renderMethod: RenderContentForKusamaMainNetwork,
-        currentData: BetaNetworks,
       });
     } else if (rpcUrl !== data.rpcUrl) {
       dispatch(setApiInitializationStarts(true)); // for showing loading waves like preloader
@@ -418,7 +402,7 @@ const Dashboard: React.FunctionComponent = (props) => {
             <DashboardHeader>
                 <LogoContainer>
                     <img
-                        src={Logo}
+                        src={MainLogo}
                         width="30px"
                         height="34px"
                         alt="Metadot Logo"

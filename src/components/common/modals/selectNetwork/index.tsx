@@ -3,12 +3,12 @@ import React from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import crossIcon from '../../../../assets/images/icons/cross.svg';
 
 import { NetworkConfigType, SelectNetworkProps } from './types';
 import { BackButton, CloseIconDiv, Title, TitleDiv } from './styledComponents';
-import { fonts } from '../../../../utils';
+import { fonts, images } from '../../../../utils';
 
+const { crossIcon } = images;
 const { mainHeadingfontFamilyClass } = fonts;
 
 const SelectNetwork: React.FunctionComponent<SelectNetworkProps> = (props) => {

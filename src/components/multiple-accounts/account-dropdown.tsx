@@ -5,9 +5,6 @@ import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { useDispatch } from 'react-redux';
-import RemoveIcon from '../../assets/images/icons/Remove.svg';
-import exportIcon from '../../assets/images/icons/export.svg';
-import derivedAccountIcon from '../../assets/images/icons/deriveAccount.svg';
 import { AuthModal, WarningModal } from '../common/modals';
 
 import { setAuthScreenModal } from '../../redux/slices/modalHandling';
@@ -20,7 +17,9 @@ import {
     REMOVE_ACCOUNT,
     WARNING,
 } from '../../utils/app-content';
+import { images } from '../../utils';
 
+const { RemoveIcon, FileUploadOutlinedIcon, derivedAccountIcon } = images;
 const { getJsonBackup } = accounts;
 
 const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
@@ -158,7 +157,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                                 style={{ color: '#fafafa' }}
                             >
                                 <img
-                                    src={exportIcon}
+                                    src={FileUploadOutlinedIcon}
                                     alt="export-account"
                                     style={{ marginTop: '-0.2rem' }}
                                 />

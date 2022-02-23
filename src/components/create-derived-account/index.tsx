@@ -17,10 +17,8 @@ import {
     setResponseImage,
     setSubTextForSuccessModal,
 } from '../../redux/slices/modalHandling';
-import { fonts, helpers } from '../../utils';
+import { fonts, helpers, images } from '../../utils';
 import accounts from '../../utils/accounts';
-
-import ImportIcon from '../../assets/images/modalIcons/import.svg';
 
 import { DASHBOARD } from '../../constants';
 import {
@@ -35,6 +33,8 @@ import {
     SUCCESSFULLY_DERIVED,
     WALLET_NAME_LABEL,
 } from '../../utils/app-content';
+
+const { ImportIcon } = images;
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;

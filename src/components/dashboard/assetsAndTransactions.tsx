@@ -7,25 +7,13 @@ import AssetCard from '../common/asset-card';
 import TxCard from '../common/tx-card';
 
 import { queryData } from '../../utils/queryData';
-import { fonts, helpers } from '../../utils';
+import { fonts, helpers, images } from '../../utils';
 import {
     AssetsAndTransactionsWrapper,
     Tabs,
     TabSection,
 } from './styledComponents';
 
-// Assests Token images
-import dusty from '../../assets/images/tokenImg/dusty.png';
-import contextFree from '../../assets/images/contextfree.png';
-import kusamaKsm from '../../assets/images/tokenImg/kusama-ksm.svg';
-import polkadotDot from '../../assets/images/tokenImg/polkadot.png';
-import westendColour from '../../assets/images/tokenImg/westend_colour.svg';
-import acala from '../../assets/images/tokenImg/acala-circle.svg';
-import bitcountry from '../../assets/images/tokenImg/bitcountry.svg';
-import astar from '../../assets/images/astar.png';
-import rococo from '../../assets/images/rococo.svg';
-import karura from '../../assets/images/karura.svg';
-import shibuya from '../../assets/images/shibuya.svg';
 import {
     AssetsAndTransactionsPropsInterface,
     TransactionRecord,
@@ -35,6 +23,18 @@ import { RootState } from '../../redux/store';
 import { addTransaction } from '../../redux/slices/transactions';
 import { ASSETS, TRANSACTIONS } from '../../utils/app-content';
 
+const {
+    KusamaIcon,
+    KaruraIcon,
+    dusty,
+    contextFree,
+    polkadot,
+    westendColour,
+    acala,
+    rococoIcon,
+    astarIcon,
+    shibuyaIcon,
+} = images;
 const { mainHeadingfontFamilyClass } = fonts;
 const { trimBalance } = helpers;
 
@@ -49,13 +49,13 @@ const AssetsAndTransactions: React.FunctionComponent<
     const [isTab2Active, setIsTab2Active] = useState(false);
     const logoChangeHandler = (token: string): string => {
         if (token === 'DOT') {
-            return polkadotDot;
+            return polkadot;
         }
         if (token === 'KSM') {
-            return kusamaKsm;
+            return KusamaIcon;
         }
         if (token === 'SBY') {
-            return shibuya;
+            return shibuyaIcon;
         }
         if (token === 'WND') {
             return westendColour;
@@ -67,18 +67,18 @@ const AssetsAndTransactions: React.FunctionComponent<
             return acala;
         }
         if (token === 'PLM') {
-            return astar;
+            return astarIcon;
         }
         if (token === 'ROC') {
-            return rococo;
+            return rococoIcon;
         }
         if (token === 'KAR') {
-            return karura;
+            return KaruraIcon;
         }
         if (token === 'CTX') {
             return contextFree;
         }
-        return polkadotDot;
+        return polkadot;
     };
 
     const tabSectionAssets = {

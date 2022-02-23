@@ -2,15 +2,10 @@ import React from 'react';
 import { Header } from '../common';
 import { Wrapper, MainDiv } from '../common/wrapper';
 import { MainHeading, SubHeading } from '../common/text';
-import { fonts } from '../../utils';
+import { fonts, images } from '../../utils';
 import { SocialDiv } from './style';
-import facebook from '../../assets/images/Facebook.svg';
-import telegram from '../../assets/images/Telegram.svg';
-import instagram from '../../assets/images/Instagram.svg';
-import twitter from '../../assets/images/Twitter.svg';
-import discord from '../../assets/images/Discord.svg';
-import element from '../../assets/images/Element.svg';
 
+const { facebook, telegram, instagram, twitter, discord, element } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 const Support: React.FunctionComponent = () => {

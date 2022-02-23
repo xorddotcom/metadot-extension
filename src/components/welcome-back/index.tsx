@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import AppLogo from '../../assets/images/logo.svg';
 import { Button } from '../common';
 import { WarningText, MainHeading } from '../common/text';
 
-import { fonts } from '../../utils';
+import { fonts, images } from '../../utils';
 import accounts from '../../utils/accounts';
 import './index.css';
 import Input from '../common/input';
@@ -15,6 +14,7 @@ import { setLoggedIn } from '../../redux/slices/activeAccount';
 import { RootState } from '../../redux/store';
 import { DASHBOARD } from '../../constants';
 
+const { logo } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { validateAccount } = accounts;
 
@@ -81,7 +81,7 @@ function WelcomeBack(): JSX.Element {
     return (
         <>
             <div className="app-logo">
-                <img src={AppLogo} alt="logo" />
+                <img src={logo} alt="logo" />
             </div>
 
             <div className="main-content-wb" style={{ minHeight: '136px' }}>

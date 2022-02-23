@@ -16,8 +16,7 @@ import Options from './options';
 import EnterSeed from './enter-seed';
 import UploadJson from './upload-json';
 
-import ImportIcon from '../../assets/images/modalIcons/import.svg';
-import { fonts } from '../../utils';
+import { fonts, images } from '../../utils';
 import accounts from '../../utils/accounts';
 import services from '../../utils/services';
 import { EnterSeedInterface } from './type';
@@ -32,6 +31,7 @@ import {
     RESTORE_WALLET_DESCRIPTION,
 } from '../../utils/app-content';
 
+const { ImportIcon } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { validatingSeedPhrase, createAccountFromJSON } = accounts;
 const { addressMapper } = services;

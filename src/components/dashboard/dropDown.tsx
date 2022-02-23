@@ -12,15 +12,8 @@ import { setLoggedIn } from '../../redux/slices/activeAccount';
 import { setAuthScreenModal } from '../../redux/slices/modalHandling';
 
 import { About, AuthModal } from '../common/modals';
-import { fonts } from '../../utils';
+import { fonts, images } from '../../utils';
 import account from '../../utils/accounts';
-
-import accountIcon from '../../assets/images/icons/user.svg';
-import LockOutlinedIcon from '../../assets/images/icons/lock.svg';
-import ForumOutlinedIcon from '../../assets/images/icons/support.svg';
-import aboutIcon from '../../assets/images/icons/aboutIcon.svg';
-import FileUploadOutlinedIcon from '../../assets/images/icons/export.svg';
-import FileDownloadOutlinedIcon from '../../assets/images/icons/download.svg';
 
 import { DropDownMainText } from './styledComponents';
 import { DropDownProps } from './types';
@@ -36,6 +29,14 @@ import {
     LOCK_TEXT,
 } from '../../utils/app-content';
 
+const {
+    accountIcon,
+    LockOutlinedIcon,
+    ForumOutlinedIcon,
+    aboutIcon,
+    FileUploadOutlinedIcon,
+    FileDownloadOutlinedIcon,
+} = images;
 const { mainHeadingfontFamilyClass } = fonts;
 const { getJsonBackup } = account;
 

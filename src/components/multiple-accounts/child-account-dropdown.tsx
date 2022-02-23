@@ -5,13 +5,13 @@ import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { useDispatch } from 'react-redux';
-import RemoveIcon from '../../assets/images/icons/Remove.svg';
-import exportIcon from '../../assets/images/icons/export.svg';
 import { AuthModal, WarningModal } from '../common/modals';
 import { setAuthScreenModal } from '../../redux/slices/modalHandling';
 import accounts from '../../utils/accounts';
 import { ChildAccountDropDownInterface } from './types';
+import { images } from '../../utils';
 
+const { RemoveIcon, FileUploadOutlinedIcon } = images;
 const { getJsonBackup } = accounts;
 
 const ChildAccountDropDown: React.FunctionComponent<
@@ -113,7 +113,7 @@ const ChildAccountDropDown: React.FunctionComponent<
                                 style={{ color: '#fafafa' }}
                             >
                                 <img
-                                    src={exportIcon}
+                                    src={FileUploadOutlinedIcon}
                                     alt="lock-icon"
                                     style={{ marginTop: '-0.2rem' }}
                                 />
