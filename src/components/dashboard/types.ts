@@ -50,7 +50,7 @@ export interface NetworkConfigType {
     EXISTENTIAL_DEPOSIT?: number;
     queryEndpoint: string;
     name: string;
-    logo?: string;
+    logo: string;
     moreOptions?: boolean;
     relayChain?: boolean;
     rpcUrl: string;

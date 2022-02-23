@@ -26,6 +26,7 @@ import {
     setBalance,
     setChainName,
     setAccountName,
+    setTokenImage,
     setPublicKey,
     resetAccountSlice,
     setJsonFileUploadScreen,
@@ -307,7 +308,7 @@ const Dashboard: React.FunctionComponent = (props) => {
         currentData: TestNetworks,
       });
       setIsLoading(false);
-    } else if (data.name === 'Kusama') { // this condition is not in use at the moment
+    } else if (data.name === 'Kusama' && modalState.firstStep === true) { // this condition is not in use at the moment
       setIsLoading(false);
       setModalState({
         firstStep: false,
@@ -320,6 +321,7 @@ const Dashboard: React.FunctionComponent = (props) => {
         dispatch(setLoadingForApi(true));
         dispatch(setRpcUrl(data.rpcUrl ? data.rpcUrl : ''));
         dispatch(setChainName(data.name));
+        dispatch(setTokenImage(data.logo));
         dispatch(setPrefix(data.prefix));
         // eslint-disable-next-line max-len
         const publicKeyOfRespectiveChain = addressMapper(currentUser.activeAccount.publicKey, data.prefix ? data.prefix : 42);

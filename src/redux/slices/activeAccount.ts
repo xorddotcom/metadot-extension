@@ -10,6 +10,7 @@ const initialState = {
     rpcUrl: WESTEND_CONFIG.rpcUrl,
     chainName: WESTEND_CONFIG.name,
     tokenName: WESTEND_CONFIG.tokenName,
+    tokenImage: WESTEND_CONFIG.logo,
     balance: 0,
     balanceInUsd: 0,
     jsonFileUploadScreen: false,
@@ -17,6 +18,7 @@ const initialState = {
     accountCreationStep: 0,
     tempSeed: '',
     lastVisitedTimestamp: '',
+    queryEndpoint: WESTEND_CONFIG.queryEndpoint,
 };
 
 export const activeAccountSlice = createSlice({
@@ -57,6 +59,11 @@ export const activeAccountSlice = createSlice({
                 balance: 0,
                 balanceInUsd: 0,
                 jsonFileUploadScreen: false,
+                rpcUrl: WESTEND_CONFIG.rpcUrl,
+                chainName: WESTEND_CONFIG.name,
+                tokenName: WESTEND_CONFIG.tokenName,
+                tokenImage: WESTEND_CONFIG.logo,
+                queryEndpoint: WESTEND_CONFIG.queryEndpoint,
             };
         },
         setPublicKey: (state, action: PayloadAction<string>) => {
@@ -85,6 +92,13 @@ export const activeAccountSlice = createSlice({
                 ...state,
                 tokenName: action.payload,
             };
+        },
+
+        setTokenImage: (state, action: PayloadAction<string>) => {
+            return { ...state, tokenImage: action.payload };
+        },
+        setQueryEndpoint: (state, action: PayloadAction<string>) => {
+            return { ...state, queryEndpoint: action.payload };
         },
         setChainName: (state, action: PayloadAction<string>) => {
             return { ...state, chainName: action.payload };
@@ -121,6 +135,8 @@ export const {
     setAccountCreationStep,
     setTempSeed,
     setLastVisitedTimestamp,
+    setTokenImage,
+    setQueryEndpoint,
 } = activeAccountSlice.actions;
 
 export default activeAccountSlice.reducer;
