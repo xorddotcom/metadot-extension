@@ -9,7 +9,7 @@ import {
     Wrapper,
 } from '../common/wrapper';
 import WarningIcon from '../../assets/images/icons/warning_cross_icon.png';
-import WarningTriangleIcon from '../../assets/images/icons/warning_triangle.png';
+import WarningTriangleIcon from '../../assets/images/icons/warning_icon.svg';
 import { Button } from '../common';
 
 const { green } = colors;
@@ -33,6 +33,7 @@ const PopupAuth: React.FunctionComponent<any> = ({ requests }) => {
                         src={WarningIcon}
                         alt="warning"
                         className="warning-icons"
+                        style={{ height: '15px', width: '15px' }}
                     />
                     <SubHeading textAlign="center" ml="25px">
                         Warning
@@ -41,11 +42,11 @@ const PopupAuth: React.FunctionComponent<any> = ({ requests }) => {
 
                 <SubHeading>
                     An application, self-identifying as{' '}
-                    <span style={{ color: green }}>polkadot-js/apps</span> is
-                    requesting access from{' '}
                     <span style={{ color: green }}>
-                        https://polkadot.js.org/apps/
-                    </span>
+                        {requests[0].request.origin}
+                    </span>{' '}
+                    is requesting access from{' '}
+                    <span style={{ color: green }}>{requests[0].url}</span>
                 </SubHeading>
 
                 <VerticalContentDiv warningDiv marginTop="40px">
@@ -53,6 +54,7 @@ const PopupAuth: React.FunctionComponent<any> = ({ requests }) => {
                         src={WarningTriangleIcon}
                         alt="warning"
                         className="warning-icons"
+                        style={{ height: '15px', width: '15px' }}
                     />
                     <SubHeading>
                         Only approve this request if you trust the application.
