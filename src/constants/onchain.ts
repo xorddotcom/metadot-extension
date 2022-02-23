@@ -60,7 +60,7 @@ const KARURA_CONFIG: NetworkConfig = {
     queryEndpoint:
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
-    disabled: false,
+    disabled: true,
 };
 
 const MOONRIVER_CONFIG: NetworkConfig = {

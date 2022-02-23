@@ -43,8 +43,16 @@ const AssetsAndTransactions: React.FunctionComponent<
 > = ({ handleOpenTxDetailsModal, setTxDetailsModalData, transactionData }) => {
     const dispatch = useDispatch();
     const assetsData = useSelector((state: RootState) => state.activeAccount);
-    const { chainName, tokenName, balance, balanceInUsd, publicKey } =
-        assetsData;
+    const {
+        chainName,
+        tokenName,
+        tokenImage,
+        balance,
+        balanceInUsd,
+        publicKey,
+        prefix,
+        queryEndpoint,
+    } = assetsData;
     const [isTab1Active, setIsTab1Active] = useState(true);
     const [isTab2Active, setIsTab2Active] = useState(false);
     const logoChangeHandler = (token: string): string => {
@@ -173,7 +181,7 @@ const AssetsAndTransactions: React.FunctionComponent<
         return transactionObject;
     };
 
-    const { query, endPoint } = queryData(chainName, publicKey);
+    const { query, endPoint } = queryData(queryEndpoint, publicKey, prefix);
 
     const fetchTransactions = async (): Promise<any> =>
         fetch(endPoint, {
@@ -206,7 +214,7 @@ const AssetsAndTransactions: React.FunctionComponent<
                         shortName={tokenName}
                         amount={trimBalance(balance)}
                         amountInUsd={balanceInUsd}
-                        logo={logoChangeHandler(tokenName)}
+                        logo={tokenImage}
                     />
                 )}
                 {isTab2Active &&
@@ -234,7 +242,7 @@ const AssetsAndTransactions: React.FunctionComponent<
                             const txCard = {
                                 coin: tokenNames,
                                 amountInUsd: tokenNames === 'WND' ? '$0' : '$0',
-                                logo: logoChangeHandler(tokenNames || 'WND'),
+                                logo: tokenImage,
                                 handleClick: () => {
                                     setTxDetailsModalData(transaction);
                                     handleOpenTxDetailsModal();
