@@ -31,8 +31,8 @@ window.addEventListener('message', ({ data, source }: Message): void => {
 
 function inject(): void {
     injectExtension(enable, {
-        name: 'polkadot-js',
-        version: process.env.PKG_VERSION as string,
+        name: 'metadot',
+        version: '0.0.3',
     });
 }
 
