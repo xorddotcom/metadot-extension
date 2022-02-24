@@ -96,7 +96,7 @@ export const VerticalContentDiv = styled.div<VerticalContentDivPropsInterface>`
     ${(props) =>
         props.transactionPasswordDiv &&
         css`
-            height: 110px;
+            height: 55px;
             display: flex;
             justify-content: space-between;
         `}

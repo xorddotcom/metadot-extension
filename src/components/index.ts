@@ -7,6 +7,7 @@ import CreateWallet from './create-wallet';
 import Dashboard from './dashboard';
 import Send from './send';
 import MultipleAccounts from './multiple-accounts';
+import ManageAccess from './manage-access';
 import Support from './support';
 import CreateDerivedAccount from './create-derived-account';
 import PopupAuth from './popup-authorize';
@@ -23,6 +24,7 @@ export default {
     Dashboard,
     Send,
     MultipleAccounts,
+    ManageAccess,
     Support,
     CreateDerivedAccount,
     PopupAuth,

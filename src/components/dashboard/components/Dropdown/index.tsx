@@ -28,6 +28,7 @@ import {
     ABOUT_TEXT,
     LOCK_TEXT,
 } from '../../../../utils/app-content';
+import manageAccess from '../../../../assets/images/icons/manage_access_logo.svg';
 
 const {
     accountIcon,
@@ -229,6 +230,32 @@ const DropDown: React.FunctionComponent<DropDownProps> = ({
                                 &nbsp; &nbsp;
                                 <span style={{ fontSize: '0.85rem' }}>
                                     {ABOUT_TEXT}
+                                </span>
+                            </ListItemIcon>
+                        </MenuItem>
+
+                        <MenuItem
+                            style={{
+                                minHeight: '37px',
+                                color: '#fafafa',
+                                fontSize: '15px',
+                            }}
+                            onClick={() => {
+                                navigate('/manageAccess');
+                            }}
+                        >
+                            <ListItemIcon
+                                className="flexStart"
+                                style={{ color: '#fafafa' }}
+                            >
+                                <img
+                                    src={manageAccess}
+                                    alt="lock-icon"
+                                    style={{ marginTop: '-0.2rem' }}
+                                />
+                                &nbsp; &nbsp;
+                                <span style={{ fontSize: '0.85rem' }}>
+                                    Manage Access
                                 </span>
                             </ListItemIcon>
                         </MenuItem>

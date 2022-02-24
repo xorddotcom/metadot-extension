@@ -58,4 +58,5 @@ export interface Props {
     amount?: any;
     style?: any;
     inputWrapperWidth?: string;
+    searchIcon?: boolean;
 }

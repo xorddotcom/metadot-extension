@@ -21,6 +21,7 @@ const {
     CreateWallet,
     Dashboard,
     MultipleAccounts,
+    ManageAccess,
     Support,
     CreateDerivedAccount,
     Send,
@@ -66,6 +67,7 @@ export const AuthorizedRoutes = [
         path: ACCOUNTS,
         Component: MultipleAccounts,
     },
+    { path: '/manageAccess', Component: ManageAccess },
     {
         path: IMPORT_WALLET,
         Component: ImportWallet,
