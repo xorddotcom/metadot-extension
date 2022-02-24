@@ -97,46 +97,31 @@ function App(): JSX.Element {
     }, [accounts]);
 
     let content;
-    if (!activeAccount.isLoggedIn && activeAccount.publicKey) {
+    if (authRequests && authRequests.length > 0) {
+        content = (
+            <Route path="/" element={<PopupAuth requests={authRequests} />} />
+        );
+    } else if (signRequests && signRequests.length > 0) {
+        content = (
+            <Route path="/" element={<PopupSign requests={signRequests} />} />
+        );
+    } else if (metaRequests && metaRequests.length > 0) {
+        content = (
+            <Route path="/" element={<PopupMeta requests={metaRequests} />} />
+        );
+    } else if (!activeAccount.isLoggedIn && activeAccount.publicKey) {
         content = <Route path="/" element={<WelcomeBack />} />;
     } else if (activeAccount.isLoggedIn && activeAccount.publicKey) {
-        if (authRequests && authRequests.length > 0) {
-            content = (
-                <Route
-                    path="/"
-                    element={<PopupAuth requests={authRequests} />}
-                />
-            );
-        } else if (signRequests && signRequests.length > 0) {
-            content = (
-                <Route
-                    path="/"
-                    element={<PopupSign requests={signRequests} />}
-                />
-            );
-        } else if (metaRequests && metaRequests.length > 0) {
-            content = (
-                <Route
-                    path="/"
-                    element={<PopupMeta requests={metaRequests} />}
-                />
-            );
-        } else {
-            content = (
-                <>
-                    {AuthRoutes.map((route) => {
-                        const { path, Component } = route;
-                        return (
-                            <Route
-                                key={path}
-                                path={path}
-                                element={<Component />}
-                            />
-                        );
-                    })}
-                </>
-            );
-        }
+        content = (
+            <>
+                {AuthRoutes.map((route) => {
+                    const { path, Component } = route;
+                    return (
+                        <Route key={path} path={path} element={<Component />} />
+                    );
+                })}
+            </>
+        );
     } else {
         content = (
             <>
