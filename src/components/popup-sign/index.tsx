@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { TypeRegistry } from '@polkadot/types';
+import { formatNumber, bnToBn } from '@polkadot/util';
+import type { ExtrinsicEra } from '@polkadot/types/interfaces';
 import { approveSignPassword } from '../../messaging';
 import {
     HorizontalContentDiv,
     VerticalContentDiv,
     Wrapper,
 } from '../common/wrapper';
+
 import { MainHeading, SubHeading } from '../common/text';
 import { Button, Input } from '../common';
 import { images } from '../../utils';
@@ -16,10 +19,23 @@ console.log('registry in sign popup', registry);
 
 const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     const [password, setPassword] = useState('');
-    const [passwordCheck, setPasswordCheck] = useState(false);
 
     function trimString(s: any): string {
         return `${s.substring(0, 4)}...${s.substring(s.length - 4)}`;
+    }
+
+    function mortalityAsString(
+        era: ExtrinsicEra,
+        hexBlockNumber: string
+    ): string {
+        if (era.isImmortalEra) {
+            return 'immortal';
+        }
+        const blockNumber = bnToBn(hexBlockNumber);
+        const mortal = era.asMortalEra;
+        return `mortal, valid from ${formatNumber(
+            mortal.birth(blockNumber)
+        )} to ${formatNumber(mortal.death(blockNumber))}`;
     }
 
     const Signaturedata = [
@@ -52,7 +68,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
         },
         {
             property: 'Lifetime',
-            data: 'mortal ,valid from 9,835,186 to 9,836,250',
+            data: trimString(requests[0].request.payload.method),
             copy: false,
         },
     ];

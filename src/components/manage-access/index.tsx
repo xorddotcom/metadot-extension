@@ -25,7 +25,7 @@ function ManageAccess(): JSX.Element {
     };
 
     return (
-        <Wrapper style={{ border: '1px solid red' }}>
+        <Wrapper>
             <Header
                 centerText="Manage Website Access"
                 backHandler={() => console.log('goBack')}
