@@ -1,38 +1,20 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { CopyIcon, CopyText, IndexText, SeedText, SeedWrapper } from './styles';
-import { Wrapper, UnAuthScreensContentWrapper } from '../common/wrapper';
-import { MainHeading, SubHeading } from '../common/text';
-import { WarningModal } from '../common/modals';
-import { Header, Button } from '../common';
+import { useSelector } from 'react-redux';
 import {
     setAccountCreationStep,
     setTempSeed,
 } from '../../redux/slices/activeAccount';
 
-import { fonts, images } from '../../utils';
 import { RootState } from '../../redux/store';
 import { CONFIRM_SEED } from '../../constants';
-
-const { ContentCopyIcon } = images;
-const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-
-const SinglePhrase: React.FunctionComponent<{
-    index: number;
-    phrase: string;
-}> = ({ index, phrase }) => (
-    <SeedWrapper>
-        <IndexText className={mainHeadingfontFamilyClass}>
-            {index + 1}
-        </IndexText>
-        <SeedText className={mainHeadingfontFamilyClass}>{phrase}</SeedText>
-    </SeedWrapper>
-);
+import useDispatcher from '../../hooks/useDispatcher';
+import ShowSeedView from './view';
+import { COPY_SEED_WARNING, WARNING } from '../../utils/app-content';
 
 const ShowSeed: React.FunctionComponent = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const generalDispatcher = useDispatcher();
     const location = useLocation().state as {
         prevRoute: string;
         seedToPass: string;
@@ -50,19 +32,19 @@ const ShowSeed: React.FunctionComponent = () => {
         setCopy('Copied');
     };
 
-    const contentCopyIcon = {
+    const contentCopyIconDivProps = {
         id: 'copy-seed',
         onClick: () => {
             copySeedText();
             // for maintaining extension state
             // if user closes it for pasting the seed
-            dispatch(setTempSeed(currSeed));
+            generalDispatcher(() => setTempSeed(currSeed));
         },
         onMouseOver: () => setCopy('Copy'),
         style: { cursor: 'pointer' },
     };
 
-    const btn = {
+    const continueBtnProps = {
         id: 'seed-continue',
         text: 'Continue',
         style: {
@@ -79,7 +61,7 @@ const ShowSeed: React.FunctionComponent = () => {
         onConfirm: () => {
             // for maintaining extension state
             // if user closes it for pasting the seed
-            dispatch(setAccountCreationStep(2));
+            generalDispatcher(() => setAccountCreationStep(2));
             navigate(CONFIRM_SEED, {
                 state: { seedToPass: location.seedToPass },
             });
@@ -93,56 +75,22 @@ const ShowSeed: React.FunctionComponent = () => {
             px: 2,
             pb: 2,
         },
-        mainText: 'Warning',
-        subText: `Proceeding will not let you view your 
-        seed phrase again, once account creation process is
-         finished. Do you still wish to continue?`,
+        mainText: WARNING,
+        subText: COPY_SEED_WARNING,
     };
 
     return (
-        <Wrapper>
-            <Header
-                centerText="Seed Phrase"
-                backHandler={() => {
-                    dispatch(setTempSeed(''));
-                    dispatch(setAccountCreationStep(0));
-                }}
-            />
-            <div style={{ marginTop: '29px' }}>
-                <MainHeading className={mainHeadingfontFamilyClass}>
-                    Write down your seed phrase :
-                </MainHeading>
-                <SubHeading className={subHeadingfontFamilyClass}>
-                    Please note down your mnemonic seed phrase. As of now, it is
-                    the only access point to your Metadot wallet in case of any
-                    mishap. Screenshots are not encouraged.
-                </SubHeading>
-            </div>
-            <CopyText className={subHeadingfontFamilyClass}>
-                Copy seed phrase
-                <span style={{ width: '200px', visibility: 'hidden' }}>A</span>
-                <div className="tooltip" {...contentCopyIcon}>
-                    <CopyIcon src={ContentCopyIcon} alt="copyIcon" />
-                    <span className="tooltiptext">{copy}</span>
-                </div>
-            </CopyText>
-            <UnAuthScreensContentWrapper mb="3rem">
-                {currSeed &&
-                    currSeed
-                        .split(' ')
-                        .map((phrase, i) => (
-                            <SinglePhrase
-                                index={i}
-                                key={phrase}
-                                phrase={phrase}
-                            />
-                        ))}
-            </UnAuthScreensContentWrapper>
-            <div style={{ marginLeft: '0' }} className="btn-wrapper">
-                <Button {...btn} />
-            </div>
-            <WarningModal {...warningModal} />
-        </Wrapper>
+        <ShowSeedView
+            warningModal={warningModal}
+            copy={copy}
+            currSeed={currSeed}
+            continueBtnProps={continueBtnProps}
+            contentCopyIconDivProps={contentCopyIconDivProps}
+            backHandler={() => {
+                generalDispatcher(() => setTempSeed(''));
+                generalDispatcher(() => setAccountCreationStep(0));
+            }}
+        />
     );
 };
 
