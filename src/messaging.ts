@@ -12,6 +12,7 @@ import type {
     SeedLengths,
     SigningRequest,
     SubscriptionMessageTypes,
+    ResponseAuthorizeList,
 } from 'metadot-extension-base/background/types';
 import type { Message } from 'metadot-extension-base/types';
 
@@ -208,6 +209,16 @@ export async function subscribeAuthorizeRequests(
     cb: (accounts: AuthorizeRequest[]) => void
 ): Promise<boolean> {
     return sendMessage('pri(authorize.requests)', null, cb);
+}
+
+export async function getAuthList(): Promise<ResponseAuthorizeList> {
+    return sendMessage('pri(authorize.list)');
+}
+
+export async function toggleAuthorization(
+    url: string
+): Promise<ResponseAuthorizeList> {
+    return sendMessage('pri(authorize.toggle)', url);
 }
 
 export async function subscribeMetadataRequests(

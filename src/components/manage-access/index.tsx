@@ -1,28 +1,34 @@
-import React, { ChangeEventHandler, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState, useCallback } from 'react';
+import {
+    AuthUrlInfo,
+    AuthUrls,
+} from 'metadot-extension-base/background/handlers/State';
 import { Header } from '../common';
 
-import {
-    Wrapper,
-    HorizontalContentDiv,
-    VerticalContentDiv,
-} from '../common/wrapper';
+import { Wrapper, VerticalContentDiv } from '../common/wrapper';
 import SearchBar from '../common/search-bar';
 import ManageAccessCard from './card';
-
-const listOfWebsite = [
-    { title: 'app.tailsman.com', access: true },
-    { title: 'app.tailsman.commmmmm', access: true },
-    { title: 'app.tailsmmmman.comm', access: false },
-    { title: 'app.tailsmammmn.comn', access: true },
-];
+import { getAuthList, toggleAuthorization } from '../../messaging';
 
 function ManageAccess(): JSX.Element {
     const [search, setSearch] = useState('');
+    const [authList, setAuthList] = useState<AuthUrls | null>(null);
+
+    useEffect(() => {
+        getAuthList()
+            .then(({ list }) => setAuthList(list))
+            .catch((e) => console.error(e));
+    }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setSearch(e.target.value);
     };
+
+    const toggleAuth = useCallback((url: string) => {
+        toggleAuthorization(url)
+            .then(({ list }) => setAuthList(list))
+            .catch(console.error);
+    }, []);
 
     return (
         <Wrapper>
@@ -39,15 +45,24 @@ function ManageAccess(): JSX.Element {
             />
 
             <VerticalContentDiv style={{ marginTop: '30px' }}>
-                {listOfWebsite.map((el) => {
-                    return (
-                        <ManageAccessCard
-                            title={el.title}
-                            access={el.access}
-                            onClick={() => console.log('clicked')}
-                        />
-                    );
-                })}
+                {!authList || !Object.entries(authList)?.length ? (
+                    <div className="empty-list">No website request yet!</div>
+                ) : (
+                    <div className="website-list">
+                        {Object.entries(authList)
+                            .filter(([url]: [string, AuthUrlInfo]) =>
+                                url.includes(search)
+                            )
+                            .map(([url, info]: [string, AuthUrlInfo]) => (
+                                <ManageAccessCard
+                                    key={url}
+                                    title={url}
+                                    access={info.isAllowed}
+                                    onClick={() => toggleAuth(url)}
+                                />
+                            ))}
+                    </div>
+                )}
             </VerticalContentDiv>
         </Wrapper>
     );
