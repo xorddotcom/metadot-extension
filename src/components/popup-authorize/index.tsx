@@ -25,7 +25,9 @@ const PopupAuth: React.FunctionComponent<any> = ({ requests }) => {
             }}
         >
             <VerticalContentDiv>
-                <MainHeading textAlign="center">Authorize</MainHeading>
+                <MainHeading textAlign="center">
+                    Authorize {`(1 out of ${requests.length})`}
+                </MainHeading>
 
                 <HorizontalContentDiv>
                     <img

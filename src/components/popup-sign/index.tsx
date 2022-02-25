@@ -9,19 +9,28 @@ import {
     Wrapper,
 } from '../common/wrapper';
 
-import { MainHeading, SubHeading } from '../common/text';
+import { MainHeading, SubHeading, WarningText } from '../common/text';
 import { Button, Input } from '../common';
-import { images } from '../../utils';
+import { fonts, helpers, images } from '../../utils';
 
 const { CheckboxDisabled, CheckboxEnabled, ContentCopyIcon } = images;
 const registry = new TypeRegistry();
 console.log('registry in sign popup', registry);
 
+const { subHeadingfontFamilyClass } = fonts;
+
 const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
+
+    const styledInputPassword = {
+        hideHandler: () => setShowPassword(!showPassword),
+        hideState: showPassword,
+    };
 
     function trimString(s: any): string {
-        return `${s.substring(0, 4)}...${s.substring(s.length - 4)}`;
+        return `${s.substring(0, 7)}...${s.substring(s.length - 7)}`;
     }
 
     function mortalityAsString(
@@ -66,11 +75,6 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
             copy: true,
             dataToCopy: requests[0].request.payload.version.method,
         },
-        {
-            property: 'Lifetime',
-            data: trimString(requests[0].request.payload.method),
-            copy: false,
-        },
     ];
 
     // useEffect((): void => {
@@ -80,6 +84,16 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     //     }
     // }, [requests]);
     console.log('sign requests ==>>', requests);
+
+    const handleSubmit = (): void => {
+        try {
+            setPasswordError(true);
+            approveSignPassword(requests[0].id, false, password);
+        } catch (e) {
+            console.log(e);
+            setPasswordError(true);
+        }
+    };
     return (
         <Wrapper
             height="570px"
@@ -132,6 +146,12 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                             src={ContentCopyIcon}
                             alt="copy"
                             style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                                navigator.clipboard.writeText(
+                                    requests[0].account.address
+                                );
+                            }}
+                            aria-hidden
                         />
                     </div>
                 </HorizontalContentDiv>
@@ -146,8 +166,8 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                 {Signaturedata.map((el) => {
                     if (el.copy) {
                         return (
-                            <HorizontalContentDiv height="16%">
-                                <div style={{ width: '25%' }}>
+                            <HorizontalContentDiv height="20%">
+                                <div style={{ width: '30%' }}>
                                     <SubHeading lineHeight="14px" opacity="0.6">
                                         {el.property}
                                     </SubHeading>
@@ -157,11 +177,17 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                                         {el.data}
                                     </SubHeading>
                                 </div>
-                                <div style={{ width: '15%' }}>
+                                <div style={{ width: '10%' }}>
                                     <img
                                         src={ContentCopyIcon}
                                         alt="copy"
                                         style={{ cursor: 'pointer' }}
+                                        onClick={() => {
+                                            navigator.clipboard.writeText(
+                                                el.dataToCopy
+                                            );
+                                        }}
+                                        aria-hidden
                                     />
                                 </div>
                             </HorizontalContentDiv>
@@ -169,13 +195,13 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                     }
 
                     return (
-                        <HorizontalContentDiv height="16%">
-                            <div style={{ width: '25%' }}>
+                        <HorizontalContentDiv height="20%">
+                            <div style={{ width: '30%' }}>
                                 <SubHeading lineHeight="14px" opacity="0.6">
                                     {el.property}
                                 </SubHeading>
                             </div>
-                            <div style={{ width: '75%' }}>
+                            <div style={{ width: '70%' }}>
                                 <SubHeading lineHeight="14px">
                                     {el.data}
                                 </SubHeading>
@@ -195,31 +221,27 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                     value={password}
                     onChange={setPassword}
                     placeholder="Password For This Account"
+                    typePassword
+                    rightIcon
+                    isCorrect
+                    leftPosition="-5px"
+                    topPosition="1px"
+                    {...styledInputPassword}
                 />
-
-                {/* <HorizontalContentDiv>
-                    <img
-                        src={passwordCheck ? CheckboxEnabled : CheckboxDisabled}
-                        alt="checkbox"
-                        style={{
-                            height: '15px',
-                            width: '15px',
-                            cursor: 'pointer',
-                        }}
-                        onClick={() => setPasswordCheck(!passwordCheck)}
-                        aria-hidden
-                    />
-
-                    <SubHeading ml="15px" marginTop="0px" mb="0px">
-                        Remember my password for next 15 minutes
-                    </SubHeading>
-                </HorizontalContentDiv> */}
+                {passwordError && (
+                    <WarningText
+                        id="warning-text"
+                        mb="5px"
+                        className={subHeadingfontFamilyClass}
+                        visibility={passwordError}
+                    >
+                        Account can not be validated.
+                    </WarningText>
+                )}
             </VerticalContentDiv>
 
             <Button
-                handleClick={() =>
-                    approveSignPassword(requests[0].id, false, password)
-                }
+                handleClick={handleSubmit}
                 text="Sign The Transaction"
                 id="Authorization-Popup"
                 style={{

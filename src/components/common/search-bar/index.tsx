@@ -21,10 +21,14 @@ const SearchBar: React.FunctionComponent<Props> = ({
             <img
                 src={SearchIcon}
                 alt="search"
-                style={{ height: '13px', width: '13px', marginLeft: '15px' }}
+                style={{
+                    height: '13px',
+                    width: '13px',
+                    marginLeft: '15px',
+                }}
             />
             <input
-                placeholder="Search"
+                placeholder={placeHolder}
                 value={value}
                 onChange={onChange}
                 style={{
@@ -32,7 +36,9 @@ const SearchBar: React.FunctionComponent<Props> = ({
                     border: 'none',
                     width: '80%',
                     marginLeft: '15px',
+                    color: 'white',
                 }}
+                id={id}
             />
         </HorizontalContentDiv>
     );

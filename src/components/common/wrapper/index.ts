@@ -85,7 +85,7 @@ export const VerticalContentDiv = styled.div<VerticalContentDivPropsInterface>`
     ${(props) =>
         props.transactionDetailDiv &&
         css`
-            height: 195px;
+            height: 185px;
             border: 1px solid #212121;
             box-sizing: border-box;
             filter: drop-shadow(0px 0px 40px rgba(13, 13, 13, 0.2));
@@ -96,9 +96,9 @@ export const VerticalContentDiv = styled.div<VerticalContentDivPropsInterface>`
     ${(props) =>
         props.transactionPasswordDiv &&
         css`
-            height: 55px;
+            height: 85px;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
         `}
 `;
 

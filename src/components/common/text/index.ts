@@ -34,6 +34,14 @@ export const SubHeading = styled.p<SubHeadingInterface>`
     margin-bottom: ${(props) => props.mb && props.mb};
     margin-left: ${(props) => props.ml && props.ml};
     opacity: ${(props) => props.opacity && props.opacity};
+    ${(props) =>
+        props.overFlow &&
+        css`
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        `}
 `;
 
 export const WarningText = styled.p<WarningTextInterface>`
