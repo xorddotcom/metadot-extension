@@ -198,7 +198,12 @@ const ConfirmSeed: React.FunctionComponent = () => {
 
     const btn = {
         text: CONTINUE_BUTTON,
-        width: '300px',
+        style: {
+            width: '100%',
+            height: 50,
+            borderRadius: 40,
+        },
+
         disabled: !(word1 && word2 && word3 && word4),
         handleClick: () => checkWordsAndNavigate(),
     };
@@ -278,9 +283,7 @@ const ConfirmSeed: React.FunctionComponent = () => {
                     </SeedGridRow>
                 </SeedGrid>
             </UnAuthScreensContentWrapper>
-            <div style={{ marginLeft: '0' }} className="btn-wrapper">
-                <Button id="confirm-continue" {...btn} />
-            </div>
+            <Button id="confirm-continue" {...btn} />
         </Wrapper>
     );
 };

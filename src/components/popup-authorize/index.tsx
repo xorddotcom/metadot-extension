@@ -65,7 +65,11 @@ const PopupAuth: React.FunctionComponent<any> = ({ requests }) => {
                 handleClick={() => approveAuthRequest(requests[0].id)}
                 text="Allow Access"
                 id="Authorization-Popup"
-                width="100%"
+                style={{
+                    width: '100%',
+                    height: 50,
+                    borderRadius: 40,
+                }}
             />
         </Wrapper>
     );

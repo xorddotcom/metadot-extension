@@ -17,3 +17,13 @@ export interface TxDetailsProps {
     style?: object;
     txDetailsModalData: TransactionRecord;
 }
+
+export interface TxDetailsViewProps {
+    open: boolean;
+    handleClose(): void;
+    style?: object;
+    txDetailsModalData: TransactionRecord;
+    copy: string;
+    tooltipText: { onClick(): void; onMouseOver(): void; style: object };
+    getTotalBalance(v1: string, v2: string): number;
+}

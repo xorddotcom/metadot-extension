@@ -4,9 +4,11 @@ import constants from '../../constants/onchain';
 const { WESTEND_CONFIG } = constants;
 
 const initialState = {
-    isLoggedIn: true,
-    publicKey: '5GjSQRFYEFBY1nmVuGHTyKkRHrodQmUKdA7kWzfmfLp262xG',
-    accountName: 'Hello',
+    isLoggedIn: false,
+    // publicKey: '5GjSQRFYEFBY1nmVuGHTyKkRHrodQmUKdA7kWzfmfLp262xG',
+    // accountName: 'Hello',
+    publicKey: '',
+    accountName: '',
     rpcUrl: WESTEND_CONFIG.rpcUrl,
     chainName: WESTEND_CONFIG.name,
     tokenName: WESTEND_CONFIG.tokenName,

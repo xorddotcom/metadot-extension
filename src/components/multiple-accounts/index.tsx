@@ -62,8 +62,11 @@ const MultipleAccounts: React.FunctionComponent = () => {
     const btn = {
         id: 'create-new-button',
         text: 'Create New Account',
-        width: '300px',
-        fontSize: '18px',
+        style: {
+            width: '100%',
+            height: 50,
+            borderRadius: '40px',
+        },
         handleClick: () => {
             dispatch(setAccountCreationStep(1));
             dispatch(setTempSeed(seedToPass));
@@ -228,9 +231,9 @@ const MultipleAccounts: React.FunctionComponent = () => {
                 {derivedChildWithoutParents()}
             </WrapperScroll>
 
-            <ButtonDiv>
-                <Button {...btn} />
-            </ButtonDiv>
+            {/* <ButtonDiv> */}
+            <Button {...btn} />
+            {/* </ButtonDiv> */}
         </Wrapper>
     );
 };

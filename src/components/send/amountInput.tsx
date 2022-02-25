@@ -30,10 +30,16 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     const btn = {
         id: 'SendBtn',
         text: 'Max',
-        width: '38.75px',
-        height: '25.12px',
-        br: '6px',
-        fontSize: '12px',
+        // width: '38.75px',
+        // height: '25.12px',
+        // borderRadius: '6px',
+        // fontSize: '12px',
+        style: {
+            width: '38.75px',
+            height: '25.12px',
+            borderRadius: '6px',
+            fontSize: '12px',
+        },
         handleClick: maxInputHandler,
         disabled: currentUser.activeAccount.balance === 0,
         // isLoading: loading1,
@@ -71,9 +77,8 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                 <MainText className={mainHeadingfontFamilyClass}>
                     Amount
                 </MainText>
-                <div style={{ marginRight: '2rem' }}>
-                    <Button {...btn} />
-                </div>
+
+                <Button {...btn} />
             </FlexBetween>
             <Input blockInvalidChar {...styledInput} />
             {insufficientBal && (

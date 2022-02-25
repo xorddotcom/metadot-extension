@@ -21,7 +21,7 @@ import {
 import { WELCOME_TAG_LINE } from '../../utils/app-content';
 
 const { logo, FileDownloadOutlinedIcon, AddSharpIcon, metaDot } = images;
-const { subHeadingfontFamilyClass } = fonts;
+const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { GenerateSeedPhrase } = accounts;
 
 function Welcome(): JSX.Element | null {
@@ -112,18 +112,26 @@ function Welcome(): JSX.Element | null {
                 <Button
                     id="btn-create"
                     text="Create"
-                    width="270px"
                     StartIcon={AddSharpIcon}
                     handleClick={createHandler}
+                    style={{
+                        width: '100%',
+                        height: 50,
+                        borderRadius: 40,
+                    }}
                 />
                 <div style={{ margin: '0.5rem' }} />
                 <Button
                     id="btn-import"
-                    cancel
+                    lightBtn
                     text="Import"
-                    width="270px"
                     StartIcon={FileDownloadOutlinedIcon}
                     handleClick={importHandler}
+                    style={{
+                        width: '100%',
+                        height: 50,
+                        borderRadius: 40,
+                    }}
                 />
             </div>
         </>

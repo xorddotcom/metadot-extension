@@ -1,64 +1,39 @@
 import React from 'react';
-import CircularProgress from '@mui/material/CircularProgress';
 import { Props } from './types';
-import { dimension, colors } from '../../../utils';
-import { Button } from './styles';
+import ButtonView from './view';
 
-const CButton: React.FunctionComponent<Props> = ({
-    StartIcon,
-    handleClick,
-    text,
-    width,
-    height,
-    br,
-    fontSize,
-    cancel,
-    disabled,
-    isLoading,
-    border,
-    id,
-}) => {
-    const { _width } = dimension.button;
-    const { primaryText } = colors;
+const Button: React.FunctionComponent<Props> = (props) => {
+    const {
+        StartIcon,
+        handleClick,
+        text,
+        disabled,
+        isLoading,
+        id,
+        style,
+        lightBtn,
+    } = props;
 
     const ButtonProps = {
         id,
-        // variant: 'contained',
         startIcon: StartIcon ? (
             <img src={StartIcon} alt="icon" style={{ marginTop: '-0.2px' }} />
         ) : null,
         disabled: !!disabled,
-        height,
-        br,
-        cancel,
-        border,
-        fontSize,
-        width,
+        lightBtn,
+        onClick: () => handleClick(),
+        className: 'myStyling',
+        elevation: 0,
+        disableRipple: true,
     };
 
     return (
-        <div
-            style={{
-                width: width || _width,
-                marginBottom: 10,
-            }}
-        >
-            <Button
-                {...ButtonProps}
-                onClick={handleClick}
-                className="myStyling"
-                elevation={0}
-            >
-                {!isLoading ? (
-                    text
-                ) : (
-                    <CircularProgress
-                        size={24}
-                        style={{ color: primaryText }}
-                    />
-                )}
-            </Button>
-        </div>
+        <ButtonView
+            isLoading={isLoading}
+            text={text}
+            {...ButtonProps}
+            style={style}
+        />
     );
 };
-export default CButton;
+export default Button;
