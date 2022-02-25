@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { fonts, accounts, images } from '../../utils';
-import { MainHeading, SubHeading } from '../common/text';
-import Button from '../common/button';
-
-import './index.css';
+import { accounts } from '../../utils';
 
 import {
     setAccountCreationStep,
@@ -18,16 +14,15 @@ import {
     IMPORT_WALLET,
     SHOW_SEED,
 } from '../../constants';
-import { WELCOME_TAG_LINE } from '../../utils/app-content';
+import useDispatcher from '../../hooks/useDispatcher';
+import WelcomeView from './view';
 
-const { logo, FileDownloadOutlinedIcon, AddSharpIcon, metaDot } = images;
-const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { GenerateSeedPhrase } = accounts;
 
-function Welcome(): JSX.Element | null {
+const Welcome: React.FunctionComponent = (): JSX.Element | null => {
     const location = useLocation().pathname;
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const generalDispatcher = useDispatcher();
     const { jsonFileUploadScreen, tempSeed, accountCreationStep } = useSelector(
         (state: RootState) => state.activeAccount
     );
@@ -39,26 +34,22 @@ function Welcome(): JSX.Element | null {
             const newSeed = GenerateSeedPhrase();
             setSeedToPass(newSeed);
         } catch (error) {
-            console.log(
-                'ERROR while generating new seed for parent account',
-                error
-            );
+            console.log(error);
         }
     }, []);
 
     const createHandler = (): void => {
-        dispatch(setTempSeed(seedToPass));
-        dispatch(setAccountCreationStep(1));
+        generalDispatcher(() => setTempSeed(seedToPass));
+        generalDispatcher(() => setAccountCreationStep(1));
         navigate(SHOW_SEED, {
             state: { prevRoute: location, seedToPass },
         });
     };
 
-    const importHandler = (): void => {
+    const importHandler = (): void =>
         navigate(IMPORT_WALLET, {
             state: { seedToPass },
         });
-    };
 
     const lastTime = localStorage.getItem('timestamp');
 
@@ -83,59 +74,15 @@ function Welcome(): JSX.Element | null {
         });
         return null;
     }
-
     if (jsonFileUploadScreen) {
         navigate(IMPORT_WALLET);
     }
     return (
-        <>
-            <div className="app-logo1">
-                <img src={logo} alt="logo" />
-            </div>
-
-            <div className="main-content">
-                <MainHeading textAlign="center">
-                    <img src={metaDot} alt="metadot" />
-                </MainHeading>
-                <SubHeading
-                    className={subHeadingfontFamilyClass}
-                    textAlign="center"
-                >
-                    {WELCOME_TAG_LINE}
-                </SubHeading>
-            </div>
-
-            <div
-                className="btn-wrapper"
-                style={{ marginLeft: '0', marginBottom: 0 }}
-            >
-                <Button
-                    id="btn-create"
-                    text="Create"
-                    StartIcon={AddSharpIcon}
-                    handleClick={createHandler}
-                    style={{
-                        width: '100%',
-                        height: 50,
-                        borderRadius: 40,
-                    }}
-                />
-                <div style={{ margin: '0.5rem' }} />
-                <Button
-                    id="btn-import"
-                    lightBtn
-                    text="Import"
-                    StartIcon={FileDownloadOutlinedIcon}
-                    handleClick={importHandler}
-                    style={{
-                        width: '100%',
-                        height: 50,
-                        borderRadius: 40,
-                    }}
-                />
-            </div>
-        </>
+        <WelcomeView
+            importHandler={importHandler}
+            createHandler={createHandler}
+        />
     );
-}
+};
 
 export default Welcome;
