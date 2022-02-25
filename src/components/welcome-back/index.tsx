@@ -74,7 +74,11 @@ function WelcomeBack(): JSX.Element {
     const ButtonProps = {
         id: 'unlock',
         text: 'Unlock',
-        width: '275px',
+        style: {
+            width: '100%',
+            height: 50,
+            borderRadius: 40,
+        },
         handleClick: handleSubmit,
     };
 
@@ -94,12 +98,8 @@ function WelcomeBack(): JSX.Element {
                 <Input {...InputProps} />
                 <WarningText {...WarningTextProps}>{passwordError}</WarningText>
             </div>
-            <div
-                className="btn-wrapper"
-                style={{ marginLeft: 0, marginTop: '0' }}
-            >
-                <Button {...ButtonProps} />
-            </div>
+
+            <Button {...ButtonProps} />
         </>
     );
 }

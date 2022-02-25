@@ -201,7 +201,11 @@ const CreateWallet: React.FunctionComponent = () => {
 
     const btn = {
         text: CONTINUE_BUTTON,
-        width: '300px',
+        style: {
+            width: '100%',
+            height: 50,
+            borderRadius: 40,
+        },
         disabled: !(walletName && password && confirmPassword) && true,
         handleClick: async () => {
             setIsLoading(true);

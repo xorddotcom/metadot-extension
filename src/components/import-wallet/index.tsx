@@ -211,7 +211,11 @@ function ImportWallet(): JSX.Element {
     const btn = {
         id: 'import',
         text: 'Import',
-        width: '300px',
+        style: {
+            width: '100%',
+            height: 50,
+            borderRadius: 40,
+        },
         handleClick: () => {
             setIsLoading(true);
             if (selectedType === 'json') {
@@ -283,9 +287,7 @@ function ImportWallet(): JSX.Element {
                 )}
             </UnAuthScreensContentWrapper>
 
-            <div style={{ marginLeft: '0' }} className="btn-wrapper">
-                <Button {...btn} />
-            </div>
+            <Button {...btn} />
         </Wrapper>
     );
 }

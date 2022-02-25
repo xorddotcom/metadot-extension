@@ -10,3 +10,13 @@ export interface AuthtModalProps {
     publicKey: string;
     setOpenAuthModalHandler?(): void;
 }
+
+export interface AuthtModalViewProps {
+    style?: object;
+    open: boolean;
+    onClose(): void;
+    styledInput?: any;
+    passwordError?: string;
+    btnCancel?: any;
+    btnConfirm?: any;
+}

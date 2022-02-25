@@ -1,5 +1,5 @@
 import React, { useEffect, memo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { setApi, setApiInitializationStarts } from '../../redux/slices/api';
 import {
@@ -7,22 +7,31 @@ import {
     setBalanceInUsd,
     setTokenName,
 } from '../../redux/slices/activeAccount';
-import {
-    setIsResponseModalOpen,
-    setMainTextForSuccessModal,
-    setResponseImage,
-    setSubTextForSuccessModal,
-} from '../../redux/slices/modalHandling';
+import { setIsResponseModalOpen } from '../../redux/slices/modalHandling';
 import { RootState } from '../../redux/store';
 
 import { helpers, images } from '../../utils';
 import services from '../../utils/services';
+import useResponseModal from '../../hooks/useResponseModal';
+import useDispatcher from '../../hooks/useDispatcher';
 
 const { wifiOff, SuccessCheckIcon } = images;
 
 const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
-    const dispatch = useDispatch();
     const currentUser = useSelector((state: RootState) => state);
+    const openModal = useResponseModal({
+        isOpen: true,
+        modalImage: SuccessCheckIcon,
+        mainText: 'Successfully Converted!',
+        subText: '',
+    });
+    const openModalForInternetIssue = useResponseModal({
+        isOpen: true,
+        modalImage: wifiOff,
+        mainText: 'Internet is down!',
+        subText: '',
+    });
+    const generalDispatcher = useDispatcher();
 
     const { activeAccount, modalHandling } = currentUser;
     const { loadingForApi } = modalHandling;
@@ -34,7 +43,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
     useEffect(() => {
         const setAPI = async (rpcUrl: string): Promise<void> => {
             try {
-                dispatch(setApiInitializationStarts(true));
+                generalDispatcher(() => setApiInitializationStarts(true));
 
                 if (window.navigator.onLine) {
                     // setting api instance of selected network
@@ -43,51 +52,49 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                     // getting token name
                     const tokenNameofSelectedNetwork = await newApiInstance
                         .registry.chainTokens[0];
-                    dispatch(setTokenName(tokenNameofSelectedNetwork));
+                    generalDispatcher(() =>
+                        setTokenName(tokenNameofSelectedNetwork)
+                    );
 
                     // getting token balance
                     const balanceOfSelectedNetwork = await getBalance(
                         newApiInstance,
                         publicKey
                     );
-                    dispatch(setBalance(balanceOfSelectedNetwork));
+                    generalDispatcher(() =>
+                        setBalance(balanceOfSelectedNetwork)
+                    );
 
                     // getting token balance in usd
                     const dollarAmount = await convertIntoUsd(
                         tokenNameofSelectedNetwork,
                         balanceOfSelectedNetwork
                     );
-                    dispatch(setBalanceInUsd(dollarAmount));
+                    generalDispatcher(() => setBalanceInUsd(dollarAmount));
                     await newApiInstance.isReady;
-                    dispatch(setApi(newApiInstance));
-                    dispatch(setApiInitializationStarts(false));
+                    generalDispatcher(() => setApi(newApiInstance));
+
+                    generalDispatcher(() => setApiInitializationStarts(false));
 
                     if (loadingForApi) {
-                        dispatch(
-                            setMainTextForSuccessModal(
-                                'Successfully Converted!'
-                            )
-                        );
-                        dispatch(setSubTextForSuccessModal(''));
-                        dispatch(setResponseImage(SuccessCheckIcon));
-                        dispatch(setIsResponseModalOpen(true));
-
+                        openModal();
                         setTimeout(() => {
-                            dispatch(setIsResponseModalOpen(false));
+                            generalDispatcher(() =>
+                                setIsResponseModalOpen(false)
+                            );
                         }, 2500);
                     }
                 } else {
-                    dispatch(setMainTextForSuccessModal('Internet is down!'));
-                    dispatch(setSubTextForSuccessModal(''));
-                    dispatch(setResponseImage(wifiOff));
-                    dispatch(setIsResponseModalOpen(true));
+                    openModalForInternetIssue();
 
                     setTimeout(() => {
-                        dispatch(setIsResponseModalOpen(false));
+                        generalDispatcher(() => setIsResponseModalOpen(false));
                     }, 2500);
 
                     setTimeout(() => {
-                        dispatch(setApiInitializationStarts(false));
+                        generalDispatcher(() =>
+                            setApiInitializationStarts(false)
+                        );
                     }, 2000);
                 }
             } catch (error) {
@@ -96,8 +103,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
         };
 
         setAPI(rpc);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [chainName, publicKey, loadingForApi, dispatch, rpc]);
+    }, [chainName, publicKey, loadingForApi, rpc]);
 
     return null;
 };

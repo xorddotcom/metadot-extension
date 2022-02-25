@@ -4,26 +4,37 @@ export interface ButtonInterface {
     startIcon: JSX.Element | null;
     onClick(): void;
     disabled: boolean;
-    height?: string;
-    width?: string;
-    br?: string;
-    cancel?: boolean;
-    border?: number;
-    fontSize?: string;
     elevation?: number;
+    lightBtn?: boolean;
 }
 
+interface ButtonStyle {
+    width: string | number;
+    height: string | number;
+    borderRadius: string | number;
+}
 export interface Props {
+    className?: string;
+    lightBtn?: boolean;
+    id: string;
     StartIcon?: string;
     handleClick(): void;
-    text: string;
-    width?: string;
-    height?: string;
-    br?: string;
-    fontSize?: string;
-    cancel?: boolean;
-    disabled?: boolean;
     isLoading?: boolean;
-    border?: number;
+    text: string;
+    style: ButtonStyle;
+    disabled?: boolean;
+}
+
+export interface ButtonViewProps {
     id: string;
+    startIcon: JSX.Element | null;
+    disabled: boolean;
+    lightBtn?: boolean;
+    onClick(): void;
+    className: string;
+    elevation: number;
+    disableRipple: boolean;
+    style: ButtonStyle;
+    text: string;
+    isLoading?: boolean;
 }

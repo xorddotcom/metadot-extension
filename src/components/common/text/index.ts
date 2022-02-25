@@ -24,12 +24,12 @@ export const MainHeading = styled.p<MainHeadingInterface>`
 
 export const SubHeading = styled.p<SubHeadingInterface>`
     font-style: normal;
-    font-size: ${subHeadingFontSize};
     color: ${secondaryText};
     text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
     text-align-last: ${(props) => props.textAlignLast && props.textAlignLast};
     line-height: ${(props) => (props.lineHeight ? props.lineHeight : '22px')};
-    font-size: ${(props) => (props.fontSize ? props.fontSize : '0.80rem')};
+    font-size: ${(props) =>
+        props.fontSize ? props.fontSize : subHeadingFontSize};
     margin-top: ${(props) => props.marginTop && props.marginTop};
     margin-bottom: ${(props) => props.mb && props.mb};
     margin-left: ${(props) => props.ml && props.ml};

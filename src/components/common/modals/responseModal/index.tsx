@@ -7,14 +7,9 @@ import { ResponseModalProps } from './types';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
-const ResponseModal: React.FunctionComponent<ResponseModalProps> = ({
-    open,
-    handleClose,
-    style,
-    mainText,
-    subText,
-    responseImage,
-}) => {
+const ResponseModal: React.FunctionComponent<ResponseModalProps> = (props) => {
+    const { open, handleClose, style, mainText, subText, responseImage } =
+        props;
     return (
         <div>
             <Modal

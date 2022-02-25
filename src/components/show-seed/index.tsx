@@ -45,14 +45,6 @@ const ShowSeed: React.FunctionComponent = () => {
 
     const currSeed = tempSeed;
 
-    // if (
-    //     location.prevRoute === '/' ||
-    //     location.prevRoute === '/accounts' ||
-    //     location.prevRoute === '/ShowSeed'
-    // ) {
-    //     currSeed = location.seedToPass && location.seedToPass;
-    // }
-
     const copySeedText = (): void => {
         navigator.clipboard.writeText(currSeed);
         setCopy('Copied');
@@ -72,8 +64,12 @@ const ShowSeed: React.FunctionComponent = () => {
 
     const btn = {
         id: 'seed-continue',
-        width: '300px',
         text: 'Continue',
+        style: {
+            width: '100%',
+            height: 50,
+            borderRadius: 40,
+        },
         handleClick: () => setIsModalOpen(true),
     };
 

@@ -698,14 +698,17 @@ const Send: React.FunctionComponent = () => {
     const btn = {
         id: 'send-next',
         text: 'Next',
-        width: '300px',
+        style: {
+            width: '100%',
+            height: 50,
+            borderRadius: 40,
+        },
         handleClick: handleSubmit,
         disabled:
             loading1 ||
             isInputEmpty ||
             receiverAddress.length === 0 ||
             toAddressError,
-        // disabled: !formIsValid || loading1 || isInputEmpty,
         isLoading: loading1,
     };
 

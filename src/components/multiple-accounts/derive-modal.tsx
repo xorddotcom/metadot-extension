@@ -74,8 +74,11 @@ const DeriveModal: React.FunctionComponent<DeriveModalInterface> = ({
 
     const btnF = {
         text: 'Create Derive Account',
-        width: '240px',
-        height: '40px',
+        style: {
+            width: '100%',
+            height: 40,
+            borderRadius: 40,
+        },
         fontSize: '0.8rem',
         handleClick: () => derivationValidate(publicKey, '//0', password),
     };
@@ -123,7 +126,7 @@ const DeriveModal: React.FunctionComponent<DeriveModalInterface> = ({
                         </WarningText>
                     </VerticalContentDiv>
 
-                    <VerticalContentDiv>
+                    <VerticalContentDiv marginBottom="30px">
                         <MainText
                             fs="14px"
                             mb="15px"
@@ -141,9 +144,7 @@ const DeriveModal: React.FunctionComponent<DeriveModalInterface> = ({
                         />
                     </VerticalContentDiv>
 
-                    <div className="btn-center" style={{ marginTop: '30px' }}>
-                        <Button id="create-derive-account" {...btnF} />
-                    </div>
+                    <Button id="create-derive-account" {...btnF} />
                 </MainDiv>
             </Box>
         </Modal>

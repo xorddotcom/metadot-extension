@@ -1,32 +1,26 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-
-import { Modal } from '@mui/material';
-import { Box } from '@mui/system';
 
 import { AuthtModalProps } from './types';
-
-import Button from '../../button';
 import { fonts } from '../../../../utils';
-import StyledInput from '../../input';
-import { MainDiv, MainText, VerticalContentDiv } from './styledComponent';
-import { ModalText, WarningText } from '../../text';
 
 import {
     setAuthScreenModal,
     setConfirmSendModal,
 } from '../../../../redux/slices/modalHandling';
+import AuthModalView from './view';
+import useDispatcher from '../../../../hooks/useDispatcher';
+import {
+    CANCEL_BUTTON,
+    CONFIRM_BUTTON,
+    ENTER_PASSWORD,
+} from '../../../../utils/app-content';
 
-const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+const { subHeadingfontFamilyClass } = fonts;
 
-const AuthModal: React.FunctionComponent<AuthtModalProps> = ({
-    open,
-    handleClose,
-    style,
-    onConfirm,
-    publicKey,
-}) => {
-    const dispatch = useDispatch();
+const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
+    const { open, handleClose, style, onConfirm, publicKey } = props;
+
+    const generalDispatcher = useDispatcher();
 
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState('');
@@ -37,8 +31,8 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = ({
             return false;
         }
         try {
-            dispatch(setAuthScreenModal(false));
-            dispatch(setConfirmSendModal(true));
+            generalDispatcher(() => setAuthScreenModal(false));
+            generalDispatcher(() => setConfirmSendModal(true));
             onConfirm(publicKey, password);
             return true;
         } catch (err) {
@@ -48,7 +42,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = ({
     };
 
     const styledInput = {
-        placeholder: 'Enter Password',
+        placeholder: ENTER_PASSWORD,
         value: password,
         className: subHeadingfontFamilyClass,
         fontSize: '12px',
@@ -63,78 +57,38 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = ({
     };
 
     const btnF = {
-        text: 'Cancel',
-        width: '110px',
-        height: '40px',
-        fontSize: '0.8rem',
+        text: CANCEL_BUTTON,
+        style: {
+            width: '110px',
+            height: '40px',
+            borderRadius: '40px',
+        },
         handleClick: () => {
-            handleClose(setPassword);
+            setPassword('');
+            handleClose();
         },
     };
 
     const btnS = {
-        text: 'Confirm',
-        width: '110px',
-        height: '40px',
-        fontSize: '0.8rem',
+        text: CONFIRM_BUTTON,
+        style: {
+            width: '110px',
+            height: '40px',
+            borderRadius: '40px',
+        },
         handleClick: () => handleSubmit(),
     };
 
     return (
-        <Modal
+        <AuthModalView
             open={open}
-            onClose={() => handleClose(setPassword)}
-            style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-            }}
-        >
-            <Box sx={style} className="txDetails-modal-style auth-modal">
-                <MainDiv>
-                    <ModalText
-                        textAlign="center"
-                        className={mainHeadingfontFamilyClass}
-                    >
-                        Authorization
-                    </ModalText>
-
-                    <VerticalContentDiv marginTop="15px" mb="20px">
-                        <MainText
-                            fontSize="14px"
-                            marginBottom="15px"
-                            className={mainHeadingfontFamilyClass}
-                        >
-                            Password
-                        </MainText>
-
-                        <StyledInput
-                            id="auth-password"
-                            fullWidth="75%"
-                            inputWrapperWidth="100%"
-                            mr="1.2rem"
-                            typePassword
-                            rightIcon
-                            leftPosition="9px"
-                            topPosition="0px"
-                            {...styledInput}
-                            style={{ paddingLeft: '10px !important' }}
-                        />
-                        <WarningText
-                            className={subHeadingfontFamilyClass}
-                            visibility={!!passwordError}
-                        >
-                            {passwordError}
-                        </WarningText>
-                    </VerticalContentDiv>
-
-                    <div className="btn-row">
-                        <Button id="cancel" cancel {...btnF} />
-                        <Button id="confirm" {...btnS} />
-                    </div>
-                </MainDiv>
-            </Box>
-        </Modal>
+            style={style}
+            onClose={() => handleClose()}
+            styledInput={styledInput}
+            passwordError={passwordError}
+            btnCancel={btnF}
+            btnConfirm={btnS}
+        />
     );
 };
 

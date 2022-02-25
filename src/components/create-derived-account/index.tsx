@@ -184,7 +184,11 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
 
     const btn = {
         text: CONTINUE_BUTTON,
-        width: '300px',
+        style: {
+            width: '100%',
+            height: 50,
+            borderRadius: 40,
+        },
         disabled: !(walletName && password && confirmPassword) && true,
         handleClick: async () => {
             setIsLoading(true);
@@ -299,12 +303,8 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                     )}
                 </LabelAndTextWrapper>
             </UnAuthScreensContentWrapper>
-            <div
-                className="btn-wrapper"
-                style={{ marginLeft: '0', marginTop: '-10px' }}
-            >
-                <Button id="auth-continue" {...btn} />
-            </div>
+
+            <Button id="auth-continue" {...btn} />
         </Wrapper>
     );
 };

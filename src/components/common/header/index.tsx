@@ -1,18 +1,11 @@
 import React from 'react';
-import { IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { HeaderWrapper, HeaderHeading } from './style';
-import { fonts, images } from '../../../utils';
 import { Props } from './type';
+import HeaderView from './view';
 
-const { ArrowBackIcon } = images;
-
-const Header: React.FunctionComponent<Props> = ({
-    centerText,
-    backHandler,
-}) => {
+const Header: React.FunctionComponent<Props> = (props) => {
+    const { backHandler } = props;
     const navigate = useNavigate();
-    const { mainHeadingfontFamilyClass } = fonts;
 
     const onBackClick = async (): Promise<void> => {
         if (backHandler) {
@@ -23,23 +16,7 @@ const Header: React.FunctionComponent<Props> = ({
         }
     };
 
-    return (
-        <HeaderWrapper>
-            {backHandler && (
-                <IconButton
-                    id="back-btn"
-                    className="primary-bg-color"
-                    onClick={() => onBackClick()}
-                    style={{ padding: '0.5rem' }}
-                >
-                    <img src={ArrowBackIcon} alt="icon" />
-                </IconButton>
-            )}
-            <HeaderHeading className={mainHeadingfontFamilyClass}>
-                {centerText}
-            </HeaderHeading>
-        </HeaderWrapper>
-    );
+    return <HeaderView {...props} onBackClick={onBackClick} />;
 };
 
 export default Header;
