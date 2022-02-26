@@ -50,6 +50,9 @@ export const Field = styled.input<FieldInterface>`
     font-family: ${subHeadingFontSize};
     font-size: ${(props) => (props.fontSize ? props.fontSize : '16px')};
     height: ${(props) => (props.height ? props.height : 'auto')};
+    &:focus {
+        outline: none;
+    }
 `;
 
 export const Icon = styled.span<IconInterface>`
