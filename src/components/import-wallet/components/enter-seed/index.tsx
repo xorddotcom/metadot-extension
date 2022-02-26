@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Input } from '@mui/material';
-import { WarningText } from '../common/text';
-import { colors, fonts } from '../../utils';
-import { EnterSeedInterface } from './type';
-import { SEED_INPUT_PLACEHOLDER } from '../../utils/app-content';
+import { WarningText } from '../../../common/text';
+import { colors, fonts } from '../../../../utils';
+import { EnterSeedInterface } from '../../type';
+import { SEED_INPUT_PLACEHOLDER } from '../../../../utils/app-content';
 
 const index: React.FunctionComponent<EnterSeedInterface> = ({
     handleChange,

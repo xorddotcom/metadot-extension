@@ -1,22 +1,15 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-import {
-    Wrapper,
-    LabelAndTextWrapper,
-    UnAuthScreensContentWrapper,
-} from '../common/wrapper';
-import { WarningText, SubHeading } from '../common/text';
-import { Button, Input, Header } from '../common';
+
+import CreateWalletView from './view';
+
 import { fonts, helpers, images } from '../../utils';
 import accounts from '../../utils/accounts';
 
 import {
     setIsResponseModalOpen,
     setLoadingForApi,
-    setMainTextForSuccessModal,
-    setResponseImage,
-    setSubTextForSuccessModal,
 } from '../../redux/slices/modalHandling';
 import {
     setAccountCreationStep,
@@ -25,14 +18,11 @@ import {
 
 import { RootState } from '../../redux/store';
 import { DASHBOARD, IMPORT_WALLET } from '../../constants';
+import useDispatcher from '../../hooks/useDispatcher';
+import useResponseModal from '../../hooks/useResponseModal';
 import {
-    CONFIRM_PASSWORD_LABEL,
     CONTINUE_BUTTON,
-    CREATE_WALLET_DESCRIPTION,
-    CREATE_WALLET_HEADER,
-    NAME_WARNING,
     PASSWORD,
-    PASSWORD_LABEL,
     RE_ENTER_PASSWORD,
     WALLET_NAME_LABEL,
 } from '../../utils/app-content';
@@ -53,8 +43,20 @@ const { minimumCharacterWarning, didnotMatchWarning, passwordValidation } =
     passwordErrorMessages;
 
 const CreateWallet: React.FunctionComponent = () => {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const generalDispatcher = useDispatcher();
+    const openModalForImportSuccess = useResponseModal({
+        isOpen: true,
+        modalImage: ImportIcon,
+        mainText: 'Successfully Imported!',
+        subText: '',
+    });
+    const openModalForCreateSuccess = useResponseModal({
+        isOpen: true,
+        modalImage: AccountCreate,
+        mainText: 'Successfully Created!',
+        subText: '',
+    });
     const location = useLocation().state as {
         prevRoute: string;
         seedToPass: string;
@@ -116,21 +118,15 @@ const CreateWallet: React.FunctionComponent = () => {
 
     const showSuccessModalAndNavigateToDashboard = (): void => {
         if (operation === 'Imported') {
-            dispatch(setIsResponseModalOpen(true));
-            dispatch(setResponseImage(ImportIcon));
-            dispatch(setMainTextForSuccessModal(`Successfully ${operation}!`));
-            dispatch(setSubTextForSuccessModal(''));
+            openModalForImportSuccess();
             navigate(DASHBOARD);
         } else {
-            dispatch(setIsResponseModalOpen(true));
-            dispatch(setResponseImage(AccountCreate));
-            dispatch(setMainTextForSuccessModal(`Successfully ${operation}!`));
-            dispatch(setSubTextForSuccessModal(''));
+            openModalForCreateSuccess();
             navigate(DASHBOARD);
         }
 
         setTimeout(() => {
-            dispatch(setIsResponseModalOpen(false));
+            generalDispatcher(() => setIsResponseModalOpen(false));
         }, 2500);
     };
 
@@ -147,9 +143,9 @@ const CreateWallet: React.FunctionComponent = () => {
                 return;
             }
             await createAccount(walletName, password, currSeed);
-            dispatch(setTempSeed(''));
-            dispatch(setAccountCreationStep(0));
-            dispatch(setLoadingForApi(false));
+            generalDispatcher(() => setTempSeed(''));
+            generalDispatcher(() => setAccountCreationStep(0));
+            generalDispatcher(() => setLoadingForApi(false));
             setIsLoading(false);
             showSuccessModalAndNavigateToDashboard();
         } catch (err) {
@@ -199,7 +195,7 @@ const CreateWallet: React.FunctionComponent = () => {
         hideState: showConfirmPassword,
     };
 
-    const btn = {
+    const continueBtn = {
         text: CONTINUE_BUTTON,
         style: {
             width: '100%',
@@ -214,128 +210,20 @@ const CreateWallet: React.FunctionComponent = () => {
         isLoading,
     };
 
+    const backHandler = (): void =>
+        generalDispatcher(() => setAccountCreationStep(2));
+
     return (
-        <Wrapper>
-            <Header
-                centerText={CREATE_WALLET_HEADER}
-                backHandler={() => dispatch(setAccountCreationStep(2))}
-            />
-            <UnAuthScreensContentWrapper>
-                <LabelAndTextWrapper>
-                    <SubHeading {...walletNameText}>
-                        {WALLET_NAME_LABEL}
-                    </SubHeading>
-                    <Input id="wallet-name" isCorrect {...styledInputName} />
-                    {isValidWalletName && (
-                        <WarningText
-                            id="warning-text"
-                            className={subHeadingfontFamilyClass}
-                            visibility={isValidWalletName}
-                        >
-                            {NAME_WARNING}
-                        </WarningText>
-                    )}
-                </LabelAndTextWrapper>
-
-                <LabelAndTextWrapper marginTop="10px">
-                    <SubHeading
-                        className={mainHeadingfontFamilyClass}
-                        marginTop="0px"
-                        mb="10px"
-                    >
-                        {PASSWORD_LABEL}
-                    </SubHeading>
-                    <Input
-                        id="password"
-                        fullWidth="76%"
-                        {...styledInputPassword}
-                        typePassword
-                        isCorrect
-                        rightIcon
-                        leftPosition="15px"
-                        topPosition="1px"
-                    />
-                    {passwordError === minimumCharacterWarning && (
-                        <WarningText
-                            id="warning-text-1"
-                            mb="10px"
-                            className={subHeadingfontFamilyClass}
-                            visibility={
-                                passwordError === minimumCharacterWarning
-                            }
-                        >
-                            {minimumCharacterWarning}
-                        </WarningText>
-                    )}
-                    {passwordError === passwordValidation && (
-                        <WarningText
-                            id="warning-text-2"
-                            mb="10px"
-                            className={subHeadingfontFamilyClass}
-                            visibility={passwordError === passwordValidation}
-                        >
-                            {passwordValidation}
-                        </WarningText>
-                    )}
-                    {passwordError === didnotMatchWarning && (
-                        <WarningText
-                            id="warning-text-3"
-                            mb="10px"
-                            className={subHeadingfontFamilyClass}
-                            visibility={passwordError === didnotMatchWarning}
-                        >
-                            {didnotMatchWarning}
-                        </WarningText>
-                    )}
-                </LabelAndTextWrapper>
-
-                <LabelAndTextWrapper marginTop="0">
-                    <SubHeading
-                        className={mainHeadingfontFamilyClass}
-                        marginTop="0"
-                        mb="10px"
-                    >
-                        {CONFIRM_PASSWORD_LABEL}
-                    </SubHeading>
-                    <Input
-                        id="confirm-password"
-                        fullWidth="76%"
-                        {...styledInputConfirmPass}
-                        typePassword
-                        rightIcon
-                        isCorrect
-                        leftPosition="15px"
-                        topPosition="1px"
-                    />
-
-                    {passwordError === didnotMatchWarning && (
-                        <WarningText
-                            id="warning-text"
-                            mb="5px"
-                            className={subHeadingfontFamilyClass}
-                            visibility={passwordError === didnotMatchWarning}
-                        >
-                            {didnotMatchWarning}
-                        </WarningText>
-                    )}
-                </LabelAndTextWrapper>
-
-                <SubHeading
-                    mb="0"
-                    textLightColor
-                    marginTop="5px"
-                    className={subHeadingfontFamilyClass}
-                >
-                    {CREATE_WALLET_DESCRIPTION}
-                </SubHeading>
-            </UnAuthScreensContentWrapper>
-            <div
-                className="btn-wrapper"
-                style={{ marginLeft: '0', marginBottom: '10px' }}
-            >
-                <Button id="auth-continue" {...btn} />
-            </div>
-        </Wrapper>
+        <CreateWalletView
+            backHandler={backHandler}
+            isValidWalletName={isValidWalletName}
+            passwordError={passwordError}
+            walletNameText={walletNameText}
+            styledInputName={styledInputName}
+            styledInputPassword={styledInputPassword}
+            styledInputConfirmPass={styledInputConfirmPass}
+            continueBtn={continueBtn}
+        />
     );
 };
 

@@ -12,9 +12,9 @@ import {
 import { Header, Button } from '../common';
 import { MainHeading, SubHeading } from '../common/text';
 
-import Options from './options';
-import EnterSeed from './enter-seed';
-import UploadJson from './upload-json';
+import Options from './components/options';
+import EnterSeed from './components/enter-seed';
+import UploadJson from './components/upload-json';
 
 import { fonts, images } from '../../utils';
 import accounts from '../../utils/accounts';

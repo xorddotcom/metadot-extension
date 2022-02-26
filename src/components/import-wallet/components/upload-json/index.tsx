@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { fonts, images } from '../../utils';
+import { fonts, images } from '../../../../utils';
 
-import { UploadFile, UploadFileDiv } from './style';
-import { SubHeading, WarningText } from '../common/text';
-import { HorizontalContentDiv } from '../common/wrapper';
-import { Input } from '../common';
-import { UploadJSONInterface } from './type';
-import { PASSWORD } from '../../utils/app-content';
+import { UploadFile, UploadFileDiv } from '../../style';
+import { SubHeading, WarningText } from '../../../common/text';
+import { HorizontalContentDiv } from '../../../common/wrapper';
+import { Input } from '../../../common';
+import { UploadJSONInterface } from '../../type';
+import { PASSWORD } from '../../../../utils/app-content';
 
 const { UploadFileIcon } = images;
 
@@ -61,8 +61,14 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                         const parsedFileContent = JSON.parse(
                             fileContent as string
                         );
-                        console.log(2);
-                        setJson(parsedFileContent.exportedJson);
+                        console.log(2, parsedFileContent);
+                        if (parsedFileContent.exportedJson) {
+                            setJson(parsedFileContent.exportedJson);
+                        } else if (parsedFileContent.address) {
+                            setJson(parsedFileContent);
+                        } else {
+                            throw new Error('invalid Json!');
+                        }
                         console.log(3);
                         setInvalidJSONFileError(false);
                     } catch (err) {

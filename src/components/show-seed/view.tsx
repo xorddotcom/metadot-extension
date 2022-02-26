@@ -8,6 +8,10 @@ import { Header, Button } from '../common';
 import { fonts, images } from '../../utils';
 import SinglePhrase from './components/single-phrase';
 import { ShowSeedViewProps } from './types';
+import {
+    WRITE_SEED_PHRASE,
+    WRITE_SEED_PHRASE_DESCRIPTION,
+} from '../../utils/app-content';
 
 const { ContentCopyIcon } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
@@ -29,12 +33,10 @@ const ShowSeedView: React.FunctionComponent<ShowSeedViewProps> = (props) => {
             />
             <div style={{ marginTop: '29px' }}>
                 <MainHeading className={mainHeadingfontFamilyClass}>
-                    Write down your seed phrase :
+                    {WRITE_SEED_PHRASE}
                 </MainHeading>
                 <SubHeading className={subHeadingfontFamilyClass}>
-                    Please note down your mnemonic seed phrase. As of now, it is
-                    the only access point to your Metadot wallet in case of any
-                    mishap. Screenshots are not encouraged.
+                    {WRITE_SEED_PHRASE_DESCRIPTION}
                 </SubHeading>
             </div>
             <CopyText className={subHeadingfontFamilyClass}>

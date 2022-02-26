@@ -1,7 +1,7 @@
 import React from 'react';
-import { OptionDiv, Option } from './style';
-import { OptionsInterface } from './type';
-import { fonts } from '../../utils';
+import { OptionDiv, Option } from '../../style';
+import { OptionsInterface } from '../../type';
+import { fonts } from '../../../../utils';
 
 const index: React.FunctionComponent<OptionsInterface> = ({
     importButtonHandler,
