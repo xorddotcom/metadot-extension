@@ -1,22 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { Header, Input, Button } from '../common';
-import { Wrapper, UnAuthScreensContentWrapper } from '../common/wrapper';
-import { MainHeading, SubHeading } from '../common/text';
-import { SeedGridRow, SeedText, SeedGrid } from './styles';
+import { useSelector } from 'react-redux';
 
 import { setAccountCreationStep } from '../../redux/slices/activeAccount';
 import { RootState } from '../../redux/store';
 import { fonts, helpers } from '../../utils';
 import { CREATE_WALLET } from '../../constants';
-import {
-    CONFIRM_SEED_DESCRIPTION,
-    CONFIRM_SEED_HEADER,
-    CONFIRM_SEED_MAIN_HEADING,
-    CONTINUE_BUTTON,
-} from '../../utils/app-content';
+import { CONTINUE_BUTTON } from '../../utils/app-content';
+import useDispatcher from '../../hooks/useDispatcher';
+import ConfirmSeedView from './view';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const {
@@ -27,7 +19,7 @@ const {
 const fourRandomIndexes = arrayOfFourRandomNumbers();
 
 const ConfirmSeed: React.FunctionComponent = () => {
-    const dispatch = useDispatch();
+    const generalDispatcher = useDispatcher();
     const { tempSeed } = useSelector((state: RootState) => state.activeAccount);
     const navigate = useNavigate();
 
@@ -73,7 +65,7 @@ const ConfirmSeed: React.FunctionComponent = () => {
         setValidations([first, second, third, fourth]);
 
         if (first && second && third && fourth) {
-            dispatch(setAccountCreationStep(3));
+            generalDispatcher(() => setAccountCreationStep(3));
             navigate(CREATE_WALLET, {
                 state: { seedToPass: currSeed },
             });
@@ -196,7 +188,7 @@ const ConfirmSeed: React.FunctionComponent = () => {
         },
     };
 
-    const btn = {
+    const continueBtn = {
         text: CONTINUE_BUTTON,
         style: {
             width: '100%',
@@ -217,74 +209,22 @@ const ConfirmSeed: React.FunctionComponent = () => {
         marginTop: '12px',
         className: subHeadingfontFamilyClass,
     };
+    const backHandler = (): void =>
+        generalDispatcher(() => setAccountCreationStep(1));
 
     return (
-        <Wrapper>
-            <Header
-                centerText={CONFIRM_SEED_HEADER}
-                backHandler={() => dispatch(setAccountCreationStep(1))}
-            />
-            <div>
-                <MainHeading {...mainHeading}>
-                    {CONFIRM_SEED_MAIN_HEADING}
-                </MainHeading>
-                <SubHeading textLightColor {...subHeading}>
-                    {CONFIRM_SEED_DESCRIPTION}
-                </SubHeading>
-            </div>
-            <UnAuthScreensContentWrapper mb="18px">
-                <Input
-                    id="word-1"
-                    fullWidth="76%"
-                    {...styledInput1}
-                    leftPosition="18px"
-                    topPosition="3px"
-                    disabled
-                />
-
-                <Input
-                    id="word-2"
-                    {...styledInput2}
-                    fullWidth="76%"
-                    leftPosition="18px"
-                    topPosition="3px"
-                    disabled
-                />
-
-                <Input
-                    id="word-3"
-                    {...styledInput3}
-                    leftPosition="18px"
-                    topPosition="3px"
-                    disabled
-                />
-
-                <Input
-                    id="word-4"
-                    {...styledInput4}
-                    leftPosition="18px"
-                    topPosition="3px"
-                    disabled
-                />
-
-                <SeedGrid>
-                    <SeedGridRow>
-                        {seedArrayForGrid.map((s, i) => (
-                            <SeedText
-                                id={`seed-${i}`}
-                                key={s.value}
-                                className={subHeadingfontFamilyClass}
-                                onClick={() => handleSelect(s)}
-                                selected={s.selected}
-                            >
-                                {s.value}
-                            </SeedText>
-                        ))}
-                    </SeedGridRow>
-                </SeedGrid>
-            </UnAuthScreensContentWrapper>
-            <Button id="confirm-continue" {...btn} />
-        </Wrapper>
+        <ConfirmSeedView
+            backHandler={backHandler}
+            seedArrayForGrid={seedArrayForGrid}
+            handleSelect={handleSelect}
+            styledInput1={styledInput1}
+            styledInput2={styledInput2}
+            styledInput3={styledInput3}
+            styledInput4={styledInput4}
+            continueBtn={continueBtn}
+            mainHeading={mainHeading}
+            subHeading={subHeading}
+        />
     );
 };
 

@@ -26,9 +26,13 @@ async function getJsonBackup(address: string, password: string): Promise<void> {
     try {
         const backupJson = await exportAccount(address, password);
 
+        console.log('backupJson', backupJson);
+        const jsonContent = backupJson.exportedJson;
+        console.log('jsonContent', jsonContent);
+
         // ***Download JSON file***
-        const fileName = 'backup';
-        const data = JSON.stringify(backupJson);
+        const fileName = address;
+        const data = JSON.stringify(jsonContent);
         const blob = new Blob([data], { type: 'application/json' });
         const href = URL.createObjectURL(blob);
         const link = document.createElement('a');
