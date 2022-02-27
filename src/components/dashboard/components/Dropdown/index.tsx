@@ -8,17 +8,17 @@ import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 
-import { setLoggedIn } from '../../redux/slices/activeAccount';
-import { setAuthScreenModal } from '../../redux/slices/modalHandling';
+import { setLoggedIn } from '../../../../redux/slices/activeAccount';
+import { setAuthScreenModal } from '../../../../redux/slices/modalHandling';
 
-import { About, AuthModal } from '../common/modals';
-import { fonts, images } from '../../utils';
-import account from '../../utils/accounts';
+import { About, AuthModal } from '../../../common/modals';
+import { fonts, images } from '../../../../utils';
+import account from '../../../../utils/accounts';
 
-import { DropDownMainText } from './styledComponents';
-import { DropDownProps } from './types';
-import { RootState } from '../../redux/store';
-import { ACCOUNTS, IMPORT_WALLET, SUPPORT } from '../../constants';
+import { DropDownMainText } from '../../styledComponents';
+import { DropDownProps } from '../../types';
+import { RootState } from '../../../../redux/store';
+import { ACCOUNTS, IMPORT_WALLET, SUPPORT } from '../../../../constants';
 import {
     MY_PROFILE,
     ACCOUNTS_HEADING,
@@ -27,7 +27,7 @@ import {
     SUPPORT_TEXT,
     ABOUT_TEXT,
     LOCK_TEXT,
-} from '../../utils/app-content';
+} from '../../../../utils/app-content';
 
 const {
     accountIcon,

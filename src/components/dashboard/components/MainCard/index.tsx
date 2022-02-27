@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState } from '../../redux/store';
-import { MainCardPropsInterface } from './types';
-import { fonts, helpers, images } from '../../utils';
-import { setApiInitializationStarts } from '../../redux/slices/api';
+import { RootState } from '../../../../redux/store';
+import { MainCardPropsInterface } from '../../types';
+import { fonts, helpers, images } from '../../../../utils';
+import { setApiInitializationStarts } from '../../../../redux/slices/api';
 
 import {
     AccountName,
@@ -15,7 +15,7 @@ import {
     PublicAddress,
     VerticalContentDiv,
     CopyIconImg,
-} from './styledComponents';
+} from '../../styledComponents';
 
 const { refreshIcon, ContentCopyIcon } = images;
 const { addressModifier, trimBalance } = helpers;
