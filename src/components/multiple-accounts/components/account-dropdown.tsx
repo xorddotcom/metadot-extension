@@ -5,19 +5,34 @@ import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { useDispatch } from 'react-redux';
-import { AuthModal, WarningModal } from '../common/modals';
-import { setAuthScreenModal } from '../../redux/slices/modalHandling';
-import accounts from '../../utils/accounts';
-import { ChildAccountDropDownInterface } from './types';
-import { images } from '../../utils';
+import { AuthModal, WarningModal } from '../../common/modals';
 
-const { RemoveIcon, FileUploadOutlinedIcon } = images;
+import { setAuthScreenModal } from '../../../redux/slices/modalHandling';
+import accounts from '../../../utils/accounts';
+import { AccountDropDownInterface } from '../types';
+import {
+    ACCOUNT_DELETION_WARNING,
+    CREATE_DERIVE_ACCOUNT_TEXT,
+    EXPORT_ACCOUNT,
+    REMOVE_ACCOUNT,
+    WARNING,
+} from '../../../utils/app-content';
+import { images } from '../../../utils';
+
+const { RemoveIcon, FileUploadOutlinedIcon, derivedAccountIcon } = images;
 const { getJsonBackup } = accounts;
 
-const ChildAccountDropDown: React.FunctionComponent<
-    ChildAccountDropDownInterface
-> = ({ open, handleClose, anchorEl, publicKeyy, onOptionClicked }) => {
+const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
+    open,
+    handleClose,
+    anchorEl,
+    account,
+    expandModal,
+    deleteAccount,
+    isThisAParent,
+}) => {
     const dispatch = useDispatch();
+
     const [openAuthModal, setOpenAuthModa] = useState(false);
     const [openWarnModal, setOpenWarnModal] = useState(false);
 
@@ -41,7 +56,7 @@ const ChildAccountDropDown: React.FunctionComponent<
         open: openWarnModal,
         handleClose: () => setOpenWarnModal(false),
         onConfirm: () => {
-            onOptionClicked();
+            deleteAccount(account.publicKey);
         },
         style: {
             width: '290px',
@@ -52,9 +67,8 @@ const ChildAccountDropDown: React.FunctionComponent<
             px: 2,
             pb: 3,
         },
-        mainText: 'Warning',
-        subText:
-            'On confirm your account will be deleted from Metadot, make sure you have your json file backup or seed stored.',
+        mainText: WARNING,
+        subText: ACCOUNT_DELETION_WARNING,
     };
 
     return (
@@ -83,6 +97,8 @@ const ChildAccountDropDown: React.FunctionComponent<
                         },
                     },
                 }}
+                // classes={{ paper: classes.paperMenu }}
+                // style={{ border: '1px solid #fff' }}
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 id="menu"
@@ -100,6 +116,33 @@ const ChildAccountDropDown: React.FunctionComponent<
                     }}
                 >
                     <MenuList id="menu-list">
+                        {isThisAParent && (
+                            <MenuItem
+                                id="menu-item-1"
+                                style={{ minHeight: '37px', color: '#fafafa' }}
+                                onClick={() => {
+                                    expandModal(account);
+                                }}
+                                key={account.publicKey}
+                            >
+                                <ListItemIcon
+                                    className="flexStart"
+                                    style={{ color: '#fafafa' }}
+                                >
+                                    <img
+                                        src={derivedAccountIcon}
+                                        alt="create-account"
+                                        width="14.55"
+                                        height="15"
+                                        style={{ marginTop: '0.15rem' }}
+                                    />
+                                    &nbsp; &nbsp;
+                                    <span style={{ fontSize: '0.85rem' }}>
+                                        {CREATE_DERIVE_ACCOUNT_TEXT}
+                                    </span>
+                                </ListItemIcon>
+                            </MenuItem>
+                        )}
                         <MenuItem
                             id="menu-item-2"
                             style={{ minHeight: '37px', color: '#fafafa' }}
@@ -114,12 +157,12 @@ const ChildAccountDropDown: React.FunctionComponent<
                             >
                                 <img
                                     src={FileUploadOutlinedIcon}
-                                    alt="lock-icon"
+                                    alt="export-account"
                                     style={{ marginTop: '-0.2rem' }}
                                 />
                                 &nbsp; &nbsp;
                                 <span style={{ fontSize: '0.85rem' }}>
-                                    Export Account
+                                    {EXPORT_ACCOUNT}
                                 </span>
                             </ListItemIcon>
                         </MenuItem>
@@ -143,7 +186,7 @@ const ChildAccountDropDown: React.FunctionComponent<
                                 />
                                 &nbsp; &nbsp;
                                 <span style={{ fontSize: '0.85rem' }}>
-                                    Remove Account
+                                    {REMOVE_ACCOUNT}
                                 </span>
                             </ListItemIcon>
                         </MenuItem>
@@ -152,13 +195,13 @@ const ChildAccountDropDown: React.FunctionComponent<
             </Menu>
 
             <AuthModal
-                publicKey={publicKeyy}
+                publicKey={account.publicKey}
                 open={openAuthModal}
                 handleClose={() => {
                     setOpenAuthModa(false);
                 }}
-                setOpenAuthModalHandler={authModalHandler}
                 onConfirm={downloadJson}
+                setOpenAuthModalHandler={authModalHandler}
                 style={{
                     width: '290px',
                     background: '#141414',
@@ -168,8 +211,9 @@ const ChildAccountDropDown: React.FunctionComponent<
                     pb: 3,
                 }}
             />
+
             <WarningModal {...warningModal} />
         </>
     );
 };
-export default ChildAccountDropDown;
+export default AccountDropDown;

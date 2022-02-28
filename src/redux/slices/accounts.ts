@@ -1,12 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Account, Accounts } from '../types';
 
-const initialState: Accounts = {
-    // '5GjSQRFYEFBY1nmVuGHTyKkRHrodQmUKdA7kWzfmfLp262xG': {
-    //     publicKey: '5GjSQRFYEFBY1nmVuGHTyKkRHrodQmUKdA7kWzfmfLp262xG',
-    //     accountName: 'Hello',
-    // },
-};
+const initialState: Accounts = {};
 
 export const accountsSlice = createSlice({
     name: 'accounts',

@@ -1,16 +1,48 @@
-export interface AccountListInterface {
-    publicKey?: string;
+export interface ParentAccountInterface {
+    publicKey: string;
     accountName: string;
-    marginBottom?: string;
-    marginTop?: string;
-    accountActive(publicKey: string, accountName: string): void;
-    publicKeyy: string;
-    account: { publicKey: string; accountName: string; parentAddress: string };
-    childAccounts?: {
-        publicKey: string;
-        accountName: string;
-        parentAddress: string;
-    }[];
+    parentAddress?: string;
+}
+
+export interface ChildAccountInterface {
+    publicKey: string;
+    accountName: string;
+    parentAddress: string;
+}
+
+export interface TransformedAccountInterface {
+    publicKey: string;
+    accountName: string;
+    parentAddress?: string;
+    childAccounts: ChildAccountInterface[];
+}
+
+export interface AccountListInterface {
+    accounts: TransformedAccountInterface[];
+    activateAccount(pk: string, name: string): void;
+    deleteAccount(publicKey: string): Promise<void>;
+    downloadJSON(address: string, password: string): Promise<void>;
+}
+
+export interface DerivedAccountsInterface {
+    accounts: ChildAccountInterface[];
+    activateAccount(pk: string, name: string): void;
+    openAccountDropDownHandler(
+        e: any,
+        publicKey: string,
+        accountName: string
+    ): void;
+}
+
+export interface AccountCardInterface {
+    publicKey: string;
+    accountName: string;
+    activateAccount(publicKey: string, name: string): void;
+    openAccountDropDownHandler(
+        e: any,
+        publicKey: string,
+        accountName: string
+    ): void;
 }
 
 export interface MainTextInterface {
@@ -35,11 +67,9 @@ export interface AccountDropDownInterface {
     open: boolean;
     handleClose(): void;
     anchorEl: Element;
-    account: { parentAddress: string };
-    expandModal(value: { parentAddress: string }): void;
-    publicKey: string;
-    publicKeyy: string;
-    onOptionClicked(): void;
+    account: ParentAccountInterface;
+    expandModal(account: ParentAccountInterface): void;
+    deleteAccount(value: string): void;
     isThisAParent: boolean;
 }
 

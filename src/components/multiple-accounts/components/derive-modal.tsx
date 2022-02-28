@@ -3,14 +3,14 @@ import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
-import { MainDiv, MainText, MainText1, CloseIconDiv } from './styles';
+import { MainDiv, MainText, MainText1, CloseIconDiv } from '../styles';
 
-import { Button, Input } from '../common';
-import { fonts } from '../../utils';
-import { WarningText } from '../common/text';
-import { VerticalContentDiv } from '../common/wrapper';
-import { DeriveModalInterface } from './types';
-import { CREATE_DERIVED_ACCOUNT } from '../../constants';
+import { Button, Input } from '../../common';
+import { fonts } from '../../../utils';
+import { WarningText } from '../../common/text';
+import { VerticalContentDiv } from '../../common/wrapper';
+import { DeriveModalInterface } from '../types';
+import { CREATE_DERIVED_ACCOUNT } from '../../../constants';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 

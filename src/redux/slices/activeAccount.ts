@@ -5,8 +5,6 @@ const { WESTEND_CONFIG } = constants;
 
 const initialState = {
     isLoggedIn: false,
-    // publicKey: '5GjSQRFYEFBY1nmVuGHTyKkRHrodQmUKdA7kWzfmfLp262xG',
-    // accountName: 'Hello',
     publicKey: '',
     accountName: '',
     rpcUrl: WESTEND_CONFIG.rpcUrl,
