@@ -1,25 +1,20 @@
 import React from 'react';
-import {
-    Balance,
-    FromAccount,
-    // HorizontalContentDiv,
-    // MainText,
-    PlainIcon,
-    // VerticalContentDiv,
-} from './style';
-import { MainText } from '../common/text';
+import { useSelector } from 'react-redux';
+import { Balance, FromAccount, PlainIcon } from '../style';
+import { MainText } from '../../common/text';
 import {
     VerticalContentDiv,
     HorizontalContentDiv,
-} from '../common/wrapper/index';
-import { fonts } from '../../utils';
-import { FromInputInterface } from './types';
+} from '../../common/wrapper/index';
+import { fonts, helpers } from '../../../utils';
+import { RootState } from '../../../redux/store';
 
-const FromInput: React.FunctionComponent<FromInputInterface> = ({
-    addressModifier,
-    accountName,
-    publicKey,
-}) => {
+const { addressModifier } = helpers;
+
+const FromInput: React.FunctionComponent = () => {
+    const { accountName, publicKey } = useSelector(
+        (state: RootState) => state.activeAccount
+    );
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
     const mainText = {

@@ -1,43 +1,37 @@
 import React from 'react';
-import { WarningText, MainText } from '../common/text';
-import { Input as StyledInput } from '../common';
-import { fonts, helpers } from '../../utils';
-import { ToInputInterface } from './types';
-import { VerticalContentDiv } from '../common/wrapper/index';
+import { useSelector } from 'react-redux';
+import { WarningText, MainText } from '../../common/text';
+import { Input as StyledInput } from '../../common';
+import { fonts, helpers } from '../../../utils';
+import { ToInputInterface } from '../types';
+import { VerticalContentDiv } from '../../common/wrapper/index';
+import { RootState } from '../../../redux/store';
 
 const ToInput: React.FunctionComponent<ToInputInterface> = ({
-    accountToSate,
-    publicKey,
     errorMessages,
-    accountToChangeHandler,
-    accountToIsValid,
+    onChange,
     isCorrect,
-    error,
     receiverAddress,
     toAddressError,
 }) => {
+    const { publicKey } = useSelector(
+        (state: RootState) => state.activeAccount
+    );
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
     const styledInput = {
         placeholder: 'Enter Wallet Address',
         value: receiverAddress,
         className: subHeadingfontFamilyClass,
-        onChange: accountToChangeHandler,
-        onBlur: accountToIsValid,
+        onChange,
         fontSize: '12px',
         height: '25px',
-        isCorrect: accountToSate.isValid,
+        // isCorrect: accountToSate.isValid,
     };
 
     const warningTextInlineStyle = {
         marginTop: '-0.2rem',
         marginLeft: '0.3rem',
     };
-
-    console.log(
-        'accountToSate.isValid -----',
-        accountToSate.isValid,
-        helpers.validateAddress(receiverAddress, publicKey)
-    );
 
     return (
         <VerticalContentDiv mb="10px">

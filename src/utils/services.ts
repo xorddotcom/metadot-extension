@@ -88,14 +88,28 @@ const getTransactionFee = async (
     api: ApiPromiseType,
     sender: string,
     recipient: string,
-    decimalPlaces: number,
-    amount: number
-): Promise<any> => {
-    const info = await api.tx.balances
-        .transfer(sender, BigInt(amount * 10 ** decimalPlaces))
-        .paymentInfo(recipient);
+    amount: number,
+    tokenName: string
+): Promise<number> => {
+    try {
+        const decimalPlacesForTxFee: number = await api.registry
+            .chainDecimals[0];
+        const info = await api.tx.balances
+            .transfer(sender, BigInt(amount * 10 ** decimalPlacesForTxFee))
+            .paymentInfo(recipient);
 
-    return info;
+        const txFee = await convertTransactionFee(
+            tokenName,
+            info.partialFee.toHuman()
+        );
+
+        console.log('txFee from common', txFee);
+
+        return txFee;
+    } catch (err) {
+        console.log('error in getting tx fee', err);
+        return 0;
+    }
 };
 
 const addressMapper = (address: string, prefix: number): string =>

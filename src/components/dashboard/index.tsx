@@ -237,7 +237,7 @@ const Dashboard: React.FunctionComponent = () => {
         currentData: TestNetworks,
       });
       setIsLoading(false);
-    } else if (data.name === 'Kusama' && modalState.firstStep === true) { // this condition is not in use at the moment
+    } else if (data.name === 'Kusama' && modalState.firstStep === true) {
       setIsLoading(false);
       setModalState({
         firstStep: false,
@@ -245,7 +245,8 @@ const Dashboard: React.FunctionComponent = () => {
         currentData: KusamaMainNetworks,
       });
     } else if (rpcUrl !== data.rpcUrl) {
-      generalDispatcher(()=>setApiInitializationStarts(true)); // for showing loading waves like preloader
+        // for showing loading waves like preloader
+      generalDispatcher(()=>setApiInitializationStarts(true));
       if (window.navigator.onLine) {
         generalDispatcher(()=>setLoadingForApi(true));
         generalDispatcher(()=>setRpcUrl(data.rpcUrl ? data.rpcUrl : ''));

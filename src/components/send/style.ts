@@ -45,8 +45,8 @@ export const FromAccount = styled(HorizontalContentDiv)`
 
 export const PlainIcon = styled.div`
     width: 34px;
-    height: 28px;
-    border-radius: 23px;
+    height: 34px;
+    border-radius: 34px;
     margin-left: 5px;
     margin-right: 20px;
     background: ${(props: { bgColor?: string }) =>
@@ -89,11 +89,13 @@ export const EquivalentInUSDT = styled.p`
     margin-top: -1rem;
 `;
 
-export const CalculatedAmount = styled(HorizontalContentDiv)`
+export const CalculatedAmount = styled.div`
     width: 96%;
-    margin-top: 5px;
+    height: 15px;
     display: flex !important;
-    justify-content: space-between;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
     align-items: center;
     margin-left: 0.3rem;
 `;

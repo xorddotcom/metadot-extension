@@ -10,8 +10,8 @@ import ConfirmSendView from './view';
 
 const ConfirmSend: React.FunctionComponent<ConfirmSendModalProps> = (props) => {
     const { loading2 } = props;
-    const transactionAmount = (valueOne: string, valueTwo: string): string => {
-        const value = parseFloat(valueOne) + parseFloat(valueTwo);
+    const transactionAmount = (valueOne: string, valueTwo: number): string => {
+        const value = parseFloat(valueOne) + valueTwo;
         const val = value.toString();
         const trimmedValue = val.slice(0, val.indexOf('.') + 4);
         return trimmedValue;

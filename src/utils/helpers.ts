@@ -148,6 +148,12 @@ async function convertIntoUsd(
 //     }, 3500);
 // }
 
+const trimContent = (value: number, noOfDigits: number): string => {
+    const val = value.toString();
+    const trimmedValue = val.slice(0, val.indexOf('.') + noOfDigits);
+    return trimmedValue;
+};
+
 export default {
     arrayFromSeedSentence,
     arrayOfFourRandomNumbers,
@@ -158,5 +164,6 @@ export default {
     validateAmount,
     trimBalance,
     convertIntoUsd,
+    trimContent,
     // showInternetSnackBar,
 };

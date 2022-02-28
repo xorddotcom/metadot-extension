@@ -10,11 +10,6 @@ export const Wrapper = styled.div<WrapperInterface>`
     width: ${(props) =>
         props.inputWrapperWidth ? props.inputWrapperWidth : '100%'};
     height: 40px;
-    border: ${(props) => {
-        if (props.isCorrect) return '0px';
-        if (!props.isCorrect) return '1px solid red';
-        return '0px';
-    }};
     border: ${(props) => (props.isCorrect === false ? '1px solid red' : '0px')};
     border-radius: 8px;
     background-color: ${darkBackground1};

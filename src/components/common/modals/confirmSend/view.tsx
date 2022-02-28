@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '../../button';
 import {
@@ -13,12 +13,7 @@ import {
 } from './styledComponents';
 import { ModalText } from '../../text';
 import { fonts } from '../../../../utils';
-import {
-    setAuthScreenModal,
-    setConfirmSendModal,
-} from '../../../../redux/slices/modalHandling';
-import { ConfirmSendModalProps, ConfirmSendModalViewProps } from './types';
-import useDispatcher from '../../../../hooks/useDispatcher';
+import { RootState } from '../../../../redux/store';
 import {
     AMOUNT,
     CONFIRM_BUTTON,
@@ -28,31 +23,46 @@ import {
     TOTAL_AMOUNT,
     TRANSACTIONS,
 } from '../../../../utils/app-content';
+import { ConfirmSendModalViewProps } from './types';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
-    open,
     handleClose,
-    style,
     accountTo,
     amount,
-    accountFrom,
     transactionFee,
-    tokenName,
     loading2,
     transactionAmount,
     btnConfirm,
 }) => {
+    const { publicKey, tokenName } = useSelector(
+        (state: RootState) => state.activeAccount
+    );
+    const { confirmSendModal } = useSelector(
+        (state: RootState) => state.modalHandling
+    );
     return (
         <Modal
-            open={open}
+            open={confirmSendModal}
             onClose={
                 loading2 ? () => console.log('tx is going on...') : handleClose
             }
             id="modal"
         >
-            <Box id="box" sx={style} className="txDetails-modal-style">
+            <Box
+                id="box"
+                sx={{
+                    width: '300px',
+                    background: '#141414',
+                    position: 'relative',
+                    p: 2,
+                    px: 2,
+                    pb: 3,
+                    mt: 10,
+                }}
+                className="txDetails-modal-style"
+            >
                 <CloseIconDiv
                     id="close-icon"
                     onClick={() => {
@@ -84,10 +94,9 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                                 id="account-from"
                                 textAlign="start"
                                 className={subHeadingfontFamilyClass}
-                            >{`${accountFrom.slice(
-                                0,
-                                5
-                            )} ... ${accountFrom.slice(-5)}`}</SubText2>
+                            >{`${publicKey.slice(0, 5)} ... ${publicKey.slice(
+                                -5
+                            )}`}</SubText2>
                         </VerticalContentDiv>
 
                         <VerticalContentDiv>

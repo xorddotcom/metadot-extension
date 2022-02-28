@@ -1,12 +1,7 @@
 export interface NetworkConfig {
-    // CHAIN_NAME: string;
-    // TOKEN_NAME: string;
-    // LOGO: string;
-    // RPC_URL: string;
-    // PREFIX: number;
+    name: string;
     EXISTENTIAL_DEPOSIT?: number;
     queryEndpoint: string;
-    name: string;
     logo: string;
     moreOptions?: boolean;
     relayChain?: boolean;
