@@ -23,34 +23,40 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     const Signaturedata = [
         {
             property: 'From',
-            data: 'https://metadot.js.org/apps/#/accounts',
+            data: requests[0].url,
             copy: false,
         },
         {
             property: 'Genesis',
-            data: `${dummy.substring(0, 4)}...${dummy.substring(
-                dummy.length - 4
+            data: `${requests[0].request.payload.genesisHash.substring(
+                0,
+                4
+            )}...${requests[0].request.payload.genesisHash.substring(
+                requests[0].request.payload.genesisHash.length - 4
             )}`,
             copy: true,
-            dataToCopy: '9000jshdufdaaaaaaaaaaaaaaaaaaaaaajshdufdnf88df',
+            dataToCopy: requests[0].request.payload.genesisHash,
         },
         {
             property: 'Version',
-            data: '9152',
+            data: requests[0].request.payload.version,
             copy: false,
         },
         {
             property: 'Nonce',
-            data: '0',
+            data: requests[0].request.payload.nonce,
             copy: false,
         },
         {
             property: 'Method Data',
-            data: `${dummy.substring(0, 4)}...${dummy.substring(
-                dummy.length - 4
+            data: `${requests[0].request.payload.method.substring(
+                0,
+                4
+            )}...${requests[0].request.payload.method.substring(
+                requests[0].request.payload.method.length - 4
             )}`,
             copy: true,
-            dataToCopy: '9000jshdufdaaaaaaaaaaaaaaaaaaaaaajshdufdnf88df',
+            dataToCopy: requests[0].request.payload.version.method,
         },
         {
             property: 'Lifetime',
@@ -103,10 +109,10 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                     </div>
                     <VerticalContentDiv style={{ width: '70%' }}>
                         <SubHeading ml="5px" marginTop="0px" mb="0px">
-                            Account 0
+                            {requests[0].account.name}
                         </SubHeading>
                         <SubHeading ml="5px" marginTop="0px" mb="0px">
-                            EVdN...WGU
+                            {requests[0].account.address}
                         </SubHeading>
                     </VerticalContentDiv>
                     <div

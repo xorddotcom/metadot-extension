@@ -73,3 +73,29 @@ export interface ModalStateInterface {
     renderMethod(obj?: RenderMethodProps): JSX.Element;
     currentData: NetworkConfigType[];
 }
+
+export interface DashboardViewProps {
+    isLoading: boolean;
+    transactionData: TransactionRecord[];
+    txDetailsModalData: TransactionRecord;
+    setTxDetailsModalData: Dispatch<SetStateAction<TransactionRecord>>;
+    isTxDetailsModalOpen: boolean;
+    setIsTxDetailsModalOpen(v: boolean): void;
+    publicKey: string;
+    chainName: string;
+    balance: number;
+    balanceInUsd: number;
+    tokenName: string;
+    accountName: string;
+    isModalOpen: boolean;
+    setIsModalOpen(v: boolean): void;
+    modalState: ModalStateInterface;
+    resetState(): void;
+    handleSelectionOnKusamaMainNetwork(data: NetworkConfigType): Promise<void>;
+    handleSelection(data: NetworkConfigType): Promise<void>;
+    anchorEl: any;
+    open: boolean;
+    handleClickOnAccountSettings(e: any): void;
+    handleCloseDropDown(): void;
+    apiInitializationStarts: boolean;
+}

@@ -3,25 +3,25 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useQuery } from 'react-query';
 
-import AssetCard from '../common/asset-card';
-import TxCard from '../common/tx-card';
+import AssetCard from '../../../common/asset-card';
+import TxCard from '../../../common/tx-card';
 
-import { queryData } from '../../utils/queryData';
-import { fonts, helpers, images } from '../../utils';
+import { queryData } from '../../../../utils/queryData';
+import { fonts, helpers, images } from '../../../../utils';
 import {
     AssetsAndTransactionsWrapper,
     Tabs,
     TabSection,
-} from './styledComponents';
+} from '../../styledComponents';
 
 import {
     AssetsAndTransactionsPropsInterface,
     TransactionRecord,
     TransactionRecordFromSubQuery,
-} from './types';
-import { RootState } from '../../redux/store';
-import { addTransaction } from '../../redux/slices/transactions';
-import { ASSETS, TRANSACTIONS } from '../../utils/app-content';
+} from '../../types';
+import { RootState } from '../../../../redux/store';
+import { addTransaction } from '../../../../redux/slices/transactions';
+import { ASSETS, TRANSACTIONS } from '../../../../utils/app-content';
 
 const {
     KusamaIcon,
