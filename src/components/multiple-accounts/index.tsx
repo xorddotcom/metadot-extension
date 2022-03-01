@@ -7,6 +7,8 @@ import {
     setAccountName,
     setPublicKey,
     resetAccountSlice,
+    setAccountCreationStep,
+    setTempSeed,
 } from '../../redux/slices/activeAccount';
 import { Wrapper, WrapperScroll } from './styles';
 import { resetTransactions } from '../../redux/slices/transactions';
@@ -23,6 +25,7 @@ import accountUtils from '../../utils/accounts';
 import { deleteAccount as deleteAccountRdx } from '../../redux/slices/accounts';
 
 const { addressMapper } = services;
+const { GenerateSeedPhrase } = accountUtils;
 
 const MultipleAccounts: React.FunctionComponent = () => {
     const dispatch = useDispatch();
@@ -31,6 +34,8 @@ const MultipleAccounts: React.FunctionComponent = () => {
         (state: RootState) => state.activeAccount
     );
     const { getJsonBackup, deleteAccount } = accountUtils;
+
+    const [seedToPass, setSeedToPass] = useState('');
 
     // account single state formation
     const allAccounts = useSelector((state: RootState) => state.accounts);
@@ -79,6 +84,18 @@ const MultipleAccounts: React.FunctionComponent = () => {
         setTransformedAccounts(TransformedAccounts);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [parentAccounts, childAccounts]);
+
+    useEffect(() => {
+        try {
+            const newSeed = GenerateSeedPhrase();
+            setSeedToPass(newSeed);
+        } catch (error) {
+            console.log(
+                'ERROR while generating new seed for parent account',
+                error
+            );
+        }
+    }, []);
 
     // Account Handlers
     const activateAccountHandler = (pk: string, name: string): void => {
@@ -136,7 +153,11 @@ const MultipleAccounts: React.FunctionComponent = () => {
             borderRadius: '40px',
         },
         handleClick: () => {
-            navigate(SHOW_SEED);
+            dispatch(setAccountCreationStep(1));
+            dispatch(setTempSeed(seedToPass));
+            navigate(SHOW_SEED, {
+                state: { seedToPass },
+            });
         },
     };
 
