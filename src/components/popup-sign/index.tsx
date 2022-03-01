@@ -33,20 +33,6 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
         return `${s.substring(0, 7)}...${s.substring(s.length - 7)}`;
     }
 
-    function mortalityAsString(
-        era: ExtrinsicEra,
-        hexBlockNumber: string
-    ): string {
-        if (era.isImmortalEra) {
-            return 'immortal';
-        }
-        const blockNumber = bnToBn(hexBlockNumber);
-        const mortal = era.asMortalEra;
-        return `mortal, valid from ${formatNumber(
-            mortal.birth(blockNumber)
-        )} to ${formatNumber(mortal.death(blockNumber))}`;
-    }
-
     const Signaturedata = [
         {
             property: 'From',
@@ -104,7 +90,10 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
             }}
         >
             <VerticalContentDiv>
-                <MainHeading textAlign="center">Transaction</MainHeading>
+                <MainHeading textAlign="center">
+                    Transaction{' '}
+                    {requests.lenght > 0 ? `(1 out of ${requests.length})` : ''}
+                </MainHeading>
             </VerticalContentDiv>
 
             <VerticalContentDiv
