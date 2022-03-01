@@ -13,22 +13,24 @@ const Input: React.FunctionComponent<Props> = ({
     placeholder,
     onChange,
     value,
-    rightIconCross,
-    rightIconCrossClickHandler,
     rightIconLock,
     isCorrect,
-    fullWidth,
-    fontSize,
-    height,
+    disabled,
+    id,
+
     rightIcon,
+    rightIconCross,
+    rightIconCrossClickHandler,
     typePassword = false,
     hideHandler,
     hideState,
+    blockInvalidChar,
+
+    fullWidth,
+    fontSize,
+    height,
     marginBottom,
     maxlength,
-    disabled,
-    blockInvalidChar,
-    id,
     mt,
     mr,
     leftPosition,
@@ -60,7 +62,6 @@ const Input: React.FunctionComponent<Props> = ({
             console.clear();
             console.log('e', e.target.value);
             onChange(e.target.value);
-            // setAmount(e.target.value);
         },
         isCorrect,
         disabled,
@@ -108,10 +109,7 @@ const Input: React.FunctionComponent<Props> = ({
                     topPosition={topPosition}
                     leftPosition={leftPosition}
                 >
-                    <CancelIcon
-                        fontSize="small"
-                        style={{ marginTop: '-0.1rem', marginRight: '-0.3rem' }}
-                    />
+                    <CancelIcon fontSize="small" />
                 </Icon>
             )}
             {rightIconLock && (

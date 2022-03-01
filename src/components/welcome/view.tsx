@@ -43,7 +43,7 @@ const WelcomeView: React.FunctionComponent<WelcomeViewProps> = (
                     StartIcon={AddSharpIcon}
                     handleClick={createHandler}
                     style={{
-                        width: '100%',
+                        width: '80%',
                         height: 50,
                         borderRadius: 40,
                     }}
@@ -56,7 +56,7 @@ const WelcomeView: React.FunctionComponent<WelcomeViewProps> = (
                     StartIcon={FileDownloadOutlinedIcon}
                     handleClick={importHandler}
                     style={{
-                        width: '100%',
+                        width: '80%',
                         height: 50,
                         borderRadius: 40,
                     }}

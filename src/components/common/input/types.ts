@@ -3,17 +3,20 @@ export interface WrapperInterface {
     marginBottom: string;
     inputWrapperWidth?: string;
 }
+export interface NewWrapperInterface {
+    isCorrect?: boolean;
+}
 
 export interface FieldInterface {
-    id: string;
+    id?: string;
     maxlength?: string;
     fontSize?: string;
     height?: string;
-    value: string;
+    value?: string;
     fullWidth?: string;
     placeholder?: string;
-    onKeyDown(e: React.KeyboardEvent): void;
-    onChange(e: React.ChangeEvent<HTMLInputElement>): void;
+    onKeyDown?(e: React.KeyboardEvent): void;
+    onChange?(e: React.ChangeEvent<HTMLInputElement>): void;
     isCorrect?: boolean;
     disabled?: boolean;
     type?: string;

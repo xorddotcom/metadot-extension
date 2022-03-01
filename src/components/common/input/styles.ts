@@ -1,5 +1,10 @@
 import styled from 'styled-components';
-import { WrapperInterface, FieldInterface, IconInterface } from './types';
+import {
+    WrapperInterface,
+    FieldInterface,
+    IconInterface,
+    NewWrapperInterface,
+} from './types';
 
 import { colors, fonts } from '../../../utils';
 
@@ -13,7 +18,19 @@ export const Wrapper = styled.div<WrapperInterface>`
     border: ${(props) => (props.isCorrect === false ? '1px solid red' : '0px')};
     border-radius: 8px;
     background-color: ${darkBackground1};
-    margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+`;
+
+export const NewWrapper = styled.div<NewWrapperInterface>`
+    width: '100%';
+    height: 40px;
+    border: ${(props) => (props.isCorrect === false ? '1px solid red' : '0px')};
+    border-radius: 8px;
+    background-color: ${darkBackground1};
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
     justify-content: start;

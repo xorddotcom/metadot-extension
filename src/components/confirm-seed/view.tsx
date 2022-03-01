@@ -67,6 +67,7 @@ const ConfirmSeedView: React.FunctionComponent<ConfirmSeedViewProps> = (
                 <Input
                     id="word-3"
                     {...styledInput3}
+                    fullWidth="76%"
                     leftPosition="18px"
                     topPosition="3px"
                     disabled
@@ -75,6 +76,7 @@ const ConfirmSeedView: React.FunctionComponent<ConfirmSeedViewProps> = (
                 <Input
                     id="word-4"
                     {...styledInput4}
+                    fullWidth="76%"
                     leftPosition="18px"
                     topPosition="3px"
                     disabled

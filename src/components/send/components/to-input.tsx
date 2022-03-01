@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { WarningText, MainText } from '../../common/text';
-import { Input as StyledInput } from '../../common';
+import { Input } from '../../common';
 import { fonts, helpers } from '../../../utils';
 import { ToInputInterface } from '../types';
 import { VerticalContentDiv } from '../../common/wrapper/index';
@@ -18,14 +18,12 @@ const ToInput: React.FunctionComponent<ToInputInterface> = ({
         (state: RootState) => state.activeAccount
     );
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-    const styledInput = {
-        placeholder: 'Enter Wallet Address',
+
+    const receiverAddressInput = {
         value: receiverAddress,
-        className: subHeadingfontFamilyClass,
         onChange,
-        fontSize: '12px',
-        height: '25px',
-        // isCorrect: accountToSate.isValid,
+        placeholder: 'Enter wallet address',
+        type: 'text',
     };
 
     const warningTextInlineStyle = {
@@ -36,7 +34,8 @@ const ToInput: React.FunctionComponent<ToInputInterface> = ({
     return (
         <VerticalContentDiv mb="10px">
             <MainText className={mainHeadingfontFamilyClass}>To</MainText>
-            <StyledInput id="to-address" {...styledInput} />
+            {/* <StyledInput id="to-address" {...styledInput} /> */}
+            <Input id="username" {...receiverAddressInput} />
             <WarningText
                 id="warning-text"
                 className={subHeadingfontFamilyClass}
