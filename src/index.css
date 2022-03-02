@@ -41,6 +41,12 @@ body {
 
 html {
   font-size: 16px;
+  height: 99.7%;
+  background: #292929;
+}
+
+#root{
+  height: 100vh;
 }
 
 @media screen and (min-width: 450px) {
@@ -61,10 +67,13 @@ html {
   }
 }
 
+/* *{
+  border: 1px solid white;
+} */
+
 body {
   width: 357px;
-  min-height: 600px;
-  max-height: 870px;
+  height: 600px;
   font-size: 16ox;
   margin: 0 auto;
   background-color: rgba(20, 20, 20);

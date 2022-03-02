@@ -3,7 +3,6 @@ import { fonts, images } from '../../utils';
 import { MainHeading, SubHeading } from '../common/text';
 import Button from '../common/button';
 
-import { WELCOME_TAG_LINE } from '../../utils/app-content';
 import { WelcomeViewProps } from './types';
 
 import './index.css';
@@ -16,7 +15,7 @@ const WelcomeView: React.FunctionComponent<WelcomeViewProps> = (
 ): JSX.Element => {
     const { importHandler, createHandler } = props;
     return (
-        <>
+        <div className="wrapper">
             <div className="app-logo1">
                 <img src={logo} alt="logo" />
             </div>
@@ -29,7 +28,7 @@ const WelcomeView: React.FunctionComponent<WelcomeViewProps> = (
                     className={subHeadingfontFamilyClass}
                     textAlign="center"
                 >
-                    {WELCOME_TAG_LINE}
+                    Your Gateway To Polkadot <br /> And Its Parachains.
                 </SubHeading>
             </div>
 
@@ -62,7 +61,7 @@ const WelcomeView: React.FunctionComponent<WelcomeViewProps> = (
                     }}
                 />
             </div>
-        </>
+        </div>
     );
 };
 

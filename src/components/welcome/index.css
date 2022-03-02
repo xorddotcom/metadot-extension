@@ -3,11 +3,21 @@
 }
 
 .main-content {
-  margin-bottom: 40px !important;
+  margin-bottom: 25px !important;
 }
 
 .btn-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center !important;
+  width: 100%;
+}
+
+
+.wrapper{
+    width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

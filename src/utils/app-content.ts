@@ -1,4 +1,4 @@
-export const WELCOME_TAG_LINE = `Your Gateway To Polkadot And Its Parachains.`;
+export const WELCOME_TAG_LINE = `Your Gateway To Polkadot \n And Its Parachains.`;
 
 export const WRITE_SEED_PHRASE = `Write down your seed phrase :`;
 export const WRITE_SEED_PHRASE_DESCRIPTION = `Please note down 

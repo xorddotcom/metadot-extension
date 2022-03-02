@@ -7,6 +7,7 @@ import {
     VerticalContentDivPropsInterface,
     MainTextPropsInterface,
 } from '../common/modals/authorization/styledComponent/types';
+import { CalculatedAmountInterface } from './types';
 // import { PlainIcon } from '../common/modals/selectNetwork/styledComponents';
 // import { PlainIcon as PlainIconInterface } from '../common/modals/selectNetwork/styledComponents/types';
 
@@ -41,12 +42,13 @@ export const FromAccount = styled(HorizontalContentDiv)`
     border-radius: 8px;
     color: ${primaryText};
     margin-bottom: 20px;
+    margin-top: 12px;
 `;
 
 export const PlainIcon = styled.div`
-    width: 34px;
-    height: 34px;
-    border-radius: 34px;
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
     margin-left: 5px;
     margin-right: 20px;
     background: ${(props: { bgColor?: string }) =>
@@ -89,7 +91,7 @@ export const EquivalentInUSDT = styled.p`
     margin-top: -1rem;
 `;
 
-export const CalculatedAmount = styled.div`
+export const CalculatedAmount = styled.div<CalculatedAmountInterface>`
     width: 96%;
     height: 15px;
     display: flex !important;
@@ -98,6 +100,7 @@ export const CalculatedAmount = styled.div`
     flex-direction: row;
     align-items: center;
     margin-left: 0.3rem;
+    margin-top: ${(props) => props.marginTop && props.marginTop};
 `;
 
 export const CenterContent = styled.div`

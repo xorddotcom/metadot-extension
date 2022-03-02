@@ -12,6 +12,7 @@ export const Wrapper = styled.div`
     max-height: 100%;
     height: 556px;
     position: relative;
+    background: rgba(20, 20, 20);
 `;
 
 export const WrapperScroll = styled.div`

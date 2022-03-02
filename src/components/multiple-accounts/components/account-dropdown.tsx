@@ -80,6 +80,9 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                 onClick={handleClose}
                 sx={{
                     borderRadius: '20px',
+                    width: '160px',
+                    height: '110px',
+                    marginTop: '12px',
                 }}
                 PaperProps={{
                     elevation: 0,
@@ -87,13 +90,16 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                         overflow: 'visible',
                         filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                         bgcolor: 'none',
-                        mt: 0.9,
                         ml: 3.3,
                         '& .MuiAvatar-root': {
                             width: 32,
                             height: 32,
                             ml: -0.5,
                             mr: 1,
+                            mt: 10,
+                        },
+                        '& .MuiMenu-list': {
+                            mt: -1,
                         },
                     },
                 }}
@@ -107,7 +113,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                     id="paper"
                     style={{
                         width: '210px',
-                        marginLeft: '-2.6rem',
+                        marginLeft: '-4.9rem',
                         marginTop: '-0.5rem',
                         backgroundColor: '#212121',
                         border: '0.9px solid #219A9A',

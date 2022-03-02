@@ -21,7 +21,6 @@ const FromInput: React.FunctionComponent = () => {
         className: mainHeadingfontFamilyClass,
         ls: '0.02em',
         lh: '16px',
-        mb: '2px',
         fs: '15px',
         mt: '-4px',
     };
