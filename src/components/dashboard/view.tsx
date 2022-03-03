@@ -2,6 +2,7 @@ import React from 'react';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
+import { useNavigate } from 'react-router-dom';
 import MainCard from './components/MainCard';
 import AssetsAndTransactions from './components/Tabs';
 import DropDown from './components/Dropdown';
@@ -55,6 +56,8 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
 
     // --------XXXXXXXXXXXXXXX-----------
 
+    const navigate = useNavigate();
+
     const ifKusama = chainName.includes('Kusama')
         ? `${chainName} Main Network`
         : `${chainName} Network`;
@@ -68,6 +71,9 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
                         width="30px"
                         height="34px"
                         alt="Metadot Logo"
+                        onClick={() => navigate('/swap')}
+                        onKeyDown={() => navigate('/swap')}
+                        role="presentation"
                     />
                 </LogoContainer>
 

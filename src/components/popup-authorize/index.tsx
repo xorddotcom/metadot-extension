@@ -72,8 +72,8 @@ const PopupAuth: React.FunctionComponent<any> = ({ requests }) => {
                     id="Authorization-Popup"
                     style={{
                         width: '100%',
-                        height: '32px',
-                        borderRadius: '4px',
+                        height: 50,
+                        borderRadius: 40,
                     }}
                 />
 

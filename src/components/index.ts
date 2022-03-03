@@ -13,6 +13,7 @@ import CreateDerivedAccount from './create-derived-account';
 import PopupAuth from './popup-authorize';
 import PopupSign from './popup-sign';
 import PopupMeta from './popup-meta';
+import Swap from './swap';
 
 export default {
     Welcome,
@@ -30,4 +31,5 @@ export default {
     PopupAuth,
     PopupSign,
     PopupMeta,
+    Swap,
 };

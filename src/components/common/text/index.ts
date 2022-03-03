@@ -25,7 +25,7 @@ export const MainHeading = styled.p<MainHeadingInterface>`
 
 export const SubHeading = styled.p<SubHeadingInterface>`
     font-style: normal;
-    color: ${secondaryText};
+    color: ${(props) => (props.color ? props.color : secondaryText)};
     text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
     text-align-last: ${(props) => props.textAlignLast && props.textAlignLast};
     line-height: ${(props) => (props.lineHeight ? props.lineHeight : '22px')};

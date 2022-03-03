@@ -11,6 +11,7 @@ import {
     SHOW_SEED,
     SUPPORT,
     WELCOME_BACK,
+    SWAP,
 } from './constants';
 
 const {
@@ -25,17 +26,19 @@ const {
     Support,
     CreateDerivedAccount,
     Send,
+    Swap,
 } = Views;
 
 export const UnAuthorizedRoutes = [
     {
-        path: WELCOME_BACK,
-        Component: WelcomeBack,
-    },
-    {
         path: IMPORT_WALLET,
         Component: ImportWallet,
     },
+    {
+        path: WELCOME_BACK,
+        Component: WelcomeBack,
+    },
+
     {
         path: SHOW_SEED,
         Component: ShowSeed,
@@ -91,5 +94,9 @@ export const AuthorizedRoutes = [
     {
         path: CONFIRM_SEED,
         Component: ConfirmSeed,
+    },
+    {
+        path: SWAP,
+        Component: Swap,
     },
 ];

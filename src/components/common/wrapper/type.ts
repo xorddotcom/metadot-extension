@@ -5,6 +5,7 @@ export interface HorizontalContentInterface {
     width?: string;
     backgroundColor?: string;
     borderRadius?: string;
+    justifyContent?: string;
 }
 
 export interface UnAuthScreensContentInterface {

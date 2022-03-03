@@ -30,7 +30,8 @@ export const MainDiv = styled.div`
 export const HorizontalContentDiv = styled.div<HorizontalContentInterface>`
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: ${(props) =>
+        props.justifyContent ? props.justifyContent : 'flex-start'};
     height: ${(props) => (props.height ? props.height : 'auto')};
     width: ${(props) => (props.width ? props.width : 'auto')};
     background-color: ${(props) =>

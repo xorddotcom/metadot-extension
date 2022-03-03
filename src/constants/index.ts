@@ -10,6 +10,7 @@ import {
     SUPPORT,
     WELCOME,
     WELCOME_BACK,
+    SWAP,
 } from './route-names';
 
 export {
@@ -24,4 +25,5 @@ export {
     SUPPORT,
     WELCOME,
     WELCOME_BACK,
+    SWAP,
 };

@@ -61,6 +61,8 @@ import element from '../assets/images/Element.svg';
 import AddSharpIcon from '../assets/images/icons/add.svg';
 import metaDot from '../assets/images/metadot.svg';
 
+import SwapIcon from '../assets/images/icons/swap.svg';
+
 export default {
     KusamaIcon,
     KaruraIcon,
@@ -114,4 +116,5 @@ export default {
     element,
     AddSharpIcon,
     metaDot,
+    SwapIcon,
 };
