@@ -22,7 +22,10 @@ async function validatingSeedPhrase(
     return validated;
 }
 
-async function getJsonBackup(address: string, password: string): Promise<void> {
+async function getJsonBackup(
+    address: string,
+    password: string
+): Promise<boolean> {
     try {
         const backupJson = await exportAccount(address, password);
 
@@ -41,9 +44,11 @@ async function getJsonBackup(address: string, password: string): Promise<void> {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        return true;
         // ***Download JSON file***
     } catch (e) {
         console.log('e in backup func', e);
+        return false;
     }
 }
 

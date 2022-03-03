@@ -23,6 +23,7 @@ import {
 import AccountsList from './components/account-list';
 import accountUtils from '../../utils/accounts';
 import { deleteAccount as deleteAccountRdx } from '../../redux/slices/accounts';
+import { setAuthScreenModal } from '../../redux/slices/modalHandling';
 
 const { addressMapper } = services;
 const { GenerateSeedPhrase } = accountUtils;
@@ -140,8 +141,12 @@ const MultipleAccounts: React.FunctionComponent = () => {
     const downloadJsonHandler = async (
         address: string,
         password: string
-    ): Promise<void> => {
-        await getJsonBackup(address, password);
+    ): Promise<boolean> => {
+        const res = await getJsonBackup(address, password);
+        if (!res) return false;
+
+        dispatch(setAuthScreenModal(false));
+        return true;
     };
 
     const btn = {

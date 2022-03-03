@@ -155,11 +155,11 @@ const MOONBASE_CONFIG: NetworkConfig = {
     name: 'Moonbase',
     tokenName: '',
     logo: MoonriverIcon,
-    rpcUrl: '',
+    rpcUrl: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
     queryEndpoint:
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
-    disabled: true,
+    disabled: false,
 };
 
 const ASGARD_CONFIG: NetworkConfig = {

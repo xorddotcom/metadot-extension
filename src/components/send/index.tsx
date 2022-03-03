@@ -151,7 +151,7 @@ const Send: React.FunctionComponent = () => {
     const doTransaction = async (
         address = '',
         password = ''
-    ): Promise<void> => {
+    ): Promise<boolean> => {
         const decimalPlaces = await api.registry.chainDecimals[0];
         const decimals: number = decimalPlaces;
 
@@ -231,7 +231,9 @@ const Send: React.FunctionComponent = () => {
                 }, 4000);
                 // navigate to dashboard on success
                 navigate(DASHBOARD);
+                return false;
             });
+        return true;
     };
 
     const isValidAddressPolkadotAddress = (address: string): boolean => {
@@ -315,10 +317,16 @@ const Send: React.FunctionComponent = () => {
 
     const amountInput = {
         onChange: (e: string): boolean => {
+            let decimalInStart = false;
+            if (e[0] === '.') {
+                // eslint-disable-next-line no-param-reassign
+                e = `0${e}`;
+                decimalInStart = true;
+            }
             const reg = /^-?\d+\.?\d*$/;
             const test = reg.test(e);
 
-            if (!test && e.length !== 0) {
+            if (!test && e.length !== 0 && !decimalInStart) {
                 return false;
             }
             if (Number(e) + transactionFee >= balance) {
@@ -332,6 +340,7 @@ const Send: React.FunctionComponent = () => {
                 setAmount(e);
                 setIsInputEmpty(false);
             }
+            setInsufficientBal(true);
             return true;
         },
         maxInputHandler,

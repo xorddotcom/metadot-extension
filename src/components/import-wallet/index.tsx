@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setJsonFileUploadScreen } from '../../redux/slices/activeAccount';
+import {
+    setJsonFileUploadScreen,
+    setLoggedIn,
+} from '../../redux/slices/activeAccount';
 import {
     setIsResponseModalOpen,
     setMainTextForSuccessModal,
@@ -75,6 +78,7 @@ function ImportWallet(): JSX.Element {
     }, []);
 
     const passwordChangeHandler = (value: string): void => {
+        setPasswordError(false);
         setPassword(value);
     };
 
@@ -85,6 +89,7 @@ function ImportWallet(): JSX.Element {
         dispatch(setSubTextForSuccessModal(''));
         dispatch(setJsonFileUploadScreen(false));
         setSelectedType('seed');
+        dispatch(setLoggedIn(true));
         navigate(DASHBOARD);
 
         setTimeout(() => {
@@ -103,6 +108,7 @@ function ImportWallet(): JSX.Element {
             const res = await createAccountFromJSON(json, password);
             console.log('Res [][]', res);
             if (res) {
+                dispatch(setJsonFileUploadScreen(false));
                 showSuccessModalAndNavigateToDashboard();
             } else {
                 console.log('aksk', res);

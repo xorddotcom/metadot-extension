@@ -163,7 +163,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
         height: '15px',
         onChange: (t: string) => {
             setPasswordError('');
-            setPassword(t);
+            return t.length <= 19 && setPassword(t);
         },
         hideHandler: () => setShowPassword(!showPassword),
         hideState: showPassword,
@@ -176,7 +176,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
         height: '15px',
         onChange: (t: string) => {
             setPasswordError('');
-            setConfirmPassword(t);
+            return t.length <= 19 && setConfirmPassword(t);
         },
         hideHandler: () => setShowConfirmPassword(!showConfirmPassword),
         hideState: showConfirmPassword,

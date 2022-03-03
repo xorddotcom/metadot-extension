@@ -47,9 +47,12 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
     const downloadJson = async (
         address: string,
         password: string
-    ): Promise<void> => {
-        await getJsonBackup(address, password);
+    ): Promise<boolean> => {
+        const res = await getJsonBackup(address, password);
+        if (!res) return false;
+
         dispatch(setAuthScreenModal(false));
+        return true;
     };
 
     const warningModal = {

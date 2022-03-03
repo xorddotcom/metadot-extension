@@ -12,6 +12,8 @@ import { VerticalContentDiv } from '../../common/wrapper';
 import { DeriveModalInterface } from '../types';
 import { CREATE_DERIVED_ACCOUNT } from '../../../constants';
 
+import { validateAccount } from '../../../messaging';
+
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 const DeriveModal: React.FunctionComponent<DeriveModalInterface> = ({
@@ -24,13 +26,17 @@ const DeriveModal: React.FunctionComponent<DeriveModalInterface> = ({
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const derivationValidate = (
+    const derivationValidate = async (
         parentAddress: string,
         suri: string,
         parentPassword: string
-    ): void => {
+    ): Promise<void> => {
         try {
+            setIsLoading(true);
+            const res = await validateAccount(parentAddress, parentPassword);
+            if (!res) throw new Error('Error');
             // message pass to validate seed
             navigate(CREATE_DERIVED_ACCOUNT, {
                 state: {
@@ -40,6 +46,7 @@ const DeriveModal: React.FunctionComponent<DeriveModalInterface> = ({
             });
         } catch (err) {
             setPasswordError('Invalid password!');
+            setIsLoading(false);
         }
     };
 
@@ -79,7 +86,9 @@ const DeriveModal: React.FunctionComponent<DeriveModalInterface> = ({
             height: 40,
             borderRadius: 40,
         },
+        disabled: password.length === 0 || isLoading,
         fontSize: '0.8rem',
+        isLoading,
         handleClick: () => derivationValidate(publicKey, '//0', password),
     };
 
@@ -89,6 +98,8 @@ const DeriveModal: React.FunctionComponent<DeriveModalInterface> = ({
                 <CloseIconDiv
                     id="close-icon"
                     onClick={() => {
+                        setShowPassword(false);
+                        setPassword('');
                         handleClose();
                     }}
                 >

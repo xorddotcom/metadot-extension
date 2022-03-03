@@ -26,19 +26,27 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
     const [passwordError, setPasswordError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleSubmit = (): boolean => {
+    const handleSubmit = async (): Promise<boolean> => {
         if (!password) {
             return false;
         }
         try {
+            const res: boolean = await onConfirm(publicKey, password);
+            if (!res) throw new Error('Invalid password!');
             generalDispatcher(() => setAuthScreenModal(false));
             generalDispatcher(() => setConfirmSendModal(true));
-            onConfirm(publicKey, password);
+            setPassword('');
             return true;
         } catch (err) {
             setPasswordError('Invalid password!');
+            return false;
         }
-        return false;
+    };
+
+    const closeModal = (): void => {
+        setPasswordError('');
+        setPassword('');
+        handleClose();
     };
 
     const styledInput = {
@@ -63,10 +71,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
             height: '40px',
             borderRadius: '40px',
         },
-        handleClick: () => {
-            setPassword('');
-            handleClose();
-        },
+        handleClick: () => closeModal(),
     };
 
     const btnS = {
@@ -83,7 +88,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
         <AuthModalView
             open={open}
             style={style}
-            onClose={() => handleClose()}
+            onClose={() => closeModal()}
             styledInput={styledInput}
             passwordError={passwordError}
             btnCancel={btnF}

@@ -131,10 +131,20 @@ const Dashboard: React.FunctionComponent = () => {
             ({
                 data: { free: currentFree },
             }: AccountInfoWithProviders | AccountInfoWithRefCount) => {
+                const decimals = api.registry.chainDecimals[0];
                 const change = currentFree.sub(previousFree);
                 if (!change.isZero()) {
                     const bal = getBalance(api, publicKey)
                         .then((res) => {
+                            //         console.log('res ===>>>', res);
+                            // if (rpcUrl === 'wss:/
+                            // /rpc.shibuya.astar.network') {
+                            // res -= Number(change.toString());
+                            // const newBal =
+                            //     balance + Number(change.toString())
+                            //  / 10 ** decimals;
+                            // generalDispatcher(() => setBalance(newBal));
+                            // }
                             generalDispatcher(() => setBalance(res));
                         })
                         .catch((err) => console.log('Err', err));

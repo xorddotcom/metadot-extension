@@ -15,6 +15,7 @@ const {
     WESTEND_CONFIG,
     SHIBUYA_CONFIG,
     CONTEXTFREE_CONFIG,
+    MOONBASE_CONFIG,
 } = constants;
 
 const availableNetworks: NetworkConfigType[] = [
@@ -45,6 +46,7 @@ const TestNetworks: NetworkConfigType[] = [
     { ...WESTEND_CONFIG },
     { ...CONTEXTFREE_CONFIG },
     { ...SHIBUYA_CONFIG },
+    { ...MOONBASE_CONFIG },
 ];
 
 export default {

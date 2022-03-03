@@ -21,7 +21,7 @@ export interface AccountListInterface {
     accounts: TransformedAccountInterface[];
     activateAccount(pk: string, name: string): void;
     deleteAccount(publicKey: string): Promise<void>;
-    downloadJSON(address: string, password: string): Promise<void>;
+    downloadJSON(address: string, password: string): Promise<boolean>;
 }
 
 export interface DerivedAccountsInterface {

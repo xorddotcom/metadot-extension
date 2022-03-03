@@ -2,7 +2,7 @@ export const WELCOME_TAG_LINE = `Your Gateway To Polkadot \n And Its Parachains.
 
 export const WRITE_SEED_PHRASE = `Write down your seed phrase :`;
 export const WRITE_SEED_PHRASE_DESCRIPTION = `Please note down 
-your mnemonic seed phrase. As of now, it is the only access point
+your seed phrase. As of now, it is the only access point
  to your Metadot wallet in case of any mishap. Screenshots are not encouraged.`;
 
 export const IMPORT_WALLET_HEADER = `Import Wallet`;
@@ -21,7 +21,7 @@ it can not be restored again. Do you wish to continue?`;
 
 export const CONFIRM_SEED_MAIN_HEADING = `Confirm seed phrase`;
 
-export const CONFIRM_SEED_DESCRIPTION = `To confirm the mnemonic, 
+export const CONFIRM_SEED_DESCRIPTION = `To confirm the seed, 
 enter the right words in the space provided below.`;
 
 export const ASSETS = `Assets`;
