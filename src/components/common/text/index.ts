@@ -13,10 +13,11 @@ const { mainHeadingFontSize, subHeadingFontSize } = fonts;
 
 export const MainHeading = styled.p<MainHeadingInterface>`
     font-style: normal;
-    font-size: ${mainHeadingFontSize};
+    font-size: ${(props) =>
+        props.fontSize ? props.fontSize : mainHeadingFontSize};
     line-height: 18.75px;
     text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
-    font-size: 16px;
+    /* font-size: 16px; */
     font-weight: ${(props) => props.weight && props.weight};
     color: ${(props) => (props.color ? props.color : primaryText)};
     margin-bottom: ${(props) => props.marginBottom && props.marginBottom};

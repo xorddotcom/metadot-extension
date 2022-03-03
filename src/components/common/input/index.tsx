@@ -74,6 +74,7 @@ const Input: React.FunctionComponent<Props> = ({
             marginBottom={marginBottom || '0px'}
             isCorrect={isCorrect}
             inputWrapperWidth={inputWrapperWidth}
+            disabled={disabled}
         >
             <Field {...FieldProps} />
             {rightIcon && (

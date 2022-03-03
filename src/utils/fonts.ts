@@ -1,6 +1,6 @@
 const fonts = {
-    welcomeScreenMainHeadingFontSize: '2rem',
-    headerHeadingFontSize: '1.25rem',
+    welcomeScreenMainHeadingFontSize: '32px',
+    headerHeadingFontSize: '20px',
     mainHeadingFontSize: '18px',
     subHeadingFontSize: '16px',
     buttonFontSize: '16px',

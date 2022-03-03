@@ -22,6 +22,8 @@ export const Wrapper = styled.div<WrapperInterface>`
     display: flex;
     align-items: center;
     justify-content: start;
+    opacity: ${(props) => (props.disabled ? 0.5 : 1)};
+    margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
 `;
 
 export const NewWrapper = styled.div<NewWrapperInterface>`
