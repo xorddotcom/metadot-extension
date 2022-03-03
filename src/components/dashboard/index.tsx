@@ -26,6 +26,8 @@ import {
     resetAccountSlice,
     setJsonFileUploadScreen,
     setPrefix,
+    setAccountCreationStep,
+    setTempSeed,
 } from '../../redux/slices/activeAccount';
 
 import {
@@ -299,6 +301,12 @@ const Dashboard: React.FunctionComponent = () => {
     const handleCloseDropDown = (): void => {
         setAnchorEl(null);
     };
+
+    useEffect(() => {
+        if (!(lastVisited < 90)) {
+            generalDispatcher(() => setAccountCreationStep(0));
+        }
+    }, []);
 
     // --------XXXXXXXXXXXXXXX-----------
 

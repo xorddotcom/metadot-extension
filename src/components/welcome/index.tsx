@@ -27,36 +27,29 @@ const Welcome: React.FunctionComponent = (): JSX.Element | null => {
         (state: RootState) => state.activeAccount
     );
 
-    const [seedToPass, setSeedToPass] = useState('');
-
-    useEffect(() => {
-        try {
-            const newSeed = GenerateSeedPhrase();
-            setSeedToPass(newSeed);
-        } catch (error) {
-            console.log(error);
-        }
-    }, []);
-
     const createHandler = (): void => {
-        generalDispatcher(() => setTempSeed(seedToPass));
+        const newSeed = GenerateSeedPhrase();
+        generalDispatcher(() => setTempSeed(newSeed));
         generalDispatcher(() => setAccountCreationStep(1));
         navigate(SHOW_SEED, {
-            state: { prevRoute: location, seedToPass },
+            state: { prevRoute: location, seedToPass: newSeed },
         });
     };
 
-    const importHandler = (): void =>
-        navigate(IMPORT_WALLET, {
-            state: { seedToPass },
-        });
+    const importHandler = (): void => navigate(IMPORT_WALLET);
 
     const lastTime = localStorage.getItem('timestamp');
 
     const lastVisited = (Date.now() - Number(lastTime) || 0) / 1000;
 
+    useEffect(() => {
+        if (!(lastVisited < 90)) {
+            generalDispatcher(() => setAccountCreationStep(0));
+        }
+    }, []);
+
     if (accountCreationStep === 1 && lastVisited < 90) {
-        navigate(IMPORT_WALLET, {
+        navigate(SHOW_SEED, {
             state: { seedToPass: tempSeed },
         });
         return null;
