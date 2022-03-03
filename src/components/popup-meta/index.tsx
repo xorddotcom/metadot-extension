@@ -93,9 +93,9 @@ const PopupMeta: React.FunctionComponent<any> = ({ requests }) => {
                     text="Update Metadata"
                     id="Authorization-Popup"
                     style={{
-                        width: '100%',
-                        height: '40px',
-                        borderRadius: '40px',
+                        width: '80%',
+                        height: 50,
+                        borderRadius: 40,
                     }}
                     handleClick={() => approveMetaRequest(requests[0].id)}
                 />

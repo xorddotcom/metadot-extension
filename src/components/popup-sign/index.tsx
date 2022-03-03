@@ -235,9 +235,9 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                     text="Sign The Transaction"
                     id="Authorization-Popup"
                     style={{
-                        width: '100%',
-                        height: '40px',
-                        borderRadius: '40px',
+                        width: '80%',
+                        height: 50,
+                        borderRadius: 40,
                     }}
                     disabled={password.length === 0}
                 />

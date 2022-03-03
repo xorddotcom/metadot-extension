@@ -19,6 +19,7 @@ export interface SubHeadingInterface {
     ml?: string;
     opacity?: string;
     overFlow?: boolean;
+    color?: string;
 }
 
 export interface WarningTextInterface {
