@@ -1,7 +1,8 @@
 export interface WrapperInterface {
     isCorrect?: boolean;
-    marginBottom: string;
+    marginBottom?: string;
     inputWrapperWidth?: string;
+    disabled?: boolean;
 }
 export interface NewWrapperInterface {
     isCorrect?: boolean;

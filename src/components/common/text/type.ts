@@ -4,6 +4,7 @@ export interface MainHeadingInterface {
     color?: string;
     marginBottom?: string;
     textAlign?: string;
+    fontSize?: string;
 }
 
 export interface SubHeadingInterface {
