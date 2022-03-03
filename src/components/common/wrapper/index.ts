@@ -17,6 +17,7 @@ export const Wrapper = styled.div<AuthorizationPopupWrapperInterface>`
     width: ${(props) => props.width && props.width};
     border-radius: ${(props) => props.borderRadius && props.borderRadius};
     border-color: ${(props) => props.borderRadius && props.borderRadius};
+    background: rgba(20, 20, 20);
 `;
 
 export const MainDiv = styled.div`

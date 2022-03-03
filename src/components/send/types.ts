@@ -78,3 +78,7 @@ export interface SendViewProps {
         loading2: boolean;
     };
 }
+
+export interface CalculatedAmountInterface {
+    marginTop?: string;
+}

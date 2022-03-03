@@ -86,7 +86,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                 </WarningText>
             )}
 
-            <CalculatedAmount>
+            <CalculatedAmount marginTop="13px">
                 <EquivalentInUSDT
                     id="equivalent-in-usd"
                     className={subHeadingfontFamilyClass}
@@ -98,7 +98,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                 </Balance>
             </CalculatedAmount>
 
-            <CalculatedAmount>
+            <CalculatedAmount marginTop="5px">
                 <Balance {...txFeeProps}>
                     Estimated Tx Fee: {`${trimContent(transactionFee, 6)}`}
                 </Balance>

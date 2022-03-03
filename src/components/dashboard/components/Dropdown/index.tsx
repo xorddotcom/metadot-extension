@@ -41,11 +41,8 @@ const {
 const { mainHeadingfontFamilyClass } = fonts;
 const { getJsonBackup } = account;
 
-const DropDown: React.FunctionComponent<DropDownProps> = ({
-    open,
-    handleClose,
-    anchorEl,
-}) => {
+const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
+    const { open, handleClose, anchorEl } = props;
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { modalHandling } = useSelector((state: RootState) => state);
@@ -72,8 +69,10 @@ const DropDown: React.FunctionComponent<DropDownProps> = ({
                 onClick={handleClose}
                 sx={{
                     borderRadius: '20px',
+                    height: '300px',
+                    width: '160px',
+                    marginTop: '-1px',
                 }}
-                // className={`${classes.customWidth} ${classes.flex}`}
                 PaperProps={{
                     elevation: 0,
                     sx: {
@@ -97,7 +96,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = ({
                     id="paper"
                     style={{
                         width: '210px',
-                        marginLeft: '-2.6rem',
+                        marginLeft: '-4.9rem',
                         marginTop: '-1rem',
                         backgroundColor: '#212121',
                         border: '0.9px solid #219A9A',
