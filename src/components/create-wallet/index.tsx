@@ -14,6 +14,7 @@ import {
 import {
     setAccountCreationStep,
     setTempSeed,
+    setLoggedIn,
 } from '../../redux/slices/activeAccount';
 
 import { RootState } from '../../redux/store';
@@ -124,6 +125,8 @@ const CreateWallet: React.FunctionComponent = () => {
             openModalForCreateSuccess();
             navigate(DASHBOARD);
         }
+
+        generalDispatcher(() => setLoggedIn(true));
 
         setTimeout(() => {
             generalDispatcher(() => setIsResponseModalOpen(false));

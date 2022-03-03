@@ -80,7 +80,6 @@ function App(): JSX.Element {
                 activeAccount.prefix
             );
 
-            dispatch(setLoggedIn(true));
             dispatch(setPublicKey(publicKeyOfRespectiveChain));
             dispatch(setAccountName(name));
 

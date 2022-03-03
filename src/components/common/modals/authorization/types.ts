@@ -6,7 +6,7 @@ export interface AuthtModalProps {
     open: boolean;
     handleClose(e?: any): void;
     style?: object;
-    onConfirm(publicKey: string, password: string): void;
+    onConfirm(publicKey: string, password: string): Promise<boolean>;
     publicKey: string;
     setOpenAuthModalHandler?(): void;
 }
