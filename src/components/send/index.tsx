@@ -30,7 +30,6 @@ const errorMessages = {
     invalidAddress: 'Invalid address',
     enterAddress: 'Enter address',
     enterAmount: 'Enter amount',
-    sameAddressError: 'Addresses must not be same',
 };
 
 const { getBalance, getTransactionFee } = services;
@@ -152,88 +151,99 @@ const Send: React.FunctionComponent = () => {
         address = '',
         password = ''
     ): Promise<boolean> => {
-        const decimalPlaces = await api.registry.chainDecimals[0];
-        const decimals: number = decimalPlaces;
+        try {
+            const decimalPlaces = await api.registry.chainDecimals[0];
+            const decimals: number = decimalPlaces;
 
-        setLoading2(true);
+            setLoading2(true);
 
-        const amountSending = amount * 10 ** decimals;
+            const amountSending = amount * 10 ** decimals;
 
-        const tx = api.tx.balances.transfer(
-            receiverAddress as string,
-            BigInt(amountSending)
-        );
+            const tx = api.tx.balances.transfer(
+                receiverAddress as string,
+                BigInt(amountSending)
+            );
 
-        const nonce = await api.rpc.system.accountNextIndex(address);
-        const signer = api.createType('SignerPayload', {
-            method: tx,
-            nonce,
-            genesisHash: api.genesisHash,
-            blockHash: api.genesisHash,
-            runtimeVersion: api.runtimeVersion,
-            version: api.extrinsicVersion,
-        });
-        const txPayload: any = api.createType(
-            'ExtrinsicPayload',
-            signer.toPayload(),
-            { version: api.extrinsicVersion }
-        );
-        const txHex = txPayload.toU8a(true);
-        const response = await signTransaction(address, password, txHex);
-        const { signature } = response;
-        tx.addSignature(address, signature, txPayload);
-
-        await tx
-            .send(({ status, events }) => {
-                const txResSuccess = events.filter(({ event }: EventRecord) =>
-                    api.events.system.ExtrinsicSuccess.is(event)
-                );
-                const txResFail = events.filter(({ event }: EventRecord) =>
-                    api.events.system.ExtrinsicFailed.is(event)
-                );
-                if (status.isInBlock) {
-                    if (txResFail.length >= 1) {
-                        setLoading2(false);
-                        generalDispatcher(() => setConfirmSendModal(false));
-                        openResponseModalForTxFailed();
-                        setTimeout(() => {
-                            generalDispatcher(() =>
-                                setIsResponseModalOpen(false)
-                            );
-                        }, 4000);
-                        // navigate to dashboard on success
-                        navigate(DASHBOARD);
-                    }
-                    if (txResSuccess.length >= 1) {
-                        setLoading2(false);
-                        generalDispatcher(() => setConfirmSendModal(false));
-                        openResponseModalForTxSuccess();
-                        setTimeout(() => {
-                            generalDispatcher(() =>
-                                setIsResponseModalOpen(false)
-                            );
-                        }, 2000);
-                        navigate(DASHBOARD);
-                    }
-                }
-            })
-            .then((res) => {
-                console.log('Res', res);
-            })
-            .catch((err) => {
-                console.log('Error =====>>>', err);
-                console.log('Tx hash', tx.hash.toHex());
-                setLoading2(false);
-                generalDispatcher(() => setConfirmSendModal(false));
-                openResponseModalForTxFailed();
-                setTimeout(() => {
-                    generalDispatcher(() => setIsResponseModalOpen(false));
-                }, 4000);
-                // navigate to dashboard on success
-                navigate(DASHBOARD);
-                return false;
+            const nonce = await api.rpc.system.accountNextIndex(address);
+            const signer = api.createType('SignerPayload', {
+                method: tx,
+                nonce,
+                genesisHash: api.genesisHash,
+                blockHash: api.genesisHash,
+                runtimeVersion: api.runtimeVersion,
+                version: api.extrinsicVersion,
             });
-        return true;
+            const txPayload: any = api.createType(
+                'ExtrinsicPayload',
+                signer.toPayload(),
+                { version: api.extrinsicVersion }
+            );
+            const txHex = txPayload.toU8a(true);
+            let response;
+            try {
+                response = await signTransaction(address, password, txHex);
+            } catch (err) {
+                setLoading2(false);
+                throw new Error('Invalid Password!');
+            }
+            const { signature } = response;
+            tx.addSignature(address, signature, txPayload);
+
+            await tx
+                .send(({ status, events }) => {
+                    const txResSuccess = events.filter(
+                        ({ event }: EventRecord) =>
+                            api.events.system.ExtrinsicSuccess.is(event)
+                    );
+                    const txResFail = events.filter(({ event }: EventRecord) =>
+                        api.events.system.ExtrinsicFailed.is(event)
+                    );
+                    if (status.isInBlock) {
+                        if (txResFail.length >= 1) {
+                            setLoading2(false);
+                            generalDispatcher(() => setConfirmSendModal(false));
+                            openResponseModalForTxFailed();
+                            setTimeout(() => {
+                                generalDispatcher(() =>
+                                    setIsResponseModalOpen(false)
+                                );
+                            }, 4000);
+                            // navigate to dashboard on success
+                            navigate(DASHBOARD);
+                        }
+                        if (txResSuccess.length >= 1) {
+                            setLoading2(false);
+                            generalDispatcher(() => setConfirmSendModal(false));
+                            openResponseModalForTxSuccess();
+                            setTimeout(() => {
+                                generalDispatcher(() =>
+                                    setIsResponseModalOpen(false)
+                                );
+                            }, 2000);
+                            navigate(DASHBOARD);
+                        }
+                    }
+                })
+                .then((res) => {
+                    console.log('Res', res);
+                })
+                .catch((err) => {
+                    console.log('Error =====>>>', err);
+                    console.log('Tx hash', tx.hash.toHex());
+                    setLoading2(false);
+                    generalDispatcher(() => setConfirmSendModal(false));
+                    openResponseModalForTxFailed();
+                    setTimeout(() => {
+                        generalDispatcher(() => setIsResponseModalOpen(false));
+                    }, 4000);
+                    // navigate to dashboard on success
+                    navigate(DASHBOARD);
+                    return false;
+                });
+            return true;
+        } catch (err) {
+            return false;
+        }
     };
 
     const isValidAddressPolkadotAddress = (address: string): boolean => {
@@ -307,41 +317,41 @@ const Send: React.FunctionComponent = () => {
         onChange: (e: string): void => {
             setIsCorrect(true);
             setToAddressError(false);
-            const res = e === publicKey;
-            setToAddressError(res);
             setReceiverAddress(e);
         },
         receiverAddress,
-        toAddressError,
     };
 
     const amountInput = {
         onChange: (e: string): boolean => {
-            let decimalInStart = false;
-            if (e[0] === '.') {
-                // eslint-disable-next-line no-param-reassign
-                e = `0${e}`;
-                decimalInStart = true;
-            }
-            const reg = /^-?\d+\.?\d*$/;
-            const test = reg.test(e);
+            if (e.length < 14) {
+                let decimalInStart = false;
+                if (e[0] === '.') {
+                    // eslint-disable-next-line no-param-reassign
+                    e = `0${e}`;
+                    decimalInStart = true;
+                }
+                const reg = /^-?\d+\.?\d*$/;
+                const test = reg.test(e);
 
-            if (!test && e.length !== 0 && !decimalInStart) {
-                return false;
+                if (!test && e.length !== 0 && !decimalInStart) {
+                    return false;
+                }
+                if (Number(e) + transactionFee >= balance) {
+                    return false;
+                }
+                setInsufficientBal(false);
+                if (e.length === 0) {
+                    setAmount(e);
+                    setIsInputEmpty(true);
+                } else {
+                    setAmount(e);
+                    setIsInputEmpty(false);
+                }
+                setInsufficientBal(true);
+                return true;
             }
-            if (Number(e) + transactionFee >= balance) {
-                return false;
-            }
-            setInsufficientBal(false);
-            if (e.length === 0) {
-                setAmount(e);
-                setIsInputEmpty(true);
-            } else {
-                setAmount(e);
-                setIsInputEmpty(false);
-            }
-            setInsufficientBal(true);
-            return true;
+            return false;
         },
         maxInputHandler,
         insufficientBal,

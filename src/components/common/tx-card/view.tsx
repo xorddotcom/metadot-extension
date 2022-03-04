@@ -36,12 +36,14 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
                         <MainText
                             id="operation-coin"
                             className={mainHeadingfontFamilyClass}
+                            fontSize="12px"
                         >{`${operation} ${coin}`}</MainText>
                         <TxHorizontalContentDiv>
                             <MainText
                                 id="status"
                                 className={mainHeadingfontFamilyClass}
                                 color={status === 'Failed' ? red : green}
+                                fontSize="12px"
                             >
                                 {status}
                             </MainText>
@@ -64,6 +66,7 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
                     <MainText
                         className={mainHeadingfontFamilyClass}
                         balOverFlow
+                        fontSize="12px"
                     >
                         {`${trimBalance(Number(amount))} ${coin}`}
                     </MainText>

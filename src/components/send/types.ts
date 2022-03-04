@@ -43,7 +43,6 @@ export interface ToInputInterface {
     onChange(e: string): void;
     isCorrect: boolean;
     receiverAddress: string;
-    toAddressError: boolean;
 }
 
 export interface AmountInputInterface {

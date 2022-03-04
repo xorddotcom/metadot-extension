@@ -13,7 +13,7 @@ const ResponseModal: React.FunctionComponent<ResponseModalProps> = (props) => {
     return (
         <div>
             <Modal
-                style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
+                style={{ backgroundColor: 'rgba(33, 33, 33, 0.2)' }}
                 open={open}
                 onClose={handleClose}
             >

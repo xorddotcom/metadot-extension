@@ -36,6 +36,7 @@ export interface MainTextInterface {
     className?: string;
     color?: string;
     balOverFlow?: boolean;
+    fontSize?: string;
 }
 
 export interface ModalTextPropsInterface {
