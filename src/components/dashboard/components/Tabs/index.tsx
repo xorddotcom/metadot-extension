@@ -165,7 +165,7 @@ const AssetsAndTransactions: React.FunctionComponent<
                         obj.amount = abc.toString();
                         obj.hash = tempObj.extrinsicHash;
                         obj.operation = 'Send';
-                        obj.status = tempObj.status ? 'Success' : 'Failed';
+                        obj.status = tempObj.status ? 'Successful' : 'Failed';
                         obj.chainName = tempObj.token;
                         obj.tokenName = tempObj.token;
                         obj.transactionFee = '0';

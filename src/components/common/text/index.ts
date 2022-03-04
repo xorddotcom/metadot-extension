@@ -68,7 +68,8 @@ export const EquivalentInUSDT = styled.p`
 
 export const MainText = styled.p<MainTextInterface>`
     height: 14px;
-    font-size: 12px;
+    font-size: ${(props) => (props.fontSize ? props.fontSize : '16px')};
+    font-weight: bold;
     line-height: 14px;
     letter-spacing: 0.01em;
     color: ${(props) => (props.color ? props.color : '#ffffff')};

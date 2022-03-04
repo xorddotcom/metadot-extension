@@ -22,12 +22,15 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
     openAccountDropDownHandler,
 }) => {
     return (
-        <Account key={publicKey} marginBottom="10px" marginTop="10px">
+        <Account
+            key={publicKey}
+            marginBottom="10px"
+            marginTop="10px"
+            onClick={() => activateAccount(publicKey, accountName)}
+        >
             <AccountFlex>
                 <AccountCircle />
-                <AccountText
-                    onClick={() => activateAccount(publicKey, accountName)}
-                >
+                <AccountText>
                     <AccountMainText className={mainHeadingfontFamilyClass}>
                         {accountName}
                     </AccountMainText>
@@ -39,9 +42,10 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
 
             <DropDownContainer className={mainHeadingfontFamilyClass}>
                 <DropDownIcon
-                    onClick={(e) =>
-                        openAccountDropDownHandler(e, publicKey, accountName)
-                    }
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        openAccountDropDownHandler(e, publicKey, accountName);
+                    }}
                 >
                     <img src={dropDownIcon} alt="3-dots" />
                 </DropDownIcon>
