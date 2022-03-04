@@ -69,6 +69,7 @@ const AccountList: React.FunctionComponent<AccountListInterface> = ({
                                 openAccountDropDownHandler
                             }
                         />
+                        ;
                         {childAccounts.length > 0 && (
                             <DerivedAccounts
                                 accounts={childAccounts}
