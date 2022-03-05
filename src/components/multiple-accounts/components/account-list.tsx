@@ -15,6 +15,7 @@ const AccountList: React.FunctionComponent<AccountListInterface> = ({
     deleteAccount,
     downloadJSON,
     deriveAccount,
+    renameAccount,
 }) => {
     const { authScreenModal } = useSelector(
         (state: RootState) => state.modalHandling
@@ -91,11 +92,23 @@ const AccountList: React.FunctionComponent<AccountListInterface> = ({
                 handleClose={() => {
                     dispatch(setAuthScreenModal(false));
                 }}
+                functionType={authModalFunction}
                 onConfirm={
-                    authModalFunction === 'DownloadJson'
+                    // eslint-disable-next-line no-nested-ternary
+                    authModalFunction === 'ExportAccount'
                         ? downloadJSON
+                        : authModalFunction === 'RenameAccount'
+                        ? renameAccount
                         : deriveAccount
                 }
+                style={{
+                    width: '290px',
+                    background: '#141414',
+                    position: 'relative',
+                    bottom: 30,
+                    px: 2,
+                    pb: 3,
+                }}
             />
         </>
     );

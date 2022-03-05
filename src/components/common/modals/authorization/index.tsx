@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { AuthtModalProps } from './types';
-import { fonts } from '../../../../utils';
+import { fonts, accounts } from '../../../../utils';
 
 import {
     setAuthScreenModal,
@@ -13,29 +13,40 @@ import {
     CANCEL_BUTTON,
     CONFIRM_BUTTON,
     ENTER_PASSWORD,
+    ENTER_ACCOUNT_NAME,
 } from '../../../../utils/app-content';
 
 const { subHeadingfontFamilyClass } = fonts;
+const { validateAccount } = accounts;
 
 const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
-    const { open, handleClose, style, onConfirm, publicKey } = props;
+    const { open, handleClose, style, onConfirm, publicKey, functionType } =
+        props;
+
+    const isPassword = functionType !== 'RenameAccount';
 
     const generalDispatcher = useDispatcher();
 
-    const [password, setPassword] = useState('');
+    const [input, setInput] = useState('');
+
     const [passwordError, setPasswordError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
     const handleSubmit = async (): Promise<boolean> => {
-        if (!password) {
+        if (!input) {
             return false;
         }
         try {
-            const res: boolean = await onConfirm(publicKey, password);
+            if (isPassword) {
+                const valid: boolean = await validateAccount(publicKey, input);
+                if (!valid) throw new Error('Invalid password!');
+            }
+            const res: boolean = await onConfirm(publicKey, input);
             if (!res) throw new Error('Invalid password!');
+
             generalDispatcher(() => setAuthScreenModal(false));
             generalDispatcher(() => setConfirmSendModal(true));
-            setPassword('');
+            setInput('');
             return true;
         } catch (err) {
             setPasswordError('Invalid password!');
@@ -45,18 +56,18 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
 
     const closeModal = (): void => {
         setPasswordError('');
-        setPassword('');
+        setInput('');
         handleClose();
     };
 
     const styledInput = {
-        placeholder: ENTER_PASSWORD,
-        value: password,
+        placeholder: isPassword ? ENTER_PASSWORD : ENTER_ACCOUNT_NAME,
+        value: input,
         className: subHeadingfontFamilyClass,
         fontSize: '12px',
         height: '20px',
         onChange: (t: string) => {
-            setPassword(t);
+            setInput(t);
             setPasswordError('');
         },
         hideHandler: () => setShowPassword(!showPassword),
@@ -93,6 +104,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
             passwordError={passwordError}
             btnCancel={btnF}
             btnConfirm={btnS}
+            functionType={functionType}
         />
     );
 };

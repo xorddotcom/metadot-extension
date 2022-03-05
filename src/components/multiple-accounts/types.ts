@@ -27,6 +27,7 @@ export interface AccountListInterface {
     deleteAccount(publicKey: string): Promise<void>;
     downloadJSON(address: string, password: string): Promise<boolean>;
     deriveAccount(address: string, password: string): Promise<boolean>;
+    renameAccount(address: string, name: string): Promise<boolean>;
 }
 
 export interface DerivedAccountsInterface {

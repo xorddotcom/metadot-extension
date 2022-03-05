@@ -8,6 +8,7 @@ import {
     validateAccount as validateAccountMessage,
     deriveAccount,
     forgetAccount,
+    editAccount,
 } from '../messaging';
 
 function GenerateSeedPhrase(): string {
@@ -112,6 +113,11 @@ async function deleteAccount(address: string): Promise<boolean> {
     return result;
 }
 
+async function renameAccount(address: string, name: string): Promise<boolean> {
+    const result = await editAccount(address, name);
+    return result;
+}
+
 export default {
     GenerateSeedPhrase,
     AccountCreation,
@@ -121,4 +127,5 @@ export default {
     derive,
     validateAccount,
     deleteAccount,
+    renameAccount,
 };

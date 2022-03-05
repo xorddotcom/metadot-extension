@@ -31,6 +31,8 @@ import ForumOutlinedIcon from '../assets/images/icons/support.svg';
 import aboutIcon from '../assets/images/icons/aboutIcon.svg';
 import FileUploadOutlinedIcon from '../assets/images/icons/export.svg';
 import FileDownloadOutlinedIcon from '../assets/images/icons/download.svg';
+import activeIcon from '../assets/images/activeIcon.svg';
+import renameAccount from '../assets/images/renameAccount.svg';
 
 import MainLogo from '../assets/images/topLogo.svg';
 import refreshIcon from '../assets/images/icons/refresh.svg';
@@ -106,6 +108,8 @@ export default {
     aboutIcon,
     FileUploadOutlinedIcon,
     FileDownloadOutlinedIcon,
+    activeIcon,
+    renameAccount,
     MainLogo,
     refreshIcon,
     yellow,

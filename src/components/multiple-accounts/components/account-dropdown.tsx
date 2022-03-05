@@ -14,11 +14,17 @@ import {
     CREATE_DERIVE_ACCOUNT_TEXT,
     EXPORT_ACCOUNT,
     REMOVE_ACCOUNT,
+    RENAME_ACCOUNT,
     WARNING,
 } from '../../../utils/app-content';
 import { images } from '../../../utils';
 
-const { RemoveIcon, FileUploadOutlinedIcon, derivedAccountIcon } = images;
+const {
+    RemoveIcon,
+    FileUploadOutlinedIcon,
+    derivedAccountIcon,
+    renameAccount,
+} = images;
 
 const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
     anchorEl,
@@ -139,11 +145,38 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                                 </ListItemIcon>
                             </MenuItem>
                         )}
+
                         <MenuItem
                             id="menu-item-2"
                             style={{ minHeight: '37px', color: '#fafafa' }}
                             onClick={() => {
-                                authModalHandler('d');
+                                authModalHandler('RenameAccount');
+                            }}
+                            key={Math.random()}
+                        >
+                            <ListItemIcon
+                                className="flexStart"
+                                style={{ color: '#fafafa' }}
+                            >
+                                <img
+                                    src={renameAccount}
+                                    alt="rename-account"
+                                    width="14.55"
+                                    height="15"
+                                    style={{ marginTop: '0.15rem' }}
+                                />
+                                &nbsp; &nbsp;
+                                <span style={{ fontSize: '0.85rem' }}>
+                                    {RENAME_ACCOUNT}
+                                </span>
+                            </ListItemIcon>
+                        </MenuItem>
+
+                        <MenuItem
+                            id="menu-item-3"
+                            style={{ minHeight: '37px', color: '#fafafa' }}
+                            onClick={() => {
+                                authModalHandler('ExportAccount');
                             }}
                             key={Math.random()}
                         >
@@ -164,7 +197,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                         </MenuItem>
 
                         <MenuItem
-                            id="menu-item-3"
+                            id="menu-item-4"
                             style={{ minHeight: '37px', color: '#fafafa' }}
                             onClick={warnModalHandler}
                             key={Math.random()}

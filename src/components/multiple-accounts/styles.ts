@@ -104,7 +104,7 @@ export const AccountActiveText = styled.p`
     display: inline-block;
     margin: 0px 12px;
     font-size: 12px;
-    color: green;
+    color: #02cc53;
 `;
 
 export const AccountSubText = styled.p`

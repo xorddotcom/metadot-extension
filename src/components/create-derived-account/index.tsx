@@ -129,7 +129,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
             }
             await derive(
                 parentAddress,
-                derivePath,
+                `//${derivePath}`,
                 parentPassword,
                 walletName,
                 password,
@@ -190,7 +190,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
         className: subHeadingfontFamilyClass,
         placeholder: '',
         height: '15px',
-        value: derivePath,
+        value: `${derivePath}`,
         onChange: (t: string) => {
             setDerivePath(t);
         },

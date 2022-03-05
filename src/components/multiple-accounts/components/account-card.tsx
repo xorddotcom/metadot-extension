@@ -16,7 +16,7 @@ import { fonts, images } from '../../../utils';
 import { RootState } from '../../../redux/store';
 import services from '../../../utils/services';
 
-const { dropDownIcon } = images;
+const { dropDownIcon, activeIcon } = images;
 const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
 const { addressMapper } = services;
 
@@ -39,6 +39,18 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
             onClick={() => activateAccount(publicKey, accountName)}
         >
             <AccountFlex>
+                {activeAccount.publicKey ===
+                    addressMapper(publicKey, activeAccount.prefix) && (
+                    <img
+                        style={{
+                            position: 'relative',
+                            left: '24px',
+                            bottom: '8px',
+                        }}
+                        src={activeIcon}
+                        alt="active-account-icon"
+                    />
+                )}
                 <AccountCircle />
                 <AccountText>
                     <AccountMainText className={mainHeadingfontFamilyClass}>

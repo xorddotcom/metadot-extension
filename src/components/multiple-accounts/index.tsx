@@ -34,7 +34,7 @@ const MultipleAccounts: React.FunctionComponent = () => {
     const activeAccount = useSelector(
         (state: RootState) => state.activeAccount
     );
-    const { getJsonBackup, deleteAccount } = accountUtils;
+    const { getJsonBackup, deleteAccount, renameAccount } = accountUtils;
 
     const [seedToPass, setSeedToPass] = useState('');
 
@@ -160,12 +160,20 @@ const MultipleAccounts: React.FunctionComponent = () => {
             state: {
                 parentAddress: address,
                 parentPassword: password,
-                path: `//${transformedAccounts[
+                path: transformedAccounts[
                     address
-                ].childAccounts.length.toString()}`,
+                ].childAccounts.length.toString(),
             },
         });
         return true;
+    };
+
+    const renameAccountHandler = async (
+        address: string,
+        name: string
+    ): Promise<boolean> => {
+        const result = await renameAccount(address, name);
+        return result;
     };
 
     const btn = {
@@ -198,6 +206,7 @@ const MultipleAccounts: React.FunctionComponent = () => {
                     deleteAccount={deleteAccountHandler}
                     downloadJSON={downloadJsonHandler}
                     deriveAccount={deriveAccountHandler}
+                    renameAccount={renameAccountHandler}
                 />
             </WrapperScroll>
             <Button {...btn} />
