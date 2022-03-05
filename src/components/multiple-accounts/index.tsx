@@ -14,11 +14,11 @@ import { Wrapper, WrapperScroll } from './styles';
 import { resetTransactions } from '../../redux/slices/transactions';
 import { RootState } from '../../redux/store';
 import services from '../../utils/services';
-import { DASHBOARD, SHOW_SEED } from '../../constants';
+import { DASHBOARD, SHOW_SEED, CREATE_DERIVED_ACCOUNT } from '../../constants';
 import {
     ParentAccountInterface,
     ChildAccountInterface,
-    TransformedAccountInterface,
+    TransformedAccountsInterface,
 } from './types';
 import AccountsList from './components/account-list';
 import accountUtils from '../../utils/accounts';
@@ -46,9 +46,8 @@ const MultipleAccounts: React.FunctionComponent = () => {
     const [childAccounts, setChildAccounts] = useState<ChildAccountInterface[]>(
         []
     );
-    const [transformedAccounts, setTransformedAccounts] = useState<
-        TransformedAccountInterface[]
-    >([]);
+    const [transformedAccounts, setTransformedAccounts] =
+        useState<TransformedAccountsInterface>({});
     useEffect(() => {
         const seperateParentAndChildAccounts = (): void => {
             const ParentAccounts: ParentAccountInterface[] = [];
@@ -73,13 +72,16 @@ const MultipleAccounts: React.FunctionComponent = () => {
             seperateParentAndChildAccounts();
     }, [allAccounts]);
     useEffect(() => {
-        const TransformedAccounts: TransformedAccountInterface[] = [];
+        const TransformedAccounts: TransformedAccountsInterface = {};
         parentAccounts.forEach((parent) => {
             const children = childAccounts.filter(
                 (child) => child.parentAddress === parent.publicKey
             );
 
-            TransformedAccounts.push({ ...parent, childAccounts: children });
+            TransformedAccounts[parent.publicKey] = {
+                ...parent,
+                childAccounts: children,
+            };
         });
 
         setTransformedAccounts(TransformedAccounts);
@@ -149,6 +151,23 @@ const MultipleAccounts: React.FunctionComponent = () => {
         return true;
     };
 
+    const deriveAccountHandler = async (
+        address: string,
+        password: string
+    ): Promise<boolean> => {
+        // message pass to validate account
+        navigate(CREATE_DERIVED_ACCOUNT, {
+            state: {
+                parentAddress: address,
+                parentPassword: password,
+                path: `//${transformedAccounts[
+                    address
+                ].childAccounts.length.toString()}`,
+            },
+        });
+        return true;
+    };
+
     const btn = {
         id: 'create-new-button',
         text: 'Create New Account',
@@ -178,6 +197,7 @@ const MultipleAccounts: React.FunctionComponent = () => {
                     activateAccount={activateAccountHandler}
                     deleteAccount={deleteAccountHandler}
                     downloadJSON={downloadJsonHandler}
+                    deriveAccount={deriveAccountHandler}
                 />
             </WrapperScroll>
             <Button {...btn} />

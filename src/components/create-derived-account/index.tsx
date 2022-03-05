@@ -18,11 +18,12 @@ import {
     setSubTextForSuccessModal,
 } from '../../redux/slices/modalHandling';
 import { fonts, helpers, images } from '../../utils';
-import accounts from '../../utils/accounts';
+import accountsUtils from '../../utils/accounts';
 
 import { DASHBOARD } from '../../constants';
 import {
     CONFIRM_PASSWORD_LABEL,
+    DERIVE_PATH,
     CONTINUE_BUTTON,
     DERIVED_ACCOUNT_HEADER,
     DERIVED_ACCOUNT_WALLET_NAME_PLACEHOLDER,
@@ -38,7 +39,7 @@ const { ImportIcon } = images;
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
-const { derive } = accounts;
+const { derive } = accountsUtils;
 
 const passwordErrorMessages = {
     minimumCharacterWarning: 'Password should not be less than 8 characters',
@@ -56,15 +57,18 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
     const location = useLocation().state as {
         parentAddress: string;
         parentPassword: string;
+        path: string;
     };
 
     const parentPassword = location.parentPassword && location.parentPassword;
     const parentAddress = location.parentAddress && location.parentAddress;
+    const path = location.path && location.path;
 
     const [walletName, setWalletName] = useState('');
     const [isValidWalletName, setIsValidWalletName] = useState(false);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [derivePath, setDerivePath] = useState(path);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [passwordError, setPasswordError] = useState('');
@@ -125,7 +129,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
             }
             await derive(
                 parentAddress,
-                '//0',
+                derivePath,
                 parentPassword,
                 walletName,
                 password,
@@ -180,6 +184,16 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
         },
         hideHandler: () => setShowConfirmPassword(!showConfirmPassword),
         hideState: showConfirmPassword,
+    };
+
+    const styledInputDerivePath = {
+        className: subHeadingfontFamilyClass,
+        placeholder: '',
+        height: '15px',
+        value: derivePath,
+        onChange: (t: string) => {
+            setDerivePath(t);
+        },
     };
 
     const btn = {
@@ -301,6 +315,21 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                             {didnotMatchWarning}
                         </WarningText>
                     )}
+                </LabelAndTextWrapper>
+
+                <LabelAndTextWrapper>
+                    <SubHeading
+                        className={mainHeadingfontFamilyClass}
+                        marginTop="0px"
+                        mb="10px"
+                    >
+                        {DERIVE_PATH}
+                    </SubHeading>
+                    <Input
+                        id="derive-path"
+                        isCorrect
+                        {...styledInputDerivePath}
+                    />
                 </LabelAndTextWrapper>
             </UnAuthScreensContentWrapper>
 

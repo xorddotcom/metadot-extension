@@ -25,6 +25,7 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
     accountName,
     activateAccount,
     openAccountDropDownHandler,
+    marginTop,
 }) => {
     const activeAccount = useSelector(
         (state: RootState) => state.activeAccount
@@ -34,7 +35,7 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
         <Account
             key={publicKey}
             marginBottom="10px"
-            marginTop="10px"
+            marginTop={marginTop || '10px'}
             onClick={() => activateAccount(publicKey, accountName)}
         >
             <AccountFlex>

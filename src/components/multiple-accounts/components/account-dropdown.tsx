@@ -5,10 +5,9 @@ import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { useDispatch } from 'react-redux';
-import { AuthModal, WarningModal } from '../../common/modals';
+import { WarningModal } from '../../common/modals';
 
 import { setAuthScreenModal } from '../../../redux/slices/modalHandling';
-import accounts from '../../../utils/accounts';
 import { AccountDropDownInterface } from '../types';
 import {
     ACCOUNT_DELETION_WARNING,
@@ -20,39 +19,27 @@ import {
 import { images } from '../../../utils';
 
 const { RemoveIcon, FileUploadOutlinedIcon, derivedAccountIcon } = images;
-const { getJsonBackup } = accounts;
 
 const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
+    anchorEl,
     open,
     handleClose,
-    anchorEl,
     account,
-    expandModal,
     deleteAccount,
     isThisAParent,
+    setAuthModalFunction,
 }) => {
     const dispatch = useDispatch();
 
-    const [openAuthModal, setOpenAuthModa] = useState(false);
     const [openWarnModal, setOpenWarnModal] = useState(false);
 
-    const authModalHandler = (): void => {
-        setOpenAuthModa(true);
+    const authModalHandler = (authModalFunction: string): void => {
+        setAuthModalFunction(authModalFunction);
+        dispatch(setAuthScreenModal(true));
     };
 
     const warnModalHandler = (): void => {
         setOpenWarnModal(true);
-    };
-
-    const downloadJson = async (
-        address: string,
-        password: string
-    ): Promise<boolean> => {
-        const res = await getJsonBackup(address, password);
-        if (!res) return false;
-
-        dispatch(setAuthScreenModal(false));
-        return true;
     };
 
     const warningModal = {
@@ -130,7 +117,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                                 id="menu-item-1"
                                 style={{ minHeight: '37px', color: '#fafafa' }}
                                 onClick={() => {
-                                    expandModal(account);
+                                    authModalHandler('DeriveAccount');
                                 }}
                                 key={account.publicKey}
                             >
@@ -156,7 +143,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                             id="menu-item-2"
                             style={{ minHeight: '37px', color: '#fafafa' }}
                             onClick={() => {
-                                authModalHandler();
+                                authModalHandler('d');
                             }}
                             key={Math.random()}
                         >
@@ -202,24 +189,6 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                     </MenuList>
                 </Paper>
             </Menu>
-
-            <AuthModal
-                publicKey={account.publicKey}
-                open={openAuthModal}
-                handleClose={() => {
-                    setOpenAuthModa(false);
-                }}
-                onConfirm={downloadJson}
-                setOpenAuthModalHandler={authModalHandler}
-                style={{
-                    width: '290px',
-                    background: '#141414',
-                    position: 'relative',
-                    bottom: 30,
-                    px: 2,
-                    pb: 3,
-                }}
-            />
 
             <WarningModal {...warningModal} />
         </>

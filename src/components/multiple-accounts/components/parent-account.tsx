@@ -14,6 +14,7 @@ const ParentAccount: React.FunctionComponent<AccountCardInterface> = ({
             accountName={accountName}
             activateAccount={activateAccount}
             openAccountDropDownHandler={openAccountDropDownHandler}
+            marginTop="16px"
         />
     );
 };

@@ -17,11 +17,16 @@ export interface TransformedAccountInterface {
     childAccounts: ChildAccountInterface[];
 }
 
+export interface TransformedAccountsInterface {
+    [key: string]: TransformedAccountInterface;
+}
+
 export interface AccountListInterface {
-    accounts: TransformedAccountInterface[];
+    accounts: TransformedAccountsInterface;
     activateAccount(pk: string, name: string): void;
     deleteAccount(publicKey: string): Promise<void>;
     downloadJSON(address: string, password: string): Promise<boolean>;
+    deriveAccount(address: string, password: string): Promise<boolean>;
 }
 
 export interface DerivedAccountsInterface {
@@ -43,6 +48,7 @@ export interface AccountCardInterface {
         publicKey: string,
         accountName: string
     ): void;
+    marginTop?: string;
 }
 
 export interface MainTextInterface {
@@ -68,9 +74,9 @@ export interface AccountDropDownInterface {
     handleClose(): void;
     anchorEl: Element;
     account: ParentAccountInterface;
-    expandModal(account: ParentAccountInterface): void;
     deleteAccount(value: string): void;
     isThisAParent: boolean;
+    setAuthModalFunction(value: string): void;
 }
 
 export interface ChildAccountDropDownInterface {
