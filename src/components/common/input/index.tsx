@@ -27,7 +27,6 @@ const Input: React.FunctionComponent<Props> = ({
     hideHandler,
     hideState,
     blockInvalidChar,
-
     fullWidth,
     fontSize,
     height,
