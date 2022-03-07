@@ -87,7 +87,7 @@ const SHIDEN_CONFIG: NetworkConfig = {
     name: 'Shiden',
     tokenName: '',
     logo: ShidenIcon,
-    rpcUrl: 'wss://rpc.shiden.astar.network',
+    rpcUrl: 'wss://shiden.api.onfinality.io/public-ws',
     queryEndpoint:
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
