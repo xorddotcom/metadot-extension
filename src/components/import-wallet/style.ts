@@ -50,9 +50,30 @@ export const UploadFile = styled.label`
     line-height: 16px;
     letter-spacing: 0.02em;
     border-radius: 8px;
-    border: 0.5px solid rgba(250, 250, 250, 0.5);
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
+`;
+
+export const AccountDetailsDiv = styled.div`
+    background-color: ${darkBackground1};
+    color: ${primaryText};
+    padding: 0.6rem 1rem;
+    width: 86%;
+    height: 30px;
+    font-weight: 500;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 25px;
+`;
+
+export const Circle = styled.div`
+    background-color: #10977d;
+    height: 25px;
+    width: 25px;
+    border-radius: 12.5px;
 `;

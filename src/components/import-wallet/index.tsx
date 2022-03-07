@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { KeyringPair$Json } from '@polkadot/keyring/types';
 import {
     setJsonFileUploadScreen,
     setLoggedIn,
@@ -66,7 +67,7 @@ function ImportWallet(): JSX.Element {
     });
     const [isFilePicked, setIsFilePicked] = useState(false);
 
-    const [json, setJson] = useState<any>('');
+    const [json, setJson] = useState<any>();
 
     const [showPassword, setShowPassword] = useState(false);
     const [passwordError, setPasswordError] = useState(false);

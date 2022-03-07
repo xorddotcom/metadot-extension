@@ -7,7 +7,7 @@ import {
 } from '../../redux/slices/activeAccount';
 
 import { RootState } from '../../redux/store';
-import { CONFIRM_SEED } from '../../constants';
+import { CONFIRM_SEED, SEEDPHRASE_WARNING } from '../../constants';
 import useDispatcher from '../../hooks/useDispatcher';
 import ShowSeedView from './view';
 import { COPY_SEED_WARNING, WARNING } from '../../utils/app-content';
@@ -32,10 +32,33 @@ const ShowSeed: React.FunctionComponent = () => {
         setCopy('Copied');
     };
 
+    function getJsonBackup(seedPhrase: string): void {
+        try {
+            const jsonContent = seedPhrase;
+            console.log('jsonContent', jsonContent);
+
+            // ***Download JSON file***
+            const fileName = 'seed';
+            const data = JSON.stringify(jsonContent);
+            const blob = new Blob([data], { type: 'application/json' });
+            const href = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = href;
+            link.download = `${fileName}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            // ***Download JSON file***
+        } catch (e) {
+            console.log('e in backup func', e);
+        }
+    }
+
     const contentCopyIconDivProps = {
         id: 'copy-seed',
         onClick: () => {
             copySeedText();
+            getJsonBackup(currSeed);
             // for maintaining extension state
             // if user closes it for pasting the seed
             generalDispatcher(() => setTempSeed(currSeed));
@@ -52,7 +75,7 @@ const ShowSeed: React.FunctionComponent = () => {
             height: 50,
             borderRadius: 40,
         },
-        handleClick: () => setIsModalOpen(true),
+        handleClick: () => navigate(SEEDPHRASE_WARNING),
     };
 
     const warningModal = {

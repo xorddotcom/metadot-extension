@@ -1,3 +1,5 @@
+import { KeyringPair$Json } from '@polkadot/keyring/types';
+
 export interface OptionsInterface {
     importButtonHandler(): void;
     uploadButtonHandler(): void;
@@ -15,7 +17,7 @@ export interface EnterSeedInterface {
 export interface UploadJSONInterface {
     fileName: File | { name: string };
     isFilePicked: boolean;
-    json: object | string;
+    json: any;
     password: string;
     showPassword: boolean;
     passwordError: boolean;

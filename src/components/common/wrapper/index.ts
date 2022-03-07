@@ -123,7 +123,7 @@ export const UnAuthScreensContentWrapper = styled.div<NewType>`
 
 export const LabelAndTextWrapper = styled.div`
     width: 100%;
-    min-height: ${(props: { minHeight?: string; marginTop?: string }) =>
+    height: ${(props: { minHeight?: string; marginTop?: string }) =>
         props.minHeight ? props.minHeight : '103px'};
     margin-top: ${(props: { minHeight?: string; marginTop?: string }) =>
         props.marginTop && props.marginTop};

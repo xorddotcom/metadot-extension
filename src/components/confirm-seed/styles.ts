@@ -27,7 +27,6 @@ export const IndexText = styled.span`
 `;
 
 export const SeedText = styled.span`
-    background: ${darkBackground1} !important;
     cursor: pointer;
     height: 35px;
     line-height: 35px;
@@ -35,8 +34,8 @@ export const SeedText = styled.span`
     margin-top: 8px;
     font-size: 14px;
     color: ${primaryText};
-    visibility: ${(props: { selected: boolean }) =>
-        props.selected === true ? 'hidden' : 'visible'};
+    background: ${(props: { selected: boolean }) =>
+        props.selected === true ? primaryBackground : darkBackground1};
 
     &:hover {
         background-color: ${primaryBackground} !important;

@@ -13,3 +13,4 @@ export const SUPPORT = '/support';
 export const ACCOUNTS = '/accounts';
 export const CREATE_DERIVED_ACCOUNT = '/create-derived-account';
 export const SWAP = '/swap';
+export const SEEDPHRASE_WARNING = '/seedphrase-warning';

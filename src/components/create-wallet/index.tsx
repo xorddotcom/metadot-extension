@@ -135,7 +135,7 @@ const CreateWallet: React.FunctionComponent = () => {
 
     const handleContinue = async (): Promise<void> => {
         try {
-            if (!isUserNameValid(walletName) || walletName.length < 3) {
+            if (walletName.length < 1) {
                 setIsValidWalletName(true);
                 validatePassword();
                 setIsLoading(false);
@@ -168,7 +168,7 @@ const CreateWallet: React.FunctionComponent = () => {
         value: walletName,
         onChange: (t: string) => {
             setIsValidWalletName(false);
-            if (t.length < 20) setWalletName(t.replace(/[^A-Z0-9]/gi, ''));
+            if (t.length < 20) setWalletName(t);
         },
     };
 
@@ -204,6 +204,7 @@ const CreateWallet: React.FunctionComponent = () => {
             width: '100%',
             height: 50,
             borderRadius: 40,
+            marginTop: 40,
         },
         disabled: !(walletName && password && confirmPassword) && true,
         handleClick: async () => {

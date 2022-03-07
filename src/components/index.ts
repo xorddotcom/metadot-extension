@@ -14,6 +14,7 @@ import PopupAuth from './popup-authorize';
 import PopupSign from './popup-sign';
 import PopupMeta from './popup-meta';
 import Swap from './swap';
+import SeedphraseWarning from './seedphrase-warning';
 
 export default {
     Welcome,
@@ -32,4 +33,5 @@ export default {
     PopupSign,
     PopupMeta,
     Swap,
+    SeedphraseWarning,
 };
