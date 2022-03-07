@@ -42,11 +42,11 @@ const RenderContentForAvailableNetwroks = ({
                     {chainNameAltered}
                 </OptionText>
             </HorizontalContentDiv>
-            {relayChain && (name === 'Kusama' || name === 'Test Networks') && (
-                <NextIcon>
-                    <ArrowRightIcon />
-                </NextIcon>
-            )}
+            {/* {relayChain && (name === 'Kusama' || name === 'Test Networks') && ( */}
+            <NextIcon>
+                <ArrowRightIcon />
+            </NextIcon>
+            {/* )} */}
         </OptionRow>
     );
 };

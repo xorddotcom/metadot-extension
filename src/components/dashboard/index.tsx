@@ -74,7 +74,12 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 const { getBalance, addressMapper } = services;
 
-const { availableNetworks, KusamaMainNetworks, TestNetworks } = networks;
+const {
+    availableNetworks,
+    KusamaMainNetworks,
+    TestNetworks,
+    PolkadotMainNetworks,
+} = networks;
 
 const Dashboard: React.FunctionComponent = () => {
     const navigate = useNavigate();
@@ -157,6 +162,11 @@ const Dashboard: React.FunctionComponent = () => {
 
     const lastTime = localStorage.getItem('timestamp');
     const lastVisited = (Date.now() - Number(lastTime) || 0) / 1000;
+
+    // const test = () => {api.derive.balances?.all}
+    //     const unsub = await api.query.system.account(ADDR, ({ nonce, data: balance }) => {
+    //   console.log(`free balance is ${balance.free} with ${balance.reserved} reserved and a nonce of ${nonce}`);
+    // });
 
     const getOwnTabs = (): Promise<unknown[]> => {
         return Promise.all(
@@ -250,7 +260,17 @@ const Dashboard: React.FunctionComponent = () => {
         currentData: TestNetworks,
       });
       setIsLoading(false);
-    } else if (data.name === 'Kusama' && modalState.firstStep === true) {
+    } 
+    else if (data.name === 'Polkadot' && modalState.firstStep === true) {
+      setIsLoading(false);
+      setModalState({
+        firstStep: false,
+        renderMethod: KusamaContent,
+        currentData: PolkadotMainNetworks,
+      });
+    } 
+    
+    else if (data.name === 'Kusama' && modalState.firstStep === true) {
       setIsLoading(false);
       setModalState({
         firstStep: false,

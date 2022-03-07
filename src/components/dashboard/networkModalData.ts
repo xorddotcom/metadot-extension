@@ -16,6 +16,7 @@ const {
     SHIBUYA_CONFIG,
     CONTEXTFREE_CONFIG,
     MOONBASE_CONFIG,
+    ASTAR_CONFIG,
 } = constants;
 
 const availableNetworks: NetworkConfigType[] = [
@@ -31,6 +32,11 @@ const availableNetworks: NetworkConfigType[] = [
         rpcUrl: 'xyz',
         relayChain: true,
     },
+];
+
+const PolkadotMainNetworks: NetworkConfigType[] = [
+    { ...POLKADOT_CONFIG },
+    { ...ASTAR_CONFIG },
 ];
 
 const KusamaMainNetworks: NetworkConfigType[] = [
@@ -51,6 +57,7 @@ const TestNetworks: NetworkConfigType[] = [
 
 export default {
     availableNetworks,
+    PolkadotMainNetworks,
     KusamaMainNetworks,
     TestNetworks,
 };

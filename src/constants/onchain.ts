@@ -188,11 +188,11 @@ const ASTAR_CONFIG: NetworkConfig = {
     name: 'Astar',
     tokenName: 'PLM',
     logo: astarIcon,
-    rpcUrl: 'wss://rpc.plasmnet.io/',
+    rpcUrl: 'wss://rpc.astar.network',
     prefix: 5,
     queryEndpoint:
         'https://api.subquery.network/sq/kumailraza404/astar-indexer',
-    disabled: true,
+    disabled: false,
 };
 
 const SHIBUYA_CONFIG: NetworkConfig = {
