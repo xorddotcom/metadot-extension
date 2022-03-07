@@ -54,6 +54,7 @@ const DerivedAccount: React.FunctionComponent<DerivedAccountsInterface> = ({
                         <AccountCard
                             publicKey={account.publicKey}
                             accountName={account.accountName}
+                            parentAddress={account.parentAddress}
                             activateAccount={activateAccount}
                             openAccountDropDownHandler={
                                 openAccountDropDownHandler

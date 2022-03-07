@@ -173,7 +173,8 @@ const MultipleAccounts: React.FunctionComponent = () => {
         name: string
     ): Promise<boolean> => {
         const result = await renameAccount(address, name);
-        return result;
+        if (result) return result;
+        return false;
     };
 
     const btn = {

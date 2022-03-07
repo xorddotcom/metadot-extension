@@ -37,9 +37,10 @@ const AccountList: React.FunctionComponent<AccountListInterface> = ({
     const openAccountDropDownHandler = (
         event: any,
         publicKey: string,
-        accountName: string
+        accountName: string,
+        parentAddress?: string
     ): void => {
-        setDropDownData({ publicKey, accountName });
+        setDropDownData({ publicKey, accountName, parentAddress });
         setAnchorEl(event.currentTarget);
     };
 
@@ -51,12 +52,13 @@ const AccountList: React.FunctionComponent<AccountListInterface> = ({
     return (
         <>
             {Object.values(accounts).map(
-                ({ publicKey, accountName, childAccounts }) => {
+                ({ publicKey, accountName, parentAddress, childAccounts }) => {
                     return (
                         <>
                             <ParentAccount
                                 publicKey={publicKey}
                                 accountName={accountName}
+                                parentAddress={parentAddress}
                                 activateAccount={activateAccount}
                                 openAccountDropDownHandler={
                                     openAccountDropDownHandler
@@ -82,7 +84,6 @@ const AccountList: React.FunctionComponent<AccountListInterface> = ({
                 handleClose={closeAccountDropDownHandler}
                 account={dropDownData}
                 deleteAccount={deleteAccount}
-                isThisAParent
                 setAuthModalFunction={setAuthModalFunction}
             />
 

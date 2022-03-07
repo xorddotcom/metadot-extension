@@ -30,26 +30,29 @@ export interface AccountListInterface {
     renameAccount(address: string, name: string): Promise<boolean>;
 }
 
+export interface AccountCardInterface {
+    publicKey: string;
+    accountName: string;
+    parentAddress?: string;
+    activateAccount(publicKey: string, name: string): void;
+    openAccountDropDownHandler(
+        e: any,
+        publicKey: string,
+        accountName: string,
+        parentAddress?: string
+    ): void;
+    marginTop?: string;
+}
+
 export interface DerivedAccountsInterface {
     accounts: ChildAccountInterface[];
     activateAccount(pk: string, name: string): void;
     openAccountDropDownHandler(
         e: any,
         publicKey: string,
-        accountName: string
+        accountName: string,
+        parentAddress: string
     ): void;
-}
-
-export interface AccountCardInterface {
-    publicKey: string;
-    accountName: string;
-    activateAccount(publicKey: string, name: string): void;
-    openAccountDropDownHandler(
-        e: any,
-        publicKey: string,
-        accountName: string
-    ): void;
-    marginTop?: string;
 }
 
 export interface MainTextInterface {
@@ -76,7 +79,6 @@ export interface AccountDropDownInterface {
     anchorEl: Element;
     account: ParentAccountInterface;
     deleteAccount(value: string): void;
-    isThisAParent: boolean;
     setAuthModalFunction(value: string): void;
 }
 

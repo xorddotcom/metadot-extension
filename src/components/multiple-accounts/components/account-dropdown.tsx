@@ -32,9 +32,9 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
     handleClose,
     account,
     deleteAccount,
-    isThisAParent,
     setAuthModalFunction,
 }) => {
+    console.log('account in dropdown ==>>', account);
     const dispatch = useDispatch();
 
     const [openWarnModal, setOpenWarnModal] = useState(false);
@@ -118,7 +118,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                     }}
                 >
                     <MenuList id="menu-list">
-                        {isThisAParent && (
+                        {!account.parentAddress && (
                             <MenuItem
                                 id="menu-item-1"
                                 style={{ minHeight: '37px', color: '#fafafa' }}

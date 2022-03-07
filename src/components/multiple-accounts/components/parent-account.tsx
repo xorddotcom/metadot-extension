@@ -5,6 +5,7 @@ import { AccountCardInterface } from '../types';
 const ParentAccount: React.FunctionComponent<AccountCardInterface> = ({
     publicKey,
     accountName,
+    parentAddress,
     activateAccount,
     openAccountDropDownHandler,
 }) => {
@@ -12,6 +13,7 @@ const ParentAccount: React.FunctionComponent<AccountCardInterface> = ({
         <AccountCard
             publicKey={publicKey}
             accountName={accountName}
+            parentAddress={parentAddress}
             activateAccount={activateAccount}
             openAccountDropDownHandler={openAccountDropDownHandler}
             marginTop="16px"

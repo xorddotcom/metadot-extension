@@ -16,7 +16,7 @@ import {
     setAccountName,
 } from './redux/slices/activeAccount';
 import { setIsResponseModalOpen } from './redux/slices/modalHandling';
-import { addAccount } from './redux/slices/accounts';
+import { updateAccounts } from './redux/slices/accounts';
 import { RootState } from './redux/store';
 
 import Screens from './components';
@@ -52,6 +52,7 @@ function App(): JSX.Element {
     const { activeAccount, modalHandling } = useSelector(
         (state: RootState) => state
     );
+    const RdxAccounts = useSelector((state: RootState) => state.accounts);
 
     const { isResponseModalOpen, mainText, subText, responseImage } =
         modalHandling;
@@ -68,35 +69,22 @@ function App(): JSX.Element {
     }, []);
 
     useEffect(() => {
-        const saveAccountInRedux = ({
-            name,
-            address,
-            parentAddress,
-        }: any): void => {
-            // setting active account
+        if (accounts) {
+            console.log('accounts -->>', accounts);
+            dispatch(updateAccounts(accounts));
 
-            const publicKeyOfRespectiveChain = addressMapper(
-                address,
-                activeAccount.prefix
-            );
+            if (accounts.length !== Object.keys(RdxAccounts).length) {
+                const publicKeyOfRespectiveChain = addressMapper(
+                    accounts[accounts.length - 1].address,
+                    activeAccount.prefix
+                );
 
-            dispatch(setPublicKey(publicKeyOfRespectiveChain));
-            dispatch(setAccountName(name));
-
-            // setting all accounts
-            dispatch(
-                addAccount({
-                    accountName: name,
-                    publicKey: address,
-                    parentAddress,
-                })
-            );
-        };
-
-        if (accounts && accounts.length > 0) {
-            saveAccountInRedux(accounts[accounts.length - 1]);
+                dispatch(setPublicKey(publicKeyOfRespectiveChain));
+                dispatch(
+                    setAccountName(accounts[accounts.length - 1].name as string)
+                );
+            }
         }
-        console.log('accounts ==>>', accounts);
     }, [accounts]);
 
     let content;

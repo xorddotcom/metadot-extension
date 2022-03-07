@@ -23,6 +23,7 @@ const { addressMapper } = services;
 const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
     publicKey,
     accountName,
+    parentAddress,
     activateAccount,
     openAccountDropDownHandler,
     marginTop,
@@ -72,7 +73,12 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
                 <DropDownIcon
                     onClick={(e) => {
                         e.stopPropagation();
-                        openAccountDropDownHandler(e, publicKey, accountName);
+                        openAccountDropDownHandler(
+                            e,
+                            publicKey,
+                            accountName,
+                            parentAddress
+                        );
                     }}
                 >
                     <img src={dropDownIcon} alt="3-dots" />
