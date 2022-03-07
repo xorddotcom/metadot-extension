@@ -17,6 +17,10 @@ const RenderContentForKusamaMainNetwork = ({
     handleClick,
 }: RenderMethodProps): JSX.Element => {
     const { name, logo, disabled } = data;
+    const allMainnetsName = ['Polkadot', 'Kusama', 'Karura'];
+    const chainNameAltered = allMainnetsName.includes(name)
+        ? `${name} Main Network`
+        : `${name} Test Network`;
     const optionRow = {
         className: disabled ? 'tooltip' : 'abc',
         key: name,
@@ -31,7 +35,7 @@ const RenderContentForKusamaMainNetwork = ({
             <HorizontalContentDiv>
                 <img src={logo} alt="icon" />
                 <OptionText className={mainHeadingfontFamilyClass}>
-                    {`${name}`}
+                    {chainNameAltered}
                 </OptionText>
             </HorizontalContentDiv>
         </OptionRow>

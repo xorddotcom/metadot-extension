@@ -9,11 +9,18 @@ import accounts from '../../utils/accounts';
 import './index.css';
 import Input from '../common/input';
 
-import { setLoggedIn } from '../../redux/slices/activeAccount';
+import {
+    setAccountName,
+    setLoggedIn,
+    setPublicKey,
+} from '../../redux/slices/activeAccount';
 
 import { RootState } from '../../redux/store';
 import { DASHBOARD } from '../../constants';
 import { PASSWORD } from '../../utils/app-content';
+import { MyAccounts } from '../common/modals';
+import { Account } from './types';
+import useDispatcher from '../../hooks/useDispatcher';
 // import { ImportLink } from './styles';
 
 const { logo } = images;
@@ -29,9 +36,23 @@ function WelcomeBack(): JSX.Element {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const { accountName } = useSelector(
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const { accountName, publicKey } = useSelector(
         (state: RootState) => state.activeAccount
     );
+    const generalDispatcher = useDispatcher();
+
+    const [accountToLogin, setAccountToLogin] = useState<Account>({
+        publicKey,
+        accountName,
+    });
+
+    const onAccountSelection = (data: Account): void => {
+        setAccountToLogin(data);
+        setIsModalOpen(false);
+        generalDispatcher(() => setPublicKey(data.publicKey));
+        generalDispatcher(() => setAccountName(data.accountName));
+    };
 
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -90,15 +111,17 @@ function WelcomeBack(): JSX.Element {
             borderRadius: 40,
         },
         handleClick: handleSubmit,
+        disabled: !(password.length > 0),
     };
 
     const usernameInput = {
-        value: accountName,
+        value: accountToLogin.accountName,
         onChange: () => console.log('not editable!'),
         placeholder: 'wallet name',
         type: 'text',
         disabled: true,
         marginBottom: '20px',
+        rightIconDropDown: true,
     };
 
     return (
@@ -118,19 +141,41 @@ function WelcomeBack(): JSX.Element {
                     Welcome Back
                 </MainHeading>
 
-                <Input id="username" {...usernameInput} />
+                <div aria-hidden onClick={() => setIsModalOpen(true)}>
+                    <Input
+                        id="username"
+                        {...usernameInput}
+                        leftPosition="-14px"
+                        topPosition="-0.1px"
+                    />
+                </div>
                 <Input
                     {...InputProps}
                     typePassword
                     isCorrect
                     rightIcon
-                    leftPosition="10px"
-                    topPosition="3px"
+                    leftPosition="15px"
+                    topPosition="-0.1px"
                 />
                 <WarningText {...WarningTextProps}>{passwordError}</WarningText>
             </div>
 
             <Button {...ButtonProps} />
+
+            <MyAccounts
+                open={isModalOpen}
+                handleClose={() => setIsModalOpen(false)}
+                onSelection={onAccountSelection}
+                style={{
+                    position: 'relative',
+                    width: '300px',
+                    background: '#141414',
+                    pb: 3,
+                    overflowY: 'scroll',
+                    overflowX: 'hidden',
+                    marginTop: '9rem',
+                }}
+            />
 
             {/* <p>
                 <ImportLink color={primaryText}>or </ImportLink>

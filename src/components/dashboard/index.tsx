@@ -28,6 +28,7 @@ import {
     setPrefix,
     setAccountCreationStep,
     setTempSeed,
+    setQueryEndpoint,
 } from '../../redux/slices/activeAccount';
 
 import {
@@ -265,6 +266,8 @@ const Dashboard: React.FunctionComponent = () => {
         generalDispatcher(()=>setChainName(data.name));
         generalDispatcher(()=>setTokenImage(data.logo));
         generalDispatcher(()=>setPrefix(data.prefix));
+        generalDispatcher(()=>setQueryEndpoint(data.queryEndpoint));
+        
         // eslint-disable-next-line max-len
         const publicKeyOfRespectiveChain = addressMapper(currentUser.activeAccount.publicKey, data.prefix ? data.prefix : 42);
         generalDispatcher(()=>setPublicKey(publicKeyOfRespectiveChain));

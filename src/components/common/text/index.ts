@@ -69,20 +69,20 @@ export const EquivalentInUSDT = styled.p`
 export const MainText = styled.p<MainTextInterface>`
     height: 14px;
     font-size: ${(props) => (props.fontSize ? props.fontSize : '16px')};
-    font-weight: bold;
+    font-weight: ${(props) => (props.fontWeight ? props.fontWeight : 'bold')};
     line-height: 14px;
     letter-spacing: 0.01em;
     color: ${(props) => (props.color ? props.color : '#ffffff')};
     margin-top: 0px;
     margin-bottom: 3px;
-    text-align: start;
+    text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
     ${(props) =>
         props.balOverFlow &&
         css`
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            width: 45px;
+            width: 100px;
         `}
 `;
 

@@ -3,6 +3,7 @@ import React from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import MainCard from './components/MainCard';
 import AssetsAndTransactions from './components/Tabs';
 import DropDown from './components/Dropdown';
@@ -23,6 +24,7 @@ import {
 import { fonts, images } from '../../utils';
 
 import { DashboardViewProps } from './types';
+import { RootState } from '../../redux/store';
 
 const { MainLogo } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
@@ -58,9 +60,14 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
 
     const navigate = useNavigate();
 
-    const ifKusama = chainName.includes('Kusama')
+    const { tokenImage } = useSelector(
+        (state: RootState) => state.activeAccount
+    );
+
+    const allMainnetsName = ['Polkadot', 'Kusama', 'Karura'];
+    const chainNameAltered = allMainnetsName.includes(chainName)
         ? `${chainName} Main Network`
-        : `${chainName} Network`;
+        : `${chainName} Test Network`;
 
     return (
         <Wrapper pb>
@@ -84,10 +91,18 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
                         }
                         disabled={!!apiInitializationStarts}
                     >
+                        <img
+                            src={tokenImage}
+                            alt="chain"
+                            width="16px"
+                            height="16px"
+                            style={{
+                                borderRadius: '50%',
+                                marginRight: '5px',
+                            }}
+                        />
                         <SelectedChain className={subHeadingfontFamilyClass}>
-                            {chainName.includes('Network')
-                                ? chainName
-                                : ifKusama}
+                            {chainNameAltered}
                         </SelectedChain>
                         <ArrowDropDownIcon
                             id="arrow-drop-down-icon"
@@ -114,6 +129,7 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
                     anchorEl={anchorEl}
                     open={open}
                     handleClose={handleCloseDropDown}
+                    handleClickOnAccountSettings={handleClickOnAccountSettings}
                     // classes={classes}
                 />
                 {/* Menu End */}

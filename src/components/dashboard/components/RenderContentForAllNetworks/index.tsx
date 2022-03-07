@@ -21,6 +21,14 @@ const RenderContentForAvailableNetwroks = ({
     handleClick,
 }: RenderMethodProps): JSX.Element => {
     const { name, logo, relayChain, disabled } = data;
+    const allMainnetsName = ['Polkadot', 'Kusama'];
+
+    const ifTestNetworks =
+        name === 'Test Networks' ? 'Test Networks' : `${name} Test Network`;
+
+    const chainNameAltered = allMainnetsName.includes(name)
+        ? `${name} Main Network`
+        : ifTestNetworks;
     return (
         <OptionRow
             className={disabled ? 'tooltip' : 'abc'}
@@ -30,9 +38,9 @@ const RenderContentForAvailableNetwroks = ({
         >
             <HorizontalContentDiv>
                 <img src={logo} alt="token" />
-                <OptionText
-                    className={mainHeadingfontFamilyClass}
-                >{`${name}`}</OptionText>
+                <OptionText className={mainHeadingfontFamilyClass}>
+                    {chainNameAltered}
+                </OptionText>
             </HorizontalContentDiv>
             {relayChain && (name === 'Kusama' || name === 'Test Networks') && (
                 <NextIcon>

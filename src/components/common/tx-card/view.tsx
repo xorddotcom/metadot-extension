@@ -3,83 +3,102 @@ import { Props } from './types';
 import { HorizontalContentDiv, VerticalContentDiv } from '../wrapper';
 import { MainText } from '../text';
 import {
+    TxCardSubWrapper,
     TxCardWrapper,
+    TxDateRow,
     TxEquivalentInUSDT,
     TxHorizontalContentDiv,
 } from './styles';
-import { fonts, colors, helpers } from '../../../utils';
+import { fonts, colors, helpers, images } from '../../../utils';
+
+const { greenCheck } = images;
 
 const TxCardView: React.FunctionComponent<Props> = (props) => {
-    const { operation, status, coin, amount, amountInUsd, logo, handleClick } =
-        props;
+    const {
+        operation,
+        status,
+        coin,
+        amount,
+        amountInUsd,
+        logo,
+        handleClick,
+        timestamp,
+    } = props;
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
     const { green, red } = colors;
-    const { trimBalance } = helpers;
+    const { trimBalance, dateFormatter } = helpers;
+
     return (
         <TxCardWrapper
             id="tx-card-wrapper"
             style={{ cursor: 'pointer' }}
             onClick={() => handleClick()}
         >
-            <HorizontalContentDiv>
-                <div style={{ marginLeft: 10 }}>
-                    <img
-                        id="logo"
-                        src={logo}
-                        alt="btc icon"
-                        width="30px"
-                        height="30px"
-                    />
-                </div>
-                <div style={{ marginLeft: 10 }}>
+            <TxDateRow className={mainHeadingfontFamilyClass}>
+                {dateFormatter(timestamp)}
+            </TxDateRow>
+            <TxCardSubWrapper>
+                <HorizontalContentDiv>
+                    <div style={{ marginLeft: 10 }}>
+                        <VerticalContentDiv>
+                            <MainText
+                                id="operation-coin"
+                                className={mainHeadingfontFamilyClass}
+                                fontSize="18px"
+                            >{`${operation}`}</MainText>
+                            <TxHorizontalContentDiv>
+                                <MainText
+                                    id="status"
+                                    className={subHeadingfontFamilyClass}
+                                    color={
+                                        status === 'Failed' ? red : '#02CC53'
+                                    }
+                                    fontSize="12px"
+                                >
+                                    <img
+                                        src={greenCheck}
+                                        alt="green check"
+                                        style={{ marginRight: 8 }}
+                                    />
+                                    {status}
+                                </MainText>
+                            </TxHorizontalContentDiv>
+                        </VerticalContentDiv>
+                    </div>
+                </HorizontalContentDiv>
+
+                <div
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'flex-start',
+                        width: '40%',
+                        paddingLeft: 10,
+                        alignItems: 'center',
+                        marginRight: '0.45rem',
+                    }}
+                >
                     <VerticalContentDiv>
                         <MainText
-                            id="operation-coin"
                             className={mainHeadingfontFamilyClass}
-                            fontSize="12px"
-                        >{`${operation} ${coin}`}</MainText>
+                            balOverFlow
+                            fontSize="18px"
+                            fontWeight="600"
+                            textAlign="end"
+                            color="#2E9B9B"
+                        >
+                            {`${trimBalance(Number(amount))} ${coin}`}
+                        </MainText>
                         <TxHorizontalContentDiv>
-                            <MainText
-                                id="status"
-                                className={mainHeadingfontFamilyClass}
-                                color={status === 'Failed' ? red : green}
-                                fontSize="12px"
+                            <TxEquivalentInUSDT
+                                id="tx-equivalent-in-usd"
+                                className={subHeadingfontFamilyClass}
                             >
-                                {status}
-                            </MainText>
+                                {amountInUsd}
+                            </TxEquivalentInUSDT>
                         </TxHorizontalContentDiv>
                     </VerticalContentDiv>
                 </div>
-            </HorizontalContentDiv>
-
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'flex-start',
-                    width: '20%',
-                    paddingLeft: 10,
-                    alignItems: 'center',
-                    marginRight: '0.45rem',
-                }}
-            >
-                <VerticalContentDiv>
-                    <MainText
-                        className={mainHeadingfontFamilyClass}
-                        balOverFlow
-                        fontSize="12px"
-                    >
-                        {`${trimBalance(Number(amount))} ${coin}`}
-                    </MainText>
-                    <TxHorizontalContentDiv>
-                        <TxEquivalentInUSDT
-                            id="tx-equivalent-in-usd"
-                            className={subHeadingfontFamilyClass}
-                        >
-                            {amountInUsd}
-                        </TxEquivalentInUSDT>
-                    </TxHorizontalContentDiv>
-                </VerticalContentDiv>
-            </div>
+            </TxCardSubWrapper>
         </TxCardWrapper>
     );
 };

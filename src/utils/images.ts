@@ -63,7 +63,20 @@ import metaDot from '../assets/images/metadot.svg';
 
 import SwapIcon from '../assets/images/icons/swap.svg';
 
+import notConnected from '../assets/images/notConnected.svg';
+import backIcon from '../assets/images/icons/back.svg';
+import greenCheck from '../assets/images/icons/greenCheck.svg';
+import arrowRight from '../assets/images/icons/arrow-right.svg';
+// import visibilityOff from '../assets/images/icons/hide.svg';
+import dropdownIcon from '../assets/images/icons/dropdown.svg';
+import visibilityOff from '../assets/images/icons/closeEye.svg';
+import visibilityOn from '../assets/images/icons/openEye.svg';
+
 export default {
+    dropdownIcon,
+    visibilityOn,
+    visibilityOff,
+    arrowRight,
     KusamaIcon,
     KaruraIcon,
     MoonriverIcon,
@@ -117,4 +130,7 @@ export default {
     AddSharpIcon,
     metaDot,
     SwapIcon,
+    notConnected,
+    backIcon,
+    greenCheck,
 };

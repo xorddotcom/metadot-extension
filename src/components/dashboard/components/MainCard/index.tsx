@@ -15,11 +15,13 @@ import {
     PublicAddress,
     VerticalContentDiv,
     CopyIconImg,
+    MoreOptions,
+    ConnectionStatus,
 } from '../../styledComponents';
 
-const { refreshIcon, ContentCopyIcon } = images;
+const { refreshIcon, ContentCopyIcon, notConnected } = images;
 const { addressModifier, trimBalance } = helpers;
-const { mainHeadingfontFamilyClass } = fonts;
+const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
     props
@@ -71,6 +73,12 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
     return (
         <MainPanel>
             <div>
+                <MoreOptions>
+                    <img src={notConnected} alt="not connected signal" />
+                    <ConnectionStatus className={subHeadingfontFamilyClass}>
+                        Not Connected
+                    </ConnectionStatus>
+                </MoreOptions>
                 <Refresh
                     id="refresh"
                     onClick={() => {

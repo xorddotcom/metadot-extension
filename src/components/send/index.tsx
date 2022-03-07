@@ -188,7 +188,6 @@ const Send: React.FunctionComponent = () => {
             }
             const { signature } = response;
             tx.addSignature(address, signature, txPayload);
-
             await tx
                 .send(({ status, events }) => {
                     const txResSuccess = events.filter(

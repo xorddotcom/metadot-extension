@@ -7,7 +7,7 @@ import AssetCard from '../../../common/asset-card';
 import TxCard from '../../../common/tx-card';
 
 import { queryData } from '../../../../utils/queryData';
-import { fonts, helpers, images } from '../../../../utils';
+import { fonts, helpers } from '../../../../utils';
 import {
     AssetsAndTransactionsWrapper,
     Tabs,
@@ -23,18 +23,6 @@ import { RootState } from '../../../../redux/store';
 import { addTransaction } from '../../../../redux/slices/transactions';
 import { ASSETS, TRANSACTIONS } from '../../../../utils/app-content';
 
-const {
-    KusamaIcon,
-    KaruraIcon,
-    dusty,
-    contextFree,
-    polkadot,
-    westendColour,
-    acala,
-    rococoIcon,
-    astarIcon,
-    shibuyaIcon,
-} = images;
 const { mainHeadingfontFamilyClass } = fonts;
 const { trimBalance } = helpers;
 
@@ -55,39 +43,6 @@ const AssetsAndTransactions: React.FunctionComponent<
     } = assetsData;
     const [isTab1Active, setIsTab1Active] = useState(true);
     const [isTab2Active, setIsTab2Active] = useState(false);
-    const logoChangeHandler = (token: string): string => {
-        if (token === 'DOT') {
-            return polkadot;
-        }
-        if (token === 'KSM') {
-            return KusamaIcon;
-        }
-        if (token === 'SBY') {
-            return shibuyaIcon;
-        }
-        if (token === 'WND') {
-            return westendColour;
-        }
-        if (token === 'PLD') {
-            return dusty;
-        }
-        if (token === 'ACA') {
-            return acala;
-        }
-        if (token === 'PLM') {
-            return astarIcon;
-        }
-        if (token === 'ROC') {
-            return rococoIcon;
-        }
-        if (token === 'KAR') {
-            return KaruraIcon;
-        }
-        if (token === 'CTX') {
-            return contextFree;
-        }
-        return polkadot;
-    };
 
     const tabSectionAssets = {
         isActive: isTab1Active,
@@ -134,7 +89,7 @@ const AssetsAndTransactions: React.FunctionComponent<
                         sendObj.hash = tempObj.extrinsicHash;
                         sendObj.operation = 'Receive';
                         sendObj.status = tempObj.status
-                            ? 'Successful'
+                            ? 'Confirmed'
                             : 'Failed';
                         sendObj.chainName = tempObj.token;
                         sendObj.tokenName = tempObj.token;
@@ -165,7 +120,7 @@ const AssetsAndTransactions: React.FunctionComponent<
                         obj.amount = abc.toString();
                         obj.hash = tempObj.extrinsicHash;
                         obj.operation = 'Send';
-                        obj.status = tempObj.status ? 'Successful' : 'Failed';
+                        obj.status = tempObj.status ? 'Confirmed' : 'Failed';
                         obj.chainName = tempObj.token;
                         obj.tokenName = tempObj.token;
                         obj.transactionFee = '0';
@@ -232,11 +187,11 @@ const AssetsAndTransactions: React.FunctionComponent<
                         )
                         .map((transaction) => {
                             const {
-                                hash,
                                 operation,
                                 status,
                                 tokenName: tokenNames,
                                 amount,
+                                timestamp,
                             } = transaction;
 
                             const txCard = {
@@ -250,8 +205,9 @@ const AssetsAndTransactions: React.FunctionComponent<
                                 operation,
                                 status,
                                 amount,
+                                timestamp,
                             };
-                            return <TxCard key={hash} {...txCard} />;
+                            return <TxCard key={Math.random()} {...txCard} />;
                         })}
             </div>
         </AssetsAndTransactionsWrapper>

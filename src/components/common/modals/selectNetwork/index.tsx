@@ -2,13 +2,18 @@ import React from 'react';
 
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
 import { NetworkConfigType, SelectNetworkProps } from './types';
-import { BackButton, CloseIconDiv, Title, TitleDiv } from './styledComponents';
+import {
+    BackButton,
+    CloseIconDiv,
+    NetworkModalContent,
+    Title,
+    TitleDiv,
+} from './styledComponents';
 import { fonts, images } from '../../../../utils';
 
-const { crossIcon } = images;
+const { crossIcon, backIcon } = images;
 const { mainHeadingfontFamilyClass } = fonts;
 
 const SelectNetwork: React.FunctionComponent<SelectNetworkProps> = (props) => {
@@ -37,7 +42,7 @@ const SelectNetwork: React.FunctionComponent<SelectNetworkProps> = (props) => {
                                     resetState();
                                 }}
                             >
-                                <KeyboardArrowLeftIcon />
+                                <img src={backIcon} alt="back" />
                             </BackButton>
                         )}
 
@@ -53,14 +58,15 @@ const SelectNetwork: React.FunctionComponent<SelectNetworkProps> = (props) => {
                             <img src={crossIcon} alt="cross icon" />
                         </CloseIconDiv>
                     </TitleDiv>
-
-                    {currentData.map((data: NetworkConfigType) => {
-                        const handleClick =
-                            data.name !== 'Polkadot Network'
-                                ? handleClickForOthers
-                                : handleClickForKusama;
-                        return renderMethod({ data, handleClick });
-                    })}
+                    <NetworkModalContent>
+                        {currentData.map((data: NetworkConfigType) => {
+                            const handleClick =
+                                data.name !== 'Polkadot Network'
+                                    ? handleClickForOthers
+                                    : handleClickForKusama;
+                            return renderMethod({ data, handleClick });
+                        })}
+                    </NetworkModalContent>
                 </div>
             </Box>
         </Modal>

@@ -13,8 +13,8 @@ const TxDetails: React.FunctionComponent<TxDetailsProps> = (props) => {
         return Number(val.toFixed(4));
     };
 
-    const copyText = (): void => {
-        navigator.clipboard.writeText(hash || 'abc');
+    const copyText = (stringNeedToBeCopied?: string): void => {
+        navigator.clipboard.writeText(stringNeedToBeCopied || 'abc');
         setCopy('Copied');
     };
 

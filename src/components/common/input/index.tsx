@@ -1,13 +1,14 @@
 import React from 'react';
 
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import CancelIcon from '@mui/icons-material/Cancel';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 import { Props, FieldInterface } from './types';
 
 import { Wrapper, Field, Icon } from './styles';
+import { images } from '../../../utils';
+
+const { visibilityOff, dropdownIcon, visibilityOn } = images;
 
 const Input: React.FunctionComponent<Props> = ({
     placeholder,
@@ -18,6 +19,7 @@ const Input: React.FunctionComponent<Props> = ({
     disabled,
     id,
 
+    rightIconDropDown,
     rightIcon,
     rightIconCross,
     rightIconCrossClickHandler,
@@ -74,7 +76,6 @@ const Input: React.FunctionComponent<Props> = ({
             marginBottom={marginBottom || '0px'}
             isCorrect={isCorrect}
             inputWrapperWidth={inputWrapperWidth}
-            disabled={disabled}
         >
             <Field {...FieldProps} />
             {rightIcon && (
@@ -84,23 +85,9 @@ const Input: React.FunctionComponent<Props> = ({
                     leftPosition={leftPosition}
                 >
                     {!hideState ? (
-                        <VisibilityOffIcon
-                            id="eye-off-icon"
-                            fontSize="small"
-                            style={{
-                                marginTop: !mt ? '-0.1rem' : mt,
-                                marginRight: mr && mr,
-                            }}
-                        />
+                        <img src={visibilityOff} alt="hide" />
                     ) : (
-                        <VisibilityIcon
-                            id="eye-on-icon"
-                            fontSize="small"
-                            style={{
-                                marginTop: !mt ? '-0.1rem' : mt,
-                                marginRight: mr && mr,
-                            }}
-                        />
+                        <img src={visibilityOn} alt="hide" />
                     )}
                 </Icon>
             )}
@@ -122,6 +109,12 @@ const Input: React.FunctionComponent<Props> = ({
                             marginRight: '-0.15rem',
                         }}
                     />
+                </Icon>
+            )}
+
+            {rightIconDropDown && (
+                <Icon topPosition={topPosition} leftPosition={leftPosition}>
+                    <img src={dropdownIcon} alt="dropdown" />
                 </Icon>
             )}
         </Wrapper>
