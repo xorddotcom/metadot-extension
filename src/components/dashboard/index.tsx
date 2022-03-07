@@ -137,11 +137,13 @@ const Dashboard: React.FunctionComponent = () => {
             ({
                 data: { free: currentFree },
             }: AccountInfoWithProviders | AccountInfoWithRefCount) => {
+                console.log('Listener working');
                 const decimals = api.registry.chainDecimals[0];
                 const change = currentFree.sub(previousFree);
                 if (!change.isZero()) {
                     const bal = getBalance(api, publicKey)
                         .then((res) => {
+                            console.log('Balance ===>>', res);
                             //         console.log('res ===>>>', res);
                             // if (rpcUrl === 'wss:/
                             // /rpc.shibuya.astar.network') {
@@ -162,11 +164,6 @@ const Dashboard: React.FunctionComponent = () => {
 
     const lastTime = localStorage.getItem('timestamp');
     const lastVisited = (Date.now() - Number(lastTime) || 0) / 1000;
-
-    // const test = () => {api.derive.balances?.all}
-    //     const unsub = await api.query.system.account(ADDR, ({ nonce, data: balance }) => {
-    //   console.log(`free balance is ${balance.free} with ${balance.reserved} reserved and a nonce of ${nonce}`);
-    // });
 
     const getOwnTabs = (): Promise<unknown[]> => {
         return Promise.all(
@@ -278,6 +275,7 @@ const Dashboard: React.FunctionComponent = () => {
         currentData: KusamaMainNetworks,
       });
     } else if (rpcUrl !== data.rpcUrl) {
+        console.log('Network change', data)
         // for showing loading waves like preloader
       generalDispatcher(()=>setApiInitializationStarts(true));
       if (window.navigator.onLine) {

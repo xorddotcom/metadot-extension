@@ -8,6 +8,7 @@ import MainCard from './components/MainCard';
 import AssetsAndTransactions from './components/Tabs';
 import DropDown from './components/Dropdown';
 import { SelectNetwork, TxDetails, About } from '../common/modals';
+import { getAuthList } from '../../messaging';
 
 import {
     AccountContainer,
@@ -22,7 +23,9 @@ import {
 } from './styledComponents';
 
 import { fonts, images } from '../../utils';
+import { setWalletConnected } from '../../redux/slices/activeAccount';
 
+import useDispatcher from '../../hooks/useDispatcher';
 import { DashboardViewProps } from './types';
 import { RootState } from '../../redux/store';
 
@@ -30,6 +33,7 @@ const { MainLogo } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
+    const generalDispatcher = useDispatcher();
     const {
         isLoading,
         transactionData,
@@ -68,6 +72,52 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
     const chainNameAltered = allMainnetsName.includes(chainName)
         ? `${chainName} Main Network`
         : `${chainName} Test Network`;
+
+    function check(arr: any, sub: any): any {
+        console.log(sub, '|||||', arr);
+        const sub2 = sub.toLowerCase();
+        return arr.filter((str: any) =>
+            str
+                .toLowerCase()
+                .startsWith(sub2.slice(0, Math.max(str.length - 1, 1)))
+        );
+    }
+
+    // const getOpenTab = async (): Promise<any> => {
+    //     chrome.tabs.query({ active: true,
+    // lastFocusedWindow: true }, (tabs) => {
+    //         const { url } = tabs[0];
+    //         // console.log('Url', url);
+    //         return url;
+    //         // use `url` here inside the callback because it's asynchronous!
+    //     });
+    // };
+    // const test = async (): Promise<void> => {
+    //     let url: any;
+    //     const arr: any = [];
+    //     const res: any = await getAuthList();
+    //     console.log('res', res);
+    //     //         Object.values(res.list).filter((site)=>{
+    //     // site.url
+    //     //         })
+    //     Object.values(res.list).map((site: any) =>
+    //         console.log('site', site.url)
+    //     );
+    //     console.log('res.list', res.list[url]);
+    //     chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
+    //         url = tabs[0].url;
+    //         // console.log('Url', url);
+    //         // const array = Object.keys(res.list);
+    //         // console.log('Array', array);
+
+    //         Object.values(res.list).map((site: any) => arr.push(site.url));
+    //         const isAllowed = check(arr, url);
+    //         if (isAllowed.length === 0) console.log('now allowed', isAllowed);
+    //         else generalDispatcher(() => setWalletConnected(true));
+
+    //         // use `url` here inside the callback because it's asynchronous!
+    //     });
+    // };
 
     return (
         <Wrapper pb>

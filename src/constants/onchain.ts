@@ -26,6 +26,15 @@ const USD_PER_POLKADOT_API =
 const USD_PER_KSM_API =
     'https://api.coingecko.com/api/v3/simple/price?ids=KUSAMA&vs_currencies=Usd';
 
+const USD_PER_ASTAR_API =
+    'https://api.coingecko.com/api/v3/simple/price?ids=ASTAR&vs_currencies=Usd';
+
+const USD_PER_SHIDEN_API =
+    'https://api.coingecko.com/api/v3/simple/price?ids=SHIDEN&vs_currencies=Usd';
+
+const USD_PER_KARURA_API =
+    'https://api.coingecko.com/api/v3/simple/price?ids=KARURA&vs_currencies=Usd';
+
 const POLKADOT_CONFIG: NetworkConfig = {
     name: 'Polkadot',
     tokenName: 'DOT',
@@ -60,7 +69,7 @@ const KARURA_CONFIG: NetworkConfig = {
     queryEndpoint:
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
-    disabled: true,
+    disabled: false,
 };
 
 const MOONRIVER_CONFIG: NetworkConfig = {
@@ -78,11 +87,11 @@ const SHIDEN_CONFIG: NetworkConfig = {
     name: 'Shiden',
     tokenName: '',
     logo: ShidenIcon,
-    rpcUrl: '',
+    rpcUrl: 'wss://rpc.shiden.astar.network',
     queryEndpoint:
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
-    disabled: true,
+    disabled: false,
 };
 
 const BIFROST_CONFIG: NetworkConfig = {
@@ -186,7 +195,7 @@ const DUSTY_CONFIG: NetworkConfig = {
 
 const ASTAR_CONFIG: NetworkConfig = {
     name: 'Astar',
-    tokenName: 'PLM',
+    tokenName: 'ASTR',
     logo: astarIcon,
     rpcUrl: 'wss://rpc.astar.network',
     prefix: 5,
@@ -233,6 +242,9 @@ export default {
     BITCOUNTRY_CONFIG,
     USD_PER_KSM_API,
     USD_PER_POLKADOT_API,
+    USD_PER_ASTAR_API,
+    USD_PER_KARURA_API,
+    USD_PER_SHIDEN_API,
     POLKADOT_CONFIG,
     KUSAMA_CONFIG,
     BIFROST_CONFIG,

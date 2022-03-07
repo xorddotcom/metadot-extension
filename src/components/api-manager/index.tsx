@@ -6,6 +6,7 @@ import {
     setBalance,
     setBalanceInUsd,
     setTokenName,
+    setWalletConnected,
 } from '../../redux/slices/activeAccount';
 import { setIsResponseModalOpen } from '../../redux/slices/modalHandling';
 import { RootState } from '../../redux/store';
@@ -14,6 +15,7 @@ import { helpers, images } from '../../utils';
 import services from '../../utils/services';
 import useResponseModal from '../../hooks/useResponseModal';
 import useDispatcher from '../../hooks/useDispatcher';
+import { getAuthList } from '../../messaging';
 
 const { wifiOff, SuccessCheckIcon } = images;
 
@@ -38,11 +40,47 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
 
     const { convertIntoUsd } = helpers;
     const { getBalance, providerInitialization } = services;
-    const { publicKey, chainName } = activeAccount;
+    const { publicKey, chainName, isWalletConnected } = activeAccount;
+
+    const check = (arr: any, sub: any): any => {
+        console.log('Check running');
+        const sub2 = sub.toLowerCase();
+        return arr.filter((str: any) =>
+            str
+                .toLowerCase()
+                .startsWith(sub2.slice(0, Math.max(str.length - 1, 1)))
+        );
+    };
+
+    useEffect(() => {
+        const setConnectedSites = async (): Promise<void> => {
+            console.log('Set connected sites ====>>>>');
+            let url: any;
+            const arr: any = [];
+            const res: any = await getAuthList();
+            chrome.tabs.query(
+                { active: true, lastFocusedWindow: true },
+                (tabs) => {
+                    url = tabs[0].url;
+                    console.log('Url', url);
+                    Object.values(res.list).map((site: any) =>
+                        arr.push(site.url)
+                    );
+                    const isAllowed = check(arr, url);
+                    console.log('is allowed', isAllowed);
+                    if (isAllowed.length === 0)
+                        generalDispatcher(() => setWalletConnected(false));
+                    else generalDispatcher(() => setWalletConnected(true));
+                }
+            );
+        };
+        setConnectedSites();
+    });
 
     useEffect(() => {
         const setAPI = async (rpcUrl: string): Promise<void> => {
             try {
+                console.log('Api manager running');
                 generalDispatcher(() => setApiInitializationStarts(true));
 
                 if (window.navigator.onLine) {

@@ -12,7 +12,7 @@ import westendColour from '../assets/images/tokenImg/westend_colour.svg';
 import acala from '../assets/images/tokenImg/acala-circle.svg';
 import bitcountry from '../assets/images/tokenImg/bitcountry.svg';
 import rococoIcon from '../assets/images/rococo.svg';
-import astarIcon from '../assets/images/astar.svg';
+import astarIcon from '../assets/images/astar.png';
 import shibuyaIcon from '../assets/images/shibuya.svg';
 import yellow from '../assets/images/tokenImg/yellow.png';
 

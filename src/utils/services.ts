@@ -40,6 +40,11 @@ const getBalanceWithSingleToken = async (
     api: ApiPromiseType,
     acc: string
 ): Promise<number> => {
+    // console.log('Get balance service working');
+    // await api.query.system.account(acc, ({ data: bal }) => {
+    //     console.log(' New Balance ====>>> ', Number(bal.free) / 10 ** 18);
+    // });
+
     const { data: balance }: any = await api.query.system.account(acc);
     const userBalance = formatBalance(balance.free, {
         decimals: api.registry.chainDecimals[0],

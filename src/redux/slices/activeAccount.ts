@@ -19,6 +19,7 @@ const initialState = {
     tempSeed: '',
     lastVisitedTimestamp: '',
     queryEndpoint: WESTEND_CONFIG.queryEndpoint,
+    isWalletConnected: false,
 };
 
 export const activeAccountSlice = createSlice({
@@ -115,6 +116,9 @@ export const activeAccountSlice = createSlice({
         setPrefix: (state, action: PayloadAction<number>) => {
             return { ...state, prefix: action.payload };
         },
+        setWalletConnected: (state, action: PayloadAction<boolean>) => {
+            return { ...state, isWalletConnected: action.payload };
+        },
     },
 });
 
@@ -137,6 +141,7 @@ export const {
     setLastVisitedTimestamp,
     setTokenImage,
     setQueryEndpoint,
+    setWalletConnected,
 } = activeAccountSlice.actions;
 
 export default activeAccountSlice.reducer;

@@ -3,7 +3,6 @@ import { QueryObjectInterface } from './types';
 
 const getQuery = (prefix: number, publicKey: string): string => {
     const address = encodeAddress(publicKey, prefix);
-    console.log(address, 'address from get query');
     const query = `
       query {
     account(id: "${address}") {
