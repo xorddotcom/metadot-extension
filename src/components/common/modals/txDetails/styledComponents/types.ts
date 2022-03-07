@@ -14,4 +14,8 @@ export interface CommonTextInterface {
     pl10?: boolean;
     className?: string;
     style?: object;
+    fontSize?: string;
+    margin?: string;
+    fontWeight?: string;
+    color?: string;
 }

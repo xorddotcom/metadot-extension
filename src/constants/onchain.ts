@@ -47,7 +47,7 @@ const KUSAMA_CONFIG: NetworkConfig = {
     EXISTENTIAL_DEPOSIT: 0.0000333333,
     prefix: 2,
     queryEndpoint:
-        'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
+        'https://api.subquery.network/sq/kumailraza404/kusamaindexer',
     relayChain: true,
     disabled: false,
 };
@@ -191,7 +191,7 @@ const ASTAR_CONFIG: NetworkConfig = {
     rpcUrl: 'wss://rpc.plasmnet.io/',
     prefix: 5,
     queryEndpoint:
-        'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
+        'https://api.subquery.network/sq/kumailraza404/astar-indexer',
     disabled: true,
 };
 

@@ -60,4 +60,5 @@ export interface Props {
     style?: any;
     inputWrapperWidth?: string;
     searchIcon?: boolean;
+    rightIconDropDown?: boolean;
 }

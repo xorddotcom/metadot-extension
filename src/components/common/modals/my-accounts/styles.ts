@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { colors } from '../../../../../utils';
+import { colors } from '../../../../utils';
 import { OptionRowPropsInterface, PlainIconPropsInterface } from './types';
 
 const { primaryText, primaryBackground } = colors;

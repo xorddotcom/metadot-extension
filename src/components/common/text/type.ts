@@ -32,11 +32,14 @@ export interface WarningTextInterface {
 }
 
 export interface MainTextInterface {
+    width?: string;
     id?: string;
     className?: string;
     color?: string;
     balOverFlow?: boolean;
     fontSize?: string;
+    fontWeight?: string;
+    textAlign?: string;
 }
 
 export interface ModalTextPropsInterface {

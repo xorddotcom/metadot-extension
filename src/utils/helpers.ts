@@ -154,6 +154,32 @@ const trimContent = (value: number, noOfDigits: number): string => {
     return trimmedValue;
 };
 
+const getMonthName = (abc: any): string => {
+    const months = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+    ];
+    return months[abc.getMonth()];
+};
+
+const dateFormatter = (date?: string): string => {
+    const dateToBe = date || '123';
+    const abc = new Date(dateToBe);
+    return `${getMonthName(
+        abc
+    )} ${abc.getDate()} at ${abc.toLocaleTimeString()}`;
+};
+
 export default {
     arrayFromSeedSentence,
     arrayOfFourRandomNumbers,
@@ -165,5 +191,6 @@ export default {
     trimBalance,
     convertIntoUsd,
     trimContent,
+    dateFormatter,
     // showInternetSnackBar,
 };

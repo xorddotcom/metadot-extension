@@ -28,11 +28,16 @@ export const HorizontalContentDiv = styled.div<HorizontalContentInterface>`
 `;
 
 export const MainText1 = styled.p<CommonTextInterface>`
-    font-size: ${mainHeadingFontSize};
+    font-size: ${(props) =>
+        props.fontSize ? props.fontSize : mainHeadingFontSize};
     margin-top: ${(props) => props.marginTop && props.marginTop};
+    font-weight: ${(props) => props.fontWeight && props.fontWeight};
+    margin: ${(props) => props.margin && props.margin};
     line-height: 19px;
     height: 19px;
-    color: rgba(250, 250, 250, 0.85);
+    /* color: rgba(250, 250, 250, 0.85); */
+    color: ${(props) =>
+        props.color ? props.color : 'rgba(250, 250, 250, 0.85)'};
     text-align: ${(props) => props.textAlign};
 `;
 

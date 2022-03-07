@@ -13,6 +13,7 @@ export interface DropDownProps {
     handleClose(): void;
     anchorEl: Element | null;
     classes?: { customWidth: string; flex: string };
+    handleClickOnAccountSettings(e: any): void;
 }
 
 export interface AssetsAndTransactionsPropsInterface {

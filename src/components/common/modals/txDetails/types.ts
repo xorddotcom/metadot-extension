@@ -24,6 +24,10 @@ export interface TxDetailsViewProps {
     style?: object;
     txDetailsModalData: TransactionRecord;
     copy: string;
-    tooltipText: { onClick(): void; onMouseOver(): void; style: object };
+    tooltipText: {
+        onClick(v?: string): void;
+        onMouseOver(): void;
+        style: object;
+    };
     getTotalBalance(v1: string, v2: string): number;
 }

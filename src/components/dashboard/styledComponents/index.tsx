@@ -49,7 +49,7 @@ export const SelectChain = styled.div`
     width: 100%;
     height: 34px;
     cursor: pointer;
-    padding-left: 15px;
+    padding-left: 10px;
     padding-right: 5px;
     background: ${darkBackground1};
     border: 0.5px solid ${primaryBackground};
@@ -63,13 +63,13 @@ export const SelectChain = styled.div`
 `;
 
 export const SelectedChain = styled.p`
-    font-size: 14px;
-    line-height: 16px;
-    /* identical to box height, or 133% */
-    letter-spacing: 0.02em;
-    /* Text and Icons */
+    font-size: 13px;
     color: ${primaryText};
     opacity: 0.8;
+    width: 148px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 export const AccountContainer = styled.div`
@@ -167,12 +167,13 @@ export const VerticalContentDiv = styled.div`
 
 export const ConnectionStatus = styled.p`
     font-size: 10px;
+    font-weight: bold;
     color: ${secondaryText};
-    margin-left: 6px;
+    margin-left: 5px;
 `;
 
 export const Balance = styled.p`
-    font-weight: 500;
+    font-weight: bold;
     font-size: 30px;
     line-height: 35px;
     color: ${primaryText};
@@ -192,7 +193,7 @@ export const AccountName = styled.p`
     font-size: 14px;
     color: ${primaryText};
     line-height: 16px;
-    font-weight: 500;
+    font-weight: bold;
     text-align: start;
     margin-bottom: 0px;
     margin-top: 25px;
@@ -200,10 +201,9 @@ export const AccountName = styled.p`
 `;
 
 export const PublicAddress = styled.p`
-    font-weight: 500;
+    font-weight: bold;
     margin-top: 12px;
     font-size: 12px;
-    font-weight: 500;
     color: ${secondaryText};
     text-align: start;
     padding-bottom: 2px;
@@ -236,7 +236,7 @@ export const CopyIconImg = styled.img`
 
 export const AssetsAndTransactionsWrapper = styled.div`
     width: 100%;
-    height: 300px;
+    height: 273px;
     background: ${darkBackground2};
     box-shadow: 0px 0px 10px rgba(230, 0, 122, 0.03);
     border-radius: 8px;

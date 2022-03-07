@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import CloseIcon from '@mui/icons-material/Close';
@@ -8,14 +8,13 @@ import {
     HorizontalContentDiv,
     MainText1,
     MainText2,
-    SubText1,
     SubText2,
 } from './styledComponents';
 import { VerticalContentDiv } from '../../wrapper';
 import { fonts, helpers, colors, images } from '../../../../utils';
-import { TxDetailsProps, TxDetailsViewProps } from './types';
+import { TxDetailsViewProps } from './types';
 
-const { ContentCopyIcon } = images;
+const { ContentCopyIcon, arrowRight } = images;
 const { addressModifier } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -32,6 +31,8 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
         getTotalBalance,
     } = props;
 
+    const { onClick, onMouseOver } = tooltipText;
+
     const {
         hash,
         amount,
@@ -40,6 +41,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
         transactionFee,
         tokenName,
         status,
+        operation,
     } = txDetailsModalData;
     return (
         <Modal open={open} onClose={handleClose}>
@@ -52,12 +54,12 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                 >
                     <CloseIcon />
                 </CloseIconDiv>
-                <VerticalContentDiv marginTop="15px">
+                <VerticalContentDiv marginTop="5px">
                     <MainText1
                         textAlign="center"
                         className={mainHeadingfontFamilyClass}
                     >
-                        Details
+                        {`${operation} Details`}
                     </MainText1>
 
                     <HorizontalContentDiv
@@ -95,7 +97,13 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                 <div
                                     className={`tooltip ${subHeadingfontFamilyClass}`}
                                 >
-                                    <div id="copy-icon" {...tooltipText}>
+                                    <div
+                                        id="copy-icon"
+                                        onClick={() => onClick(hash)}
+                                        onMouseOver={() => onMouseOver()}
+                                        aria-hidden="true"
+                                        onFocus={() => console.log('abc')}
+                                    >
                                         <img
                                             src={ContentCopyIcon}
                                             alt="copy-icon"
@@ -137,8 +145,33 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                 className={subHeadingfontFamilyClass}
                             >
                                 {addressModifier(accountFrom)}
+                                <div
+                                    className={`tooltip ${subHeadingfontFamilyClass}`}
+                                    style={{ marginLeft: 10 }}
+                                >
+                                    <div
+                                        id="copy-icon"
+                                        onClick={() => onClick(accountFrom)}
+                                        onMouseOver={() => onMouseOver()}
+                                        aria-hidden="true"
+                                        onFocus={() => console.log('abc')}
+                                    >
+                                        <img
+                                            src={ContentCopyIcon}
+                                            alt="copy-icon"
+                                        />
+                                        <span
+                                            className="tooltiptext"
+                                            style={{ fontSize: '0.7rem' }}
+                                        >
+                                            {copy}
+                                        </span>
+                                    </div>
+                                </div>
                             </SubText2>
                         </VerticalContentDiv>
+
+                        <img src={arrowRight} alt="arrow right" />
 
                         <VerticalContentDiv>
                             <MainText2
@@ -151,6 +184,30 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                 textAlign="end"
                                 className={subHeadingfontFamilyClass}
                             >
+                                <div
+                                    className={`tooltip ${subHeadingfontFamilyClass}`}
+                                    style={{ marginRight: 10 }}
+                                >
+                                    <div
+                                        id="copy-icon"
+                                        onClick={() => onClick(accountTo)}
+                                        onMouseOver={() => onMouseOver()}
+                                        aria-hidden="true"
+                                        onFocus={() => console.log('abc')}
+                                    >
+                                        <img
+                                            src={ContentCopyIcon}
+                                            alt="copy-icon"
+                                        />
+                                        <span
+                                            className="tooltiptext"
+                                            style={{ fontSize: '0.7rem' }}
+                                        >
+                                            {copy}
+                                        </span>
+                                    </div>
+                                </div>
+
                                 {addressModifier(accountTo)}
                             </SubText2>
                         </VerticalContentDiv>
@@ -165,37 +222,54 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                     </MainText1>
 
                     <VerticalContentDiv specialPadding border paddingBottom>
+                        <MainText1
+                            textAlign="start"
+                            className={mainHeadingfontFamilyClass}
+                            margin="13px 0px 0px 0px"
+                            fontSize="14px"
+                            color="#FFFFFF"
+                        >
+                            Details
+                        </MainText1>
                         <HorizontalContentDiv paddingTop borderBottom>
                             <VerticalContentDiv marginBottom="10px">
-                                <MainText2
+                                <MainText1
                                     marginTop="10px"
                                     textAlign="start"
                                     className={subHeadingfontFamilyClass}
+                                    fontSize="12px"
+                                    color="#FFFFFF"
                                 >
                                     Amount
-                                </MainText2>
-                                {/* <MainText2
+                                </MainText1>
+                                <MainText1
                                     marginTop="10px"
                                     textAlign="start"
                                     className={subHeadingfontFamilyClass}
+                                    fontSize="12px"
+                                    color="#FFFFFF"
                                 >
                                     Network Fee
-                                </MainText2> */}
+                                </MainText1>
                             </VerticalContentDiv>
 
                             <VerticalContentDiv marginBottom="10px">
-                                <MainText2
+                                <MainText1
                                     marginTop="10px"
                                     textAlign="end"
                                     className={mainHeadingfontFamilyClass}
-                                >{`${amount} ${tokenName}`}</MainText2>
-                                {/* <MainText2
+                                    fontSize="12px"
+                                    color="#FFFFFF"
+                                >{`${amount} ${tokenName}`}</MainText1>
+                                <MainText1
                                     marginTop="10px"
                                     textAlign="end"
                                     className={mainHeadingfontFamilyClass}
+                                    fontSize="12px"
+                                    color="#FFFFFF"
                                 >
-                                    {`${transactionFee} ${tokenName}`}
-                                </MainText2> */}
+                                    {`0.0151 ${tokenName}`}
+                                </MainText1>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
 
@@ -204,41 +278,42 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                 marginTop="10px"
                                 marginBottom="10px"
                             >
-                                <SubText1
+                                <MainText1
                                     textAlign="start"
                                     className={subHeadingfontFamilyClass}
+                                    margin="0px"
+                                    fontSize="12px"
+                                    color="#FFFFFF"
                                 >
-                                    Total Amount
-                                </SubText1>
-                                <SubText1
+                                    Total
+                                </MainText1>
+                                {/* <SubText1
                                     textAlign="start"
                                     hide
                                     className={subHeadingfontFamilyClass}
                                 >
                                     .
-                                </SubText1>
+                                </SubText1> */}
                             </VerticalContentDiv>
 
                             <VerticalContentDiv
                                 marginTop="10px"
                                 marginBottom="10px"
                             >
-                                <MainText2
+                                <MainText1
                                     textAlign="end"
                                     className={mainHeadingfontFamilyClass}
+                                    margin="0px"
+                                    fontSize="19px"
+                                    fontWeight="600"
+                                    color="#2E9B9B"
                                 >
                                     {`${getTotalBalance(
                                         amount || '10',
                                         transactionFee || '10'
                                     )}
                   ${tokenName}`}
-                                </MainText2>
-                                <MainText2
-                                    textAlign="end"
-                                    className={mainHeadingfontFamilyClass}
-                                >
-                                    $0
-                                </MainText2>
+                                </MainText1>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
                     </VerticalContentDiv>
