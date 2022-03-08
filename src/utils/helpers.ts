@@ -153,7 +153,6 @@ async function convertIntoUsd(
     amountToConvert: number
 ): Promise<number> {
     let converted = 0;
-    console.log('Token ====>>>', token);
     if (token === 'KSM') {
         const oneKSMintoUsd = await getKSM();
         converted = Number(
@@ -172,15 +171,15 @@ async function convertIntoUsd(
     } else if (token === 'SDN') {
         const oneSDNintoUsd = await getSDN();
         converted = Number(
-            (Number(amountToConvert) * oneSDNintoUsd.astar.usd).toFixed(3)
+            (Number(amountToConvert) * oneSDNintoUsd.shiden.usd).toFixed(3)
         );
+        console.log('Converted', converted);
     } else if (token === 'KAR') {
         const oneKARintoUsd = await getKAR();
         converted = Number(
             (Number(amountToConvert) * oneKARintoUsd.karura.usd).toFixed(3)
         );
     }
-    console.log('Converted ===>>', converted);
     return converted;
 }
 

@@ -66,6 +66,7 @@ import metaDot from '../assets/images/metadot.svg';
 import SwapIcon from '../assets/images/icons/swap.svg';
 
 import notConnected from '../assets/images/notConnected.svg';
+import connected from '../assets/images/connected.svg';
 import backIcon from '../assets/images/icons/back.svg';
 import greenCheck from '../assets/images/icons/greenCheck.svg';
 import arrowRight from '../assets/images/icons/arrow-right.svg';
@@ -137,4 +138,5 @@ export default {
     notConnected,
     backIcon,
     greenCheck,
+    connected,
 };

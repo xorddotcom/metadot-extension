@@ -46,6 +46,7 @@ const POLKADOT_CONFIG: NetworkConfig = {
     prefix: 0,
     relayChain: true,
     disabled: false,
+    explorer: '',
 };
 
 const KUSAMA_CONFIG: NetworkConfig = {
@@ -59,6 +60,7 @@ const KUSAMA_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/kumailraza404/kusamaindexer',
     relayChain: true,
     disabled: false,
+    explorer: '',
 };
 
 const KARURA_CONFIG: NetworkConfig = {
@@ -70,6 +72,7 @@ const KARURA_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
     disabled: false,
+    explorer: '',
 };
 
 const MOONRIVER_CONFIG: NetworkConfig = {
@@ -81,6 +84,7 @@ const MOONRIVER_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
     disabled: true,
+    explorer: '',
 };
 
 const SHIDEN_CONFIG: NetworkConfig = {
@@ -90,8 +94,9 @@ const SHIDEN_CONFIG: NetworkConfig = {
     rpcUrl: 'wss://shiden.api.onfinality.io/public-ws',
     queryEndpoint:
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
-    prefix: 0,
+    prefix: 5,
     disabled: false,
+    explorer: '',
 };
 
 const BIFROST_CONFIG: NetworkConfig = {
@@ -103,6 +108,7 @@ const BIFROST_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
     disabled: true,
+    explorer: '',
 };
 
 const PHALA_CONFIG: NetworkConfig = {
@@ -114,6 +120,7 @@ const PHALA_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
     disabled: true,
+    explorer: '',
 };
 
 const KHALA_CONFIG: NetworkConfig = {
@@ -125,6 +132,7 @@ const KHALA_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
     disabled: true,
+    explorer: '',
 };
 
 const WESTEND_CONFIG: NetworkConfig = {
@@ -136,6 +144,7 @@ const WESTEND_CONFIG: NetworkConfig = {
     rpcUrl: 'wss://westend-rpc.polkadot.io',
     prefix: 42,
     disabled: false,
+    explorer: 'https://westend.subscan.io/account/',
 };
 
 const ROCOCO_CONFIG: NetworkConfig = {
@@ -147,6 +156,7 @@ const ROCOCO_CONFIG: NetworkConfig = {
     queryEndpoint:
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     disabled: true,
+    explorer: '',
 };
 
 const ACALA_MANDALA_CONFIG: NetworkConfig = {
@@ -158,6 +168,7 @@ const ACALA_MANDALA_CONFIG: NetworkConfig = {
     queryEndpoint:
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     disabled: true,
+    explorer: '',
 };
 
 const MOONBASE_CONFIG: NetworkConfig = {
@@ -169,6 +180,7 @@ const MOONBASE_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
     disabled: false,
+    explorer: '',
 };
 
 const ASGARD_CONFIG: NetworkConfig = {
@@ -180,6 +192,7 @@ const ASGARD_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
     disabled: true,
+    explorer: '',
 };
 
 const DUSTY_CONFIG: NetworkConfig = {
@@ -191,6 +204,7 @@ const DUSTY_CONFIG: NetworkConfig = {
     rpcUrl: 'wss://rpc.dusty.plasmnet.io/',
     prefix: 5,
     disabled: true,
+    explorer: '',
 };
 
 const ASTAR_CONFIG: NetworkConfig = {
@@ -202,6 +216,7 @@ const ASTAR_CONFIG: NetworkConfig = {
     queryEndpoint:
         'https://api.subquery.network/sq/kumailraza404/astar-indexer',
     disabled: false,
+    explorer: '',
 };
 
 const SHIBUYA_CONFIG: NetworkConfig = {
@@ -213,6 +228,7 @@ const SHIBUYA_CONFIG: NetworkConfig = {
     rpcUrl: 'wss://rpc.shibuya.astar.network',
     prefix: 5,
     disabled: false,
+    explorer: '',
 };
 
 const BITCOUNTRY_CONFIG: NetworkConfig = {
@@ -224,6 +240,7 @@ const BITCOUNTRY_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
     disabled: true,
+    explorer: '',
 };
 
 const CONTEXTFREE_CONFIG: NetworkConfig = {
@@ -235,6 +252,7 @@ const CONTEXTFREE_CONFIG: NetworkConfig = {
     rpcUrl: 'wss://cf-api.ata.network',
     prefix: 11820,
     disabled: false,
+    explorer: '',
 };
 
 export default {

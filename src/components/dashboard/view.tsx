@@ -4,12 +4,10 @@ import { useSelector } from 'react-redux';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import MainCard from './components/MainCard';
 import AssetsAndTransactions from './components/Tabs';
 import DropDown from './components/Dropdown';
 import { SelectNetwork, TxDetails, About } from '../common/modals';
-import { RootState } from '../../redux/store';
 
 import {
     AccountContainer,
@@ -32,7 +30,6 @@ const { MainLogo } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
-    const currentUser = useSelector((state: RootState) => state.activeAccount);
     const {
         isLoading,
         transactionData,
@@ -59,7 +56,6 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
         apiInitializationStarts,
     } = props;
 
-    const { isWalletConnected } = currentUser;
     // --------XXXXXXXXXXXXXXX-----------
 
     const navigate = useNavigate();
@@ -171,11 +167,6 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
                 }}
                 isLoading={isLoading}
             />
-
-            <p style={{ color: 'white' }}>
-                {' '}
-                {`wallet connected ${isWalletConnected}`}{' '}
-            </p>
             <TxDetails
                 open={isTxDetailsModalOpen}
                 handleClose={() => setIsTxDetailsModalOpen(false)}

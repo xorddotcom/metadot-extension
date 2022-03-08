@@ -57,10 +57,12 @@ function WelcomeBack(): JSX.Element {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [passwordError, setPasswordError] = useState('');
+    // const [isButtonLoading, setIsButtonLoading] = useState(false);
 
     const currentUser = useSelector((state: RootState) => state.activeAccount);
 
     const handleSubmit = async (): Promise<boolean | null> => {
+        // setIsButtonLoading(true);
         if (!password) {
             return false;
         }
@@ -73,10 +75,12 @@ function WelcomeBack(): JSX.Element {
                 dispatch(setLoggedIn(true));
                 navigate(DASHBOARD);
             } else {
-                setPasswordError('Invalid password!');
+                // setPasswordError('Invalid password!');
+                throw new Error('Invalid password!');
             }
         } catch (err) {
             setPasswordError('Invalid password!');
+            // setIsButtonLoading(false);
         }
         return null;
     };
@@ -111,6 +115,7 @@ function WelcomeBack(): JSX.Element {
             borderRadius: 40,
         },
         handleClick: handleSubmit,
+        // isLoading: isButtonLoading,
         disabled: !(password.length > 0),
     };
 

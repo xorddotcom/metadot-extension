@@ -56,12 +56,10 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
         const setConnectedSites = async (): Promise<void> => {
             const arr: any = [];
             const res: any = await getAuthList();
-            console.log('api manager res', res);
             chrome.tabs.query(
                 { active: true, lastFocusedWindow: true },
                 (tabs) => {
                     const { url } = tabs[0];
-                    console.log('Url', url);
                     Object.values(res.list).map((site: any): boolean => {
                         if (site.isAllowed) {
                             arr.push(site.url);
@@ -69,7 +67,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                         return true;
                     });
                     const isAllowed = compareSites(arr, url);
-                    console.log('is allowed', isAllowed);
                     if (isAllowed.length === 0)
                         generalDispatcher(() => setWalletConnected(false));
                     else generalDispatcher(() => setWalletConnected(true));
@@ -92,17 +89,11 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                     // getting token name
                     const tokenNameofSelectedNetwork = await newApiInstance
                         .registry.chainTokens[0];
-                    generalDispatcher(() =>
-                        setTokenName(tokenNameofSelectedNetwork)
-                    );
 
                     // getting token balance
                     const balanceOfSelectedNetwork = await getBalance(
                         newApiInstance,
                         publicKey
-                    );
-                    generalDispatcher(() =>
-                        setBalance(balanceOfSelectedNetwork)
                     );
 
                     // getting token balance in usd
@@ -110,11 +101,18 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                         tokenNameofSelectedNetwork,
                         balanceOfSelectedNetwork
                     );
-                    generalDispatcher(() => setBalanceInUsd(dollarAmount));
                     await newApiInstance.isReady;
+                    generalDispatcher(() => setBalanceInUsd(dollarAmount));
+
                     generalDispatcher(() => setApi(newApiInstance));
 
                     generalDispatcher(() => setApiInitializationStarts(false));
+                    generalDispatcher(() =>
+                        setTokenName(tokenNameofSelectedNetwork)
+                    );
+                    generalDispatcher(() =>
+                        setBalance(balanceOfSelectedNetwork)
+                    );
 
                     if (loadingForApi) {
                         openModal();
@@ -138,7 +136,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                     }, 2000);
                 }
             } catch (error) {
-                console.log('api manager', error);
+                console.log('In catch api manager', error);
             }
         };
 
