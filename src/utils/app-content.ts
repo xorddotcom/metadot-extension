@@ -37,6 +37,7 @@ export const SHOW_SEED_HEADER = `Seed Phrase`;
 export const CONFIRM_SEED_HEADER = `Confirm Seed`;
 export const CONFIRM_BUTTON = `Confirm`;
 export const CONTINUE_BUTTON = `Continue`;
+export const CREATE_DERIVE_ACCOUNT_BUTTON = `Create Derive Account`;
 export const CANCEL_BUTTON = `Cancel`;
 export const PASSWORD = `Password`;
 export const AUTHORIZATION = `Authorization`;
@@ -60,6 +61,8 @@ export const CREATE_WALLET_DESCRIPTION = `Create your wallet
 
 export const SUCCESSFULLY_DERIVED = 'Successfully Derived!';
 
+export const PARENT_PASSWORD_PLACEHOLDER = `Enter 
+password of parent account`;
 export const DERIVED_ACCOUNT_WALLET_NAME_PLACEHOLDER = `Enter 
 wallet name for the derive account`;
 export const DERIVED_PASSWORD_PLACEHOLDER = `Enter 

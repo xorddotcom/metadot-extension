@@ -4,11 +4,13 @@ import { Props } from './type';
 import HeaderView from './view';
 
 const Header: React.FunctionComponent<Props> = (props) => {
-    const { backHandler } = props;
+    const { backHandler, overWriteBackHandler } = props;
     const navigate = useNavigate();
 
     const onBackClick = async (): Promise<void> => {
-        if (backHandler) {
+        if (overWriteBackHandler) {
+            overWriteBackHandler();
+        } else if (backHandler) {
             backHandler();
             navigate(-1);
         } else {
