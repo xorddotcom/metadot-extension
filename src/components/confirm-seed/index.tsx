@@ -77,6 +77,7 @@ const ConfirmSeed: React.FunctionComponent = () => {
         indexValue: number;
     }): void => {
         const { value, indexValue } = seedObj;
+        console.log('mai chala');
         if (!word1) {
             setWord1(value);
         } else if (!word2) {
@@ -209,8 +210,7 @@ const ConfirmSeed: React.FunctionComponent = () => {
         marginTop: '12px',
         className: subHeadingfontFamilyClass,
     };
-    const backHandler = (): void =>
-        generalDispatcher(() => setAccountCreationStep(1));
+    const backHandler = (): void => console.log('back handler');
 
     return (
         <ConfirmSeedView

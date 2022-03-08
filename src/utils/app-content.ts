@@ -42,8 +42,7 @@ export const PASSWORD = `Password`;
 export const AUTHORIZATION = `Authorization`;
 
 export const WALLET_NAME_LABEL = `Wallet Name`;
-export const NAME_WARNING = `Name should not be less than 3 characters and can
-only contain alphanumeric data`;
+export const NAME_WARNING = `Name should not be less than 1 character`;
 export const PASSWORD_LABEL = `Password`;
 export const CONFIRM_PASSWORD_LABEL = `Confirm Password`;
 export const DERIVE_PATH = 'Derive Path';

@@ -54,8 +54,7 @@ export const WarningText = styled.p<WarningTextInterface>`
     text-align: start;
     margin-left: 2px;
     margin-bottom: 0px;
-    visibility: ${(props) => (props.visibility ? 'visible' : 'hidden')};
-    /* display: ${(props) => (props.visibility ? 'none' : 'block')} */
+    display: ${(props) => (props.visibility ? 'none' : 'block')} 
     margin-left: ${(props) => props.ml && props.ml};
     margin-bottom: ${(props) => props.mb && props.mb};
 `;

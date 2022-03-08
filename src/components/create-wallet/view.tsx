@@ -50,7 +50,14 @@ const CreateWalletView: React.FunctionComponent<CreateWalletViewProps> = (
             : continueBtn.handleClick();
 
     return (
-        <Wrapper>
+        <Wrapper
+            height="570px"
+            // style={{
+            //     display: 'flex',
+            //     flexDirection: 'column',
+            //     justifyContent: 'space-between',
+            // }}
+        >
             <Header
                 centerText={CREATE_WALLET_HEADER}
                 backHandler={() => backHandler()}
@@ -101,48 +108,24 @@ const CreateWalletView: React.FunctionComponent<CreateWalletViewProps> = (
                             leftPosition="15px"
                             topPosition="1px"
                         />
-                        {passwordError === minimumCharacterWarning && (
-                            <WarningText
-                                id="warning-text-1"
-                                mb="10px"
-                                className={subHeadingfontFamilyClass}
-                                visibility={
-                                    passwordError === minimumCharacterWarning
-                                }
-                            >
-                                {minimumCharacterWarning}
-                            </WarningText>
-                        )}
-                        {passwordError === passwordValidation && (
-                            <WarningText
-                                id="warning-text-2"
-                                mb="10px"
-                                className={subHeadingfontFamilyClass}
-                                visibility={
-                                    passwordError === passwordValidation
-                                }
-                            >
-                                {passwordValidation}
-                            </WarningText>
-                        )}
-                        {passwordError === didnotMatchWarning && (
-                            <WarningText
-                                id="warning-text-3"
-                                mb="10px"
-                                className={subHeadingfontFamilyClass}
-                                visibility={
-                                    passwordError === didnotMatchWarning
-                                }
-                            >
-                                {didnotMatchWarning}
-                            </WarningText>
-                        )}
+
+                        <SubHeading
+                            mb="0"
+                            textLightColor
+                            marginTop="5px"
+                            className={subHeadingfontFamilyClass}
+                            style={{ color: '#FFFFFF', opacity: 0.56 }}
+                            fontSize="11px"
+                        >
+                            Password must contain at least one lower case, one
+                            upper case, one number and a special character
+                        </SubHeading>
                     </LabelAndTextWrapper>
 
-                    <LabelAndTextWrapper marginTop="0">
+                    <LabelAndTextWrapper marginTop="0" minHeight="135px">
                         <SubHeading
                             className={mainHeadingfontFamilyClass}
-                            marginTop="0"
+                            marginTop="25px"
                             mb="10px"
                         >
                             {CONFIRM_PASSWORD_LABEL}
@@ -161,7 +144,7 @@ const CreateWalletView: React.FunctionComponent<CreateWalletViewProps> = (
                         {passwordError === didnotMatchWarning && (
                             <WarningText
                                 id="warning-text"
-                                mb="5px"
+                                mb="10px"
                                 className={subHeadingfontFamilyClass}
                                 visibility={
                                     passwordError === didnotMatchWarning
@@ -170,25 +153,25 @@ const CreateWalletView: React.FunctionComponent<CreateWalletViewProps> = (
                                 {didnotMatchWarning}
                             </WarningText>
                         )}
+                        {passwordError === minimumCharacterWarning && (
+                            <WarningText
+                                id="warning-text-1"
+                                className={subHeadingfontFamilyClass}
+                                mb="10px"
+                                visibility={
+                                    passwordError === minimumCharacterWarning
+                                }
+                            >
+                                {didnotMatchWarning}
+                            </WarningText>
+                        )}
                     </LabelAndTextWrapper>
 
-                    <SubHeading
-                        mb="0"
-                        textLightColor
-                        marginTop="5px"
-                        className={subHeadingfontFamilyClass}
-                    >
-                        {CREATE_WALLET_DESCRIPTION}
-                    </SubHeading>
                     <input type="submit" style={{ display: 'none' }} />
                 </form>
             </UnAuthScreensContentWrapper>
-            <div
-                className="btn-wrapper"
-                style={{ marginLeft: '0', marginBottom: '10px' }}
-            >
-                <Button id="auth-continue" {...continueBtn} />
-            </div>
+
+            <Button id="auth-continue" {...continueBtn} />
         </Wrapper>
     );
 };

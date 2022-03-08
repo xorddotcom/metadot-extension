@@ -12,6 +12,7 @@ import {
     SUPPORT,
     WELCOME_BACK,
     SWAP,
+    SEEDPHRASE_WARNING,
 } from './constants';
 
 const {
@@ -27,12 +28,17 @@ const {
     CreateDerivedAccount,
     Send,
     Swap,
+    SeedphraseWarning,
 } = Views;
 
 export const UnAuthorizedRoutes = [
     {
         path: IMPORT_WALLET,
         Component: ImportWallet,
+    },
+    {
+        path: SEEDPHRASE_WARNING,
+        Component: SeedphraseWarning,
     },
     {
         path: WELCOME_BACK,
@@ -57,6 +63,10 @@ export const AuthorizedRoutes = [
     {
         path: DASHBOARD,
         Component: Dashboard,
+    },
+    {
+        path: SEEDPHRASE_WARNING,
+        Component: SeedphraseWarning,
     },
     {
         path: SEND,

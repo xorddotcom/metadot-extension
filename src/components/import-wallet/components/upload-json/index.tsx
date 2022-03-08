@@ -2,9 +2,17 @@ import React, { useEffect } from 'react';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { fonts, images } from '../../../../utils';
 
-import { UploadFile, UploadFileDiv } from '../../style';
+import {
+    UploadFile,
+    UploadFileDiv,
+    AccountDetailsDiv,
+    Circle,
+} from '../../style';
 import { SubHeading, WarningText } from '../../../common/text';
-import { HorizontalContentDiv } from '../../../common/wrapper';
+import {
+    HorizontalContentDiv,
+    VerticalContentDiv,
+} from '../../../common/wrapper';
 import { Input } from '../../../common';
 import { UploadJSONInterface } from '../../type';
 import { PASSWORD } from '../../../../utils/app-content';
@@ -33,6 +41,7 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
     const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
     const hiddenFileInput = React.useRef<HTMLInputElement>(null);
 
+    console.log('jsooooon ->', json);
     useEffect(() => {
         setSeedPhrase('');
         setInvalidSeedMessage('');
@@ -132,11 +141,13 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
 
     const fileNameRender = (): string => {
         if (!isFilePicked) return 'Choose File';
-        if (fileName?.name.length > 20)
+        if (fileName?.name.length > 20) {
             return `${fileName.name.slice(0, 8)}...${fileName.name.slice(
                 fileName.name.length - 8,
                 fileName.name.length
             )}`;
+        }
+
         return fileName.name;
     };
 
@@ -148,7 +159,42 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                     onSubmit();
                 }}
             >
-                {/*  our custom upload button --> */}
+                {isFilePicked && json && (
+                    <AccountDetailsDiv>
+                        <HorizontalContentDiv>
+                            <Circle />
+                            <VerticalContentDiv
+                                style={{
+                                    marginLeft: '20px',
+                                }}
+                            >
+                                <SubHeading
+                                    lineHeight="2px"
+                                    fontSize="16px"
+                                    mb="20px"
+                                    marginTop="0px"
+                                    color="#FAFAFA"
+                                >
+                                    {json.meta.name}
+                                </SubHeading>
+                                <SubHeading
+                                    lineHeight="2px"
+                                    fontSize="14px"
+                                    mb="0px"
+                                    marginTop="0px"
+                                    color="#FAFAFA"
+                                    opacity="0.7"
+                                >
+                                    {json.address.slice(0, 8)} ...
+                                    {json.address.slice(
+                                        json.address.length - 8,
+                                        json.address.length
+                                    )}
+                                </SubHeading>
+                            </VerticalContentDiv>
+                        </HorizontalContentDiv>
+                    </AccountDetailsDiv>
+                )}
                 <UploadFile
                     htmlFor="actual-btn"
                     onClick={() => handleClick('select')}
