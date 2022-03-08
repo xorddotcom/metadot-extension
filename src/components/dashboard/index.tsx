@@ -74,7 +74,12 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 const { getBalance, addressMapper } = services;
 
-const { availableNetworks, KusamaMainNetworks, TestNetworks } = networks;
+const {
+    availableNetworks,
+    KusamaMainNetworks,
+    TestNetworks,
+    PolkadotMainNetworks,
+} = networks;
 
 const Dashboard: React.FunctionComponent = () => {
     const navigate = useNavigate();
@@ -132,11 +137,13 @@ const Dashboard: React.FunctionComponent = () => {
             ({
                 data: { free: currentFree },
             }: AccountInfoWithProviders | AccountInfoWithRefCount) => {
+                console.log('Listener working');
                 const decimals = api.registry.chainDecimals[0];
                 const change = currentFree.sub(previousFree);
                 if (!change.isZero()) {
                     const bal = getBalance(api, publicKey)
                         .then((res) => {
+                            console.log('Balance ===>>', res);
                             //         console.log('res ===>>>', res);
                             // if (rpcUrl === 'wss:/
                             // /rpc.shibuya.astar.network') {
@@ -250,7 +257,17 @@ const Dashboard: React.FunctionComponent = () => {
         currentData: TestNetworks,
       });
       setIsLoading(false);
-    } else if (data.name === 'Kusama' && modalState.firstStep === true) {
+    } 
+    else if (data.name === 'Polkadot' && modalState.firstStep === true) {
+      setIsLoading(false);
+      setModalState({
+        firstStep: false,
+        renderMethod: KusamaContent,
+        currentData: PolkadotMainNetworks,
+      });
+    } 
+    
+    else if (data.name === 'Kusama' && modalState.firstStep === true) {
       setIsLoading(false);
       setModalState({
         firstStep: false,
@@ -258,6 +275,7 @@ const Dashboard: React.FunctionComponent = () => {
         currentData: KusamaMainNetworks,
       });
     } else if (rpcUrl !== data.rpcUrl) {
+        console.log('Network change', data)
         // for showing loading waves like preloader
       generalDispatcher(()=>setApiInitializationStarts(true));
       if (window.navigator.onLine) {

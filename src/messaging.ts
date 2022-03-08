@@ -40,7 +40,7 @@ type Handlers = Record<string, Handler>;
 const port = chrome.runtime.connect({ name: PORT_EXTENSION });
 const handlers: Handlers = {};
 
-// setup a listener for messages, any incoming resolves the promise
+// // setup a listener for messages, any incoming resolves the promise
 port.onMessage.addListener((data: Message['data']): void => {
     const handler = handlers[data.id];
 

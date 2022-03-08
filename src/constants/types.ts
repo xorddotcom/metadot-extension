@@ -13,4 +13,5 @@ export interface NetworkConfig {
     parachain?: boolean;
     mainNetwork?: boolean;
     testNet?: null | string;
+    explorer: string;
 }

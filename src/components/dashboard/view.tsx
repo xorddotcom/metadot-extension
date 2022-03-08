@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { useSelector } from 'react-redux';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import MainCard from './components/MainCard';
 import AssetsAndTransactions from './components/Tabs';
 import DropDown from './components/Dropdown';

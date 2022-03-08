@@ -17,6 +17,7 @@ void chrome.browserAction.setBadgeBackgroundColor({ color: '#d90000' });
 
 // listen to all messages and handle appropriately
 chrome.runtime.onConnect.addListener((port): void => {
+    localStorage.setItem('setIsWalletConncted', 'true');
     assert(
         [PORT_CONTENT, PORT_EXTENSION].includes(port.name),
         `Unknown connection from ${port.name}`
@@ -31,6 +32,7 @@ chrome.runtime.onConnect.addListener((port): void => {
     port.onDisconnect.addListener(() => {
         console.log(`Disconnected from ${port.name}`);
         localStorage.setItem('timestamp', Date.now().toString());
+        localStorage.setItem('setIsWalletConncted', 'false');
     });
 });
 

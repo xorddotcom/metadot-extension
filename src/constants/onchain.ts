@@ -26,6 +26,15 @@ const USD_PER_POLKADOT_API =
 const USD_PER_KSM_API =
     'https://api.coingecko.com/api/v3/simple/price?ids=KUSAMA&vs_currencies=Usd';
 
+const USD_PER_ASTAR_API =
+    'https://api.coingecko.com/api/v3/simple/price?ids=ASTAR&vs_currencies=Usd';
+
+const USD_PER_SHIDEN_API =
+    'https://api.coingecko.com/api/v3/simple/price?ids=SHIDEN&vs_currencies=Usd';
+
+const USD_PER_KARURA_API =
+    'https://api.coingecko.com/api/v3/simple/price?ids=KARURA&vs_currencies=Usd';
+
 const POLKADOT_CONFIG: NetworkConfig = {
     name: 'Polkadot',
     tokenName: 'DOT',
@@ -37,6 +46,7 @@ const POLKADOT_CONFIG: NetworkConfig = {
     prefix: 0,
     relayChain: true,
     disabled: false,
+    explorer: 'https://polkadot.subscan.io/account/',
 };
 
 const KUSAMA_CONFIG: NetworkConfig = {
@@ -50,6 +60,7 @@ const KUSAMA_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/kumailraza404/kusamaindexer',
     relayChain: true,
     disabled: false,
+    explorer: 'https://kusama.subscan.io/account/',
 };
 
 const KARURA_CONFIG: NetworkConfig = {
@@ -60,7 +71,8 @@ const KARURA_CONFIG: NetworkConfig = {
     queryEndpoint:
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
-    disabled: true,
+    disabled: false,
+    explorer: '',
 };
 
 const MOONRIVER_CONFIG: NetworkConfig = {
@@ -72,17 +84,19 @@ const MOONRIVER_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
     disabled: true,
+    explorer: '',
 };
 
 const SHIDEN_CONFIG: NetworkConfig = {
     name: 'Shiden',
     tokenName: '',
     logo: ShidenIcon,
-    rpcUrl: '',
+    rpcUrl: 'wss://shiden.api.onfinality.io/public-ws',
     queryEndpoint:
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
-    prefix: 0,
-    disabled: true,
+    prefix: 5,
+    disabled: false,
+    explorer: 'https://shiden.subscan.io/account/',
 };
 
 const BIFROST_CONFIG: NetworkConfig = {
@@ -94,6 +108,7 @@ const BIFROST_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
     disabled: true,
+    explorer: '',
 };
 
 const PHALA_CONFIG: NetworkConfig = {
@@ -105,6 +120,7 @@ const PHALA_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
     disabled: true,
+    explorer: '',
 };
 
 const KHALA_CONFIG: NetworkConfig = {
@@ -116,6 +132,7 @@ const KHALA_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
     disabled: true,
+    explorer: '',
 };
 
 const WESTEND_CONFIG: NetworkConfig = {
@@ -127,6 +144,7 @@ const WESTEND_CONFIG: NetworkConfig = {
     rpcUrl: 'wss://westend-rpc.polkadot.io',
     prefix: 42,
     disabled: false,
+    explorer: 'https://westend.subscan.io/account/',
 };
 
 const ROCOCO_CONFIG: NetworkConfig = {
@@ -138,6 +156,7 @@ const ROCOCO_CONFIG: NetworkConfig = {
     queryEndpoint:
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     disabled: true,
+    explorer: '',
 };
 
 const ACALA_MANDALA_CONFIG: NetworkConfig = {
@@ -149,6 +168,7 @@ const ACALA_MANDALA_CONFIG: NetworkConfig = {
     queryEndpoint:
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     disabled: true,
+    explorer: '',
 };
 
 const MOONBASE_CONFIG: NetworkConfig = {
@@ -160,6 +180,7 @@ const MOONBASE_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
     disabled: false,
+    explorer: '',
 };
 
 const ASGARD_CONFIG: NetworkConfig = {
@@ -171,6 +192,7 @@ const ASGARD_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
     disabled: true,
+    explorer: '',
 };
 
 const DUSTY_CONFIG: NetworkConfig = {
@@ -182,17 +204,19 @@ const DUSTY_CONFIG: NetworkConfig = {
     rpcUrl: 'wss://rpc.dusty.plasmnet.io/',
     prefix: 5,
     disabled: true,
+    explorer: '',
 };
 
 const ASTAR_CONFIG: NetworkConfig = {
     name: 'Astar',
-    tokenName: 'PLM',
+    tokenName: 'ASTR',
     logo: astarIcon,
-    rpcUrl: 'wss://rpc.plasmnet.io/',
+    rpcUrl: 'wss://rpc.astar.network',
     prefix: 5,
     queryEndpoint:
         'https://api.subquery.network/sq/kumailraza404/astar-indexer',
-    disabled: true,
+    disabled: false,
+    explorer: 'https://astar.subscan.io/account/',
 };
 
 const SHIBUYA_CONFIG: NetworkConfig = {
@@ -204,6 +228,7 @@ const SHIBUYA_CONFIG: NetworkConfig = {
     rpcUrl: 'wss://rpc.shibuya.astar.network',
     prefix: 5,
     disabled: false,
+    explorer: 'https://shibuya.subscan.io/account/',
 };
 
 const BITCOUNTRY_CONFIG: NetworkConfig = {
@@ -215,6 +240,7 @@ const BITCOUNTRY_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
     disabled: true,
+    explorer: '',
 };
 
 const CONTEXTFREE_CONFIG: NetworkConfig = {
@@ -226,6 +252,19 @@ const CONTEXTFREE_CONFIG: NetworkConfig = {
     rpcUrl: 'wss://cf-api.ata.network',
     prefix: 11820,
     disabled: false,
+    explorer: '',
+};
+
+const ACALA_CONFIG: NetworkConfig = {
+    name: 'Acala',
+    tokenName: 'ACA',
+    queryEndpoint:
+        'https://api.subquery.network/sq/kumailraza404/context-free-indexer',
+    logo: contextFree,
+    rpcUrl: 'wss://acala-rpc.dwellir.com',
+    prefix: 10,
+    disabled: false,
+    explorer: 'https://acala.subscan.io/account/',
 };
 
 export default {
@@ -233,6 +272,9 @@ export default {
     BITCOUNTRY_CONFIG,
     USD_PER_KSM_API,
     USD_PER_POLKADOT_API,
+    USD_PER_ASTAR_API,
+    USD_PER_KARURA_API,
+    USD_PER_SHIDEN_API,
     POLKADOT_CONFIG,
     KUSAMA_CONFIG,
     BIFROST_CONFIG,
@@ -249,4 +291,5 @@ export default {
     ASGARD_CONFIG,
     KHALA_CONFIG,
     SHIBUYA_CONFIG,
+    ACALA_CONFIG,
 };

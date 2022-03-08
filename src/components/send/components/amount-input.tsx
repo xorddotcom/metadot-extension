@@ -50,6 +50,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         className: subHeadingfontFamilyClass,
         onChange,
         amount,
+        tokenLogo: true,
         // isCorrect: amountState.isValid || insufficientBal,
     };
 
@@ -100,7 +101,8 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
 
             <CalculatedAmount marginTop="5px">
                 <Balance {...txFeeProps}>
-                    Estimated Tx Fee: {`${trimContent(transactionFee, 6)}`}
+                    Estimated Tx Fee:{' '}
+                    {`${trimContent(transactionFee, 6)} ${tokenName}`}
                 </Balance>
             </CalculatedAmount>
         </VerticalContentDiv>

@@ -19,7 +19,7 @@ import {
     ConnectionStatus,
 } from '../../styledComponents';
 
-const { refreshIcon, ContentCopyIcon, notConnected } = images;
+const { refreshIcon, ContentCopyIcon, notConnected, connected } = images;
 const { addressModifier, trimBalance } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -35,7 +35,9 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
     const { apiInitializationStarts } = useSelector(
         (state: RootState) => state.api
     );
-
+    const {
+        activeAccount: { isWalletConnected },
+    } = useSelector((state: RootState) => state);
     const copyText = (): void => {
         setOpen(true);
         setTimeout(() => {
@@ -74,9 +76,12 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
         <MainPanel>
             <div>
                 <MoreOptions>
-                    <img src={notConnected} alt="not connected signal" />
+                    <img
+                        src={isWalletConnected ? connected : notConnected}
+                        alt="not connected signal"
+                    />
                     <ConnectionStatus className={subHeadingfontFamilyClass}>
-                        Not Connected
+                        {isWalletConnected ? 'Connected' : 'Not Connected'}
                     </ConnectionStatus>
                 </MoreOptions>
                 <Refresh
@@ -148,7 +153,7 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
                     id="balance-in-usd"
                     className={mainHeadingfontFamilyClass}
                 >
-                    ${balanceInUsd} USD
+                    ${balanceInUsd}
                 </PerUnitPrice>
             </VerticalContentDiv>
         </MainPanel>
