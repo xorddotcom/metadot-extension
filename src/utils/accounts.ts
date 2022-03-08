@@ -8,6 +8,8 @@ import {
     validateAccount as validateAccountMessage,
     deriveAccount,
     forgetAccount,
+    editAccount,
+    validateDerivePath,
 } from '../messaging';
 
 function GenerateSeedPhrase(): string {
@@ -99,6 +101,23 @@ async function derive(
     }
 }
 
+async function derivePathValidation(
+    parentAddress: string,
+    suri: string,
+    parentPassword: string
+): Promise<{ address: string; suri: string }> {
+    try {
+        const res = await validateDerivePath(
+            parentAddress,
+            parentPassword,
+            suri
+        );
+        return res;
+    } catch (e) {
+        throw new Error('invalid derivation path');
+    }
+}
+
 async function validateAccount(
     address: string,
     password: string
@@ -112,6 +131,11 @@ async function deleteAccount(address: string): Promise<boolean> {
     return result;
 }
 
+async function renameAccount(address: string, name: string): Promise<boolean> {
+    const result = await editAccount(address, name);
+    return result;
+}
+
 export default {
     GenerateSeedPhrase,
     AccountCreation,
@@ -121,4 +145,6 @@ export default {
     derive,
     validateAccount,
     deleteAccount,
+    renameAccount,
+    derivePathValidation,
 };

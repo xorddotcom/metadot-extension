@@ -10,7 +10,13 @@ import { fonts } from '../../../../utils';
 import StyledInput from '../../input';
 import { MainDiv, MainText, VerticalContentDiv } from './styledComponent';
 import { ModalText, WarningText } from '../../text';
-import { AUTHORIZATION, PASSWORD } from '../../../../utils/app-content';
+import {
+    AUTHORIZATION,
+    PASSWORD,
+    RENAME_ACCOUNT,
+    EXPORT_ACCOUNT,
+    ACCOUNT_NAME,
+} from '../../../../utils/app-content';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -22,7 +28,17 @@ const AuthModalView: React.FunctionComponent<AuthtModalViewProps> = ({
     passwordError,
     btnCancel,
     btnConfirm,
+    functionType,
 }) => {
+    const HEADING =
+        // eslint-disable-next-line no-nested-ternary
+        functionType === 'RenameAccount'
+            ? RENAME_ACCOUNT
+            : functionType === 'ExportAccount'
+            ? EXPORT_ACCOUNT
+            : AUTHORIZATION;
+    const LABEL = functionType === 'RenameAccount' ? ACCOUNT_NAME : PASSWORD;
+
     return (
         <Modal
             open={open}
@@ -39,7 +55,7 @@ const AuthModalView: React.FunctionComponent<AuthtModalViewProps> = ({
                         textAlign="center"
                         className={mainHeadingfontFamilyClass}
                     >
-                        {AUTHORIZATION}
+                        {HEADING}
                     </ModalText>
 
                     <VerticalContentDiv marginTop="15px" mb="20px">
@@ -48,7 +64,7 @@ const AuthModalView: React.FunctionComponent<AuthtModalViewProps> = ({
                             marginBottom="15px"
                             className={mainHeadingfontFamilyClass}
                         >
-                            {PASSWORD}
+                            {LABEL}
                         </MainText>
 
                         <StyledInput
@@ -56,8 +72,8 @@ const AuthModalView: React.FunctionComponent<AuthtModalViewProps> = ({
                             fullWidth="75%"
                             inputWrapperWidth="100%"
                             mr="1.2rem"
-                            typePassword
-                            rightIcon
+                            typePassword={functionType !== 'RenameAccount'}
+                            rightIcon={functionType !== 'RenameAccount'}
                             leftPosition="9px"
                             topPosition="0px"
                             {...styledInput}

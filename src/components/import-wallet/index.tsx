@@ -97,11 +97,6 @@ function ImportWallet(): JSX.Element {
         }, 2500);
     };
 
-    const handleChange = (input: string): void => {
-        setInvalidSeedMessage('');
-        setSeedPhrase(input);
-    };
-
     const importAccountFromJson = async (): Promise<void> => {
         try {
             console.log('In import account from JSON');
@@ -194,6 +189,23 @@ function ImportWallet(): JSX.Element {
         navigate(IMPORT_WALLET);
     };
 
+    const handleChange = (input: string): void => {
+        setInvalidSeedMessage('');
+        const reg = /^[^\n]{0,65}(?:\n?[^\n]{0,65}){0,1}$/;
+        console.log('checker', reg.test(input));
+        if (reg.test(input)) {
+            setSeedPhrase(input);
+        } else {
+            setIsLoading(true);
+            if (selectedType === 'json') {
+                importAccountFromJson();
+            } else {
+                importAccountFromSeed();
+            }
+            setIsLoading(false);
+        }
+    };
+
     const mainHeading = {
         marginTop: '34px',
         marginBottom: '12px',
@@ -235,6 +247,20 @@ function ImportWallet(): JSX.Element {
         isLoading,
     };
 
+    const onSubmit = (): void => {
+        if (btn.disabled) {
+            console.log('proceed import');
+        } else {
+            setIsLoading(true);
+            if (selectedType === 'json') {
+                importAccountFromJson();
+            } else {
+                importAccountFromSeed();
+            }
+            setIsLoading(false);
+        }
+    };
+
     const UploadJsonProps = {
         fileName,
         isFilePicked,
@@ -252,6 +278,7 @@ function ImportWallet(): JSX.Element {
         setInvalidJSONFileError,
         setSeedPhrase,
         setInvalidSeedMessage,
+        onSubmit,
     };
 
     return (
@@ -283,6 +310,7 @@ function ImportWallet(): JSX.Element {
                         seedPhrase={seedPhrase}
                         invalidSeedMessage={invalidSeedMessage}
                         setPassword={setPassword}
+                        onSubmit={onSubmit}
                     />
                 )}
 
@@ -291,6 +319,8 @@ function ImportWallet(): JSX.Element {
                         <UploadJson {...UploadJsonProps} />
                     </div>
                 )}
+                <input type="submit" style={{ display: 'none' }} />
+                {/* </form> */}
             </UnAuthScreensContentWrapper>
 
             <Button {...btn} />

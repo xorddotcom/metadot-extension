@@ -46,8 +46,10 @@ export const NAME_WARNING = `Name should not be less than 3 characters and can
 only contain alphanumeric data`;
 export const PASSWORD_LABEL = `Password`;
 export const CONFIRM_PASSWORD_LABEL = `Confirm Password`;
+export const DERIVE_PATH = 'Derive Path';
 export const ENTER_PASSWORD = `Enter Password`;
 export const RE_ENTER_PASSWORD = `Re Enter Password`;
+export const ENTER_ACCOUNT_NAME = `Enter Account Name`;
 
 export const ABOUT_METADOT = `About Metadot Wallet`;
 export const ABOUT_METADOT_DESCRIPTION = `Metadot wallet is your 
@@ -78,3 +80,5 @@ export const SEED_INPUT_PLACEHOLDER = `Place your seed here`;
 export const CREATE_DERIVE_ACCOUNT_TEXT = `Create Derive Account`;
 
 export const REMOVE_ACCOUNT = `Remove Account`;
+export const RENAME_ACCOUNT = `Rename Account`;
+export const ACCOUNT_NAME = `Account Name`;

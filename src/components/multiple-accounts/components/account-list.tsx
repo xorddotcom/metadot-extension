@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import DerivedAccountModal from './derive-modal';
 import AccountDropDown from './account-dropdown';
 import { AccountListInterface } from '../types';
 import { RootState } from '../../../redux/store';
@@ -15,6 +14,8 @@ const AccountList: React.FunctionComponent<AccountListInterface> = ({
     activateAccount,
     deleteAccount,
     downloadJSON,
+    deriveAccount,
+    renameAccount,
 }) => {
     const { authScreenModal } = useSelector(
         (state: RootState) => state.modalHandling
@@ -22,21 +23,12 @@ const AccountList: React.FunctionComponent<AccountListInterface> = ({
 
     const dispatch = useDispatch();
 
-    const [modalIsOpen, setModalIsOpen] = useState(false);
     const [dropDownData, setDropDownData] = useState<{
         publicKey: string;
         accountName: string;
         parentAddress?: string;
     }>({ publicKey: '', accountName: '', parentAddress: '' });
-
-    const expandModal = (account: any): void => {
-        setDropDownData(account);
-        setModalIsOpen(true);
-    };
-
-    const closeModal = (): void => {
-        setModalIsOpen(false);
-    };
+    const [authModalFunction, setAuthModalFunction] = useState('');
 
     // account dropdown
     const [anchorEl, setAnchorEl] = useState<any>(null);
@@ -45,9 +37,10 @@ const AccountList: React.FunctionComponent<AccountListInterface> = ({
     const openAccountDropDownHandler = (
         event: any,
         publicKey: string,
-        accountName: string
+        accountName: string,
+        parentAddress?: string
     ): void => {
-        setDropDownData({ publicKey, accountName });
+        setDropDownData({ publicKey, accountName, parentAddress });
         setAnchorEl(event.currentTarget);
     };
 
@@ -58,62 +51,65 @@ const AccountList: React.FunctionComponent<AccountListInterface> = ({
 
     return (
         <>
-            {accounts.map(({ publicKey, accountName, childAccounts }) => {
-                return (
-                    <>
-                        <ParentAccount
-                            publicKey={publicKey}
-                            accountName={accountName}
-                            activateAccount={activateAccount}
-                            openAccountDropDownHandler={
-                                openAccountDropDownHandler
-                            }
-                        />
-                        {childAccounts.length > 0 && (
-                            <DerivedAccounts
-                                accounts={childAccounts}
+            {Object.values(accounts).map(
+                ({ publicKey, accountName, parentAddress, childAccounts }) => {
+                    return (
+                        <>
+                            <ParentAccount
+                                publicKey={publicKey}
+                                accountName={accountName}
+                                parentAddress={parentAddress}
                                 activateAccount={activateAccount}
                                 openAccountDropDownHandler={
                                     openAccountDropDownHandler
                                 }
                             />
-                        )}
-                    </>
-                );
-            })}
+                            {childAccounts.length > 0 && (
+                                <DerivedAccounts
+                                    accounts={childAccounts}
+                                    activateAccount={activateAccount}
+                                    openAccountDropDownHandler={
+                                        openAccountDropDownHandler
+                                    }
+                                />
+                            )}
+                        </>
+                    );
+                }
+            )}
 
             <AccountDropDown
                 anchorEl={anchorEl}
                 open={open}
                 handleClose={closeAccountDropDownHandler}
                 account={dropDownData}
-                expandModal={expandModal}
                 deleteAccount={deleteAccount}
-                isThisAParent
+                setAuthModalFunction={setAuthModalFunction}
             />
 
-            <DerivedAccountModal
-                open={modalIsOpen}
-                handleClose={closeModal}
-                publicKey={dropDownData ? dropDownData.publicKey : ''}
-                style={{
-                    width: '300px',
-                    background: '#141414',
-                    position: 'relative',
-                    bottom: 30,
-                    p: 2,
-                    px: 2,
-                    pb: 3,
-                    marginTop: '10rem',
-                }}
-            />
             <AuthModal
                 publicKey={dropDownData.publicKey}
                 open={authScreenModal}
                 handleClose={() => {
                     dispatch(setAuthScreenModal(false));
                 }}
-                onConfirm={downloadJSON}
+                functionType={authModalFunction}
+                onConfirm={
+                    // eslint-disable-next-line no-nested-ternary
+                    authModalFunction === 'ExportAccount'
+                        ? downloadJSON
+                        : authModalFunction === 'RenameAccount'
+                        ? renameAccount
+                        : deriveAccount
+                }
+                style={{
+                    width: '290px',
+                    background: '#141414',
+                    position: 'relative',
+                    bottom: 30,
+                    px: 2,
+                    pb: 3,
+                }}
             />
         </>
     );

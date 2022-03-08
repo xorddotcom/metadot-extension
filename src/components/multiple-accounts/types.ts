@@ -17,11 +17,31 @@ export interface TransformedAccountInterface {
     childAccounts: ChildAccountInterface[];
 }
 
+export interface TransformedAccountsInterface {
+    [key: string]: TransformedAccountInterface;
+}
+
 export interface AccountListInterface {
-    accounts: TransformedAccountInterface[];
+    accounts: TransformedAccountsInterface;
     activateAccount(pk: string, name: string): void;
     deleteAccount(publicKey: string): Promise<void>;
     downloadJSON(address: string, password: string): Promise<boolean>;
+    deriveAccount(address: string, password: string): Promise<boolean>;
+    renameAccount(address: string, name: string): Promise<boolean>;
+}
+
+export interface AccountCardInterface {
+    publicKey: string;
+    accountName: string;
+    parentAddress?: string;
+    activateAccount(publicKey: string, name: string): void;
+    openAccountDropDownHandler(
+        e: any,
+        publicKey: string,
+        accountName: string,
+        parentAddress?: string
+    ): void;
+    marginTop?: string;
 }
 
 export interface DerivedAccountsInterface {
@@ -30,18 +50,8 @@ export interface DerivedAccountsInterface {
     openAccountDropDownHandler(
         e: any,
         publicKey: string,
-        accountName: string
-    ): void;
-}
-
-export interface AccountCardInterface {
-    publicKey: string;
-    accountName: string;
-    activateAccount(publicKey: string, name: string): void;
-    openAccountDropDownHandler(
-        e: any,
-        publicKey: string,
-        accountName: string
+        accountName: string,
+        parentAddress: string
     ): void;
 }
 
@@ -68,9 +78,8 @@ export interface AccountDropDownInterface {
     handleClose(): void;
     anchorEl: Element;
     account: ParentAccountInterface;
-    expandModal(account: ParentAccountInterface): void;
     deleteAccount(value: string): void;
-    isThisAParent: boolean;
+    setAuthModalFunction(value: string): void;
 }
 
 export interface ChildAccountDropDownInterface {

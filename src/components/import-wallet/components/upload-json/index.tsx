@@ -28,6 +28,7 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
     setInvalidJSONFileError,
     setSeedPhrase,
     setInvalidSeedMessage,
+    onSubmit,
 }) => {
     const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
     const hiddenFileInput = React.useRef<HTMLInputElement>(null);
@@ -141,7 +142,12 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
 
     return (
         <UploadFileDiv className={subHeadingfontFamilyClass}>
-            <form onSubmit={(e) => e.preventDefault()}>
+            <form
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    onSubmit();
+                }}
+            >
                 {/*  our custom upload button --> */}
                 <UploadFile
                     htmlFor="actual-btn"

@@ -36,7 +36,7 @@ const DerivedAccount: React.FunctionComponent<DerivedAccountsInterface> = ({
                 }}
             >
                 <DrivedAccountText className={subHeadingfontFamilyClass}>
-                    1 Derived Account
+                    {`${accounts.length} Derived Account`}
                 </DrivedAccountText>
                 <DropDownIcon>
                     <div aria-hidden="true">
@@ -54,6 +54,7 @@ const DerivedAccount: React.FunctionComponent<DerivedAccountsInterface> = ({
                         <AccountCard
                             publicKey={account.publicKey}
                             accountName={account.accountName}
+                            parentAddress={account.parentAddress}
                             activateAccount={activateAccount}
                             openAccountDropDownHandler={
                                 openAccountDropDownHandler
