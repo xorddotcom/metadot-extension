@@ -276,6 +276,7 @@ const Send: React.FunctionComponent = () => {
     };
 
     const handleSubmit = async (): Promise<void> => {
+        console.log('Handle submit working');
         try {
             setLoading1(true);
             if (!validateInputValues(receiverAddress))
@@ -283,6 +284,7 @@ const Send: React.FunctionComponent = () => {
 
             const isTxValid = await validateTxErrors();
             if (isTxValid[0]) {
+                console.log('in first IF');
                 SendTx(isTxValid[1]);
                 const txFee = await getTransactionFee(
                     api,
@@ -292,13 +294,16 @@ const Send: React.FunctionComponent = () => {
                     tokenName
                 );
 
+                console.log('tx fee');
                 setTransactionFee(txFee);
                 setLoading1(false);
                 // checking if balance is enough
                 // to send the amount with network fee
                 if (balance < amount + txFee) {
+                    console.log('In second if');
                     setInsufficientBal(true);
                 } else {
+                    console.log('In first else');
                     generalDispatcher(() => setConfirmSendModal(true));
                 }
             } else {

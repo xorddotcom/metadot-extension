@@ -17,6 +17,7 @@ const {
     CONTEXTFREE_CONFIG,
     MOONBASE_CONFIG,
     ASTAR_CONFIG,
+    ACALA_CONFIG,
 } = constants;
 
 const availableNetworks: NetworkConfigType[] = [
@@ -37,6 +38,7 @@ const availableNetworks: NetworkConfigType[] = [
 const PolkadotMainNetworks: NetworkConfigType[] = [
     { ...POLKADOT_CONFIG },
     { ...ASTAR_CONFIG },
+    { ...ACALA_CONFIG },
 ];
 
 const KusamaMainNetworks: NetworkConfigType[] = [

@@ -81,11 +81,11 @@ const getBalance = async (
     api: ApiPromiseType,
     account: string
 ): Promise<number> => {
-    const tokenLength = await api.registry.chainTokens.length;
-    if (tokenLength > 1) {
-        const balance = await getBalanceWithMultipleTokens(api, account);
-        return balance;
-    }
+    // const tokenLength = await api.registry.chainTokens.length;
+    // if (tokenLength > 1) {
+    //     const balance = await getBalanceWithMultipleTokens(api, account);
+    //     return balance;
+    // }
     const balance = await getBalanceWithSingleToken(api, account);
     return balance;
 };

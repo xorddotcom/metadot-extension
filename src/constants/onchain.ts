@@ -46,7 +46,7 @@ const POLKADOT_CONFIG: NetworkConfig = {
     prefix: 0,
     relayChain: true,
     disabled: false,
-    explorer: '',
+    explorer: 'https://polkadot.subscan.io/account/',
 };
 
 const KUSAMA_CONFIG: NetworkConfig = {
@@ -60,7 +60,7 @@ const KUSAMA_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/kumailraza404/kusamaindexer',
     relayChain: true,
     disabled: false,
-    explorer: '',
+    explorer: 'https://kusama.subscan.io/account/',
 };
 
 const KARURA_CONFIG: NetworkConfig = {
@@ -96,7 +96,7 @@ const SHIDEN_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 5,
     disabled: false,
-    explorer: '',
+    explorer: 'https://shiden.subscan.io/account/',
 };
 
 const BIFROST_CONFIG: NetworkConfig = {
@@ -216,7 +216,7 @@ const ASTAR_CONFIG: NetworkConfig = {
     queryEndpoint:
         'https://api.subquery.network/sq/kumailraza404/astar-indexer',
     disabled: false,
-    explorer: '',
+    explorer: 'https://astar.subscan.io/account/',
 };
 
 const SHIBUYA_CONFIG: NetworkConfig = {
@@ -228,7 +228,7 @@ const SHIBUYA_CONFIG: NetworkConfig = {
     rpcUrl: 'wss://rpc.shibuya.astar.network',
     prefix: 5,
     disabled: false,
-    explorer: '',
+    explorer: 'https://shibuya.subscan.io/account/',
 };
 
 const BITCOUNTRY_CONFIG: NetworkConfig = {
@@ -255,6 +255,18 @@ const CONTEXTFREE_CONFIG: NetworkConfig = {
     explorer: '',
 };
 
+const ACALA_CONFIG: NetworkConfig = {
+    name: 'Acala',
+    tokenName: 'ACA',
+    queryEndpoint:
+        'https://api.subquery.network/sq/kumailraza404/context-free-indexer',
+    logo: contextFree,
+    rpcUrl: 'wss://acala-rpc.dwellir.com',
+    prefix: 10,
+    disabled: false,
+    explorer: 'https://acala.subscan.io/account/',
+};
+
 export default {
     CONTEXTFREE_CONFIG,
     BITCOUNTRY_CONFIG,
@@ -279,4 +291,5 @@ export default {
     ASGARD_CONFIG,
     KHALA_CONFIG,
     SHIBUYA_CONFIG,
+    ACALA_CONFIG,
 };
