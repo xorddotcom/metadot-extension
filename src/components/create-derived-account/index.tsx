@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+import { Errors } from '@polkadot/types/metadata/decorate/types';
 import {
     Wrapper,
     LabelAndTextWrapper,
@@ -39,7 +40,7 @@ const { ImportIcon } = images;
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
-const { derive } = accountsUtils;
+const { derive, derivePathValidation } = accountsUtils;
 
 const passwordErrorMessages = {
     minimumCharacterWarning: 'Password should not be less than 8 characters',
@@ -68,10 +69,11 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
     const [isValidWalletName, setIsValidWalletName] = useState(false);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [derivePath, setDerivePath] = useState(path);
+    const [derivePath, setDerivePath] = useState(`//${path}`);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [passwordError, setPasswordError] = useState('');
+    const [derivePathError, setDerivePathError] = useState('');
 
     const validatePasswordAndConfirmPassword = (): boolean => {
         const regexRes = password.match(
@@ -127,9 +129,16 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                 setIsLoading(false);
                 return;
             }
+            const isPathValid = await derivePathValidation(
+                parentAddress,
+                derivePath,
+                parentPassword
+            );
+
+            console.log('isPathValid', isPathValid);
             await derive(
                 parentAddress,
-                `//${derivePath}`,
+                derivePath,
                 parentPassword,
                 walletName,
                 password,
@@ -139,8 +148,14 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
             dispatch(setLoadingForApi(false));
             setIsLoading(false);
             showSuccessModalAndNavigateToDashboard();
-        } catch (err) {
+        } catch (err: any) {
+            setIsLoading(false);
             console.log('error n create wallet', err);
+            console.log('error message n create wallet', err.message);
+            const errMessage = err.message;
+            if (errMessage === 'invalid derivation path') {
+                setDerivePathError(errMessage);
+            }
         }
     };
 
@@ -188,10 +203,11 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
 
     const styledInputDerivePath = {
         className: subHeadingfontFamilyClass,
-        placeholder: '',
+        placeholder: '//hard/soft',
         height: '15px',
         value: `${derivePath}`,
         onChange: (t: string) => {
+            setDerivePathError('');
             setDerivePath(t);
         },
     };
@@ -203,7 +219,8 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
             height: 50,
             borderRadius: 40,
         },
-        disabled: !(walletName && password && confirmPassword) && true,
+        disabled:
+            !(walletName && password && confirmPassword && derivePath) && true,
         handleClick: async () => {
             setIsLoading(true);
             await handleContinue();
@@ -218,6 +235,25 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                 backHandler={() => console.log('go back')}
             />
             <UnAuthScreensContentWrapper>
+                {/* <form
+                    onSubmit={async (e) => {
+                        e.preventDefault();
+                        if (
+                            !(
+                                walletName &&
+                                password &&
+                                confirmPassword &&
+                                derivePath
+                            ) &&
+                            true
+                        ) {
+                            console.log('fields required!');
+                        } else {
+                            setIsLoading(true);
+                            await handleContinue();
+                        }
+                    }}
+                > */}
                 <LabelAndTextWrapper>
                     <SubHeading {...walletNameText}>
                         {WALLET_NAME_LABEL}
@@ -330,7 +366,17 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                         isCorrect
                         {...styledInputDerivePath}
                     />
+                    {derivePathError && (
+                        <WarningText
+                            id="warning-text"
+                            className={subHeadingfontFamilyClass}
+                            visibility
+                        >
+                            {derivePathError}
+                        </WarningText>
+                    )}
                 </LabelAndTextWrapper>
+                {/* </form> */}
             </UnAuthScreensContentWrapper>
 
             <Button id="auth-continue" {...btn} />

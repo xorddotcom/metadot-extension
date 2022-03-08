@@ -240,6 +240,18 @@ export async function validateSeed(
     return sendMessage('pri(seed.validate)', { suri, type });
 }
 
+export async function validateDerivePath(
+    parentAddress: string,
+    parentPassword: string,
+    suri: string
+): Promise<{ address: string; suri: string }> {
+    return sendMessage('pri(derivation.validate)', {
+        parentAddress,
+        parentPassword,
+        suri,
+    });
+}
+
 export async function jsonRestore(
     file: KeyringPair$Json,
     password: string

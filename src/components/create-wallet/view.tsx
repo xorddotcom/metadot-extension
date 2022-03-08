@@ -44,6 +44,11 @@ const CreateWalletView: React.FunctionComponent<CreateWalletViewProps> = (
         continueBtn,
     } = props;
 
+    const onSubmitForm = (): void | Promise<void> =>
+        continueBtn.disabled
+            ? console.log('all fields required!')
+            : continueBtn.handleClick();
+
     return (
         <Wrapper>
             <Header
@@ -51,113 +56,132 @@ const CreateWalletView: React.FunctionComponent<CreateWalletViewProps> = (
                 backHandler={() => backHandler()}
             />
             <UnAuthScreensContentWrapper>
-                <LabelAndTextWrapper>
-                    <SubHeading {...walletNameText}>
-                        {WALLET_NAME_LABEL}
-                    </SubHeading>
-                    <Input id="wallet-name" isCorrect {...styledInputName} />
-                    {isValidWalletName && (
-                        <WarningText
-                            id="warning-text"
-                            className={subHeadingfontFamilyClass}
-                            visibility={isValidWalletName}
-                        >
-                            {NAME_WARNING}
-                        </WarningText>
-                    )}
-                </LabelAndTextWrapper>
-
-                <LabelAndTextWrapper marginTop="10px">
-                    <SubHeading
-                        className={mainHeadingfontFamilyClass}
-                        marginTop="0px"
-                        mb="10px"
-                    >
-                        {PASSWORD_LABEL}
-                    </SubHeading>
-                    <Input
-                        id="password"
-                        fullWidth="76%"
-                        {...styledInputPassword}
-                        typePassword
-                        isCorrect
-                        rightIcon
-                        leftPosition="15px"
-                        topPosition="1px"
-                    />
-                    {passwordError === minimumCharacterWarning && (
-                        <WarningText
-                            id="warning-text-1"
-                            mb="10px"
-                            className={subHeadingfontFamilyClass}
-                            visibility={
-                                passwordError === minimumCharacterWarning
-                            }
-                        >
-                            {minimumCharacterWarning}
-                        </WarningText>
-                    )}
-                    {passwordError === passwordValidation && (
-                        <WarningText
-                            id="warning-text-2"
-                            mb="10px"
-                            className={subHeadingfontFamilyClass}
-                            visibility={passwordError === passwordValidation}
-                        >
-                            {passwordValidation}
-                        </WarningText>
-                    )}
-                    {passwordError === didnotMatchWarning && (
-                        <WarningText
-                            id="warning-text-3"
-                            mb="10px"
-                            className={subHeadingfontFamilyClass}
-                            visibility={passwordError === didnotMatchWarning}
-                        >
-                            {didnotMatchWarning}
-                        </WarningText>
-                    )}
-                </LabelAndTextWrapper>
-
-                <LabelAndTextWrapper marginTop="0">
-                    <SubHeading
-                        className={mainHeadingfontFamilyClass}
-                        marginTop="0"
-                        mb="10px"
-                    >
-                        {CONFIRM_PASSWORD_LABEL}
-                    </SubHeading>
-                    <Input
-                        id="confirm-password"
-                        fullWidth="76%"
-                        {...styledInputConfirmPass}
-                        typePassword
-                        rightIcon
-                        isCorrect
-                        leftPosition="15px"
-                        topPosition="1px"
-                    />
-
-                    {passwordError === didnotMatchWarning && (
-                        <WarningText
-                            id="warning-text"
-                            mb="5px"
-                            className={subHeadingfontFamilyClass}
-                            visibility={passwordError === didnotMatchWarning}
-                        >
-                            {didnotMatchWarning}
-                        </WarningText>
-                    )}
-                </LabelAndTextWrapper>
-
-                <SubHeading
-                    mb="0"
-                    textLightColor
-                    marginTop="5px"
-                    className={subHeadingfontFamilyClass}
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        console.log('abc');
+                        onSubmitForm();
+                    }}
                 >
-                    {CREATE_WALLET_DESCRIPTION}
-                </SubHeading>
+                    <LabelAndTextWrapper>
+                        <SubHeading {...walletNameText}>
+                            {WALLET_NAME_LABEL}
+                        </SubHeading>
+                        <Input
+                            id="wallet-name"
+                            isCorrect
+                            {...styledInputName}
+                        />
+                        {isValidWalletName && (
+                            <WarningText
+                                id="warning-text"
+                                className={subHeadingfontFamilyClass}
+                                visibility={isValidWalletName}
+                            >
+                                {NAME_WARNING}
+                            </WarningText>
+                        )}
+                    </LabelAndTextWrapper>
+
+                    <LabelAndTextWrapper marginTop="10px">
+                        <SubHeading
+                            className={mainHeadingfontFamilyClass}
+                            marginTop="0px"
+                            mb="10px"
+                        >
+                            {PASSWORD_LABEL}
+                        </SubHeading>
+                        <Input
+                            id="password"
+                            fullWidth="76%"
+                            {...styledInputPassword}
+                            typePassword
+                            isCorrect
+                            rightIcon
+                            leftPosition="15px"
+                            topPosition="1px"
+                        />
+                        {passwordError === minimumCharacterWarning && (
+                            <WarningText
+                                id="warning-text-1"
+                                mb="10px"
+                                className={subHeadingfontFamilyClass}
+                                visibility={
+                                    passwordError === minimumCharacterWarning
+                                }
+                            >
+                                {minimumCharacterWarning}
+                            </WarningText>
+                        )}
+                        {passwordError === passwordValidation && (
+                            <WarningText
+                                id="warning-text-2"
+                                mb="10px"
+                                className={subHeadingfontFamilyClass}
+                                visibility={
+                                    passwordError === passwordValidation
+                                }
+                            >
+                                {passwordValidation}
+                            </WarningText>
+                        )}
+                        {passwordError === didnotMatchWarning && (
+                            <WarningText
+                                id="warning-text-3"
+                                mb="10px"
+                                className={subHeadingfontFamilyClass}
+                                visibility={
+                                    passwordError === didnotMatchWarning
+                                }
+                            >
+                                {didnotMatchWarning}
+                            </WarningText>
+                        )}
+                    </LabelAndTextWrapper>
+
+                    <LabelAndTextWrapper marginTop="0">
+                        <SubHeading
+                            className={mainHeadingfontFamilyClass}
+                            marginTop="0"
+                            mb="10px"
+                        >
+                            {CONFIRM_PASSWORD_LABEL}
+                        </SubHeading>
+                        <Input
+                            id="confirm-password"
+                            fullWidth="76%"
+                            {...styledInputConfirmPass}
+                            typePassword
+                            rightIcon
+                            isCorrect
+                            leftPosition="15px"
+                            topPosition="1px"
+                        />
+
+                        {passwordError === didnotMatchWarning && (
+                            <WarningText
+                                id="warning-text"
+                                mb="5px"
+                                className={subHeadingfontFamilyClass}
+                                visibility={
+                                    passwordError === didnotMatchWarning
+                                }
+                            >
+                                {didnotMatchWarning}
+                            </WarningText>
+                        )}
+                    </LabelAndTextWrapper>
+
+                    <SubHeading
+                        mb="0"
+                        textLightColor
+                        marginTop="5px"
+                        className={subHeadingfontFamilyClass}
+                    >
+                        {CREATE_WALLET_DESCRIPTION}
+                    </SubHeading>
+                    <input type="submit" style={{ display: 'none' }} />
+                </form>
             </UnAuthScreensContentWrapper>
             <div
                 className="btn-wrapper"

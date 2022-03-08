@@ -10,6 +10,7 @@ const index: React.FunctionComponent<EnterSeedInterface> = ({
     seedPhrase,
     invalidSeedMessage,
     setPassword,
+    onSubmit,
 }) => {
     const { primaryText, darkBackground1 } = colors;
     const { subHeadingfontFamilyClass } = fonts;
@@ -37,14 +38,21 @@ const index: React.FunctionComponent<EnterSeedInterface> = ({
 
     return (
         <div style={{ marginTop: '1rem' }}>
-            <Input {...input} autoFocus multiline disableUnderline />
-            <WarningText
-                id="warning-text"
-                className={subHeadingfontFamilyClass}
-                visibility={!!invalidSeedMessage}
+            <form
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    onSubmit();
+                }}
             >
-                {invalidSeedMessage}
-            </WarningText>
+                <Input {...input} autoFocus multiline disableUnderline />
+                <WarningText
+                    id="warning-text"
+                    className={subHeadingfontFamilyClass}
+                    visibility={!!invalidSeedMessage}
+                >
+                    {invalidSeedMessage}
+                </WarningText>
+            </form>
         </div>
     );
 };

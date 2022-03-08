@@ -9,6 +9,7 @@ export interface EnterSeedInterface {
     seedPhrase: string;
     invalidSeedMessage: string;
     setPassword(value: string): void;
+    onSubmit(): void;
 }
 
 export interface UploadJSONInterface {
@@ -28,4 +29,5 @@ export interface UploadJSONInterface {
     setPasswordError(value: boolean): void;
     invalidJSONFileError: boolean;
     setInvalidJSONFileError(value: boolean): void;
+    onSubmit(): void;
 }
