@@ -26,7 +26,7 @@ export interface AccountListInterface {
     activateAccount(pk: string, name: string): void;
     deleteAccount(publicKey: string): Promise<void>;
     downloadJSON(address: string, password: string): Promise<boolean>;
-    deriveAccount(address: string, password: string): Promise<boolean>;
+    deriveAccount(address: string, name: string): Promise<void>;
     renameAccount(address: string, name: string): Promise<boolean>;
 }
 
@@ -79,6 +79,7 @@ export interface AccountDropDownInterface {
     anchorEl: Element;
     account: ParentAccountInterface;
     deleteAccount(value: string): void;
+    deriveAccount(value: string, value2: string): void;
     setAuthModalFunction(value: string): void;
 }
 

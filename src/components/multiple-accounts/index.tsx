@@ -153,19 +153,17 @@ const MultipleAccounts: React.FunctionComponent = () => {
 
     const deriveAccountHandler = async (
         address: string,
-        password: string
-    ): Promise<boolean> => {
-        // message pass to validate account
+        accountName: string
+    ): Promise<void> => {
         navigate(CREATE_DERIVED_ACCOUNT, {
             state: {
                 parentAddress: address,
-                parentPassword: password,
+                parentName: accountName,
                 path: transformedAccounts[
                     address
                 ].childAccounts.length.toString(),
             },
         });
-        return true;
     };
 
     const renameAccountHandler = async (

@@ -32,6 +32,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
     handleClose,
     account,
     deleteAccount,
+    deriveAccount,
     setAuthModalFunction,
 }) => {
     console.log('account in dropdown ==>>', account);
@@ -123,7 +124,10 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                                 id="menu-item-1"
                                 style={{ minHeight: '37px', color: '#fafafa' }}
                                 onClick={() => {
-                                    authModalHandler('DeriveAccount');
+                                    deriveAccount(
+                                        account.publicKey,
+                                        account.accountName
+                                    );
                                 }}
                                 key={account.publicKey}
                             >

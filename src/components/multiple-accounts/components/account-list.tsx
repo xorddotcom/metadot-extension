@@ -84,6 +84,7 @@ const AccountList: React.FunctionComponent<AccountListInterface> = ({
                 handleClose={closeAccountDropDownHandler}
                 account={dropDownData}
                 deleteAccount={deleteAccount}
+                deriveAccount={deriveAccount}
                 setAuthModalFunction={setAuthModalFunction}
             />
 
@@ -98,9 +99,7 @@ const AccountList: React.FunctionComponent<AccountListInterface> = ({
                     // eslint-disable-next-line no-nested-ternary
                     authModalFunction === 'ExportAccount'
                         ? downloadJSON
-                        : authModalFunction === 'RenameAccount'
-                        ? renameAccount
-                        : deriveAccount
+                        : renameAccount
                 }
                 style={{
                     width: '290px',
