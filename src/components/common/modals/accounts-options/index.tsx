@@ -27,6 +27,11 @@ import {
     WARNING,
 } from '../../../../utils/app-content';
 
+import {
+    setAuthScreenModal,
+    setConfirmSendModal,
+} from '../../../../redux/slices/modalHandling';
+
 import { MyAccountsProps } from './types';
 import { RootState } from '../../../../redux/store';
 import accounts from '../../../../utils/accounts';
@@ -52,8 +57,9 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const { modalHandling } = useSelector((state: RootState) => state);
     const [openWarnModal, setOpenWarnModal] = useState(false);
-    const [authScreenModal, setAuthScreenModal] = useState(false);
+    // const [authScreenModal, setAuthScreenModal] = useState(false);
     const [showRenameAccountModal, setShowRenameAccountModal] = useState(false);
 
     // const activeAccount: any = useSelector(
@@ -68,28 +74,6 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
         console.log('warn modal handler working ====>>');
         setOpenWarnModal(e);
     };
-
-    // const renameAccount = (e: boolean): any => {
-    //     return (
-    //         <AuthModal
-    //             publicKey={activeAccount.publicKey}
-    //             open={e}
-    //             handleClose={() => {
-    //                 dispatch(setAuthScreenModal(false));
-    //             }}
-    //             // functionType={authModalFunction}
-    //             onConfirm={renameAccount}
-    //             style={{
-    //                 width: '290px',
-    //                 background: '#141414',
-    //                 position: 'relative',
-    //                 bottom: 30,
-    //                 px: 2,
-    //                 pb: 3,
-    //             }}
-    //         />
-    //     );
-    // };
 
     const warningModal = {
         open: openWarnModal,
@@ -163,6 +147,7 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
         {
             name: 'Rename Account',
             image: renameAccountImage,
+            // modal: (e: boolean) => setAuthScreenModal(e),
             modal: () => setShowRenameAccountModal(true),
         },
         {
@@ -171,7 +156,6 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
             modal: (e: boolean) => warnModalHandler(e),
         },
     ];
-
     return (
         <Modal open={open} onClose={handleClose} className="Dark-bg-network">
             <Box
@@ -194,6 +178,7 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
                             open={showRenameAccountModal}
                             handleClose={() => {
                                 setShowRenameAccountModal(false);
+                                // dispatch(setAuthScreenModal(false));
                             }}
                             functionType="RenameAccount"
                             onConfirm={renameAccount}

@@ -127,7 +127,9 @@ async function validateAccount(
 }
 
 async function deleteAccount(address: string): Promise<boolean> {
+    console.log('Delete account working');
     const result = await forgetAccount(address);
+    console.log('Delete account res ===>>', result);
     return result;
 }
 
