@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
     LabelAndTextWrapper,
     UnAuthScreensContentWrapper,
+    VerticalContentDiv,
 } from '../../common/wrapper';
 import { Input, Button } from '../../common';
 import { SubHeading, WarningText } from '../../common/text';
@@ -29,10 +30,10 @@ const ParentMetaData: React.FunctionComponent<ParentMetaDataInterface> = ({
     isLoading,
     setIsLoading,
     setStep,
+    setDeriveAddress,
 }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [passwordError, setPasswordError] = useState('');
-
     const [derivePathError, setDerivePathError] = useState('');
 
     const passwordErrorMessages = {
@@ -51,8 +52,13 @@ const ParentMetaData: React.FunctionComponent<ParentMetaDataInterface> = ({
                 return;
             }
 
-            await derivePathValidation(address, derivePath, password);
+            const derivedAccount = await derivePathValidation(
+                address,
+                derivePath,
+                password
+            );
 
+            setDeriveAddress(derivedAccount.address);
             setIsLoading(false);
             setStep(2);
         } catch (err: any) {
@@ -104,8 +110,15 @@ const ParentMetaData: React.FunctionComponent<ParentMetaDataInterface> = ({
     };
 
     return (
-        <>
-            <UnAuthScreensContentWrapper>
+        <VerticalContentDiv
+            style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexDirection: 'column',
+                height: '520px',
+            }}
+        >
+            <UnAuthScreensContentWrapper mb="0px">
                 <AccountCard publicKey={address} accountName={accountName} />
                 <LabelAndTextWrapper marginTop="10px">
                     <SubHeading
@@ -160,8 +173,9 @@ const ParentMetaData: React.FunctionComponent<ParentMetaDataInterface> = ({
                     )}
                 </LabelAndTextWrapper>
             </UnAuthScreensContentWrapper>
+
             <Button id="auth-continue" {...btn} />
-        </>
+        </VerticalContentDiv>
     );
 };
 

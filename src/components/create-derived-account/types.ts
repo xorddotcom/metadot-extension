@@ -10,10 +10,11 @@ export interface ParentMetaDataInterface {
         address: string,
         derivePath: string,
         password: string
-    ): void;
+    ): Promise<{ address: string; suri: string }>;
     isLoading: boolean;
     setIsLoading(value: boolean): void;
     setStep(value: number): void;
+    setDeriveAddress(value: string): void;
 }
 
 export interface ChildMetaDataInterface {
@@ -30,5 +31,6 @@ export interface ChildMetaDataInterface {
         password: string,
         value: null
     ): Promise<boolean>;
+    deriveAddress: string;
     showSuccess(): void;
 }

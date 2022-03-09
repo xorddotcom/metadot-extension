@@ -45,6 +45,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
 
     const [derivePath, setDerivePath] = useState(`//${path}`);
     const [parentPassword, setParentPassword] = useState('');
+    const [deriveAddress, setDeriveAddress] = useState('');
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -61,7 +62,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
     };
 
     return (
-        <Wrapper>
+        <Wrapper height="570px">
             <Header
                 centerText={DERIVED_ACCOUNT_HEADER}
                 overWriteBackHandler={step === 2 ? () => setStep(1) : undefined}
@@ -81,6 +82,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                     isLoading={isLoading}
                     setIsLoading={setIsLoading}
                     setStep={setStep}
+                    setDeriveAddress={setDeriveAddress}
                 />
             ) : (
                 <ChildMetaData
@@ -90,6 +92,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                     isLoading={isLoading}
                     setIsLoading={setIsLoading}
                     derive={derive}
+                    deriveAddress={deriveAddress}
                     showSuccess={showSuccessModalAndNavigateToDashboard}
                 />
             )}
