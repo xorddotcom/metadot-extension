@@ -151,7 +151,10 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
 
             <SelectNetwork
                 open={isModalOpen}
-                handleClose={() => setIsModalOpen(false)}
+                handleClose={() => {
+                    resetState();
+                    setIsModalOpen(false);
+                }}
                 modalState={modalState}
                 resetState={resetState}
                 handleClickForOthers={handleSelection}

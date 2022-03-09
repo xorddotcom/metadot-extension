@@ -27,7 +27,7 @@ export const Title = styled.p`
 export const BackButton = styled.div`
     position: absolute;
     left: 34px;
-    top: 12px;
+    top: 19px;
     cursor: pointer;
 `;
 
