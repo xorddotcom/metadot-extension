@@ -116,7 +116,6 @@ export const UnAuthScreensContentWrapper = styled.div<NewType>`
     flex-wrap: wrap;
     width: 100%;
     height: auto;
-    height: auto;
     margin: 17px auto 25px;
     margin-bottom: ${(props) => (props.mb ? props.mb : '50px')};
 `;

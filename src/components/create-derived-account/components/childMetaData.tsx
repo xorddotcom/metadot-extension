@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
     LabelAndTextWrapper,
     UnAuthScreensContentWrapper,
+    VerticalContentDiv,
 } from '../../common/wrapper';
 import { SubHeading, WarningText } from '../../common/text';
 import { Input, Button } from '../../common';
@@ -17,6 +18,7 @@ import {
     RE_ENTER_PASSWORD,
     CREATE_DERIVE_ACCOUNT_BUTTON,
 } from '../../../utils/app-content';
+import AccountCard from './account-card';
 
 import { ChildMetaDataInterface } from '../types';
 
@@ -30,6 +32,7 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
     isLoading,
     setIsLoading,
     derive,
+    deriveAddress,
     showSuccess,
 }) => {
     const [walletName, setWalletName] = useState('');
@@ -167,8 +170,16 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
     };
 
     return (
-        <>
-            <UnAuthScreensContentWrapper>
+        <VerticalContentDiv
+            style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexDirection: 'column',
+                height: '520px',
+            }}
+        >
+            <UnAuthScreensContentWrapper mb="0px">
+                <AccountCard publicKey={deriveAddress} accountName="Unknown" />
                 <LabelAndTextWrapper>
                     <SubHeading {...walletNameText}>
                         {WALLET_NAME_LABEL}
@@ -269,7 +280,7 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
                 </LabelAndTextWrapper>
             </UnAuthScreensContentWrapper>
             <Button id="auth-continue" {...btn} />
-        </>
+        </VerticalContentDiv>
     );
 };
 

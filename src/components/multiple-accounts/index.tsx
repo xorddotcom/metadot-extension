@@ -2,19 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { encodeAddress } from '@polkadot/util-crypto';
-import { Header, Button } from '../common';
+import { Header } from '../common';
 import {
     setAccountName,
     setPublicKey,
     resetAccountSlice,
-    setAccountCreationStep,
-    setTempSeed,
 } from '../../redux/slices/activeAccount';
 import { Wrapper, WrapperScroll } from './styles';
 import { resetTransactions } from '../../redux/slices/transactions';
 import { RootState } from '../../redux/store';
 import services from '../../utils/services';
-import { DASHBOARD, SHOW_SEED, CREATE_DERIVED_ACCOUNT } from '../../constants';
+import { DASHBOARD, CREATE_DERIVED_ACCOUNT } from '../../constants';
 import {
     ParentAccountInterface,
     ChildAccountInterface,
@@ -26,7 +24,6 @@ import { deleteAccount as deleteAccountRdx } from '../../redux/slices/accounts';
 import { setAuthScreenModal } from '../../redux/slices/modalHandling';
 
 const { addressMapper } = services;
-const { GenerateSeedPhrase } = accountUtils;
 
 const MultipleAccounts: React.FunctionComponent = () => {
     const dispatch = useDispatch();
@@ -35,8 +32,6 @@ const MultipleAccounts: React.FunctionComponent = () => {
         (state: RootState) => state.activeAccount
     );
     const { getJsonBackup, deleteAccount, renameAccount } = accountUtils;
-
-    const [seedToPass, setSeedToPass] = useState('');
 
     // account single state formation
     const allAccounts = useSelector((state: RootState) => state.accounts);
@@ -87,18 +82,6 @@ const MultipleAccounts: React.FunctionComponent = () => {
         setTransformedAccounts(TransformedAccounts);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [parentAccounts, childAccounts]);
-
-    useEffect(() => {
-        try {
-            const newSeed = GenerateSeedPhrase();
-            setSeedToPass(newSeed);
-        } catch (error) {
-            console.log(
-                'ERROR while generating new seed for parent account',
-                error
-            );
-        }
-    }, []);
 
     // Account Handlers
     const activateAccountHandler = (pk: string, name: string): void => {
@@ -175,23 +158,6 @@ const MultipleAccounts: React.FunctionComponent = () => {
         return false;
     };
 
-    const btn = {
-        id: 'create-new-button',
-        text: 'Create New Account',
-        style: {
-            width: '100%',
-            height: 50,
-            borderRadius: '40px',
-        },
-        handleClick: () => {
-            dispatch(setAccountCreationStep(1));
-            dispatch(setTempSeed(seedToPass));
-            navigate(SHOW_SEED, {
-                state: { seedToPass },
-            });
-        },
-    };
-
     return (
         <Wrapper>
             <WrapperScroll>
@@ -208,7 +174,6 @@ const MultipleAccounts: React.FunctionComponent = () => {
                     renameAccount={renameAccountHandler}
                 />
             </WrapperScroll>
-            <Button {...btn} />
         </Wrapper>
     );
 };
