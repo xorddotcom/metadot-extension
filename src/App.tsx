@@ -11,12 +11,13 @@ import type {
 } from 'metadot-extension-base/background/types';
 
 import {
+    resetAccountSlice,
     setLoggedIn,
     setPublicKey,
     setAccountName,
 } from './redux/slices/activeAccount';
 import { setIsResponseModalOpen } from './redux/slices/modalHandling';
-import { updateAccounts } from './redux/slices/accounts';
+import { updateAccounts, resetAccountsSlice } from './redux/slices/accounts';
 import { RootState } from './redux/store';
 
 import Screens from './components';
@@ -71,18 +72,27 @@ function App(): JSX.Element {
     useEffect(() => {
         if (accounts && accounts.length > 0) {
             console.log('accounts -->>', accounts);
-            dispatch(updateAccounts(accounts));
+            if (accounts.length > 0) {
+                dispatch(updateAccounts(accounts));
+                if (accounts.length !== Object.keys(RdxAccounts).length) {
+                    const publicKeyOfRespectiveChain = addressMapper(
+                        accounts[accounts.length - 1].address,
+                        activeAccount.prefix
+                    );
 
-            if (accounts.length !== Object.keys(RdxAccounts).length) {
-                const publicKeyOfRespectiveChain = addressMapper(
-                    accounts[accounts.length - 1].address,
-                    activeAccount.prefix
-                );
-
-                dispatch(setPublicKey(publicKeyOfRespectiveChain));
-                dispatch(
-                    setAccountName(accounts[accounts.length - 1].name as string)
-                );
+                    dispatch(setLoggedIn(true));
+                    dispatch(setPublicKey(publicKeyOfRespectiveChain));
+                    dispatch(
+                        setAccountName(
+                            accounts[accounts.length - 1].name as string
+                        )
+                    );
+                }
+            } else {
+                dispatch(setLoggedIn(false));
+                dispatch(setPublicKey(''));
+                dispatch(setAccountName(''));
+                dispatch(resetAccountsSlice());
             }
         }
     }, [accounts]);

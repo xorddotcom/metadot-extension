@@ -20,7 +20,6 @@ import {
 } from './types';
 import AccountsList from './components/account-list';
 import accountUtils from '../../utils/accounts';
-import { deleteAccount as deleteAccountRdx } from '../../redux/slices/accounts';
 import { setAuthScreenModal } from '../../redux/slices/modalHandling';
 
 const { addressMapper } = services;
@@ -97,7 +96,6 @@ const MultipleAccounts: React.FunctionComponent = () => {
 
     const deleteAccountHandler = async (publicKey: string): Promise<void> => {
         await deleteAccount(publicKey);
-        dispatch(deleteAccountRdx(publicKey));
         if (
             publicKey ===
             encodeAddress(activeAccount.publicKey, activeAccount.prefix)
