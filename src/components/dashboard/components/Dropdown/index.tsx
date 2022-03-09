@@ -35,6 +35,7 @@ const {
     LockOutlinedIcon,
     ForumOutlinedIcon,
     aboutIcon,
+    rightArrowIcon,
     FileUploadOutlinedIcon,
     FileDownloadOutlinedIcon,
 } = images;
@@ -75,7 +76,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                 // onClick={handleClose}
                 sx={{
                     borderRadius: '20px',
-                    height: '300px',
+                    height: '280px',
                     width: '160px',
                     marginTop: '-1px',
                 }}
@@ -138,6 +139,9 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                 minHeight: '37px',
                                 color: '#fafafa',
                                 fontSize: '15px',
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
                             }}
                             onClick={() => {
                                 // navigate(ACCOUNTS);
@@ -158,9 +162,14 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                     {ACCOUNTS_HEADING}
                                 </span>
                             </ListItemIcon>
+                            <img
+                                src={rightArrowIcon}
+                                alt="lock-icon"
+                                style={{ marginTop: '-0.2rem' }}
+                            />
                         </MenuItem>
 
-                        <MenuItem
+                        {/* <MenuItem
                             id="menu-item-2"
                             style={{ minHeight: '37px', color: '#fafafa' }}
                             onClick={() => {
@@ -204,7 +213,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                     {EXPORT_ACCOUNT}
                                 </span>
                             </ListItemIcon>
-                        </MenuItem>
+                        </MenuItem> */}
 
                         <MenuItem
                             style={{

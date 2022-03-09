@@ -33,7 +33,16 @@ import accounts from '../../../../utils/accounts';
 import WarningModal from '../warningModal';
 import AuthModal from '../authorization';
 
-const { crossIcon, visibilityOn, renameAccountImage } = images;
+const {
+    crossIcon,
+    visibilityOn,
+    renameAccountImage,
+    RemoveIcon,
+    FileUploadOutlinedIcon,
+    derivedAccountIcon,
+    FileDownloadOutlinedIcon,
+    AddSharpIcon,
+} = images;
 const { mainHeadingfontFamilyClass } = fonts;
 const { deleteAccount, renameAccount, GenerateSeedPhrase } = accounts;
 
@@ -133,22 +142,22 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
         { name: 'View Accounts', image: visibilityOn, navigation: '/accounts' },
         {
             name: 'Add Account',
-            image: visibilityOn,
+            image: AddSharpIcon,
             modal: () => accountCreation(),
         },
         {
-            name: 'New Derive Account',
-            image: visibilityOn,
+            name: 'Derive an Account',
+            image: derivedAccountIcon,
             modal: () => newDeriveAccount,
         },
         {
             name: 'Import Account',
-            image: visibilityOn,
+            image: FileDownloadOutlinedIcon,
             navigation: '/import-wallet',
         },
         {
             name: 'Export Account',
-            image: visibilityOn,
+            image: FileUploadOutlinedIcon,
             modal: (e: boolean) => setAuthScreenModal(e),
         },
         {
@@ -158,7 +167,7 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
         },
         {
             name: 'Remove Account',
-            image: visibilityOn,
+            image: RemoveIcon,
             modal: (e: boolean) => warnModalHandler(e),
         },
     ];
@@ -180,21 +189,6 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
                     </TitleDiv>
                     <NetworkModalContent>
                         <WarningModal {...warningModal} />
-                        {/* {allAccounts.map((account) => (
-                            <OptionRow
-                                className="abc"
-                                onClick={() => onSelection(account)}
-                            >
-                                <HorizontalContentDiv>
-                                    <PlainIcon />
-                                    <OptionText
-                                        className={mainHeadingfontFamilyClass}
-                                    >F
-                                        {account.accountName}
-                                    </OptionText>
-                                </HorizontalContentDiv>
-                            </OptionRow>
-                        ))} */}
                         <AuthModal
                             publicKey={activeAccount.publicKey}
                             open={showRenameAccountModal}

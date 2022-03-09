@@ -75,8 +75,10 @@ import arrowRight from '../assets/images/icons/arrow-right.svg';
 import dropdownIcon from '../assets/images/icons/dropdown.svg';
 import visibilityOff from '../assets/images/icons/closeEye.svg';
 import visibilityOn from '../assets/images/icons/openEye.svg';
+import rightArrowIcon from '../assets/images/icons/rightArrowIcon.svg';
 
 export default {
+    rightArrowIcon,
     AcalaIcon,
     dropdownIcon,
     visibilityOn,

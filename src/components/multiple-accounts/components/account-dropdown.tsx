@@ -64,7 +64,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
             px: 2,
             pb: 3,
         },
-        mainText: WARNING,
+        mainText: 'Remove Account',
         subText: ACCOUNT_DELETION_WARNING,
     };
 
