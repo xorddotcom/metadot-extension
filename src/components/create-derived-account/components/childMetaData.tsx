@@ -211,8 +211,8 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
                         typePassword
                         isCorrect
                         rightIcon
-                        leftPosition="16px"
-                        topPosition="2px"
+                        rightPosition="24px"
+                        topPosition="28px"
                     />
                     {passwordError === minimumCharacterWarning && (
                         <WarningText
@@ -263,8 +263,8 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
                         typePassword
                         rightIcon
                         isCorrect
-                        leftPosition="16px"
-                        topPosition="2px"
+                        rightPosition="24px"
+                        topPosition="28px"
                     />
 
                     {passwordError === didnotMatchWarning && (

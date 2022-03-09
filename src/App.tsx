@@ -69,7 +69,7 @@ function App(): JSX.Element {
     }, []);
 
     useEffect(() => {
-        if (accounts) {
+        if (accounts && accounts.length > 0) {
             console.log('accounts -->>', accounts);
             dispatch(updateAccounts(accounts));
 

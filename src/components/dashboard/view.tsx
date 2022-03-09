@@ -64,7 +64,14 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
         (state: RootState) => state.activeAccount
     );
 
-    const allMainnetsName = ['Polkadot', 'Kusama', 'Karura'];
+    const allMainnetsName = [
+        'Polkadot',
+        'Kusama',
+        'Karura',
+        'Astar',
+        'Shiden',
+        'Acala',
+    ];
     const chainNameAltered = allMainnetsName.includes(chainName)
         ? `${chainName} Main Network`
         : `${chainName} Test Network`;

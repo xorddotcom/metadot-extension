@@ -77,7 +77,7 @@ const ParentMetaData: React.FunctionComponent<ParentMetaDataInterface> = ({
         height: '15px',
         onChange: (t: string) => {
             setPasswordError('');
-            return t.length <= 19 && setPassword(t);
+            return setPassword(t);
         },
         hideHandler: () => setShowPassword(!showPassword),
         hideState: showPassword,
@@ -130,13 +130,12 @@ const ParentMetaData: React.FunctionComponent<ParentMetaDataInterface> = ({
                     </SubHeading>
                     <Input
                         id="password"
-                        fullWidth="76%"
                         {...styledInputPassword}
                         typePassword
                         isCorrect
                         rightIcon
-                        leftPosition="16px"
-                        topPosition="2px"
+                        rightPosition="24px"
+                        topPosition="27px"
                     />
                     {passwordError === wrongPassword && (
                         <WarningText

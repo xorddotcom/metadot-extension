@@ -43,8 +43,8 @@ export const UploadFile = styled.label`
     background-color: ${darkBackground1};
     color: ${primaryText};
     padding: 0.6rem 1rem;
-    width: 86%;
-    height: 20px;
+    width: 288px;
+    /* height: 45px; */
     font-weight: 500;
     font-size: 14px;
     line-height: 16px;
@@ -59,9 +59,9 @@ export const UploadFile = styled.label`
 export const AccountDetailsDiv = styled.div`
     background-color: ${darkBackground1};
     color: ${primaryText};
-    padding: 0.6rem 1rem;
-    width: 86%;
-    height: 30px;
+    padding: 0px 13px;
+    width: 289px;
+    height: 60px;
     font-weight: 500;
     border-radius: 8px;
     display: flex;

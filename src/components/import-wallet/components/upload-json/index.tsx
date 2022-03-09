@@ -102,20 +102,33 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
         setPasswordError(false);
         try {
             if (operation === 'select') {
+                console.log('hiddenFileInput -------', hiddenFileInput);
                 if (isFilePicked) {
                     console.log('already selected!');
                 } else {
                     if (hiddenFileInput.current)
                         hiddenFileInput.current.click();
+                    // } else {
+                    //     hiddenFileInput.current.click();
+                    // }
                     console.log('select in handle click');
                 }
             } else if (operation === 'cancel') {
                 console.log('cancel');
                 console.log(
-                    'file value',
+                    'hidden file value',
                     document.getElementsByTagName('input')[0].value
                 );
-                document.getElementsByTagName('input')[0].value = '';
+                console.log(
+                    'hiddenFileInput before',
+                    hiddenFileInput?.current?.value
+                );
+                // document.getElementsByTagName('input')[0].value = '';
+                if (hiddenFileInput.current) hiddenFileInput.current.value = '';
+                console.log(
+                    'hiddenFileInput after',
+                    hiddenFileInput?.current?.value
+                );
                 setFileName({ name: 'file' });
                 setIsFilePicked(false);
                 passwordChangeHandler('');
@@ -132,7 +145,6 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
         placeholder: PASSWORD,
         className: subHeadingfontFamilyClass,
         value: password,
-        height: '14px',
         onChange: passwordChangeHandler,
         hideHandler: () => setShowPassword(!showPassword),
         hideState: showPassword,
@@ -199,7 +211,7 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                     htmlFor="actual-btn"
                     onClick={() => handleClick('select')}
                 >
-                    <HorizontalContentDiv width="91%">
+                    <HorizontalContentDiv width="91%" height="40px">
                         <img
                             src={UploadFileIcon}
                             alt="upload-file-icon"
@@ -245,8 +257,8 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                     typePassword
                     isCorrect
                     rightIcon
-                    leftPosition="-4px"
-                    topPosition="2px"
+                    rightPosition="20px"
+                    topPosition="26px"
                 />
                 {passwordError && (
                     <WarningText
