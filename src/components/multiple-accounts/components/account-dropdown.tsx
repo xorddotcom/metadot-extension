@@ -23,7 +23,7 @@ const {
     RemoveIcon,
     FileUploadOutlinedIcon,
     derivedAccountIcon,
-    renameAccount,
+    renameAccountImage,
 } = images;
 
 const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
@@ -64,7 +64,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
             px: 2,
             pb: 3,
         },
-        mainText: WARNING,
+        mainText: 'Remove Account',
         subText: ACCOUNT_DELETION_WARNING,
     };
 
@@ -163,7 +163,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                                 style={{ color: '#fafafa' }}
                             >
                                 <img
-                                    src={renameAccount}
+                                    src={renameAccountImage}
                                     alt="rename-account"
                                     width="14.55"
                                     height="15"

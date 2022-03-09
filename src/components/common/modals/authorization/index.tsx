@@ -33,16 +33,19 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const handleSubmit = async (): Promise<boolean> => {
+        console.log('handle submit working', isPassword);
         if (!input) {
             return false;
         }
         try {
             if (isPassword) {
                 const valid: boolean = await validateAccount(publicKey, input);
-                if (!valid) throw new Error('Invalid password!');
+                if (!valid) throw new Error('Invalid password 1');
             }
             const res: boolean = await onConfirm(publicKey, input);
-            if (!res) throw new Error('Invalid password!');
+            console.log('New account in auth modal', res);
+            if (!isPassword && res) handleClose();
+            if (!res) throw new Error('Invalid password 2');
 
             generalDispatcher(() => setAuthScreenModal(false));
             generalDispatcher(() => setConfirmSendModal(true));

@@ -120,7 +120,6 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
     const styledInputName = {
         className: subHeadingfontFamilyClass,
         placeholder: DERIVED_ACCOUNT_WALLET_NAME_PLACEHOLDER,
-        height: '15px',
         value: walletName,
         onChange: (t: string) => {
             setIsValidWalletName(false);
@@ -132,7 +131,6 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
         placeholder: DERIVED_PASSWORD_PLACEHOLDER,
         className: subHeadingfontFamilyClass,
         value: password,
-        height: '15px',
         onChange: (t: string) => {
             setPasswordError('');
             return t.length <= 19 && setPassword(t);
@@ -145,7 +143,6 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
         placeholder: RE_ENTER_PASSWORD,
         className: subHeadingfontFamilyClass,
         value: confirmPassword,
-        height: '15px',
         onChange: (t: string) => {
             setPasswordError('');
             return t.length <= 19 && setConfirmPassword(t);
@@ -206,7 +203,6 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
                     </SubHeading>
                     <Input
                         id="password"
-                        fullWidth="76%"
                         {...styledInputPassword}
                         typePassword
                         isCorrect
@@ -258,7 +254,6 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
                     </SubHeading>
                     <Input
                         id="confirm-password"
-                        fullWidth="76%"
                         {...styledInputConfirmPass}
                         typePassword
                         rightIcon

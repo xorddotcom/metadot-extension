@@ -7,7 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import MainCard from './components/MainCard';
 import AssetsAndTransactions from './components/Tabs';
 import DropDown from './components/Dropdown';
-import { SelectNetwork, TxDetails, About } from '../common/modals';
+import {
+    SelectNetwork,
+    TxDetails,
+    About,
+    AccountOptions,
+} from '../common/modals';
 
 import {
     AccountContainer,
@@ -76,6 +81,7 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
         ? `${chainName} Main Network`
         : `${chainName} Test Network`;
 
+    const test = (): void => console.log('test');
     return (
         <Wrapper pb>
             <DashboardHeader>
@@ -142,6 +148,21 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
                 {/* Menu End */}
             </DashboardHeader>
 
+            {/* <AccountOptions
+                open
+                handleClose={test}
+                style={{
+                    position: 'relative',
+                    width: '300px',
+                    background: '#141414',
+                    pb: 3,
+                    overflowY: 'scroll',
+                    overflowX: 'hidden',
+                    marginTop: '9rem',
+                }}
+                onSelection={test}
+                // open, handleClose, style, onSelection
+            /> */}
             <MainCard
                 balance={balance}
                 tokenName={tokenName}

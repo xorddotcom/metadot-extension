@@ -127,12 +127,16 @@ async function validateAccount(
 }
 
 async function deleteAccount(address: string): Promise<boolean> {
+    console.log('Delete account working');
     const result = await forgetAccount(address);
+    console.log('Delete account res ===>>', result);
     return result;
 }
 
 async function renameAccount(address: string, name: string): Promise<boolean> {
+    console.log('rename account working');
     const result = await editAccount(address, name);
+    console.log('New account name', result);
     return result;
 }
 

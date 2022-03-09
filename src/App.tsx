@@ -79,7 +79,6 @@ function App(): JSX.Element {
                         accounts[accounts.length - 1].address,
                         activeAccount.prefix
                     );
-
                     dispatch(setLoggedIn(true));
                     dispatch(setPublicKey(publicKeyOfRespectiveChain));
                     dispatch(
@@ -96,6 +95,17 @@ function App(): JSX.Element {
             }
         }
     }, [accounts]);
+
+    useEffect(() => {
+        if (activeAccount.publicKey) {
+            dispatch(
+                setAccountName(
+                    RdxAccounts[addressMapper(activeAccount.publicKey, 42)]
+                        .accountName
+                )
+            );
+        }
+    }, [RdxAccounts]);
 
     let content;
     if (authRequests && authRequests.length > 0) {

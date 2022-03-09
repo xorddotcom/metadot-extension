@@ -33,7 +33,7 @@ import aboutIcon from '../assets/images/icons/aboutIcon.svg';
 import FileUploadOutlinedIcon from '../assets/images/icons/export.svg';
 import FileDownloadOutlinedIcon from '../assets/images/icons/download.svg';
 import activeIcon from '../assets/images/activeIcon.svg';
-import renameAccount from '../assets/images/renameAccount.svg';
+import renameAccountImage from '../assets/images/renameAccount.svg';
 
 import MainLogo from '../assets/images/topLogo.svg';
 import refreshIcon from '../assets/images/icons/refresh.svg';
@@ -75,8 +75,10 @@ import arrowRight from '../assets/images/icons/arrow-right.svg';
 import dropdownIcon from '../assets/images/icons/dropdown.svg';
 import visibilityOff from '../assets/images/icons/closeEye.svg';
 import visibilityOn from '../assets/images/icons/openEye.svg';
+import rightArrowIcon from '../assets/images/icons/rightArrowIcon.svg';
 
 export default {
+    rightArrowIcon,
     AcalaIcon,
     dropdownIcon,
     visibilityOn,
@@ -112,7 +114,7 @@ export default {
     FileUploadOutlinedIcon,
     FileDownloadOutlinedIcon,
     activeIcon,
-    renameAccount,
+    renameAccountImage,
     MainLogo,
     refreshIcon,
     yellow,
