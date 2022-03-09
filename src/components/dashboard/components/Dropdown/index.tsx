@@ -11,7 +11,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import { setLoggedIn } from '../../../../redux/slices/activeAccount';
 import { setAuthScreenModal } from '../../../../redux/slices/modalHandling';
 
-import { About, AuthModal } from '../../../common/modals';
+import { About, AuthModal, AccountOptions } from '../../../common/modals';
 import { fonts, images } from '../../../../utils';
 import account from '../../../../utils/accounts';
 
@@ -50,6 +50,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
         (state: RootState) => state.activeAccount
     );
 
+    const [openAccountsOptions, setOpenAccountsOptions] = useState(false);
     const [aboutOpen, setAboutOpen] = useState(false);
 
     const downloadJson = async (
@@ -61,13 +62,17 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
         return true;
     };
 
+    const test = (): void => {
+        console.log('Test working');
+    };
+
     return (
         <>
             <Menu
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
-                onClick={handleClose}
+                // onClick={handleClose}
                 sx={{
                     borderRadius: '20px',
                     height: '300px',
@@ -93,6 +98,22 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 id="menu"
             >
+                <AccountOptions
+                    open={openAccountsOptions}
+                    // handleClose={() => console.log('Close ===>>>')}
+                    handleClose={() => setOpenAccountsOptions(false)}
+                    style={{
+                        position: 'relative',
+                        width: '300px',
+                        background: '#141414',
+                        pb: 3,
+                        overflowY: 'scroll',
+                        overflowX: 'hidden',
+                        marginTop: '9rem',
+                    }}
+                    onSelection={test}
+                    // open, handleClose, style, onSelection
+                />
                 <Paper
                     id="paper"
                     style={{
@@ -119,7 +140,8 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                 fontSize: '15px',
                             }}
                             onClick={() => {
-                                navigate(ACCOUNTS);
+                                // navigate(ACCOUNTS);
+                                setOpenAccountsOptions(true);
                             }}
                         >
                             <ListItemIcon

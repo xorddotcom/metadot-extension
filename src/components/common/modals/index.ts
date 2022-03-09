@@ -6,6 +6,7 @@ import WarningModal from './warningModal';
 import About from './about';
 import TxDetails from './txDetails';
 import MyAccounts from './my-accounts';
+import AccountOptions from './accounts-options';
 
 export {
     AuthModal,
@@ -16,4 +17,5 @@ export {
     About,
     TxDetails,
     MyAccounts,
+    AccountOptions,
 };

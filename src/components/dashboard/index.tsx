@@ -330,6 +330,7 @@ const Dashboard: React.FunctionComponent = () => {
         setAnchorEl(event.currentTarget);
     };
     const handleCloseDropDown = (): void => {
+        console.log('Close dropdown working');
         setAnchorEl(null);
     };
 

@@ -54,7 +54,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
 
     useEffect(() => {
         const setConnectedSites = async (): Promise<void> => {
-            const arr: any = [];
+            const arr: string[] = [];
             const res: any = await getAuthList();
             chrome.tabs.query(
                 { active: true, lastFocusedWindow: true },
