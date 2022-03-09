@@ -204,7 +204,7 @@ const CreateWallet: React.FunctionComponent = () => {
             width: '100%',
             height: 50,
             borderRadius: 40,
-            marginTop: 40,
+            marginTop: 20,
         },
         disabled: !(walletName && password && confirmPassword) && true,
         handleClick: async () => {

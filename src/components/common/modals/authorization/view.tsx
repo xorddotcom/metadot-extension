@@ -69,13 +69,12 @@ const AuthModalView: React.FunctionComponent<AuthtModalViewProps> = ({
 
                         <StyledInput
                             id="auth-password"
-                            fullWidth="75%"
-                            inputWrapperWidth="100%"
+                            fullWidth="80%"
                             mr="1.2rem"
                             typePassword={functionType !== 'RenameAccount'}
                             rightIcon={functionType !== 'RenameAccount'}
-                            leftPosition="9px"
-                            topPosition="0px"
+                            rightPosition="9px"
+                            topPosition="28px"
                             {...styledInput}
                             style={{ paddingLeft: '10px !important' }}
                         />

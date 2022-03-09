@@ -9,6 +9,7 @@ export interface NewWrapperInterface {
 }
 
 export interface FieldInterface {
+    tokenLogo?: boolean;
     id?: string;
     maxlength?: string;
     fontSize?: string;
@@ -22,15 +23,21 @@ export interface FieldInterface {
     disabled?: boolean;
     type?: string;
     disableUnderline?: boolean;
+    autocomplete?: string;
 }
 
 export interface IconInterface {
     leftPosition?: string;
     topPosition?: string;
+    rightPosition?: string;
     onClick?(): void;
 }
 
 export interface Props {
+    tokenName?: string;
+    tokenImage?: string;
+    tokenLogo?: boolean;
+    rightPosition?: string;
     className?: string;
     placeholder?: string;
     onChange(v: string): void;

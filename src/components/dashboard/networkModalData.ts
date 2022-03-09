@@ -7,15 +7,11 @@ const { yellow } = images;
 const {
     POLKADOT_CONFIG,
     KUSAMA_CONFIG,
-    KHALA_CONFIG,
-    BIFROST_CONFIG,
-    MOONRIVER_CONFIG,
     SHIDEN_CONFIG,
     KARURA_CONFIG,
     WESTEND_CONFIG,
     SHIBUYA_CONFIG,
     CONTEXTFREE_CONFIG,
-    MOONBASE_CONFIG,
     ASTAR_CONFIG,
     ACALA_CONFIG,
 } = constants;
@@ -44,17 +40,13 @@ const PolkadotMainNetworks: NetworkConfigType[] = [
 const KusamaMainNetworks: NetworkConfigType[] = [
     { ...KUSAMA_CONFIG },
     { ...KARURA_CONFIG },
-    { ...MOONRIVER_CONFIG },
     { ...SHIDEN_CONFIG },
-    { ...KHALA_CONFIG },
-    { ...BIFROST_CONFIG },
 ];
 
 const TestNetworks: NetworkConfigType[] = [
     { ...WESTEND_CONFIG },
     { ...CONTEXTFREE_CONFIG },
     { ...SHIBUYA_CONFIG },
-    { ...MOONBASE_CONFIG },
 ];
 
 export default {

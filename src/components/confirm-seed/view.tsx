@@ -48,37 +48,37 @@ const ConfirmSeedView: React.FunctionComponent<ConfirmSeedViewProps> = (
             <UnAuthScreensContentWrapper mb="18px">
                 <Input
                     id="word-1"
-                    fullWidth="76%"
+                    fullWidth="80%"
                     {...styledInput1}
-                    leftPosition="18px"
-                    topPosition="3px"
+                    rightPosition="12px"
+                    topPosition="25px"
                     disabled
                 />
 
                 <Input
                     id="word-2"
                     {...styledInput2}
-                    fullWidth="76%"
-                    leftPosition="18px"
-                    topPosition="3px"
+                    fullWidth="80%"
+                    rightPosition="12px"
+                    topPosition="25px"
                     disabled
                 />
 
                 <Input
                     id="word-3"
                     {...styledInput3}
-                    fullWidth="76%"
-                    leftPosition="18px"
-                    topPosition="3px"
+                    fullWidth="80%"
+                    rightPosition="12px"
+                    topPosition="25px"
                     disabled
                 />
 
                 <Input
                     id="word-4"
                     {...styledInput4}
-                    fullWidth="76%"
-                    leftPosition="18px"
-                    topPosition="3px"
+                    fullWidth="80%"
+                    rightPosition="12px"
+                    topPosition="25px"
                     disabled
                 />
 

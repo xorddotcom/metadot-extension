@@ -285,8 +285,8 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                         typePassword
                         isCorrect
                         rightIcon
-                        leftPosition="16px"
-                        topPosition="2px"
+                        rightPosition="22px"
+                        topPosition="28px"
                     />
                     {passwordError === minimumCharacterWarning && (
                         <WarningText
@@ -337,8 +337,8 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                         typePassword
                         rightIcon
                         isCorrect
-                        leftPosition="16px"
-                        topPosition="2px"
+                        rightPosition="22px"
+                        topPosition="28px"
                     />
 
                     {passwordError === didnotMatchWarning && (

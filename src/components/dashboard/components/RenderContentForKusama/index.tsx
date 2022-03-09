@@ -17,10 +17,18 @@ const RenderContentForKusamaMainNetwork = ({
     handleClick,
 }: RenderMethodProps): JSX.Element => {
     const { name, logo, disabled } = data;
-    const allMainnetsName = ['Polkadot', 'Kusama', 'Karura'];
+    const allMainnetsName = [
+        'Polkadot',
+        'Kusama',
+        'Karura',
+        'Shiden',
+        'Acala',
+        'Astar',
+    ];
     const chainNameAltered = allMainnetsName.includes(name)
         ? `${name} Main Network`
         : `${name} Test Network`;
+    console.log('name', name);
     const optionRow = {
         className: disabled ? 'tooltip' : 'abc',
         key: name,

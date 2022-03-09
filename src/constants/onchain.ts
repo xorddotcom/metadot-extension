@@ -18,6 +18,7 @@ const {
     rococoIcon,
     astarIcon,
     shibuyaIcon,
+    AcalaIcon,
 } = images;
 
 const USD_PER_POLKADOT_API =
@@ -75,17 +76,17 @@ const KARURA_CONFIG: NetworkConfig = {
     explorer: '',
 };
 
-const MOONRIVER_CONFIG: NetworkConfig = {
-    name: 'Moonriver',
-    tokenName: '',
-    logo: MoonriverIcon,
-    rpcUrl: '',
-    queryEndpoint:
-        'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
-    prefix: 0,
-    disabled: true,
-    explorer: '',
-};
+// const MOONRIVER_CONFIG: NetworkConfig = {
+//     name: 'Moonriver',
+//     tokenName: '',
+//     logo: MoonriverIcon,
+//     rpcUrl: '',
+//     queryEndpoint:
+//         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
+//     prefix: 0,
+//     disabled: true,
+//     explorer: '',
+// };
 
 const SHIDEN_CONFIG: NetworkConfig = {
     name: 'Shiden',
@@ -99,41 +100,41 @@ const SHIDEN_CONFIG: NetworkConfig = {
     explorer: 'https://shiden.subscan.io/account/',
 };
 
-const BIFROST_CONFIG: NetworkConfig = {
-    name: 'Bifrost',
-    tokenName: '',
-    logo: BifrostIcon,
-    rpcUrl: '',
-    queryEndpoint:
-        'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
-    prefix: 0,
-    disabled: true,
-    explorer: '',
-};
+// const BIFROST_CONFIG: NetworkConfig = {
+//     name: 'Bifrost',
+//     tokenName: '',
+//     logo: BifrostIcon,
+//     rpcUrl: '',
+//     queryEndpoint:
+//         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
+//     prefix: 0,
+//     disabled: true,
+//     explorer: '',
+// };
 
-const PHALA_CONFIG: NetworkConfig = {
-    name: 'Phala',
-    tokenName: '',
-    logo: PhalaIcon,
-    rpcUrl: '',
-    queryEndpoint:
-        'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
-    prefix: 0,
-    disabled: true,
-    explorer: '',
-};
+// const PHALA_CONFIG: NetworkConfig = {
+//     name: 'Phala',
+//     tokenName: '',
+//     logo: PhalaIcon,
+//     rpcUrl: '',
+//     queryEndpoint:
+//         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
+//     prefix: 0,
+//     disabled: true,
+//     explorer: '',
+// };
 
-const KHALA_CONFIG: NetworkConfig = {
-    name: 'Khala',
-    tokenName: '',
-    logo: PhalaIcon,
-    rpcUrl: '',
-    queryEndpoint:
-        'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
-    prefix: 0,
-    disabled: true,
-    explorer: '',
-};
+// const KHALA_CONFIG: NetworkConfig = {
+//     name: 'Khala',
+//     tokenName: '',
+//     logo: PhalaIcon,
+//     rpcUrl: '',
+//     queryEndpoint:
+//         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
+//     prefix: 0,
+//     disabled: true,
+//     explorer: '',
+// };
 
 const WESTEND_CONFIG: NetworkConfig = {
     name: 'Westend',
@@ -171,41 +172,41 @@ const ACALA_MANDALA_CONFIG: NetworkConfig = {
     explorer: '',
 };
 
-const MOONBASE_CONFIG: NetworkConfig = {
-    name: 'Moonbase',
-    tokenName: '',
-    logo: MoonriverIcon,
-    rpcUrl: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
-    queryEndpoint:
-        'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
-    prefix: 0,
-    disabled: false,
-    explorer: '',
-};
+// const MOONBASE_CONFIG: NetworkConfig = {
+//     name: 'Moonbase',
+//     tokenName: '',
+//     logo: MoonriverIcon,
+//     rpcUrl: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
+//     queryEndpoint:
+//         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
+//     prefix: 0,
+//     disabled: false,
+//     explorer: '',
+// };
 
-const ASGARD_CONFIG: NetworkConfig = {
-    name: 'Asgard',
-    tokenName: '',
-    logo: BifrostIcon,
-    rpcUrl: '',
-    queryEndpoint:
-        'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
-    prefix: 0,
-    disabled: true,
-    explorer: '',
-};
+// const ASGARD_CONFIG: NetworkConfig = {
+//     name: 'Asgard',
+//     tokenName: '',
+//     logo: BifrostIcon,
+//     rpcUrl: '',
+//     queryEndpoint:
+//         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
+//     prefix: 0,
+//     disabled: true,
+//     explorer: '',
+// };
 
-const DUSTY_CONFIG: NetworkConfig = {
-    name: 'Dusty',
-    tokenName: 'PLD',
-    queryEndpoint:
-        'https://api.subquery.network/sq/khuzama98/subql-dusty__a2h1e',
-    logo: dusty,
-    rpcUrl: 'wss://rpc.dusty.plasmnet.io/',
-    prefix: 5,
-    disabled: true,
-    explorer: '',
-};
+// const DUSTY_CONFIG: NetworkConfig = {
+//     name: 'Dusty',
+//     tokenName: 'PLD',
+//     queryEndpoint:
+//         'https://api.subquery.network/sq/khuzama98/subql-dusty__a2h1e',
+//     logo: dusty,
+//     rpcUrl: 'wss://rpc.dusty.plasmnet.io/',
+//     prefix: 5,
+//     disabled: true,
+//     explorer: '',
+// };
 
 const ASTAR_CONFIG: NetworkConfig = {
     name: 'Astar',
@@ -231,17 +232,17 @@ const SHIBUYA_CONFIG: NetworkConfig = {
     explorer: 'https://shibuya.subscan.io/account/',
 };
 
-const BITCOUNTRY_CONFIG: NetworkConfig = {
-    name: 'Bit Country',
-    tokenName: '',
-    logo: bitcountry,
-    rpcUrl: 'wss://tewai-rpc.bit.country',
-    queryEndpoint:
-        'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
-    prefix: 0,
-    disabled: true,
-    explorer: '',
-};
+// const BITCOUNTRY_CONFIG: NetworkConfig = {
+//     name: 'Bit Country',
+//     tokenName: '',
+//     logo: bitcountry,
+//     rpcUrl: 'wss://tewai-rpc.bit.country',
+//     queryEndpoint:
+//         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
+//     prefix: 0,
+//     disabled: true,
+//     explorer: '',
+// };
 
 const CONTEXTFREE_CONFIG: NetworkConfig = {
     name: 'ContextFree',
@@ -260,7 +261,7 @@ const ACALA_CONFIG: NetworkConfig = {
     tokenName: 'ACA',
     queryEndpoint:
         'https://api.subquery.network/sq/kumailraza404/context-free-indexer',
-    logo: contextFree,
+    logo: AcalaIcon,
     rpcUrl: 'wss://acala-rpc.dwellir.com',
     prefix: 10,
     disabled: false,
@@ -269,7 +270,7 @@ const ACALA_CONFIG: NetworkConfig = {
 
 export default {
     CONTEXTFREE_CONFIG,
-    BITCOUNTRY_CONFIG,
+    // BITCOUNTRY_CONFIG,
     USD_PER_KSM_API,
     USD_PER_POLKADOT_API,
     USD_PER_ASTAR_API,
@@ -277,19 +278,19 @@ export default {
     USD_PER_SHIDEN_API,
     POLKADOT_CONFIG,
     KUSAMA_CONFIG,
-    BIFROST_CONFIG,
-    MOONRIVER_CONFIG,
+    // BIFROST_CONFIG,
+    // MOONRIVER_CONFIG,
     SHIDEN_CONFIG,
     KARURA_CONFIG,
     WESTEND_CONFIG,
     ROCOCO_CONFIG,
-    DUSTY_CONFIG,
+    // DUSTY_CONFIG,
     ACALA_MANDALA_CONFIG,
     ASTAR_CONFIG,
-    PHALA_CONFIG,
-    MOONBASE_CONFIG,
-    ASGARD_CONFIG,
-    KHALA_CONFIG,
+    // PHALA_CONFIG,
+    // MOONBASE_CONFIG,
+    // ASGARD_CONFIG,
+    // KHALA_CONFIG,
     SHIBUYA_CONFIG,
     ACALA_CONFIG,
 };

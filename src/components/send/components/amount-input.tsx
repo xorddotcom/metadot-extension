@@ -24,7 +24,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     transactionFee,
     amount,
 }) => {
-    const { balance, balanceInUsd, tokenName } = useSelector(
+    const { balance, balanceInUsd, tokenName, tokenImage } = useSelector(
         (state: RootState) => state.activeAccount
     );
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
@@ -51,6 +51,8 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         onChange,
         amount,
         tokenLogo: true,
+        tokenName,
+        tokenImage,
         // isCorrect: amountState.isValid || insufficientBal,
     };
 

@@ -5,10 +5,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 import { Props, FieldInterface } from './types';
 
-import { Wrapper, Field, Icon } from './styles';
-import { images } from '../../../utils';
+import { Wrapper, Field, Icon, TokenBox, TokenName } from './styles';
+import { fonts, images } from '../../../utils';
 
 const { visibilityOff, dropdownIcon, visibilityOn } = images;
+const { subHeadingfontFamilyClass } = fonts;
 
 const Input: React.FunctionComponent<Props> = ({
     placeholder,
@@ -35,9 +36,13 @@ const Input: React.FunctionComponent<Props> = ({
     mt,
     mr,
     leftPosition,
+    rightPosition,
     topPosition,
     style,
     inputWrapperWidth,
+    tokenLogo,
+    tokenImage,
+    tokenName,
 }) => {
     const blockChar = (ev: React.KeyboardEvent): void => {
         const arr = ['e', 'E', '+', '-'];
@@ -67,21 +72,29 @@ const Input: React.FunctionComponent<Props> = ({
         isCorrect,
         disabled,
         type: typePassword ? hideStateRes : 'text',
+        tokenLogo,
         ...style,
     };
 
     return (
-        <Wrapper
-            marginBottom={marginBottom || '0px'}
-            isCorrect={isCorrect}
-            inputWrapperWidth={inputWrapperWidth}
+        <div
+            style={{
+                position: 'relative',
+                width: '100%',
+            }}
         >
-            <Field {...FieldProps} />
+            {/* // <Wrapper
+        //     marginBottom={marginBottom || '0px'}
+        //     isCorrect={isCorrect}
+        //     inputWrapperWidth={inputWrapperWidth}
+        // > */}
+            <Field {...FieldProps} autocomplete="off" />
             {rightIcon && (
                 <Icon
                     onClick={hideHandler}
                     topPosition={topPosition}
                     leftPosition={leftPosition}
+                    rightPosition={rightPosition}
                 >
                     {!hideState ? (
                         <img src={visibilityOff} alt="hide" />
@@ -94,13 +107,17 @@ const Input: React.FunctionComponent<Props> = ({
                 <Icon
                     onClick={rightIconCrossClickHandler}
                     topPosition={topPosition}
-                    leftPosition={leftPosition}
+                    rightPosition={rightPosition}
                 >
                     <CancelIcon fontSize="small" />
                 </Icon>
             )}
             {rightIconLock && (
-                <Icon topPosition={topPosition} leftPosition={leftPosition}>
+                <Icon
+                    topPosition={topPosition}
+                    leftPosition={leftPosition}
+                    rightPosition={rightPosition}
+                >
                     <LockOutlinedIcon
                         fontSize="small"
                         style={{
@@ -112,11 +129,27 @@ const Input: React.FunctionComponent<Props> = ({
             )}
 
             {rightIconDropDown && (
-                <Icon topPosition={topPosition} leftPosition={leftPosition}>
+                <Icon
+                    topPosition={topPosition}
+                    leftPosition={leftPosition}
+                    rightPosition={rightPosition}
+                >
                     <img src={dropdownIcon} alt="dropdown" />
                 </Icon>
             )}
-        </Wrapper>
+            {tokenLogo && (
+                <TokenBox>
+                    <img
+                        src={tokenImage}
+                        alt="token"
+                        style={{ width: 20, height: 20 }}
+                    />
+                    <TokenName className={subHeadingfontFamilyClass}>
+                        {tokenName}
+                    </TokenName>
+                </TokenBox>
+            )}
+        </div>
     );
 };
 

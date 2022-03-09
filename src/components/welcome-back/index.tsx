@@ -95,10 +95,8 @@ function WelcomeBack(): JSX.Element {
         },
         hideHandler: () => setShowPassword(!showPassword),
         hideState: showPassword,
-        height: '20px',
         id: 'password-input',
-        fullWidth: '76%',
-        mr: '1.2rem',
+        fullWidth: '80%',
     };
 
     const WarningTextProps = {
@@ -152,8 +150,8 @@ function WelcomeBack(): JSX.Element {
                     <Input
                         id="username"
                         {...usernameInput}
-                        leftPosition="-14px"
-                        topPosition="-0.1px"
+                        rightPosition="15px"
+                        topPosition="18px"
                     />
                 </div>
                 <Input
@@ -161,8 +159,8 @@ function WelcomeBack(): JSX.Element {
                     typePassword
                     isCorrect
                     rightIcon
-                    leftPosition="15px"
-                    topPosition="-0.1px"
+                    rightPosition="15px"
+                    topPosition="22px"
                 />
                 <WarningText {...WarningTextProps}>{passwordError}</WarningText>
             </div>

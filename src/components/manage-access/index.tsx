@@ -9,6 +9,9 @@ import { Wrapper, VerticalContentDiv } from '../common/wrapper';
 import SearchBar from '../common/search-bar';
 import ManageAccessCard from './card';
 import { getAuthList, toggleAuthorization } from '../../messaging';
+import { fonts } from '../../utils';
+
+const { subHeadingfontFamilyClass } = fonts;
 
 function ManageAccess(): JSX.Element {
     const [search, setSearch] = useState('');
@@ -46,7 +49,12 @@ function ManageAccess(): JSX.Element {
 
             <VerticalContentDiv style={{ marginTop: '30px' }}>
                 {!authList || !Object.entries(authList)?.length ? (
-                    <div className="empty-list">No website request yet!</div>
+                    <div
+                        style={{ color: 'white' }}
+                        className={`empty-list ${subHeadingfontFamilyClass}`}
+                    >
+                        No website request yet!
+                    </div>
                 ) : (
                     <div className="website-list">
                         {Object.entries(authList)

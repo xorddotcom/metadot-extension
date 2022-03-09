@@ -62,7 +62,7 @@ const CreateWalletView: React.FunctionComponent<CreateWalletViewProps> = (
                 centerText={CREATE_WALLET_HEADER}
                 backHandler={() => backHandler()}
             />
-            <UnAuthScreensContentWrapper>
+            <UnAuthScreensContentWrapper mb="25px">
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
@@ -100,13 +100,13 @@ const CreateWalletView: React.FunctionComponent<CreateWalletViewProps> = (
                         </SubHeading>
                         <Input
                             id="password"
-                            fullWidth="76%"
+                            fullWidth="80%"
                             {...styledInputPassword}
                             typePassword
                             isCorrect
                             rightIcon
-                            leftPosition="15px"
-                            topPosition="1px"
+                            rightPosition="17px"
+                            topPosition="26px"
                         />
 
                         <SubHeading
@@ -122,7 +122,7 @@ const CreateWalletView: React.FunctionComponent<CreateWalletViewProps> = (
                         </SubHeading>
                     </LabelAndTextWrapper>
 
-                    <LabelAndTextWrapper marginTop="0" minHeight="135px">
+                    <LabelAndTextWrapper marginTop="55px" minHeight="135px">
                         <SubHeading
                             className={mainHeadingfontFamilyClass}
                             marginTop="25px"
@@ -132,13 +132,13 @@ const CreateWalletView: React.FunctionComponent<CreateWalletViewProps> = (
                         </SubHeading>
                         <Input
                             id="confirm-password"
-                            fullWidth="76%"
+                            fullWidth="80%"
                             {...styledInputConfirmPass}
                             typePassword
                             rightIcon
                             isCorrect
-                            leftPosition="15px"
-                            topPosition="1px"
+                            rightPosition="17px"
+                            topPosition="26px"
                         />
 
                         {passwordError === didnotMatchWarning && (

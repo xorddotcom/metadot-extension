@@ -65,7 +65,6 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
         value: input,
         className: subHeadingfontFamilyClass,
         fontSize: '12px',
-        height: '20px',
         onChange: (t: string) => {
             setInput(t);
             setPasswordError('');

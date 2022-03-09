@@ -45,6 +45,12 @@ export interface ToInputInterface {
     receiverAddress: string;
 }
 
+export interface Account {
+    publicKey: string;
+    accountName: string;
+    parentAddress?: string;
+}
+
 export interface AmountInputInterface {
     onChange(e: string): void;
     maxInputHandler(): void;
