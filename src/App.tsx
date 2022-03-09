@@ -79,7 +79,6 @@ function App(): JSX.Element {
                         accounts[accounts.length - 1].address,
                         activeAccount.prefix
                     );
-
                     dispatch(setLoggedIn(true));
                     dispatch(setPublicKey(publicKeyOfRespectiveChain));
                     dispatch(

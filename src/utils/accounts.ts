@@ -132,7 +132,9 @@ async function deleteAccount(address: string): Promise<boolean> {
 }
 
 async function renameAccount(address: string, name: string): Promise<boolean> {
+    console.log('rename account working');
     const result = await editAccount(address, name);
+    console.log('New account name', result);
     return result;
 }
 

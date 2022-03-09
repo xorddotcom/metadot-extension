@@ -33,7 +33,7 @@ import accounts from '../../../../utils/accounts';
 import WarningModal from '../warningModal';
 import AuthModal from '../authorization';
 
-const { crossIcon, visibilityOn } = images;
+const { crossIcon, visibilityOn, renameAccountImage } = images;
 const { mainHeadingfontFamilyClass } = fonts;
 const { deleteAccount, renameAccount, GenerateSeedPhrase } = accounts;
 
@@ -45,12 +45,14 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
 
     const [openWarnModal, setOpenWarnModal] = useState(false);
     const [authScreenModal, setAuthScreenModal] = useState(false);
+    const [showRenameAccountModal, setShowRenameAccountModal] = useState(false);
 
     // const activeAccount: any = useSelector(
     //     (state: RootState['activeAccount']) => activeAccount
     // );
 
     const currentUser = useSelector((state: RootState) => state);
+    const { accounts: allAccounts } = currentUser;
     const { activeAccount } = currentUser;
 
     const warnModalHandler = (e: boolean): void => {
@@ -99,13 +101,31 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
         subText: ACCOUNT_DELETION_WARNING,
     };
 
-    const accountCreation = (): void => {
-        const newSeed = GenerateSeedPhrase();
+    const accountCreation = async (): Promise<void> => {
+        const newSeed = await GenerateSeedPhrase();
         // setSeedToPass(newSeed);
         dispatch(setAccountCreationStep(1));
         dispatch(setTempSeed(newSeed));
         navigate('/show-seed', {
-            state: { newSeed },
+            state: { seedToPass: newSeed },
+        });
+    };
+
+    const newDeriveAccount = (): void => {
+        console.log('Accounts =====>>>', allAccounts);
+
+        const filteredArray = Object.values(allAccounts).filter(
+            (singleAccount) =>
+                activeAccount.publicKey === singleAccount.parentAddress
+        );
+        console.log('Filtered array ==>>>', filteredArray);
+
+        navigate('/create-derived-account', {
+            state: {
+                parentAddress: activeAccount.publicKey,
+                parentName: activeAccount.accountName,
+                path: filteredArray.length.toString(),
+            },
         });
     };
 
@@ -116,14 +136,31 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
             image: visibilityOn,
             modal: () => accountCreation(),
         },
-        { name: 'New Derive Account', navigation: '' },
-        { name: 'Import Account', navigation: '/import-wallet' },
+        {
+            name: 'New Derive Account',
+            image: visibilityOn,
+            modal: () => newDeriveAccount,
+        },
+        {
+            name: 'Import Account',
+            image: visibilityOn,
+            navigation: '/import-wallet',
+        },
         {
             name: 'Export Account',
+            image: visibilityOn,
             modal: (e: boolean) => setAuthScreenModal(e),
         },
-        { name: 'Rename Account', modal: () => setAuthScreenModal(true) },
-        { name: 'Remove Account', modal: (e: boolean) => warnModalHandler(e) },
+        {
+            name: 'Rename Account',
+            image: renameAccountImage,
+            modal: () => setShowRenameAccountModal(true),
+        },
+        {
+            name: 'Remove Account',
+            image: visibilityOn,
+            modal: (e: boolean) => warnModalHandler(e),
+        },
     ];
 
     return (
@@ -160,11 +197,11 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
                         ))} */}
                         <AuthModal
                             publicKey={activeAccount.publicKey}
-                            open={authScreenModal}
+                            open={showRenameAccountModal}
                             handleClose={() => {
-                                dispatch(setAuthScreenModal(false));
+                                setShowRenameAccountModal(false);
                             }}
-                            functionType="renameAccount"
+                            functionType="RenameAccount"
                             onConfirm={renameAccount}
                             style={{
                                 width: '290px',
@@ -175,14 +212,22 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
                                 pb: 3,
                             }}
                         />
-                        );
+
                         {arr.map((account: any) => (
                             <OptionRow
                                 className="abc"
                                 onClick={() => onSelection(account.name)}
                             >
                                 <HorizontalContentDiv>
-                                    <PlainIcon />
+                                    {/* <PlainIcon /> */}
+                                    <img
+                                        style={{
+                                            width: '25px',
+                                            height: '25px',
+                                        }}
+                                        src={account.image}
+                                        alt="icon"
+                                    />
                                     <OptionText
                                         className={mainHeadingfontFamilyClass}
                                         onClick={() => {

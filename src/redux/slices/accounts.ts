@@ -2,12 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { AccountJson } from 'metadot-extension-base/background/types';
 import { Accounts } from '../types';
 
-const initialState: Accounts = {
-    '25YL8fvdvwCH1upevE8htVEpcLEDeuKfb4PYq868qynR5pwa': {
-        publicKey: '25YL8fvdvwCH1upevE8htVEpcLEDeuKfb4PYq868qynR5pwa',
-        accountName: 'Hello',
-    },
-};
+const initialState: Accounts = {};
 
 export const accountsSlice = createSlice({
     name: 'accounts',
@@ -41,7 +36,6 @@ export const accountsSlice = createSlice({
             console.log('new state', newState);
             return newState;
         },
-
         resetAccountsSlice: (state) => {
             return {};
         },

@@ -33,6 +33,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const handleSubmit = async (): Promise<boolean> => {
+        console.log('handle submit working');
         if (!input) {
             return false;
         }
