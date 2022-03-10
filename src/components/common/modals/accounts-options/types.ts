@@ -9,6 +9,7 @@ export interface MyAccountsProps {
     handleClose(): void;
     style?: object;
     onSelection(): void;
+    closeDropDown(): void;
 }
 
 export interface OptionRowPropsInterface {

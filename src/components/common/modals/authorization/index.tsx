@@ -43,7 +43,6 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
                 if (!valid) throw new Error('Invalid password 1');
             }
             const res: boolean = await onConfirm(publicKey, input);
-            console.log('New account in auth modal', res);
             if (!isPassword && res) handleClose();
             if (!res) throw new Error('Invalid password 2');
 

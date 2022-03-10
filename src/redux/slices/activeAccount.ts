@@ -1,24 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import constants from '../../constants/onchain';
 
-const { WESTEND_CONFIG } = constants;
+const { POLKADOT_CONFIG } = constants;
 
 const initialState = {
     isLoggedIn: false,
     publicKey: '',
     accountName: '',
-    rpcUrl: WESTEND_CONFIG.rpcUrl,
-    chainName: WESTEND_CONFIG.name,
-    tokenName: WESTEND_CONFIG.tokenName,
-    tokenImage: WESTEND_CONFIG.logo,
+    rpcUrl: POLKADOT_CONFIG.rpcUrl,
+    chainName: POLKADOT_CONFIG.name,
+    tokenName: POLKADOT_CONFIG.tokenName,
+    tokenImage: POLKADOT_CONFIG.logo,
     balance: 0,
     balanceInUsd: 0,
     jsonFileUploadScreen: false,
-    prefix: 42,
+    prefix: POLKADOT_CONFIG.prefix,
     accountCreationStep: 0,
     tempSeed: '',
     lastVisitedTimestamp: '',
-    queryEndpoint: WESTEND_CONFIG.queryEndpoint,
+    queryEndpoint: POLKADOT_CONFIG.queryEndpoint,
     isWalletConnected: false,
 };
 
@@ -60,11 +60,11 @@ export const activeAccountSlice = createSlice({
                 balance: 0,
                 balanceInUsd: 0,
                 jsonFileUploadScreen: false,
-                rpcUrl: WESTEND_CONFIG.rpcUrl,
-                chainName: WESTEND_CONFIG.name,
-                tokenName: WESTEND_CONFIG.tokenName,
-                tokenImage: WESTEND_CONFIG.logo,
-                queryEndpoint: WESTEND_CONFIG.queryEndpoint,
+                rpcUrl: POLKADOT_CONFIG.rpcUrl,
+                chainName: POLKADOT_CONFIG.name,
+                tokenName: POLKADOT_CONFIG.tokenName,
+                tokenImage: POLKADOT_CONFIG.logo,
+                queryEndpoint: POLKADOT_CONFIG.queryEndpoint,
             };
         },
         setPublicKey: (state, action: PayloadAction<string>) => {

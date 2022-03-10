@@ -1,25 +1,34 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { AccountJson } from 'metadot-extension-base/background/types';
+import services from '../../utils/services';
 import { Accounts } from '../types';
 
 const initialState: Accounts = {};
+
+const { addressMapper } = services;
 
 export const accountsSlice = createSlice({
     name: 'accounts',
     initialState,
     reducers: {
-        deleteAccount: (state, action: PayloadAction<string>) => {
-            const copyState = { ...state };
-            delete copyState[action.payload as keyof Accounts];
-            return copyState;
-        },
-        updateAccounts: (state, action: PayloadAction<AccountJson[]>) => {
+        updateAccounts: (
+            state,
+            action: PayloadAction<{
+                allAccounts: AccountJson[];
+                prefix: number;
+            }>
+        ) => {
             console.log('action payload', action.payload);
             const newState: any = {};
 
-            action.payload.forEach((account: any) => {
-                newState[account.address] = {
-                    publicKey: account.address,
+            action.payload.allAccounts.forEach((account: any) => {
+                const publicKeyOfRespectiveChain = addressMapper(
+                    account.address,
+                    0
+                );
+
+                newState[publicKeyOfRespectiveChain] = {
+                    publicKey: publicKeyOfRespectiveChain,
                     accountName: account.name,
                     parentAddress: account.parentAddress
                         ? account.parentAddress

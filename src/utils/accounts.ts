@@ -10,11 +10,31 @@ import {
     forgetAccount,
     editAccount,
     validateDerivePath,
+    signTransaction as signTransactionMessage,
 } from '../messaging';
+import services from './services';
+
+const substratePrefix = 42;
+
+const { addressMapper } = services;
 
 function GenerateSeedPhrase(): string {
     const seed = mnemonicGenerate(12);
     return seed;
+}
+
+async function signTransaction(
+    address: string,
+    password: string,
+    txHex: string
+): Promise<any> {
+    const substrateAddress = addressMapper(address, substratePrefix);
+    const { signature } = await signTransactionMessage(
+        substrateAddress,
+        password,
+        txHex
+    );
+    return signature;
 }
 
 async function validatingSeedPhrase(
@@ -29,7 +49,8 @@ async function getJsonBackup(
     password: string
 ): Promise<boolean> {
     try {
-        const backupJson = await exportAccount(address, password);
+        const substrateAddress = addressMapper(address, substratePrefix);
+        const backupJson = await exportAccount(substrateAddress, password);
 
         console.log('backupJson', backupJson);
         const jsonContent = backupJson.exportedJson;
@@ -87,8 +108,9 @@ async function derive(
     genesisHash: string | null
 ): Promise<boolean> {
     try {
+        const substrateAddress = addressMapper(parentAddress, substratePrefix);
         const res = await deriveAccount(
-            parentAddress,
+            substrateAddress,
             suri,
             parentPassword,
             name,
@@ -107,8 +129,9 @@ async function derivePathValidation(
     parentPassword: string
 ): Promise<{ address: string; suri: string }> {
     try {
+        const substrateAddress = addressMapper(parentAddress, substratePrefix);
         const res = await validateDerivePath(
-            parentAddress,
+            substrateAddress,
             parentPassword,
             suri
         );
@@ -122,13 +145,15 @@ async function validateAccount(
     address: string,
     password: string
 ): Promise<boolean> {
-    const result = await validateAccountMessage(address, password);
+    const substrateAddress = addressMapper(address, substratePrefix);
+    const result = await validateAccountMessage(substrateAddress, password);
     return result;
 }
 
 async function deleteAccount(address: string): Promise<boolean> {
     console.log('Delete account working');
-    const result = await forgetAccount(address);
+    const substrateAddress = addressMapper(address, substratePrefix);
+    const result = await forgetAccount(substrateAddress);
     console.log('Delete account res ===>>', result);
     return result;
 }
@@ -151,4 +176,5 @@ export default {
     deleteAccount,
     renameAccount,
     derivePathValidation,
+    signTransaction,
 };

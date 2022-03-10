@@ -70,11 +70,16 @@ function App(): JSX.Element {
     }, []);
 
     useEffect(() => {
-        if (accounts && accounts.length > 0) {
+        if (accounts) {
             console.log('accounts -->>', accounts);
             if (accounts.length > 0) {
-                dispatch(updateAccounts(accounts));
                 if (accounts.length !== Object.keys(RdxAccounts).length) {
+                    dispatch(
+                        updateAccounts({
+                            allAccounts: accounts,
+                            prefix: activeAccount.prefix,
+                        })
+                    );
                     const publicKeyOfRespectiveChain = addressMapper(
                         accounts[accounts.length - 1].address,
                         activeAccount.prefix
@@ -85,6 +90,13 @@ function App(): JSX.Element {
                         setAccountName(
                             accounts[accounts.length - 1].name as string
                         )
+                    );
+                } else {
+                    dispatch(
+                        updateAccounts({
+                            allAccounts: accounts,
+                            prefix: activeAccount.prefix,
+                        })
                     );
                 }
             } else {
@@ -100,7 +112,7 @@ function App(): JSX.Element {
         if (activeAccount.publicKey) {
             dispatch(
                 setAccountName(
-                    RdxAccounts[addressMapper(activeAccount.publicKey, 42)]
+                    RdxAccounts[addressMapper(activeAccount.publicKey, 0)]
                         .accountName
                 )
             );
