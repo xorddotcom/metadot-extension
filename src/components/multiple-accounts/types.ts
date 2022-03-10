@@ -44,6 +44,14 @@ export interface AccountCardInterface {
     marginTop?: string;
 }
 
+export interface DropdownOptionStyleInterface {
+    fontSize: string;
+    whiteSpace: any;
+    overflow: string;
+    textOverflow: string;
+    width: string;
+}
+
 export interface DerivedAccountsInterface {
     accounts: ChildAccountInterface[];
     activateAccount(pk: string, name: string): void;

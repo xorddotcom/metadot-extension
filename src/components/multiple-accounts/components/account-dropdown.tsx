@@ -8,7 +8,10 @@ import { useDispatch } from 'react-redux';
 import { WarningModal } from '../../common/modals';
 
 import { setAuthScreenModal } from '../../../redux/slices/modalHandling';
-import { AccountDropDownInterface } from '../types';
+import {
+    AccountDropDownInterface,
+    DropdownOptionStyleInterface,
+} from '../types';
 import {
     ACCOUNT_DELETION_WARNING,
     CREATE_DERIVE_ACCOUNT_TEXT,
@@ -70,6 +73,14 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
         mainText: 'Remove Account',
         subText: ACCOUNT_DELETION_WARNING,
         isLoading,
+    };
+
+    const dropdownOptionStyle: DropdownOptionStyleInterface = {
+        fontSize: '14px',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        width: '160',
     };
 
     return (
@@ -147,7 +158,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                                         style={{ marginTop: '0.15rem' }}
                                     />
                                     &nbsp; &nbsp;
-                                    <span style={{ fontSize: '0.85rem' }}>
+                                    <span style={dropdownOptionStyle}>
                                         {CREATE_DERIVE_ACCOUNT_TEXT}
                                     </span>
                                 </ListItemIcon>
@@ -174,7 +185,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                                     style={{ marginTop: '0.15rem' }}
                                 />
                                 &nbsp; &nbsp;
-                                <span style={{ fontSize: '0.85rem' }}>
+                                <span style={dropdownOptionStyle}>
                                     {RENAME_ACCOUNT}
                                 </span>
                             </ListItemIcon>
@@ -198,7 +209,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                                     style={{ marginTop: '-0.2rem' }}
                                 />
                                 &nbsp; &nbsp;
-                                <span style={{ fontSize: '0.85rem' }}>
+                                <span style={dropdownOptionStyle}>
                                     {EXPORT_ACCOUNT}
                                 </span>
                             </ListItemIcon>
@@ -222,7 +233,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                                     style={{ marginTop: '0.15rem' }}
                                 />
                                 &nbsp; &nbsp;
-                                <span style={{ fontSize: '0.85rem' }}>
+                                <span style={dropdownOptionStyle}>
                                     {REMOVE_ACCOUNT}
                                 </span>
                             </ListItemIcon>
