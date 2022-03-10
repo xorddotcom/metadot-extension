@@ -10,10 +10,10 @@ import { hexToU8a, isHex } from '@polkadot/util';
 
 import { images } from '../../utils';
 import { RootState } from '../../redux/store';
+import accounts from '../../utils/accounts';
 import services from '../../utils/services';
 import { Wrapper as AuthWrapper } from '../common/wrapper';
 import { WarningModal, AuthModal } from '../common/modals';
-import { signTransaction } from '../../messaging';
 import {
     setAuthScreenModal,
     setIsResponseModalOpen,
@@ -25,6 +25,8 @@ import useResponseModal from '../../hooks/useResponseModal';
 import SendView from './view';
 
 const { UnsuccessCheckIcon, SuccessCheckPngIcon } = images;
+
+const { signTransaction } = accounts;
 
 const errorMessages = {
     invalidAddress: 'Invalid address',
@@ -179,14 +181,13 @@ const Send: React.FunctionComponent = () => {
                 { version: api.extrinsicVersion }
             );
             const txHex = txPayload.toU8a(true);
-            let response;
+            let signature;
             try {
-                response = await signTransaction(address, password, txHex);
+                signature = await signTransaction(address, password, txHex);
             } catch (err) {
                 setLoading2(false);
                 throw new Error('Invalid Password!');
             }
-            const { signature } = response;
             tx.addSignature(address, signature, txPayload);
             await tx
                 .send(({ status, events }) => {
@@ -281,8 +282,9 @@ const Send: React.FunctionComponent = () => {
             setLoading1(true);
             if (!validateInputValues(receiverAddress))
                 throw new Error('An error occurred');
-
+            console.log('Input field validated');
             const isTxValid = await validateTxErrors();
+            console.log('is tx valid', isTxValid);
             if (isTxValid[0]) {
                 console.log('in first IF');
                 SendTx(isTxValid[1]);

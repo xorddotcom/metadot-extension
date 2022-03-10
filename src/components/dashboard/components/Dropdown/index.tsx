@@ -101,7 +101,6 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
             >
                 <AccountOptions
                     open={openAccountsOptions}
-                    // handleClose={() => console.log('Close ===>>>')}
                     handleClose={() => setOpenAccountsOptions(false)}
                     style={{
                         position: 'relative',
@@ -114,6 +113,8 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                     }}
                     onSelection={onSelection}
                     // open, handleClose, style, onSelection
+                    // onSelection={() => setOpenAccountsOptions(true)}
+                    closeDropDown={handleClose}
                 />
                 <Paper
                     id="paper"
@@ -144,7 +145,6 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                 justifyContent: 'space-between',
                             }}
                             onClick={() => {
-                                // navigate(ACCOUNTS);
                                 setOpenAccountsOptions(true);
                             }}
                         >

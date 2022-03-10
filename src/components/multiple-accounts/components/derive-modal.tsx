@@ -7,14 +7,14 @@ import { MainDiv, MainText, MainText1, CloseIconDiv } from '../styles';
 
 import { Button, Input } from '../../common';
 import { fonts } from '../../../utils';
+import accounts from '../../../utils/accounts';
 import { WarningText } from '../../common/text';
 import { VerticalContentDiv } from '../../common/wrapper';
 import { DeriveModalInterface } from '../types';
 import { CREATE_DERIVED_ACCOUNT } from '../../../constants';
 
-import { validateAccount } from '../../../messaging';
-
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+const { validateAccount } = accounts;
 
 const DeriveModal: React.FunctionComponent<DeriveModalInterface> = ({
     open,

@@ -31,10 +31,7 @@ import {
     WARNING,
 } from '../../../../utils/app-content';
 
-import {
-    setAuthScreenModal,
-    setConfirmSendModal,
-} from '../../../../redux/slices/modalHandling';
+import { setAuthScreenModal } from '../../../../redux/slices/modalHandling';
 
 import { MyAccountsProps } from './types';
 import { RootState } from '../../../../redux/store';
@@ -45,8 +42,10 @@ import AuthModal from '../authorization';
 import { resetTransactions } from '../../../../redux/slices/transactions';
 import useDispatcher from '../../../../hooks/useDispatcher';
 import {
+    ACCOUNTS,
     CREATE_DERIVED_ACCOUNT,
     DASHBOARD,
+    IMPORT_WALLET,
     SHOW_SEED,
 } from '../../../../constants';
 
@@ -65,28 +64,21 @@ const { deleteAccount, renameAccount, GenerateSeedPhrase } = accounts;
 const { addressMapper } = services;
 
 const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
-    const { open, handleClose, style, onSelection } = props;
+    const { open, handleClose, style, onSelection, closeDropDown } = props;
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const generalDispatcher = useDispatcher();
 
-    const { modalHandling } = useSelector((state: RootState) => state);
     const [openWarnModal, setOpenWarnModal] = useState(false);
-    // const [authScreenModal, setAuthScreenModal] = useState(false);
     const [showRenameAccountModal, setShowRenameAccountModal] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-
-    // const activeAccount: any = useSelector(
-    //     (state: RootState['activeAccount']) => activeAccount
-    // );
 
     const currentUser = useSelector((state: RootState) => state);
     const { accounts: allAccounts } = currentUser;
     const { activeAccount } = currentUser;
 
     const warnModalHandler = (e: boolean): void => {
-        console.log('warn modal handler working ====>>');
         setOpenWarnModal(e);
     };
 
@@ -156,7 +148,6 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
 
     const accountCreation = async (): Promise<void> => {
         const newSeed = await GenerateSeedPhrase();
-        // setSeedToPass(newSeed);
         dispatch(setAccountCreationStep(1));
         dispatch(setTempSeed(newSeed));
         navigate(SHOW_SEED, {
@@ -165,13 +156,10 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
     };
 
     const newDeriveAccount = (): void => {
-        console.log('Accounts =====>>>', allAccounts);
-
         const filteredArray = Object.values(allAccounts).filter(
             (singleAccount) =>
                 activeAccount.publicKey === singleAccount.parentAddress
         );
-        console.log('Filtered array ==>>>', filteredArray);
 
         navigate(CREATE_DERIVED_ACCOUNT, {
             state: {
@@ -182,8 +170,8 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
         });
     };
 
-    const arr = [
-        { name: 'View Accounts', image: visibilityOn, navigation: '/accounts' },
+    const accountOptions = [
+        { name: 'View Accounts', image: visibilityOn, navigation: ACCOUNTS },
         {
             name: 'Add Account',
             image: AddSharpIcon,
@@ -197,7 +185,7 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
         {
             name: 'Import Account',
             image: FileDownloadOutlinedIcon,
-            navigation: '/import-wallet',
+            navigation: IMPORT_WALLET,
         },
         {
             name: 'Export Account',
@@ -207,7 +195,6 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
         {
             name: 'Rename Account',
             image: renameAccountImage,
-            // modal: (e: boolean) => setAuthScreenModal(e),
             modal: () => setShowRenameAccountModal(true),
         },
         {
@@ -238,7 +225,9 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
                             open={showRenameAccountModal}
                             handleClose={() => {
                                 setShowRenameAccountModal(false);
-                                // dispatch(setAuthScreenModal(false));
+                                dispatch(setAuthScreenModal(false));
+                                handleClose();
+                                closeDropDown();
                             }}
                             functionType="RenameAccount"
                             onConfirm={renameAccount}
@@ -251,8 +240,7 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
                                 pb: 3,
                             }}
                         />
-
-                        {arr.map((account: any) => (
+                        {accountOptions.map((account: any) => (
                             <OptionRow
                                 className="abc"
                                 onClick={() => {

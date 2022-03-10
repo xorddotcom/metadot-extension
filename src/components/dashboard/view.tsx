@@ -3,7 +3,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-import { useNavigate } from 'react-router-dom';
 import MainCard from './components/MainCard';
 import AssetsAndTransactions from './components/Tabs';
 import DropDown from './components/Dropdown';
@@ -63,8 +62,6 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
 
     // --------XXXXXXXXXXXXXXX-----------
 
-    const navigate = useNavigate();
-
     const { tokenImage } = useSelector(
         (state: RootState) => state.activeAccount
     );
@@ -81,7 +78,6 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
         ? `${chainName} Main Network`
         : `${chainName} Test Network`;
 
-    const test = (): void => console.log('test');
     return (
         <Wrapper pb>
             <DashboardHeader>
@@ -91,8 +87,6 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
                         width="30px"
                         height="34px"
                         alt="Metadot Logo"
-                        onClick={() => navigate('/swap')}
-                        onKeyDown={() => navigate('/swap')}
                         role="presentation"
                     />
                 </LogoContainer>
@@ -147,22 +141,6 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
                 />
                 {/* Menu End */}
             </DashboardHeader>
-
-            {/* <AccountOptions
-                open
-                handleClose={test}
-                style={{
-                    position: 'relative',
-                    width: '300px',
-                    background: '#141414',
-                    pb: 3,
-                    overflowY: 'scroll',
-                    overflowX: 'hidden',
-                    marginTop: '9rem',
-                }}
-                onSelection={test}
-                // open, handleClose, style, onSelection
-            /> */}
             <MainCard
                 balance={balance}
                 tokenName={tokenName}
