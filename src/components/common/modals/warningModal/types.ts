@@ -6,4 +6,5 @@ export interface WarningModalProps {
     mainText?: string;
     subText?: string;
     onConfirm(): void;
+    isLoading?: boolean;
 }

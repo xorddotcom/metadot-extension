@@ -207,6 +207,13 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                         </HorizontalContentDiv>
                     </AccountDetailsDiv>
                 )}
+                <SubHeading
+                    className={mainHeadingfontFamilyClass}
+                    marginTop="27px"
+                    mb="10px"
+                >
+                    Upload JSON File
+                </SubHeading>
                 <UploadFile
                     htmlFor="actual-btn"
                     onClick={() => handleClick('select')}

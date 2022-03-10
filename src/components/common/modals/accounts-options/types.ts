@@ -8,7 +8,7 @@ export interface MyAccountsProps {
     open: boolean;
     handleClose(): void;
     style?: object;
-    onSelection(v: Account): void;
+    onSelection(): void;
 }
 
 export interface OptionRowPropsInterface {

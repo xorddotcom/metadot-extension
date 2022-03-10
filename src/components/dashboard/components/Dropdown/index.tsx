@@ -63,8 +63,8 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
         return true;
     };
 
-    const test = (): void => {
-        console.log('Test working');
+    const onSelection = (): void => {
+        handleClose();
     };
 
     return (
@@ -112,7 +112,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                         overflowX: 'hidden',
                         marginTop: '9rem',
                     }}
-                    onSelection={test}
+                    onSelection={onSelection}
                     // open, handleClose, style, onSelection
                 />
                 <Paper
@@ -168,52 +168,6 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                 style={{ marginTop: '-0.2rem' }}
                             />
                         </MenuItem>
-
-                        {/* <MenuItem
-                            id="menu-item-2"
-                            style={{ minHeight: '37px', color: '#fafafa' }}
-                            onClick={() => {
-                                navigate(IMPORT_WALLET);
-                            }}
-                        >
-                            <ListItemIcon
-                                className="flexStart"
-                                style={{ color: '#fafafa' }}
-                            >
-                                <img
-                                    src={FileDownloadOutlinedIcon}
-                                    alt="download-icon"
-                                    style={{ marginTop: '-0.2rem' }}
-                                />
-                                &nbsp; &nbsp;
-                                <span style={{ fontSize: '0.85rem' }}>
-                                    {IMPORT_ACCOUNT}
-                                </span>
-                            </ListItemIcon>
-                        </MenuItem>
-
-                        <MenuItem
-                            style={{
-                                minHeight: '37px',
-                                color: 'rgba(250, 250, 250, 0.6)',
-                            }}
-                            onClick={() => dispatch(setAuthScreenModal(true))}
-                        >
-                            <ListItemIcon
-                                className="flexStart"
-                                style={{ color: '#fafafa' }}
-                            >
-                                <img
-                                    src={FileUploadOutlinedIcon}
-                                    alt="export-icon"
-                                    style={{ marginTop: '-0.2rem' }}
-                                />
-                                &nbsp; &nbsp;
-                                <span style={{ fontSize: '0.85rem' }}>
-                                    {EXPORT_ACCOUNT}
-                                </span>
-                            </ListItemIcon>
-                        </MenuItem> */}
 
                         <MenuItem
                             style={{

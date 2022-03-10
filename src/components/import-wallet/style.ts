@@ -42,8 +42,8 @@ export const UploadFileDiv = styled.div`
 export const UploadFile = styled.label`
     background-color: ${darkBackground1};
     color: ${primaryText};
-    padding: 0.6rem 1rem;
-    width: 288px;
+    padding: 11px 16px;
+    width: 89%;
     /* height: 45px; */
     font-weight: 500;
     font-size: 14px;

@@ -39,6 +39,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
     const dispatch = useDispatch();
 
     const [openWarnModal, setOpenWarnModal] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const authModalHandler = (authModalFunction: string): void => {
         setAuthModalFunction(authModalFunction);
@@ -53,7 +54,9 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
         open: openWarnModal,
         handleClose: () => setOpenWarnModal(false),
         onConfirm: () => {
+            setIsLoading(true);
             deleteAccount(account.publicKey);
+            setIsLoading(false);
         },
         style: {
             width: '290px',
@@ -66,6 +69,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
         },
         mainText: 'Remove Account',
         subText: ACCOUNT_DELETION_WARNING,
+        isLoading,
     };
 
     return (
