@@ -150,8 +150,8 @@ function WelcomeBack(): JSX.Element {
                     <Input
                         id="username"
                         {...usernameInput}
-                        rightPosition="15px"
-                        topPosition="18px"
+                        rightPosition="19px"
+                        topPosition="28px"
                     />
                 </div>
                 <Input
@@ -159,8 +159,8 @@ function WelcomeBack(): JSX.Element {
                     typePassword
                     isCorrect
                     rightIcon
-                    rightPosition="15px"
-                    topPosition="22px"
+                    rightPosition="18px"
+                    topPosition="27px"
                 />
                 <WarningText {...WarningTextProps}>{passwordError}</WarningText>
             </div>

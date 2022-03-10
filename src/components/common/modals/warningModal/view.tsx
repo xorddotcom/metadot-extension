@@ -13,8 +13,16 @@ const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const WarningModalView: React.FunctionComponent<WarningModalProps> = (
     props
 ) => {
-    const { open, handleClose, style, image, mainText, subText, onConfirm } =
-        props;
+    const {
+        open,
+        handleClose,
+        style,
+        image,
+        mainText,
+        subText,
+        onConfirm,
+        isLoading,
+    } = props;
     const mainHeading = {
         className: mainHeadingfontFamilyClass,
         color: warningText,
@@ -38,6 +46,7 @@ const WarningModalView: React.FunctionComponent<WarningModalProps> = (
             borderRadius: 40,
         },
         handleClick: () => onConfirm(),
+        isLoading,
     };
 
     const flexCenter = {

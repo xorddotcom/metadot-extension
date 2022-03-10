@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
+import { encodeAddress } from '@polkadot/util-crypto';
 
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -19,7 +20,10 @@ import {
 import { fonts, images } from '../../../../utils';
 
 import {
+    resetAccountSlice,
     setAccountCreationStep,
+    setAccountName,
+    setPublicKey,
     setTempSeed,
 } from '../../../../redux/slices/activeAccount';
 import {
@@ -35,8 +39,16 @@ import {
 import { MyAccountsProps } from './types';
 import { RootState } from '../../../../redux/store';
 import accounts from '../../../../utils/accounts';
+import services from '../../../../utils/services';
 import WarningModal from '../warningModal';
 import AuthModal from '../authorization';
+import { resetTransactions } from '../../../../redux/slices/transactions';
+import useDispatcher from '../../../../hooks/useDispatcher';
+import {
+    CREATE_DERIVED_ACCOUNT,
+    DASHBOARD,
+    SHOW_SEED,
+} from '../../../../constants';
 
 const {
     crossIcon,
@@ -50,17 +62,20 @@ const {
 } = images;
 const { mainHeadingfontFamilyClass } = fonts;
 const { deleteAccount, renameAccount, GenerateSeedPhrase } = accounts;
+const { addressMapper } = services;
 
 const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
     const { open, handleClose, style, onSelection } = props;
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const generalDispatcher = useDispatcher();
 
     const { modalHandling } = useSelector((state: RootState) => state);
     const [openWarnModal, setOpenWarnModal] = useState(false);
     // const [authScreenModal, setAuthScreenModal] = useState(false);
     const [showRenameAccountModal, setShowRenameAccountModal] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     // const activeAccount: any = useSelector(
     //     (state: RootState['activeAccount']) => activeAccount
@@ -75,11 +90,55 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
         setOpenWarnModal(e);
     };
 
+    // Account Handlers
+    const activateAccountHandler = (pk: string, name: string): void => {
+        const publicKeyOfRespectiveChain = addressMapper(
+            pk,
+            activeAccount.prefix
+        );
+        generalDispatcher(() => setPublicKey(publicKeyOfRespectiveChain));
+        generalDispatcher(() => setAccountName(name));
+        generalDispatcher(() => resetTransactions());
+        navigate(DASHBOARD);
+    };
+
+    const deleteAccountHandler = async (publicKey: string): Promise<void> => {
+        await deleteAccount(publicKey);
+        if (
+            publicKey ===
+            encodeAddress(activeAccount.publicKey, activeAccount.prefix)
+        ) {
+            if (Object.keys(allAccounts).length > 1) {
+                if (Object.keys(allAccounts)[0] !== publicKey) {
+                    activateAccountHandler(
+                        Object.values(allAccounts)[0].publicKey,
+                        Object.values(allAccounts)[0].accountName
+                    );
+                } else {
+                    activateAccountHandler(
+                        Object.values(allAccounts)[1].publicKey,
+                        Object.values(allAccounts)[1].accountName
+                    );
+                }
+            } else {
+                generalDispatcher(() => resetAccountSlice());
+            }
+            navigate(DASHBOARD);
+        } else {
+            navigate(DASHBOARD);
+        }
+    };
+
     const warningModal = {
         open: openWarnModal,
         handleClose: () => setOpenWarnModal(false),
         onConfirm: () => {
-            deleteAccount(activeAccount.publicKey);
+            setIsLoading(true);
+            deleteAccountHandler(activeAccount.publicKey);
+            setOpenWarnModal(false);
+            handleClose();
+            onSelection();
+            setIsLoading(true);
         },
         style: {
             width: '290px',
@@ -90,8 +149,9 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
             px: 2,
             pb: 3,
         },
-        mainText: WARNING,
+        mainText: 'Remove Account',
         subText: ACCOUNT_DELETION_WARNING,
+        isLoading,
     };
 
     const accountCreation = async (): Promise<void> => {
@@ -99,7 +159,7 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
         // setSeedToPass(newSeed);
         dispatch(setAccountCreationStep(1));
         dispatch(setTempSeed(newSeed));
-        navigate('/show-seed', {
+        navigate(SHOW_SEED, {
             state: { seedToPass: newSeed },
         });
     };
@@ -113,7 +173,7 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
         );
         console.log('Filtered array ==>>>', filteredArray);
 
-        navigate('/create-derived-account', {
+        navigate(CREATE_DERIVED_ACCOUNT, {
             state: {
                 parentAddress: activeAccount.publicKey,
                 parentName: activeAccount.accountName,
@@ -195,26 +255,16 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
                         {arr.map((account: any) => (
                             <OptionRow
                                 className="abc"
-                                onClick={() => onSelection(account.name)}
+                                onClick={() => {
+                                    account.navigation
+                                        ? navigate(account.navigation)
+                                        : dispatch(account.modal(true));
+                                }}
                             >
                                 <HorizontalContentDiv>
-                                    {/* <PlainIcon /> */}
-                                    <img
-                                        style={{
-                                            width: '25px',
-                                            height: '25px',
-                                        }}
-                                        src={account.image}
-                                        alt="icon"
-                                    />
+                                    <img src={account.image} alt="icon" />
                                     <OptionText
                                         className={mainHeadingfontFamilyClass}
-                                        onClick={() => {
-                                            console.log('click', account);
-                                            account.navigation
-                                                ? navigate(account.navigation)
-                                                : dispatch(account.modal(true));
-                                        }}
                                     >
                                         {account.name}
                                     </OptionText>
