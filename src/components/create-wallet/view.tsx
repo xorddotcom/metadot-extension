@@ -114,7 +114,11 @@ const CreateWalletView: React.FunctionComponent<CreateWalletViewProps> = (
                             textLightColor
                             marginTop="5px"
                             className={subHeadingfontFamilyClass}
-                            style={{ color: '#FFFFFF', opacity: 0.56 }}
+                            style={
+                                passwordError === passwordValidation
+                                    ? { color: '#F63A3A', opacity: 0.7 }
+                                    : { color: '#FFFFFF', opacity: 0.56 }
+                            }
                             fontSize="11px"
                         >
                             Password must contain at least one lower case, one
@@ -162,7 +166,7 @@ const CreateWalletView: React.FunctionComponent<CreateWalletViewProps> = (
                                     passwordError === minimumCharacterWarning
                                 }
                             >
-                                {didnotMatchWarning}
+                                {minimumCharacterWarning}
                             </WarningText>
                         )}
                     </LabelAndTextWrapper>

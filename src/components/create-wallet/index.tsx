@@ -87,12 +87,12 @@ const CreateWallet: React.FunctionComponent = () => {
             /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[\\~!><@#$%?,;.^/&}{*)(_+:[}="|`'-])[a-zA-Z0-9\\.~!><@,;#$%?^}{/&*)(+:[}=|"`'\w-]{7,19}/
         );
 
-        if (password.length < 8) {
-            setPasswordError(minimumCharacterWarning);
-            return false;
-        }
         if (!(password === confirmPassword)) {
             setPasswordError(didnotMatchWarning);
+            return false;
+        }
+        if (password.length < 8) {
+            setPasswordError(minimumCharacterWarning);
             return false;
         }
         if (regexRes == null) {

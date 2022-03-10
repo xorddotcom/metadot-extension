@@ -37,6 +37,7 @@ const WarningModalView: React.FunctionComponent<WarningModalProps> = (
             borderRadius: 40,
         },
         handleClick: () => handleClose(),
+        lightBtn: true,
     };
     const btnConfirm = {
         text: CONFIRM_BUTTON,

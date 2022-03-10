@@ -87,7 +87,7 @@ const AuthModalView: React.FunctionComponent<AuthtModalViewProps> = ({
                     </VerticalContentDiv>
 
                     <div className="btn-row">
-                        <Button id="cancel" {...btnCancel} />
+                        <Button id="cancel" {...btnCancel} lightBtn />
                         <Button id="confirm" {...btnConfirm} />
                     </div>
                 </MainDiv>
