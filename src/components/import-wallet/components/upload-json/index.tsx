@@ -74,8 +74,12 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                         console.log(2, parsedFileContent);
                         if (parsedFileContent.exportedJson) {
                             setJson(parsedFileContent.exportedJson);
+                            if (!parsedFileContent.exportedJson.meta.name)
+                                throw new Error('Invalid Json File');
                         } else if (parsedFileContent.address) {
                             setJson(parsedFileContent);
+                            if (!parsedFileContent.meta.name)
+                                throw new Error('Invalid Json File');
                         } else {
                             throw new Error('invalid Json!');
                         }
