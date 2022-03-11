@@ -35,7 +35,7 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
             onClick={() => handleClick()}
         >
             <TxDateRow className={mainHeadingfontFamilyClass}>
-                {dateFormatter(timestamp)}
+                {`${dateFormatter(timestamp)} (+UTC)`}
             </TxDateRow>
             <TxCardSubWrapper>
                 <HorizontalContentDiv>
@@ -88,14 +88,6 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
                         >
                             {`${trimBalance(Number(amount))} ${coin}`}
                         </MainText>
-                        <TxHorizontalContentDiv>
-                            <TxEquivalentInUSDT
-                                id="tx-equivalent-in-usd"
-                                className={subHeadingfontFamilyClass}
-                            >
-                                {amountInUsd}
-                            </TxEquivalentInUSDT>
-                        </TxHorizontalContentDiv>
                     </VerticalContentDiv>
                 </div>
             </TxCardSubWrapper>

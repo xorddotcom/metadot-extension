@@ -2,19 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
-import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
-
-import type {
-    AccountInfoWithProviders,
-    AccountInfoWithRefCount,
-} from '@polkadot/types/interfaces';
 import OtherContent from './components/RenderContentForAllNetworks';
 import KusamaContent from './components/RenderContentForKusama';
 
 import { setApiInitializationStarts } from '../../redux/slices/api';
 import {
     setRpcUrl,
-    setBalance,
     setChainName,
     setTokenImage,
     setPublicKey,
@@ -25,7 +18,6 @@ import {
 } from '../../redux/slices/activeAccount';
 
 import { helpers, images } from '../../utils';
-import services from '../../utils/services';
 
 import {
     setIsResponseModalOpen,
@@ -46,7 +38,6 @@ import DashboardView from './view';
 
 const { wifiOff } = images;
 
-const { getBalance } = services;
 const { isTabViewOpened } = helpers;
 
 const {
@@ -98,63 +89,6 @@ const Dashboard: React.FunctionComponent = () => {
         rpcUrl,
         jsonFileUploadScreen,
     } = currentUser.activeAccount;
-
-    const api = currentUser.api.api as ApiPromiseType;
-    async function main(): Promise<void> {
-        const {
-            data: { free: previousFree },
-        }: AccountInfoWithProviders | AccountInfoWithRefCount =
-            await api.query.system.account(publicKey);
-        // Listener
-        api.query.system.account(
-            publicKey,
-            ({
-                data: { free: currentFree },
-            }: AccountInfoWithProviders | AccountInfoWithRefCount) => {
-                console.log('Listener working');
-                const decimals = api.registry.chainDecimals[0];
-                const change = currentFree.sub(previousFree);
-                if (!change.isZero()) {
-                    const bal = getBalance(api, publicKey)
-                        .then((res) => {
-                            console.log('Balance ===>>', res);
-                            //         console.log('res ===>>>', res);
-                            // if (rpcUrl === 'wss:/
-                            // /rpc.shibuya.astar.network') {
-                            // res -= Number(change.toString());
-                            // const newBal =
-                            //     balance + Number(change.toString())
-                            //  / 10 ** decimals;
-                            // generalDispatcher(() => setBalance(newBal));
-                            // }
-                            generalDispatcher(() => setBalance(res));
-                        })
-                        .catch((err) => console.log('Err', err));
-                }
-            }
-        );
-    }
-    main().catch(console.error);
-
-    const lastTime = localStorage.getItem('timestamp');
-    const lastVisited = (Date.now() - Number(lastTime) || 0) / 1000;
-
-    const getOwnTabs = (): Promise<unknown[]> => {
-        return Promise.all(
-            chrome.extension.getViews({ type: 'tab' }).map(
-                // eslint-disable-next-line max-len
-                (view) =>
-                    new Promise((resolve) =>
-                        // eslint-disable-next-line no-promise-executor-return
-                        view.chrome.tabs.getCurrent((tab) =>
-                            resolve(
-                                Object.assign(tab, { url: view.location.href })
-                            )
-                        )
-                    )
-            )
-        );
-    };
 
     useEffect(() => {
         if (jsonFileUploadScreen) {
