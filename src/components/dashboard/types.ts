@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 export interface MainCardPropsInterface {
     balance: number;
     address: string;
+    prefix: number;
     balanceInUsd: number;
     tokenName: string;
     accountName: string;
@@ -83,6 +84,7 @@ export interface DashboardViewProps {
     isTxDetailsModalOpen: boolean;
     setIsTxDetailsModalOpen(v: boolean): void;
     publicKey: string;
+    prefix: number;
     chainName: string;
     balance: number;
     balanceInUsd: number;

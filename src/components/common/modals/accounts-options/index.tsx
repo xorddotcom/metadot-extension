@@ -61,7 +61,6 @@ const {
 } = images;
 const { mainHeadingfontFamilyClass } = fonts;
 const { deleteAccount, renameAccount, GenerateSeedPhrase } = accounts;
-const { addressMapper } = services;
 
 const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
     const { open, handleClose, style, onSelection, closeDropDown } = props;
@@ -84,11 +83,7 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
 
     // Account Handlers
     const activateAccountHandler = (pk: string, name: string): void => {
-        const publicKeyOfRespectiveChain = addressMapper(
-            pk,
-            activeAccount.prefix
-        );
-        generalDispatcher(() => setPublicKey(publicKeyOfRespectiveChain));
+        generalDispatcher(() => setPublicKey(pk));
         generalDispatcher(() => setAccountName(name));
         generalDispatcher(() => resetTransactions());
         navigate(DASHBOARD);
@@ -96,10 +91,7 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
 
     const deleteAccountHandler = async (publicKey: string): Promise<void> => {
         await deleteAccount(publicKey);
-        if (
-            publicKey ===
-            encodeAddress(activeAccount.publicKey, activeAccount.prefix)
-        ) {
+        if (publicKey === activeAccount.publicKey) {
             if (Object.keys(allAccounts).length > 1) {
                 if (Object.keys(allAccounts)[0] !== publicKey) {
                     activateAccountHandler(

@@ -38,7 +38,6 @@ import {
 const { ImportIcon } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { validatingSeedPhrase, createAccountFromJSON } = accounts;
-const { addressMapper } = services;
 
 const invalidSeedMessages = {
     minimumWords: 'At least 12 words required!',

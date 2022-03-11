@@ -7,6 +7,7 @@ import {
     HorizontalContentDiv,
 } from '../../common/wrapper/index';
 import { fonts, helpers, images } from '../../../utils';
+import services from '../../../utils/services';
 import { RootState } from '../../../redux/store';
 import { MyAccounts } from '../../common/modals';
 import useDispatcher from '../../../hooks/useDispatcher';
@@ -17,13 +18,14 @@ import {
 import { Account } from '../types';
 
 const { addressModifier } = helpers;
+const { addressMapper } = services;
 
 const { dropdownIcon } = images;
 
 const FromInput: React.FunctionComponent = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const generalDispatcher = useDispatcher();
-    const { accountName, publicKey } = useSelector(
+    const { accountName, publicKey, prefix } = useSelector(
         (state: RootState) => state.activeAccount
     );
 
@@ -64,7 +66,7 @@ const FromInput: React.FunctionComponent = () => {
                             id="public-key"
                             className={subHeadingfontFamilyClass}
                         >
-                            {addressModifier(publicKey)}
+                            {addressModifier(addressMapper(publicKey, prefix))}
                         </Balance>
                     </VerticalContentDiv>
                 </HorizontalContentDiv>

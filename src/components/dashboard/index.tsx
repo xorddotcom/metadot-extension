@@ -72,7 +72,7 @@ import DashboardView from './view';
 const { MainLogo, wifiOff } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
-const { getBalance, addressMapper } = services;
+const { getBalance } = services;
 
 const {
     availableNetworks,
@@ -114,6 +114,7 @@ const Dashboard: React.FunctionComponent = () => {
     );
     const {
         publicKey,
+        prefix,
         chainName,
         balance,
         tokenName,
@@ -287,8 +288,7 @@ const Dashboard: React.FunctionComponent = () => {
         generalDispatcher(()=>setQueryEndpoint(data.queryEndpoint));
         
         // eslint-disable-next-line max-len
-        const publicKeyOfRespectiveChain = addressMapper(currentUser.activeAccount.publicKey, data.prefix ? data.prefix : 42);
-        generalDispatcher(()=>setPublicKey(publicKeyOfRespectiveChain));
+        generalDispatcher(()=>setPublicKey(currentUser.activeAccount.publicKey));
 
         setIsLoading(false);
 
@@ -375,6 +375,7 @@ const Dashboard: React.FunctionComponent = () => {
             isTxDetailsModalOpen={isTxDetailsModalOpen}
             setIsTxDetailsModalOpen={setIsTxDetailsModalOpen}
             publicKey={publicKey}
+            prefix={prefix}
             chainName={chainName}
             balance={balance}
             balanceInUsd={balanceInUsd}
