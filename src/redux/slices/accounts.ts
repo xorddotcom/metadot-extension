@@ -5,8 +5,6 @@ import { Accounts } from '../types';
 
 const initialState: Accounts = {};
 
-const { addressMapper } = services;
-
 export const accountsSlice = createSlice({
     name: 'accounts',
     initialState,
@@ -22,13 +20,8 @@ export const accountsSlice = createSlice({
             const newState: any = {};
 
             action.payload.allAccounts.forEach((account: any) => {
-                const publicKeyOfRespectiveChain = addressMapper(
-                    account.address,
-                    0
-                );
-
-                newState[publicKeyOfRespectiveChain] = {
-                    publicKey: publicKeyOfRespectiveChain,
+                newState[account.address] = {
+                    publicKey: account.address,
                     accountName: account.name,
                     parentAddress: account.parentAddress
                         ? account.parentAddress

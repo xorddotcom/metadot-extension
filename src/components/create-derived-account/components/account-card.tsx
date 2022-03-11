@@ -15,8 +15,8 @@ import services from '../../../utils/services';
 
 const { activeIcon } = images;
 const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
-const { addressMapper } = services;
 const { addressModifier } = helpers;
+const { addressMapper } = services;
 
 const AccountCard: React.FunctionComponent<{
     publicKey: string;
@@ -29,8 +29,7 @@ const AccountCard: React.FunctionComponent<{
     return (
         <Account key={publicKey} marginBottom="10px" marginTop="10px">
             <AccountFlex>
-                {activeAccount.publicKey ===
-                    addressMapper(publicKey, activeAccount.prefix) && (
+                {activeAccount.publicKey === publicKey && (
                     <img
                         style={{
                             position: 'relative',
@@ -47,7 +46,9 @@ const AccountCard: React.FunctionComponent<{
                         {accountName}
                     </AccountMainText>
                     <AccountSubText className={subHeadingfontFamilyClass}>
-                        {addressModifier(publicKey)}
+                        {addressModifier(
+                            addressMapper(publicKey, activeAccount.prefix)
+                        )}
                     </AccountSubText>
                 </AccountText>
             </AccountFlex>

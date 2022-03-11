@@ -22,8 +22,6 @@ import AccountsList from './components/account-list';
 import accountUtils from '../../utils/accounts';
 import { setAuthScreenModal } from '../../redux/slices/modalHandling';
 
-const { addressMapper } = services;
-
 const MultipleAccounts: React.FunctionComponent = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -84,11 +82,7 @@ const MultipleAccounts: React.FunctionComponent = () => {
 
     // Account Handlers
     const activateAccountHandler = (pk: string, name: string): void => {
-        const publicKeyOfRespectiveChain = addressMapper(
-            pk,
-            activeAccount.prefix
-        );
-        dispatch(setPublicKey(publicKeyOfRespectiveChain));
+        dispatch(setPublicKey(pk));
         dispatch(setAccountName(name));
         dispatch(resetTransactions());
         navigate(DASHBOARD);
@@ -96,10 +90,7 @@ const MultipleAccounts: React.FunctionComponent = () => {
 
     const deleteAccountHandler = async (publicKey: string): Promise<void> => {
         await deleteAccount(publicKey);
-        if (
-            publicKey ===
-            encodeAddress(activeAccount.publicKey, activeAccount.prefix)
-        ) {
+        if (publicKey === activeAccount.publicKey) {
             if (Object.keys(allAccounts).length > 1) {
                 if (Object.keys(allAccounts)[0] !== publicKey) {
                     activateAccountHandler(

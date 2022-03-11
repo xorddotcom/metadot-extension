@@ -42,6 +42,7 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
         isTxDetailsModalOpen,
         setIsTxDetailsModalOpen,
         publicKey,
+        prefix,
         chainName,
         balance,
         balanceInUsd,
@@ -145,6 +146,7 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
                 balance={balance}
                 tokenName={tokenName}
                 address={publicKey}
+                prefix={prefix}
                 balanceInUsd={balanceInUsd || 0}
                 accountName={accountName}
             />

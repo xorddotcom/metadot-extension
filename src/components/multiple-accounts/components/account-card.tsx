@@ -18,8 +18,9 @@ import services from '../../../utils/services';
 
 const { dropDownIcon, activeIcon } = images;
 const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
-const { addressMapper } = services;
+
 const { addressModifier } = helpers;
+const { addressMapper } = services;
 
 const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
     publicKey,
@@ -41,8 +42,7 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
             onClick={() => activateAccount(publicKey, accountName)}
         >
             <AccountFlex>
-                {activeAccount.publicKey ===
-                    addressMapper(publicKey, activeAccount.prefix) && (
+                {activeAccount.publicKey === publicKey && (
                     <img
                         style={{
                             position: 'relative',
@@ -59,13 +59,14 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
                         {accountName}
                     </AccountMainText>
                     <AccountActiveText>
-                        {activeAccount.publicKey ===
-                        addressMapper(publicKey, activeAccount.prefix)
+                        {activeAccount.publicKey === publicKey
                             ? '(Active)'
                             : ''}
                     </AccountActiveText>
                     <AccountSubText className={subHeadingfontFamilyClass}>
-                        {addressModifier(publicKey)}
+                        {addressModifier(
+                            addressMapper(publicKey, activeAccount.prefix)
+                        )}
                     </AccountSubText>
                 </AccountText>
             </AccountFlex>

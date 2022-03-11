@@ -11,7 +11,6 @@ import type {
 } from 'metadot-extension-base/background/types';
 
 import {
-    resetAccountSlice,
     setLoggedIn,
     setPublicKey,
     setAccountName,
@@ -35,8 +34,6 @@ import {
 import { WELCOME } from './constants';
 
 import './App.css';
-
-const { addressMapper } = services;
 
 function App(): JSX.Element {
     const [accounts, setAccounts] = useState<null | AccountJson[]>(null);
@@ -80,12 +77,11 @@ function App(): JSX.Element {
                             prefix: activeAccount.prefix,
                         })
                     );
-                    const publicKeyOfRespectiveChain = addressMapper(
-                        accounts[accounts.length - 1].address,
-                        activeAccount.prefix
-                    );
+
                     dispatch(setLoggedIn(true));
-                    dispatch(setPublicKey(publicKeyOfRespectiveChain));
+                    dispatch(
+                        setPublicKey(accounts[accounts.length - 1].address)
+                    );
                     dispatch(
                         setAccountName(
                             accounts[accounts.length - 1].name as string
@@ -111,10 +107,7 @@ function App(): JSX.Element {
     useEffect(() => {
         if (activeAccount.publicKey) {
             dispatch(
-                setAccountName(
-                    RdxAccounts[addressMapper(activeAccount.publicKey, 0)]
-                        .accountName
-                )
+                setAccountName(RdxAccounts[activeAccount.publicKey].accountName)
             );
         }
     }, [RdxAccounts]);

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../redux/store';
 import { MainCardPropsInterface } from '../../types';
 import { fonts, helpers, images } from '../../../../utils';
+
 import { setApiInitializationStarts } from '../../../../redux/slices/api';
 
 import {
@@ -18,15 +19,18 @@ import {
     MoreOptions,
     ConnectionStatus,
 } from '../../styledComponents';
+import services from '../../../../utils/services';
 
 const { refreshIcon, ContentCopyIcon, notConnected, connected } = images;
 const { addressModifier, trimBalance } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+const { addressMapper } = services;
 
 const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
     props
 ): JSX.Element => {
-    const { balance, address, tokenName, balanceInUsd, accountName } = props;
+    const { balance, address, prefix, tokenName, balanceInUsd, accountName } =
+        props;
 
     const [open, setOpen] = useState(false);
     const [copy, setCopy] = useState('Copy');
@@ -43,7 +47,7 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
         setTimeout(() => {
             setOpen(false);
         }, 800);
-        navigator.clipboard.writeText(address);
+        navigator.clipboard.writeText(addressMapper(address, prefix));
 
         setCopy('Copied');
     };
@@ -109,7 +113,7 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
                     id="public-address"
                     className={mainHeadingfontFamilyClass}
                 >
-                    ({addressModifier(address)})
+                    ({addressModifier(addressMapper(address, prefix))})
                 </PublicAddress>
                 <div {...copyIconTooltip}>
                     <CopyIconImg src={ContentCopyIcon} alt="copy-icon" />
