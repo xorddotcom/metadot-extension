@@ -214,10 +214,7 @@ function ImportWallet(): JSX.Element {
             }
             setIsLoading(false);
         },
-        disabled:
-            seedPhrase.length === 0 ||
-            password.length === 0 ||
-            invalidJSONFileError === true,
+        disabled: seedPhrase.length === 0 && password.length === 0,
         isLoading,
     };
 
