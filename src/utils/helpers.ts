@@ -228,6 +228,48 @@ const dateFormatter = (date?: string): string => {
     )} ${abc.getDate()} at ${abc.toLocaleTimeString()}`;
 };
 
+const getOwnTabs = (): any => {
+    return Promise.all(
+        chrome.extension.getViews({ type: 'tab' }).map(
+            (view) =>
+                new Promise((resolve) =>
+                    // eslint-disable-next-line no-promise-executor-return
+                    view.chrome.tabs.getCurrent((tab) =>
+                        resolve(
+                            Object.assign(tab, {
+                                url: view.location.href,
+                            })
+                        )
+                    )
+                )
+        )
+    );
+};
+
+const isTabViewOpened = async (url: string): Promise<boolean> => {
+    const ownTabs = await getOwnTabs();
+    const tabd = ownTabs.find((tab: any) => tab.url.includes(url));
+    if (tabd) {
+        // chrome.tabs.update(tabd.id, { active: true });
+        return true;
+    }
+    // chrome.tabs.create({ url });
+    return false;
+};
+
+const openOptions = async (url: string): Promise<void> => {
+    const ownTabs = await getOwnTabs();
+    const urlFormatching = `${chrome.extension.getURL('index.html')}`;
+    const tabd = ownTabs.find((tab: any) => tab.url.includes(urlFormatching));
+    const isTabOpen = await isTabViewOpened(urlFormatching);
+    console.log('checker', { ownTabs, tabd, isTabOpen });
+    if (tabd && isTabOpen) {
+        chrome.tabs.update(tabd.id, { active: true, url });
+    } else {
+        chrome.tabs.create({ url });
+    }
+};
+
 export default {
     arrayFromSeedSentence,
     arrayOfFourRandomNumbers,
@@ -240,5 +282,7 @@ export default {
     convertIntoUsd,
     trimContent,
     dateFormatter,
+    openOptions,
+    isTabViewOpened,
     // showInternetSnackBar,
 };

@@ -1,6 +1,6 @@
 import './index.css';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { SubHeading } from '../common/text';
 import { colors, images } from '../../utils';
 import {
@@ -10,15 +10,16 @@ import {
 } from '../common/wrapper';
 import { Button, Header } from '../common';
 import { CONFIRM_SEED } from '../../constants';
-import useDispatcher from '../../hooks/useDispatcher';
-import { setAccountCreationStep } from '../../redux/slices/activeAccount';
 
 const { CheckboxDisabled, WarningTriangleIcon, CheckboxEnabled } = images;
 const { green } = colors;
 
 const PopupAuth: React.FunctionComponent = (): JSX.Element => {
     const navigate = useNavigate();
-    const generalDispatcher = useDispatcher();
+    const location = useLocation().state as {
+        prevRoute: string;
+        newPhrase: string;
+    };
 
     const [check, setCheck] = useState(false);
 
@@ -33,10 +34,8 @@ const PopupAuth: React.FunctionComponent = (): JSX.Element => {
         >
             <VerticalContentDiv>
                 <Header
-                    centerText="SeedPhrase"
-                    backHandler={() =>
-                        generalDispatcher(() => setAccountCreationStep(2))
-                    }
+                    centerText="Seed Phrase"
+                    backHandler={() => console.log('goback')}
                 />
 
                 <SubHeading marginTop="30px">
@@ -77,8 +76,9 @@ const PopupAuth: React.FunctionComponent = (): JSX.Element => {
             <VerticalContentDiv style={{ alignItems: 'center' }}>
                 <Button
                     handleClick={() => {
-                        navigate(CONFIRM_SEED);
-                        generalDispatcher(() => setAccountCreationStep(2));
+                        navigate(CONFIRM_SEED, {
+                            state: { newPhrase: location.newPhrase },
+                        });
                     }}
                     text="Allow Access"
                     id="Authorization-Popup"

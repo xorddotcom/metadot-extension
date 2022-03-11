@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
-import { encodeAddress } from '@polkadot/util-crypto';
 
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -13,30 +12,23 @@ import {
     NetworkModalContent,
     OptionRow,
     OptionText,
-    PlainIcon,
     Title,
     TitleDiv,
 } from './styles';
-import { fonts, images } from '../../../../utils';
+import { fonts, helpers, images } from '../../../../utils';
 
 import {
     resetAccountSlice,
-    setAccountCreationStep,
     setAccountName,
     setPublicKey,
-    setTempSeed,
 } from '../../../../redux/slices/activeAccount';
-import {
-    ACCOUNT_DELETION_WARNING,
-    WARNING,
-} from '../../../../utils/app-content';
+import { ACCOUNT_DELETION_WARNING } from '../../../../utils/app-content';
 
 import { setAuthScreenModal } from '../../../../redux/slices/modalHandling';
 
 import { MyAccountsProps } from './types';
 import { RootState } from '../../../../redux/store';
 import accounts from '../../../../utils/accounts';
-import services from '../../../../utils/services';
 import WarningModal from '../warningModal';
 import AuthModal from '../authorization';
 import { resetTransactions } from '../../../../redux/slices/transactions';
@@ -60,7 +52,8 @@ const {
     AddSharpIcon,
 } = images;
 const { mainHeadingfontFamilyClass } = fonts;
-const { deleteAccount, renameAccount, GenerateSeedPhrase } = accounts;
+const { deleteAccount, renameAccount } = accounts;
+const { openOptions } = helpers;
 
 const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
     const { open, handleClose, style, onSelection, closeDropDown } = props;
@@ -139,12 +132,8 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
     };
 
     const accountCreation = async (): Promise<void> => {
-        const newSeed = await GenerateSeedPhrase();
-        dispatch(setAccountCreationStep(1));
-        dispatch(setTempSeed(newSeed));
-        navigate(SHOW_SEED, {
-            state: { seedToPass: newSeed },
-        });
+        const url = `${chrome.extension.getURL('index.html')}#${SHOW_SEED}`;
+        openOptions(url);
     };
 
     const newDeriveAccount = (): void => {
