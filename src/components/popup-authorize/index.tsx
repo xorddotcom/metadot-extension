@@ -44,10 +44,12 @@ const PopupAuth: React.FunctionComponent<any> = ({ requests }) => {
                 <SubHeading>
                     An application, self-identifying as{' '}
                     <span style={{ color: green }}>
-                        {requests[0].request.origin}
+                        {requests[requests.length - 1].request.origin}
                     </span>{' '}
                     is requesting access from{' '}
-                    <span style={{ color: green }}>{requests[0].url}</span>
+                    <span style={{ color: green }}>
+                        {requests[requests.length - 1].url}
+                    </span>
                 </SubHeading>
 
                 <VerticalContentDiv warningDiv marginTop="40px">
@@ -67,7 +69,9 @@ const PopupAuth: React.FunctionComponent<any> = ({ requests }) => {
 
             <VerticalContentDiv style={{ alignItems: 'center' }}>
                 <Button
-                    handleClick={() => approveAuthRequest(requests[0].id)}
+                    handleClick={() =>
+                        approveAuthRequest(requests[requests.length - 1].id)
+                    }
                     text="Allow Access"
                     id="Authorization-Popup"
                     style={{
@@ -85,7 +89,9 @@ const PopupAuth: React.FunctionComponent<any> = ({ requests }) => {
                         textDecoration: 'underline',
                         cursor: 'pointer',
                     }}
-                    onClick={() => rejectAuthRequest(requests[0].id)}
+                    onClick={() =>
+                        rejectAuthRequest(requests[requests.length - 1].id)
+                    }
                 >
                     cancel
                 </WarningText>

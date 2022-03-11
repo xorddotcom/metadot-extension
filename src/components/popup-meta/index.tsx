@@ -25,14 +25,20 @@ const PopupMeta: React.FunctionComponent<any> = ({ requests }) => {
     console.log('meta requests ==>>', requests);
 
     const Metadata = [
-        { property: 'From', data: requests[0].url },
-        { property: 'Chain', data: requests[0].request.chain },
-        { property: 'Icon', data: requests[0].request.icon },
+        { property: 'From', data: requests[requests.length - 1].url },
+        {
+            property: 'Chain',
+            data: requests[requests.length - 1].request.chain,
+        },
+        { property: 'Icon', data: requests[requests.length - 1].request.icon },
         {
             property: 'Decimals',
-            data: requests[0].request.tokenDecimals,
+            data: requests[requests.length - 1].request.tokenDecimals,
         },
-        { property: 'Symbol', data: requests[0].request.tokenSymbol },
+        {
+            property: 'Symbol',
+            data: requests[requests.length - 1].request.tokenSymbol,
+        },
         { property: 'Upgrade', data: 'https://metadot.js.org/apps/#/accounts' },
     ];
 
@@ -97,7 +103,9 @@ const PopupMeta: React.FunctionComponent<any> = ({ requests }) => {
                         height: 50,
                         borderRadius: 40,
                     }}
-                    handleClick={() => approveMetaRequest(requests[0].id)}
+                    handleClick={() =>
+                        approveMetaRequest(requests[requests.length - 1].id)
+                    }
                 />
 
                 <WarningText
@@ -108,7 +116,9 @@ const PopupMeta: React.FunctionComponent<any> = ({ requests }) => {
                         textDecoration: 'underline',
                         cursor: 'pointer',
                     }}
-                    onClick={() => rejectMetaRequest(requests[0].id)}
+                    onClick={() =>
+                        rejectMetaRequest(requests[requests.length - 1].id)
+                    }
                 >
                     cancel
                 </WarningText>

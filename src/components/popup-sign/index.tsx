@@ -36,36 +36,42 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     const Signaturedata = [
         {
             property: 'From',
-            data: requests[0].url,
+            data: requests[requests.length - 1].url,
             copy: false,
         },
         {
             property: 'Genesis',
-            data: trimString(requests[0].request.payload.genesisHash),
+            data: trimString(
+                requests[requests.length - 1].request.payload.genesisHash
+            ),
             copy: true,
-            dataToCopy: requests[0].request.payload.genesisHash,
+            dataToCopy:
+                requests[requests.length - 1].request.payload.genesisHash,
         },
         {
             property: 'Version',
-            data: requests[0].request.payload.version,
+            data: requests[requests.length - 1].request.payload.version,
             copy: false,
         },
         {
             property: 'Nonce',
-            data: requests[0].request.payload.nonce,
+            data: requests[requests.length - 1].request.payload.nonce,
             copy: false,
         },
         {
             property: 'Method Data',
-            data: trimString(requests[0].request.payload.method),
+            data: trimString(
+                requests[requests.length - 1].request.payload.method
+            ),
             copy: true,
-            dataToCopy: requests[0].request.payload.version.method,
+            dataToCopy:
+                requests[requests.length - 1].request.payload.version.method,
         },
     ];
 
     // useEffect((): void => {
-    //     if (requests[0]) {
-    //         const { payload } = requests[0].request;
+    //     if (requests[requests.length - 1]) {
+    //         const { payload } = requests[requests.length - 1].request;
     //         registry.setSignedExtensions(payload.signedExtensions);
     //     }
     // }, [requests]);
@@ -74,7 +80,11 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     const handleSubmit = (): void => {
         try {
             setPasswordError(true);
-            approveSignPassword(requests[0].id, false, password);
+            approveSignPassword(
+                requests[requests.length - 1].id,
+                false,
+                password
+            );
         } catch (e) {
             console.log(e);
             setPasswordError(true);
@@ -120,10 +130,12 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                     </div>
                     <VerticalContentDiv style={{ width: '70%' }}>
                         <SubHeading ml="5px" marginTop="0px" mb="0px">
-                            {requests[0].account.name}
+                            {requests[requests.length - 1].account.name}
                         </SubHeading>
                         <SubHeading ml="5px" marginTop="0px" mb="0px">
-                            {trimString(requests[0].account.address)}
+                            {trimString(
+                                requests[requests.length - 1].account.address
+                            )}
                         </SubHeading>
                     </VerticalContentDiv>
                     <div
@@ -137,7 +149,8 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                             style={{ cursor: 'pointer' }}
                             onClick={() => {
                                 navigator.clipboard.writeText(
-                                    requests[0].account.address
+                                    requests[requests.length - 1].account
+                                        .address
                                 );
                             }}
                             aria-hidden
@@ -249,7 +262,9 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                         textDecoration: 'underline',
                         cursor: 'pointer',
                     }}
-                    onClick={() => cancelSignRequest(requests[0].id)}
+                    onClick={() =>
+                        cancelSignRequest(requests[requests.length - 1].id)
+                    }
                 >
                     cancel
                 </WarningText>
