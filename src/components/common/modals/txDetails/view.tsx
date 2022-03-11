@@ -282,15 +282,6 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                 >
                                     Amount
                                 </MainText1>
-                                <MainText1
-                                    marginTop="10px"
-                                    textAlign="start"
-                                    className={subHeadingfontFamilyClass}
-                                    fontSize="12px"
-                                    color="#FFFFFF"
-                                >
-                                    Network Fee
-                                </MainText1>
                             </VerticalContentDiv>
 
                             <VerticalContentDiv marginBottom="10px">
@@ -301,15 +292,6 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                     fontSize="12px"
                                     color="#FFFFFF"
                                 >{`${amount} ${tokenName}`}</MainText1>
-                                <MainText1
-                                    marginTop="10px"
-                                    textAlign="end"
-                                    className={mainHeadingfontFamilyClass}
-                                    fontSize="12px"
-                                    color="#FFFFFF"
-                                >
-                                    {`0.0151 ${tokenName}`}
-                                </MainText1>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
 
