@@ -140,11 +140,6 @@ const Send: React.FunctionComponent = () => {
             setIsWarningModalOpen(true);
             return [false, txFee];
         }
-        console.log(
-            'ED reap',
-            Number(senderBalance) - Number(amount) - Number(txFee),
-            { data: ED }
-        );
         if (
             Number(senderBalance) - Number(amount) - Number(txFee) <
             Number(ED)
@@ -292,7 +287,6 @@ const Send: React.FunctionComponent = () => {
             if (!validateInputValues(receiverAddress)) {
                 throw new Error('An error occurred');
             }
-            console.log('Input field validated');
             const isTxValid = await validateTxErrors();
             console.log('is tx valid', isTxValid);
             if (isTxValid[0]) {
@@ -366,7 +360,6 @@ const Send: React.FunctionComponent = () => {
                     setAmount(e);
                     setIsInputEmpty(false);
                 }
-                // setInsufficientBal(true);
                 return true;
             }
             return false;

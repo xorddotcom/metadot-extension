@@ -4,9 +4,9 @@ import constants from '../../constants/onchain';
 const { POLKADOT_CONFIG } = constants;
 
 const initialState = {
-    isLoggedIn: true,
-    publicKey: 'ac2qiDd1UpeEcoLPZjazyuhNuWkNzB4eMctkhsdXhoygJc6',
-    accountName: 'Hello',
+    isLoggedIn: false,
+    publicKey: '',
+    accountName: '',
     rpcUrl: POLKADOT_CONFIG.rpcUrl,
     chainName: POLKADOT_CONFIG.name,
     tokenName: POLKADOT_CONFIG.tokenName,

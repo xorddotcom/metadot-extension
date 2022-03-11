@@ -78,7 +78,6 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                 <Button {...btn} />
             </FlexBetween>
             <Input blockInvalidChar {...styledInput} />
-            {/* <AmountInputField {...amountInputProps} /> */}
             {insufficientBal && (
                 <WarningText
                     id="warning-text-1"
