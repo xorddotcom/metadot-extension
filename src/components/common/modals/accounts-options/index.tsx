@@ -165,7 +165,7 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
     const accountOptions = [
         { name: 'View Accounts', image: visibilityOn, navigation: ACCOUNTS },
         {
-            name: 'Add Account',
+            name: 'Create Account',
             image: AddSharpIcon,
             modal: () => accountCreation(),
         },

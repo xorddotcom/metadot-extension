@@ -28,6 +28,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
     const generalDispatcher = useDispatcher();
 
     const [input, setInput] = useState('');
+    const [isBtnLoading, setIsBtnLoading] = useState(false);
 
     const [passwordError, setPasswordError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -38,6 +39,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
             return false;
         }
         try {
+            setIsBtnLoading(true);
             if (isPassword) {
                 const valid: boolean = await validateAccount(publicKey, input);
                 if (!valid) throw new Error('Invalid password 1');
@@ -52,6 +54,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
             return true;
         } catch (err) {
             setPasswordError('Invalid password!');
+            setIsBtnLoading(false);
             return false;
         }
     };
@@ -93,6 +96,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
             height: '40px',
             borderRadius: '40px',
         },
+        isLoading: isBtnLoading,
         handleClick: () => handleSubmit(),
     };
 

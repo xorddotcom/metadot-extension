@@ -93,6 +93,7 @@ const Send: React.FunctionComponent = () => {
     });
 
     const maxInputHandler = async (): Promise<void> => {
+        setInsufficientBal(false);
         const txFeeForMaxAmount = await getTransactionFee(
             api,
             publicKey,
@@ -102,9 +103,7 @@ const Send: React.FunctionComponent = () => {
         );
         setTransactionFee(txFeeForMaxAmount + txFeeForMaxAmount / 5);
 
-        setAmount(
-            (balance - (txFeeForMaxAmount + txFeeForMaxAmount / 5)).toFixed(5)
-        );
+        setAmount(balance - (txFeeForMaxAmount + txFeeForMaxAmount / 5));
         setIsInputEmpty(false);
     };
 
@@ -122,7 +121,7 @@ const Send: React.FunctionComponent = () => {
             tokenName
         );
 
-        if (balance < amount + txFee) {
+        if (balance < Number(amount) + Number(txFee)) {
             setInsufficientBal(true);
             return [false, txFee];
         }
@@ -141,7 +140,11 @@ const Send: React.FunctionComponent = () => {
             setIsWarningModalOpen(true);
             return [false, txFee];
         }
-        if (Number(senderBalance - amount - txFee) < Number(ED)) {
+        if (
+            Number(senderBalance) - Number(amount) - Number(txFee) <
+            Number(ED)
+        ) {
+            console.log('Reap the account');
             setSubTextForWarningModal('The sender account might get reaped');
             setIsWarningModalOpen(true);
             return [false, txFee];
@@ -260,7 +263,8 @@ const Send: React.FunctionComponent = () => {
     };
 
     const validateInputValues = (address: string): boolean => {
-        if (balance < amount + transactionFee) {
+        if (Number(balance) < Number(amount) + Number(transactionFee)) {
+            setInsufficientBal(true);
             throw new Error('Insufficient funds');
         }
 
@@ -280,14 +284,12 @@ const Send: React.FunctionComponent = () => {
         console.log('Handle submit working');
         try {
             setLoading1(true);
-            if (!validateInputValues(receiverAddress))
+            if (!validateInputValues(receiverAddress)) {
                 throw new Error('An error occurred');
-            console.log('Input field validated');
+            }
             const isTxValid = await validateTxErrors();
             console.log('is tx valid', isTxValid);
             if (isTxValid[0]) {
-                console.log('in first IF');
-                SendTx(isTxValid[1]);
                 const txFee = await getTransactionFee(
                     api,
                     publicKey,
@@ -299,9 +301,10 @@ const Send: React.FunctionComponent = () => {
                 console.log('tx fee');
                 setTransactionFee(txFee);
                 setLoading1(false);
+                SendTx(isTxValid[1]);
                 // checking if balance is enough
                 // to send the amount with network fee
-                if (balance < amount + txFee) {
+                if (balance < Number(amount) + Number(txFee)) {
                     console.log('In second if');
                     setInsufficientBal(true);
                 } else {
@@ -330,6 +333,8 @@ const Send: React.FunctionComponent = () => {
 
     const amountInput = {
         onChange: (e: string): boolean => {
+            // if (amount > e) setAmount(e);
+            if (e[0] && e[1] === '0') return false;
             if (e.length < 14) {
                 let decimalInStart = false;
                 if (e[0] === '.') {
@@ -344,7 +349,8 @@ const Send: React.FunctionComponent = () => {
                     return false;
                 }
                 if (Number(e) + transactionFee >= balance) {
-                    return false;
+                    setInsufficientBal(true);
+                    // return false;
                 }
                 setInsufficientBal(false);
                 if (e.length === 0) {
@@ -354,7 +360,6 @@ const Send: React.FunctionComponent = () => {
                     setAmount(e);
                     setIsInputEmpty(false);
                 }
-                setInsufficientBal(true);
                 return true;
             }
             return false;

@@ -1,5 +1,6 @@
 import React, { useEffect, memo } from 'react';
 import { useSelector } from 'react-redux';
+import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 
 import { setApi, setApiInitializationStarts } from '../../redux/slices/api';
 import {
@@ -37,11 +38,13 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
     const generalDispatcher = useDispatcher();
 
     const { activeAccount, modalHandling } = currentUser;
+
+    const api = currentUser.api.api as ApiPromiseType;
     const { loadingForApi } = modalHandling;
 
     const { convertIntoUsd } = helpers;
     const { getBalance, providerInitialization } = services;
-    const { publicKey, chainName } = activeAccount;
+    const { publicKey, chainName, tokenName } = activeAccount;
 
     const compareSites = (arr: any, sub: any): any => {
         const sub2 = sub.toLowerCase();
@@ -141,8 +144,25 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
         };
 
         setAPI(rpc);
-    }, [chainName, publicKey, loadingForApi, rpc]);
+    }, [chainName, loadingForApi, rpc]);
 
+    useEffect(() => {
+        generalDispatcher(() => setApiInitializationStarts(true));
+        const accountChanged = async (): Promise<void> => {
+            // getting token balance
+            const balanceOfSelectedNetwork = await getBalance(api, publicKey);
+            // getting token balance in usd
+            const dollarAmount = await convertIntoUsd(
+                tokenName,
+                balanceOfSelectedNetwork
+            );
+            generalDispatcher(() => setBalanceInUsd(dollarAmount));
+            generalDispatcher(() => setBalance(balanceOfSelectedNetwork));
+
+            generalDispatcher(() => setApiInitializationStarts(false));
+        };
+        accountChanged();
+    }, [publicKey]);
     return null;
 };
 
