@@ -62,7 +62,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
     };
 
     return (
-        <Wrapper height="570px">
+        <Wrapper height="650px">
             <Header
                 centerText={DERIVED_ACCOUNT_HEADER}
                 overWriteBackHandler={step === 2 ? () => setStep(1) : undefined}

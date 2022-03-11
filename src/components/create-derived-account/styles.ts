@@ -82,3 +82,8 @@ export const AccountSubText = styled.p`
     opacity: 0.8;
     text-align: left;
 `;
+
+export const CopyIconImg = styled.img`
+    margin-left: 11px;
+    height: 12.5px;
+`;

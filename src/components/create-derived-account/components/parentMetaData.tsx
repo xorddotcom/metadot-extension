@@ -143,6 +143,7 @@ const ParentMetaData: React.FunctionComponent<ParentMetaDataInterface> = ({
                             mb="10px"
                             visibility={passwordError === wrongPassword}
                             className={subHeadingfontFamilyClass}
+                            style={{ marginTop: '2px' }}
                         >
                             {wrongPassword}
                         </WarningText>
@@ -151,7 +152,7 @@ const ParentMetaData: React.FunctionComponent<ParentMetaDataInterface> = ({
                 <LabelAndTextWrapper>
                     <SubHeading
                         className={mainHeadingfontFamilyClass}
-                        marginTop="0px"
+                        marginTop="20px"
                         mb="10px"
                     >
                         {DERIVE_PATH}

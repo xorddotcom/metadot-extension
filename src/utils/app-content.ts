@@ -64,7 +64,7 @@ export const SUCCESSFULLY_DERIVED = 'Successfully Derived!';
 export const PARENT_PASSWORD_PLACEHOLDER = `Enter 
 password of parent account`;
 export const DERIVED_ACCOUNT_WALLET_NAME_PLACEHOLDER = `Enter 
-wallet name for the derive account`;
+name for the derive account`;
 export const DERIVED_PASSWORD_PLACEHOLDER = `Enter 
 password for the derive account`;
 

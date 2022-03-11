@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
     Account,
@@ -7,6 +7,7 @@ import {
     AccountMainText,
     AccountSubText,
     AccountText,
+    CopyIconImg,
 } from '../styles';
 
 import { fonts, images, helpers } from '../../../utils';
@@ -22,9 +23,40 @@ const AccountCard: React.FunctionComponent<{
     publicKey: string;
     accountName: string;
 }> = ({ publicKey, accountName }) => {
+    const [copy, setCopy] = useState('Copy');
+
     const activeAccount = useSelector(
         (state: RootState) => state.activeAccount
     );
+
+    const copyText = (): void => {
+        navigator.clipboard.writeText(
+            addressMapper(publicKey, activeAccount.prefix)
+        );
+        setCopy('Copied');
+    };
+
+    const copyIconTooltip = {
+        id: 'copy-icon',
+        className: `main-card-tooltip ${mainHeadingfontFamilyClass}`,
+        onClick: copyText,
+        onMouseOver: () => setCopy('Copy'),
+        style: { cursor: 'pointer' },
+    };
+
+    const copyIconTooltipText = {
+        className: 'main-card-tooltiptext',
+        style: {
+            maxWidth: '70px',
+            left: '20%',
+            bottom: '120%',
+            fontSize: '0.7rem',
+            fontWeight: 300,
+            transition: 'all 0.1s ease-in',
+        },
+    };
+
+    const { ContentCopyIcon } = images;
 
     return (
         <Account key={publicKey} marginBottom="10px" marginTop="10px">
@@ -42,7 +74,10 @@ const AccountCard: React.FunctionComponent<{
                 )}
                 <AccountCircle />
                 <AccountText>
-                    <AccountMainText className={mainHeadingfontFamilyClass}>
+                    <AccountMainText
+                        style={{ height: '18px' }}
+                        className={mainHeadingfontFamilyClass}
+                    >
                         {accountName}
                     </AccountMainText>
                     <AccountSubText className={subHeadingfontFamilyClass}>
@@ -52,6 +87,10 @@ const AccountCard: React.FunctionComponent<{
                     </AccountSubText>
                 </AccountText>
             </AccountFlex>
+            <div {...copyIconTooltip}>
+                <CopyIconImg src={ContentCopyIcon} alt="copy-icon" />
+                <span {...copyIconTooltipText}>{copy}</span>
+            </div>
         </Account>
     );
 };

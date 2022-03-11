@@ -35,7 +35,7 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
     deriveAddress,
     showSuccess,
 }) => {
-    const [walletName, setWalletName] = useState('');
+    const [walletName, setWalletName] = useState('Unknown');
     const [isValidWalletName, setIsValidWalletName] = useState(false);
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState('');
@@ -56,18 +56,15 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
 
     const validatePasswordAndConfirmPassword = (): boolean => {
         const regexRes = password.match(
-            /^(?=.*\d)(?=.*[~!><@#$%?,;.^/&}{*)(_+:[}="|`'-\\])(?=.*[a-z])(?=.*[A-Z])[\\.~!><@,;#$%?^}{/&*)(+:[}=|"`'\w-\]]{6,19}$/
+            // eslint-disable-next-line max-len
+            /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[\\~!><@#$%?,;.^/&}{*)(_+:[}="|`'-])[a-zA-Z0-9\\.~!><@,;#$%?^}{/&*)(+:[}=|"`'\w-]{7,19}/
         );
 
-        if (regexRes == null) {
-            setPasswordError(passwordValidation);
-            return false;
-        }
         if (!(password === confirmPassword)) {
             setPasswordError(didnotMatchWarning);
             return false;
         }
-        if (password.length < 8 || confirmPassword.length < 8) {
+        if (password.length < 8) {
             setPasswordError(minimumCharacterWarning);
             return false;
         }
@@ -84,7 +81,7 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
 
     const clickHandler = async (): Promise<void> => {
         try {
-            if (!isUserNameValid(walletName) || walletName.length < 3) {
+            if (walletName.length < 1) {
                 setIsValidWalletName(true);
                 validatePasswordAndConfirmPassword();
                 setIsLoading(false);
@@ -123,7 +120,7 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
         value: walletName,
         onChange: (t: string) => {
             setIsValidWalletName(false);
-            if (t.length < 20) setWalletName(t.replace(/[^A-Z0-9]/gi, ''));
+            if (t.length < 20) setWalletName(t);
         },
     };
 
@@ -158,7 +155,7 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
             height: 50,
             borderRadius: 40,
         },
-        disabled: !(derivePath && password) && true,
+        disabled: !(walletName && password && confirmPassword) && true,
         handleClick: async () => {
             setIsLoading(true);
             await clickHandler();
@@ -172,11 +169,14 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
                 display: 'flex',
                 justifyContent: 'space-between',
                 flexDirection: 'column',
-                height: '520px',
+                height: '600px',
             }}
         >
             <UnAuthScreensContentWrapper mb="0px">
-                <AccountCard publicKey={deriveAddress} accountName="Unknown" />
+                <AccountCard
+                    publicKey={deriveAddress}
+                    accountName={walletName}
+                />
                 <LabelAndTextWrapper>
                     <SubHeading {...walletNameText}>
                         {WALLET_NAME_LABEL}
@@ -203,6 +203,7 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
                     </SubHeading>
                     <Input
                         id="password"
+                        fullWidth="80%"
                         {...styledInputPassword}
                         typePassword
                         isCorrect
@@ -210,41 +211,24 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
                         rightPosition="24px"
                         topPosition="28px"
                     />
-                    {passwordError === minimumCharacterWarning && (
-                        <WarningText
-                            id="warning-text-1"
-                            mb="10px"
-                            visibility={
-                                passwordError === minimumCharacterWarning
-                            }
-                            className={subHeadingfontFamilyClass}
-                        >
-                            {minimumCharacterWarning}
-                        </WarningText>
-                    )}
-                    {passwordError === passwordValidation && (
-                        <WarningText
-                            id="warning-text-2"
-                            mb="10px"
-                            visibility={passwordError === passwordValidation}
-                            className={subHeadingfontFamilyClass}
-                        >
-                            {passwordValidation}
-                        </WarningText>
-                    )}
-                    {passwordError === didnotMatchWarning && (
-                        <WarningText
-                            id="warning-text-3"
-                            mb="10px"
-                            visibility={passwordError === didnotMatchWarning}
-                            className={subHeadingfontFamilyClass}
-                        >
-                            {didnotMatchWarning}
-                        </WarningText>
-                    )}
+                    <SubHeading
+                        mb="0"
+                        textLightColor
+                        marginTop="5px"
+                        className={subHeadingfontFamilyClass}
+                        style={
+                            passwordError === passwordValidation
+                                ? { color: '#F63A3A', opacity: 0.7 }
+                                : { color: '#FFFFFF', opacity: 0.56 }
+                        }
+                        fontSize="11px"
+                    >
+                        Password must contain at least one lower case, one upper
+                        case, one number and a special character
+                    </SubHeading>
                 </LabelAndTextWrapper>
 
-                <LabelAndTextWrapper marginTop="0">
+                <LabelAndTextWrapper marginTop="55px">
                     <SubHeading
                         className={mainHeadingfontFamilyClass}
                         marginTop="0"
@@ -255,6 +239,7 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
                     <Input
                         id="confirm-password"
                         {...styledInputConfirmPass}
+                        fullWidth="80%"
                         typePassword
                         rightIcon
                         isCorrect
@@ -265,11 +250,23 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
                     {passwordError === didnotMatchWarning && (
                         <WarningText
                             id="warning-text"
-                            mb="5px"
+                            mb="10px"
                             className={subHeadingfontFamilyClass}
                             visibility={passwordError === didnotMatchWarning}
                         >
                             {didnotMatchWarning}
+                        </WarningText>
+                    )}
+                    {passwordError === minimumCharacterWarning && (
+                        <WarningText
+                            id="warning-text-1"
+                            className={subHeadingfontFamilyClass}
+                            mb="10px"
+                            visibility={
+                                passwordError === minimumCharacterWarning
+                            }
+                        >
+                            {minimumCharacterWarning}
                         </WarningText>
                     )}
                 </LabelAndTextWrapper>
