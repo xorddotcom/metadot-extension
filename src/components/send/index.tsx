@@ -101,9 +101,12 @@ const Send: React.FunctionComponent = () => {
             amount,
             tokenName
         );
-        setTransactionFee(txFeeForMaxAmount + txFeeForMaxAmount / 5);
-
-        setAmount(balance - (txFeeForMaxAmount + txFeeForMaxAmount / 5));
+        const txFeeWithFivePercentMargin =
+            txFeeForMaxAmount + txFeeForMaxAmount / 5;
+        setTransactionFee(txFeeWithFivePercentMargin);
+        setAmount(
+            (balance - (txFeeForMaxAmount + txFeeForMaxAmount / 2)).toFixed(5)
+        );
         setIsInputEmpty(false);
     };
 
@@ -231,8 +234,6 @@ const Send: React.FunctionComponent = () => {
                     console.log('Res', res);
                 })
                 .catch((err) => {
-                    console.log('Error =====>>>', err);
-                    console.log('Tx hash', tx.hash.toHex());
                     setLoading2(false);
                     generalDispatcher(() => setConfirmSendModal(false));
                     openResponseModalForTxFailed();
@@ -288,7 +289,6 @@ const Send: React.FunctionComponent = () => {
                 throw new Error('An error occurred');
             }
             const isTxValid = await validateTxErrors();
-            console.log('is tx valid', isTxValid);
             if (isTxValid[0]) {
                 const txFee = await getTransactionFee(
                     api,
@@ -298,17 +298,14 @@ const Send: React.FunctionComponent = () => {
                     tokenName
                 );
 
-                console.log('tx fee');
                 setTransactionFee(txFee);
                 setLoading1(false);
                 SendTx(isTxValid[1]);
                 // checking if balance is enough
                 // to send the amount with network fee
                 if (balance < Number(amount) + Number(txFee)) {
-                    console.log('In second if');
                     setInsufficientBal(true);
                 } else {
-                    console.log('In first else');
                     generalDispatcher(() => setConfirmSendModal(true));
                 }
             } else {
