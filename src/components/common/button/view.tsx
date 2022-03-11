@@ -3,7 +3,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { ButtonViewProps, Props } from './types';
 import { colors } from '../../../utils';
 import { Button as MuiButton } from './styles';
-import Loader from '../../../assets/images/loader.gif';
+import Loader from '../../../assets/images/Preloader Metadot.gif';
 
 const ButtonView: React.FunctionComponent<ButtonViewProps> = (props) => {
     const { primaryText } = colors;
@@ -14,12 +14,11 @@ const ButtonView: React.FunctionComponent<ButtonViewProps> = (props) => {
             {!isLoading ? (
                 text
             ) : (
-                // <img
-                //     style={{ height: '20px', width: '25px' }}
-                //     src={Loader}
-                //     alt="Loader"
-                // />
-                <CircularProgress size={24} style={{ color: primaryText }} />
+                <img
+                    src={Loader}
+                    alt="Loader"
+                    style={{ height: '30px', width: '25px' }}
+                />
             )}
         </MuiButton>
     );

@@ -79,7 +79,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
             </FlexBetween>
             <Input blockInvalidChar {...styledInput} />
             {/* <AmountInputField {...amountInputProps} /> */}
-            {/* {!insufficientBal && (
+            {insufficientBal && (
                 <WarningText
                     id="warning-text-1"
                     className={subHeadingfontFamilyClass}
@@ -87,7 +87,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                 >
                     balance is too low to pay network fees!
                 </WarningText>
-            )} */}
+            )}
 
             <CalculatedAmount marginTop="13px">
                 <EquivalentInUSDT

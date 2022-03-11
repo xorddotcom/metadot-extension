@@ -3,7 +3,12 @@ import type { AccountJson } from 'metadot-extension-base/background/types';
 import services from '../../utils/services';
 import { Accounts } from '../types';
 
-const initialState: Accounts = {};
+const initialState: Accounts = {
+    ac2qiDd1UpeEcoLPZjazyuhNuWkNzB4eMctkhsdXhoygJc6: {
+        publicKey: 'ac2qiDd1UpeEcoLPZjazyuhNuWkNzB4eMctkhsdXhoygJc6',
+        accountName: 'Hello',
+    },
+};
 
 export const accountsSlice = createSlice({
     name: 'accounts',
