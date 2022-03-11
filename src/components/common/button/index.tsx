@@ -12,6 +12,7 @@ const Button: React.FunctionComponent<Props> = (props) => {
         id,
         style,
         lightBtn,
+        hoverText,
     } = props;
 
     const ButtonProps = {
@@ -25,6 +26,7 @@ const Button: React.FunctionComponent<Props> = (props) => {
         className: 'myStyling',
         elevation: 0,
         disableRipple: true,
+        hoverText,
     };
 
     return (

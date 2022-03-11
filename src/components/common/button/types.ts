@@ -12,6 +12,7 @@ interface ButtonStyle {
     width: string | number;
     height: string | number;
     borderRadius: string | number;
+    alignSelf?: string;
 }
 export interface Props {
     className?: string;
@@ -23,6 +24,7 @@ export interface Props {
     text: string;
     style: ButtonStyle;
     disabled?: boolean;
+    hoverText?: string;
 }
 
 export interface ButtonViewProps {
@@ -37,4 +39,5 @@ export interface ButtonViewProps {
     style: ButtonStyle;
     text: string;
     isLoading?: boolean;
+    hoverText?: string;
 }

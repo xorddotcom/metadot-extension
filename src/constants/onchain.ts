@@ -47,7 +47,7 @@ const POLKADOT_CONFIG: NetworkConfig = {
     prefix: 0,
     relayChain: true,
     disabled: false,
-    explorer: 'https://polkadot.subscan.io/account/',
+    explorer: 'https://polkadot.subscan.io/extrinsic/',
 };
 
 const KUSAMA_CONFIG: NetworkConfig = {
@@ -61,7 +61,7 @@ const KUSAMA_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/kumailraza404/kusamaindexer',
     relayChain: true,
     disabled: false,
-    explorer: 'https://kusama.subscan.io/account/',
+    explorer: 'https://kusama.subscan.io/extrinsic/',
 };
 
 const KARURA_CONFIG: NetworkConfig = {
@@ -73,7 +73,7 @@ const KARURA_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 0,
     disabled: false,
-    explorer: '',
+    explorer: 'https://karura.subscan.io/extrinsic/',
 };
 
 // const MOONRIVER_CONFIG: NetworkConfig = {
@@ -97,7 +97,7 @@ const SHIDEN_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     prefix: 5,
     disabled: false,
-    explorer: 'https://shiden.subscan.io/account/',
+    explorer: 'https://shiden.subscan.io/extrinsic/',
 };
 
 // const BIFROST_CONFIG: NetworkConfig = {
@@ -145,7 +145,7 @@ const WESTEND_CONFIG: NetworkConfig = {
     rpcUrl: 'wss://westend-rpc.polkadot.io',
     prefix: 42,
     disabled: false,
-    explorer: 'https://westend.subscan.io/account/',
+    explorer: 'https://westend.subscan.io/extrinsic/',
 };
 
 const ROCOCO_CONFIG: NetworkConfig = {
@@ -217,7 +217,7 @@ const ASTAR_CONFIG: NetworkConfig = {
     queryEndpoint:
         'https://api.subquery.network/sq/kumailraza404/astar-indexer',
     disabled: false,
-    explorer: 'https://astar.subscan.io/account/',
+    explorer: 'https://astar.subscan.io/extrinsic/',
 };
 
 const SHIBUYA_CONFIG: NetworkConfig = {
@@ -229,7 +229,7 @@ const SHIBUYA_CONFIG: NetworkConfig = {
     rpcUrl: 'wss://rpc.shibuya.astar.network',
     prefix: 5,
     disabled: false,
-    explorer: 'https://shibuya.subscan.io/account/',
+    explorer: 'https://shibuya.subscan.io/extrinsic/',
 };
 
 // const BITCOUNTRY_CONFIG: NetworkConfig = {
@@ -259,13 +259,12 @@ const CONTEXTFREE_CONFIG: NetworkConfig = {
 const ACALA_CONFIG: NetworkConfig = {
     name: 'Acala',
     tokenName: 'ACA',
-    queryEndpoint:
-        'https://api.subquery.network/sq/kumailraza404/context-free-indexer',
+    queryEndpoint: 'https://api.subquery.network/sq/kumailraza404/acala-1',
     logo: AcalaIcon,
     rpcUrl: 'wss://acala-rpc.dwellir.com',
     prefix: 10,
     disabled: false,
-    explorer: 'https://acala.subscan.io/account/',
+    explorer: 'https://acala.subscan.io/extrinsic/',
 };
 
 export default {
