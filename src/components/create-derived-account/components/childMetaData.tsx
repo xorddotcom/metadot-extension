@@ -56,18 +56,15 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
 
     const validatePasswordAndConfirmPassword = (): boolean => {
         const regexRes = password.match(
-            /^(?=.*\d)(?=.*[~!><@#$%?,;.^/&}{*)(_+:[}="|`'-\\])(?=.*[a-z])(?=.*[A-Z])[\\.~!><@,;#$%?^}{/&*)(+:[}=|"`'\w-\]]{6,19}$/
+            // eslint-disable-next-line max-len
+            /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[\\~!><@#$%?,;.^/&}{*)(_+:[}="|`'-])[a-zA-Z0-9\\.~!><@,;#$%?^}{/&*)(+:[}=|"`'\w-]{7,19}/
         );
 
-        if (regexRes == null) {
-            setPasswordError(passwordValidation);
-            return false;
-        }
         if (!(password === confirmPassword)) {
             setPasswordError(didnotMatchWarning);
             return false;
         }
-        if (password.length < 8 || confirmPassword.length < 8) {
+        if (password.length < 8) {
             setPasswordError(minimumCharacterWarning);
             return false;
         }
@@ -230,16 +227,6 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
                             className={subHeadingfontFamilyClass}
                         >
                             {passwordValidation}
-                        </WarningText>
-                    )}
-                    {passwordError === didnotMatchWarning && (
-                        <WarningText
-                            id="warning-text-3"
-                            mb="10px"
-                            visibility={passwordError === didnotMatchWarning}
-                            className={subHeadingfontFamilyClass}
-                        >
-                            {didnotMatchWarning}
                         </WarningText>
                     )}
                 </LabelAndTextWrapper>
