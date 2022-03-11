@@ -71,7 +71,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
         className: subHeadingfontFamilyClass,
         fontSize: '12px',
         onChange: (t: string) => {
-            setInput(t);
+            if (t.length < 20) setInput(t);
             setPasswordError('');
         },
         hideHandler: () => setShowPassword(!showPassword),
