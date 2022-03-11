@@ -74,7 +74,10 @@ const AccountCard: React.FunctionComponent<{
                 )}
                 <AccountCircle />
                 <AccountText>
-                    <AccountMainText className={mainHeadingfontFamilyClass}>
+                    <AccountMainText
+                        style={{ height: '18px' }}
+                        className={mainHeadingfontFamilyClass}
+                    >
                         {accountName}
                     </AccountMainText>
                     <AccountSubText className={subHeadingfontFamilyClass}>
