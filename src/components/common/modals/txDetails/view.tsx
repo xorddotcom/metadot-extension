@@ -3,6 +3,7 @@ import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import CloseIcon from '@mui/icons-material/Close';
 
+import { useSelector } from 'react-redux';
 import {
     CloseIconDiv,
     HorizontalContentDiv,
@@ -13,7 +14,22 @@ import {
 import { VerticalContentDiv } from '../../wrapper';
 import { fonts, helpers, colors, images } from '../../../../utils';
 import { TxDetailsViewProps } from './types';
+import { RootState } from '../../../../redux/store';
 
+import constants from '../../../../constants/onchain';
+import { Button } from '../..';
+
+const {
+    CONTEXTFREE_CONFIG,
+    POLKADOT_CONFIG,
+    KUSAMA_CONFIG,
+    SHIDEN_CONFIG,
+    KARURA_CONFIG,
+    WESTEND_CONFIG,
+    ASTAR_CONFIG,
+    SHIBUYA_CONFIG,
+    ACALA_CONFIG,
+} = constants;
 const { ContentCopyIcon, arrowRight } = images;
 const { addressModifier } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
@@ -43,6 +59,27 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
         status,
         operation,
     } = txDetailsModalData;
+
+    const { chainName } = useSelector(
+        (state: RootState) => state.activeAccount
+    );
+    const getURl = (txHash: string): string => {
+        const chains = [
+            CONTEXTFREE_CONFIG,
+            POLKADOT_CONFIG,
+            KUSAMA_CONFIG,
+            SHIDEN_CONFIG,
+            KARURA_CONFIG,
+            WESTEND_CONFIG,
+            ASTAR_CONFIG,
+            SHIBUYA_CONFIG,
+            ACALA_CONFIG,
+        ];
+
+        const currentChain = chains.filter((chain) => chain.name === chainName);
+
+        return `${currentChain[0].explorer}${txHash}`;
+    };
     return (
         <Modal open={open} onClose={handleClose}>
             <Box sx={style} className="txDetails-modal-style">
@@ -120,6 +157,9 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                     pl10
                                     textAlign="end"
                                     className={mainHeadingfontFamilyClass}
+                                    onClick={() =>
+                                        window.open(getURl(hash || 'abc'))
+                                    }
                                 >
                                     {hash
                                         ? `${hash.slice(0, 5)}...${hash.slice(
@@ -317,6 +357,25 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
                     </VerticalContentDiv>
+
+                    {chainName !== 'ContextFree' && (
+                        <VerticalContentDiv>
+                            <Button
+                                id="subscan-button"
+                                handleClick={() =>
+                                    window.open(getURl(hash || 'abc'))
+                                }
+                                text="View on Subscan"
+                                style={{
+                                    width: '80%',
+                                    height: 40,
+                                    borderRadius: 40,
+                                    alignSelf: 'center',
+                                }}
+                                disabled={chainName === 'ContextFree'}
+                            />
+                        </VerticalContentDiv>
+                    )}
                 </VerticalContentDiv>
             </Box>
         </Modal>
