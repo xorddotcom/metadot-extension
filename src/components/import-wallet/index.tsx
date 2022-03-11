@@ -152,12 +152,13 @@ function ImportWallet(): JSX.Element {
         if (!jsonFileUploadScreen) {
             dispatch(setJsonFileUploadScreen(true));
             setSelectedType('json');
-            const url = `${chrome.extension.getURL('index.html')}`;
+            const url = `${chrome.extension.getURL(
+                'index.html'
+            )}#${IMPORT_WALLET}`;
             openOptions(url);
         } else {
             setSelectedType('json');
         }
-        navigate(IMPORT_WALLET);
     };
 
     const handleChange = (input: string): void => {
@@ -256,9 +257,11 @@ function ImportWallet(): JSX.Element {
         <Wrapper>
             <Header
                 centerText={IMPORT_WALLET_HEADER}
-                backHandler={() => {
+                overWriteBackHandler={() => {
                     dispatch(setJsonFileUploadScreen(false));
+                    navigate(DASHBOARD);
                 }}
+                backHandler={() => console.log('go back')}
             />
             <div>
                 <MainHeading {...mainHeading}>

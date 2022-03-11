@@ -56,6 +56,31 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
     };
 
     useEffect(() => {
+        let unsub: any;
+        (async () => {
+            console.log('free balance');
+            if (api) {
+                const decimals = api?.registry?.chainDecimals[0];
+                unsub = await api.query.system.account(
+                    publicKey,
+                    ({ data: balance }) => {
+                        generalDispatcher(() =>
+                            setBalance(Number(balance.free) / 10 ** decimals)
+                        );
+                    }
+                );
+            }
+        })();
+
+        return () => {
+            if (unsub) {
+                unsub();
+            }
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [api, publicKey]);
+
+    useEffect(() => {
         const setConnectedSites = async (): Promise<void> => {
             const arr: string[] = [];
             const res: any = await getAuthList();

@@ -70,8 +70,8 @@ const KARURA_CONFIG: NetworkConfig = {
     logo: KaruraIcon,
     rpcUrl: 'wss://karura-rpc-0.aca-api.network',
     queryEndpoint:
-        'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
-    prefix: 0,
+        'https://api.subquery.network/sq/kumailraza404/karura-indexer',
+    prefix: 8,
     disabled: false,
     explorer: 'https://karura.subscan.io/extrinsic/',
 };
