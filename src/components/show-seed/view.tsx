@@ -2,7 +2,6 @@ import React from 'react';
 import { CopyIcon, CopyText } from './styles';
 import { Wrapper, UnAuthScreensContentWrapper } from '../common/wrapper';
 import { MainHeading, SubHeading } from '../common/text';
-import { WarningModal } from '../common/modals';
 import { Header, Button } from '../common';
 
 import { fonts, images } from '../../utils';
@@ -23,13 +22,13 @@ const ShowSeedView: React.FunctionComponent<ShowSeedViewProps> = (props) => {
         backHandler,
         contentCopyIconDivProps,
         continueBtnProps,
-        warningModal,
     } = props;
     return (
         <Wrapper>
             <Header
                 centerText="Seed Phrase"
-                backHandler={() => backHandler()}
+                overWriteBackHandler={() => backHandler()}
+                backHandler={() => console.log('go back')}
             />
             <div style={{ marginTop: '29px' }}>
                 <MainHeading className={mainHeadingfontFamilyClass}>
@@ -62,7 +61,6 @@ const ShowSeedView: React.FunctionComponent<ShowSeedViewProps> = (props) => {
             <div style={{ marginLeft: '0' }} className="btn-wrapper">
                 <Button {...continueBtnProps} />
             </div>
-            <WarningModal {...warningModal} />
         </Wrapper>
     );
 };

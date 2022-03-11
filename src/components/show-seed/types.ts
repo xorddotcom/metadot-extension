@@ -32,5 +32,4 @@ export interface ShowSeedViewProps {
     backHandler(): void;
     contentCopyIconDivProps: ContentCopyIconDivPropsInterface;
     continueBtnProps: ContinueBtnPropsInterface;
-    warningModal: WarningModalPropsInterface;
 }

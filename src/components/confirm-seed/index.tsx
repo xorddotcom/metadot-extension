@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-import { setAccountCreationStep } from '../../redux/slices/activeAccount';
-import { RootState } from '../../redux/store';
 import { fonts, helpers } from '../../utils';
 import { CREATE_WALLET } from '../../constants';
 import { CONTINUE_BUTTON } from '../../utils/app-content';
-import useDispatcher from '../../hooks/useDispatcher';
 import ConfirmSeedView from './view';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
@@ -19,11 +15,13 @@ const {
 const fourRandomIndexes = arrayOfFourRandomNumbers();
 
 const ConfirmSeed: React.FunctionComponent = () => {
-    const generalDispatcher = useDispatcher();
-    const { tempSeed } = useSelector((state: RootState) => state.activeAccount);
     const navigate = useNavigate();
+    const location = useLocation().state as {
+        prevRoute: string;
+        newPhrase: string;
+    };
 
-    const currSeed = tempSeed;
+    const currSeed = location.newPhrase;
 
     const shuffledSeed = shuffleItemsWithinArray(
         arrayFromSeedSentence(currSeed)
@@ -65,9 +63,8 @@ const ConfirmSeed: React.FunctionComponent = () => {
         setValidations([first, second, third, fourth]);
 
         if (first && second && third && fourth) {
-            generalDispatcher(() => setAccountCreationStep(3));
             navigate(CREATE_WALLET, {
-                state: { seedToPass: currSeed },
+                state: { newPhrase: currSeed },
             });
         }
     };

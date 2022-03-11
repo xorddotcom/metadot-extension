@@ -4,17 +4,12 @@ import { useNavigate } from 'react-router';
 
 import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import type {
     AccountInfoWithProviders,
     AccountInfoWithRefCount,
 } from '@polkadot/types/interfaces';
-import MainCard from './components/MainCard';
-import AssetsAndTransactions from './components/Tabs';
-import DropDown from './components/Dropdown';
 import OtherContent from './components/RenderContentForAllNetworks';
 import KusamaContent from './components/RenderContentForKusama';
-import { SelectNetwork, TxDetails, About } from '../common/modals';
 
 import { setApiInitializationStarts } from '../../redux/slices/api';
 import {
@@ -26,24 +21,10 @@ import {
     resetAccountSlice,
     setJsonFileUploadScreen,
     setPrefix,
-    setAccountCreationStep,
-    setTempSeed,
     setQueryEndpoint,
 } from '../../redux/slices/activeAccount';
 
-import {
-    AccountContainer,
-    AccountSetting,
-    AccountText,
-    DashboardHeader,
-    LogoContainer,
-    NetworkContainer,
-    SelectChain,
-    SelectedChain,
-    Wrapper,
-} from './styledComponents';
-
-import { fonts, images } from '../../utils';
+import { helpers, images } from '../../utils';
 import services from '../../utils/services';
 
 import {
@@ -60,19 +41,13 @@ import {
     NetworkConfigType,
     TransactionRecord,
 } from './types';
-import {
-    CONFIRM_SEED,
-    CREATE_WALLET,
-    IMPORT_WALLET,
-    SHOW_SEED,
-    WELCOME,
-} from '../../constants';
+import { IMPORT_WALLET, WELCOME } from '../../constants';
 import DashboardView from './view';
 
-const { MainLogo, wifiOff } = images;
-const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+const { wifiOff } = images;
 
 const { getBalance } = services;
+const { isTabViewOpened } = helpers;
 
 const {
     availableNetworks,
@@ -122,8 +97,6 @@ const Dashboard: React.FunctionComponent = () => {
         accountName,
         rpcUrl,
         jsonFileUploadScreen,
-        accountCreationStep,
-        tempSeed,
     } = currentUser.activeAccount;
 
     const api = currentUser.api.api as ApiPromiseType;
@@ -181,17 +154,6 @@ const Dashboard: React.FunctionComponent = () => {
                     )
             )
         );
-    };
-
-    const isTabViewOpened = async (url: string): Promise<boolean> => {
-        const ownTabs = await getOwnTabs();
-        const tabd = ownTabs.find((tab: any) => tab.url.includes(url));
-        if (tabd) {
-            // chrome.tabs.update(tabd.id, { active: true });
-            return true;
-        }
-        // chrome.tabs.create({ url });
-        return false;
     };
 
     useEffect(() => {
@@ -296,10 +258,6 @@ const Dashboard: React.FunctionComponent = () => {
       } else {
         // showInternetSnackBar();
 
-        // dispatch(setMainTextForSuccessModal('Internet is down!'));
-        // dispatch(setSubTextForSuccessModal(''));
-        // dispatch(setResponseImage(wifiOff));
-        // dispatch(setIsResponseModalOpen(true));
         openModalForInternetIssue();
 
         setTimeout(() => {
@@ -333,33 +291,6 @@ const Dashboard: React.FunctionComponent = () => {
         console.log('Close dropdown working');
         setAnchorEl(null);
     };
-
-    useEffect(() => {
-        if (!(lastVisited < 90)) {
-            generalDispatcher(() => setAccountCreationStep(0));
-        }
-    }, []);
-
-    // --------XXXXXXXXXXXXXXX-----------
-
-    if (accountCreationStep === 1 && lastVisited < 90) {
-        navigate(SHOW_SEED, {
-            state: { seedToPass: tempSeed },
-        });
-        return null;
-    }
-    if (accountCreationStep === 2 && tempSeed.length && lastVisited < 90) {
-        navigate(CONFIRM_SEED, {
-            state: { seedToPass: tempSeed },
-        });
-        return null;
-    }
-    if (accountCreationStep === 3 && tempSeed.length && lastVisited < 90) {
-        navigate(CREATE_WALLET, {
-            state: { seedToPass: tempSeed },
-        });
-        return null;
-    }
 
     if (jsonFileUploadScreen) {
         navigate(IMPORT_WALLET);

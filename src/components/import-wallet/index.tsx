@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { KeyringPair$Json } from '@polkadot/keyring/types';
 import {
     setJsonFileUploadScreen,
     setLoggedIn,
@@ -20,10 +19,9 @@ import Options from './components/options';
 import EnterSeed from './components/enter-seed';
 import UploadJson from './components/upload-json';
 
-import { fonts, images } from '../../utils';
+import { fonts, helpers, images } from '../../utils';
 import accounts from '../../utils/accounts';
 import services from '../../utils/services';
-import { EnterSeedInterface } from './type';
 
 import { RootState } from '../../redux/store';
 
@@ -35,6 +33,7 @@ import {
     RESTORE_WALLET_DESCRIPTION,
 } from '../../utils/app-content';
 
+const { openOptions } = helpers;
 const { ImportIcon } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { validatingSeedPhrase, createAccountFromJSON } = accounts;
@@ -133,7 +132,7 @@ function ImportWallet(): JSX.Element {
 
             if (res) {
                 navigate(CREATE_WALLET, {
-                    state: { prevRoute: location, seedToPass: seedPhrase },
+                    state: { prevRoute: location, newPhrase: seedPhrase },
                 });
             } else {
                 setInvalidSeedMessage(seedDoesnotExist);
@@ -143,34 +142,6 @@ function ImportWallet(): JSX.Element {
             setInvalidSeedMessage(seedDoesnotExist);
         }
     };
-
-    function getOwnTabs(): any {
-        return Promise.all(
-            chrome.extension.getViews({ type: 'tab' }).map(
-                (view) =>
-                    new Promise((resolve) =>
-                        // eslint-disable-next-line no-promise-executor-return
-                        view.chrome.tabs.getCurrent((tab) =>
-                            resolve(
-                                Object.assign(tab, {
-                                    url: view.location.href,
-                                })
-                            )
-                        )
-                    )
-            )
-        );
-    }
-
-    async function openOptions(url: string): Promise<void> {
-        const ownTabs = await getOwnTabs();
-        const tabd = ownTabs.find((tab: any) => tab.url.includes(url));
-        if (tabd) {
-            chrome.tabs.update(tabd.id, { active: true });
-        } else {
-            chrome.tabs.create({ url });
-        }
-    }
 
     const importButtonHandler = (): void => {
         dispatch(setJsonFileUploadScreen(false));

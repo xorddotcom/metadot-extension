@@ -1,23 +1,17 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import CreateWalletView from './view';
 
-import { fonts, helpers, images } from '../../utils';
+import { fonts, images } from '../../utils';
 import accounts from '../../utils/accounts';
 
 import {
     setIsResponseModalOpen,
     setLoadingForApi,
 } from '../../redux/slices/modalHandling';
-import {
-    setAccountCreationStep,
-    setTempSeed,
-    setLoggedIn,
-} from '../../redux/slices/activeAccount';
+import { setLoggedIn } from '../../redux/slices/activeAccount';
 
-import { RootState } from '../../redux/store';
 import { DASHBOARD, IMPORT_WALLET } from '../../constants';
 import useDispatcher from '../../hooks/useDispatcher';
 import useResponseModal from '../../hooks/useResponseModal';
@@ -31,7 +25,6 @@ import {
 const { ImportIcon, AccountCreate } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { AccountCreation } = accounts;
-const { isUserNameValid } = helpers;
 
 const passwordErrorMessages = {
     minimumCharacterWarning: 'Password should not be less than 8 characters',
@@ -60,18 +53,13 @@ const CreateWallet: React.FunctionComponent = () => {
     });
     const location = useLocation().state as {
         prevRoute: string;
-        seedToPass: string;
+        newPhrase: string;
     };
-
-    const { tempSeed } = useSelector((state: RootState) => state.activeAccount);
 
     const operation =
         location.prevRoute === IMPORT_WALLET ? 'Imported' : 'Created';
 
-    const currSeed =
-        operation === 'Imported'
-            ? location.seedToPass && location.seedToPass
-            : tempSeed;
+    const currSeed = location.newPhrase;
 
     const [walletName, setWalletName] = useState('');
     const [isValidWalletName, setIsValidWalletName] = useState(false);
@@ -146,8 +134,6 @@ const CreateWallet: React.FunctionComponent = () => {
                 return;
             }
             await createAccount(walletName, password, currSeed);
-            generalDispatcher(() => setTempSeed(''));
-            generalDispatcher(() => setAccountCreationStep(0));
             generalDispatcher(() => setLoadingForApi(false));
             setIsLoading(false);
             showSuccessModalAndNavigateToDashboard();
@@ -214,8 +200,7 @@ const CreateWallet: React.FunctionComponent = () => {
         isLoading,
     };
 
-    const backHandler = (): void =>
-        generalDispatcher(() => setAccountCreationStep(2));
+    const backHandler = (): void => console.log('goBack');
 
     return (
         <CreateWalletView

@@ -15,8 +15,6 @@ const initialState = {
     balanceInUsd: 0,
     jsonFileUploadScreen: false,
     prefix: POLKADOT_CONFIG.prefix,
-    accountCreationStep: 0,
-    tempSeed: '',
     lastVisitedTimestamp: '',
     queryEndpoint: POLKADOT_CONFIG.queryEndpoint,
     isWalletConnected: false,
@@ -32,19 +30,6 @@ export const activeAccountSlice = createSlice({
                 lastVisitedTimestamp: action.payload,
             };
         },
-        setAccountCreationStep: (state, action: PayloadAction<number>) => {
-            return {
-                ...state,
-                accountCreationStep: action.payload,
-            };
-        },
-        setTempSeed: (state, action: PayloadAction<string>) => {
-            return {
-                ...state,
-                tempSeed: action.payload,
-            };
-        },
-
         deleteRedux: (state, action: PayloadAction<string>) => {
             return {
                 ...state,
@@ -136,8 +121,6 @@ export const {
     deleteRedux,
     setJsonFileUploadScreen,
     setPrefix,
-    setAccountCreationStep,
-    setTempSeed,
     setLastVisitedTimestamp,
     setTokenImage,
     setQueryEndpoint,
