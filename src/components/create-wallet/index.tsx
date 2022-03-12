@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import CreateWalletView from './view';
 
-import { fonts, images } from '../../utils';
+import { fonts, helpers, images } from '../../utils';
 import accounts from '../../utils/accounts';
 
 import {
@@ -25,6 +25,7 @@ import {
 const { ImportIcon, AccountCreate } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { AccountCreation } = accounts;
+const { isTabViewOpened } = helpers;
 
 const passwordErrorMessages = {
     minimumCharacterWarning: 'Password should not be less than 8 characters',
@@ -137,6 +138,11 @@ const CreateWallet: React.FunctionComponent = () => {
             generalDispatcher(() => setLoadingForApi(false));
             setIsLoading(false);
             showSuccessModalAndNavigateToDashboard();
+            const isTabOpen = await isTabViewOpened(
+                `${chrome.extension.getURL('index.html')}`
+            );
+            // eslint-disable-next-line no-unused-expressions
+            isTabOpen && chrome.tabs.reload();
         } catch (err) {
             console.log('error n create wallet', err);
         }

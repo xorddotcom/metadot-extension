@@ -33,7 +33,7 @@ import {
     RESTORE_WALLET_DESCRIPTION,
 } from '../../utils/app-content';
 
-const { openOptions } = helpers;
+const { openOptions, isTabViewOpened } = helpers;
 const { ImportIcon } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { validatingSeedPhrase, createAccountFromJSON } = accounts;
@@ -104,6 +104,11 @@ function ImportWallet(): JSX.Element {
             if (res) {
                 dispatch(setJsonFileUploadScreen(false));
                 showSuccessModalAndNavigateToDashboard();
+                const isTabOpen = await isTabViewOpened(
+                    `${chrome.extension.getURL('index.html')}`
+                );
+                // eslint-disable-next-line no-unused-expressions
+                isTabOpen && chrome.tabs.reload();
             } else {
                 console.log('aksk', res);
                 setPasswordError(true);
