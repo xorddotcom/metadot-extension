@@ -139,7 +139,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                         onClick={() => onClick(hash)}
                                         onMouseOver={() => onMouseOver()}
                                         aria-hidden="true"
-                                        onFocus={() => console.log('abc')}
+                                        onFocus={() => console.log('onFocus')}
                                     >
                                         <img
                                             src={ContentCopyIcon}
@@ -194,7 +194,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                         onClick={() => onClick(accountFrom)}
                                         onMouseOver={() => onMouseOver()}
                                         aria-hidden="true"
-                                        onFocus={() => console.log('abc')}
+                                        onFocus={() => console.log('onFocus')}
                                     >
                                         <img
                                             src={ContentCopyIcon}
@@ -233,7 +233,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                         onClick={() => onClick(accountTo)}
                                         onMouseOver={() => onMouseOver()}
                                         aria-hidden="true"
-                                        onFocus={() => console.log('abc')}
+                                        onFocus={() => console.log('onFocus')}
                                     >
                                         <img
                                             src={ContentCopyIcon}

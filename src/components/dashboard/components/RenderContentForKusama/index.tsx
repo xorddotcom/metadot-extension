@@ -28,7 +28,6 @@ const RenderContentForKusamaMainNetwork = ({
     const chainNameAltered = allMainnetsName.includes(name)
         ? `${name} Main Network`
         : `${name} Test Network`;
-    console.log('name', name);
     const optionRow = {
         className: disabled ? 'tooltip' : 'abc',
         key: name,

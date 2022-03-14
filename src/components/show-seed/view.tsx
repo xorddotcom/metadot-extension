@@ -28,7 +28,6 @@ const ShowSeedView: React.FunctionComponent<ShowSeedViewProps> = (props) => {
             <Header
                 centerText="Seed Phrase"
                 overWriteBackHandler={() => backHandler()}
-                backHandler={() => console.log('go back')}
             />
             <div style={{ marginTop: '29px' }}>
                 <MainHeading className={mainHeadingfontFamilyClass}>

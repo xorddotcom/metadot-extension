@@ -33,10 +33,7 @@ const PopupAuth: React.FunctionComponent = (): JSX.Element => {
             }}
         >
             <VerticalContentDiv>
-                <Header
-                    centerText="Seed Phrase"
-                    backHandler={() => console.log('goback')}
-                />
+                <Header centerText="Seed Phrase" />
 
                 <SubHeading marginTop="30px">
                     Your <span style={{ color: green }}>Seed Phrase</span> is a

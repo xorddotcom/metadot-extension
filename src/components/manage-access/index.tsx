@@ -35,10 +35,7 @@ function ManageAccess(): JSX.Element {
 
     return (
         <Wrapper>
-            <Header
-                centerText="Manage Website Access"
-                backHandler={() => console.log('goBack')}
-            />
+            <Header centerText="Manage Website Access" />
 
             <SearchBar
                 id="search-bar"

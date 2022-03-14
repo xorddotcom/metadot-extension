@@ -172,7 +172,6 @@ const Dashboard: React.FunctionComponent = () => {
         currentData: KusamaMainNetworks,
       });
     } else if (rpcUrl !== data.rpcUrl) {
-        console.log('Network change', data)
         // for showing loading waves like preloader
       generalDispatcher(()=>setApiInitializationStarts(true));
       if (window.navigator.onLine) {
@@ -222,7 +221,6 @@ const Dashboard: React.FunctionComponent = () => {
         setAnchorEl(event.currentTarget);
     };
     const handleCloseDropDown = (): void => {
-        console.log('Close dropdown working');
         setAnchorEl(null);
     };
 

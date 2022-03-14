@@ -7,20 +7,18 @@ import { HeadieViewProps } from './type';
 const { ArrowBackIcon } = images;
 
 const HeaderView: React.FunctionComponent<HeadieViewProps> = (props) => {
-    const { centerText, backHandler, onBackClick } = props;
+    const { centerText, onBackClick } = props;
     const { mainHeadingfontFamilyClass } = fonts;
     return (
         <HeaderWrapper>
-            {backHandler && (
-                <IconButton
-                    id="back-btn"
-                    className="primary-bg-color"
-                    onClick={() => onBackClick()}
-                    style={{ padding: '0.5rem' }}
-                >
-                    <img src={ArrowBackIcon} alt="icon" />
-                </IconButton>
-            )}
+            <IconButton
+                id="back-btn"
+                className="primary-bg-color"
+                onClick={() => onBackClick()}
+                style={{ padding: '0.5rem' }}
+            >
+                <img src={ArrowBackIcon} alt="icon" />
+            </IconButton>
             <HeaderHeading className={mainHeadingfontFamilyClass}>
                 {centerText}
             </HeaderHeading>

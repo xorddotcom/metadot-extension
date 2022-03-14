@@ -147,7 +147,6 @@ const Send: React.FunctionComponent = () => {
             Number(senderBalance) - Number(amount) - Number(txFee) <
             Number(ED)
         ) {
-            console.log('Reap the account');
             setSubTextForWarningModal('The sender account might get reaped');
             setIsWarningModalOpen(true);
             return [false, txFee];
@@ -230,9 +229,6 @@ const Send: React.FunctionComponent = () => {
                         }
                     }
                 })
-                .then((res) => {
-                    console.log('Res', res);
-                })
                 .catch((err) => {
                     setLoading2(false);
                     generalDispatcher(() => setConfirmSendModal(false));
@@ -282,7 +278,6 @@ const Send: React.FunctionComponent = () => {
     };
 
     const handleSubmit = async (): Promise<void> => {
-        console.log('Handle submit working');
         try {
             setLoading1(true);
             if (!validateInputValues(receiverAddress)) {
@@ -312,7 +307,6 @@ const Send: React.FunctionComponent = () => {
                 setLoading1(false);
             }
         } catch (err) {
-            console.log('In catch', err);
             setLoading1(false);
         }
     };

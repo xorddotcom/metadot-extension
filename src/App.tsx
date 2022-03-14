@@ -68,7 +68,6 @@ function App(): JSX.Element {
 
     useEffect(() => {
         if (accounts) {
-            console.log('accounts -->>', accounts);
             if (accounts.length > 0) {
                 if (accounts.length !== Object.keys(RdxAccounts).length) {
                     dispatch(

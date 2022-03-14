@@ -46,7 +46,6 @@ interface continueBtn {
 }
 
 export interface CreateWalletViewProps {
-    backHandler(): void;
     isValidWalletName: boolean;
     passwordError: string;
     walletNameText: walletNameText;

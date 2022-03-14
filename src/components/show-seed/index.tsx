@@ -28,7 +28,6 @@ const ShowSeed: React.FunctionComponent = () => {
     function getJsonBackup(seedPhrase: string): void {
         try {
             const jsonContent = seedPhrase;
-            console.log('jsonContent', jsonContent);
 
             // ***Download JSON file***
             const fileName = 'seed';
@@ -43,7 +42,7 @@ const ShowSeed: React.FunctionComponent = () => {
             document.body.removeChild(link);
             // ***Download JSON file***
         } catch (e) {
-            console.log('e in backup func', e);
+            console.log('error in backup func', e);
         }
     }
 

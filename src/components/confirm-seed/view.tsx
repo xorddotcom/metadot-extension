@@ -19,7 +19,6 @@ const ConfirmSeedView: React.FunctionComponent<ConfirmSeedViewProps> = (
     props
 ) => {
     const {
-        backHandler,
         seedArrayForGrid,
         handleSelect,
         styledInput1,
@@ -33,10 +32,7 @@ const ConfirmSeedView: React.FunctionComponent<ConfirmSeedViewProps> = (
 
     return (
         <Wrapper>
-            <Header
-                centerText={CONFIRM_SEED_HEADER}
-                backHandler={() => backHandler()}
-            />
+            <Header centerText={CONFIRM_SEED_HEADER} />
             <div>
                 <MainHeading {...mainHeading}>
                     {CONFIRM_SEED_MAIN_HEADING}

@@ -39,11 +39,7 @@ chrome.runtime.onConnect.addListener((port): void => {
 // initialization crypto and keyring
 cryptoWaitReady()
     .then((): void => {
-        console.log('crypto initialized');
-
         keyring.loadAll({ store: new AccountsStore(), type: 'sr25519' });
-
-        console.log('initialization completed');
     })
     .catch((error): void => {
         console.error('initialization failed', error);

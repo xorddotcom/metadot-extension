@@ -74,7 +74,6 @@ const ConfirmSeed: React.FunctionComponent = () => {
         indexValue: number;
     }): void => {
         const { value, indexValue } = seedObj;
-        console.log('mai chala');
         if (!word1) {
             setWord1(value);
         } else if (!word2) {
@@ -83,9 +82,8 @@ const ConfirmSeed: React.FunctionComponent = () => {
             setWord3(value);
         } else if (!word4) {
             setWord4(value);
-        } else {
-            console.log('All are selected!');
         }
+
         if (!word1 || !word2 || !word3 || !word4) {
             const copyOfSeedForGrid = seedArrayForGrid;
             copyOfSeedForGrid[indexValue] = {
@@ -207,11 +205,9 @@ const ConfirmSeed: React.FunctionComponent = () => {
         marginTop: '12px',
         className: subHeadingfontFamilyClass,
     };
-    const backHandler = (): void => console.log('back handler');
 
     return (
         <ConfirmSeedView
-            backHandler={backHandler}
             seedArrayForGrid={seedArrayForGrid}
             handleSelect={handleSelect}
             styledInput1={styledInput1}

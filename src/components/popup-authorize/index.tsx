@@ -14,7 +14,6 @@ const { WarningIcon, WarningTriangleIcon } = images;
 const { green } = colors;
 
 const PopupAuth: React.FunctionComponent<any> = ({ requests }) => {
-    console.log('auth requests ==>>', requests);
     return (
         <Wrapper
             height="570px"

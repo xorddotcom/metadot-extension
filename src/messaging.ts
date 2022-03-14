@@ -80,7 +80,6 @@ function sendMessage<TMessageType extends MessageTypes>(
     request?: RequestTypes[TMessageType],
     subscriber?: (data: unknown) => void
 ): Promise<ResponseTypes[TMessageType]> {
-    console.log('send message', message, request);
     return new Promise((resolve, reject): void => {
         const id = getId();
         handlers[id] = { reject, resolve, subscriber };

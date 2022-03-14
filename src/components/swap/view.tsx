@@ -71,10 +71,7 @@ const SwapView: React.FunctionComponent = (): JSX.Element => {
     return (
         <>
             <Wrapper>
-                <Header
-                    centerText={confirm ? 'Confirmation' : 'Swap Token'}
-                    backHandler={() => console.log('object')}
-                />
+                <Header centerText={confirm ? 'Confirmation' : 'Swap Token'} />
             </Wrapper>
 
             <Wrapper2 pb>

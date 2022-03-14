@@ -34,7 +34,6 @@ const CreateWalletView: React.FunctionComponent<CreateWalletViewProps> = (
     props
 ) => {
     const {
-        backHandler,
         isValidWalletName,
         passwordError,
         walletNameText,
@@ -50,23 +49,12 @@ const CreateWalletView: React.FunctionComponent<CreateWalletViewProps> = (
             : continueBtn.handleClick();
 
     return (
-        <Wrapper
-            height="570px"
-            // style={{
-            //     display: 'flex',
-            //     flexDirection: 'column',
-            //     justifyContent: 'space-between',
-            // }}
-        >
-            <Header
-                centerText={CREATE_WALLET_HEADER}
-                backHandler={() => backHandler()}
-            />
+        <Wrapper height="570px">
+            <Header centerText={CREATE_WALLET_HEADER} />
             <UnAuthScreensContentWrapper mb="25px">
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
-                        console.log('abc');
                         onSubmitForm();
                     }}
                 >

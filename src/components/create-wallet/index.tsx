@@ -206,11 +206,8 @@ const CreateWallet: React.FunctionComponent = () => {
         isLoading,
     };
 
-    const backHandler = (): void => console.log('goBack');
-
     return (
         <CreateWalletView
-            backHandler={backHandler}
             isValidWalletName={isValidWalletName}
             passwordError={passwordError}
             walletNameText={walletNameText}

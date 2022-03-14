@@ -6,12 +6,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import MainCard from './components/MainCard';
 import AssetsAndTransactions from './components/Tabs';
 import DropDown from './components/Dropdown';
-import {
-    SelectNetwork,
-    TxDetails,
-    About,
-    AccountOptions,
-} from '../common/modals';
+import { SelectNetwork, TxDetails } from '../common/modals';
 
 import {
     AccountContainer,
@@ -189,20 +184,6 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
                     p: 2,
                     px: 2,
                     pb: 3,
-                }}
-            />
-            <About
-                open={false}
-                handleClose={() => console.log(false)}
-                style={{
-                    position: 'relative',
-                    width: '300px',
-                    minHeight: 380,
-                    background: '#141414',
-                    padding: '0 20px',
-                    pb: 3,
-                    height: '320px',
-                    marginTop: '7rem',
                 }}
             />
         </Wrapper>

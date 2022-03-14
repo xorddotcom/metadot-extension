@@ -7,5 +7,6 @@ export interface Props {
 export interface HeadieViewProps {
     backHandler?(): void;
     onBackClick(): void;
+    overWriteBackHandler?(): void;
     centerText?: string;
 }

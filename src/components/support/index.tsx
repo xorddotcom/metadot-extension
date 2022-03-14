@@ -12,10 +12,7 @@ const Support: React.FunctionComponent = () => {
     const upperDiv = { marginTop: '34px', marginBottom: '30px' };
     return (
         <Wrapper>
-            <Header
-                centerText="Support"
-                backHandler={() => console.log('object')}
-            />
+            <Header centerText="Support" />
             <MainDiv style={upperDiv}>
                 <MainHeading className={mainHeadingfontFamilyClass}>
                     How may we help you ?

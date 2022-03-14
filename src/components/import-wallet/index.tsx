@@ -98,9 +98,7 @@ function ImportWallet(): JSX.Element {
 
     const importAccountFromJson = async (): Promise<void> => {
         try {
-            console.log('In import account from JSON');
             const res = await createAccountFromJSON(json, password);
-            console.log('Res [][]', res);
             if (res) {
                 dispatch(setJsonFileUploadScreen(false));
                 showSuccessModalAndNavigateToDashboard();
@@ -110,11 +108,9 @@ function ImportWallet(): JSX.Element {
                 // eslint-disable-next-line no-unused-expressions
                 isTabOpen && chrome.tabs.reload();
             } else {
-                console.log('aksk', res);
                 setPasswordError(true);
             }
         } catch (err) {
-            console.log('In import account from JSON error ===>>>>');
             console.log(err);
         }
     };
@@ -169,7 +165,6 @@ function ImportWallet(): JSX.Element {
     const handleChange = (input: string): void => {
         setInvalidSeedMessage('');
         const reg = /^[^\n]{0,65}(?:\n?[^\n]{0,65}){0,1}$/;
-        console.log('checker', reg.test(input));
         if (reg.test(input)) {
             setSeedPhrase(input);
         } else {
@@ -225,9 +220,7 @@ function ImportWallet(): JSX.Element {
     };
 
     const onSubmit = (): void => {
-        if (btn.disabled) {
-            console.log('proceed import');
-        } else {
+        if (!btn.disabled) {
             setIsLoading(true);
             if (selectedType === 'json') {
                 importAccountFromJson();
@@ -266,7 +259,6 @@ function ImportWallet(): JSX.Element {
                     dispatch(setJsonFileUploadScreen(false));
                     navigate(DASHBOARD);
                 }}
-                backHandler={() => console.log('go back')}
             />
             <div>
                 <MainHeading {...mainHeading}>

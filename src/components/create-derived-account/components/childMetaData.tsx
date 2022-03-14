@@ -104,7 +104,6 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
             showSuccess();
         } catch (err: any) {
             setIsLoading(false);
-            console.log('error n create wallet', err);
             console.log('error message n create wallet', err.message);
         }
     };

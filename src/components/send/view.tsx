@@ -13,10 +13,7 @@ const SendView: React.FunctionComponent<SendViewProps> = (props) => {
     const { toInput, amountInput, nextBtn, confirmSend } = props;
     return (
         <>
-            <Header
-                centerText="Send"
-                backHandler={() => console.log('object')}
-            />
+            <Header centerText="Send" />
 
             <MainContent>
                 <FromInput />

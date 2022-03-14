@@ -22,8 +22,6 @@ const { green } = colors;
 // ];
 
 const PopupMeta: React.FunctionComponent<any> = ({ requests }) => {
-    console.log('meta requests ==>>', requests);
-
     const Metadata = [
         { property: 'From', data: requests[requests.length - 1].url },
         {

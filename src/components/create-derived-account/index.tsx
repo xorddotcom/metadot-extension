@@ -66,7 +66,6 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
             <Header
                 centerText={DERIVED_ACCOUNT_HEADER}
                 overWriteBackHandler={step === 2 ? () => setStep(1) : undefined}
-                backHandler={() => console.log('go back')}
             />
 
             {step === 1 ? (

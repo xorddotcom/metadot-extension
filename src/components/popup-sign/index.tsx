@@ -15,7 +15,6 @@ import { fonts, helpers, images } from '../../utils';
 
 const { CheckboxDisabled, CheckboxEnabled, ContentCopyIcon } = images;
 const registry = new TypeRegistry();
-console.log('registry in sign popup', registry);
 
 const { subHeadingfontFamilyClass } = fonts;
 
@@ -75,7 +74,6 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     //         registry.setSignedExtensions(payload.signedExtensions);
     //     }
     // }, [requests]);
-    console.log('sign requests ==>>', requests);
 
     const handleSubmit = (): void => {
         try {
@@ -86,7 +84,6 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                 password
             );
         } catch (e) {
-            console.log(e);
             setPasswordError(true);
         }
     };

@@ -38,7 +38,6 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
     deriveAccount,
     setAuthModalFunction,
 }) => {
-    console.log('account in dropdown ==>>', account);
     const dispatch = useDispatch();
 
     const [openWarnModal, setOpenWarnModal] = useState(false);

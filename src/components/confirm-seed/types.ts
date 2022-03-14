@@ -34,7 +34,6 @@ interface headingProps {
 }
 
 export interface ConfirmSeedViewProps {
-    backHandler(): void;
     seedArrayForGrid: seedGridObj[];
     handleSelect(seedObj: { value: string; indexValue: number }): void;
     styledInput1: styledInputInterface;

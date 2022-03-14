@@ -58,7 +58,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
     useEffect(() => {
         let unsub: any;
         (async () => {
-            console.log('free balance');
             if (api) {
                 const decimals = api?.registry?.chainDecimals[0];
                 unsub = await api.query.system.account(
@@ -107,7 +106,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
     useEffect(() => {
         const setAPI = async (rpcUrl: string): Promise<void> => {
             try {
-                console.log('Api manager running');
                 generalDispatcher(() => setApiInitializationStarts(true));
 
                 if (window.navigator.onLine) {

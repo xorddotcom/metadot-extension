@@ -25,9 +25,7 @@ const providerInitialization = async (rpc: string): Promise<ApiPromiseType> => {
     return apiR;
 };
 const convertTransactionFee = (tokenName: string, fee: any): number => {
-    console.log('Convert tx fee', tokenName, fee);
     const splitFee = fee.split(' ');
-    console.log('Split fee', splitFee[0]);
     if (tokenName === 'KSM') {
         return Number((splitFee[0] * 10 ** -6).toFixed(4));
     }
@@ -40,19 +38,12 @@ const getBalanceWithSingleToken = async (
     api: ApiPromiseType,
     acc: string
 ): Promise<number> => {
-    // console.log('Get balance service working');
-    // await api.query.system.account(acc, ({ data: bal }) => {
-    //     console.log(' New Balance ====>>> ', Number(bal.free) / 10 ** 18);
-    // });
-
     const { data: balance }: any = await api.query.system.account(acc);
     const userBalance = formatBalance(balance.free, {
         decimals: api.registry.chainDecimals[0],
         forceUnit: '-',
         withUnit: false,
     });
-    console.log('In service user balance', userBalance);
-    console.log('In service user balance in float', parseFloat(userBalance));
     return parseFloat(userBalance);
 };
 // Get balance of a chain with multiple tokens
@@ -107,12 +98,8 @@ const getTransactionFee = async (
             tokenName,
             info.partialFee.toHuman()
         );
-
-        console.log('txFee from common', txFee);
-
         return txFee;
     } catch (err) {
-        console.log('error in getting tx fee', err);
         return 0;
     }
 };

@@ -58,13 +58,7 @@ function validateAddress(
     userPublicAddress: string,
     senderPublicAddress: string
 ): string {
-    console.log(
-        'Validate address running',
-        userPublicAddress,
-        senderPublicAddress
-    );
     if (userPublicAddress === senderPublicAddress) {
-        console.log('Address matched');
         return 'Address is matched from your public address';
     }
     return '';
@@ -117,14 +111,12 @@ async function getDOT(): Promise<any> {
 }
 
 async function getASTR(): Promise<any> {
-    console.log('Get astar running');
     let amm;
     await fetch(constants.USD_PER_ASTAR_API)
         .then((response) => response.json())
         .then((data) => {
             amm = data;
         });
-    console.log('Amm [][]', amm);
     return amm;
 }
 
@@ -173,7 +165,6 @@ async function convertIntoUsd(
         converted = Number(
             (Number(amountToConvert) * oneSDNintoUsd.shiden.usd).toFixed(3)
         );
-        console.log('Converted', converted);
     } else if (token === 'KAR') {
         const oneKARintoUsd = await getKAR();
         converted = Number(
@@ -249,6 +240,7 @@ const getOwnTabs = (): any => {
 const isTabViewOpened = async (url: string): Promise<boolean> => {
     const ownTabs = await getOwnTabs();
     const tabd = ownTabs.find((tab: any) => tab.url.includes(url));
+    console.log('tabd', tabd);
     if (tabd) {
         // chrome.tabs.update(tabd.id, { active: true });
         return true;
@@ -262,7 +254,6 @@ const openOptions = async (url: string): Promise<void> => {
     const urlFormatching = `${chrome.extension.getURL('index.html')}`;
     const tabd = ownTabs.find((tab: any) => tab.url.includes(urlFormatching));
     const isTabOpen = await isTabViewOpened(urlFormatching);
-    console.log('checker', { ownTabs, tabd, isTabOpen });
     if (tabd && isTabOpen) {
         chrome.tabs.update(tabd.id, { active: true, url });
     } else {

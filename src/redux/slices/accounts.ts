@@ -16,7 +16,6 @@ export const accountsSlice = createSlice({
                 prefix: number;
             }>
         ) => {
-            console.log('action payload', action.payload);
             const newState: any = {};
 
             action.payload.allAccounts.forEach((account: any) => {
@@ -28,7 +27,6 @@ export const accountsSlice = createSlice({
                         : null,
                 };
             });
-            console.log('new state', newState);
             return newState;
         },
         resetAccountsSlice: (state) => {

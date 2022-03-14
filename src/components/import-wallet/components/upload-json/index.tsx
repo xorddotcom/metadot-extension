@@ -41,14 +41,12 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
     const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
     const hiddenFileInput = React.useRef<HTMLInputElement>(null);
 
-    console.log('jsooooon ->', json);
     useEffect(() => {
         setSeedPhrase('');
         setInvalidSeedMessage('');
     });
 
     useEffect(() => {
-        console.log('Use effect running');
         setIsFilePicked(false);
         setJson('');
         setFileName({ name: '' });
@@ -67,11 +65,9 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                 reader.onload = async () => {
                     try {
                         const fileContent = reader.result;
-                        console.log(1);
                         const parsedFileContent = JSON.parse(
                             fileContent as string
                         );
-                        console.log(2, parsedFileContent);
                         if (parsedFileContent.exportedJson) {
                             if (!parsedFileContent.exportedJson.meta.name)
                                 throw new Error('Invalid Json File');
@@ -83,10 +79,8 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                         } else {
                             throw new Error('invalid Json!');
                         }
-                        console.log(3);
                         setInvalidJSONFileError(false);
                     } catch (err) {
-                        console.log('In catch here', err);
                         setInvalidJSONFileError(true);
                     }
                 };
@@ -106,33 +100,12 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
         setPasswordError(false);
         try {
             if (operation === 'select') {
-                console.log('hiddenFileInput -------', hiddenFileInput);
-                if (isFilePicked) {
-                    console.log('already selected!');
-                } else {
+                if (!isFilePicked) {
                     if (hiddenFileInput.current)
                         hiddenFileInput.current.click();
-                    // } else {
-                    //     hiddenFileInput.current.click();
-                    // }
-                    console.log('select in handle click');
                 }
             } else if (operation === 'cancel') {
-                console.log('cancel');
-                console.log(
-                    'hidden file value',
-                    document.getElementsByTagName('input')[0].value
-                );
-                console.log(
-                    'hiddenFileInput before',
-                    hiddenFileInput?.current?.value
-                );
-                // document.getElementsByTagName('input')[0].value = '';
                 if (hiddenFileInput.current) hiddenFileInput.current.value = '';
-                console.log(
-                    'hiddenFileInput after',
-                    hiddenFileInput?.current?.value
-                );
                 setFileName({ name: 'file' });
                 setIsFilePicked(false);
                 passwordChangeHandler('');
@@ -281,8 +254,6 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                         Invalid Password!
                     </WarningText>
                 )}
-
-                {console.log('Invalid json error state', invalidJSONFileError)}
 
                 <input
                     id="upload-file"
