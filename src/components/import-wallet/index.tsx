@@ -186,6 +186,8 @@ function ImportWallet(): JSX.Element {
     const subHeading = {
         marginTop: '12px',
         className: subHeadingfontFamilyClass,
+        opacity: '80%',
+        weight: '400',
     };
 
     const selectTypeHeading = {
