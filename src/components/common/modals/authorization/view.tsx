@@ -53,6 +53,7 @@ const AuthModalView: React.FunctionComponent<AuthtModalViewProps> = ({
                 <MainDiv>
                     <ModalText
                         textAlign="center"
+                        marginTop="25px"
                         className={mainHeadingfontFamilyClass}
                     >
                         {HEADING}

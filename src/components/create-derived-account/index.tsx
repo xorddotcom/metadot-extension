@@ -18,7 +18,7 @@ import {
 import { images } from '../../utils';
 import accountsUtils from '../../utils/accounts';
 
-import { DASHBOARD } from '../../constants';
+import { ACCOUNTS } from '../../constants';
 import {
     DERIVED_ACCOUNT_HEADER,
     SUCCESSFULLY_DERIVED,
@@ -49,12 +49,12 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const showSuccessModalAndNavigateToDashboard = (): void => {
+    const showSuccessModalAndNavigateToMultipleAccounts = (): void => {
         dispatch(setIsResponseModalOpen(true));
         dispatch(setResponseImage(ImportIcon));
         dispatch(setMainTextForSuccessModal(SUCCESSFULLY_DERIVED));
         dispatch(setSubTextForSuccessModal(''));
-        navigate(DASHBOARD);
+        navigate(ACCOUNTS);
 
         setTimeout(() => {
             dispatch(setIsResponseModalOpen(false));
@@ -92,7 +92,7 @@ const CreateDerivedAccount: React.FunctionComponent = () => {
                     setIsLoading={setIsLoading}
                     derive={derive}
                     deriveAddress={deriveAddress}
-                    showSuccess={showSuccessModalAndNavigateToDashboard}
+                    showSuccess={showSuccessModalAndNavigateToMultipleAccounts}
                 />
             )}
         </Wrapper>
