@@ -33,8 +33,9 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         id: 'SendBtn',
         text: 'Max',
         style: {
-            width: '38.75px',
-            height: '25.12px',
+            width: '44px',
+            minWidth: '24px',
+            height: '26px',
             borderRadius: '6px',
             fontSize: '12px',
         },

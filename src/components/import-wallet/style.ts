@@ -24,13 +24,12 @@ export const Option = styled.p`
         props.selected ? '1px solid #219A9A' : '1px solid #BCBCBC'};
     margin-right: 20px;
     font-weight: 500;
-    font-size: ${subHeadingFontSize};
+    font-size: 14px;
     line-height: 16px;
     letter-spacing: 0.02em;
     color: ${(props) => (props.selected ? '#219A9A' : '#BCBCBC')};
     opacity: 0.8;
     border-radius: 20px;
-    font-size: 0.8rem;
     cursor: pointer;
 `;
 

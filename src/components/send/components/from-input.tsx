@@ -28,6 +28,7 @@ const FromInput: React.FunctionComponent = () => {
     const { accountName, publicKey, prefix } = useSelector(
         (state: RootState) => state.activeAccount
     );
+    const accounts = useSelector((state: RootState) => state.accounts);
 
     // const [accountToLogin, setAccountToLogin] = useState<Account>({
     //     publicKey,
@@ -54,7 +55,11 @@ const FromInput: React.FunctionComponent = () => {
             <FromAccount
                 id="from-account"
                 aria-hidden
-                onClick={() => setIsModalOpen(true)}
+                onClick={() => {
+                    return Object.keys(accounts).length > 1
+                        ? setIsModalOpen(true)
+                        : setIsModalOpen(false);
+                }}
             >
                 <HorizontalContentDiv>
                     <PlainIcon />
@@ -70,11 +75,15 @@ const FromInput: React.FunctionComponent = () => {
                         </Balance>
                     </VerticalContentDiv>
                 </HorizontalContentDiv>
-                <img
-                    src={dropdownIcon}
-                    alt="dropdown"
-                    style={{ marginRight: 10 }}
-                />
+                {Object.keys(accounts).length > 1 ? (
+                    <img
+                        src={dropdownIcon}
+                        alt="dropdown"
+                        style={{ marginRight: 10 }}
+                    />
+                ) : (
+                    ''
+                )}
             </FromAccount>
             <MyAccounts
                 open={isModalOpen}

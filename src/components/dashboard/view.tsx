@@ -109,7 +109,7 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
                         </SelectedChain>
                         <ArrowDropDownIcon
                             id="arrow-drop-down-icon"
-                            style={{ fontSize: '1.7rem' }}
+                            style={{ height: '100%' }}
                         />
                     </SelectChain>
                 </NetworkContainer>
