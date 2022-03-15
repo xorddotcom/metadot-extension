@@ -95,7 +95,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
             height: '40px',
             borderRadius: '40px',
         },
-        disabled: isBtnLoading,
+        disabled: isBtnLoading || input.length === 0,
         isLoading: isBtnLoading,
         handleClick: () => handleSubmit(),
     };

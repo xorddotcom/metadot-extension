@@ -6,7 +6,6 @@ import {
     TxCardSubWrapper,
     TxCardWrapper,
     TxDateRow,
-    TxEquivalentInUSDT,
     TxHorizontalContentDiv,
 } from './styles';
 import { fonts, colors, helpers, images } from '../../../utils';
@@ -14,16 +13,7 @@ import { fonts, colors, helpers, images } from '../../../utils';
 const { greenCheck } = images;
 
 const TxCardView: React.FunctionComponent<Props> = (props) => {
-    const {
-        operation,
-        status,
-        coin,
-        amount,
-        amountInUsd,
-        logo,
-        handleClick,
-        timestamp,
-    } = props;
+    const { operation, status, coin, amount, handleClick, timestamp } = props;
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
     const { green, red } = colors;
     const { trimBalance, dateFormatter } = helpers;

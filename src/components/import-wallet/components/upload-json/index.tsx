@@ -59,6 +59,8 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
     ): Promise<void> => {
         try {
             e.preventDefault();
+            setPasswordError(false);
+            setInvalidJSONFileError(false);
             const reader = new FileReader();
             if (e.target.files) {
                 const file = e.target.files[0];
@@ -96,8 +98,6 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
     };
 
     const handleClick = (operation: string): void => {
-        setInvalidJSONFileError(false);
-        setPasswordError(false);
         try {
             if (operation === 'select') {
                 if (!isFilePicked) {
@@ -111,6 +111,7 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                 passwordChangeHandler('');
                 setShowPassword(false);
                 setPasswordError(false);
+                setInvalidJSONFileError(false);
                 setJson('');
             }
         } catch (err) {
