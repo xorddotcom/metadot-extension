@@ -102,11 +102,6 @@ function ImportWallet(): JSX.Element {
             if (res) {
                 dispatch(setJsonFileUploadScreen(false));
                 showSuccessModalAndNavigateToDashboard();
-                const isTabOpen = await isTabViewOpened(
-                    `${chrome.extension.getURL('index.html')}`
-                );
-                // eslint-disable-next-line no-unused-expressions
-                isTabOpen && chrome.tabs.reload();
             } else {
                 setPasswordError(true);
             }
