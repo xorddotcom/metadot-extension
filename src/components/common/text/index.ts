@@ -31,6 +31,7 @@ export const SubHeading = styled.p<SubHeadingInterface>`
     line-height: ${(props) => (props.lineHeight ? props.lineHeight : '22px')};
     font-size: ${(props) =>
         props.fontSize ? props.fontSize : subHeadingFontSize};
+    font-weight: ${(props) => props.weight && props.weight};
     margin-top: ${(props) => props.marginTop && props.marginTop};
     margin-bottom: ${(props) => props.mb && props.mb};
     margin-left: ${(props) => props.ml && props.ml};

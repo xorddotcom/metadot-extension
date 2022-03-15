@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable radix */
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -18,13 +19,68 @@ import {
     AssetsAndTransactionsPropsInterface,
     TransactionRecord,
     TransactionRecordFromSubQuery,
+    TxViewProps,
 } from '../../types';
 import { RootState } from '../../../../redux/store';
 import { addTransaction } from '../../../../redux/slices/transactions';
 import { ASSETS, TRANSACTIONS } from '../../../../utils/app-content';
+import { SubHeading } from '../../../common/text/index';
 
-const { mainHeadingfontFamilyClass } = fonts;
+const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { trimBalance } = helpers;
+
+const TxView: React.FunctionComponent<TxViewProps> = (
+    props
+): React.ReactElement => {
+    const { transactionData, tokenName, handleClickOnTxCard } = props;
+    return (
+        // eslint-disable-next-line react/jsx-no-useless-fragment
+        <>
+            {transactionData.length > 0 ? (
+                transactionData
+                    .filter(
+                        (transaction: TransactionRecord) =>
+                            transaction.tokenName === tokenName
+                    )
+                    .sort(
+                        (a: any, b: any) =>
+                            Number(new Date(b.timestamp)) -
+                            Number(new Date(a.timestamp))
+                    )
+                    .map((transaction) => {
+                        const {
+                            operation,
+                            status,
+                            tokenName: tokenNames,
+                            amount,
+                            timestamp,
+                        } = transaction;
+
+                        const txCard = {
+                            coin: tokenNames,
+                            amountInUsd: tokenNames === 'WND' ? '$0' : '$0',
+                            handleClick: () => handleClickOnTxCard(transaction),
+                            operation,
+                            status,
+                            amount,
+                            timestamp,
+                        };
+                        return <TxCard key={Math.random()} {...txCard} />;
+                    })
+            ) : (
+                <SubHeading
+                    color="rgba(250, 250, 250, 0.7)"
+                    className={subHeadingfontFamilyClass}
+                    weight="500"
+                    textAlign="center"
+                    marginTop="75px"
+                >
+                    No Transaction History
+                </SubHeading>
+            )}
+        </>
+    );
+};
 
 const AssetsAndTransactions: React.FunctionComponent<
     AssetsAndTransactionsPropsInterface
@@ -43,6 +99,11 @@ const AssetsAndTransactions: React.FunctionComponent<
     } = assetsData;
     const [isTab1Active, setIsTab1Active] = useState(true);
     const [isTab2Active, setIsTab2Active] = useState(false);
+
+    const handleClickOnTxCard = (transaction: TransactionRecord): void => {
+        setTxDetailsModalData(transaction);
+        handleOpenTxDetailsModal();
+    };
 
     const tabSectionAssets = {
         isActive: isTab1Active,
@@ -172,43 +233,13 @@ const AssetsAndTransactions: React.FunctionComponent<
                         logo={tokenImage}
                     />
                 )}
-                {isTab2Active &&
-                    // eslint-disable-next-line arrow-body-style
-                    transactionData.length > 0 &&
-                    transactionData
-                        .filter(
-                            (transaction: TransactionRecord) =>
-                                transaction.tokenName === tokenName
-                        )
-                        .sort(
-                            (a: any, b: any) =>
-                                Number(new Date(b.timestamp)) -
-                                Number(new Date(a.timestamp))
-                        )
-                        .map((transaction) => {
-                            const {
-                                operation,
-                                status,
-                                tokenName: tokenNames,
-                                amount,
-                                timestamp,
-                            } = transaction;
-
-                            const txCard = {
-                                coin: tokenNames,
-                                amountInUsd: tokenNames === 'WND' ? '$0' : '$0',
-                                logo: tokenImage,
-                                handleClick: () => {
-                                    setTxDetailsModalData(transaction);
-                                    handleOpenTxDetailsModal();
-                                },
-                                operation,
-                                status,
-                                amount,
-                                timestamp,
-                            };
-                            return <TxCard key={Math.random()} {...txCard} />;
-                        })}
+                {isTab2Active && (
+                    <TxView
+                        transactionData={transactionData}
+                        tokenName={tokenName}
+                        handleClickOnTxCard={handleClickOnTxCard}
+                    />
+                )}
             </div>
         </AssetsAndTransactionsWrapper>
     );

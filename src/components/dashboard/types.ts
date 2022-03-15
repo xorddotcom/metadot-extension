@@ -36,6 +36,12 @@ export interface TransactionRecord {
     timestamp?: string;
 }
 
+export interface TxViewProps {
+    transactionData: TransactionRecord[];
+    tokenName: string;
+    handleClickOnTxCard(tx: TransactionRecord): void;
+}
+
 export interface TransactionRecordFromSubQuery {
     id: string;
     token: string;

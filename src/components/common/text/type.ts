@@ -8,6 +8,7 @@ export interface MainHeadingInterface {
 }
 
 export interface SubHeadingInterface {
+    weight?: string;
     className?: string;
     fontSize?: string;
     textLightColor?: boolean;
