@@ -38,7 +38,6 @@ export const MarginSet = styled.div`
 export const Account = styled.div`
     box-sizing: border-box;
     height: auto;
-    width: 318px;
     min-height: 83px;
     background: linear-gradient(
         99.81deg,
@@ -164,6 +163,7 @@ export const ButtonDiv = styled.div`
 
 export const DropDownContainer = styled.div`
     position: relative;
+    width: 16px;
 `;
 
 export const DropDownIcon = styled.div`
