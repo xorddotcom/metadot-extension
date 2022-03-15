@@ -22,6 +22,7 @@ import {
     setAccountName,
     setPublicKey,
 } from '../../../../redux/slices/activeAccount';
+import { resetAccountsSlice } from '../../../../redux/slices/accounts';
 import { ACCOUNT_DELETION_WARNING } from '../../../../utils/app-content';
 
 import { setAuthScreenModal } from '../../../../redux/slices/modalHandling';
@@ -39,6 +40,7 @@ import {
     DASHBOARD,
     IMPORT_WALLET,
     SHOW_SEED,
+    WELCOME,
 } from '../../../../constants';
 
 const {
@@ -84,25 +86,10 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
 
     const deleteAccountHandler = async (publicKey: string): Promise<void> => {
         await deleteAccount(publicKey);
-        if (publicKey === activeAccount.publicKey) {
-            if (Object.keys(allAccounts).length > 1) {
-                if (Object.keys(allAccounts)[0] !== publicKey) {
-                    activateAccountHandler(
-                        Object.values(allAccounts)[0].publicKey,
-                        Object.values(allAccounts)[0].accountName
-                    );
-                } else {
-                    activateAccountHandler(
-                        Object.values(allAccounts)[1].publicKey,
-                        Object.values(allAccounts)[1].accountName
-                    );
-                }
-            } else {
-                generalDispatcher(() => resetAccountSlice());
-            }
-            navigate(DASHBOARD);
-        } else {
-            navigate(DASHBOARD);
+        if (Object.values(allAccounts).length === 1) {
+            dispatch(resetAccountsSlice());
+            dispatch(resetAccountSlice());
+            navigate(WELCOME);
         }
     };
 

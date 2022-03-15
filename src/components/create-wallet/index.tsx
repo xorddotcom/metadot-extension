@@ -138,11 +138,6 @@ const CreateWallet: React.FunctionComponent = () => {
             generalDispatcher(() => setLoadingForApi(false));
             setIsLoading(false);
             showSuccessModalAndNavigateToDashboard();
-            const isTabOpen = await isTabViewOpened(
-                `${chrome.extension.getURL('index.html')}`
-            );
-            // eslint-disable-next-line no-unused-expressions
-            isTabOpen && chrome.tabs.reload();
         } catch (err) {
             console.log('error n create wallet', err);
         }

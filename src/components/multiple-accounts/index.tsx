@@ -8,11 +8,12 @@ import {
     setPublicKey,
     resetAccountSlice,
 } from '../../redux/slices/activeAccount';
+import { resetAccountsSlice } from '../../redux/slices/accounts';
 import { Wrapper, WrapperScroll } from './styles';
 import { resetTransactions } from '../../redux/slices/transactions';
 import { RootState } from '../../redux/store';
 import services from '../../utils/services';
-import { DASHBOARD, CREATE_DERIVED_ACCOUNT } from '../../constants';
+import { DASHBOARD, CREATE_DERIVED_ACCOUNT, WELCOME } from '../../constants';
 import {
     ParentAccountInterface,
     ChildAccountInterface,
@@ -90,25 +91,10 @@ const MultipleAccounts: React.FunctionComponent = () => {
 
     const deleteAccountHandler = async (publicKey: string): Promise<void> => {
         await deleteAccount(publicKey);
-        if (publicKey === activeAccount.publicKey) {
-            if (Object.keys(allAccounts).length > 1) {
-                if (Object.keys(allAccounts)[0] !== publicKey) {
-                    activateAccountHandler(
-                        Object.values(allAccounts)[0].publicKey,
-                        Object.values(allAccounts)[0].accountName
-                    );
-                } else {
-                    activateAccountHandler(
-                        Object.values(allAccounts)[1].publicKey,
-                        Object.values(allAccounts)[1].accountName
-                    );
-                }
-            } else {
-                dispatch(resetAccountSlice());
-            }
-            navigate('/');
-        } else {
-            navigate('/');
+        if (Object.values(allAccounts).length === 1) {
+            dispatch(resetAccountsSlice());
+            dispatch(resetAccountSlice());
+            navigate(WELCOME);
         }
     };
 

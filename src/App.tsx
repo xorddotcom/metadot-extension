@@ -67,44 +67,33 @@ function App(): JSX.Element {
     }, []);
 
     useEffect(() => {
-        if (accounts) {
-            if (accounts.length > 0) {
-                if (accounts.length !== Object.keys(RdxAccounts).length) {
-                    dispatch(
-                        updateAccounts({
-                            allAccounts: accounts,
-                            prefix: activeAccount.prefix,
-                        })
-                    );
+        if (accounts && accounts.length > 0) {
+            if (accounts.length !== Object.keys(RdxAccounts).length) {
+                dispatch(
+                    updateAccounts({
+                        allAccounts: accounts,
+                        prefix: activeAccount.prefix,
+                    })
+                );
 
-                    dispatch(setLoggedIn(true));
-                    dispatch(
-                        setPublicKey(accounts[accounts.length - 1].address)
-                    );
-                    dispatch(
-                        setAccountName(
-                            accounts[accounts.length - 1].name as string
-                        )
-                    );
-                } else {
-                    dispatch(
-                        updateAccounts({
-                            allAccounts: accounts,
-                            prefix: activeAccount.prefix,
-                        })
-                    );
-                }
+                dispatch(setLoggedIn(true));
+                dispatch(setPublicKey(accounts[accounts.length - 1].address));
+                dispatch(
+                    setAccountName(accounts[accounts.length - 1].name as string)
+                );
             } else {
-                dispatch(setLoggedIn(false));
-                dispatch(setPublicKey(''));
-                dispatch(setAccountName(''));
-                dispatch(resetAccountsSlice());
+                dispatch(
+                    updateAccounts({
+                        allAccounts: accounts,
+                        prefix: activeAccount.prefix,
+                    })
+                );
             }
         }
     }, [accounts]);
 
     useEffect(() => {
-        if (activeAccount.publicKey) {
+        if (activeAccount.publicKey && Object.keys(RdxAccounts).length > 0) {
             dispatch(
                 setAccountName(RdxAccounts[activeAccount.publicKey].accountName)
             );
