@@ -10,17 +10,20 @@ import './index.css';
 import Input from '../common/input';
 
 import {
+    resetAccountSlice,
     setAccountName,
     setLoggedIn,
     setPublicKey,
 } from '../../redux/slices/activeAccount';
 
 import { RootState } from '../../redux/store';
-import { DASHBOARD } from '../../constants';
+import { DASHBOARD, IMPORT_WALLET } from '../../constants';
 import { PASSWORD } from '../../utils/app-content';
 import { MyAccounts } from '../common/modals';
 import { Account } from './types';
 import useDispatcher from '../../hooks/useDispatcher';
+import { ImportLink } from './styles';
+import { resetAccountsSlice } from '../../redux/slices/accounts';
 // import { ImportLink } from './styles';
 
 const { logo } = images;
@@ -187,10 +190,12 @@ function WelcomeBack(): JSX.Element {
                 <ImportLink
                     className={subHeadingfontFamilyClass}
                     onClick={() => {
-                        navigate(IMPORT_WALLET);
+                        generalDispatcher(() => resetAccountsSlice());
+                        generalDispatcher(() => resetAccountSlice());
+                        // navigate(IMPORT_WALLET);
                     }}
                 >
-                    Import Using Secrete Recovery Phrase
+                    Reset your Wallet
                 </ImportLink>
             </p> */}
         </div>

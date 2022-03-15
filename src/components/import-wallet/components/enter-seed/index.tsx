@@ -37,7 +37,7 @@ const index: React.FunctionComponent<EnterSeedInterface> = ({
     useEffect(() => setPassword(''));
 
     return (
-        <div style={{ marginTop: '1rem' }}>
+        <div style={{ marginTop: '1rem', height: 167 }}>
             <form
                 onSubmit={(e) => {
                     e.preventDefault();

@@ -21,6 +21,7 @@ import {
     RE_ENTER_PASSWORD,
     WALLET_NAME_LABEL,
 } from '../../utils/app-content';
+import { resetTransactions } from '../../redux/slices/transactions';
 
 const { ImportIcon, AccountCreate } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
@@ -136,6 +137,7 @@ const CreateWallet: React.FunctionComponent = () => {
             }
             await createAccount(walletName, password, currSeed);
             generalDispatcher(() => setLoadingForApi(false));
+            generalDispatcher(() => resetTransactions());
             setIsLoading(false);
             showSuccessModalAndNavigateToDashboard();
         } catch (err) {

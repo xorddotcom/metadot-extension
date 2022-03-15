@@ -32,6 +32,8 @@ import {
     RESTORE_WALLET,
     RESTORE_WALLET_DESCRIPTION,
 } from '../../utils/app-content';
+import { resetTransactions } from '../../redux/slices/transactions';
+import useDispatcher from '../../hooks/useDispatcher';
 
 const { openOptions, isTabViewOpened } = helpers;
 const { ImportIcon } = images;
@@ -48,6 +50,7 @@ function ImportWallet(): JSX.Element {
     const location = useLocation().pathname;
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const generalDispatcher = useDispatcher();
 
     const currentUser = useSelector((state: RootState) => state);
     const { jsonFileUploadScreen, prefix } = currentUser.activeAccount;
@@ -101,6 +104,7 @@ function ImportWallet(): JSX.Element {
             const res = await createAccountFromJSON(json, password);
             if (res) {
                 dispatch(setJsonFileUploadScreen(false));
+                generalDispatcher(() => resetTransactions());
                 showSuccessModalAndNavigateToDashboard();
             } else {
                 setPasswordError(true);
@@ -263,7 +267,7 @@ function ImportWallet(): JSX.Element {
                     {RESTORE_WALLET_DESCRIPTION}
                 </SubHeading>
             </div>
-            <UnAuthScreensContentWrapper flexDirection="column">
+            <UnAuthScreensContentWrapper flexDirection="column" mb="22px">
                 <MainHeading {...selectTypeHeading}>Select Type : </MainHeading>
                 <Options
                     importButtonHandler={importButtonHandler}
@@ -281,7 +285,11 @@ function ImportWallet(): JSX.Element {
                 )}
 
                 {selectedType === 'json' && (
-                    <div style={{ marginTop: '1rem' }}>
+                    <div
+                        style={{
+                            marginTop: '1rem',
+                        }}
+                    >
                         <UploadJson {...UploadJsonProps} />
                     </div>
                 )}
