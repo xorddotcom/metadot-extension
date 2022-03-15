@@ -50,7 +50,7 @@ export const NetworkModalContent = styled.div`
 `;
 
 export const OptionRow = styled.div<OptionRowPropsInterface>`
-    width: 95%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -60,7 +60,6 @@ export const OptionRow = styled.div<OptionRowPropsInterface>`
     padding-right: -5px;
     opacity: ${(props) => (props.disabled ? 0.4 : 1)};
     cursor: pointer;
-    border-radius: 8px;
 
     &:hover {
         background: rgba(46, 155, 155, 0.26);

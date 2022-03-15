@@ -104,7 +104,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                     handleClose={() => setOpenAccountsOptions(false)}
                     style={{
                         position: 'relative',
-                        width: '300px',
+                        width: '280px',
                         background: '#141414',
                         pb: 3,
                         overflowY: 'scroll',
@@ -155,17 +155,27 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                 <img
                                     src={accountIcon}
                                     alt="lock-icon"
-                                    style={{ marginTop: '-0.2rem' }}
+                                    style={{
+                                        marginTop: '-0.2rem',
+                                        marginLeft: '5px',
+                                    }}
                                 />
                                 &nbsp; &nbsp;
-                                <span style={{ fontSize: '0.85rem' }}>
+                                <span
+                                    style={{
+                                        fontSize: '0.85rem',
+                                        marginLeft: '7px',
+                                    }}
+                                >
                                     {ACCOUNTS_HEADING}
                                 </span>
                             </ListItemIcon>
                             <img
                                 src={rightArrowIcon}
                                 alt="lock-icon"
-                                style={{ marginTop: '-0.2rem' }}
+                                style={{
+                                    marginTop: '-0.2rem',
+                                }}
                             />
                         </MenuItem>
 
@@ -186,10 +196,18 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                 <img
                                     src={ForumOutlinedIcon}
                                     alt="lock-icon"
-                                    style={{ marginTop: '-0.2rem' }}
+                                    style={{
+                                        marginTop: '-0.2rem',
+                                        marginLeft: '5px',
+                                    }}
                                 />
                                 &nbsp; &nbsp;
-                                <span style={{ fontSize: '0.85rem' }}>
+                                <span
+                                    style={{
+                                        fontSize: '0.85rem',
+                                        marginLeft: '7px',
+                                    }}
+                                >
                                     {SUPPORT_TEXT}
                                 </span>
                             </ListItemIcon>
@@ -210,10 +228,18 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                 <img
                                     src={aboutIcon}
                                     alt="lock-icon"
-                                    style={{ marginTop: '-0.2rem' }}
+                                    style={{
+                                        marginTop: '-0.2rem',
+                                        marginLeft: '5px',
+                                    }}
                                 />
                                 &nbsp; &nbsp;
-                                <span style={{ fontSize: '0.85rem' }}>
+                                <span
+                                    style={{
+                                        fontSize: '0.85rem',
+                                        marginLeft: '7px',
+                                    }}
+                                >
                                     {ABOUT_TEXT}
                                 </span>
                             </ListItemIcon>
@@ -236,10 +262,18 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                 <img
                                     src={manageAccess}
                                     alt="lock-icon"
-                                    style={{ marginTop: '-0.2rem' }}
+                                    style={{
+                                        marginTop: '-0.2rem',
+                                        marginLeft: '5px',
+                                    }}
                                 />
                                 &nbsp; &nbsp;
-                                <span style={{ fontSize: '0.85rem' }}>
+                                <span
+                                    style={{
+                                        fontSize: '0.85rem',
+                                        marginLeft: '7px',
+                                    }}
+                                >
                                     Manage Access
                                 </span>
                             </ListItemIcon>
@@ -259,10 +293,18 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                 <img
                                     src={LockOutlinedIcon}
                                     alt="lock-icon"
-                                    style={{ marginTop: '-0.3rem' }}
+                                    style={{
+                                        marginTop: '-0.3rem',
+                                        marginLeft: '5px',
+                                    }}
                                 />
                                 &nbsp; &nbsp;
-                                <span style={{ fontSize: '0.85rem' }}>
+                                <span
+                                    style={{
+                                        fontSize: '0.85rem',
+                                        marginLeft: '7px',
+                                    }}
+                                >
                                     {LOCK_TEXT}
                                 </span>
                             </ListItemIcon>
