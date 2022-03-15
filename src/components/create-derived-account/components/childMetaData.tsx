@@ -21,6 +21,8 @@ import {
 import AccountCard from './account-card';
 
 import { ChildMetaDataInterface } from '../types';
+import { resetTransactions } from '../../../redux/slices/transactions';
+import useDispatcher from '../../../hooks/useDispatcher';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { isUserNameValid } = helpers;
@@ -42,6 +44,8 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
     const [showPassword, setShowPassword] = useState(false);
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const generalDispatcher = useDispatcher();
 
     const passwordErrorMessages = {
         minimumCharacterWarning:
@@ -100,6 +104,7 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
                 password,
                 null
             );
+            generalDispatcher(() => resetTransactions());
             setIsLoading(false);
             showSuccess();
         } catch (err: any) {

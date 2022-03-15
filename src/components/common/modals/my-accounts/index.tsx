@@ -32,7 +32,7 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
         <Modal open={open} onClose={handleClose} className="Dark-bg-network">
             <Box
                 sx={style}
-                className="select-network-modal-style network-scrollbar"
+                className="my-accounts-modal-style network-scrollbar"
             >
                 <div>
                     <TitleDiv>
