@@ -178,7 +178,7 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
                 handleClose={() => setIsTxDetailsModalOpen(false)}
                 txDetailsModalData={txDetailsModalData}
                 style={{
-                    width: '300px',
+                    width: '315px',
                     background: '#141414',
                     position: 'relative',
                     p: 2,

@@ -211,7 +211,11 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                             </SubText2>
                         </VerticalContentDiv>
 
-                        <img src={arrowRight} alt="arrow right" />
+                        <img
+                            style={{ marginTop: '-8%' }}
+                            src={arrowRight}
+                            alt="arrow right"
+                        />
 
                         <VerticalContentDiv>
                             <MainText2
