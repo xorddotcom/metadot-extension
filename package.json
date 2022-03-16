@@ -12,7 +12,7 @@
     "@mui/material": "^5.3.1",
     "@mui/styles": "^5.4.1",
     "@mui/system": "^5.4.0",
-    "@polkadot/api": "^7.6.1",
+    "@polkadot/api": "^7.8.1",
     "@polkadot/api-augment": "^7.7.1",
     "@polkadot/extension-base": "^0.42.7",
     "@polkadot/extension-chains": "^0.42.7",
@@ -22,7 +22,7 @@
     "@polkadot/networks": "^8.4.1",
     "@polkadot/phishing": "^0.8.192",
     "@polkadot/rpc-provider": "^7.8.1",
-    "@polkadot/types": "^7.6.1",
+    "@polkadot/types": "^7.8.1",
     "@polkadot/types-codec": "^7.7.1",
     "@polkadot/ui-keyring": "^1.0.1",
     "@polkadot/ui-settings": "^1.1.1",
@@ -73,7 +73,7 @@
     ]
   },
   "devDependencies": {
-    "@polkadot/types": "^7.6.1",
+    "@polkadot/types": "^7.8.1",
     "@types/chrome": "^0.0.176",
     "@types/jest": "^27.4.0",
     "@types/node": "^17.0.13",

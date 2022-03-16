@@ -1849,7 +1849,7 @@
     "@polkadot/util-crypto" "^8.5.1"
     rxjs "^7.5.5"
 
-"@polkadot/api@7.12.1", "@polkadot/api@^7.1.1", "@polkadot/api@^7.12.1", "@polkadot/api@^7.6.1", "@polkadot/api@^7.8.1":
+"@polkadot/api@7.12.1", "@polkadot/api@^7.1.1", "@polkadot/api@^7.12.1", "@polkadot/api@^7.8.1":
   version "7.12.1"
   resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-7.12.1.tgz#763104212fb92fe9afe6745aaa5bf5a49ad61ac3"
   integrity sha512-kA6o9ZdRsJ9Iis+PyZN8sayrioJmgf8r5cAqnjoCmA+cb9h+FcqLoHe4kojA6uQMsX2PnsunX2nVuFaZSstoSg==
@@ -2076,7 +2076,7 @@
     "@babel/runtime" "^7.17.2"
     "@polkadot/util" "^8.5.1"
 
-"@polkadot/types@7.12.1", "@polkadot/types@^7.1.1", "@polkadot/types@^7.12.1", "@polkadot/types@^7.6.1", "@polkadot/types@^7.8.1":
+"@polkadot/types@7.12.1", "@polkadot/types@^7.1.1", "@polkadot/types@^7.12.1", "@polkadot/types@^7.8.1":
   version "7.12.1"
   resolved "https://registry.yarnpkg.com/@polkadot/types/-/types-7.12.1.tgz#242ab3e8ad19128126d67fe462b30d243c810531"
   integrity sha512-GMqVTXCN6oCJnyAz7NwABez+I42luNyMMbIzIwrYD3XlMsQnnPc2GkhCLjeLf/0InTx/xij+C7z2zma4hYQZtQ==
