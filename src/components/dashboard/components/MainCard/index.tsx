@@ -21,7 +21,7 @@ import {
 } from '../../styledComponents';
 import services from '../../../../utils/services';
 
-const { refreshIcon, ContentCopyIcon, notConnected, connected } = images;
+const { refreshIcon, ContentCopyIconWhite, notConnected, connected } = images;
 const { addressModifier, trimBalance } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { addressMapper } = services;
@@ -116,7 +116,7 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
                     ({addressModifier(addressMapper(address, prefix))})
                 </PublicAddress>
                 <div {...copyIconTooltip}>
-                    <CopyIconImg src={ContentCopyIcon} alt="copy-icon" />
+                    <CopyIconImg src={ContentCopyIconWhite} alt="copy-icon" />
                     <span {...copyIconTooltipText}>{copy}</span>
                 </div>
             </VerticalContentDiv>

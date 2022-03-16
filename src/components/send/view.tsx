@@ -2,7 +2,7 @@ import '@polkadot/api-augment';
 import React from 'react';
 import Header from '../common/header';
 import Button from '../common/button';
-import { MainContent, CenterContent } from './style';
+import { MainContent, CenterContent, Wrapper } from './style';
 import ConfirmSend from '../common/modals/confirmSend';
 import FromInput from './components/from-input';
 import ToInput from './components/to-input';
@@ -12,7 +12,7 @@ import { SendViewProps } from './types';
 const SendView: React.FunctionComponent<SendViewProps> = (props) => {
     const { toInput, amountInput, nextBtn, confirmSend } = props;
     return (
-        <>
+        <Wrapper pb>
             <Header centerText="Send" />
 
             <MainContent>
@@ -24,7 +24,7 @@ const SendView: React.FunctionComponent<SendViewProps> = (props) => {
                 <Button {...nextBtn} />
             </CenterContent>
             <ConfirmSend {...confirmSend} />
-        </>
+        </Wrapper>
     );
 };
 

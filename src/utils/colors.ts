@@ -6,7 +6,7 @@ const colors = {
     darkBackground2: '#1E1E1E',
 
     primaryText: '#fafafa',
-    secondaryText: '#cccccc',
+    secondaryText: 'rgba(248, 248, 248, 0.85)',
     inActiveText: '#8e8e8e',
     warningText: 'rgba(246, 58, 58, 0.7)',
 

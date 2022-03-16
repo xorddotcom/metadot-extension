@@ -13,8 +13,18 @@ import { CalculatedAmountInterface } from './types';
 
 const { primaryText, primaryBackground, darkBackground1 } = colors;
 
+export const Wrapper = styled.div`
+    width: 133%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: ${(props: { pb: string | boolean }) => props.pb && '0'};
+    /* border: 1px solid red; */
+`;
+
 export const MainContent = styled.div`
     margin: 34px auto 25px;
+    width: 100%;
 `;
 
 export const VerticalContentDiv = styled.div<VerticalContentDivPropsInterface>`
@@ -106,6 +116,7 @@ export const CalculatedAmount = styled.div<CalculatedAmountInterface>`
 export const CenterContent = styled.div`
     display: flex;
     justify-content: center;
+    width: 100%;
 `;
 
 export const FlexBetween = styled.div`
