@@ -34,13 +34,14 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
         (state: RootState) => state.activeAccount
     );
 
-    const [copyT, setCopyT] = useState('');
+    const [copyT, setCopyT] = useState('Copy');
 
     const copy = (e: React.ChangeEvent<EventTarget>): void => {
         e.stopPropagation();
         navigator.clipboard.writeText(
             addressMapper(publicKey, activeAccount.prefix)
         );
+        setCopyT('Copied');
     };
 
     const copyIconTooltip = {
@@ -85,15 +86,23 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
                             addressMapper(publicKey, activeAccount.prefix)
                         )}
                     </AccountSubText>
-                    <div
-                        {...copyIconTooltip}
-                        style={{
-                            position: 'relative',
-                            left: '58px',
-                            bottom: '30px',
-                        }}
-                    >
-                        <img src={ContentCopyIcon} alt="copy-icon" />
+                    <div className={`tooltip ${subHeadingfontFamilyClass}`}>
+                        <div
+                            {...copyIconTooltip}
+                            style={{
+                                position: 'relative',
+                                left: '58px',
+                                bottom: '30px',
+                            }}
+                        >
+                            <img src={ContentCopyIcon} alt="copy-icon" />
+                            <span
+                                className="tooltiptext"
+                                style={{ fontSize: '0.7rem' }}
+                            >
+                                {copyT}
+                            </span>
+                        </div>
                     </div>
                 </AccountText>
             </AccountFlex>
