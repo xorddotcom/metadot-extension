@@ -164,7 +164,7 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
                 handleClickForKusama={handleSelectionOnKusamaMainNetwork}
                 style={{
                     position: 'relative',
-                    width: '300px',
+                    width: '285px',
                     background: '#141414',
                     pb: 3,
                     overflowY: 'scroll',

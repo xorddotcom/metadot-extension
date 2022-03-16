@@ -33,7 +33,7 @@ export const SeedText = styled.span`
     border-radius: 8px;
     margin-top: 8px;
     font-size: 14px;
-    color: ${primaryText};
+    color: rgba(248, 248, 248, 0.7);
     background: ${(props: { selected: boolean }) =>
         props.selected === true ? primaryBackground : darkBackground1};
 
