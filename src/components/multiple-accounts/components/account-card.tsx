@@ -16,7 +16,7 @@ import { fonts, images, helpers } from '../../../utils';
 import { RootState } from '../../../redux/store';
 import services from '../../../utils/services';
 
-const { dropDownIcon, activeIcon, ContentCopyIcon } = images;
+const { dropDownIcon, activeIcon, ContentCopyIconWhite } = images;
 const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
 
 const { addressModifier } = helpers;
@@ -95,7 +95,7 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
                                 bottom: '30px',
                             }}
                         >
-                            <img src={ContentCopyIcon} alt="copy-icon" />
+                            <img src={ContentCopyIconWhite} alt="copy-icon" />
                             <span
                                 className="tooltiptext"
                                 style={{ fontSize: '0.7rem' }}
