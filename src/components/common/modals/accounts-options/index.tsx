@@ -72,6 +72,11 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
     const { accounts: allAccounts } = currentUser;
     const { activeAccount } = currentUser;
 
+    const checkIfDervieAccount = (): boolean => {
+        if (allAccounts[activeAccount.publicKey].parentAddress) return true;
+        return false;
+    };
+
     const warnModalHandler = (e: boolean): void => {
         setOpenWarnModal(e);
     };
@@ -208,25 +213,35 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
                                 pb: 3,
                             }}
                         />
-                        {accountOptions.map((account: any) => (
-                            <OptionRow
-                                className="abc"
-                                onClick={() => {
-                                    account.navigation
-                                        ? navigate(account.navigation)
-                                        : dispatch(account.modal(true));
-                                }}
-                            >
-                                <HorizontalContentDiv>
-                                    <img src={account.image} alt="icon" />
-                                    <OptionText
-                                        className={mainHeadingfontFamilyClass}
-                                    >
-                                        {account.name}
-                                    </OptionText>
-                                </HorizontalContentDiv>
-                            </OptionRow>
-                        ))}
+                        {accountOptions.map((account: any) => {
+                            if (
+                                account.name === 'Derive an Account' &&
+                                checkIfDervieAccount()
+                            )
+                                return null;
+
+                            return (
+                                <OptionRow
+                                    className="abc"
+                                    onClick={() => {
+                                        account.navigation
+                                            ? navigate(account.navigation)
+                                            : dispatch(account.modal(true));
+                                    }}
+                                >
+                                    <HorizontalContentDiv>
+                                        <img src={account.image} alt="icon" />
+                                        <OptionText
+                                            className={
+                                                mainHeadingfontFamilyClass
+                                            }
+                                        >
+                                            {account.name}
+                                        </OptionText>
+                                    </HorizontalContentDiv>
+                                </OptionRow>
+                            );
+                        })}
                     </NetworkModalContent>
                 </div>
             </Box>
