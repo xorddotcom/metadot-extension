@@ -46,16 +46,16 @@ export const CopyText = styled.p`
     line-height: 18.75px;
     height: 25px;
     text-align: start;
-    color: rgba(250, 250, 250, 0.8);
+    color: #2e9b9b;
     font-weight: 400;
-    margin-top: 22px;
-    /* position: relative; */
+    margin-top: 18px;
+    position: relative;
 `;
 
 export const CopyIcon = styled.img`
-    /* position: absolute; */
-    /* top: 1px; */
-    /* left: 123px; */
+    position: absolute;
+    top: -12px;
+    left: 0px;
     text-decoration: none !important;
 `;
 

@@ -30,7 +30,7 @@ const {
     SHIBUYA_CONFIG,
     ACALA_CONFIG,
 } = constants;
-const { ContentCopyIcon, arrowRight } = images;
+const { ContentCopyIconWhite, arrowRight } = images;
 const { addressModifier } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -142,7 +142,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                         onFocus={() => console.log('onFocus')}
                                     >
                                         <img
-                                            src={ContentCopyIcon}
+                                            src={ContentCopyIconWhite}
                                             alt="copy-icon"
                                         />
                                         <span
@@ -197,7 +197,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                         onFocus={() => console.log('onFocus')}
                                     >
                                         <img
-                                            src={ContentCopyIcon}
+                                            src={ContentCopyIconWhite}
                                             alt="copy-icon"
                                         />
                                         <span
@@ -240,7 +240,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                         onFocus={() => console.log('onFocus')}
                                     >
                                         <img
-                                            src={ContentCopyIcon}
+                                            src={ContentCopyIconWhite}
                                             alt="copy-icon"
                                         />
                                         <span

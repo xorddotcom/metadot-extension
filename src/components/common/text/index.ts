@@ -17,8 +17,7 @@ export const MainHeading = styled.p<MainHeadingInterface>`
         props.fontSize ? props.fontSize : mainHeadingFontSize};
     line-height: 18.75px;
     text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
-    /* font-size: 16px; */
-    font-weight: ${(props) => props.weight && props.weight};
+    font-weight: ${(props) => (props.weight ? props.weight : '500')};
     color: ${(props) => (props.color ? props.color : primaryText)};
     margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
 `;
@@ -27,6 +26,7 @@ export const SubHeading = styled.p<SubHeadingInterface>`
     font-style: normal;
     color: ${(props) => (props.color ? props.color : secondaryText)};
     text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
+    letter-spacing: 0.32px;
     text-align-last: ${(props) => props.textAlignLast && props.textAlignLast};
     line-height: ${(props) => (props.lineHeight ? props.lineHeight : '22px')};
     font-size: ${(props) =>

@@ -348,9 +348,11 @@ select:-webkit-autofill:focus {
   text-align: center;
   padding: 7px 0;
   position: absolute;
+  top:-50px;
+  left: -10px;
   z-index: 1;
-  bottom: 150%;
-  left: -130%;
+  /* bottom: 140%;
+  left: -120%; */
   margin-left: 0.3rem;
 }
 

@@ -30,10 +30,17 @@ const ShowSeedView: React.FunctionComponent<ShowSeedViewProps> = (props) => {
                 overWriteBackHandler={() => backHandler()}
             />
             <div style={{ marginTop: '29px' }}>
-                <MainHeading className={mainHeadingfontFamilyClass}>
+                <MainHeading
+                    className={mainHeadingfontFamilyClass}
+                    weight="700"
+                >
                     {WRITE_SEED_PHRASE}
                 </MainHeading>
-                <SubHeading className={subHeadingfontFamilyClass}>
+                <SubHeading
+                    className={subHeadingfontFamilyClass}
+                    weight="400"
+                    textAlign="justify"
+                >
                     {WRITE_SEED_PHRASE_DESCRIPTION}
                 </SubHeading>
             </div>

@@ -23,6 +23,7 @@ import ArrowBackIcon from '../assets/images/icons/backArrow.svg';
 import logo from '../assets/images/logo.svg';
 import crossIcon from '../assets/images/icons/cross.svg';
 import ContentCopyIcon from '../assets/images/icons/copyIcon.svg';
+import ContentCopyIconWhite from '../assets/images/icons/copyIcon_white.svg';
 import ImportIcon from '../assets/images/modalIcons/import.svg';
 import AccountCreate from '../assets/images/modalIcons/accountCreate.svg';
 
@@ -48,7 +49,7 @@ import downIcon from '../assets/images/icons/downArrow.svg';
 import upArrowIcon from '../assets/images/icons/upArrow.svg';
 
 import WarningIcon from '../assets/images/icons/warning_cross_icon.png';
-import WarningTriangleIcon from '../assets/images/icons/warning_triangle.png';
+import WarningTriangleIcon from '../assets/images/icons/warning_icon.svg';
 import CheckboxDisabled from '../assets/images/icons/checkbox_disabled.svg';
 import CheckboxEnabled from '../assets/images/icons/checkbox_enabled.svg';
 
@@ -143,4 +144,5 @@ export default {
     backIcon,
     greenCheck,
     connected,
+    ContentCopyIconWhite,
 };

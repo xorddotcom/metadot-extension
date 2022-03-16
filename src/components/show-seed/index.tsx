@@ -25,32 +25,10 @@ const ShowSeed: React.FunctionComponent = () => {
         setCopy('Copied');
     };
 
-    function getJsonBackup(seedPhrase: string): void {
-        try {
-            const jsonContent = seedPhrase;
-
-            // ***Download JSON file***
-            const fileName = 'seed';
-            const data = JSON.stringify(jsonContent);
-            const blob = new Blob([data], { type: 'application/json' });
-            const href = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = href;
-            link.download = `${fileName}.txt`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            // ***Download JSON file***
-        } catch (e) {
-            console.log('error in backup func', e);
-        }
-    }
-
     const contentCopyIconDivProps = {
         id: 'copy-seed',
         onClick: () => {
             copySeedText();
-            getJsonBackup(currSeed);
         },
         onMouseOver: () => setCopy('Copy'),
         style: { cursor: 'pointer' },

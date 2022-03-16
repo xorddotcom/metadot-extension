@@ -3,7 +3,10 @@
   background-color: rgba(20, 20, 20);
   width: 100%;
   height: 100vh;
-  /* border: 1px solid green; */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 .primary-text-color {
   color: '#fafafa';

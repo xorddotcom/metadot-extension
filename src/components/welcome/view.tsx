@@ -8,7 +8,7 @@ import { WelcomeViewProps } from './types';
 import './index.css';
 
 const { logo, FileDownloadOutlinedIcon, AddSharpIcon, metaDot } = images;
-const { subHeadingfontFamilyClass } = fonts;
+const { subHeadingfontFamilyClass, mainHeadingFontSize } = fonts;
 
 const WelcomeView: React.FunctionComponent<WelcomeViewProps> = (
     props
@@ -22,13 +22,15 @@ const WelcomeView: React.FunctionComponent<WelcomeViewProps> = (
 
             <div className="main-content">
                 <MainHeading textAlign="center">
-                    <img src={metaDot} alt="metadot" />
+                    <img src={metaDot} alt="metadot" style={{ width: '93%' }} />
                 </MainHeading>
                 <SubHeading
                     className={subHeadingfontFamilyClass}
                     textAlign="center"
+                    fontSize={mainHeadingFontSize}
+                    lineHeight="30px"
                 >
-                    Your Gateway To Polkadot <br /> And Its Parachains.
+                    Your Gateway To Polkadot And <br /> Its Parachains.
                 </SubHeading>
             </div>
 

@@ -2,7 +2,7 @@ import './index.css';
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { SubHeading } from '../common/text';
-import { colors, images } from '../../utils';
+import { colors, images, fonts } from '../../utils';
 import {
     HorizontalContentDiv,
     VerticalContentDiv,
@@ -13,6 +13,7 @@ import { CONFIRM_SEED } from '../../constants';
 
 const { CheckboxDisabled, WarningTriangleIcon, CheckboxEnabled } = images;
 const { green } = colors;
+const { subHeadingfontFamilyClass } = fonts;
 
 const PopupAuth: React.FunctionComponent = (): JSX.Element => {
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ const PopupAuth: React.FunctionComponent = (): JSX.Element => {
 
     return (
         <Wrapper
-            height="570px"
+            height="600px"
             style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -35,11 +36,14 @@ const PopupAuth: React.FunctionComponent = (): JSX.Element => {
             <VerticalContentDiv>
                 <Header centerText="Seed Phrase" />
 
-                <SubHeading marginTop="30px">
-                    Your <span style={{ color: green }}>Seed Phrase</span> is a
-                    12-word phrase that is the
-                    <span style={{ color: green }}> Master Key</span> to your
-                    wallet and your funds.
+                <SubHeading
+                    marginTop="30px"
+                    className={subHeadingfontFamilyClass}
+                >
+                    Your <span style={{ color: '#2e9b9b' }}>Seed Phrase</span>{' '}
+                    is a 12-word phrase that is the
+                    <span style={{ color: '#2e9b9b' }}> Master Key</span> to
+                    your wallet and your funds.
                 </SubHeading>
 
                 <VerticalContentDiv warningDiv marginTop="30px">
@@ -47,23 +51,33 @@ const PopupAuth: React.FunctionComponent = (): JSX.Element => {
                         src={WarningTriangleIcon}
                         alt="warning"
                         className="warning-icons"
-                        style={{ height: '15px', width: '15px' }}
+                        style={{ height: '16px', width: '16px' }}
                     />
-                    <SubHeading color="#FAFAFA" opacity="0.7" fontSize="14px">
+                    <SubHeading
+                        color="#FAFAFA"
+                        opacity="0.7"
+                        fontSize="14px"
+                        className={subHeadingfontFamilyClass}
+                    >
                         Never share your Seed Phrase, If someone is asking you
                         for your Seed Phrase, they are likely trying to steal
                         your funds.
                     </SubHeading>
                 </VerticalContentDiv>
-                <HorizontalContentDiv>
+                <HorizontalContentDiv
+                    onClick={() => setCheck(!check)}
+                    style={{ cursor: 'pointer' }}
+                >
                     <img
                         src={check ? CheckboxEnabled : CheckboxDisabled}
                         alt="Check"
-                        onClick={() => setCheck(!check)}
                         aria-hidden
                         style={{ height: '15px', width: '15px' }}
                     />
-                    <SubHeading style={{ marginLeft: '15px' }}>
+                    <SubHeading
+                        style={{ marginLeft: '15px' }}
+                        className={subHeadingfontFamilyClass}
+                    >
                         Yes, I have stored my seed phrase.
                     </SubHeading>
                 </HorizontalContentDiv>
