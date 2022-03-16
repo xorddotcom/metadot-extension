@@ -17,18 +17,26 @@ const Support: React.FunctionComponent = () => {
                 <MainHeading className={mainHeadingfontFamilyClass}>
                     How may we help you ?
                 </MainHeading>
-                <SubHeading className={subHeadingfontFamilyClass}>
+                <SubHeading
+                    className={subHeadingfontFamilyClass}
+                    fontSize="14px"
+                    opacity="0.8"
+                >
                     Metadot support regarding any query is available in our
                     community channels. Remember, Metadot will not ask for your
                     seed phrase or your password, by any means!
                 </SubHeading>
             </MainDiv>
 
-            <MainDiv mt="60px">
+            <MainDiv mt="50px">
                 <MainHeading className={mainHeadingfontFamilyClass}>
                     Our Communities
                 </MainHeading>
-                <SubHeading className={subHeadingfontFamilyClass}>
+                <SubHeading
+                    className={subHeadingfontFamilyClass}
+                    fontSize="14px"
+                    opacity="0.8"
+                >
                     Join the discussions in our communities to learn more. If
                     you have any application specific complaints, you can use
                     the “Metadot Support” channel on our discord community to

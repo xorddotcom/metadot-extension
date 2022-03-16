@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const SocialDiv = styled.div`
-    margin-top: 1rem;
+    margin-top: 20px;
     width: 60%;
     display: flex;
     justify-content: space-between;

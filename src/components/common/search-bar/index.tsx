@@ -22,8 +22,8 @@ const SearchBar: React.FunctionComponent<Props> = ({
                 src={SearchIcon}
                 alt="search"
                 style={{
-                    height: '13px',
-                    width: '13px',
+                    height: '14px',
+                    width: '14px',
                     marginLeft: '15px',
                 }}
             />
@@ -36,7 +36,8 @@ const SearchBar: React.FunctionComponent<Props> = ({
                     border: 'none',
                     width: '80%',
                     marginLeft: '15px',
-                    color: 'white',
+                    color: '#FAFAFA',
+                    opacity: '0.8',
                 }}
                 id={id}
             />

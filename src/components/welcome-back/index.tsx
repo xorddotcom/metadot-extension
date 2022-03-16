@@ -43,6 +43,9 @@ function WelcomeBack(): JSX.Element {
     const { accountName, publicKey } = useSelector(
         (state: RootState) => state.activeAccount
     );
+    const allAccounts = useSelector((state: RootState) =>
+        Object.values(state.accounts)
+    );
     const generalDispatcher = useDispatcher();
 
     const [accountToLogin, setAccountToLogin] = useState<Account>({
@@ -129,7 +132,10 @@ function WelcomeBack(): JSX.Element {
         type: 'text',
         disabled: true,
         marginBottom: '20px',
-        rightIconDropDown: true,
+        rightIconDropDown: allAccounts.length !== 1,
+    };
+    const handleClick = (): void => {
+        if (allAccounts.length !== 1) setIsModalOpen(true);
     };
 
     return (
@@ -149,7 +155,7 @@ function WelcomeBack(): JSX.Element {
                     Welcome Back
                 </MainHeading>
 
-                <div aria-hidden onClick={() => setIsModalOpen(true)}>
+                <div aria-hidden onClick={handleClick}>
                     <Input
                         id="username"
                         {...usernameInput}

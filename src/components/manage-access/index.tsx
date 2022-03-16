@@ -10,6 +10,7 @@ import SearchBar from '../common/search-bar';
 import ManageAccessCard from './card';
 import { getAuthList, toggleAuthorization } from '../../messaging';
 import { fonts } from '../../utils';
+import { SubHeading } from '../common/text';
 
 const { subHeadingfontFamilyClass } = fonts;
 
@@ -47,10 +48,21 @@ function ManageAccess(): JSX.Element {
             <VerticalContentDiv style={{ marginTop: '30px' }}>
                 {!authList || !Object.entries(authList)?.length ? (
                     <div
-                        style={{ color: 'white' }}
-                        className={`empty-list ${subHeadingfontFamilyClass}`}
+                        style={{
+                            height: '420px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
                     >
-                        No website request yet!
+                        <SubHeading
+                            color="#FAFAFA"
+                            opacity="0.7"
+                            fontSize="18px"
+                            mb="135px"
+                        >
+                            No website request yet!
+                        </SubHeading>
                     </div>
                 ) : (
                     <div className="website-list">
