@@ -55,7 +55,7 @@ export const ABOUT_METADOT = `About Metadot Wallet`;
 export const ABOUT_METADOT_DESCRIPTION = `Metadot wallet is your 
 one-stop easy-to-use gateway to Polkadot and its parachains.`;
 
-export const CREATE_WALLET_HEADER = `Authentication`;
+export const CREATE_WALLET_HEADER = `Create`;
 export const CREATE_WALLET_DESCRIPTION = `Create your wallet
  name and your password. Make sure that you memorise or save your password.`;
 
