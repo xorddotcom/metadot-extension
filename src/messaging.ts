@@ -261,12 +261,14 @@ export async function jsonRestore(
 export async function signTransaction(
     address: string,
     password: string,
-    transaction: any
+    transaction: any,
+    type: string
 ): Promise<any> {
     return sendMessage('pri(accounts.sign)', {
         address,
         password,
         transaction,
+        type,
     });
 }
 

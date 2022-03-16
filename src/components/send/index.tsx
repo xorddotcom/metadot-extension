@@ -188,7 +188,12 @@ const Send: React.FunctionComponent = () => {
             const txHex = txPayload.toU8a(true);
             let signature;
             try {
-                signature = await signTransaction(address, password, txHex);
+                signature = await signTransaction(
+                    address,
+                    password,
+                    txHex,
+                    'substrate'
+                );
             } catch (err) {
                 setLoading2(false);
                 throw new Error('Invalid Password!');

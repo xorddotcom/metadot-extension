@@ -21,12 +21,14 @@ function GenerateSeedPhrase(): string {
 async function signTransaction(
     address: string,
     password: string,
-    txHex: string
+    txHex: string,
+    type: string
 ): Promise<any> {
     const { signature } = await signTransactionMessage(
         address,
         password,
-        txHex
+        txHex,
+        type
     );
     return signature;
 }
