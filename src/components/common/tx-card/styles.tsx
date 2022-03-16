@@ -53,9 +53,10 @@ export const TxDateRow = styled.p<TxDateRowInterface>`
     border-bottom: 0.5px solid rgba(250, 250, 250, 0.1);
     line-height: 14px;
     letter-spacing: 0.01em;
-    color: ${(props) => (props.color ? props.color : '#ffffff')};
-    margin-top: 0px;
+    color: ${(props) => (props.color ? props.color : '#FFFFFF')};
+    margin-top: 4px;
     margin-bottom: 3px;
     text-align: start;
     padding: 9px 9px 9px 0px;
+    opacity: 80%;
 `;

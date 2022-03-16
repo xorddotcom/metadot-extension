@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
     Account,
@@ -16,7 +16,7 @@ import { fonts, images, helpers } from '../../../utils';
 import { RootState } from '../../../redux/store';
 import services from '../../../utils/services';
 
-const { dropDownIcon, activeIcon } = images;
+const { dropDownIcon, activeIcon, ContentCopyIcon } = images;
 const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
 
 const { addressModifier } = helpers;
@@ -33,6 +33,23 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
     const activeAccount = useSelector(
         (state: RootState) => state.activeAccount
     );
+
+    const [copyT, setCopyT] = useState('');
+
+    const copy = (e: React.ChangeEvent<EventTarget>): void => {
+        e.stopPropagation();
+        navigator.clipboard.writeText(
+            addressMapper(publicKey, activeAccount.prefix)
+        );
+    };
+
+    const copyIconTooltip = {
+        id: 'copy-icon',
+        // className: `main-card-tooltip ${mainHeadingfontFamilyClass}`,
+        onClick: copy,
+        onMouseOver: () => setCopyT('Copy'),
+        style: { cursor: 'pointer' },
+    };
 
     return (
         <Account
@@ -68,6 +85,16 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
                             addressMapper(publicKey, activeAccount.prefix)
                         )}
                     </AccountSubText>
+                    <div
+                        {...copyIconTooltip}
+                        style={{
+                            position: 'relative',
+                            left: '58px',
+                            bottom: '30px',
+                        }}
+                    >
+                        <img src={ContentCopyIcon} alt="copy-icon" />
+                    </div>
                 </AccountText>
             </AccountFlex>
 

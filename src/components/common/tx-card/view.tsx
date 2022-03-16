@@ -43,7 +43,8 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
                                     color={
                                         status === 'Failed' ? red : '#02CC53'
                                     }
-                                    fontSize="12px"
+                                    fontSize="13px"
+                                    fontWeight="400"
                                 >
                                     <img
                                         src={greenCheck}
