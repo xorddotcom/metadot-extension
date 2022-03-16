@@ -23,10 +23,10 @@ const AssetCardView: React.FunctionComponent<ViewProps> = ({
         text: 'Send',
         style: {
             width: '65px',
-            height: '21px',
+            height: '22px',
             borderRadius: '4px',
             fontSize: '10px',
-            marginTop: 8,
+            marginTop: 10,
         },
         handleClick: () => navigate(SEND),
         disabled: !!apiInitializationStarts,

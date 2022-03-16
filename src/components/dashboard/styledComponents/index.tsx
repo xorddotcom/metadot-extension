@@ -146,7 +146,7 @@ export const OptionsName = styled.p`
 
 export const MoreOptions = styled.div`
     position: absolute;
-    right: 12px;
+    right: 23px;
     top: 12px;
     display: flex;
     align-items: center;

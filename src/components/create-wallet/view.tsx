@@ -59,7 +59,7 @@ const CreateWalletView: React.FunctionComponent<CreateWalletViewProps> = (
                     }}
                 >
                     <LabelAndTextWrapper>
-                        <SubHeading {...walletNameText}>
+                        <SubHeading {...walletNameText} mb="0px" weight="700">
                             {WALLET_NAME_LABEL}
                         </SubHeading>
                         <Input
@@ -82,7 +82,8 @@ const CreateWalletView: React.FunctionComponent<CreateWalletViewProps> = (
                         <SubHeading
                             className={mainHeadingfontFamilyClass}
                             marginTop="0px"
-                            mb="10px"
+                            mb="0px"
+                            weight="700"
                         >
                             {PASSWORD_LABEL}
                         </SubHeading>
@@ -101,6 +102,7 @@ const CreateWalletView: React.FunctionComponent<CreateWalletViewProps> = (
                             mb="0"
                             textLightColor
                             marginTop="5px"
+                            lineHeight="15px"
                             className={subHeadingfontFamilyClass}
                             style={
                                 passwordError === passwordValidation
@@ -118,7 +120,8 @@ const CreateWalletView: React.FunctionComponent<CreateWalletViewProps> = (
                         <SubHeading
                             className={mainHeadingfontFamilyClass}
                             marginTop="25px"
-                            mb="10px"
+                            mb="0px"
+                            weight="700"
                         >
                             {CONFIRM_PASSWORD_LABEL}
                         </SubHeading>
