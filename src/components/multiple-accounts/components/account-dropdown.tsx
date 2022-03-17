@@ -58,6 +58,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
         onConfirm: () => {
             setIsLoading(true);
             deleteAccount(account.publicKey);
+            setOpenWarnModal(false);
             setIsLoading(false);
         },
         style: {
