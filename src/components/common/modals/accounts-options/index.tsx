@@ -72,8 +72,12 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
     const { accounts: allAccounts } = currentUser;
     const { activeAccount } = currentUser;
 
-    const checkIfDervieAccount = (): boolean => {
-        if (allAccounts[activeAccount.publicKey].parentAddress) return true;
+    const checkIfDerivedAccount = (): boolean => {
+        if (
+            activeAccount.publicKey &&
+            allAccounts[activeAccount.publicKey]?.parentAddress
+        )
+            return true;
         return false;
     };
 
@@ -216,7 +220,7 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
                         {accountOptions.map((account: any) => {
                             if (
                                 account.name === 'Derive an Account' &&
-                                checkIfDervieAccount()
+                                checkIfDerivedAccount()
                             )
                                 return null;
 
