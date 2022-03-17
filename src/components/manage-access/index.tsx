@@ -35,7 +35,7 @@ function ManageAccess(): JSX.Element {
     }, []);
 
     return (
-        <Wrapper>
+        <Wrapper width="89%">
             <Header centerText="Manage Website Access" />
 
             <SearchBar

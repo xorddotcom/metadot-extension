@@ -50,7 +50,7 @@ const {
     RemoveIcon,
     FileUploadOutlinedIcon,
     derivedAccountIcon,
-    FileDownloadOutlinedIcon,
+    Importicon,
     AddSharpIcon,
 } = images;
 const { mainHeadingfontFamilyClass } = fonts;
@@ -146,7 +146,7 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
     const accountOptions = [
         { name: 'View Accounts', image: visibilityOn, navigation: ACCOUNTS },
         {
-            name: 'Create Account',
+            name: 'Add Account',
             image: AddSharpIcon,
             modal: () => accountCreation(),
         },
@@ -157,7 +157,7 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
         },
         {
             name: 'Import Account',
-            image: FileDownloadOutlinedIcon,
+            image: Importicon,
             navigation: IMPORT_WALLET,
         },
         {

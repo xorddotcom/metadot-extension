@@ -78,7 +78,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
 
         const currentChain = chains.filter((chain) => chain.name === chainName);
 
-        return `${currentChain[0].explorer}${txHash}`;
+        return `${currentChain[0].explorer}extrinsic/${txHash}`;
     };
     return (
         <Modal open={open} onClose={handleClose}>

@@ -169,7 +169,7 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
                     pb: 3,
                     overflowY: 'scroll',
                     overflowX: 'hidden',
-                    marginTop: '9rem',
+                    marginBottom: '220px',
                 }}
                 isLoading={isLoading}
             />

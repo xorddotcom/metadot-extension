@@ -93,10 +93,10 @@ export const PlainIcon = styled.div<PlainIconPropsInterface>`
 export const OptionText = styled.div`
     margin-left: 20px;
     line-height: 16px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     color: ${primaryText};
     opacity: 0.8;
-    font-size: 0.9rem;
+    font-size: 14px;
 `;
 
 export const NextIcon = styled.div`

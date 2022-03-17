@@ -12,13 +12,18 @@ import { setLoggedIn } from '../../../../redux/slices/activeAccount';
 import { setAuthScreenModal } from '../../../../redux/slices/modalHandling';
 
 import { About, AuthModal, AccountOptions } from '../../../common/modals';
-import { fonts, images } from '../../../../utils';
+import { fonts, helpers, images } from '../../../../utils';
 import account from '../../../../utils/accounts';
 
 import { DropDownMainText } from '../../styledComponents';
 import { DropDownProps } from '../../types';
 import { RootState } from '../../../../redux/store';
-import { ACCOUNTS, IMPORT_WALLET, SUPPORT } from '../../../../constants';
+import {
+    ACCOUNTS,
+    DASHBOARD,
+    IMPORT_WALLET,
+    SUPPORT,
+} from '../../../../constants';
 import {
     MY_PROFILE,
     ACCOUNTS_HEADING,
@@ -29,6 +34,7 @@ import {
     LOCK_TEXT,
 } from '../../../../utils/app-content';
 import manageAccess from '../../../../assets/images/icons/manage_access_logo.svg';
+import constants from '../../../../constants/onchain';
 
 const {
     accountIcon,
@@ -36,18 +42,31 @@ const {
     ForumOutlinedIcon,
     aboutIcon,
     rightArrowIcon,
-    FileUploadOutlinedIcon,
-    FileDownloadOutlinedIcon,
+    externalLink,
+    expandView,
 } = images;
 const { mainHeadingfontFamilyClass } = fonts;
 const { getJsonBackup } = account;
+const { openOptions } = helpers;
+
+const {
+    CONTEXTFREE_CONFIG,
+    POLKADOT_CONFIG,
+    KUSAMA_CONFIG,
+    SHIDEN_CONFIG,
+    KARURA_CONFIG,
+    WESTEND_CONFIG,
+    ASTAR_CONFIG,
+    SHIBUYA_CONFIG,
+    ACALA_CONFIG,
+} = constants;
 
 const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
     const { open, handleClose, anchorEl } = props;
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { modalHandling } = useSelector((state: RootState) => state);
-    const { publicKey } = useSelector(
+    const { publicKey, chainName } = useSelector(
         (state: RootState) => state.activeAccount
     );
 
@@ -65,6 +84,28 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
 
     const onSelection = (): void => {
         handleClose();
+    };
+
+    const getURl = (address: string): string => {
+        const chains = [
+            CONTEXTFREE_CONFIG,
+            POLKADOT_CONFIG,
+            KUSAMA_CONFIG,
+            SHIDEN_CONFIG,
+            KARURA_CONFIG,
+            WESTEND_CONFIG,
+            ASTAR_CONFIG,
+            SHIBUYA_CONFIG,
+            ACALA_CONFIG,
+        ];
+
+        const currentChain = chains.filter((chain) => chain.name === chainName);
+
+        const url = currentChain[0].explorer.length
+            ? `${currentChain[0].explorer}account/${address}`
+            : `https://polkadot.subscan.io/account/${address}`;
+
+        return url;
     };
 
     return (
@@ -104,12 +145,12 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                     handleClose={() => setOpenAccountsOptions(false)}
                     style={{
                         position: 'relative',
-                        width: '250px',
+                        width: '275px',
                         background: '#141414',
                         pb: 3,
                         overflowY: 'scroll',
                         overflowX: 'hidden',
-                        marginTop: '9rem',
+                        marginBottom: '30vh',
                     }}
                     onSelection={onSelection}
                     // open, handleClose, style, onSelection
@@ -119,14 +160,14 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                 <Paper
                     id="paper"
                     style={{
-                        width: '210px',
-                        marginLeft: '-4.9rem',
-                        marginTop: '-1rem',
+                        width: '247px',
+                        marginLeft: '-120px',
+                        marginTop: '-16px',
                         backgroundColor: '#212121',
                         border: '0.9px solid #219A9A',
                         boxShadow: '0px 0px 20px 5px rgba(33, 154, 154, 0.08)',
                         borderRadius: '8px',
-                        paddingBottom: '0.7rem',
+                        paddingBottom: '11.2px',
                     }}
                 >
                     <MenuList id="menu-list">
@@ -156,14 +197,14 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                     src={accountIcon}
                                     alt="lock-icon"
                                     style={{
-                                        marginTop: '-0.2rem',
+                                        marginTop: '-3.2px',
                                         marginLeft: '5px',
                                     }}
                                 />
                                 &nbsp; &nbsp;
                                 <span
                                     style={{
-                                        fontSize: '0.85rem',
+                                        fontSize: '14px',
                                         marginLeft: '7px',
                                     }}
                                 >
@@ -174,9 +215,111 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                 src={rightArrowIcon}
                                 alt="lock-icon"
                                 style={{
-                                    marginTop: '-0.2rem',
+                                    marginTop: '-3.2px',
                                 }}
                             />
+                        </MenuItem>
+
+                        <MenuItem
+                            style={{
+                                minHeight: '37px',
+                                color: '#fafafa',
+                                fontSize: '15px',
+                            }}
+                            onClick={() => {
+                                const url = `${chrome.extension.getURL(
+                                    'index.html'
+                                )}#${DASHBOARD}`;
+                                openOptions(url);
+                            }}
+                        >
+                            <ListItemIcon
+                                className="flexStart"
+                                style={{ color: '#fafafa' }}
+                            >
+                                <img
+                                    src={expandView}
+                                    alt="lock-icon"
+                                    style={{
+                                        marginTop: '-3.2px',
+                                        marginLeft: '5px',
+                                    }}
+                                />
+                                &nbsp; &nbsp;
+                                <span
+                                    style={{
+                                        fontSize: '14px',
+                                        marginLeft: '7px',
+                                    }}
+                                >
+                                    Expand view
+                                </span>
+                            </ListItemIcon>
+                        </MenuItem>
+                        <MenuItem
+                            style={{
+                                minHeight: '37px',
+                                color: '#fafafa',
+                                fontSize: '15px',
+                            }}
+                            onClick={() => window.open(getURl(publicKey))}
+                        >
+                            <ListItemIcon
+                                className="flexStart"
+                                style={{ color: '#fafafa' }}
+                            >
+                                <img
+                                    src={externalLink}
+                                    alt="lock-icon"
+                                    style={{
+                                        marginTop: '-3.2px',
+                                        marginLeft: '5px',
+                                    }}
+                                />
+                                &nbsp; &nbsp;
+                                <span
+                                    style={{
+                                        fontSize: '14px',
+                                        marginLeft: '7px',
+                                    }}
+                                >
+                                    View on Explorer
+                                </span>
+                            </ListItemIcon>
+                        </MenuItem>
+
+                        <MenuItem
+                            style={{
+                                minHeight: '37px',
+                                color: '#fafafa',
+                                fontSize: '15px',
+                            }}
+                            onClick={() => {
+                                navigate('/manageAccess');
+                            }}
+                        >
+                            <ListItemIcon
+                                className="flexStart"
+                                style={{ color: '#fafafa' }}
+                            >
+                                <img
+                                    src={manageAccess}
+                                    alt="lock-icon"
+                                    style={{
+                                        marginTop: '-3.2px',
+                                        marginLeft: '5px',
+                                    }}
+                                />
+                                &nbsp; &nbsp;
+                                <span
+                                    style={{
+                                        fontSize: '14px',
+                                        marginLeft: '7px',
+                                    }}
+                                >
+                                    Manage Website Access
+                                </span>
+                            </ListItemIcon>
                         </MenuItem>
 
                         <MenuItem
@@ -197,14 +340,14 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                     src={ForumOutlinedIcon}
                                     alt="lock-icon"
                                     style={{
-                                        marginTop: '-0.2rem',
+                                        marginTop: '-3.2px',
                                         marginLeft: '5px',
                                     }}
                                 />
                                 &nbsp; &nbsp;
                                 <span
                                     style={{
-                                        fontSize: '0.85rem',
+                                        fontSize: '14px',
                                         marginLeft: '7px',
                                     }}
                                 >
@@ -229,52 +372,18 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                     src={aboutIcon}
                                     alt="lock-icon"
                                     style={{
-                                        marginTop: '-0.2rem',
+                                        marginTop: '-3.2px',
                                         marginLeft: '5px',
                                     }}
                                 />
                                 &nbsp; &nbsp;
                                 <span
                                     style={{
-                                        fontSize: '0.85rem',
+                                        fontSize: '14px',
                                         marginLeft: '7px',
                                     }}
                                 >
                                     {ABOUT_TEXT}
-                                </span>
-                            </ListItemIcon>
-                        </MenuItem>
-
-                        <MenuItem
-                            style={{
-                                minHeight: '37px',
-                                color: '#fafafa',
-                                fontSize: '15px',
-                            }}
-                            onClick={() => {
-                                navigate('/manageAccess');
-                            }}
-                        >
-                            <ListItemIcon
-                                className="flexStart"
-                                style={{ color: '#fafafa' }}
-                            >
-                                <img
-                                    src={manageAccess}
-                                    alt="lock-icon"
-                                    style={{
-                                        marginTop: '-0.2rem',
-                                        marginLeft: '5px',
-                                    }}
-                                />
-                                &nbsp; &nbsp;
-                                <span
-                                    style={{
-                                        fontSize: '0.85rem',
-                                        marginLeft: '7px',
-                                    }}
-                                >
-                                    Manage Access
                                 </span>
                             </ListItemIcon>
                         </MenuItem>
@@ -294,14 +403,14 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                     src={LockOutlinedIcon}
                                     alt="lock-icon"
                                     style={{
-                                        marginTop: '-0.3rem',
+                                        marginTop: '-4.8px',
                                         marginLeft: '5px',
                                     }}
                                 />
                                 &nbsp; &nbsp;
                                 <span
                                     style={{
-                                        fontSize: '0.85rem',
+                                        fontSize: '14px',
                                         marginLeft: '7px',
                                     }}
                                 >
@@ -325,7 +434,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                     padding: '0 20px',
                     pb: 3,
                     height: '320px',
-                    marginTop: '7rem',
+                    marginTop: '112px',
                 }}
             />
             <AuthModal
