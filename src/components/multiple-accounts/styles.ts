@@ -85,6 +85,7 @@ export const AccountCircle = styled.div`
 export const AccountText = styled.div`
     margin-left: '1rem';
     cursor: pointer;
+    text-align: left;
 `;
 
 export const AccountMainText = styled.p`

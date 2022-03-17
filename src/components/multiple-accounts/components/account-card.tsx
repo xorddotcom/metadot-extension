@@ -86,13 +86,16 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
                             addressMapper(publicKey, activeAccount.prefix)
                         )}
                     </AccountSubText>
-                    <div className={`tooltip ${subHeadingfontFamilyClass}`}>
+                    <div
+                        style={{ position: 'absolute' }}
+                        className={`tooltip ${subHeadingfontFamilyClass}`}
+                    >
                         <div
                             {...copyIconTooltip}
                             style={{
-                                position: 'relative',
-                                left: '58px',
-                                bottom: '30px',
+                                position: 'absolute',
+                                left: '112px',
+                                bottom: '14px',
                             }}
                         >
                             <img src={ContentCopyIconWhite} alt="copy-icon" />
