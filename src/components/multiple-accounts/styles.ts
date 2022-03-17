@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { colors, fonts } from '../../utils';
 import { MainTextInterface } from './types';
 
-const { darkBackground1, primaryText } = colors;
+const { darkBackground1, darkBackground, primaryText } = colors;
 const { mainHeadingFontSize } = fonts;
 
 export const Wrapper = styled.div`
@@ -12,7 +12,7 @@ export const Wrapper = styled.div`
     max-height: 100%;
     height: 556px;
     position: relative;
-    background: rgba(20, 20, 20);
+    background: ${darkBackground};
 `;
 
 export const WrapperScroll = styled.div`

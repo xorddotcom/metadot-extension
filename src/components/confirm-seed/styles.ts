@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import { fonts, colors } from '../../utils';
 
 const { mainHeadingFontSize } = fonts;
-const { primaryText, darkBackground1, primaryBackground } = colors;
+const { primaryText, darkBackground1, secondaryBlack, primaryBackground } =
+    colors;
 
 export const SeedWrapper = styled.div`
     background-color: ${darkBackground1};
@@ -35,7 +36,7 @@ export const SeedText = styled.span`
     font-size: 14px;
     color: rgba(248, 248, 248, 0.7);
     background: ${(props: { selected: boolean }) =>
-        props.selected === true ? primaryBackground : darkBackground1};
+        props.selected === true ? primaryBackground : secondaryBlack};
 
     &:hover {
         background-color: ${primaryBackground} !important;
@@ -51,8 +52,9 @@ export const SeedGridRow = styled.div`
 `;
 
 export const SeedGrid = styled.div`
-    border: 1px solid ${darkBackground1};
+    border: 1px solid rgba(255, 255, 255, 0.06);
     box-sizing: border-box;
+    backdrop-filter: blur(10px);
     border-radius: 8px;
     padding: 10px;
     width: 100%;

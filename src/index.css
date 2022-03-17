@@ -11,17 +11,7 @@ html,
 body {
   scrollbar-width: none;
 }
-/* getting font family */
-/* @font-face {
-  font-family: 'Roboto', sans-serif;
-  src: url('./assets/fonts/Roboto-Bold.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'Roboto', sans-serif;
-  src: url('./assets/fonts/Roboto-Regular.ttf') format('truetype');
-} */
 
-/* creating classess for font family we just imported above */
 .font-face-robotoB {
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
@@ -33,6 +23,8 @@ body {
 
 :root {
   --primaryBackground: #2e9b9b;
+  --darkBackground: #1F1F1F;
+  --extremeBlack: #1C1B1B;
   --primaryText: #fafafa;
   --boxShadowColor: rgba(46, 155, 155, 0.1);
   --tooltipColor: #333333;
@@ -67,16 +59,12 @@ html {
   }
 }
 
-/* *{
-  border: 1px solid white;
-} */
-
 body {
   width: 357px;
   height: 600px;
   font-size: 16ox;
   margin: 0 auto;
-  background-color: rgba(20, 20, 20);
+  background-color: var(--darkBackground);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -260,48 +248,6 @@ input::-webkit-inner-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
-
-/* Change the white to any color
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 35px #212121 inset !important;
-    border-radius: 8px;
-    
-} */
-    /* width: ${(props) =>
-        props.inputWrapperWidth ? props.inputWrapperWidth : '100%'};
-    height: 45px;
-    border: ${(props) => (props.isCorrect === false ? '1px solid red' : '0px')};
-    border-radius: 8px;
-    background-color: ${darkBackground1};
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    opacity: ${(props) => (props.disabled ? 0.5 : 1)};
-    margin-bottom: ${(props) => props.marginBottom && props.marginBottom}; */
-
-    /* Change autocomplete styles in WebKit */
-/* input,
-input:hover, 
-input:focus,
-textarea,
-textarea:hover,
-textarea:focus,
-select,
-select:hover,
-select:focus {
-  border: 0px solid green;
-  border-radius: 8px;
-  -webkit-text-fill-color: #fafafa;
-  -webkit-box-shadow: 0 0 0px 1000px #212121 inset;
-  transition: background-color 5000s ease-in-out 0s;
-}*/
-
-
-
 /* Change autocomplete styles in WebKit */
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
@@ -315,7 +261,7 @@ select:-webkit-autofill:focus {
   border: 0px solid green;
   border-radius: 8px;
   -webkit-text-fill-color: #fafafa;
-  -webkit-box-shadow: 0 0 0px 1000px #212121 inset;
+  -webkit-box-shadow: 0 0 0px 1000px #181818 inset;
   transition: background-color 5000s ease-in-out 0s;
 } 
 

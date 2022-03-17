@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { colors } from '../../utils';
 
-const { primaryText } = colors;
+const { primaryText, secondaryBlack } = colors;
 
 export const SeedWrapper = styled.div`
-    background-color: #212121;
+    background-color: ${secondaryBlack};
     width: 33%;
     height: 15px;
     border-radius: 8px;

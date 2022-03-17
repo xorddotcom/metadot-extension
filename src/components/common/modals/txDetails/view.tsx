@@ -345,7 +345,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                     </VerticalContentDiv>
 
                     {chainName !== 'ContextFree' && (
-                        <VerticalContentDiv>
+                        <VerticalContentDiv marginTop="30px">
                             <Button
                                 id="subscan-button"
                                 handleClick={() =>

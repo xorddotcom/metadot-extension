@@ -5,7 +5,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 import { Props, FieldInterface } from './types';
 
-import { Wrapper, Field, Icon, TokenBox, TokenName } from './styles';
+import { Field, Icon, TokenBox, TokenName } from './styles';
 import { fonts, images } from '../../../utils';
 
 const { visibilityOff, dropdownIcon, visibilityOn } = images;
@@ -31,18 +31,15 @@ const Input: React.FunctionComponent<Props> = ({
     fullWidth,
     fontSize,
     height,
-    marginBottom,
     maxlength,
-    mt,
-    mr,
     leftPosition,
     rightPosition,
     topPosition,
     style,
-    inputWrapperWidth,
     tokenLogo,
     tokenImage,
     tokenName,
+    bgColor,
 }) => {
     const blockChar = (ev: React.KeyboardEvent): void => {
         const arr = ['e', 'E', '+', '-'];
@@ -70,6 +67,7 @@ const Input: React.FunctionComponent<Props> = ({
         disabled,
         type: typePassword ? hideStateRes : 'text',
         tokenLogo,
+        bgColor,
         ...style,
     };
 
@@ -80,11 +78,6 @@ const Input: React.FunctionComponent<Props> = ({
                 width: '100%',
             }}
         >
-            {/* // <Wrapper
-        //     marginBottom={marginBottom || '0px'}
-        //     isCorrect={isCorrect}
-        //     inputWrapperWidth={inputWrapperWidth}
-        // > */}
             <Field {...FieldProps} autocomplete="off" />
             {rightIcon && (
                 <Icon

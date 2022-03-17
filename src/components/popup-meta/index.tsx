@@ -42,7 +42,7 @@ const PopupMeta: React.FunctionComponent<any> = ({ requests }) => {
 
     return (
         <Wrapper
-            height="570px"
+            height="595px"
             style={{
                 display: 'flex',
                 flexDirection: 'column',

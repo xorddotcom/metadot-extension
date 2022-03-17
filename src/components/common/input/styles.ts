@@ -8,7 +8,7 @@ import {
 
 import { colors, fonts } from '../../../utils';
 
-const { primaryText, darkBackground1 } = colors;
+const { primaryText, darkBackground1, secondaryBlack } = colors;
 const { subHeadingFontSize } = fonts;
 
 export const Wrapper = styled.div<WrapperInterface>`
@@ -69,7 +69,8 @@ export const Field = styled.input<FieldInterface>`
     margin-top: 12px;
     margin-bottom: 8px;
     color: ${primaryText};
-    background-color: ${darkBackground1};
+    background-color: ${(props) =>
+        props.bgColor ? props.bgColor : secondaryBlack};
     font-size: 14px !important;
     line-height: 17px;
     border-radius: 8px;

@@ -3,15 +3,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors } from '../../utils';
 import {
-    MainText1PropsInterface,
     VerticalContentDivPropsInterface,
     MainTextPropsInterface,
 } from '../common/modals/authorization/styledComponent/types';
 import { CalculatedAmountInterface } from './types';
-// import { PlainIcon } from '../common/modals/selectNetwork/styledComponents';
-// import { PlainIcon as PlainIconInterface } from '../common/modals/selectNetwork/styledComponents/types';
 
-const { primaryText, primaryBackground, darkBackground1 } = colors;
+const { primaryText, primaryBackground, secondaryBlack } = colors;
 
 export const Wrapper = styled.div`
     width: 133%;
@@ -48,7 +45,7 @@ export const FromAccount = styled(HorizontalContentDiv)`
     justify-content: space-between;
     padding-left: 10px;
     padding-right: 10px;
-    background: ${darkBackground1};
+    background: ${secondaryBlack};
     border-radius: 8px;
     color: ${primaryText};
     margin-bottom: 20px;

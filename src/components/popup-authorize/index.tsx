@@ -16,7 +16,7 @@ const { green } = colors;
 const PopupAuth: React.FunctionComponent<any> = ({ requests }) => {
     return (
         <Wrapper
-            height="570px"
+            height="595px"
             style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -42,11 +42,11 @@ const PopupAuth: React.FunctionComponent<any> = ({ requests }) => {
 
                 <SubHeading>
                     An application, self-identifying as{' '}
-                    <span style={{ color: green }}>
+                    <span style={{ color: '#2e9b9b' }}>
                         {requests[requests.length - 1].request.origin}
                     </span>{' '}
                     is requesting access from{' '}
-                    <span style={{ color: green }}>
+                    <span style={{ color: '#2e9b9b' }}>
                         {requests[requests.length - 1].url}
                     </span>
                 </SubHeading>

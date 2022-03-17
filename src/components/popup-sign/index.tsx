@@ -89,7 +89,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     };
     return (
         <Wrapper
-            height="570px"
+            height="595px"
             style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -223,9 +223,10 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                     typePassword
                     rightIcon
                     isCorrect
-                    leftPosition="-15px"
-                    topPosition="1px"
+                    rightPosition="18px"
+                    topPosition="27px"
                     {...styledInputPassword}
+                    fullWidth="89%"
                 />
                 {passwordError && (
                     <WarningText
