@@ -55,25 +55,111 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
         );
     };
 
+    // const mainListenerForRecievingTx = async (): Promise<void> => {
+    //     const res = await api.query.system.account(publicKey);
+    //     const now = api.query.timestamp.now();
+    //     // const res2 = await api.hi
+    //     console.log('Res', res.toString());
+    //     console.log('Time', now);
+
+    //     const [entryHash, entrySize] = await Promise.all([
+    //         api.query.system.account.hash(publicKey),
+    //         api.query.system.account.size(publicKey),
+    //     ]);
+
+    //     // Output the info
+    //     console.log(
+    //         `The current size is ${entrySize}
+    //      bytes with a hash of ${entryHash}`
+    //     );
+    //     Subscribe to system events via storage
+    //     api.query.system.events((events) => {
+    //         console.log('Events [][]', events);
+    //                 // console.log(`\nReceived ${events.length} events:`);
+
+    //         Loop through the Vec<EventRecord>
+    //         events.forEach((record: any) => {
+    //             Extract the phase, event and the event types
+    //             const { event, phase } = record;
+    //             const types = event.typeDef;
+
+    //             console.log('Event', event.data.toString());
+    //             Show what we are busy with
+    //             console.log(
+    //                 `Hello ===>>> \t${event.section}:${event.method}
+    //                 :: (phase=${phase})`
+    //             );
+    //             console.log(`Bye [][] \t\t${event.meta.documentation}`);
+
+    //             Loop through each of the parameters,
+    //             displaying the type and data
+    //             console.log('Events ===>>>>', event.data.toString());
+
+    //             event.data.forEach((data: any, index: any) => {
+    //                 console.log(
+    //                     `Hello \t\t\t${types[index].type}
+    //                 : ${data.toString()}`
+    //                 );
+    //                 console.log('Accounts ===>>', data.toString());
+    //                 if (
+    //                     types[index].type === 'AccountId32' &&
+    //                     data.toString() === publicKey
+    //                 ) {
+    //                     txData.type = types[index].type;
+    //                     txData.value = data;
+    //                     console.log('IN if');
+    //                     console.log('if check', types[index]);
+    //                     setTx(types[index].type);
+    //                 }
+    //             });
+    //         });
+    //     });
+    // };
+
+    // mainListenerForRecievingTx().catch((err) => console.log('Error', err));
+
     useEffect(() => {
         let unsub: any;
+        let unsub2: any;
         (async () => {
             if (api) {
                 const decimals = api?.registry?.chainDecimals[0];
-                unsub = await api.query.system.account(
-                    publicKey,
-                    ({ data: balance }) => {
-                        generalDispatcher(() =>
-                            setBalance(Number(balance.free) / 10 ** decimals)
+                unsub = await api.query.system.account(publicKey, (events) => {
+                    console.log('Events listener account ==>>', events);
+                });
+
+                unsub2 = api.query.system.events((events) => {
+                    console.log(`\nReceived ${events.length} events:`);
+
+                    // Loop through the Vec<EventRecord>
+                    events.forEach((record) => {
+                        // Extract the phase, event and the event types
+                        const { event, phase } = record;
+                        const types = event.typeDef;
+
+                        // Show what we are busy with
+                        console.log(
+                            `\t${event.section}:${
+                                event.method
+                            }:: (phase=${phase.toString()})`
                         );
-                    }
-                );
+
+                        event.data.forEach((data, index) => {
+                            console.log(
+                                `\t\t\t${types[index].type}: ${data.toString()}`
+                            );
+                        });
+                    });
+                });
             }
         })();
 
         return () => {
             if (unsub) {
                 unsub();
+            }
+            if (unsub2) {
+                unsub2();
             }
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
