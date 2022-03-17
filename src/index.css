@@ -106,7 +106,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: -4.2rem;
+  margin-left: -67.2px;
 }
 
 .btn-end {
@@ -127,7 +127,7 @@ input:focus {
 
 .scrollbar {
   overflow-y: scroll;
-  margin: 1rem;
+  margin: 16px;
   margin-right: 0;
   width: 95%;
   height: 300px;
@@ -157,7 +157,7 @@ input:focus {
 
 .network-scrollbar {
   overflow-y: scroll;
-  margin: 1rem;
+  margin: 16px;
   margin-right: 0;
   width: 95%;
 }
@@ -195,20 +195,8 @@ input:focus {
   margin: 200px auto;
   width: 100%;
   max-width: 290px;
-  /* padding: 22px 1.3rem !important; */
   text-align: left !important;
   position: relative;
-}
-
-.cross-close {
-  color: #fff;
-  font-size: 0.9rem;
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
-    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  cursor: pointer;
 }
 
 .select-network-modal-style {
@@ -353,7 +341,7 @@ select:-webkit-autofill:focus {
   z-index: 1;
   /* bottom: 140%;
   left: -120%; */
-  margin-left: 0.3rem;
+  margin-left: 5px;
 }
 
 .tooltip .tooltiptext::after {
@@ -395,8 +383,8 @@ select:-webkit-autofill:focus {
   /* bottom: 150%; */
   left: -130%;
   /* top: -35px; */
-  margin-left: -0.3rem;
-  margin-bottom: 0.2rem;
+  margin-left: -5px;
+  margin-bottom: 3.2px;
 }
 
 .main-card-tooltip .main-card-tooltiptext::after {
@@ -439,7 +427,7 @@ select:-webkit-autofill:focus {
   top: 35px;
   left: 110px;
   margin-left: -60px;
-  font-size: 0.7rem;
+  font-size: 11px;
   font-weight: 300;
 }
 

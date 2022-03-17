@@ -31,6 +31,8 @@ import accountIcon from '../assets/images/icons/user.svg';
 import LockOutlinedIcon from '../assets/images/icons/lock.svg';
 import ForumOutlinedIcon from '../assets/images/icons/support.svg';
 import aboutIcon from '../assets/images/icons/aboutIcon.svg';
+import expandView from '../assets/images/icons/expandView.svg';
+import externalLink from '../assets/images/icons/externalLink.svg';
 import FileUploadOutlinedIcon from '../assets/images/icons/export.svg';
 import FileDownloadOutlinedIcon from '../assets/images/icons/download.svg';
 import activeIcon from '../assets/images/activeIcon.svg';
@@ -77,8 +79,12 @@ import dropdownIcon from '../assets/images/icons/dropdown.svg';
 import visibilityOff from '../assets/images/icons/closeEye.svg';
 import visibilityOn from '../assets/images/icons/openEye.svg';
 import rightArrowIcon from '../assets/images/icons/rightArrowIcon.svg';
+import Importicon from '../assets/images/icons/import.svg';
 
 export default {
+    Importicon,
+    externalLink,
+    expandView,
     rightArrowIcon,
     AcalaIcon,
     dropdownIcon,

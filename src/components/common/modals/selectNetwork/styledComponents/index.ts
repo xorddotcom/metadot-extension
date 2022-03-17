@@ -73,8 +73,8 @@ export const HorizontalContentDiv = styled.div`
     padding-left: 20px;
 
     img {
-        width: 1.8rem;
-        height: 1.8rem;
+        width: 29px;
+        height: 29px;
         border-radius: 50%;
     }
 `;
