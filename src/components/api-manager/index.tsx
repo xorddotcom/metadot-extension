@@ -124,31 +124,25 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
         (async () => {
             if (api) {
                 const decimals = api?.registry?.chainDecimals[0];
-                unsub = await api.query.system.account(publicKey, (events) => {
-                    console.log('Events listener account ==>>', events);
-                });
+
+                unsub = await api.query.system.account(
+                    publicKey,
+                    ({ data: balance }) => {
+                        generalDispatcher(() =>
+                            setBalance(Number(balance.free) / 10 ** decimals)
+                        );
+                    }
+                );
 
                 unsub2 = api.query.system.events((events) => {
-                    console.log(`\nReceived ${events.length} events:`);
+                    console.log('events length ==>>', events.length);
+                    events.forEach((record: any) => {
+                        const { event } = record;
 
-                    // Loop through the Vec<EventRecord>
-                    events.forEach((record) => {
-                        // Extract the phase, event and the event types
-                        const { event, phase } = record;
-                        const types = event.typeDef;
-
-                        // Show what we are busy with
-                        console.log(
-                            `\t${event.section}:${
-                                event.method
-                            }:: (phase=${phase.toString()})`
-                        );
-
-                        event.data.forEach((data, index) => {
-                            console.log(
-                                `\t\t\t${types[index].type}: ${data.toString()}`
-                            );
-                        });
+                        if (event.data.method === 'ExtrinsicSuccess') {
+                            console.log('events ==>>', event);
+                            console.log(`hash: ${event.hash.toString()}`);
+                        }
                     });
                 });
             }
