@@ -9,7 +9,7 @@ import {
 
 import { colors } from '../../../utils';
 
-const { darkBackground1 } = colors;
+const { darkBackground1, darkBackground } = colors;
 
 export const Wrapper = styled.div<AuthorizationPopupWrapperInterface>`
     padding: 18px 20px 8px;
@@ -17,7 +17,7 @@ export const Wrapper = styled.div<AuthorizationPopupWrapperInterface>`
     width: ${(props) => props.width && props.width};
     border-radius: ${(props) => props.borderRadius && props.borderRadius};
     border-color: ${(props) => props.borderRadius && props.borderRadius};
-    background: rgba(20, 20, 20);
+    background: ${darkBackground};
 `;
 
 export const MainDiv = styled.div`

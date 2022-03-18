@@ -12,13 +12,13 @@ const index: React.FunctionComponent<EnterSeedInterface> = ({
     setPassword,
     onSubmit,
 }) => {
-    const { primaryText, darkBackground1 } = colors;
+    const { primaryText, secondaryBlack } = colors;
     const { subHeadingfontFamilyClass } = fonts;
     const input = {
         id: 'seed-input',
         style: {
             padding: '13px 15px',
-            background: darkBackground1,
+            background: secondaryBlack,
             color: primaryText,
             width: '100%',
             borderRadius: '8px',

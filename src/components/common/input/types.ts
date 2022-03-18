@@ -9,6 +9,7 @@ export interface NewWrapperInterface {
 }
 
 export interface FieldInterface {
+    bgColor?: string;
     tokenLogo?: boolean;
     id?: string;
     maxlength?: string;
@@ -34,6 +35,7 @@ export interface IconInterface {
 }
 
 export interface Props {
+    bgColor?: string;
     tokenName?: string;
     tokenImage?: string;
     tokenLogo?: boolean;

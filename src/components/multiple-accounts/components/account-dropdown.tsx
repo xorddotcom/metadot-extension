@@ -127,7 +127,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                         width: '210px',
                         marginLeft: '-4.9rem',
                         marginTop: '-0.5rem',
-                        backgroundColor: '#212121',
+                        backgroundColor: '#141414',
                         border: '0.9px solid #219A9A',
                         boxShadow: '0px 0px 20px 5px rgba(33, 154, 154, 0.08)',
                         borderRadius: '8px',

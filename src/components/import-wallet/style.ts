@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { colors, fonts } from '../../utils';
 
-const { primaryText, darkBackground1 } = colors;
-const { subHeadingFontSize } = fonts;
+const { primaryText, secondaryBlack } = colors;
 
 export const OptionDiv = styled.div`
     display: flex;
@@ -19,7 +18,7 @@ export const Option = styled.p`
     justify-content: center;
     align-items: center;
     background-color: ${(props: { selected: boolean }) =>
-        props.selected ? 'rgba(33, 154, 154, 0.3);' : '#212121'};
+        props.selected ? '#1F2B2B' : '#2f2f2f'};
     border: ${(props) =>
         props.selected ? '1px solid #219A9A' : '1px solid #BCBCBC'};
     margin-right: 20px;
@@ -39,7 +38,7 @@ export const UploadFileDiv = styled.div`
 `;
 
 export const UploadFile = styled.label`
-    background-color: ${darkBackground1};
+    background-color: ${secondaryBlack};
     color: ${primaryText};
     padding: 11px 16px;
     width: 89%;
@@ -56,7 +55,7 @@ export const UploadFile = styled.label`
 `;
 
 export const AccountDetailsDiv = styled.div`
-    background-color: ${darkBackground1};
+    background-color: ${secondaryBlack};
     color: ${primaryText};
     padding: 0px 13px;
     width: 289px;

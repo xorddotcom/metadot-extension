@@ -6,7 +6,7 @@ import { Box } from '@mui/system';
 import { AuthtModalViewProps } from './types';
 
 import Button from '../../button';
-import { fonts } from '../../../../utils';
+import { colors, fonts } from '../../../../utils';
 import StyledInput from '../../input';
 import { MainDiv, MainText, VerticalContentDiv } from './styledComponent';
 import { ModalText, WarningText } from '../../text';
@@ -19,6 +19,7 @@ import {
 } from '../../../../utils/app-content';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+const { darkBackground1 } = colors;
 
 const AuthModalView: React.FunctionComponent<AuthtModalViewProps> = ({
     open,
@@ -77,7 +78,10 @@ const AuthModalView: React.FunctionComponent<AuthtModalViewProps> = ({
                             rightPosition="9px"
                             topPosition="28px"
                             {...styledInput}
-                            style={{ paddingLeft: '10px !important' }}
+                            style={{
+                                paddingLeft: '10px !important',
+                            }}
+                            bgColor={darkBackground1}
                         />
                         <WarningText
                             className={subHeadingfontFamilyClass}
