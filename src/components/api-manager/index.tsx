@@ -134,14 +134,47 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                     }
                 );
 
+                const signedBlock = await api.rpc.chain.getBlock();
+                const apiAt = await api.at(signedBlock.block.header.hash);
+                const allEvents = await apiAt.query.system.events();
+
+                signedBlock.block.extrinsics.forEach(
+                    ({ method: { method, section } }, index) => {
+                        const events = allEvents
+                            .filter(
+                                ({ phase }) =>
+                                    phase.isApplyExtrinsic &&
+                                    phase.asApplyExtrinsic.eq(index)
+                            )
+                            .map(
+                                ({ event }) =>
+                                    `${event.section}.${event.method}`
+                            );
+
+                        console.log(
+                            `${section}.${method}:: ${
+                                events.join(', ') || 'no events'
+                            }`
+                        );
+                    }
+                );
+
                 unsub2 = api.query.system.events((events) => {
-                    console.log('events length ==>>', events.length);
                     events.forEach((record: any) => {
                         const { event } = record;
 
-                        if (event.data.method === 'ExtrinsicSuccess') {
-                            console.log('events ==>>', event);
-                            console.log(`hash: ${event.hash.toString()}`);
+                        if (event.data.section === 'balances') {
+                            console.log('event:', event);
+                            console.log(`method: ${event.data.method}`);
+                            event.data.forEach((address: any) => {
+                                console.log(`params: ${address.toString()}`);
+                            });
+                            console.log(
+                                `hash string: ${event.data.hash.toString()}`
+                            );
+                            console.log(
+                                `hash hex: ${event.index.hash.toString()}`
+                            );
                         }
                     });
                 });
