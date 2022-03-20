@@ -211,9 +211,7 @@ const AssetsAndTransactions: React.FunctionComponent<
             .then((r) => handleTransaction(r))
             .catch((e) => console.log(e));
 
-    useQuery('user-transaction', fetchTransactions, {
-        refetchInterval: 5000,
-    });
+    useQuery('user-transaction', fetchTransactions);
 
     return (
         <AssetsAndTransactionsWrapper>

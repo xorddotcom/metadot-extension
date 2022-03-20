@@ -2,6 +2,7 @@ import React, { useEffect, memo } from 'react';
 import { useSelector } from 'react-redux';
 import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 
+import { formatBalance } from '@polkadot/util';
 import { setApi, setApiInitializationStarts } from '../../redux/slices/api';
 import {
     setBalance,
@@ -17,6 +18,7 @@ import services from '../../utils/services';
 import useResponseModal from '../../hooks/useResponseModal';
 import useDispatcher from '../../hooks/useDispatcher';
 import { getAuthList } from '../../messaging';
+import { addTransaction } from '../../redux/slices/transactions';
 
 const { wifiOff, SuccessCheckIcon } = images;
 
@@ -43,7 +45,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
     const { loadingForApi } = modalHandling;
 
     const { convertIntoUsd } = helpers;
-    const { getBalance, providerInitialization } = services;
+    const { getBalance, providerInitialization, addressMapper } = services;
     const { publicKey, chainName, tokenName } = activeAccount;
 
     const compareSites = (arr: any, sub: any): any => {
@@ -54,143 +56,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                 .startsWith(sub2.slice(0, Math.max(str.length - 1, 1)))
         );
     };
-
-    // const mainListenerForRecievingTx = async (): Promise<void> => {
-    //     const res = await api.query.system.account(publicKey);
-    //     const now = api.query.timestamp.now();
-    //     // const res2 = await api.hi
-    //     console.log('Res', res.toString());
-    //     console.log('Time', now);
-
-    //     const [entryHash, entrySize] = await Promise.all([
-    //         api.query.system.account.hash(publicKey),
-    //         api.query.system.account.size(publicKey),
-    //     ]);
-
-    //     // Output the info
-    //     console.log(
-    //         `The current size is ${entrySize}
-    //      bytes with a hash of ${entryHash}`
-    //     );
-    //     Subscribe to system events via storage
-    //     api.query.system.events((events) => {
-    //         console.log('Events [][]', events);
-    //                 // console.log(`\nReceived ${events.length} events:`);
-
-    //         Loop through the Vec<EventRecord>
-    //         events.forEach((record: any) => {
-    //             Extract the phase, event and the event types
-    //             const { event, phase } = record;
-    //             const types = event.typeDef;
-
-    //             console.log('Event', event.data.toString());
-    //             Show what we are busy with
-    //             console.log(
-    //                 `Hello ===>>> \t${event.section}:${event.method}
-    //                 :: (phase=${phase})`
-    //             );
-    //             console.log(`Bye [][] \t\t${event.meta.documentation}`);
-
-    //             Loop through each of the parameters,
-    //             displaying the type and data
-    //             console.log('Events ===>>>>', event.data.toString());
-
-    //             event.data.forEach((data: any, index: any) => {
-    //                 console.log(
-    //                     `Hello \t\t\t${types[index].type}
-    //                 : ${data.toString()}`
-    //                 );
-    //                 console.log('Accounts ===>>', data.toString());
-    //                 if (
-    //                     types[index].type === 'AccountId32' &&
-    //                     data.toString() === publicKey
-    //                 ) {
-    //                     txData.type = types[index].type;
-    //                     txData.value = data;
-    //                     console.log('IN if');
-    //                     console.log('if check', types[index]);
-    //                     setTx(types[index].type);
-    //                 }
-    //             });
-    //         });
-    //     });
-    // };
-
-    // mainListenerForRecievingTx().catch((err) => console.log('Error', err));
-
-    useEffect(() => {
-        let unsub: any;
-        let unsub2: any;
-        (async () => {
-            if (api) {
-                const decimals = api?.registry?.chainDecimals[0];
-
-                unsub = await api.query.system.account(
-                    publicKey,
-                    ({ data: balance }) => {
-                        generalDispatcher(() =>
-                            setBalance(Number(balance.free) / 10 ** decimals)
-                        );
-                    }
-                );
-
-                const signedBlock = await api.rpc.chain.getBlock();
-                const apiAt = await api.at(signedBlock.block.header.hash);
-                const allEvents = await apiAt.query.system.events();
-
-                signedBlock.block.extrinsics.forEach(
-                    ({ method: { method, section } }, index) => {
-                        const events = allEvents
-                            .filter(
-                                ({ phase }) =>
-                                    phase.isApplyExtrinsic &&
-                                    phase.asApplyExtrinsic.eq(index)
-                            )
-                            .map(
-                                ({ event }) =>
-                                    `${event.section}.${event.method}`
-                            );
-
-                        console.log(
-                            `${section}.${method}:: ${
-                                events.join(', ') || 'no events'
-                            }`
-                        );
-                    }
-                );
-
-                unsub2 = api.query.system.events((events) => {
-                    events.forEach((record: any) => {
-                        const { event } = record;
-
-                        if (event.data.section === 'balances') {
-                            console.log('event:', event);
-                            console.log(`method: ${event.data.method}`);
-                            event.data.forEach((address: any) => {
-                                console.log(`params: ${address.toString()}`);
-                            });
-                            console.log(
-                                `hash string: ${event.data.hash.toString()}`
-                            );
-                            console.log(
-                                `hash hex: ${event.index.hash.toString()}`
-                            );
-                        }
-                    });
-                });
-            }
-        })();
-
-        return () => {
-            if (unsub) {
-                unsub();
-            }
-            if (unsub2) {
-                unsub2();
-            }
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [api, publicKey]);
 
     useEffect(() => {
         const setConnectedSites = async (): Promise<void> => {
@@ -299,6 +164,108 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
         };
         accountChanged();
     }, [publicKey]);
+
+    useEffect(() => {
+        let unsub: any;
+        let unsub2: any;
+        (async () => {
+            if (api) {
+                const decimals = api?.registry?.chainDecimals[0];
+
+                unsub = await api.query.system.account(
+                    publicKey,
+                    ({ data: balance }) => {
+                        generalDispatcher(() =>
+                            setBalance(Number(balance.free) / 10 ** decimals)
+                        );
+                    }
+                );
+
+                unsub2 = await api.rpc.chain.subscribeNewHeads(
+                    async (header) => {
+                        const signedBlock = await api.rpc.chain.getBlock(
+                            header.hash
+                        );
+                        const apiAt = await api.at(header.hash);
+                        const allEvents = await apiAt.query.system.events();
+
+                        const transactions: any = [];
+                        signedBlock.block.extrinsics.forEach(
+                            (extrinsic, index) => {
+                                allEvents
+                                    .filter(
+                                        ({ event, phase }: any) =>
+                                            phase.isApplyExtrinsic &&
+                                            phase.asApplyExtrinsic.eq(index) &&
+                                            event.section === 'balances' &&
+                                            event.method === 'Transfer' &&
+                                            (event.data[0].toString() ===
+                                                addressMapper(
+                                                    publicKey,
+                                                    api.registry
+                                                        .chainSS58 as number
+                                                ) ||
+                                                event.data[1].toString() ===
+                                                    addressMapper(
+                                                        publicKey,
+                                                        api.registry
+                                                            .chainSS58 as number
+                                                    ))
+                                    )
+                                    .forEach(({ event }: any) => {
+                                        transactions.push({
+                                            accountFrom:
+                                                event.data[0].toString(),
+                                            accountTo: event.data[1].toString(),
+                                            amount: formatBalance(
+                                                event.data[2],
+                                                {
+                                                    decimals:
+                                                        api.registry
+                                                            .chainDecimals[0],
+                                                    forceUnit: '-',
+                                                    withUnit: false,
+                                                }
+                                            ),
+                                            hash: extrinsic.hash.toString(),
+                                            operation:
+                                                event.data[0].toString() ===
+                                                addressMapper(
+                                                    publicKey,
+                                                    api.registry
+                                                        .chainSS58 as number
+                                                )
+                                                    ? 'Send'
+                                                    : 'Receive',
+                                            status: 'Confirmed',
+                                            chainName:
+                                                api.runtimeChain.toString(),
+                                            tokenName:
+                                                api.registry.chainTokens[0],
+                                            transactionFee: '0',
+                                            timestamp: Date.now(),
+                                        });
+                                    });
+                            }
+                        );
+
+                        generalDispatcher(() => addTransaction(transactions));
+                    }
+                );
+            }
+        })();
+
+        return () => {
+            if (unsub) {
+                unsub();
+            }
+            if (unsub2) {
+                unsub2();
+            }
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [api, publicKey]);
+
     return null;
 };
 
