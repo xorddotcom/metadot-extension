@@ -77,19 +77,21 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
 
     const handleSubmit = (): void => {
         try {
-            setPasswordError(true);
+            setPasswordError(false);
             approveSignPassword(
                 requests[requests.length - 1].id,
                 false,
                 password
             );
         } catch (e) {
+            console.log(e, 'check transaction error');
             setPasswordError(true);
         }
     };
     return (
         <Wrapper
-            height="595px"
+            height="570px"
+            width="90%"
             style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -99,7 +101,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
             <VerticalContentDiv>
                 <MainHeading textAlign="center">
                     Transaction{' '}
-                    {requests.lenght > 0 ? `(1 out of ${requests.length})` : ''}
+                    {requests.length > 0 ? `(1 out of ${requests.length})` : ''}
                 </MainHeading>
             </VerticalContentDiv>
 
@@ -201,7 +203,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                                 </SubHeading>
                             </div>
                             <div style={{ width: '70%' }}>
-                                <SubHeading lineHeight="14px">
+                                <SubHeading lineHeight="14px" overFlow>
                                     {el.data}
                                 </SubHeading>
                             </div>
