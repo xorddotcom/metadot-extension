@@ -74,24 +74,29 @@ const ConfirmSeed: React.FunctionComponent = () => {
         indexValue: number;
     }): void => {
         const { value, indexValue } = seedObj;
-        if (!word1) {
-            setWord1(value);
-        } else if (!word2) {
-            setWord2(value);
-        } else if (!word3) {
-            setWord3(value);
-        } else if (!word4) {
-            setWord4(value);
-        }
+        const wordToBeSelected = seedArrayForGrid.filter(
+            (seedWord) => seedWord.value === value
+        );
+        if (!wordToBeSelected[0].selected) {
+            if (!word1) {
+                setWord1(value);
+            } else if (!word2) {
+                setWord2(value);
+            } else if (!word3) {
+                setWord3(value);
+            } else if (!word4) {
+                setWord4(value);
+            }
 
-        if (!word1 || !word2 || !word3 || !word4) {
-            const copyOfSeedForGrid = seedArrayForGrid;
-            copyOfSeedForGrid[indexValue] = {
-                value,
-                indexValue,
-                selected: true,
-            };
-            setSeedArrayForGrid(copyOfSeedForGrid);
+            if (!word1 || !word2 || !word3 || !word4) {
+                const copyOfSeedForGrid = seedArrayForGrid;
+                copyOfSeedForGrid[indexValue] = {
+                    value,
+                    indexValue,
+                    selected: true,
+                };
+                setSeedArrayForGrid(copyOfSeedForGrid);
+            }
         }
     };
 

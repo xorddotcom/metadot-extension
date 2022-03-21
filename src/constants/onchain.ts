@@ -94,7 +94,7 @@ const SHIDEN_CONFIG: NetworkConfig = {
     logo: ShidenIcon,
     rpcUrl: 'wss://shiden.api.onfinality.io/public-ws',
     queryEndpoint:
-        'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
+        'https://api.subquery.network/sq/kumailraza404/shiden-indexer',
     prefix: 5,
     disabled: false,
     explorer: 'https://shiden.subscan.io/',
