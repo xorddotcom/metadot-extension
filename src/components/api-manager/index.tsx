@@ -2,6 +2,7 @@ import React, { useEffect, memo } from 'react';
 import { useSelector } from 'react-redux';
 import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 
+import { formatBalance } from '@polkadot/util';
 import { setApi, setApiInitializationStarts } from '../../redux/slices/api';
 import {
     setBalance,
@@ -17,6 +18,7 @@ import services from '../../utils/services';
 import useResponseModal from '../../hooks/useResponseModal';
 import useDispatcher from '../../hooks/useDispatcher';
 import { getAuthList } from '../../messaging';
+import { addTransaction } from '../../redux/slices/transactions';
 
 const { wifiOff, SuccessCheckIcon } = images;
 
@@ -43,7 +45,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
     const { loadingForApi } = modalHandling;
 
     const { convertIntoUsd } = helpers;
-    const { getBalance, providerInitialization } = services;
+    const { getBalance, providerInitialization, addressMapper } = services;
     const { publicKey, chainName, tokenName } = activeAccount;
 
     const compareSites = (arr: any, sub: any): any => {
@@ -54,30 +56,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                 .startsWith(sub2.slice(0, Math.max(str.length - 1, 1)))
         );
     };
-
-    useEffect(() => {
-        let unsub: any;
-        (async () => {
-            if (api) {
-                const decimals = api?.registry?.chainDecimals[0];
-                unsub = await api.query.system.account(
-                    publicKey,
-                    ({ data: balance }) => {
-                        generalDispatcher(() =>
-                            setBalance(Number(balance.free) / 10 ** decimals)
-                        );
-                    }
-                );
-            }
-        })();
-
-        return () => {
-            if (unsub) {
-                unsub();
-            }
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [api, publicKey]);
 
     useEffect(() => {
         const setConnectedSites = async (): Promise<void> => {
@@ -186,6 +164,119 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
         };
         accountChanged();
     }, [publicKey]);
+
+    useEffect(() => {
+        let unsub: any;
+        let unsub2: any;
+        (async () => {
+            if (api) {
+                const decimals = api?.registry?.chainDecimals[0];
+
+                unsub = await api.query.system.account(
+                    publicKey,
+                    ({ data: balance }) => {
+                        generalDispatcher(() =>
+                            setBalance(Number(balance.free) / 10 ** decimals)
+                        );
+                    }
+                );
+
+                unsub2 = await api.rpc.chain.subscribeNewHeads(
+                    async (header) => {
+                        const signedBlock = await api.rpc.chain.getBlock(
+                            header.hash
+                        );
+                        const apiAt = await api.at(header.hash);
+                        const allEvents = await apiAt.query.system.events();
+
+                        const transactions: any = [];
+                        signedBlock.block.extrinsics.forEach(
+                            (extrinsic, index) => {
+                                allEvents
+                                    .filter(
+                                        ({ event, phase }: any) =>
+                                            phase.isApplyExtrinsic &&
+                                            phase.asApplyExtrinsic.eq(index) &&
+                                            event.section === 'balances' &&
+                                            event.method === 'Transfer' &&
+                                            (event.data[0].toString() ===
+                                                addressMapper(
+                                                    publicKey,
+                                                    api.registry
+                                                        .chainSS58 as number
+                                                ) ||
+                                                event.data[1].toString() ===
+                                                    addressMapper(
+                                                        publicKey,
+                                                        api.registry
+                                                            .chainSS58 as number
+                                                    ))
+                                    )
+                                    .forEach(({ event }: any) => {
+                                        transactions.push({
+                                            accountFrom:
+                                                event.data[0].toString(),
+                                            accountTo: event.data[1].toString(),
+                                            amount: formatBalance(
+                                                event.data[2],
+                                                {
+                                                    decimals:
+                                                        api.registry
+                                                            .chainDecimals[0],
+                                                    forceUnit: '-',
+                                                    withUnit: false,
+                                                }
+                                            ),
+                                            hash: extrinsic.hash.toString(),
+                                            operation:
+                                                event.data[0].toString() ===
+                                                addressMapper(
+                                                    publicKey,
+                                                    api.registry
+                                                        .chainSS58 as number
+                                                )
+                                                    ? 'Send'
+                                                    : 'Receive',
+                                            status: 'Confirmed',
+                                            chainName:
+                                                api.runtimeChain.toString(),
+                                            tokenName:
+                                                api.registry.chainTokens[0],
+                                            transactionFee: '0',
+                                            timestamp: Date.now(),
+                                        });
+                                    });
+                            }
+                        );
+
+                        const txHashes = new Set();
+                        const uniqueTransactions = transactions.filter(
+                            (el: any) => {
+                                const duplicate = txHashes.has(el.id);
+                                txHashes.add(el.id);
+                                return !duplicate;
+                            }
+                        );
+
+                        generalDispatcher(() =>
+                            addTransaction(uniqueTransactions)
+                        );
+                    }
+                );
+            }
+        })();
+
+        return () => {
+            if (unsub) {
+                unsub();
+            }
+            if (unsub2) {
+                unsub2();
+            }
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [api, publicKey]);
+
     return null;
 };
 

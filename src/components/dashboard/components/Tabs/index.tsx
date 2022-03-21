@@ -1,8 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable radix */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useQuery } from 'react-query';
 
 import AssetCard from '../../../common/asset-card';
 import TxCard from '../../../common/tx-card';
@@ -88,6 +87,7 @@ const AssetsAndTransactions: React.FunctionComponent<
     const dispatch = useDispatch();
     const assetsData = useSelector((state: RootState) => state.activeAccount);
     const {
+        rpcUrl,
         chainName,
         tokenName,
         tokenImage,
@@ -211,9 +211,9 @@ const AssetsAndTransactions: React.FunctionComponent<
             .then((r) => handleTransaction(r))
             .catch((e) => console.log(e));
 
-    useQuery('user-transaction', fetchTransactions, {
-        refetchInterval: 5000,
-    });
+    useEffect(() => {
+        fetchTransactions();
+    }, [rpcUrl]);
 
     return (
         <AssetsAndTransactionsWrapper>
