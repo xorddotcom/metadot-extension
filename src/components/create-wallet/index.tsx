@@ -212,6 +212,9 @@ const CreateWallet: React.FunctionComponent = () => {
             styledInputPassword={styledInputPassword}
             styledInputConfirmPass={styledInputConfirmPass}
             continueBtn={continueBtn}
+            headingText={
+                location.prevRoute === IMPORT_WALLET ? 'Import' : 'Create'
+            }
         />
     );
 };

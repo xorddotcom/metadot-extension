@@ -33,6 +33,7 @@ export interface WarningTextInterface {
 }
 
 export interface MainTextInterface {
+    height?: string;
     width?: string;
     id?: string;
     className?: string;

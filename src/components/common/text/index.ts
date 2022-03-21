@@ -67,7 +67,7 @@ export const EquivalentInUSDT = styled.p`
 `;
 
 export const MainText = styled.p<MainTextInterface>`
-    height: 14px;
+    height: ${(props) => (props.height ? props.height : '14px')};
     font-size: ${(props) => (props.fontSize ? props.fontSize : '16px')};
     font-weight: ${(props) => (props.fontWeight ? props.fontWeight : 'bold')};
     line-height: 14px;

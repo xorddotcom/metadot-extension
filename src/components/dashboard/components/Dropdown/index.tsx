@@ -14,6 +14,7 @@ import { setAuthScreenModal } from '../../../../redux/slices/modalHandling';
 import { About, AuthModal, AccountOptions } from '../../../common/modals';
 import { fonts, helpers, images } from '../../../../utils';
 import account from '../../../../utils/accounts';
+import services from '../../../../utils/services';
 
 import { DropDownMainText } from '../../styledComponents';
 import { DropDownProps } from '../../types';
@@ -48,6 +49,7 @@ const {
 const { mainHeadingfontFamilyClass } = fonts;
 const { getJsonBackup } = account;
 const { openOptions } = helpers;
+const { addressMapper } = services;
 
 const {
     CONTEXTFREE_CONFIG,
@@ -66,7 +68,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { modalHandling } = useSelector((state: RootState) => state);
-    const { publicKey, chainName } = useSelector(
+    const { publicKey, chainName, prefix } = useSelector(
         (state: RootState) => state.activeAccount
     );
 
@@ -102,8 +104,14 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
         const currentChain = chains.filter((chain) => chain.name === chainName);
 
         const url = currentChain[0].explorer.length
-            ? `${currentChain[0].explorer}account/${address}`
-            : `https://polkadot.subscan.io/account/${address}`;
+            ? `${currentChain[0].explorer}account/${addressMapper(
+                  address,
+                  prefix
+              )}`
+            : `https://polkadot.subscan.io/account/${addressMapper(
+                  address,
+                  prefix
+              )}`;
 
         return url;
     };
