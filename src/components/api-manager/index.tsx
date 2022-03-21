@@ -249,7 +249,18 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                             }
                         );
 
-                        generalDispatcher(() => addTransaction(transactions));
+                        const txHashes = new Set();
+                        const uniqueTransactions = transactions.filter(
+                            (el: any) => {
+                                const duplicate = txHashes.has(el.id);
+                                txHashes.add(el.id);
+                                return !duplicate;
+                            }
+                        );
+
+                        generalDispatcher(() =>
+                            addTransaction(uniqueTransactions)
+                        );
                     }
                 );
             }
