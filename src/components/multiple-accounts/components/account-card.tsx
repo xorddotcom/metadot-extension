@@ -63,9 +63,9 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
                 {activeAccount.publicKey === publicKey && (
                     <img
                         style={{
-                            position: 'relative',
-                            left: '24px',
-                            bottom: '8px',
+                            position: 'absolute',
+                            marginLeft: '14px',
+                            marginBottom: '12px',
                         }}
                         src={activeIcon}
                         alt="active-account-icon"

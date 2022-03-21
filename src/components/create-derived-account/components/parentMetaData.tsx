@@ -65,7 +65,11 @@ const ParentMetaData: React.FunctionComponent<ParentMetaDataInterface> = ({
             setIsLoading(false);
             const errMessage = err.message;
             if (errMessage === 'invalid derivation path') {
-                setDerivePathError(errMessage);
+                setDerivePathError(
+                    `invalid derivation path 
+                    , add // for Hard derivation and /
+                     for Soft derivation`
+                );
             }
         }
     };
