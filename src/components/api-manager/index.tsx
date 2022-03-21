@@ -175,8 +175,13 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                 unsub = await api.query.system.account(
                     publicKey,
                     ({ data: balance }) => {
+                        const userBalance = formatBalance(balance.free, {
+                            decimals,
+                            forceUnit: '-',
+                            withUnit: false,
+                        });
                         generalDispatcher(() =>
-                            setBalance(Number(balance.free) / 10 ** decimals)
+                            setBalance(Number(userBalance))
                         );
                     }
                 );
