@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { TypeRegistry } from '@polkadot/types';
-import { formatNumber, bnToBn } from '@polkadot/util';
-import type { ExtrinsicEra } from '@polkadot/types/interfaces';
 import { approveSignPassword, cancelSignRequest } from '../../messaging';
 import {
     HorizontalContentDiv,
@@ -11,10 +8,9 @@ import {
 
 import { MainHeading, SubHeading, WarningText } from '../common/text';
 import { Button, Input } from '../common';
-import { fonts, helpers, images } from '../../utils';
+import { fonts, images } from '../../utils';
 
-const { CheckboxDisabled, CheckboxEnabled, ContentCopyIcon } = images;
-const registry = new TypeRegistry();
+const { ContentCopyIcon } = images;
 
 const { subHeadingfontFamilyClass } = fonts;
 
@@ -63,8 +59,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                 requests[requests.length - 1].request.payload.method
             ),
             copy: true,
-            dataToCopy:
-                requests[requests.length - 1].request.payload.version.method,
+            dataToCopy: requests[requests.length - 1].request.payload.method,
         },
     ];
 
@@ -75,10 +70,10 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     //     }
     // }, [requests]);
 
-    const handleSubmit = (): void => {
+    const handleSubmit = async (): Promise<void> => {
         try {
             setPasswordError(false);
-            approveSignPassword(
+            await approveSignPassword(
                 requests[requests.length - 1].id,
                 false,
                 password
@@ -87,6 +82,11 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
             console.log(e, 'check transaction error');
             setPasswordError(true);
         }
+    };
+
+    const handlePassword = (e: string): void => {
+        setPasswordError(false);
+        setPassword(e);
     };
     return (
         <Wrapper
@@ -220,7 +220,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                 <Input
                     id="TransactionPassword"
                     value={password}
-                    onChange={setPassword}
+                    onChange={(e) => handlePassword(e)}
                     placeholder="Password For This Account"
                     typePassword
                     rightIcon
