@@ -41,6 +41,7 @@ const CreateWalletView: React.FunctionComponent<CreateWalletViewProps> = (
         styledInputPassword,
         styledInputConfirmPass,
         continueBtn,
+        headingText,
     } = props;
 
     const onSubmitForm = (): void | Promise<void> =>
@@ -49,9 +50,9 @@ const CreateWalletView: React.FunctionComponent<CreateWalletViewProps> = (
             : continueBtn.handleClick();
 
     return (
-        <Wrapper height="570px">
-            <Header centerText={CREATE_WALLET_HEADER} />
-            <UnAuthScreensContentWrapper mb="25px">
+        <Wrapper height="570px" style={{ paddingBottom: '0px !important' }}>
+            <Header centerText={headingText} />
+            <UnAuthScreensContentWrapper mb="20px">
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();

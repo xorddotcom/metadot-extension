@@ -76,6 +76,7 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
                             fontWeight="600"
                             textAlign="end"
                             color="#2E9B9B"
+                            height="20px"
                         >
                             {`${trimBalance(Number(amount))} ${coin}`}
                         </MainText>

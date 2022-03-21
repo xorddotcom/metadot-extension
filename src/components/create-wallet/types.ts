@@ -53,4 +53,5 @@ export interface CreateWalletViewProps {
     styledInputPassword: styledInputPassword;
     styledInputConfirmPass: styledInputConfirmPass;
     continueBtn: continueBtn;
+    headingText: string;
 }
