@@ -1,6 +1,7 @@
-/* eslint-disable no-param-reassign */
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Box } from '@material-ui/core';
+import { fontWeight } from '@mui/system';
 import { RootState } from '../../../redux/store';
 import { fonts, helpers } from '../../../utils';
 import { Button, Input } from '../../common';
@@ -13,6 +14,10 @@ import {
     Balance,
 } from '../style';
 import { AmountInputInterface } from '../types';
+
+import ToggleOn from '../../../assets/images/icons/transferToggleOn.svg';
+import ToggleOff from '../../../assets/images/icons/transferToggleOff.svg';
+import help from '../../../assets/images/icons/ED_help.svg';
 
 const { trimContent } = helpers;
 
@@ -28,6 +33,12 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         (state: RootState) => state.activeAccount
     );
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+
+    const [toggleOn, setToggleOn] = useState(true);
+
+    const toggleClickedHandler = (): void => {
+        setToggleOn(!toggleOn);
+    };
 
     const btn = {
         id: 'SendBtn',
@@ -57,6 +68,18 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         // isCorrect: amountState.isValid || insufficientBal,
     };
 
+    const styledInputED = {
+        id: 'InputField',
+        placeholder: 'Amount',
+        type: 'Number',
+        value: '0.01 DOT',
+        className: subHeadingfontFamilyClass,
+        disabled: true,
+        onChange,
+        bgColor: 'inherit',
+        border: '1px solid rgba(255, 255, 255, 0.3)',
+    };
+
     const balanceProps = {
         textAlign: 'end',
         className: subHeadingfontFamilyClass,
@@ -75,7 +98,6 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                 <MainText className={mainHeadingfontFamilyClass}>
                     Amount
                 </MainText>
-
                 <Button {...btn} />
             </FlexBetween>
             <Input blockInvalidChar {...styledInput} />
@@ -107,6 +129,76 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                     {`${trimContent(transactionFee, 6)} ${tokenName}`}
                 </Balance>
             </CalculatedAmount>
+
+            <MainText
+                style={{ marginTop: '32px' }}
+                className={mainHeadingfontFamilyClass}
+            >
+                Existen Deposit
+                <img
+                    aria-hidden
+                    src={help}
+                    alt="img"
+                    height="max-content"
+                    style={{ margin: '0px 8px' }}
+                />
+            </MainText>
+            <Input {...styledInputED} />
+
+            <FlexBetween>
+                <MainText
+                    style={{
+                        width: '240px',
+                        margin: '16px 0px',
+                        fontSize: '14px',
+                        color: 'rgba(250, 250, 250, 0.8)',
+                    }}
+                    className={mainHeadingfontFamilyClass}
+                >
+                    Transfer the full account balance, reap the sender
+                </MainText>
+
+                <img
+                    aria-hidden
+                    onClick={toggleClickedHandler}
+                    src={toggleOn ? ToggleOn : ToggleOff}
+                    style={{
+                        height: '25px',
+                        width: '40px',
+                        position: 'absolute',
+                        left: '400px',
+                    }}
+                    alt="img"
+                />
+            </FlexBetween>
+
+            <FlexBetween>
+                <MainText
+                    onClick={toggleClickedHandler}
+                    style={{
+                        width: '240px',
+                        margin: '16px 0px',
+                        fontSize: '14px',
+                        color: 'rgba(250, 250, 250, 0.8)',
+                    }}
+                    className={mainHeadingfontFamilyClass}
+                >
+                    Transfer the full account balance, reap the sender
+                </MainText>
+
+                <img
+                    aria-hidden
+                    onClick={toggleClickedHandler}
+                    src={toggleOn ? ToggleOn : ToggleOff}
+                    style={{
+                        height: '25px',
+                        width: '40px',
+                        position: 'absolute',
+                        left: '400px',
+                    }}
+                    alt="img"
+                />
+            </FlexBetween>
         </VerticalContentDiv>
     );
 };

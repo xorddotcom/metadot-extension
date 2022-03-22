@@ -74,7 +74,13 @@ export const Field = styled.input<FieldInterface>`
     font-size: 14px !important;
     line-height: 17px;
     border-radius: 8px;
-    border: ${(props) => (props.isCorrect === false ? '1px solid red' : '0px')};
+    border: ${(props) =>
+        // eslint-disable-next-line no-nested-ternary
+        props.isCorrect === false
+            ? '1px solid red'
+            : props.border
+            ? props.border
+            : '0px'};
     opacity: 0.8;
     letter-spacing: 0.02em;
     width: ${(props) => (props.fullWidth ? props.fullWidth : '80%')};

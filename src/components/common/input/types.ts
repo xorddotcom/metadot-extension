@@ -25,6 +25,7 @@ export interface FieldInterface {
     type?: string;
     disableUnderline?: boolean;
     autocomplete?: string;
+    border?: string;
 }
 
 export interface IconInterface {
@@ -70,4 +71,5 @@ export interface Props {
     inputWrapperWidth?: string;
     searchIcon?: boolean;
     rightIconDropDown?: boolean;
+    border?: string;
 }

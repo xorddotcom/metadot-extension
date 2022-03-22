@@ -19,7 +19,6 @@ const Input: React.FunctionComponent<Props> = ({
     isCorrect,
     disabled,
     id,
-
     rightIconDropDown,
     rightIcon,
     rightIconCross,
@@ -40,6 +39,7 @@ const Input: React.FunctionComponent<Props> = ({
     tokenImage,
     tokenName,
     bgColor,
+    border,
 }) => {
     const blockChar = (ev: React.KeyboardEvent): void => {
         const arr = ['e', 'E', '+', '-'];
@@ -68,6 +68,7 @@ const Input: React.FunctionComponent<Props> = ({
         type: typePassword ? hideStateRes : 'text',
         tokenLogo,
         bgColor,
+        border,
         ...style,
     };
 
