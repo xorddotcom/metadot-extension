@@ -32,11 +32,14 @@ const TxView: React.FunctionComponent<TxViewProps> = (
     props
 ): React.ReactElement => {
     const { transactionData, tokenName, handleClickOnTxCard } = props;
+    const { publicKey } = useSelector(
+        (state: RootState) => state.activeAccount
+    );
     return (
         // eslint-disable-next-line react/jsx-no-useless-fragment
         <>
-            {transactionData.length > 0 ? (
-                transactionData
+            {Object.values(transactionData[publicKey]).length > 0 ? (
+                Object.values(transactionData[publicKey])
                     .filter(
                         (transaction: TransactionRecord) =>
                             transaction.tokenName === tokenName
@@ -123,78 +126,30 @@ const AssetsAndTransactions: React.FunctionComponent<
         },
     };
 
-    const handleTransaction = (transactionObject: any): TransactionRecord => {
-        // list all the previous hashes
-        // and then dispatch new data if it's txhash is not in previousHashes
+    const handleTransaction = (transactionObject: any): void => {
+        const transactions = [
+            ...transactionObject.data.account.transferTo.nodes,
+            ...transactionObject.data.account.transferFrom.nodes,
+        ].map((transaction) => {
+            return {
+                accountFrom: transaction.fromId,
+                accountTo: transaction.toId,
+                amount: (
+                    parseInt(transaction.amount) /
+                    parseInt(transaction.decimals)
+                ).toString(),
+                hash: transaction.extrinsicHash,
+                operation:
+                    publicKey === transaction.fromId ? 'Send' : 'Receive',
+                status: transaction.status ? 'Confirmed' : 'Failed',
+                chainName: transaction.token,
+                tokenName: transaction.token,
+                transactionFee: '0',
+                timestamp: transaction.timestamp,
+            };
+        });
 
-        const previousTransactionHashList = transactionData.map(
-            (transaction: any) => transaction.hash
-        );
-
-        if (transactionObject.data.account.transferTo) {
-            transactionObject.data.account.transferTo.nodes.map(
-                (tempObj: TransactionRecordFromSubQuery) => {
-                    const sendObj: TransactionRecord = {};
-                    if (
-                        !previousTransactionHashList.includes(
-                            tempObj.extrinsicHash
-                        )
-                    ) {
-                        const abc =
-                            parseInt(tempObj.amount) /
-                            parseInt(tempObj.decimals);
-
-                        sendObj.accountFrom = tempObj.fromId;
-                        sendObj.accountTo = tempObj.toId;
-                        sendObj.amount = abc.toString();
-                        sendObj.hash = tempObj.extrinsicHash;
-                        sendObj.operation = 'Receive';
-                        sendObj.status = tempObj.status
-                            ? 'Confirmed'
-                            : 'Failed';
-                        sendObj.chainName = tempObj.token;
-                        sendObj.tokenName = tempObj.token;
-                        sendObj.transactionFee = '0';
-                        sendObj.timestamp = tempObj.timestamp;
-                        dispatch(addTransaction(sendObj));
-                    }
-
-                    return sendObj;
-                }
-            );
-        }
-
-        if (transactionObject.data.account.transferFrom) {
-            transactionObject.data.account.transferFrom.nodes.map(
-                (tempObj: TransactionRecordFromSubQuery) => {
-                    const obj: TransactionRecord = {};
-                    if (
-                        !previousTransactionHashList.includes(
-                            tempObj.extrinsicHash
-                        )
-                    ) {
-                        const abc =
-                            parseInt(tempObj.amount) /
-                            parseInt(tempObj.decimals);
-                        obj.accountFrom = tempObj.fromId;
-                        obj.accountTo = tempObj.toId;
-                        obj.amount = abc.toString();
-                        obj.hash = tempObj.extrinsicHash;
-                        obj.operation = 'Send';
-                        obj.status = tempObj.status ? 'Confirmed' : 'Failed';
-                        obj.chainName = tempObj.token;
-                        obj.tokenName = tempObj.token;
-                        obj.transactionFee = '0';
-                        obj.timestamp = tempObj.timestamp;
-                        dispatch(addTransaction(obj));
-                    }
-
-                    return obj;
-                }
-            );
-        }
-
-        return transactionObject;
+        dispatch(addTransaction({ transactions, publicKey }));
     };
 
     const { query, endPoint } = queryData(queryEndpoint, publicKey, prefix);
@@ -212,7 +167,10 @@ const AssetsAndTransactions: React.FunctionComponent<
             .catch((e) => console.log(e));
 
     useEffect(() => {
-        fetchTransactions();
+        if (publicKey) {
+            fetchTransactions();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [rpcUrl]);
 
     return (
