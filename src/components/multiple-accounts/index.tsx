@@ -10,7 +10,6 @@ import {
 } from '../../redux/slices/activeAccount';
 import { resetAccountsSlice } from '../../redux/slices/accounts';
 import { Wrapper, WrapperScroll } from './styles';
-import { resetTransactions } from '../../redux/slices/transactions';
 import { RootState } from '../../redux/store';
 import services from '../../utils/services';
 import { DASHBOARD, CREATE_DERIVED_ACCOUNT, WELCOME } from '../../constants';
@@ -85,7 +84,6 @@ const MultipleAccounts: React.FunctionComponent = () => {
     const activateAccountHandler = (pk: string, name: string): void => {
         dispatch(setPublicKey(pk));
         dispatch(setAccountName(name));
-        dispatch(resetTransactions());
         navigate(DASHBOARD);
     };
 

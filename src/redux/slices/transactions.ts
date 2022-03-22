@@ -38,12 +38,9 @@ export const transactionSlice = createSlice({
                 },
             };
         },
-        resetTransactions: () => {
-            return {};
-        },
     },
 });
 
-export const { addTransaction, resetTransactions } = transactionSlice.actions;
+export const { addTransaction } = transactionSlice.actions;
 
 export default transactionSlice.reducer;

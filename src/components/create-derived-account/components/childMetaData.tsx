@@ -21,7 +21,6 @@ import {
 import AccountCard from './account-card';
 
 import { ChildMetaDataInterface } from '../types';
-import { resetTransactions } from '../../../redux/slices/transactions';
 import useDispatcher from '../../../hooks/useDispatcher';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
@@ -104,7 +103,6 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
                 password,
                 null
             );
-            generalDispatcher(() => resetTransactions());
             setIsLoading(false);
             showSuccess();
         } catch (err: any) {

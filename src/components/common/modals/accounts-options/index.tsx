@@ -32,7 +32,6 @@ import { RootState } from '../../../../redux/store';
 import accounts from '../../../../utils/accounts';
 import WarningModal from '../warningModal';
 import AuthModal from '../authorization';
-import { resetTransactions } from '../../../../redux/slices/transactions';
 import useDispatcher from '../../../../hooks/useDispatcher';
 import {
     ACCOUNTS,
@@ -83,14 +82,6 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
 
     const warnModalHandler = (e: boolean): void => {
         setOpenWarnModal(e);
-    };
-
-    // Account Handlers
-    const activateAccountHandler = (pk: string, name: string): void => {
-        generalDispatcher(() => setPublicKey(pk));
-        generalDispatcher(() => setAccountName(name));
-        generalDispatcher(() => resetTransactions());
-        navigate(DASHBOARD);
     };
 
     const deleteAccountHandler = async (publicKey: string): Promise<void> => {
