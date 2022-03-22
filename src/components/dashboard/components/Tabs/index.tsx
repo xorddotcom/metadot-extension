@@ -171,7 +171,7 @@ const AssetsAndTransactions: React.FunctionComponent<
             fetchTransactions();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [rpcUrl]);
+    }, [rpcUrl, publicKey]);
 
     return (
         <AssetsAndTransactionsWrapper>
