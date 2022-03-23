@@ -1,3 +1,4 @@
+import { SetStateAction } from 'react';
 import { RootState } from '../../redux/store';
 
 export interface errorMessages {
@@ -60,6 +61,16 @@ export interface AmountInputInterface {
     amount: any;
 }
 
+type transferAllType = {
+    transferAll: boolean;
+    keepAlive: boolean;
+};
+
+type disableToggleButtons = {
+    firstToggle: boolean;
+    secondToggle: boolean;
+};
+
 export interface SendViewProps {
     toInput: ToInputInterface;
     amountInput: AmountInputInterface;
@@ -82,7 +93,14 @@ export interface SendViewProps {
         handleClose(): void;
         loading2: boolean;
     };
+    setTransferAll: React.Dispatch<SetStateAction<transferAllType>>;
+    setAmountOnToggle(input: boolean, keepAlive: boolean): void;
+    transactionFee: number;
+    existentialDeposit: number;
+    disableToggleButtons: disableToggleButtons;
 }
+
+// setTxDetailsModalData: Dispatch<SetStateAction<TransactionRecord>>;
 
 export interface CalculatedAmountInterface {
     marginTop?: string;

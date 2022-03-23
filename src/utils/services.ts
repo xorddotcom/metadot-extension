@@ -88,18 +88,18 @@ const getTransactionFee = async (
     tokenName: string
 ): Promise<number> => {
     try {
-        const decimalPlacesForTxFee: number = await api.registry
-            .chainDecimals[0];
+        const decimalPlacesForTxFee: any = await api.registry.chainDecimals;
         const info = await api.tx.balances
             .transfer(sender, BigInt(amount * 10 ** decimalPlacesForTxFee))
             .paymentInfo(recipient);
-
+        console.log('Info ===>>', info);
         const txFee = await convertTransactionFee(
             tokenName,
             info.partialFee.toHuman()
         );
         return txFee;
     } catch (err) {
+        console.log('Error', err);
         return 0;
     }
 };
