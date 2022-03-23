@@ -31,13 +31,13 @@ const SendView: React.FunctionComponent<SendViewProps> = (props) => {
                 <ToInput {...toInput} />
                 <AmountInput {...amountInput} />
             </MainContent>
-            <SwitchButton
+            {/* <SwitchButton
                 setTransferAll={setTransferAll}
                 setAmountOnToggle={setAmountOnToggle}
                 transactionFee={transactionFee}
                 existentialDeposit={existentialDeposit}
                 disableToggleButtons={disableToggleButtons}
-            />
+            /> */}
             <CenterContent>
                 <Button {...nextBtn} />
             </CenterContent>

@@ -90,7 +90,7 @@ const getTransactionFee = async (
     try {
         const decimalPlacesForTxFee: any = await api.registry.chainDecimals;
         const info = await api.tx.balances
-            .transfer(sender, BigInt(amount * 10 ** decimalPlacesForTxFee))
+            .transfer(sender, amount)
             .paymentInfo(recipient);
         console.log('Info ===>>', info);
         const txFee = await convertTransactionFee(

@@ -59,6 +59,12 @@ export interface AmountInputInterface {
     errorMessages: errorMessages;
     transactionFee: number;
     amount: any;
+
+    setTransferAll: React.Dispatch<SetStateAction<transferAllType>>;
+    setAmountOnToggle(input: boolean, keepAlive: boolean): void;
+
+    existentialDeposit: number;
+    disableToggleButtons: disableToggleButtons;
 }
 
 type transferAllType = {

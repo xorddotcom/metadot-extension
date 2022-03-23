@@ -12,6 +12,8 @@ const { visibilityOff, dropdownIcon, visibilityOn } = images;
 const { subHeadingfontFamilyClass } = fonts;
 
 const Input: React.FunctionComponent<Props> = ({
+    setSwitchChecked,
+    setSwitchCheckedSecond,
     placeholder,
     onChange,
     value,
@@ -61,7 +63,12 @@ const Input: React.FunctionComponent<Props> = ({
         onKeyDown: (e: React.KeyboardEvent) =>
             blockInvalidChar ? blockChar(e) : null,
         onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+            console.log('on change working ===>>', placeholder);
             onChange(e.target.value);
+            if (placeholder === 'Amount') {
+                if (setSwitchChecked) setSwitchChecked(false);
+                if (setSwitchCheckedSecond) setSwitchCheckedSecond(false);
+            }
         },
         isCorrect,
         disabled,

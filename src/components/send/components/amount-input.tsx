@@ -27,6 +27,10 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     insufficientBal,
     errorMessages,
     transactionFee,
+    setTransferAll,
+    setAmountOnToggle,
+    disableToggleButtons,
+    existentialDeposit,
     amount,
 }) => {
     const { balance, balanceInUsd, tokenName, tokenImage } = useSelector(
@@ -34,10 +38,42 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     );
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
+    const [switchChecked, setSwitchChecked] = useState(false);
+    const [switchCheckedSecond, setSwitchCheckedSecond] = useState(false);
+    const [disabled, setDisabled] = useState({
+        firstSwitch: false,
+        secondSwitch: false,
+    });
+
     const [toggleOn, setToggleOn] = useState(true);
 
     const toggleClickedHandler = (): void => {
         setToggleOn(!toggleOn);
+    };
+
+    const handleChangeFirst = (e: any): boolean => {
+        if (disableToggleButtons.firstToggle) return false;
+        setAmountOnToggle(!switchChecked, true);
+        console.log(e.target.checked);
+        setSwitchCheckedSecond(false);
+        setSwitchChecked(!switchChecked);
+        setTransferAll({
+            keepAlive: true,
+            transferAll: true,
+        });
+        return true;
+    };
+
+    const handleChangeSecond = (): boolean => {
+        if (disableToggleButtons.secondToggle) return true;
+        setAmountOnToggle(!switchCheckedSecond, false);
+        setSwitchChecked(false);
+        setSwitchCheckedSecond(!switchCheckedSecond);
+        setTransferAll({
+            keepAlive: false,
+            transferAll: true,
+        });
+        return false;
     };
 
     const btn = {
@@ -61,6 +97,8 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         value: amount,
         className: subHeadingfontFamilyClass,
         onChange,
+        setSwitchChecked,
+        setSwitchCheckedSecond,
         amount,
         tokenLogo: true,
         tokenName,
@@ -72,7 +110,8 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         id: 'InputField',
         placeholder: 'Amount',
         type: 'Number',
-        value: '0.01 DOT',
+        // value: '0.01 DOT',
+        value: `${existentialDeposit} ${tokenName}`,
         className: subHeadingfontFamilyClass,
         disabled: true,
         onChange,
@@ -134,7 +173,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                 style={{ marginTop: '32px' }}
                 className={mainHeadingfontFamilyClass}
             >
-                Existen Deposit
+                Existential Deposit
                 <img
                     aria-hidden
                     src={help}
@@ -160,13 +199,21 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
 
                 <img
                     aria-hidden
-                    onClick={toggleClickedHandler}
-                    src={toggleOn ? ToggleOn : ToggleOff}
+                    onClick={handleChangeFirst}
+                    src={
+                        // eslint-disable-next-line no-nested-ternary
+                        disableToggleButtons.firstToggle
+                            ? ToggleOff
+                            : switchChecked
+                            ? ToggleOn
+                            : ToggleOff
+                    }
                     style={{
                         height: '25px',
                         width: '40px',
                         position: 'absolute',
-                        left: '400px',
+                        // left: '400px',
+                        right: '20px',
                     }}
                     alt="img"
                 />
@@ -174,7 +221,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
 
             <FlexBetween>
                 <MainText
-                    onClick={toggleClickedHandler}
+                    // onClick={toggleClickedHandler}
                     style={{
                         width: '240px',
                         margin: '16px 0px',
@@ -188,13 +235,21 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
 
                 <img
                     aria-hidden
-                    onClick={toggleClickedHandler}
-                    src={toggleOn ? ToggleOn : ToggleOff}
+                    onClick={handleChangeSecond}
+                    src={
+                        // eslint-disable-next-line no-nested-ternary
+                        disableToggleButtons.secondToggle
+                            ? ToggleOff
+                            : switchCheckedSecond
+                            ? ToggleOn
+                            : ToggleOff
+                    }
                     style={{
                         height: '25px',
                         width: '40px',
                         position: 'absolute',
-                        left: '400px',
+                        // left: '400px',
+                        right: '20px',
                     }}
                     alt="img"
                 />
