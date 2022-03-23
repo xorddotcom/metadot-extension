@@ -20,14 +20,14 @@ export interface DropDownProps {
 export interface AssetsAndTransactionsPropsInterface {
     handleOpenTxDetailsModal(): void;
     setTxDetailsModalData: Dispatch<SetStateAction<TransactionRecord>>;
-    transactionData: TransactionRecord[];
+    transactionData: Transactions;
 }
 
 export interface TransactionRecord {
     accountFrom?: string;
     accountTo?: string;
     amount?: string;
-    hash?: string;
+    hash: string;
     operation?: string;
     status?: string;
     chainName?: string;
@@ -36,8 +36,16 @@ export interface TransactionRecord {
     timestamp?: string;
 }
 
+export interface Transaction {
+    [hash: string]: TransactionRecord;
+}
+
+export interface Transactions {
+    [publicKey: string]: Transaction;
+}
+
 export interface TxViewProps {
-    transactionData: TransactionRecord[];
+    transactionData: Transactions;
     tokenName: string;
     handleClickOnTxCard(tx: TransactionRecord): void;
 }
@@ -84,7 +92,7 @@ export interface ModalStateInterface {
 
 export interface DashboardViewProps {
     isLoading: boolean;
-    transactionData: TransactionRecord[];
+    transactionData: Transactions;
     txDetailsModalData: TransactionRecord;
     setTxDetailsModalData: Dispatch<SetStateAction<TransactionRecord>>;
     isTxDetailsModalOpen: boolean;

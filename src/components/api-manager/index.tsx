@@ -191,12 +191,25 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                         const signedBlock = await api.rpc.chain.getBlock(
                             header.hash
                         );
+
                         const apiAt = await api.at(header.hash);
                         const allEvents = await apiAt.query.system.events();
 
                         const transactions: any = [];
                         signedBlock.block.extrinsics.forEach(
                             (extrinsic, index) => {
+                                let blockTimeStamp: string;
+                                if (
+                                    extrinsic.method.method === 'set' &&
+                                    extrinsic.method.section === 'timestamp'
+                                ) {
+                                    blockTimeStamp = new Date(
+                                        Number(extrinsic?.args?.[0].toString())
+                                    ).toString();
+                                } else {
+                                    blockTimeStamp = new Date().toString();
+                                }
+
                                 allEvents
                                     .filter(
                                         ({ event, phase }: any) =>
@@ -248,7 +261,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                             tokenName:
                                                 api.registry.chainTokens[0],
                                             transactionFee: '0',
-                                            timestamp: Date.now(),
+                                            timestamp: blockTimeStamp,
                                         });
                                     });
                             }
@@ -264,7 +277,10 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                         );
 
                         generalDispatcher(() =>
-                            addTransaction(uniqueTransactions)
+                            addTransaction({
+                                transactions: uniqueTransactions,
+                                publicKey,
+                            })
                         );
                     }
                 );

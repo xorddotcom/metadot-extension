@@ -32,7 +32,6 @@ import {
     RESTORE_WALLET,
     RESTORE_WALLET_DESCRIPTION,
 } from '../../utils/app-content';
-import { resetTransactions } from '../../redux/slices/transactions';
 import useDispatcher from '../../hooks/useDispatcher';
 
 const { openOptions, isTabViewOpened } = helpers;
@@ -104,7 +103,6 @@ function ImportWallet(): JSX.Element {
             const res = await createAccountFromJSON(json, password);
             if (res) {
                 dispatch(setJsonFileUploadScreen(false));
-                generalDispatcher(() => resetTransactions());
                 showSuccessModalAndNavigateToDashboard();
             } else {
                 setPasswordError(true);
