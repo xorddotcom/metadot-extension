@@ -137,7 +137,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                 <MainText className={mainHeadingfontFamilyClass}>
                     Amount
                 </MainText>
-                <Button {...btn} />
+                {/* <Button {...btn} /> */}
             </FlexBetween>
             <Input blockInvalidChar {...styledInput} />
             {insufficientBal && (
@@ -194,7 +194,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                     }}
                     className={mainHeadingfontFamilyClass}
                 >
-                    Transfer the full account balance, reap the sender
+                    Leave existential deposit.
                 </MainText>
 
                 <img
@@ -212,8 +212,8 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                         height: '25px',
                         width: '40px',
                         position: 'absolute',
-                        // left: '400px',
-                        right: '20px',
+                        left: '300px',
+                        // right: '37%',
                     }}
                     alt="img"
                 />
@@ -230,7 +230,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                     }}
                     className={mainHeadingfontFamilyClass}
                 >
-                    Transfer the full account balance, reap the sender
+                    Empty account.
                 </MainText>
 
                 <img
@@ -248,8 +248,8 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                         height: '25px',
                         width: '40px',
                         position: 'absolute',
-                        // left: '400px',
-                        right: '20px',
+                        left: '300px',
+                        // right: '61%',
                     }}
                     alt="img"
                 />
