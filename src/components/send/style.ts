@@ -11,7 +11,7 @@ import { CalculatedAmountInterface } from './types';
 const { primaryText, primaryBackground, secondaryBlack } = colors;
 
 export const Wrapper = styled.div`
-    width: 133%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;

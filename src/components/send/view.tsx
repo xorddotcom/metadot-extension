@@ -12,7 +12,7 @@ import { SendViewProps } from './types';
 const SendView: React.FunctionComponent<SendViewProps> = (props) => {
     const { toInput, amountInput, nextBtn, confirmSend } = props;
     return (
-        <Wrapper pb>
+        <>
             <Header centerText="Send" />
 
             <MainContent>
@@ -24,7 +24,7 @@ const SendView: React.FunctionComponent<SendViewProps> = (props) => {
                 <Button {...nextBtn} />
             </CenterContent>
             <ConfirmSend {...confirmSend} />
-        </Wrapper>
+        </>
     );
 };
 

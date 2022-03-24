@@ -6,7 +6,7 @@ import { RootState } from '../../../redux/store';
 import { fonts, helpers, exponentConversion } from '../../../utils';
 import { Button, Input } from '../../common';
 import { WarningText, MainText } from '../../common/text';
-import { VerticalContentDiv } from '../../common/wrapper';
+import { HorizontalContentDiv, VerticalContentDiv } from '../../common/wrapper';
 import {
     FlexBetween,
     EquivalentInUSDT,
@@ -172,10 +172,9 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
             </MainText>
             <Input {...styledInputED} />
 
-            <FlexBetween>
+            <HorizontalContentDiv justifyContent="space-between">
                 <MainText
                     style={{
-                        width: '240px',
                         margin: '16px 0px',
                         fontSize: '14px',
                         color: 'rgba(250, 250, 250, 0.8)',
@@ -199,19 +198,18 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                     style={{
                         height: '25px',
                         width: '40px',
-                        position: 'absolute',
-                        left: '300px',
+                        // position: 'absolute',
+                        // left: '300px',
                         // right: '37%',
                     }}
                     alt="img"
                 />
-            </FlexBetween>
+            </HorizontalContentDiv>
 
-            <FlexBetween>
+            <HorizontalContentDiv justifyContent="space-between">
                 <MainText
                     // onClick={toggleClickedHandler}
                     style={{
-                        width: '240px',
                         margin: '16px 0px',
                         fontSize: '14px',
                         color: 'rgba(250, 250, 250, 0.8)',
@@ -235,13 +233,13 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                     style={{
                         height: '25px',
                         width: '40px',
-                        position: 'absolute',
-                        left: '300px',
+                        // position: 'absolute',
+                        // left: '300px',
                         // right: '61%',
                     }}
                     alt="img"
                 />
-            </FlexBetween>
+            </HorizontalContentDiv>
         </VerticalContentDiv>
     );
 };

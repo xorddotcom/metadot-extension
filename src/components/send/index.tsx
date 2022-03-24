@@ -564,7 +564,7 @@ const Send: React.FunctionComponent = () => {
     };
 
     return (
-        <AuthWrapper>
+        <AuthWrapper width="89%">
             <SendView
                 toInput={toInput}
                 amountInput={amountInput}
