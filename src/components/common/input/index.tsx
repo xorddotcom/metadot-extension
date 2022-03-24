@@ -12,6 +12,8 @@ const { visibilityOff, dropdownIcon, visibilityOn } = images;
 const { subHeadingfontFamilyClass } = fonts;
 
 const Input: React.FunctionComponent<Props> = ({
+    setSwitchChecked,
+    setSwitchCheckedSecond,
     placeholder,
     onChange,
     value,
@@ -19,7 +21,6 @@ const Input: React.FunctionComponent<Props> = ({
     isCorrect,
     disabled,
     id,
-
     rightIconDropDown,
     rightIcon,
     rightIconCross,
@@ -40,6 +41,7 @@ const Input: React.FunctionComponent<Props> = ({
     tokenImage,
     tokenName,
     bgColor,
+    border,
 }) => {
     const blockChar = (ev: React.KeyboardEvent): void => {
         const arr = ['e', 'E', '+', '-'];
@@ -62,12 +64,17 @@ const Input: React.FunctionComponent<Props> = ({
             blockInvalidChar ? blockChar(e) : null,
         onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
             onChange(e.target.value);
+            if (placeholder === 'Amount') {
+                if (setSwitchChecked) setSwitchChecked(false);
+                if (setSwitchCheckedSecond) setSwitchCheckedSecond(false);
+            }
         },
         isCorrect,
         disabled,
         type: typePassword ? hideStateRes : 'text',
         tokenLogo,
         bgColor,
+        border,
         ...style,
     };
 

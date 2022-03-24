@@ -1,5 +1,5 @@
 import '@polkadot/api-augment';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
@@ -51,7 +51,15 @@ const Send: React.FunctionComponent = () => {
     const [isWarningModalOpen, setIsWarningModalOpen] = useState(false);
     const [subTextForWarningModal, setSubTextForWarningModal] = useState('abc');
     const [isInputEmpty, setIsInputEmpty] = useState(true);
-
+    const [existentialDeposit, setExistentialDeposit] = useState(0);
+    const [transferAll, setTransferAll] = useState({
+        transferAll: false,
+        keepAlive: false,
+    });
+    const [disableToggleButtons, setDisableToggleButtons] = useState({
+        firstToggle: false,
+        secondToggle: false,
+    });
     const currReduxState = useSelector((state: RootState) => state);
     const { activeAccount, modalHandling } = useSelector(
         (state: RootState) => state
@@ -90,7 +98,41 @@ const Send: React.FunctionComponent = () => {
             setTransactionFee(txFeeWithFivePercentMargin);
         }
         get();
-    });
+    }, []);
+
+    useEffect(() => {
+        async function getED(): Promise<void> {
+            const decimalPlaces = await api.registry.chainDecimals[0];
+            const ED: number =
+                Number(api.consts.balances.existentialDeposit.toString()) /
+                10 ** decimalPlaces;
+
+            setExistentialDeposit(ED);
+        }
+        getED();
+    }, []);
+
+    useEffect(() => {
+        if (balance - transactionFee > existentialDeposit) {
+            console.log('hello disable 1');
+        } else if (balance.toString() === existentialDeposit.toString()) {
+            setDisableToggleButtons({
+                firstToggle: true,
+                secondToggle: true,
+            });
+        } else if (balance < transactionFee) {
+            setDisableToggleButtons({
+                firstToggle: true,
+                secondToggle: true,
+            });
+        }
+        // else if (balance.toString() === existentialDeposit.toString()) {
+        //     setDisableToggleButtons((prevState) => ({
+        //         ...prevState,
+        //         firstToggle: true,
+        //     }));
+        // }
+    }, [transactionFee, existentialDeposit]);
 
     const maxInputHandler = async (): Promise<void> => {
         setInsufficientBal(false);
@@ -129,9 +171,10 @@ const Send: React.FunctionComponent = () => {
             return [false, txFee];
         }
 
-        const ED: number =
-            Number(api.consts.balances.existentialDeposit.toString()) /
-            10 ** decimalPlaces;
+        const ED = existentialDeposit;
+        // const ED: number =
+        //     Number(api.consts.balances.existentialDeposit.toString()) /
+        //     10 ** decimalPlaces;
 
         if (Number(ED) > Number(recipientBalance + amount)) {
             // Show warning modal
@@ -154,6 +197,42 @@ const Send: React.FunctionComponent = () => {
         return [true, txFee];
     };
 
+    const signTransactionFunction = async (
+        tx: any,
+        address: string,
+        password: string
+    ): Promise<any> => {
+        const nonce = await api.rpc.system.accountNextIndex(address);
+        const signer = api.createType('SignerPayload', {
+            method: tx,
+            nonce,
+            genesisHash: api.genesisHash,
+            blockHash: api.genesisHash,
+            runtimeVersion: api.runtimeVersion,
+            version: api.extrinsicVersion,
+        });
+        const txPayload: any = api.createType(
+            'ExtrinsicPayload',
+            signer.toPayload(),
+            { version: api.extrinsicVersion }
+        );
+        const txHex = txPayload.toU8a(true);
+        let signature;
+        try {
+            signature = await signTransaction(
+                address,
+                password,
+                txHex,
+                'substrate'
+            );
+        } catch (err) {
+            setLoading2(false);
+            throw new Error('Invalid Password!');
+        }
+        tx.addSignature(address, signature, txPayload);
+        return tx;
+    };
+
     const doTransaction = async (
         address = '',
         password = ''
@@ -171,36 +250,13 @@ const Send: React.FunctionComponent = () => {
                 BigInt(amountSending)
             );
 
-            const nonce = await api.rpc.system.accountNextIndex(address);
-            const signer = api.createType('SignerPayload', {
-                method: tx,
-                nonce,
-                genesisHash: api.genesisHash,
-                blockHash: api.genesisHash,
-                runtimeVersion: api.runtimeVersion,
-                version: api.extrinsicVersion,
-            });
-            const txPayload: any = api.createType(
-                'ExtrinsicPayload',
-                signer.toPayload(),
-                { version: api.extrinsicVersion }
+            const signedTx = await signTransactionFunction(
+                tx,
+                address,
+                password
             );
-            const txHex = txPayload.toU8a(true);
-            let signature;
-            try {
-                signature = await signTransaction(
-                    address,
-                    password,
-                    txHex,
-                    'substrate'
-                );
-            } catch (err) {
-                setLoading2(false);
-                throw new Error('Invalid Password!');
-            }
-            tx.addSignature(address, signature, txPayload);
-            await tx
-                .send(({ status, events }) => {
+            await signedTx
+                .send(({ status, events }: any) => {
                     const txResSuccess = events.filter(
                         ({ event }: EventRecord) =>
                             api.events.system.ExtrinsicSuccess.is(event)
@@ -234,7 +290,7 @@ const Send: React.FunctionComponent = () => {
                         }
                     }
                 })
-                .catch((err) => {
+                .catch(() => {
                     setLoading2(false);
                     generalDispatcher(() => setConfirmSendModal(false));
                     openResponseModalForTxFailed();
@@ -282,8 +338,79 @@ const Send: React.FunctionComponent = () => {
         generalDispatcher(() => setConfirmSendModal(true));
     };
 
+    const doTransactionTransferAll = async (
+        address: '',
+        password: ''
+    ): Promise<boolean> => {
+        try {
+            setLoading2(true);
+
+            const tx = await api.tx.balances.transferAll(
+                receiverAddress,
+                transferAll.keepAlive
+            );
+            const signedTx = await signTransactionFunction(
+                tx,
+                address,
+                password
+            );
+
+            await signedTx
+                .send(({ status, events }: any) => {
+                    const txResSuccess = events.filter(
+                        ({ event }: EventRecord) =>
+                            api.events.system.ExtrinsicSuccess.is(event)
+                    );
+                    const txResFail = events.filter(({ event }: EventRecord) =>
+                        api.events.system.ExtrinsicFailed.is(event)
+                    );
+                    if (status.isInBlock) {
+                        if (txResFail.length >= 1) {
+                            setLoading2(false);
+                            generalDispatcher(() => setConfirmSendModal(false));
+                            openResponseModalForTxFailed();
+                            setTimeout(() => {
+                                generalDispatcher(() =>
+                                    setIsResponseModalOpen(false)
+                                );
+                            }, 4000);
+                            // navigate to dashboard on success
+                            navigate(DASHBOARD);
+                        }
+                        if (txResSuccess.length >= 1) {
+                            setLoading2(false);
+                            generalDispatcher(() => setConfirmSendModal(false));
+                            openResponseModalForTxSuccess();
+                            setTimeout(() => {
+                                generalDispatcher(() =>
+                                    setIsResponseModalOpen(false)
+                                );
+                            }, 2000);
+                            navigate(DASHBOARD);
+                        }
+                    }
+                })
+                .catch(() => {
+                    setLoading2(false);
+                    generalDispatcher(() => setConfirmSendModal(false));
+                    openResponseModalForTxFailed();
+                    setTimeout(() => {
+                        generalDispatcher(() => setIsResponseModalOpen(false));
+                    }, 4000);
+                    // navigate to dashboard on success
+                    navigate(DASHBOARD);
+                    return false;
+                });
+            return true;
+        } catch (err) {
+            return false;
+        }
+    };
+
     const handleSubmit = async (): Promise<void> => {
         try {
+            if (transferAll.transferAll)
+                generalDispatcher(() => setConfirmSendModal(true));
             setLoading1(true);
             if (!validateInputValues(receiverAddress)) {
                 throw new Error('An error occurred');
@@ -315,6 +442,17 @@ const Send: React.FunctionComponent = () => {
             setLoading1(false);
         }
     };
+    const setAmountOnToggle = (toggleOn: boolean, keepAlive: boolean): void => {
+        if (toggleOn) {
+            const res = balance - transactionFee;
+            setAmount(
+                keepAlive
+                    ? (res - existentialDeposit).toFixed(4)
+                    : res.toFixed(4)
+            );
+            setIsInputEmpty(false);
+        } else setAmount('');
+    };
 
     const toInput = {
         isCorrect,
@@ -329,9 +467,14 @@ const Send: React.FunctionComponent = () => {
 
     const amountInput = {
         onChange: (e: string): boolean => {
+            console.log('on change ====>>>');
             // if (amount > e) setAmount(e);
-            if (e[0] && e[1] === '0') return false;
+            if (e[0] === '0' && e[1] === '0') {
+                console.log(0);
+                return false;
+            }
             if (e.length < 14) {
+                console.log(1);
                 let decimalInStart = false;
                 if (e[0] === '.') {
                     // eslint-disable-next-line no-param-reassign
@@ -341,18 +484,23 @@ const Send: React.FunctionComponent = () => {
                 const reg = /^-?\d+\.?\d*$/;
                 const test = reg.test(e);
 
+                console.log(2);
                 if (!test && e.length !== 0 && !decimalInStart) {
+                    console.log(3);
                     return false;
                 }
                 if (Number(e) + transactionFee >= balance) {
+                    console.log(4);
                     setInsufficientBal(true);
                     // return false;
                 }
                 setInsufficientBal(false);
                 if (e.length === 0) {
+                    console.log(5);
                     setAmount(e);
                     setIsInputEmpty(true);
                 } else {
+                    console.log(6);
                     setAmount(e);
                     setIsInputEmpty(false);
                 }
@@ -365,6 +513,12 @@ const Send: React.FunctionComponent = () => {
         errorMessages,
         transactionFee,
         amount,
+        setTransferAll,
+        setAmountOnToggle,
+        existentialDeposit,
+        disableToggleButtons,
+        setDisableToggleButtons,
+        tokenName,
     };
 
     const nextBtn = {
@@ -416,6 +570,11 @@ const Send: React.FunctionComponent = () => {
                 amountInput={amountInput}
                 confirmSend={confirmSend}
                 nextBtn={nextBtn}
+                setTransferAll={setTransferAll}
+                setAmountOnToggle={setAmountOnToggle}
+                // transactionFee={transactionFee}
+                // existentialDeposit={existentialDeposit}
+                // disableToggleButtons={disableToggleButtons}
             />
             <AuthModal
                 publicKey={publicKey}
@@ -424,7 +583,11 @@ const Send: React.FunctionComponent = () => {
                     generalDispatcher(() => setAuthScreenModal(false));
                     generalDispatcher(() => setConfirmSendModal(true));
                 }}
-                onConfirm={doTransaction}
+                onConfirm={
+                    transferAll.transferAll
+                        ? doTransactionTransferAll
+                        : doTransaction
+                }
                 style={{
                     width: '290px',
                     background: '#141414',

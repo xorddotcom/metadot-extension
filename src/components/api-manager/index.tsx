@@ -13,7 +13,7 @@ import {
 import { setIsResponseModalOpen } from '../../redux/slices/modalHandling';
 import { RootState } from '../../redux/store';
 
-import { helpers, images } from '../../utils';
+import { helpers, images, exponentConversion } from '../../utils';
 import services from '../../utils/services';
 import useResponseModal from '../../hooks/useResponseModal';
 import useDispatcher from '../../hooks/useDispatcher';
@@ -115,7 +115,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                         setTokenName(tokenNameofSelectedNetwork)
                     );
                     generalDispatcher(() =>
-                        setBalance(balanceOfSelectedNetwork)
+                        setBalance(exponentConversion(balanceOfSelectedNetwork))
                     );
 
                     if (loadingForApi) {
@@ -158,7 +158,9 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                 balanceOfSelectedNetwork
             );
             generalDispatcher(() => setBalanceInUsd(dollarAmount));
-            generalDispatcher(() => setBalance(balanceOfSelectedNetwork));
+            generalDispatcher(() =>
+                setBalance(exponentConversion(balanceOfSelectedNetwork))
+            );
 
             generalDispatcher(() => setApiInitializationStarts(false));
         };
@@ -175,13 +177,16 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                 unsub = await api.query.system.account(
                     publicKey,
                     ({ data: balance }) => {
+                        // const res = balance.free - balance/mi
                         const userBalance = formatBalance(balance.free, {
                             decimals,
                             forceUnit: '-',
                             withUnit: false,
                         });
+                        const exponentConverted =
+                            exponentConversion(userBalance);
                         generalDispatcher(() =>
-                            setBalance(Number(userBalance))
+                            setBalance(Number(exponentConverted))
                         );
                     }
                 );

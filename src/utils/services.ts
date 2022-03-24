@@ -39,6 +39,24 @@ const getBalanceWithSingleToken = async (
     acc: string
 ): Promise<number> => {
     const { data: balance }: any = await api.query.system.account(acc);
+
+    const res1: string[] = Object.keys(balance);
+    const res2: string[] = Object.values(balance);
+    console.log('res 2', res2);
+    const arr = [];
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i <= 4; i++) {
+        // console.log('res i', res2[i]);
+        // res2[i];
+        const newRes = formatBalance(res2[i], {
+            decimals: api.registry.chainDecimals[0],
+            forceUnit: '-',
+            withUnit: false,
+        });
+        console.log('keys and values', { key: res1[i], val: newRes });
+        arr.push({ key: res1[i], value: newRes });
+    }
+    console.log('arr', arr);
     const userBalance = formatBalance(balance.free, {
         decimals: api.registry.chainDecimals[0],
         forceUnit: '-',
@@ -88,18 +106,18 @@ const getTransactionFee = async (
     tokenName: string
 ): Promise<number> => {
     try {
-        const decimalPlacesForTxFee: number = await api.registry
-            .chainDecimals[0];
+        const decimalPlacesForTxFee: any = await api.registry.chainDecimals;
         const info = await api.tx.balances
-            .transfer(sender, BigInt(amount * 10 ** decimalPlacesForTxFee))
+            .transfer(sender, amount)
             .paymentInfo(recipient);
-
+        console.log('Info ===>>', info);
         const txFee = await convertTransactionFee(
             tokenName,
             info.partialFee.toHuman()
         );
         return txFee;
     } catch (err) {
+        console.log('Error', err);
         return 0;
     }
 };
