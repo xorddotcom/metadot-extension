@@ -101,12 +101,7 @@ export interface SendViewProps {
     };
     setTransferAll: React.Dispatch<SetStateAction<transferAllType>>;
     setAmountOnToggle(input: boolean, keepAlive: boolean): void;
-    transactionFee: number;
-    existentialDeposit: number;
-    disableToggleButtons: disableToggleButtons;
 }
-
-// setTxDetailsModalData: Dispatch<SetStateAction<TransactionRecord>>;
 
 export interface CalculatedAmountInterface {
     marginTop?: string;

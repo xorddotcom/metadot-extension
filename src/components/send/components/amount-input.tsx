@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Box } from '@material-ui/core';
 import { fontWeight } from '@mui/system';
 import { RootState } from '../../../redux/store';
-import { fonts, helpers } from '../../../utils';
+import { fonts, helpers, exponentConversion } from '../../../utils';
 import { Button, Input } from '../../common';
 import { WarningText, MainText } from '../../common/text';
 import { VerticalContentDiv } from '../../common/wrapper';
@@ -25,7 +25,6 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     onChange,
     maxInputHandler,
     insufficientBal,
-    errorMessages,
     transactionFee,
     setTransferAll,
     setAmountOnToggle,
@@ -40,21 +39,10 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
 
     const [switchChecked, setSwitchChecked] = useState(false);
     const [switchCheckedSecond, setSwitchCheckedSecond] = useState(false);
-    const [disabled, setDisabled] = useState({
-        firstSwitch: false,
-        secondSwitch: false,
-    });
-
-    const [toggleOn, setToggleOn] = useState(true);
-
-    const toggleClickedHandler = (): void => {
-        setToggleOn(!toggleOn);
-    };
 
     const handleChangeFirst = (e: any): boolean => {
         if (disableToggleButtons.firstToggle) return false;
         setAmountOnToggle(!switchChecked, true);
-        console.log(e.target.checked);
         setSwitchCheckedSecond(false);
         setSwitchChecked(!switchChecked);
         setTransferAll({
@@ -111,7 +99,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         placeholder: 'Amount',
         type: 'Number',
         // value: '0.01 DOT',
-        value: `${existentialDeposit} ${tokenName}`,
+        value: `${exponentConversion(existentialDeposit)} ${tokenName}`,
         className: subHeadingfontFamilyClass,
         disabled: true,
         onChange,

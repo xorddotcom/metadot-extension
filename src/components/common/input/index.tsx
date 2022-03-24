@@ -63,7 +63,6 @@ const Input: React.FunctionComponent<Props> = ({
         onKeyDown: (e: React.KeyboardEvent) =>
             blockInvalidChar ? blockChar(e) : null,
         onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-            console.log('on change working ===>>', placeholder);
             onChange(e.target.value);
             if (placeholder === 'Amount') {
                 if (setSwitchChecked) setSwitchChecked(false);

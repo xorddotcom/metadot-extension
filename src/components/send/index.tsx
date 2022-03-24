@@ -86,7 +86,6 @@ const Send: React.FunctionComponent = () => {
     // Getting estimated Transaction fee
     useEffect(() => {
         async function get(): Promise<void> {
-            console.log('get tx fee working', publicKey, amount, tokenName);
             const estimatedTxFee = await getTransactionFee(
                 api,
                 publicKey,
@@ -96,9 +95,7 @@ const Send: React.FunctionComponent = () => {
             );
             const txFeeWithFivePercentMargin =
                 estimatedTxFee + estimatedTxFee / 5;
-            console.log('Get tx fee ====>>', txFeeWithFivePercentMargin);
             setTransactionFee(txFeeWithFivePercentMargin);
-            console.log('get tx fee end');
         }
         get();
     }, []);
@@ -106,38 +103,28 @@ const Send: React.FunctionComponent = () => {
     useEffect(() => {
         async function getED(): Promise<void> {
             const decimalPlaces = await api.registry.chainDecimals[0];
-            console.log('Decimal places', decimalPlaces);
             const ED: number =
                 Number(api.consts.balances.existentialDeposit.toString()) /
                 10 ** decimalPlaces;
 
             setExistentialDeposit(ED);
-            console.log('EDEDED', ED);
         }
         getED();
     }, []);
 
     useEffect(() => {
-        console.log('new use effect ran');
         if (balance - transactionFee > existentialDeposit) {
             console.log('hello disable 1');
-            console.log('return true');
         } else if (balance.toString() === existentialDeposit.toString()) {
-            console.log('hello disable 2');
             setDisableToggleButtons({
                 firstToggle: true,
                 secondToggle: true,
             });
-            console.log(
-                'return true and false. Toggle A will be open and toggle B will be closed'
-            );
         } else if (balance < transactionFee) {
-            console.log('hello disable 3');
             setDisableToggleButtons({
                 firstToggle: true,
                 secondToggle: true,
             });
-            console.log('return false');
         }
         // else if (balance.toString() === existentialDeposit.toString()) {
         //     setDisableToggleButtons((prevState) => ({
@@ -268,34 +255,6 @@ const Send: React.FunctionComponent = () => {
                 address,
                 password
             );
-            // const nonce = await api.rpc.system.accountNextIndex(address);
-            // const signer = api.createType('SignerPayload', {
-            //     method: tx,
-            //     nonce,
-            //     genesisHash: api.genesisHash,
-            //     blockHash: api.genesisHash,
-            //     runtimeVersion: api.runtimeVersion,
-            //     version: api.extrinsicVersion,
-            // });
-            // const txPayload: any = api.createType(
-            //     'ExtrinsicPayload',
-            //     signer.toPayload(),
-            //     { version: api.extrinsicVersion }
-            // );
-            // const txHex = txPayload.toU8a(true);
-            // let signature;
-            // try {
-            //     signature = await signTransaction(
-            //         address,
-            //         password,
-            //         txHex,
-            //         'substrate'
-            //     );
-            // } catch (err) {
-            //     setLoading2(false);
-            //     throw new Error('Invalid Password!');
-            // }
-            // tx.addSignature(address, signature, txPayload);
             await signedTx
                 .send(({ status, events }: any) => {
                     const txResSuccess = events.filter(
@@ -383,7 +342,6 @@ const Send: React.FunctionComponent = () => {
         address: '',
         password: ''
     ): Promise<boolean> => {
-        console.log('do transaction transfer all running ===>>>');
         try {
             setLoading2(true);
 
@@ -397,34 +355,6 @@ const Send: React.FunctionComponent = () => {
                 password
             );
 
-            // const nonce = await api.rpc.system.accountNextIndex(address);
-            // const signer = api.createType('SignerPayload', {
-            //     method: tx,
-            //     nonce,
-            //     genesisHash: api.genesisHash,
-            //     blockHash: api.genesisHash,
-            //     runtimeVersion: api.runtimeVersion,
-            //     version: api.extrinsicVersion,
-            // });
-            // const txPayload: any = api.createType(
-            //     'ExtrinsicPayload',
-            //     signer.toPayload(),
-            //     { version: api.extrinsicVersion }
-            // );
-            // const txHex = txPayload.toU8a(true);
-            // let signature;
-            // try {
-            //     signature = await signTransaction(
-            //         address,
-            //         password,
-            //         txHex,
-            //         'substrate'
-            //     );
-            // } catch (err) {
-            //     setLoading2(false);
-            //     throw new Error('Invalid Password!');
-            // }
-            // tx.addSignature(address, signature, txPayload);
             await signedTx
                 .send(({ status, events }: any) => {
                     const txResSuccess = events.filter(
@@ -473,14 +403,12 @@ const Send: React.FunctionComponent = () => {
                 });
             return true;
         } catch (err) {
-            console.log('error');
             return false;
         }
     };
 
     const handleSubmit = async (): Promise<void> => {
         try {
-            console.log('State', transferAll);
             if (transferAll.transferAll)
                 generalDispatcher(() => setConfirmSendModal(true));
             setLoading1(true);
@@ -515,12 +443,6 @@ const Send: React.FunctionComponent = () => {
         }
     };
     const setAmountOnToggle = (toggleOn: boolean, keepAlive: boolean): void => {
-        console.log(
-            'set toggle amount running ====>>>>',
-            toggleOn,
-            existentialDeposit,
-            transactionFee
-        );
         if (toggleOn) {
             const res = balance - transactionFee;
             setAmount(
@@ -547,8 +469,12 @@ const Send: React.FunctionComponent = () => {
         onChange: (e: string): boolean => {
             console.log('on change ====>>>');
             // if (amount > e) setAmount(e);
-            if (e[0] && e[1] === '0') return false;
+            if (e[0] === '0' && e[1] === '0') {
+                console.log(0);
+                return false;
+            }
             if (e.length < 14) {
+                console.log(1);
                 let decimalInStart = false;
                 if (e[0] === '.') {
                     // eslint-disable-next-line no-param-reassign
@@ -558,18 +484,23 @@ const Send: React.FunctionComponent = () => {
                 const reg = /^-?\d+\.?\d*$/;
                 const test = reg.test(e);
 
+                console.log(2);
                 if (!test && e.length !== 0 && !decimalInStart) {
+                    console.log(3);
                     return false;
                 }
                 if (Number(e) + transactionFee >= balance) {
+                    console.log(4);
                     setInsufficientBal(true);
                     // return false;
                 }
                 setInsufficientBal(false);
                 if (e.length === 0) {
+                    console.log(5);
                     setAmount(e);
                     setIsInputEmpty(true);
                 } else {
+                    console.log(6);
                     setAmount(e);
                     setIsInputEmpty(false);
                 }
@@ -632,20 +563,6 @@ const Send: React.FunctionComponent = () => {
         subText: subTextForWarningModal,
     };
 
-    const revertToggle = (inputState: any): void => {
-        inputState(false);
-    };
-
-    const disableSwitchButton = (): boolean => {
-        console.log('ED ===>>>', existentialDeposit);
-        console.log('balance ==>>', balance);
-        console.log('tx fee', transactionFee);
-        console.log(
-            'Disable button',
-            balance - transactionFee < existentialDeposit
-        );
-        return balance - transactionFee < existentialDeposit;
-    };
     return (
         <AuthWrapper>
             <SendView
@@ -655,10 +572,9 @@ const Send: React.FunctionComponent = () => {
                 nextBtn={nextBtn}
                 setTransferAll={setTransferAll}
                 setAmountOnToggle={setAmountOnToggle}
-                // disableSwitchButton={disableSwitchButton}
-                transactionFee={transactionFee}
-                existentialDeposit={existentialDeposit}
-                disableToggleButtons={disableToggleButtons}
+                // transactionFee={transactionFee}
+                // existentialDeposit={existentialDeposit}
+                // disableToggleButtons={disableToggleButtons}
             />
             <AuthModal
                 publicKey={publicKey}

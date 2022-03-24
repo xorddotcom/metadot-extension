@@ -31,7 +31,6 @@ export const SwitchButton: React.FunctionComponent<any> = (props) => {
 
     const handleChange = (e: any): void => {
         setAmountOnToggle(!switchChecked, true);
-        console.log(e.target.checked);
         setSwitchCheckedSecond(false);
         setSwitchChecked(!switchChecked);
         setTransferAll({
