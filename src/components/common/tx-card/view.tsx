@@ -46,11 +46,15 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
                                     fontSize="13px"
                                     fontWeight="400"
                                 >
-                                    <img
-                                        src={greenCheck}
-                                        alt="green check"
-                                        style={{ marginRight: 8 }}
-                                    />
+                                    {status === 'Confirmed' ? (
+                                        <img
+                                            src={greenCheck}
+                                            alt="green check"
+                                            style={{ marginRight: 8 }}
+                                        />
+                                    ) : (
+                                        ''
+                                    )}
                                     {status}
                                 </MainText>
                             </TxHorizontalContentDiv>
