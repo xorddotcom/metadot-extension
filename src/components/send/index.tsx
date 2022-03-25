@@ -19,6 +19,7 @@ import {
     setIsResponseModalOpen,
     setConfirmSendModal,
 } from '../../redux/slices/modalHandling';
+import { addTransaction } from '../../redux/slices/transactions';
 import { DASHBOARD } from '../../constants';
 import useDispatcher from '../../hooks/useDispatcher';
 import useResponseModal from '../../hooks/useResponseModal';
@@ -34,7 +35,7 @@ const errorMessages = {
     enterAmount: 'Enter amount',
 };
 
-const { getBalance, getTransactionFee } = services;
+const { getBalance, getTransactionFee, addressMapper } = services;
 
 const Send: React.FunctionComponent = () => {
     const generalDispatcher = useDispatcher();
@@ -255,6 +256,7 @@ const Send: React.FunctionComponent = () => {
                 address,
                 password
             );
+
             await signedTx
                 .send(({ status, events }: any) => {
                     const txResSuccess = events.filter(
@@ -266,6 +268,33 @@ const Send: React.FunctionComponent = () => {
                     );
                     if (status.isInBlock) {
                         if (txResFail.length >= 1) {
+                            const transactionRecord = [
+                                {
+                                    accountFrom: addressMapper(
+                                        address,
+                                        api.registry.chainSS58 as number
+                                    ),
+                                    accountTo: addressMapper(
+                                        receiverAddress,
+                                        api.registry.chainSS58 as number
+                                    ),
+                                    amount,
+                                    hash: signedTx.hash.toString(),
+                                    operation: 'Send',
+                                    status: 'Failed',
+                                    chainName: api.runtimeChain.toString(),
+                                    tokenName: api.registry.chainTokens[0],
+                                    transactionFee: '0',
+                                    timestamp: new Date().toString(),
+                                },
+                            ];
+
+                            generalDispatcher(() =>
+                                addTransaction({
+                                    transactions: transactionRecord,
+                                    publicKey: address,
+                                })
+                            );
                             setLoading2(false);
                             generalDispatcher(() => setConfirmSendModal(false));
                             openResponseModalForTxFailed();
