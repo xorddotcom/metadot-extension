@@ -1,8 +1,7 @@
-import React, { useEffect, memo } from 'react';
+import React, { useEffect, memo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 
-import { formatBalance } from '@polkadot/util';
 import { setApi, setApiInitializationStarts } from '../../redux/slices/api';
 import {
     setBalance,
@@ -92,7 +91,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
 
                     // getting token name
                     const tokenNameofSelectedNetwork = await newApiInstance
-                        .registry.chainTokens[0];
+                        ?.registry?.chainTokens[0];
 
                     // getting token balance
                     const balanceOfSelectedNetwork = await getBalance(
@@ -148,7 +147,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
     }, [chainName, loadingForApi, rpc]);
 
     useEffect(() => {
-        generalDispatcher(() => setApiInitializationStarts(true));
         const accountChanged = async (): Promise<void> => {
             // getting token balance
             const balanceOfSelectedNetwork = await getBalance(api, publicKey);
@@ -161,8 +159,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
             generalDispatcher(() =>
                 setBalance(exponentConversion(balanceOfSelectedNetwork))
             );
-
-            generalDispatcher(() => setApiInitializationStarts(false));
         };
         accountChanged();
     }, [publicKey]);
@@ -171,34 +167,32 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
         let unsub: any;
         let unsub2: any;
         (async () => {
-            if (api) {
+            if (api && publicKey) {
                 const decimals = api?.registry?.chainDecimals[0];
 
-                unsub = await api.query.system.account(
+                unsub = await api?.query?.system?.account(
                     publicKey,
                     ({ data: balance }) => {
-                        // const res = balance.free - balance/mi
-                        const userBalance = formatBalance(balance.free, {
-                            decimals,
-                            forceUnit: '-',
-                            withUnit: false,
-                        });
+                        const res: number =
+                            Number(balance.free) - Number(balance.miscFrozen);
+                        const newBalance: number = res / 10 ** decimals;
                         const exponentConverted =
-                            exponentConversion(userBalance);
+                            exponentConversion(newBalance);
                         generalDispatcher(() =>
                             setBalance(Number(exponentConverted))
                         );
                     }
                 );
 
-                unsub2 = await api.rpc.chain.subscribeNewHeads(
+                unsub2 = await api?.rpc?.chain?.subscribeNewHeads(
                     async (header) => {
-                        const signedBlock = await api.rpc.chain.getBlock(
+                        const signedBlock = await api?.rpc?.chain?.getBlock(
                             header.hash
                         );
 
                         const apiAt = await api.at(header.hash);
-                        const allEvents = await apiAt.query.system.events();
+                        const allEvents: any =
+                            await apiAt?.query?.system.events();
 
                         const transactions: any = [];
                         signedBlock.block.extrinsics.forEach(
@@ -225,38 +219,36 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                             (event.data[0].toString() ===
                                                 addressMapper(
                                                     publicKey,
-                                                    api.registry
-                                                        .chainSS58 as number
+                                                    api?.registry
+                                                        ?.chainSS58 as number
                                                 ) ||
                                                 event.data[1].toString() ===
                                                     addressMapper(
                                                         publicKey,
-                                                        api.registry
+                                                        api?.registry
                                                             .chainSS58 as number
                                                     ))
                                     )
                                     .forEach(({ event }: any) => {
+                                        const chainDecimal =
+                                            api?.registry?.chainDecimals[0];
+                                        const convertedAmount =
+                                            Number(event.data[2].toString()) /
+                                            10 ** chainDecimal;
                                         transactions.push({
                                             accountFrom:
                                                 event.data[0].toString(),
                                             accountTo: event.data[1].toString(),
-                                            amount: formatBalance(
-                                                event.data[2],
-                                                {
-                                                    decimals:
-                                                        api.registry
-                                                            .chainDecimals[0],
-                                                    forceUnit: '-',
-                                                    withUnit: false,
-                                                }
+                                            amount: exponentConversion(
+                                                convertedAmount
                                             ),
                                             hash: extrinsic.hash.toString(),
                                             operation:
                                                 event.data[0].toString() ===
                                                 addressMapper(
                                                     publicKey,
-                                                    api.registry
-                                                        .chainSS58 as number
+                                                    api?.registry
+                                                        ?.chainSS58 as number
                                                 )
                                                     ? 'Send'
                                                     : 'Receive',
@@ -264,7 +256,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                             chainName:
                                                 api.runtimeChain.toString(),
                                             tokenName:
-                                                api.registry.chainTokens[0],
+                                                api?.registry?.chainTokens[0],
                                             transactionFee: '0',
                                             timestamp: blockTimeStamp,
                                         });

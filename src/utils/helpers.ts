@@ -240,12 +240,9 @@ const getOwnTabs = (): any => {
 const isTabViewOpened = async (url: string): Promise<boolean> => {
     const ownTabs = await getOwnTabs();
     const tabd = ownTabs.find((tab: any) => tab.url.includes(url));
-    console.log('tabd', tabd);
     if (tabd) {
-        // chrome.tabs.update(tabd.id, { active: true });
         return true;
     }
-    // chrome.tabs.create({ url });
     return false;
 };
 

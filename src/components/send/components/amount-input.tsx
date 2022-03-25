@@ -162,13 +162,13 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                 className={mainHeadingfontFamilyClass}
             >
                 Existential Deposit
-                <img
+                {/* <img
                     aria-hidden
                     src={help}
                     alt="img"
                     height="max-content"
                     style={{ margin: '0px 8px' }}
-                />
+                /> */}
             </MainText>
             <Input {...styledInputED} />
 

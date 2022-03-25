@@ -10,9 +10,6 @@ import { RootState } from '../../../redux/store';
 
 const label = {
     inputProps: { 'aria-label': 'Switch demo' },
-    // onClick: () => console.log('hello'),
-    // value: true,
-    // disabled: true,
 };
 
 export const SwitchButton: React.FunctionComponent<any> = (props) => {

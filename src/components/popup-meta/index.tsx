@@ -26,7 +26,7 @@ const PopupMeta: React.FunctionComponent<any> = ({ requests }) => {
         { property: 'From', data: requests[requests.length - 1].url },
         {
             property: 'Chain',
-            data: requests[requests.length - 1].request.chain,
+            data: requests[requests.length - 1]?.request?.chain,
         },
         { property: 'Icon', data: requests[requests.length - 1].request.icon },
         {
