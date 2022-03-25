@@ -17,7 +17,6 @@ export const Wrapper = styled.div`
 
 export const WrapperScroll = styled.div`
     width: 100%;
-    height: 450px;
     overflow-x: hidden;
     overflow-y: scroll;
 `;

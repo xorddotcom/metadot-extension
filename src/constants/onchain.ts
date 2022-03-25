@@ -251,6 +251,8 @@ const CONTEXTFREE_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/kumailraza404/context-free-indexer',
     logo: contextFree,
     rpcUrl: 'wss://cf-api.ata.network',
+    // rpcUrl: 'wss://contextfree.api.onfinality.io/public-ws',
+    // rpcUrl: 'wss://api.ata.network',
     prefix: 11820,
     disabled: false,
     explorer: '',

@@ -6,9 +6,52 @@ import '@polkadot/api-augment';
 import { encodeAddress } from '@polkadot/util-crypto';
 import type { KeyringJson } from '@polkadot/ui-keyring/types';
 import { formatBalance } from '@polkadot/util';
+import {
+    OverrideBundleDefinition,
+    OverrideBundleType,
+} from '@polkadot/types/types';
 import constants from '../constants/onchain';
 
-const { ACALA_MANDALA_CONFIG } = constants;
+const { ACALA_MANDALA_CONFIG, CONTEXTFREE_CONFIG } = constants;
+
+const automata: OverrideBundleDefinition = {
+    types: [
+        {
+            // on all versions
+            minmax: [0, undefined],
+            types: {
+                ResourceId: '[u8; 32]',
+                DepositNonce: 'u64',
+                ProposalStatus: {
+                    _enum: ['Initiated', 'Approved', 'Rejected'],
+                },
+                ProposalVotes: {
+                    votes_for: 'Vec<AccountId>',
+                    votes_against: 'Vec<AccountId>',
+                    status: 'ProposalStatus',
+                },
+                BridgeTokenId: 'U256',
+                BridgeChainId: 'u8',
+                VestingPlan: {
+                    start_time: 'u64',
+                    cliff_duration: 'u64',
+                    total_duration: 'u64',
+                    interval: 'u64',
+                    initial_amount: 'Balance',
+                    total_amount: 'Balance',
+                    vesting_during_cliff: 'bool',
+                },
+            },
+        },
+    ],
+};
+
+const spec: Record<string, OverrideBundleDefinition> = {
+    contextfree: automata,
+};
+
+const typesBundle: OverrideBundleType = { spec };
+
 const getSender = async (seed: string): Promise<KeyringJson> => {
     const keyring = new Keyring({ type: 'sr25519' });
     const sender = await keyring.addFromUri(seed);
@@ -19,6 +62,8 @@ const providerInitialization = async (rpc: string): Promise<ApiPromiseType> => {
     let apiR;
     if (rpc === ACALA_MANDALA_CONFIG.rpcUrl) {
         apiR = await ApiPromise.create(AcalaOptions({ provider }));
+    } else if (rpc === CONTEXTFREE_CONFIG.rpcUrl) {
+        apiR = await ApiPromise.create(AcalaOptions({ provider, typesBundle }));
     } else {
         apiR = await ApiPromise.create({ provider });
     }
@@ -34,36 +79,29 @@ const convertTransactionFee = (tokenName: string, fee: any): number => {
     }
     return Number((splitFee[0] * 10 ** -3).toFixed(4));
 };
+
 const getBalanceWithSingleToken = async (
     api: ApiPromiseType,
     acc: string
-): Promise<number> => {
-    const { data: balance }: any = await api.query.system.account(acc);
-
-    const res1: string[] = Object.keys(balance);
-    const res2: string[] = Object.values(balance);
-    console.log('res 2', res2);
-    const arr = [];
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i <= 4; i++) {
-        // console.log('res i', res2[i]);
-        // res2[i];
-        const newRes = formatBalance(res2[i], {
-            decimals: api.registry.chainDecimals[0],
-            forceUnit: '-',
-            withUnit: false,
+): Promise<any> => {
+    const balance: any = await api?.query?.system?.account(acc);
+    let transferableBalance = 0;
+    if (balance?.data) {
+        const balancesKeys: string[] = Object.keys(balance?.data);
+        const balancesValues: string[] = Object.values(balance?.data);
+        const balancesObject: any = {};
+        const decimalPlace = api?.registry?.chainDecimals[0];
+        balancesValues.map((singleData, index) => {
+            const newRes = Number(singleData.toString()) / 10 ** decimalPlace;
+            balancesObject[balancesKeys[index]] = newRes;
+            return true;
         });
-        console.log('keys and values', { key: res1[i], val: newRes });
-        arr.push({ key: res1[i], value: newRes });
+        transferableBalance =
+            Number(balancesObject.free) - Number(balancesObject.miscFrozen);
     }
-    console.log('arr', arr);
-    const userBalance = formatBalance(balance.free, {
-        decimals: api.registry.chainDecimals[0],
-        forceUnit: '-',
-        withUnit: false,
-    });
-    return parseFloat(userBalance);
+    return transferableBalance;
 };
+
 // Get balance of a chain with multiple tokens
 const getBalanceWithMultipleTokens = async (
     api: ApiPromiseType,
@@ -72,12 +110,12 @@ const getBalanceWithMultipleTokens = async (
     // eslint-disable-next-line no-useless-catch
     try {
         const { data: balances }: any = await Promise.all([
-            api.query.timestamp.now(),
-            api.query.system.account(account),
+            api?.query?.timestamp.now(),
+            api?.query?.system?.account(account),
         ]);
 
         const userBalance = formatBalance(balances.free, {
-            decimals: api.registry.chainDecimals[0],
+            decimals: api?.registry?.chainDecimals[0],
             forceUnit: '-',
             withUnit: false,
         });
@@ -90,11 +128,6 @@ const getBalance = async (
     api: ApiPromiseType,
     account: string
 ): Promise<number> => {
-    // const tokenLength = await api.registry.chainTokens.length;
-    // if (tokenLength > 1) {
-    //     const balance = await getBalanceWithMultipleTokens(api, account);
-    //     return balance;
-    // }
     const balance = await getBalanceWithSingleToken(api, account);
     return balance;
 };
@@ -106,18 +139,17 @@ const getTransactionFee = async (
     tokenName: string
 ): Promise<number> => {
     try {
-        const decimalPlacesForTxFee: any = await api.registry.chainDecimals;
-        const info = await api.tx.balances
-            .transfer(sender, amount)
-            .paymentInfo(recipient);
-        console.log('Info ===>>', info);
+        const decimals = api?.registry?.chainDecimals[0];
+        const info = await api?.tx?.balances
+            ?.transfer(sender, BigInt(amount * 10 ** decimals))
+            ?.paymentInfo(recipient);
+
         const txFee = await convertTransactionFee(
             tokenName,
             info.partialFee.toHuman()
         );
         return txFee;
     } catch (err) {
-        console.log('Error', err);
         return 0;
     }
 };

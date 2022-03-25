@@ -21,6 +21,7 @@ import {
 import AccountsList from './components/account-list';
 import accountUtils from '../../utils/accounts';
 import { setAuthScreenModal } from '../../redux/slices/modalHandling';
+import { setApiInitializationStarts } from '../../redux/slices/api';
 
 const MultipleAccounts: React.FunctionComponent = () => {
     const dispatch = useDispatch();
@@ -82,6 +83,9 @@ const MultipleAccounts: React.FunctionComponent = () => {
 
     // Account Handlers
     const activateAccountHandler = (pk: string, name: string): void => {
+        dispatch(setApiInitializationStarts(true));
+        setTimeout(() => dispatch(setApiInitializationStarts(false)), 2000);
+
         dispatch(setPublicKey(pk));
         dispatch(setAccountName(name));
         navigate(DASHBOARD);

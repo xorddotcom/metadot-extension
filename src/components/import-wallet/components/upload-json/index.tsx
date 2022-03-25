@@ -93,7 +93,7 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                 setIsFilePicked(true);
             }
         } catch (err) {
-            console.log('err here ===>>>>');
+            console.log('err', err);
         }
     };
 

@@ -164,7 +164,7 @@ const AssetsAndTransactions: React.FunctionComponent<
         })
             .then((r) => r.json())
             .then((r) => handleTransaction(r))
-            .catch((e) => console.log(e));
+            .catch((e) => console.log('fetching tx records...'));
 
     useEffect(() => {
         if (publicKey) {

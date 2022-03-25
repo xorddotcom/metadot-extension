@@ -105,7 +105,7 @@ const Send: React.FunctionComponent = () => {
         async function getED(): Promise<void> {
             const decimalPlaces = await api.registry.chainDecimals[0];
             const ED: number =
-                Number(api.consts.balances.existentialDeposit.toString()) /
+                Number(api?.consts?.balances?.existentialDeposit.toString()) /
                 10 ** decimalPlaces;
 
             setExistentialDeposit(ED);
@@ -115,7 +115,7 @@ const Send: React.FunctionComponent = () => {
 
     useEffect(() => {
         if (balance - transactionFee > existentialDeposit) {
-            console.log('hello disable 1');
+            console.log('');
         } else if (balance.toString() === existentialDeposit.toString()) {
             setDisableToggleButtons({
                 firstToggle: true,
@@ -154,7 +154,7 @@ const Send: React.FunctionComponent = () => {
     };
 
     const validateTxErrors = async (): Promise<[boolean, number]> => {
-        const decimalPlaces = await api.registry.chainDecimals[0];
+        const decimalPlaces = await api?.registry?.chainDecimals[0];
 
         const recipientBalance = await getBalance(api, receiverAddress);
         const senderBalance = balance;
@@ -203,19 +203,19 @@ const Send: React.FunctionComponent = () => {
         address: string,
         password: string
     ): Promise<any> => {
-        const nonce = await api.rpc.system.accountNextIndex(address);
-        const signer = api.createType('SignerPayload', {
+        const nonce = await api?.rpc?.system?.accountNextIndex(address);
+        const signer = api?.createType('SignerPayload', {
             method: tx,
             nonce,
-            genesisHash: api.genesisHash,
-            blockHash: api.genesisHash,
-            runtimeVersion: api.runtimeVersion,
-            version: api.extrinsicVersion,
+            genesisHash: api?.genesisHash,
+            blockHash: api?.genesisHash,
+            runtimeVersion: api?.runtimeVersion,
+            version: api?.extrinsicVersion,
         });
-        const txPayload: any = api.createType(
+        const txPayload: any = api?.createType(
             'ExtrinsicPayload',
             signer.toPayload(),
-            { version: api.extrinsicVersion }
+            { version: api?.extrinsicVersion }
         );
         const txHex = txPayload.toU8a(true);
         let signature;
@@ -239,14 +239,14 @@ const Send: React.FunctionComponent = () => {
         password = ''
     ): Promise<boolean> => {
         try {
-            const decimalPlaces = await api.registry.chainDecimals[0];
+            const decimalPlaces = await api?.registry?.chainDecimals[0];
             const decimals: number = decimalPlaces;
 
             setLoading2(true);
 
             const amountSending = amount * 10 ** decimals;
 
-            const tx = api.tx.balances.transfer(
+            const tx = api?.tx?.balances?.transfer(
                 receiverAddress as string,
                 BigInt(amountSending)
             );
@@ -261,10 +261,10 @@ const Send: React.FunctionComponent = () => {
                 .send(({ status, events }: any) => {
                     const txResSuccess = events.filter(
                         ({ event }: EventRecord) =>
-                            api.events.system.ExtrinsicSuccess.is(event)
+                            api?.events?.system?.ExtrinsicSuccess.is(event)
                     );
                     const txResFail = events.filter(({ event }: EventRecord) =>
-                        api.events.system.ExtrinsicFailed.is(event)
+                        api?.events?.system?.ExtrinsicFailed.is(event)
                     );
                     if (status.isInBlock) {
                         if (txResFail.length >= 1) {
@@ -374,7 +374,7 @@ const Send: React.FunctionComponent = () => {
         try {
             setLoading2(true);
 
-            const tx = await api.tx.balances.transferAll(
+            const tx = await api?.tx?.balances?.transferAll(
                 receiverAddress,
                 transferAll.keepAlive
             );
@@ -388,10 +388,10 @@ const Send: React.FunctionComponent = () => {
                 .send(({ status, events }: any) => {
                     const txResSuccess = events.filter(
                         ({ event }: EventRecord) =>
-                            api.events.system.ExtrinsicSuccess.is(event)
+                            api?.events?.system?.ExtrinsicSuccess.is(event)
                     );
                     const txResFail = events.filter(({ event }: EventRecord) =>
-                        api.events.system.ExtrinsicFailed.is(event)
+                        api?.events?.system?.ExtrinsicFailed.is(event)
                     );
                     if (status.isInBlock) {
                         if (txResFail.length >= 1) {
@@ -496,14 +496,11 @@ const Send: React.FunctionComponent = () => {
 
     const amountInput = {
         onChange: (e: string): boolean => {
-            console.log('on change ====>>>');
             // if (amount > e) setAmount(e);
             if (e[0] === '0' && e[1] === '0') {
-                console.log(0);
                 return false;
             }
             if (e.length < 14) {
-                console.log(1);
                 let decimalInStart = false;
                 if (e[0] === '.') {
                     // eslint-disable-next-line no-param-reassign
@@ -513,23 +510,17 @@ const Send: React.FunctionComponent = () => {
                 const reg = /^-?\d+\.?\d*$/;
                 const test = reg.test(e);
 
-                console.log(2);
                 if (!test && e.length !== 0 && !decimalInStart) {
-                    console.log(3);
                     return false;
                 }
                 if (Number(e) + transactionFee >= balance) {
-                    console.log(4);
                     setInsufficientBal(true);
-                    // return false;
                 }
                 setInsufficientBal(false);
                 if (e.length === 0) {
-                    console.log(5);
                     setAmount(e);
                     setIsInputEmpty(true);
                 } else {
-                    console.log(6);
                     setAmount(e);
                     setIsInputEmpty(false);
                 }
