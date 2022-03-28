@@ -6,7 +6,12 @@ import {
     Wrapper,
 } from '../common/wrapper';
 
-import { MainHeading, SubHeading, WarningText } from '../common/text';
+import {
+    MainHeading,
+    SubHeading,
+    WarningText,
+    CancelText,
+} from '../common/text';
 import { Button, Input } from '../common';
 import { fonts, images } from '../../utils';
 
@@ -90,8 +95,8 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     };
     return (
         <Wrapper
-            height="570px"
             width="90%"
+            height="595px"
             style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -99,7 +104,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
             }}
         >
             <VerticalContentDiv>
-                <MainHeading textAlign="center">
+                <MainHeading textAlign="center" style={{ marginTop: '0px' }}>
                     Transaction{' '}
                     {requests.length > 0 ? `(1 out of ${requests.length})` : ''}
                 </MainHeading>
@@ -107,7 +112,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
 
             <VerticalContentDiv
                 transactionTitleDiv
-                style={{ justifyContent: 'center' }}
+                style={{ justifyContent: 'center', marginTop: '20px' }}
             >
                 <HorizontalContentDiv>
                     <div
@@ -162,6 +167,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                 transactionDetailDiv
                 style={{
                     justifyContent: 'center',
+                    marginTop: '20px',
                 }}
             >
                 {Signaturedata.map((el) => {
@@ -212,7 +218,10 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                 })}
             </VerticalContentDiv>
 
-            <VerticalContentDiv transactionPasswordDiv>
+            <VerticalContentDiv
+                transactionPasswordDiv
+                style={{ marginTop: '20px' }}
+            >
                 <SubHeading ml="5px" marginTop="0px" mb="0px">
                     Password
                 </SubHeading>
@@ -228,12 +237,13 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                     rightPosition="18px"
                     topPosition="27px"
                     {...styledInputPassword}
-                    fullWidth="89%"
+                    fullWidth="83%"
                 />
                 {passwordError && (
                     <WarningText
                         id="warning-text"
                         mb="5px"
+                        mt="0px"
                         className={subHeadingfontFamilyClass}
                         visibility={passwordError}
                     >
@@ -242,32 +252,27 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                 )}
             </VerticalContentDiv>
 
-            <VerticalContentDiv style={{ alignItems: 'center' }}>
+            <VerticalContentDiv
+                style={{ alignItems: 'center', marginTop: '2px' }}
+            >
                 <Button
                     handleClick={handleSubmit}
                     text="Sign The Transaction"
                     id="Authorization-Popup"
                     style={{
-                        width: '80%',
+                        width: '100%',
                         height: 50,
                         borderRadius: 40,
                     }}
                     disabled={password.length === 0}
                 />
-                <WarningText
-                    visibility
-                    style={{
-                        alignSelf: 'center',
-                        textAlign: 'center',
-                        textDecoration: 'underline',
-                        cursor: 'pointer',
-                    }}
+                <CancelText
                     onClick={() =>
                         cancelSignRequest(requests[requests.length - 1].id)
                     }
                 >
-                    cancel
-                </WarningText>
+                    Cancel
+                </CancelText>
             </VerticalContentDiv>
         </Wrapper>
     );

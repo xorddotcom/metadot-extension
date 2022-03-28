@@ -1,7 +1,7 @@
 import './index.css';
 import React from 'react';
 import { approveAuthRequest, rejectAuthRequest } from '../../messaging';
-import { MainHeading, SubHeading, WarningText } from '../common/text';
+import { MainHeading, SubHeading, CancelText } from '../common/text';
 import { colors, images } from '../../utils';
 import {
     HorizontalContentDiv,
@@ -80,20 +80,13 @@ const PopupAuth: React.FunctionComponent<any> = ({ requests }) => {
                     }}
                 />
 
-                <WarningText
-                    visibility
-                    style={{
-                        alignSelf: 'center',
-                        textAlign: 'center',
-                        textDecoration: 'underline',
-                        cursor: 'pointer',
-                    }}
+                <CancelText
                     onClick={() =>
                         rejectAuthRequest(requests[requests.length - 1].id)
                     }
                 >
-                    cancel
-                </WarningText>
+                    Cancel
+                </CancelText>
             </VerticalContentDiv>
         </Wrapper>
     );
