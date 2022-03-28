@@ -16,6 +16,7 @@ const AssetCard: React.FunctionComponent<Props> = ({
     shortName,
     amountInUsd,
     logo,
+    isNative,
 }): React.ReactElement => {
     const { apiInitializationStarts } = useSelector(
         (state: RootState) => state.api

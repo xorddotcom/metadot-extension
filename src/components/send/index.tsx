@@ -1,7 +1,7 @@
 import '@polkadot/api-augment';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 import { EventRecord } from '@polkadot/types/interfaces';
@@ -40,6 +40,8 @@ const { getBalance, getTransactionFee, addressMapper } = services;
 const Send: React.FunctionComponent = () => {
     const generalDispatcher = useDispatcher();
     const navigate = useNavigate();
+
+    const location = useLocation();
 
     const [insufficientBal, setInsufficientBal] = useState(false);
     const [loading1, setLoading1] = useState(false);
@@ -114,6 +116,7 @@ const Send: React.FunctionComponent = () => {
     }, []);
 
     useEffect(() => {
+        console.log('location state ====>>>>', location.state);
         if (balance - transactionFee > existentialDeposit) {
             console.log('');
         } else if (balance.toString() === existentialDeposit.toString()) {

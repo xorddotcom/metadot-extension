@@ -15,6 +15,7 @@ const { ContentCopyIcon } = images;
 const { subHeadingfontFamilyClass } = fonts;
 
 const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
+    const [copy, setCopy] = useState('Copy');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
@@ -27,6 +28,11 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     function trimString(s: any): string {
         return `${s.substring(0, 7)}...${s.substring(s.length - 7)}`;
     }
+
+    const tooltipText = {
+        onMouseOver: () => setCopy('Copy'),
+        style: { cursor: 'pointer' },
+    };
 
     const Signaturedata = [
         {

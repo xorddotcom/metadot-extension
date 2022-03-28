@@ -94,11 +94,11 @@ const AssetsAndTransactions: React.FunctionComponent<
         chainName,
         tokenName,
         tokenImage,
-        balance,
         balanceInUsd,
         publicKey,
         prefix,
         queryEndpoint,
+        balances,
     } = assetsData;
     const [isTab1Active, setIsTab1Active] = useState(true);
     const [isTab2Active, setIsTab2Active] = useState(false);
@@ -172,7 +172,6 @@ const AssetsAndTransactions: React.FunctionComponent<
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [rpcUrl, publicKey]);
-
     return (
         <AssetsAndTransactionsWrapper>
             <Tabs>
@@ -182,15 +181,19 @@ const AssetsAndTransactions: React.FunctionComponent<
                 </TabSection>
             </Tabs>
             <div className="scrollbar" style={{ marginTop: '0' }}>
-                {isTab1Active && (
-                    <AssetCard
-                        name={chainName}
-                        shortName={tokenName}
-                        amount={trimBalance(balance)}
-                        amountInUsd={balanceInUsd}
-                        logo={tokenImage}
-                    />
-                )}
+                {isTab1Active &&
+                    balances.map((singleToken: any) => {
+                        return (
+                            <AssetCard
+                                name={chainName}
+                                shortName={singleToken.name}
+                                amount={trimBalance(singleToken.balance)}
+                                amountInUsd={balanceInUsd}
+                                logo={tokenImage}
+                                isNative={singleToken.isNative}
+                            />
+                        );
+                    })}
                 {isTab2Active && (
                     <TxView
                         transactionData={transactionData}

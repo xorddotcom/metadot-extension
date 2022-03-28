@@ -18,6 +18,7 @@ const initialState = {
     lastVisitedTimestamp: '',
     queryEndpoint: POLKADOT_CONFIG.queryEndpoint,
     isWalletConnected: false,
+    balances: [],
 };
 
 export const activeAccountSlice = createSlice({
@@ -104,6 +105,10 @@ export const activeAccountSlice = createSlice({
         setWalletConnected: (state, action: PayloadAction<boolean>) => {
             return { ...state, isWalletConnected: action.payload };
         },
+        setBalances: (state, action: PayloadAction<any>) => {
+            console.log('Action', action.payload);
+            return { ...state, balances: action.payload };
+        },
     },
 });
 
@@ -125,6 +130,7 @@ export const {
     setTokenImage,
     setQueryEndpoint,
     setWalletConnected,
+    setBalances,
 } = activeAccountSlice.actions;
 
 export default activeAccountSlice.reducer;

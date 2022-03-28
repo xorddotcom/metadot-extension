@@ -4,6 +4,7 @@ export interface Props {
     shortName: string;
     amountInUsd: number;
     logo: string;
+    isNative: boolean;
 }
 
 export interface ViewProps {
