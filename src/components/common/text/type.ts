@@ -30,6 +30,7 @@ export interface WarningTextInterface {
     ml?: string;
     mb?: string;
     style?: object;
+    mt?: string;
 }
 
 export interface MainTextInterface {
