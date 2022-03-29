@@ -99,9 +99,8 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                         publicKey
                     );
 
-                    // getting token balance in usd
                     const dollarAmount = await convertIntoUsd(
-                        tokenNameofSelectedNetwork,
+                        newApiInstance.runtimeChain.toString(),
                         balanceOfSelectedNetwork
                     );
                     await newApiInstance.isReady;

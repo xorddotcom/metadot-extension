@@ -344,7 +344,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                         </HorizontalContentDiv>
                     </VerticalContentDiv>
 
-                    {chainName !== 'ContextFree' && (
+                    <div className={`tooltip ${subHeadingfontFamilyClass}`}>
                         <VerticalContentDiv marginTop="30px">
                             <Button
                                 id="subscan-button"
@@ -360,8 +360,22 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                 }}
                                 disabled={chainName === 'ContextFree'}
                             />
+                            {chainName === 'ContextFree' ? (
+                                <span
+                                    className="tooltiptext"
+                                    style={{
+                                        marginTop: '20px',
+                                        fontSize: '0.8rem',
+                                        width: '140px',
+                                        marginLeft: '100px',
+                                        padding: '10px',
+                                    }}
+                                >
+                                    Explorer for this network does not exist.
+                                </span>
+                            ) : null}
                         </VerticalContentDiv>
-                    )}
+                    </div>
                 </VerticalContentDiv>
             </Box>
         </Modal>

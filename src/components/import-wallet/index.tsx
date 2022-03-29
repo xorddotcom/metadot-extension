@@ -194,7 +194,7 @@ function ImportWallet(): JSX.Element {
         className: mainHeadingfontFamilyClass,
         fontWeight: 'bold',
         lineHeight: '21px',
-        fontSize: '18px',
+        fontSize: '16px',
     };
 
     const btn = {

@@ -14,7 +14,7 @@ const AssetCard: React.FunctionComponent<Props> = ({
     name,
     amount,
     shortName,
-    amountInUsd,
+    balanceInUsd,
     logo,
 }): React.ReactElement => {
     const { apiInitializationStarts } = useSelector(
@@ -40,7 +40,7 @@ const AssetCard: React.FunctionComponent<Props> = ({
     );
 
     const AssetDetails = !apiInitializationStarts ? (
-        <HorizontalContentDiv width="120px" height="17px">
+        <HorizontalContentDiv height="17px">
             <CoinAmount id="coin-amount" className={mainHeadingfontFamilyClass}>
                 {`${amount} ${shortName}`}
             </CoinAmount>
@@ -48,8 +48,7 @@ const AssetCard: React.FunctionComponent<Props> = ({
                 id="equivalent-in-usd"
                 className={subHeadingfontFamilyClass}
             >
-                ($
-                {amountInUsd})
+                ${balanceInUsd === 0 ? 0 : balanceInUsd.toFixed(5)}
             </EquivalentInUSDT>
         </HorizontalContentDiv>
     ) : (
