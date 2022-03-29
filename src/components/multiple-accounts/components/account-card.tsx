@@ -55,23 +55,20 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
     return (
         <Account
             key={publicKey}
-            marginBottom="10px"
             marginTop={marginTop || '10px'}
             onClick={() => activateAccount(publicKey, accountName)}
         >
             <AccountFlex>
-                {activeAccount.publicKey === publicKey && (
-                    <img
-                        style={{
-                            position: 'absolute',
-                            marginLeft: '14px',
-                            marginBottom: '12px',
-                        }}
-                        src={activeIcon}
-                        alt="active-account-icon"
-                    />
-                )}
-                <AccountCircle />
+                <AccountCircle>
+                    {activeAccount.publicKey === publicKey && (
+                        <img
+                            height="10px"
+                            width="10px"
+                            src={activeIcon}
+                            alt="active-account-icon"
+                        />
+                    )}
+                </AccountCircle>
                 <AccountText>
                     <AccountMainText className={mainHeadingfontFamilyClass}>
                         {accountName}

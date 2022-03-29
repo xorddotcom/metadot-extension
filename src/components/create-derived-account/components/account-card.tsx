@@ -61,18 +61,16 @@ const AccountCard: React.FunctionComponent<{
     return (
         <Account key={publicKey} marginBottom="10px" marginTop="10px">
             <AccountFlex>
-                {activeAccount.publicKey === publicKey && (
-                    <img
-                        style={{
-                            position: 'relative',
-                            left: '24px',
-                            bottom: '8px',
-                        }}
-                        src={activeIcon}
-                        alt="active-account-icon"
-                    />
-                )}
-                <AccountCircle />
+                <AccountCircle>
+                    {activeAccount.publicKey === publicKey && (
+                        <img
+                            height="10px"
+                            width="10px"
+                            src={activeIcon}
+                            alt="active-account-icon"
+                        />
+                    )}
+                </AccountCircle>
                 <AccountText>
                     <AccountMainText
                         style={{ height: '18px' }}

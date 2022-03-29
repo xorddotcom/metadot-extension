@@ -78,7 +78,9 @@ export const AccountCircle = styled.div`
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    margin-right: 16px;
+    margin-right: 1rem;
+    display: flex;
+    justify-content: flex-end;
 `;
 
 export const AccountText = styled.div`
@@ -118,8 +120,8 @@ export const AccountSubText = styled.p`
 `;
 
 export const DrivedAccountMain = styled.div`
-    width: 318px;
-    margin-top: -20px;
+    width: 100%;
+    margin-top: -6px;
 `;
 
 export const DrivedAccount = styled.div`
@@ -131,17 +133,14 @@ export const DrivedAccount = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 27px;
-    margin-top: 10px;
-    margin-bottom: 3px;
     cursor: pointer;
 `;
 
 export const Border = styled.div`
+    margin: auto;
     background: rgba(255, 255, 255, 0.1);
     width: 278px;
     height: 1px;
-    margin: 12px auto;
-    margin-left: 29px;
 `;
 
 export const DrivedAccountText = styled.p`
