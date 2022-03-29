@@ -75,7 +75,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
         },
         hideHandler: () => setShowPassword(!showPassword),
         hideState: showPassword,
-        mt: '0.03rem',
+        mt: '0.48px',
     };
 
     const btnF = {

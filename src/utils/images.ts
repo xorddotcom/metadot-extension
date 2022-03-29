@@ -47,6 +47,7 @@ import RemoveIcon from '../assets/images/icons/Remove.svg';
 import derivedAccountIcon from '../assets/images/icons/deriveAccount.svg';
 
 import dropDownIcon from '../assets/images/icons/3Dots.svg';
+import crossIconRound from '../assets/images/icons/crossIcon.svg';
 import downIcon from '../assets/images/icons/downArrow.svg';
 import upArrowIcon from '../assets/images/icons/upArrow.svg';
 
@@ -82,6 +83,7 @@ import rightArrowIcon from '../assets/images/icons/rightArrowIcon.svg';
 import Importicon from '../assets/images/icons/import.svg';
 
 export default {
+    crossIconRound,
     Importicon,
     externalLink,
     expandView,

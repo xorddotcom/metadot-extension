@@ -69,7 +69,7 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
                         width: '40%',
                         paddingLeft: 10,
                         alignItems: 'center',
-                        marginRight: '0.45rem',
+                        marginRight: '7px',
                     }}
                 >
                     <VerticalContentDiv>

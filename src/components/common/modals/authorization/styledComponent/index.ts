@@ -16,7 +16,7 @@ export const MainDiv = styled.div`
     flex-flow: column;
     justify-content: center;
     align-items: center;
-    padding: 0rem 0.5rem;
+    padding: 0px 0.8px;
     box-sizing: border-box;
     border-radius: 6px;
 `;

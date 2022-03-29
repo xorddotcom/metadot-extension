@@ -96,7 +96,7 @@ const FromInput: React.FunctionComponent = () => {
                     pb: 3,
                     overflowY: 'scroll',
                     overflowX: 'hidden',
-                    marginTop: '9rem',
+                    marginTop: '144px',
                 }}
             />
         </VerticalContentDiv>

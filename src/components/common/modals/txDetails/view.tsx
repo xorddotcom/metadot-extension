@@ -147,7 +147,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                         />
                                         <span
                                             className="tooltiptext"
-                                            style={{ fontSize: '0.7rem' }}
+                                            style={{ fontSize: '11px' }}
                                         >
                                             {copy}
                                         </span>
@@ -202,7 +202,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                         />
                                         <span
                                             className="tooltiptext"
-                                            style={{ fontSize: '0.7rem' }}
+                                            style={{ fontSize: '11px' }}
                                         >
                                             {copy}
                                         </span>
@@ -245,7 +245,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                         />
                                         <span
                                             className="tooltiptext"
-                                            style={{ fontSize: '0.7rem' }}
+                                            style={{ fontSize: '11px' }}
                                         >
                                             {copy}
                                         </span>

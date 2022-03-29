@@ -110,13 +110,13 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     const balanceProps = {
         textAlign: 'end',
         className: subHeadingfontFamilyClass,
-        style: { marginTop: '-1rem' },
+        style: { marginTop: '-16px' },
     };
 
     const txFeeProps = {
         textAlign: 'end',
         className: subHeadingfontFamilyClass,
-        style: { marginTop: '0.2rem' },
+        style: { marginTop: '3.2px' },
     };
 
     return (
@@ -132,7 +132,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                 <WarningText
                     id="warning-text-1"
                     className={subHeadingfontFamilyClass}
-                    style={{ marginBottom: '1rem' }}
+                    style={{ marginBottom: '16px' }}
                 >
                     balance is too low to pay network fees!
                 </WarningText>

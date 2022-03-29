@@ -15,7 +15,7 @@ const HeaderView: React.FunctionComponent<HeadieViewProps> = (props) => {
                 id="back-btn"
                 className="primary-bg-color"
                 onClick={() => onBackClick()}
-                style={{ padding: '0.5rem', position: 'absolute' }}
+                style={{ padding: '8px', position: 'absolute' }}
             >
                 <img src={ArrowBackIcon} alt="icon" />
             </IconButton>

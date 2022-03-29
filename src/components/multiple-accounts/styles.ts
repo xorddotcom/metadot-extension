@@ -78,11 +78,11 @@ export const AccountCircle = styled.div`
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    margin-right: 1rem;
+    margin-right: 16px;
 `;
 
 export const AccountText = styled.div`
-    margin-left: '1rem';
+    margin-left: 16px;
     cursor: pointer;
     text-align: left;
 `;
@@ -119,7 +119,7 @@ export const AccountSubText = styled.p`
 
 export const DrivedAccountMain = styled.div`
     width: 318px;
-    margin-top: -1.24rem;
+    margin-top: -20px;
 `;
 
 export const DrivedAccount = styled.div`
@@ -131,13 +131,12 @@ export const DrivedAccount = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 27px;
-    margin-top: -0.65rem;
-    margin-bottom: 0.2rem;
+    margin-top: 10px;
+    margin-bottom: 3px;
     cursor: pointer;
 `;
 
 export const Border = styled.div`
-    /* border: 0.4px solid rgba(255, 255, 255, 0.2); */
     background: rgba(255, 255, 255, 0.1);
     width: 278px;
     height: 1px;
@@ -153,7 +152,7 @@ export const DrivedAccountText = styled.p`
     color: #ffffff;
     opacity: 0.8;
     text-align: left;
-    margin-left: 2.6rem;
+    margin-left: 41px;
 `;
 
 export const ButtonDiv = styled.div`
@@ -197,7 +196,7 @@ export const DropDownList = styled.ul`
 export const ListItem = styled.li`
     list-style: none;
     /* margin-bottom: 1em; */
-    margin-left: -1.5rem;
+    margin-left: 24px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -215,7 +214,7 @@ export const MainDiv = styled.div`
     flex-flow: column;
     justify-content: center;
     align-items: center;
-    padding: 1rem 0.5rem;
+    padding: 16px 8px;
     box-sizing: border-box;
     border-radius: 6px;
 `;

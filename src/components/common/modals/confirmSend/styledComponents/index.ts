@@ -65,7 +65,7 @@ export const ModalText2 = styled.p<ModalText2Interface>`
 `;
 
 export const SubText1 = styled.p<SubTextInterface>`
-    font-size: 0.803rem;
+    font-size: 12px;
     line-height: 16px;
     height: 16px;
     visibility: ${(props) => (props.hide ? 'hidden' : 'normal')};
@@ -79,7 +79,7 @@ export const SubText1 = styled.p<SubTextInterface>`
 `;
 
 export const SubText2 = styled.p<SubTextInterface>`
-    font-size: 0.803rem;
+    font-size: 12px;
     line-height: 16px;
     height: 16px;
     letter-spacing: 0.02em;

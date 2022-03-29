@@ -23,7 +23,7 @@ const ToInput: React.FunctionComponent<ToInputInterface> = ({
 
     const warningTextInlineStyle = {
         marginTop: '4px',
-        marginLeft: '0.3rem',
+        marginLeft: '4.8px',
     };
 
     return (
@@ -31,7 +31,7 @@ const ToInput: React.FunctionComponent<ToInputInterface> = ({
             <MainText className={mainHeadingfontFamilyClass}>To</MainText>
             {/* <StyledInput id="to-address" {...styledInput} /> */}
             <Input id="username" {...receiverAddressInput} />
-            <div style={{ height: '1rem' }}>
+            <div style={{ height: '16px' }}>
                 {!isCorrect && (
                     <WarningText
                         id="warning-text-1"

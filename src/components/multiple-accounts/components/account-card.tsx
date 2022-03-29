@@ -101,7 +101,7 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
                             <img src={ContentCopyIconWhite} alt="copy-icon" />
                             <span
                                 className="tooltiptext"
-                                style={{ fontSize: '0.7rem' }}
+                                style={{ fontSize: '11px' }}
                             >
                                 {copyT}
                             </span>

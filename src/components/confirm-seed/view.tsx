@@ -47,7 +47,7 @@ const ConfirmSeedView: React.FunctionComponent<ConfirmSeedViewProps> = (
                     fullWidth="80%"
                     {...styledInput1}
                     rightPosition="12px"
-                    topPosition="25px"
+                    topPosition="22px"
                     disabled
                 />
 
@@ -56,7 +56,7 @@ const ConfirmSeedView: React.FunctionComponent<ConfirmSeedViewProps> = (
                     {...styledInput2}
                     fullWidth="80%"
                     rightPosition="12px"
-                    topPosition="25px"
+                    topPosition="22px"
                     disabled
                 />
 
@@ -65,7 +65,7 @@ const ConfirmSeedView: React.FunctionComponent<ConfirmSeedViewProps> = (
                     {...styledInput3}
                     fullWidth="80%"
                     rightPosition="12px"
-                    topPosition="25px"
+                    topPosition="22px"
                     disabled
                 />
 
@@ -74,7 +74,7 @@ const ConfirmSeedView: React.FunctionComponent<ConfirmSeedViewProps> = (
                     {...styledInput4}
                     fullWidth="80%"
                     rightPosition="12px"
-                    topPosition="25px"
+                    topPosition="22px"
                     disabled
                 />
 

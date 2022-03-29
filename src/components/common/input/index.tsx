@@ -1,6 +1,5 @@
 import React from 'react';
 
-import CancelIcon from '@mui/icons-material/Cancel';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 import { Props, FieldInterface } from './types';
@@ -8,7 +7,7 @@ import { Props, FieldInterface } from './types';
 import { Field, Icon, TokenBox, TokenName } from './styles';
 import { fonts, images } from '../../../utils';
 
-const { visibilityOff, dropdownIcon, visibilityOn } = images;
+const { visibilityOff, dropdownIcon, visibilityOn, crossIconRound } = images;
 const { subHeadingfontFamilyClass } = fonts;
 
 const Input: React.FunctionComponent<Props> = ({
@@ -106,7 +105,7 @@ const Input: React.FunctionComponent<Props> = ({
                     topPosition={topPosition}
                     rightPosition={rightPosition}
                 >
-                    <CancelIcon fontSize="small" />
+                    <img src={crossIconRound} alt="cros icon" />
                 </Icon>
             )}
             {rightIconLock && (
@@ -118,8 +117,8 @@ const Input: React.FunctionComponent<Props> = ({
                     <LockOutlinedIcon
                         fontSize="small"
                         style={{
-                            marginTop: '-0.1rem',
-                            marginRight: '-0.15rem',
+                            marginTop: '-1.6px',
+                            marginRight: '-2.4px',
                         }}
                     />
                 </Icon>

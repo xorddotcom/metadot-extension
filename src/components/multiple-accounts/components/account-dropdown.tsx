@@ -125,8 +125,8 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                     id="paper"
                     style={{
                         width: '210px',
-                        marginLeft: '-4.9rem',
-                        marginTop: '-0.5rem',
+                        marginLeft: '-78px',
+                        marginTop: '-8px',
                         backgroundColor: '#141414',
                         border: '0.9px solid #219A9A',
                         boxShadow: '0px 0px 20px 5px rgba(33, 154, 154, 0.08)',
@@ -155,7 +155,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                                         alt="create-account"
                                         width="14.55"
                                         height="15"
-                                        style={{ marginTop: '0.15rem' }}
+                                        style={{ marginTop: '2.4px' }}
                                     />
                                     &nbsp; &nbsp;
                                     <span style={dropdownOptionStyle}>
@@ -182,7 +182,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                                     alt="rename-account"
                                     width="14.55"
                                     height="15"
-                                    style={{ marginTop: '0.15rem' }}
+                                    style={{ marginTop: '2.4px' }}
                                 />
                                 &nbsp; &nbsp;
                                 <span style={dropdownOptionStyle}>
@@ -206,7 +206,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                                 <img
                                     src={FileUploadOutlinedIcon}
                                     alt="export-account"
-                                    style={{ marginTop: '-0.2rem' }}
+                                    style={{ marginTop: '-3.2px' }}
                                 />
                                 &nbsp; &nbsp;
                                 <span style={dropdownOptionStyle}>
@@ -230,7 +230,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                                     alt="remove-account"
                                     width="14.55"
                                     height="15"
-                                    style={{ marginTop: '0.15rem' }}
+                                    style={{ marginTop: '2.4px' }}
                                 />
                                 &nbsp; &nbsp;
                                 <span style={dropdownOptionStyle}>

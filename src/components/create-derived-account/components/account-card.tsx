@@ -50,7 +50,7 @@ const AccountCard: React.FunctionComponent<{
             maxWidth: '70px',
             left: '20%',
             bottom: '120%',
-            fontSize: '0.7rem',
+            fontSize: '11px',
             fontWeight: 300,
             transition: 'all 0.1s ease-in',
         },

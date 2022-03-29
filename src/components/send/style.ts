@@ -95,7 +95,7 @@ export const EquivalentInUSDT = styled.p`
     color: rgba(250, 250, 250, 0.8);
     text-align: start;
     margin: 0px;
-    margin-top: -1rem;
+    margin-top: -16px;
 `;
 
 export const CalculatedAmount = styled.div<CalculatedAmountInterface>`
@@ -106,7 +106,7 @@ export const CalculatedAmount = styled.div<CalculatedAmountInterface>`
     align-items: center;
     flex-direction: row;
     align-items: center;
-    margin-left: 0.3rem;
+    margin-left: 5px;
     margin-top: ${(props) => props.marginTop && props.marginTop};
 `;
 

@@ -74,8 +74,8 @@ export const HorizontalContentDiv = styled.div`
     padding-left: 20px;
 
     img {
-        width: 1.8rem;
-        height: 1.8rem;
+        width: 28px;
+        height: 28px;
         border-radius: 50%;
     }
 `;

@@ -71,7 +71,7 @@ const WarningModalView: React.FunctionComponent<WarningModalProps> = (
                 >
                     {subText}
                 </SubHeading>
-                <div style={{ marginTop: '1.5rem' }} className="btn-row">
+                <div style={{ marginTop: '24px' }} className="btn-row">
                     <Button id="cancel" {...btnCancel} />
                     <Button id="confirm" {...btnConfirm} />
                 </div>

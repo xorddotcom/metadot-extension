@@ -187,7 +187,7 @@ function WelcomeBack(): JSX.Element {
                     pb: 3,
                     overflowY: 'scroll',
                     overflowX: 'hidden',
-                    marginTop: '9rem',
+                    marginTop: '144px',
                 }}
             />
 

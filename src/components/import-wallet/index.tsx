@@ -287,7 +287,7 @@ function ImportWallet(): JSX.Element {
                 {selectedType === 'json' && (
                     <div
                         style={{
-                            marginTop: '1rem',
+                            marginTop: '16px',
                         }}
                     >
                         <UploadJson {...UploadJsonProps} />

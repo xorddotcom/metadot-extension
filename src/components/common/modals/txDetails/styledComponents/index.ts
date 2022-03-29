@@ -52,7 +52,7 @@ export const MainText2 = styled.p<CommonTextInterface>`
 `;
 
 export const SubText1 = styled.p<CommonTextInterface>`
-    font-size: 0.803rem;
+    font-size: 12px;
     line-height: 16px;
     height: 16px;
     visibility: ${(props) => (props.hide ? 'hidden' : 'normal')};
@@ -66,7 +66,7 @@ export const SubText1 = styled.p<CommonTextInterface>`
 `;
 
 export const SubText2 = styled.p<CommonTextInterface>`
-    font-size: 0.803rem;
+    font-size: 12px;
     line-height: 16px;
     height: 16px;
     /* identical to box height, or 114% */
