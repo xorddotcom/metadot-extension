@@ -44,7 +44,7 @@ export const AccountCircle = styled.div`
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    margin-right: 1rem;
+    margin-right: 16px;
     display: flex;
     justify-content: flex-end;
 `;
