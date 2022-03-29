@@ -40,7 +40,7 @@ const AssetCard: React.FunctionComponent<Props> = ({
     );
 
     const AssetDetails = !apiInitializationStarts ? (
-        <HorizontalContentDiv width="120px" height="17px">
+        <HorizontalContentDiv height="17px">
             <CoinAmount id="coin-amount" className={mainHeadingfontFamilyClass}>
                 {`${amount} ${shortName}`}
             </CoinAmount>
