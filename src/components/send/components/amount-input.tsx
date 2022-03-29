@@ -143,7 +143,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                     id="equivalent-in-usd"
                     className={subHeadingfontFamilyClass}
                 >
-                    ${balanceInUsd}
+                    ${balanceInUsd === 0 ? 0 : balanceInUsd.toFixed(5)}
                 </EquivalentInUSDT>
                 <Balance {...balanceProps}>
                     Balance: {`${trimContent(balance, 6)} ${tokenName}`}
