@@ -75,7 +75,7 @@ const AuthModalView: React.FunctionComponent<AuthtModalViewProps> = ({
                             mr="1.2rem"
                             typePassword={functionType !== 'RenameAccount'}
                             rightIcon={functionType !== 'RenameAccount'}
-                            rightPosition="9px"
+                            rightPosition="8px"
                             topPosition="28px"
                             {...styledInput}
                             style={{

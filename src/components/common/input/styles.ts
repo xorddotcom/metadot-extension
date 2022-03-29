@@ -95,6 +95,7 @@ export const Field = styled.input<FieldInterface>`
 `;
 
 export const Icon = styled.span<IconInterface>`
+    display: flex;
     position: absolute;
     right: ${(props) => (props.rightPosition ? props.rightPosition : '9px')};
     top: ${(props) => (props.topPosition ? props.topPosition : '4px')};
