@@ -59,7 +59,7 @@ export const AccountMainText = styled.p`
     font-weight: 500;
     font-size: 16px;
     line-height: 16px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     color: #fafafa;
     opacity: 0.8;
     text-align: left;
@@ -79,7 +79,7 @@ export const AccountSubText = styled.p`
     font-weight: normal;
     font-size: 14px;
     line-height: 16px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     color: rgba(250, 250, 250, 0.69);
     opacity: 0.8;
     text-align: left;

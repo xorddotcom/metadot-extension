@@ -29,7 +29,7 @@ export const MainText2 = styled.h3<MainText1PropsInterface>`
     font-size: 16px;
     line-height: 16px;
     color: ${primaryText};
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     text-align: ${(props) => props.textAlign};
     margin-top: ${(props) => props.marginTop && props.marginTop};
 `;
@@ -38,7 +38,7 @@ export const SubText2 = styled.h3<MainText1PropsInterface>`
     font-weight: 500;
     font-size: 14px;
     line-height: 21px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     color: rgba(250, 250, 250, 0.8);
     opacity: 0.8;
     margin: 0;

@@ -67,7 +67,7 @@ export const MainText = styled.p<MainTextPropsInterface>`
     font-size: ${(props) => (props.fs ? props.fs : '16px')};
     line-height: ${(props) => (props.lh ? props.lh : '19px')};
     font-weight: 500;
-    letter-spacing: ${(props) => (props.ls ? props.ls : '0.01em')};
+    letter-spacing: ${(props) => (props.ls ? props.ls : '0.16px')};
     color: ${(props) => (props.color ? props.color : primaryText)};
     width: 100%;
     text-align: start;
@@ -81,7 +81,7 @@ export const Balance = styled.p`
     width: 100%;
     height: 14.12px;
     line-height: 16px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     margin: 0px;
     color: rgba(250, 250, 250, 0.8);
     text-align: ${(props: { textAlign?: string }) =>

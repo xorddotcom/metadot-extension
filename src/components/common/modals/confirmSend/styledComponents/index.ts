@@ -70,7 +70,7 @@ export const SubText1 = styled.p<SubTextInterface>`
     height: 16px;
     visibility: ${(props) => (props.hide ? 'hidden' : 'normal')};
     /* identical to box height, or 114% */
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     /* Text and Icons */
     color: ${primaryText};
     opacity: 0.8;
@@ -82,7 +82,7 @@ export const SubText2 = styled.p<SubTextInterface>`
     font-size: 12px;
     line-height: 16px;
     height: 16px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     color: rgba(250, 250, 250, 0.7);
     opacity: 0.8;
     text-align: ${(props) => props.textAlign};

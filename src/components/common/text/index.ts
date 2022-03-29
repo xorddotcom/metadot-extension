@@ -72,7 +72,7 @@ export const MainText = styled.p<MainTextInterface>`
     font-size: ${(props) => (props.fontSize ? props.fontSize : '16px')};
     font-weight: ${(props) => (props.fontWeight ? props.fontWeight : 'bold')};
     line-height: 14px;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.32px;
     color: ${(props) => (props.color ? props.color : '#ffffff')};
     margin-top: 0px;
     margin-bottom: 3px;

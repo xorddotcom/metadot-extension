@@ -25,7 +25,7 @@ export const Option = styled.p`
     font-weight: 500;
     font-size: 14px;
     line-height: 16px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     color: ${(props) => (props.selected ? '#219A9A' : '#BCBCBC')};
     opacity: 0.8;
     border-radius: 20px;
@@ -46,7 +46,7 @@ export const UploadFile = styled.label`
     font-weight: 500;
     font-size: 14px;
     line-height: 16px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     border-radius: 8px;
     display: flex;
     justify-content: space-between;

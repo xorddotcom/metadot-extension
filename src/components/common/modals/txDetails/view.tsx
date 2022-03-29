@@ -365,7 +365,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                     className="tooltiptext"
                                     style={{
                                         marginTop: '20px',
-                                        fontSize: '0.8rem',
+                                        fontSize: '12px',
                                         width: '140px',
                                         marginLeft: '100px',
                                         padding: '10px',

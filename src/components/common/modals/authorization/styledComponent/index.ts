@@ -42,7 +42,7 @@ export const MainText = styled.p<MainTextPropsInterface>`
     font-size: ${(props) => (props.fontSize ? props.fontSize : '16px')};
     line-height: ${(props) => (props.lh ? props.lh : '19px')};
     font-weight: 500;
-    letter-spacing: ${(props) => (props.ls ? props.ls : '0.01em')};
+    letter-spacing: ${(props) => (props.ls ? props.ls : '0.16px')};
     color: ${(props) => (props.color ? props.color : primaryText)};
     width: 100%;
     text-align: start;

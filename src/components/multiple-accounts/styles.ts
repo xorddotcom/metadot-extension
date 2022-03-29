@@ -93,7 +93,7 @@ export const AccountMainText = styled.p`
     font-weight: 500;
     font-size: 16px;
     line-height: 16px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     color: #fafafa;
     opacity: 0.8;
     text-align: left;
@@ -113,7 +113,7 @@ export const AccountSubText = styled.p`
     font-weight: normal;
     font-size: 14px;
     line-height: 16px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     color: rgba(250, 250, 250, 0.69);
     opacity: 0.8;
     text-align: left;
@@ -147,7 +147,7 @@ export const DrivedAccountText = styled.p`
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     color: #ffffff;
     opacity: 0.8;
     text-align: left;
@@ -233,7 +233,7 @@ export const MainText = styled.p<MainTextInterface>`
     font-size: ${(props) => (props.fs ? props.fs : '16px')};
     line-height: ${(props) => (props.lh ? props.lh : '19px')};
     font-weight: 500;
-    letter-spacing: ${(props) => (props.ls ? props.ls : '0.01em')};
+    letter-spacing: ${(props) => (props.ls ? props.ls : '0.16px')};
     color: ${(props) => (props.color ? props.color : primaryText)};
     width: 100%;
     text-align: start;

@@ -82,7 +82,7 @@ export const Field = styled.input<FieldInterface>`
             ? props.border
             : '0px'};
     opacity: 0.8;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     width: ${(props) => (props.fullWidth ? props.fullWidth : '80%')};
     height: ${(props) =>
         props.tokenLogo ? '60px !important' : '45px !important'};

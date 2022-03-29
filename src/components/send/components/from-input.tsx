@@ -44,7 +44,7 @@ const FromInput: React.FunctionComponent = () => {
 
     const mainText = {
         className: mainHeadingfontFamilyClass,
-        ls: '0.02em',
+        ls: '3.2px',
         lh: '16px',
         fs: '15px',
         mt: '-4px',
