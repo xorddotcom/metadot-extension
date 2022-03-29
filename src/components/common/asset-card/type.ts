@@ -2,7 +2,7 @@ export interface Props {
     name: string;
     amount: string;
     shortName: string;
-    amountInUsd: number;
+    balanceInUsd: number;
     logo: string;
 }
 

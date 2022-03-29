@@ -21,21 +21,6 @@ const {
     AcalaIcon,
 } = images;
 
-const USD_PER_POLKADOT_API =
-    'https://api.coingecko.com/api/v3/simple/price?ids=POLKADOT&vs_currencies=Usd';
-
-const USD_PER_KSM_API =
-    'https://api.coingecko.com/api/v3/simple/price?ids=KUSAMA&vs_currencies=Usd';
-
-const USD_PER_ASTAR_API =
-    'https://api.coingecko.com/api/v3/simple/price?ids=ASTAR&vs_currencies=Usd';
-
-const USD_PER_SHIDEN_API =
-    'https://api.coingecko.com/api/v3/simple/price?ids=SHIDEN&vs_currencies=Usd';
-
-const USD_PER_KARURA_API =
-    'https://api.coingecko.com/api/v3/simple/price?ids=KARURA&vs_currencies=Usd';
-
 const POLKADOT_CONFIG: NetworkConfig = {
     name: 'Polkadot',
     tokenName: 'DOT',
@@ -272,11 +257,6 @@ const ACALA_CONFIG: NetworkConfig = {
 export default {
     CONTEXTFREE_CONFIG,
     // BITCOUNTRY_CONFIG,
-    USD_PER_KSM_API,
-    USD_PER_POLKADOT_API,
-    USD_PER_ASTAR_API,
-    USD_PER_KARURA_API,
-    USD_PER_SHIDEN_API,
     POLKADOT_CONFIG,
     KUSAMA_CONFIG,
     // BIFROST_CONFIG,

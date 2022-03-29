@@ -187,7 +187,7 @@ const AssetsAndTransactions: React.FunctionComponent<
                         name={chainName}
                         shortName={tokenName}
                         amount={trimBalance(balance)}
-                        amountInUsd={balanceInUsd}
+                        balanceInUsd={balanceInUsd}
                         logo={tokenImage}
                     />
                 )}
