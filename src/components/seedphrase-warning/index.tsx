@@ -91,7 +91,7 @@ const PopupAuth: React.FunctionComponent = (): JSX.Element => {
                             state: { newPhrase: location.newPhrase },
                         });
                     }}
-                    text="Allow Access"
+                    text="Continue"
                     id="Authorization-Popup"
                     style={{
                         width: '100%',
