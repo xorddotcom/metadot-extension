@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { approveSignPassword, cancelSignRequest } from '../../messaging';
+import {
+    approveSignPassword,
+    cancelSignRequest,
+    isSignLocked,
+} from '../../messaging';
 import {
     HorizontalContentDiv,
     VerticalContentDiv,
@@ -15,7 +19,7 @@ import {
 import { Button, Input } from '../common';
 import { fonts, images } from '../../utils';
 
-const { ContentCopyIcon } = images;
+const { ContentCopyIcon, CheckboxDisabled, CheckboxEnabled } = images;
 
 const { subHeadingfontFamilyClass } = fonts;
 
@@ -23,6 +27,13 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+    const [savePass, setSavePass] = useState(false);
+
+    async function isPasswordSaved(): Promise<any> {
+        console.log(requests.id, 'id dekhooooo');
+        const result = await isSignLocked(requests.id);
+        console.log(result);
+    }
 
     const styledInputPassword = {
         hideHandler: () => setShowPassword(!showPassword),
@@ -96,7 +107,6 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     return (
         <Wrapper
             width="90%"
-            height="595px"
             style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -112,7 +122,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
 
             <VerticalContentDiv
                 transactionTitleDiv
-                style={{ justifyContent: 'center', marginTop: '20px' }}
+                style={{ justifyContent: 'center', marginTop: '30px' }}
             >
                 <HorizontalContentDiv>
                     <div
@@ -167,7 +177,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                 transactionDetailDiv
                 style={{
                     justifyContent: 'center',
-                    marginTop: '20px',
+                    marginTop: '30px',
                 }}
             >
                 {Signaturedata.map((el) => {
@@ -220,7 +230,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
 
             <VerticalContentDiv
                 transactionPasswordDiv
-                style={{ marginTop: '20px' }}
+                style={{ marginTop: '30px' }}
             >
                 <SubHeading ml="5px" marginTop="0px" mb="0px">
                     Password
@@ -251,9 +261,27 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                     </WarningText>
                 )}
             </VerticalContentDiv>
+            <HorizontalContentDiv>
+                <img
+                    src={savePass ? CheckboxEnabled : CheckboxDisabled}
+                    alt="checkbox"
+                    style={{ height: '15px', width: '15px' }}
+                    aria-hidden
+                    // onClick={() => setSavePass(!savePass)}
+                    onClick={isPasswordSaved}
+                />
+                <SubHeading
+                    fontSize="12px"
+                    color="#FAFAFA"
+                    lineHeight="0px"
+                    ml="12px"
+                >
+                    Remember my password for next 15 minutes
+                </SubHeading>
+            </HorizontalContentDiv>
 
             <VerticalContentDiv
-                style={{ alignItems: 'center', marginTop: '2px' }}
+                style={{ alignItems: 'center', marginTop: '30px' }}
             >
                 <Button
                     handleClick={handleSubmit}
