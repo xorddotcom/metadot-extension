@@ -23,7 +23,8 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
     const { open, handleClose, style, onConfirm, publicKey, functionType } =
         props;
 
-    const isPassword = functionType !== 'RenameAccount';
+    const isPassword =
+        functionType !== 'RenameAccount' && functionType !== 'PasswordSaved';
 
     const generalDispatcher = useDispatcher();
 
@@ -34,9 +35,9 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
     const [inputErrorState, setInputErrorState] = useState('');
 
     const handleSubmit = async (): Promise<boolean> => {
-        if (!input) {
-            return false;
-        }
+        // if (!input) {
+        //     return false;
+        // }
         try {
             setIsBtnLoading(true);
             if (isPassword) {
@@ -98,7 +99,8 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
             height: '40px',
             borderRadius: '40px',
         },
-        disabled: isBtnLoading || input.length === 0,
+        // disabled: isBtnLoading || input.length === 0,
+        disabled: isBtnLoading,
         isLoading: isBtnLoading,
         handleClick: () => handleSubmit(),
     };

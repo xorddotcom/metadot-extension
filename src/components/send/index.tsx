@@ -61,6 +61,8 @@ const Send: React.FunctionComponent = () => {
         firstToggle: false,
         secondToggle: false,
     });
+    const [savePassword, setSavePassword] = useState(false);
+
     const currReduxState = useSelector((state: RootState) => state);
     const { activeAccount, modalHandling } = useSelector(
         (state: RootState) => state
@@ -224,7 +226,8 @@ const Send: React.FunctionComponent = () => {
                 address,
                 password,
                 txHex,
-                'substrate'
+                'substrate',
+                true
             );
         } catch (err) {
             setLoading2(false);
@@ -608,6 +611,7 @@ const Send: React.FunctionComponent = () => {
                         ? doTransactionTransferAll
                         : doTransaction
                 }
+                functionType="PasswordSaved"
                 style={{
                     width: '290px',
                     background: '#141414',
