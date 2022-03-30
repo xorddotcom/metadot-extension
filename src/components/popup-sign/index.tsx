@@ -28,12 +28,31 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
     const [savePass, setSavePass] = useState(false);
+    const [isLock, setIsLock] = useState(false);
 
-    async function isPasswordSaved(): Promise<any> {
-        console.log(requests.id, 'id dekhooooo');
-        const result = await isSignLocked(requests.id);
-        console.log(result);
-    }
+    useEffect(() => {
+        setIsLock(true);
+        let timeout: NodeJS.Timeout;
+
+        isSignLocked(requests[requests.length - 1].id)
+            .then(({ isLocked, remainingTime }) => {
+                console.log(
+                    '🚀 ~ file: index.tsx ~ line 39 ~ .then ~ isLocked, remainingTime',
+                    isLocked,
+                    remainingTime
+                );
+
+                setIsLock(isLocked);
+                timeout = setTimeout(() => {
+                    setIsLock(true);
+                }, remainingTime);
+            })
+            .catch((error: Error) => console.error(error));
+
+        return () => {
+            if (timeout) clearTimeout(timeout);
+        };
+    }, []);
 
     const styledInputPassword = {
         hideHandler: () => setShowPassword(!showPassword),
@@ -91,7 +110,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
             setPasswordError(false);
             await approveSignPassword(
                 requests[requests.length - 1].id,
-                false,
+                savePass,
                 password
             );
         } catch (e) {
@@ -228,57 +247,61 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                 })}
             </VerticalContentDiv>
 
-            <VerticalContentDiv
-                transactionPasswordDiv
-                style={{ marginTop: '30px' }}
-            >
-                <SubHeading ml="5px" marginTop="0px" mb="0px">
-                    Password
-                </SubHeading>
-
-                <Input
-                    id="TransactionPassword"
-                    value={password}
-                    onChange={(e) => handlePassword(e)}
-                    placeholder="Password For This Account"
-                    typePassword
-                    rightIcon
-                    isCorrect
-                    rightPosition="18px"
-                    topPosition="27px"
-                    {...styledInputPassword}
-                    fullWidth="83%"
-                />
-                {passwordError && (
-                    <WarningText
-                        id="warning-text"
-                        mb="5px"
-                        mt="0px"
-                        className={subHeadingfontFamilyClass}
-                        visibility={passwordError}
-                    >
-                        Account can not be validated.
-                    </WarningText>
-                )}
-            </VerticalContentDiv>
-            <HorizontalContentDiv>
-                <img
-                    src={savePass ? CheckboxEnabled : CheckboxDisabled}
-                    alt="checkbox"
-                    style={{ height: '15px', width: '15px' }}
-                    aria-hidden
-                    // onClick={() => setSavePass(!savePass)}
-                    onClick={isPasswordSaved}
-                />
-                <SubHeading
-                    fontSize="12px"
-                    color="#FAFAFA"
-                    lineHeight="0px"
-                    ml="12px"
+            {isLock && (
+                <VerticalContentDiv
+                    transactionPasswordDiv
+                    style={{ marginTop: '30px' }}
                 >
-                    Remember my password for next 15 minutes
-                </SubHeading>
-            </HorizontalContentDiv>
+                    <SubHeading ml="5px" marginTop="0px" mb="0px">
+                        Password
+                    </SubHeading>
+
+                    <Input
+                        id="TransactionPassword"
+                        value={password}
+                        onChange={(e) => handlePassword(e)}
+                        placeholder="Password For This Account"
+                        typePassword
+                        rightIcon
+                        isCorrect
+                        rightPosition="18px"
+                        topPosition="27px"
+                        {...styledInputPassword}
+                        fullWidth="83%"
+                    />
+                    {passwordError && (
+                        <WarningText
+                            id="warning-text"
+                            mb="5px"
+                            mt="0px"
+                            className={subHeadingfontFamilyClass}
+                            visibility={passwordError}
+                        >
+                            Account can not be validated.
+                        </WarningText>
+                    )}
+                </VerticalContentDiv>
+            )}
+
+            {isLock && (
+                <HorizontalContentDiv>
+                    <img
+                        src={savePass ? CheckboxEnabled : CheckboxDisabled}
+                        alt="checkbox"
+                        style={{ height: '15px', width: '15px' }}
+                        aria-hidden
+                        onClick={() => setSavePass(!savePass)}
+                    />
+                    <SubHeading
+                        fontSize="12px"
+                        color="#FAFAFA"
+                        lineHeight="0px"
+                        ml="12px"
+                    >
+                        Remember my password for next 15 minutes
+                    </SubHeading>
+                </HorizontalContentDiv>
+            )}
 
             <VerticalContentDiv
                 style={{ alignItems: 'center', marginTop: '30px' }}
@@ -292,7 +315,6 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                         height: 50,
                         borderRadius: 40,
                     }}
-                    disabled={password.length === 0}
                 />
                 <CancelText
                     onClick={() =>
