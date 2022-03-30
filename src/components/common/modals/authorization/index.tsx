@@ -20,8 +20,16 @@ const { subHeadingfontFamilyClass } = fonts;
 const { validateAccount } = accounts;
 
 const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
-    const { open, handleClose, style, onConfirm, publicKey, functionType } =
-        props;
+    const {
+        open,
+        handleClose,
+        style,
+        onConfirm,
+        publicKey,
+        functionType,
+        savePassword,
+        setSavePassword,
+    } = props;
 
     const isPassword =
         functionType !== 'RenameAccount' && functionType !== 'PasswordSaved';
@@ -115,6 +123,8 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
             btnConfirm={btnS}
             functionType={functionType}
             inputErrorState={inputErrorState}
+            savePassword={savePassword}
+            setSavePassword={setSavePassword}
         />
     );
 };

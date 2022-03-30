@@ -27,7 +27,7 @@ import SendView from './view';
 
 const { UnsuccessCheckIcon, SuccessCheckPngIcon } = images;
 
-const { signTransaction } = accounts;
+const { signTransaction, isPasswordSaved } = accounts;
 
 const errorMessages = {
     invalidAddress: 'Invalid address',
@@ -62,6 +62,7 @@ const Send: React.FunctionComponent = () => {
         secondToggle: false,
     });
     const [savePassword, setSavePassword] = useState(false);
+    const [passwordSaved, setPasswordSaved] = useState(false);
 
     const currReduxState = useSelector((state: RootState) => state);
     const { activeAccount, modalHandling } = useSelector(
@@ -113,6 +114,13 @@ const Send: React.FunctionComponent = () => {
             setExistentialDeposit(ED);
         }
         getED();
+    }, []);
+
+    useEffect(() => {
+        isPasswordSaved(publicKey).then((res) => {
+            setPasswordSaved(!res);
+            setSavePassword(!res);
+        });
     }, []);
 
     useEffect(() => {
@@ -227,7 +235,7 @@ const Send: React.FunctionComponent = () => {
                 password,
                 txHex,
                 'substrate',
-                true
+                savePassword
             );
         } catch (err) {
             setLoading2(false);
@@ -611,7 +619,11 @@ const Send: React.FunctionComponent = () => {
                         ? doTransactionTransferAll
                         : doTransaction
                 }
-                functionType="PasswordSaved"
+                functionType={
+                    passwordSaved ? 'PasswordSaved' : 'PasswordNotSaved'
+                }
+                savePassword={savePassword}
+                setSavePassword={setSavePassword}
                 style={{
                     width: '290px',
                     background: '#141414',
