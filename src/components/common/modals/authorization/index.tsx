@@ -30,8 +30,8 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
     const [input, setInput] = useState('');
     const [isBtnLoading, setIsBtnLoading] = useState(false);
 
-    const [passwordError, setPasswordError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [inputErrorState, setInputErrorState] = useState('');
 
     const handleSubmit = async (): Promise<boolean> => {
         if (!input) {
@@ -52,14 +52,14 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
             setInput('');
             return true;
         } catch (err) {
-            setPasswordError('Invalid password!');
+            setInputErrorState('Invalid password');
             setIsBtnLoading(false);
             return false;
         }
     };
 
     const closeModal = (): void => {
-        setPasswordError('');
+        setInputErrorState('');
         setInput('');
         handleClose();
     };
@@ -70,8 +70,11 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
         className: subHeadingfontFamilyClass,
         fontSize: '12px',
         onChange: (t: string) => {
+            setInputErrorState('');
             if (t.length < 20) setInput(t);
-            setPasswordError('');
+            else {
+                setInputErrorState('Only 19 characters allowed.');
+            }
         },
         hideHandler: () => setShowPassword(!showPassword),
         hideState: showPassword,
@@ -106,10 +109,10 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
             style={style}
             onClose={() => closeModal()}
             styledInput={styledInput}
-            passwordError={passwordError}
             btnCancel={btnF}
             btnConfirm={btnS}
             functionType={functionType}
+            inputErrorState={inputErrorState}
         />
     );
 };

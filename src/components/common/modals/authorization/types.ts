@@ -17,8 +17,8 @@ export interface AuthtModalViewProps {
     open: boolean;
     onClose(): void;
     styledInput?: any;
-    passwordError?: string;
     btnCancel?: any;
     btnConfirm?: any;
     functionType?: string;
+    inputErrorState?: string;
 }

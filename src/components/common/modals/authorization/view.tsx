@@ -26,10 +26,10 @@ const AuthModalView: React.FunctionComponent<AuthtModalViewProps> = ({
     style,
     onClose,
     styledInput,
-    passwordError,
     btnCancel,
     btnConfirm,
     functionType,
+    inputErrorState,
 }) => {
     const HEADING =
         // eslint-disable-next-line no-nested-ternary
@@ -85,9 +85,9 @@ const AuthModalView: React.FunctionComponent<AuthtModalViewProps> = ({
                         />
                         <WarningText
                             className={subHeadingfontFamilyClass}
-                            visibility={!!passwordError}
+                            visibility={!!inputErrorState}
                         >
-                            {passwordError}
+                            {inputErrorState}
                         </WarningText>
                     </VerticalContentDiv>
 
