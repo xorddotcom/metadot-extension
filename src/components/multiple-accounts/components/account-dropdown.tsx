@@ -95,6 +95,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                     width: '160px',
                     height: '110px',
                     marginTop: '12px',
+                    position: 'absolute !important',
                 }}
                 PaperProps={{
                     elevation: 0,
