@@ -212,7 +212,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                         </VerticalContentDiv>
 
                         <img
-                            style={{ marginTop: '-8%' }}
+                            style={{ marginTop: '-6%' }}
                             src={arrowRight}
                             alt="arrow right"
                         />
@@ -271,7 +271,8 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                             className={mainHeadingfontFamilyClass}
                             margin="13px 0px 0px 0px"
                             fontSize="14px"
-                            color="#FFFFFF"
+                            color="rgba(255, 255, 255, 0.84)"
+                            fontWeight="500"
                         >
                             Details
                         </MainText1>
@@ -283,6 +284,8 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                     className={subHeadingfontFamilyClass}
                                     fontSize="12px"
                                     color="#FFFFFF"
+                                    fontWeight="400"
+                                    opacity="0.8"
                                 >
                                     Amount
                                 </MainText1>
@@ -310,6 +313,8 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                     margin="0px"
                                     fontSize="12px"
                                     color="#FFFFFF"
+                                    fontWeight="400"
+                                    opacity="0.8"
                                 >
                                     Total
                                 </MainText1>

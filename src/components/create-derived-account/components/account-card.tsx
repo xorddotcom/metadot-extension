@@ -86,7 +86,11 @@ const AccountCard: React.FunctionComponent<{
                 </AccountText>
             </AccountFlex>
             <div {...copyIconTooltip}>
-                <CopyIconImg src={ContentCopyIcon} alt="copy-icon" />
+                <CopyIconImg
+                    src={ContentCopyIcon}
+                    alt="copy-icon"
+                    style={{ height: 14, width: 14 }}
+                />
                 <span {...copyIconTooltipText}>{copy}</span>
             </div>
         </Account>

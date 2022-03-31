@@ -204,6 +204,7 @@ function ImportWallet(): JSX.Element {
             width: '100%',
             height: 50,
             borderRadius: 40,
+            marginTop: '20px',
         },
         handleClick: () => {
             setIsLoading(true);

@@ -114,7 +114,6 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     };
 
     const txFeeProps = {
-        textAlign: 'end',
         className: subHeadingfontFamilyClass,
         style: { marginTop: '3.2px' },
     };

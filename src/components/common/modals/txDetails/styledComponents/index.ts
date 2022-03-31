@@ -39,6 +39,7 @@ export const MainText1 = styled.p<CommonTextInterface>`
     color: ${(props) =>
         props.color ? props.color : 'rgba(250, 250, 250, 0.85)'};
     text-align: ${(props) => props.textAlign};
+    opacity: ${(props) => props.opacity && props.opacity};
 `;
 
 export const MainText2 = styled.p<CommonTextInterface>`

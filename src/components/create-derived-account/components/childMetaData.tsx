@@ -199,7 +199,7 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
                     <SubHeading
                         className={mainHeadingfontFamilyClass}
                         marginTop="0px"
-                        mb="10px"
+                        mb="-2px"
                     >
                         {PASSWORD}
                     </SubHeading>
@@ -234,7 +234,7 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
                     <SubHeading
                         className={mainHeadingfontFamilyClass}
                         marginTop="0"
-                        mb="10px"
+                        mb="-2px"
                     >
                         {CONFIRM_PASSWORD_LABEL}
                     </SubHeading>
