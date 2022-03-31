@@ -10,6 +10,8 @@ export interface AuthtModalProps {
     onConfirm(value1: string, value2: string): Promise<boolean>;
     publicKey: string;
     setOpenAuthModalHandler?(): void;
+    savePassword?: boolean;
+    setSavePassword?(value: boolean): void;
 }
 
 export interface AuthtModalViewProps {
@@ -21,4 +23,6 @@ export interface AuthtModalViewProps {
     btnConfirm?: any;
     functionType?: string;
     inputErrorState?: string;
+    savePassword?: boolean;
+    setSavePassword?(value: boolean): void;
 }

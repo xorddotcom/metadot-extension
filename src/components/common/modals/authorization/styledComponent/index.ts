@@ -29,6 +29,13 @@ export const SubText = styled.p<MainText1PropsInterface>`
     text-align: ${(props) => props.textAlign};
 `;
 
+export const HorizontalContentDiv = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+`;
+
 export const VerticalContentDiv = styled.div<VerticalContentDivPropsInterface>`
     display: flex;
     flex-direction: column;

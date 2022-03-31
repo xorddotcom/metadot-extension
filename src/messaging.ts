@@ -262,14 +262,20 @@ export async function signTransaction(
     address: string,
     password: string,
     transaction: any,
-    type: string
+    type: string,
+    savePass: boolean
 ): Promise<any> {
     return sendMessage('pri(accounts.sign)', {
         address,
         password,
         transaction,
         type,
+        savePass,
     });
+}
+
+export async function isAccountLocked(address: string): Promise<any> {
+    return sendMessage('pri(accounts.isLocked)', { address });
 }
 
 export async function deriveAccount(

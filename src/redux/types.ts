@@ -28,3 +28,17 @@ export interface Transaction {
 export interface Transactions {
     [publicKey: string]: Transaction;
 }
+
+interface decimal {
+    new: number;
+    old: number;
+}
+
+interface TOKEN {
+    name: string;
+    decimals: number | decimal;
+}
+
+export interface TOKEN_INFO_INTERFACE {
+    [TokenName: string]: TOKEN;
+}
