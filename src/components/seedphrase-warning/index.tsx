@@ -72,7 +72,7 @@ const PopupAuth: React.FunctionComponent = (): JSX.Element => {
                         src={check ? CheckboxEnabled : CheckboxDisabled}
                         alt="Check"
                         aria-hidden
-                        style={{ height: '15px', width: '15px' }}
+                        style={{ height: '16.5px', width: '16.5px' }}
                     />
                     <SubHeading
                         style={{ marginLeft: '15px' }}
