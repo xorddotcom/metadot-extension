@@ -272,14 +272,12 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                             }
                         );
 
-                        if (uniqueTransactions.length > 0) {
-                            generalDispatcher(() =>
-                                addTransaction({
-                                    transactions: uniqueTransactions,
-                                    publicKey,
-                                })
-                            );
-                        }
+                        generalDispatcher(() =>
+                            addTransaction({
+                                transactions: uniqueTransactions,
+                                publicKey,
+                            })
+                        );
                     }
                 );
             }

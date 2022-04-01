@@ -54,16 +54,12 @@ export const OptionRow = styled.div<OptionRowPropsInterface>`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-right: -5px;
     opacity: ${(props) => (props.disabled ? 0.4 : 1)};
     cursor: pointer;
-    height: 20px;
+    height: 37px;
     color: #fafafa;
     &:hover {
-        height: 20px;
+        height: 37px;
         background: rgba(46, 155, 155, 0.26);
         /* width: 110%; */
     }

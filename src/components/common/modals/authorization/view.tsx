@@ -81,7 +81,13 @@ const AuthModalView: React.FunctionComponent<AuthtModalViewProps> = ({
                         </MainText>
 
                         {functionType === 'PasswordSaved' ? (
-                            <p>Your Password is already saved</p>
+                            <SubHeading
+                                fontSize="12px"
+                                color="#FAFAFA"
+                                lineHeight="16px"
+                            >
+                                Your password is already saved
+                            </SubHeading>
                         ) : (
                             <>
                                 <StyledInput
