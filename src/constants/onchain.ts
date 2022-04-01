@@ -240,7 +240,8 @@ const CONTEXTFREE_CONFIG: NetworkConfig = {
     // rpcUrl: 'wss://api.ata.network',
     prefix: 11820,
     disabled: false,
-    explorer: '',
+    explorer:
+        'https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fcf-api.ata.network#/explorer',
 };
 
 const ACALA_CONFIG: NetworkConfig = {

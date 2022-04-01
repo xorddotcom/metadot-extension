@@ -32,7 +32,7 @@ window.addEventListener('message', ({ data, source }: Message): void => {
 function inject(): void {
     injectExtension(enable, {
         name: 'metadot',
-        version: '1.1.0',
+        version: '1.1.6',
     });
 }
 
