@@ -96,6 +96,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
             width: '110px',
             height: '40px',
             borderRadius: '40px',
+            fontSize: '14px',
         },
         handleClick: () => closeModal(),
     };
@@ -106,6 +107,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
             width: '110px',
             height: '40px',
             borderRadius: '40px',
+            fontSize: '14px',
         },
         // disabled: isBtnLoading || input.length === 0,
         disabled: isBtnLoading,

@@ -22,7 +22,7 @@ const index: React.FunctionComponent<EnterSeedInterface> = ({
             color: primaryText,
             width: '100%',
             borderRadius: '8px',
-            fontSize: '13px',
+            fontSize: '12px',
             height: '120px',
         },
         className: subHeadingfontFamilyClass,

@@ -74,7 +74,7 @@ const AuthModalView: React.FunctionComponent<AuthtModalViewProps> = ({
                     <VerticalContentDiv marginTop="15px" mb="20px">
                         <MainText
                             fontSize="14px"
-                            marginBottom="15px"
+                            marginBottom="0px"
                             className={mainHeadingfontFamilyClass}
                         >
                             {LABEL}
