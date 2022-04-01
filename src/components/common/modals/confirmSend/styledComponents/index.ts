@@ -5,10 +5,11 @@ import {
     ModalText2Interface,
     SubTextInterface,
     VerticalContentInterface,
+    CommonTextInterface,
 } from './types';
 
 const { primaryText, darkBackground1 } = colors;
-const { buttonFontSize } = fonts;
+const { buttonFontSize, mainHeadingFontSize } = fonts;
 
 export const CloseIconDiv = styled.div`
     position: absolute;
@@ -29,12 +30,14 @@ export const HorizontalContentDiv = styled.div<HorizontalContentInterface>`
     margin-top: ${(props) => props.marginTop && props.marginTop};
     border-bottom: ${(props) =>
         props.borderBottom && '1px solid rgba(250, 250, 250, 0.15)'};
+    height: ${(props) => props.borderBottom && '30px'};
 `;
 
 export const VerticalContentDiv = styled.div<VerticalContentInterface>`
     display: flex;
     flex-direction: column;
     margin-top: ${(props) => props.marginTop && props.marginTop};
+    margin-bottom: ${(props) => props.marginBottom && props.marginBottom};
     ${(props) =>
         props.border &&
         css`
@@ -87,4 +90,19 @@ export const SubText2 = styled.p<SubTextInterface>`
     opacity: 0.8;
     text-align: ${(props) => props.textAlign};
     margin: 0px;
+`;
+
+export const MainText1 = styled.p<CommonTextInterface>`
+    font-size: ${(props) =>
+        props.fontSize ? props.fontSize : mainHeadingFontSize};
+    margin-top: ${(props) => props.marginTop && props.marginTop};
+    font-weight: ${(props) => props.fontWeight && props.fontWeight};
+    margin: ${(props) => props.margin && props.margin};
+    line-height: 19px;
+    height: 19px;
+    /* color: rgba(250, 250, 250, 0.85); */
+    color: ${(props) =>
+        props.color ? props.color : 'rgba(250, 250, 250, 0.85)'};
+    text-align: ${(props) => props.textAlign};
+    opacity: ${(props) => props.opacity && props.opacity};
 `;

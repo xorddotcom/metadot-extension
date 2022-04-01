@@ -13,6 +13,7 @@ export interface HorizontalContentInterface {
 
 export interface VerticalContentInterface {
     marginTop?: string;
+    marginBottom?: string;
     paddingBottom?: boolean;
     border?: boolean;
     specialPadding?: boolean;
@@ -33,4 +34,19 @@ export interface SubTextInterface {
     textAlign?: string;
     hide?: string;
     className?: string;
+}
+
+export interface CommonTextInterface {
+    marginTop?: string;
+    textAlign?: string;
+    successText?: string | boolean;
+    hide?: boolean;
+    pl10?: boolean;
+    className?: string;
+    style?: object;
+    fontSize?: string;
+    margin?: string;
+    fontWeight?: string;
+    color?: string;
+    opacity?: string;
 }

@@ -128,7 +128,7 @@ const ParentMetaData: React.FunctionComponent<ParentMetaDataInterface> = ({
                     <SubHeading
                         className={mainHeadingfontFamilyClass}
                         marginTop="0px"
-                        mb="10px"
+                        mb="-2px"
                     >
                         {PASSWORD}
                     </SubHeading>
@@ -157,7 +157,7 @@ const ParentMetaData: React.FunctionComponent<ParentMetaDataInterface> = ({
                     <SubHeading
                         className={mainHeadingfontFamilyClass}
                         marginTop="20px"
-                        mb="10px"
+                        mb="-2px"
                     >
                         {DERIVE_PATH}
                     </SubHeading>

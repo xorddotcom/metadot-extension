@@ -66,6 +66,7 @@ export const AccountMainText = styled.p`
     margin-bottom: -5px;
     cursor: pointer;
     display: inline-block;
+    margin: 3px 0px 3px 0px;
 `;
 
 export const AccountActiveText = styled.p`
@@ -83,6 +84,7 @@ export const AccountSubText = styled.p`
     color: rgba(250, 250, 250, 0.69);
     opacity: 0.8;
     text-align: left;
+    margin: 3px 0px 3px 0px;
 `;
 
 export const CopyIconImg = styled.img`

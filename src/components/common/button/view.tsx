@@ -17,7 +17,7 @@ const ButtonView: React.FunctionComponent<ButtonViewProps> = (props) => {
                 <img
                     src={Loader}
                     alt="Loader"
-                    style={{ height: '30px', width: '25px' }}
+                    style={{ height: '40px', width: '30px' }}
                 />
             )}
         </MuiButton>

@@ -149,7 +149,10 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                             >
                                 <ListItemIcon
                                     className="flexStart"
-                                    style={{ color: '#fafafa' }}
+                                    style={{
+                                        color: '#fafafa',
+                                        alignItems: 'center',
+                                    }}
                                 >
                                     <img
                                         src={derivedAccountIcon}
@@ -176,7 +179,10 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                         >
                             <ListItemIcon
                                 className="flexStart"
-                                style={{ color: '#fafafa' }}
+                                style={{
+                                    color: '#fafafa',
+                                    alignItems: 'center',
+                                }}
                             >
                                 <img
                                     src={renameAccountImage}
@@ -202,7 +208,10 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                         >
                             <ListItemIcon
                                 className="flexStart"
-                                style={{ color: '#fafafa' }}
+                                style={{
+                                    color: '#fafafa',
+                                    alignItems: 'center',
+                                }}
                             >
                                 <img
                                     src={FileUploadOutlinedIcon}
@@ -218,13 +227,19 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
 
                         <MenuItem
                             id="menu-item-4"
-                            style={{ minHeight: '37px', color: '#fafafa' }}
+                            style={{
+                                minHeight: '37px',
+                                color: '#fafafa',
+                            }}
                             onClick={warnModalHandler}
                             key={Math.random()}
                         >
                             <ListItemIcon
                                 className="flexStart"
-                                style={{ color: '#fafafa' }}
+                                style={{
+                                    color: '#fafafa',
+                                    alignItems: 'center',
+                                }}
                             >
                                 <img
                                     src={RemoveIcon}

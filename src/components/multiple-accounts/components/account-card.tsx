@@ -10,6 +10,9 @@ import {
     AccountText,
     DropDownContainer,
     DropDownIcon,
+    FlexColumn,
+    CopyIconDiv,
+    KebabIcon,
 } from '../styles';
 import { AccountCardInterface } from '../types';
 import { fonts, images, helpers } from '../../../utils';
@@ -78,32 +81,29 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
                             ? '(Active)'
                             : ''}
                     </AccountActiveText>
-                    <AccountSubText className={subHeadingfontFamilyClass}>
-                        {addressModifier(
-                            addressMapper(publicKey, activeAccount.prefix)
-                        )}
-                    </AccountSubText>
-                    <div
-                        style={{ position: 'absolute' }}
-                        className={`tooltip ${subHeadingfontFamilyClass}`}
-                    >
-                        <div
-                            {...copyIconTooltip}
-                            style={{
-                                position: 'absolute',
-                                left: '112px',
-                                bottom: '14px',
-                            }}
-                        >
-                            <img src={ContentCopyIconWhite} alt="copy-icon" />
-                            <span
-                                className="tooltiptext"
-                                style={{ fontSize: '11px' }}
+                    <FlexColumn>
+                        <AccountSubText className={subHeadingfontFamilyClass}>
+                            {addressModifier(
+                                addressMapper(publicKey, activeAccount.prefix)
+                            )}
+                            <CopyIconDiv
+                                className={`tooltip ${subHeadingfontFamilyClass}`}
                             >
-                                {copyT}
-                            </span>
-                        </div>
-                    </div>
+                                <div {...copyIconTooltip}>
+                                    <img
+                                        src={ContentCopyIconWhite}
+                                        alt="copy-icon"
+                                    />
+                                    <span
+                                        className="tooltiptext"
+                                        style={{ fontSize: '11px' }}
+                                    >
+                                        {copyT}
+                                    </span>
+                                </div>
+                            </CopyIconDiv>
+                        </AccountSubText>
+                    </FlexColumn>
                 </AccountText>
             </AccountFlex>
 
@@ -119,7 +119,7 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
                         );
                     }}
                 >
-                    <img src={dropDownIcon} alt="3-dots" />
+                    <KebabIcon src={dropDownIcon} alt="3-dots" />
                 </DropDownIcon>
             </DropDownContainer>
         </Account>

@@ -45,6 +45,7 @@ export const Account = styled.div`
     );
     box-shadow: 0px 0px 40px rgba(13, 13, 13, 0.2);
     border-radius: 8px;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -75,8 +76,8 @@ export const AccountFlex = styled.div`
 
 export const AccountCircle = styled.div`
     background-color: #880041;
-    width: 25px;
-    height: 25px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     margin-right: 16px;
     display: flex;
@@ -92,7 +93,6 @@ export const AccountText = styled.div`
 export const AccountMainText = styled.p`
     font-weight: 500;
     font-size: 16px;
-    line-height: 16px;
     letter-spacing: 0.32px;
     color: #fafafa;
     opacity: 0.8;
@@ -100,11 +100,12 @@ export const AccountMainText = styled.p`
     margin-bottom: -5px;
     cursor: pointer;
     display: inline-block;
+    margin: 3px 0px 3px 0px;
 `;
 
 export const AccountActiveText = styled.p`
     display: inline-block;
-    margin: 0px 12px;
+    margin: 3px 0px 3px 10px;
     font-size: 12px;
     color: #02cc53;
 `;
@@ -117,6 +118,7 @@ export const AccountSubText = styled.p`
     color: rgba(250, 250, 250, 0.69);
     opacity: 0.8;
     text-align: left;
+    margin: 3px 0px 3px 0px;
 `;
 
 export const DrivedAccountMain = styled.div`
@@ -248,4 +250,18 @@ export const CloseIconDiv = styled.div`
     top: 10px;
     color: ${primaryText};
     cursor: pointer;
+`;
+
+export const FlexColumn = styled.div`
+    display: flex;
+    flexdirection: column;
+`;
+
+export const CopyIconDiv = styled.div`
+    margin-left: 12px;
+`;
+
+export const KebabIcon = styled.img`
+    height: 20;
+    width: 5;
 `;

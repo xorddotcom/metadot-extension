@@ -65,7 +65,7 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
                 <div
                     style={{
                         display: 'flex',
-                        justifyContent: 'flex-start',
+                        justifyContent: 'center',
                         width: '40%',
                         paddingLeft: 10,
                         alignItems: 'center',
