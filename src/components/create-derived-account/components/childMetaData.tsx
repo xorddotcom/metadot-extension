@@ -113,7 +113,7 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
 
     const walletNameText = {
         className: mainHeadingfontFamilyClass,
-        mb: '10px',
+        mb: '0px',
     };
 
     const styledInputName = {

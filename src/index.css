@@ -341,7 +341,6 @@ select:-webkit-autofill:focus {
   border-radius: 2px;
   margin-left: -3px;
   border-width: 7px;
-  border-style: solid;
   border-color: var(--tooltipColor) transparent transparent transparent;
 }
 
