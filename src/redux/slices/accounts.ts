@@ -2,12 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { AccountJson } from 'metadot-extension-base/background/types';
 import { Accounts } from '../types';
 
-const initialState: Accounts = {
-    '5FZ9DWna1Wq3nR7FoAmyLURQkgBXkS4MeghjcoXc1e6PeAxK': {
-        accountName: 'Ahsan',
-        publicKey: '5FZ9DWna1Wq3nR7FoAmyLURQkgBXkS4MeghjcoXc1e6PeAxK',
-    },
-};
+const initialState: Accounts = {};
 
 export const accountsSlice = createSlice({
     name: 'accounts',

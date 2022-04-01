@@ -153,7 +153,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                     handleClose={() => setOpenAccountsOptions(false)}
                     style={{
                         position: 'relative',
-                        width: '275px',
+                        width: '264px',
                         background: '#141414',
                         pb: 3,
                         overflowY: 'scroll',
