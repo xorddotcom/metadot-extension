@@ -59,6 +59,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
             generalDispatcher(() => setAuthScreenModal(false));
             generalDispatcher(() => setConfirmSendModal(true));
             setInput('');
+            setIsBtnLoading(false);
             return true;
         } catch (err) {
             setInputErrorState('Invalid password');
@@ -71,6 +72,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
         setInputErrorState('');
         setInput('');
         handleClose();
+        setIsBtnLoading(false);
     };
 
     const styledInput = {

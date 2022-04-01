@@ -118,6 +118,24 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         style: { marginTop: '3.2px' },
     };
 
+    const copyIconTooltip = {
+        id: 'copy-icon',
+        className: `main-card-tooltip ${mainHeadingfontFamilyClass}`,
+        style: { cursor: 'pointer' },
+    };
+
+    const copyIconTooltipText = {
+        className: 'main-card-tooltiptext',
+        style: {
+            left: '20%',
+            bottom: '120%',
+            fontSize: '11px',
+            fontWeight: 300,
+            transition: 'all 0.1s ease-in',
+            width: '150px',
+        },
+    };
+
     return (
         <VerticalContentDiv marginBottom="25px">
             <FlexBetween>
@@ -157,18 +175,26 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
             </CalculatedAmount>
 
             <MainText
-                style={{ marginTop: '32px' }}
+                style={{ marginTop: '32px', display: 'flex' }}
                 className={mainHeadingfontFamilyClass}
             >
                 Existential Deposit
-                {/* <img
-                    aria-hidden
-                    src={help}
-                    alt="img"
-                    height="max-content"
-                    style={{ margin: '0px 8px' }}
-                /> */}
+                <div {...copyIconTooltip}>
+                    <img
+                        aria-hidden
+                        src={help}
+                        alt="img"
+                        height="max-content"
+                        style={{ margin: '0px 8px' }}
+                    />
+                    <span {...copyIconTooltipText}>
+                        The ED exists so that accounts with very small balances,
+                        or completely empty, do not bloat the state of the
+                        blockchain. Learn more about ED here
+                    </span>
+                </div>
             </MainText>
+
             <Input {...styledInputED} />
 
             <HorizontalContentDiv justifyContent="space-between">
