@@ -75,6 +75,8 @@ const AboutView: React.FunctionComponent<AboutModalProps> = ({
                                 textDecoration: 'underline',
                                 marginBottom: 5,
                                 cursor: 'pointer',
+                                fontSize: '14px',
+                                margin: '8px 0px',
                             }}
                             onClick={() => window.open('https://metadot.app/')}
                             role="link"
@@ -88,6 +90,8 @@ const AboutView: React.FunctionComponent<AboutModalProps> = ({
                                 textDecoration: 'underline',
                                 marginBottom: 5,
                                 cursor: 'pointer',
+                                fontSize: '14px',
+                                margin: '8px 0px',
                             }}
                             onClick={() => window.open('https://metadot.app/')}
                             role="link"
