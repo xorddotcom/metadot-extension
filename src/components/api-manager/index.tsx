@@ -5,6 +5,7 @@ import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import { setApi, setApiInitializationStarts } from '../../redux/slices/api';
 import {
     setBalance,
+    setBalances,
     setBalanceInUsd,
     setTokenName,
     setWalletConnected,
@@ -116,6 +117,13 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                     generalDispatcher(() =>
                         setBalance(exponentConversion(balanceOfSelectedNetwork))
                     );
+                    console.log(
+                        'balance of selected',
+                        balanceOfSelectedNetwork
+                    );
+                    generalDispatcher(() =>
+                        setBalances(balanceOfSelectedNetwork)
+                    );
 
                     if (loadingForApi) {
                         openModal();
@@ -159,6 +167,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
             generalDispatcher(() =>
                 setBalance(exponentConversion(balanceOfSelectedNetwork))
             );
+            // generalDispatcher(() => setBalances(balanceOfSelectedNetwork));
         };
         accountChanged();
     }, [publicKey]);

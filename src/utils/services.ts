@@ -155,7 +155,10 @@ const getBalance = async (
         balance = await Promise.all([
             fetchBalanceWithMultipleTokens(api, account),
         ]);
-    } else balance = await getBalanceWithSingleToken(api, account);
+        console.log('Balance service', balance[0]);
+        return balance[0];
+    }
+    balance = await getBalanceWithSingleToken(api, account);
     return balance;
 };
 const getTransactionFee = async (

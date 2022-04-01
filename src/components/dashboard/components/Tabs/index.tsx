@@ -98,6 +98,7 @@ const AssetsAndTransactions: React.FunctionComponent<
         publicKey,
         prefix,
         queryEndpoint,
+        balance,
         balances,
     } = assetsData;
     const [isTab1Active, setIsTab1Active] = useState(true);
@@ -181,19 +182,31 @@ const AssetsAndTransactions: React.FunctionComponent<
                 </TabSection>
             </Tabs>
             <div className="scrollbar" style={{ marginTop: '0' }}>
+                {console.log('user balances', balances)}
                 {isTab1Active &&
                     balances.map((singleToken: any) => {
+                        console.log('Single token', singleToken);
                         return (
                             <AssetCard
                                 name={chainName}
                                 shortName={singleToken.name}
-                                amount={trimBalance(singleToken.balance)}
-                                amountInUsd={balanceInUsd}
+                                amount={String(singleToken.balance)}
+                                amountInUsd={100}
                                 logo={tokenImage}
                                 isNative={singleToken.isNative}
                             />
                         );
                     })}
+                {/* {isTab1Active && (
+                    <AssetCard
+                        name={chainName}
+                        shortName={tokenName}
+                        amount={trimBalance(balance)}
+                        amountInUsd={balanceInUsd}
+                        logo={tokenImage}
+                        isNative
+                    />
+                )} */}
                 {isTab2Active && (
                     <TxView
                         transactionData={transactionData}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Box } from '@material-ui/core';
 import { fontWeight } from '@mui/system';
+import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import { RootState } from '../../../redux/store';
 import { fonts, helpers, exponentConversion } from '../../../utils';
 import { Button, Input } from '../../common';
@@ -31,10 +32,16 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     disableToggleButtons,
     existentialDeposit,
     amount,
+    balance,
+    tokenName,
 }) => {
-    const { balance, balanceInUsd, tokenName, tokenImage } = useSelector(
+    const { balanceInUsd, tokenImage } = useSelector(
         (state: RootState) => state.activeAccount
     );
+    const currReduxState = useSelector((state: RootState) => state);
+
+    const api = currReduxState.api.api as unknown as ApiPromiseType;
+
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
     const [switchChecked, setSwitchChecked] = useState(false);
@@ -153,7 +160,9 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
             <CalculatedAmount marginTop="5px">
                 <Balance {...txFeeProps}>
                     Estimated Tx Fee:{' '}
-                    {`${trimContent(transactionFee, 6)} ${tokenName}`}
+                    {`${trimContent(transactionFee, 6)} ${
+                        api.registry.chainTokens[0]
+                    }`}
                 </Balance>
             </CalculatedAmount>
 

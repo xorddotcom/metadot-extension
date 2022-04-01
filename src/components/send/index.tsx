@@ -41,7 +41,11 @@ const Send: React.FunctionComponent = () => {
     const generalDispatcher = useDispatcher();
     const navigate = useNavigate();
 
-    const location = useLocation();
+    const location = useLocation().state as {
+        tokenName: string;
+        balance: number;
+        isNative: boolean;
+    };
 
     const [insufficientBal, setInsufficientBal] = useState(false);
     const [loading1, setLoading1] = useState(false);
@@ -68,7 +72,10 @@ const Send: React.FunctionComponent = () => {
         (state: RootState) => state
     );
 
-    const { publicKey, balance, tokenName } = activeAccount;
+    // const { publicKey, balance, tokenName } = activeAccount;
+
+    const { publicKey } = activeAccount;
+    const { balance, tokenName } = location;
     const { authScreenModal } = modalHandling;
     const api = currReduxState.api.api as unknown as ApiPromiseType;
 
@@ -116,7 +123,12 @@ const Send: React.FunctionComponent = () => {
     }, []);
 
     useEffect(() => {
-        console.log('location state ====>>>>', location.state);
+        console.log('balance', balance);
+        console.log('tx fee', transactionFee);
+        console.log('location state ====>>>>', location);
+    }, [transactionFee]);
+
+    useEffect(() => {
         if (balance - transactionFee > existentialDeposit) {
             console.log('');
         } else if (balance.toString() === existentialDeposit.toString()) {
@@ -460,13 +472,31 @@ const Send: React.FunctionComponent = () => {
                 setTransactionFee(txFee);
                 setLoading1(false);
                 SendTx(isTxValid[1]);
+
+                if (location.isNative) {
+                    if (location.balance < amount + txFee) {
+                        setInsufficientBal(true);
+
+                        throw new Error('Insufficient balance');
+                    } else {
+                        generalDispatcher(() => setConfirmSendModal(true));
+                    }
+                    console.log('type Native token');
+                } else if (!location.isNative) {
+                    console.log('type Non native');
+                    if (txFee > balance || amount > location.balance) {
+                        setInsufficientBal(true);
+                        throw new Error('Insufficient balance');
+                    }
+                }
+
                 // checking if balance is enough
                 // to send the amount with network fee
-                if (balance < Number(amount) + Number(txFee)) {
-                    setInsufficientBal(true);
-                } else {
-                    generalDispatcher(() => setConfirmSendModal(true));
-                }
+                // if (balance < Number(amount) + Number(txFee)) {
+                //     setInsufficientBal(true);
+                // } else {
+                //     generalDispatcher(() => setConfirmSendModal(true));
+                // }
             } else {
                 setLoading1(false);
             }
@@ -499,6 +529,9 @@ const Send: React.FunctionComponent = () => {
 
     const amountInput = {
         onChange: (e: string): boolean => {
+            console.log('Balance', balance);
+            console.log('selected token', location.balance);
+            console.log('Tx fee', transactionFee);
             // if (amount > e) setAmount(e);
             if (e[0] === '0' && e[1] === '0') {
                 return false;
@@ -542,6 +575,7 @@ const Send: React.FunctionComponent = () => {
         disableToggleButtons,
         setDisableToggleButtons,
         tokenName,
+        balance,
     };
 
     const nextBtn = {
