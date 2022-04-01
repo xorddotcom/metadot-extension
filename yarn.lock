@@ -7417,9 +7417,10 @@ merge2@^1.3.0, merge2@^1.4.1:
   resolved "https://registry.yarnpkg.com/merge2/-/merge2-1.4.1.tgz#4368892f885e907455a6fd7dc55c0c9d404990ae"
   integrity sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==
 
-"metadot-extension-base@file:metadot-extension-base.tgz":
-  version "0.42.8-9"
-  resolved "file:metadot-extension-base.tgz#d2d73a51d2c6091d19cb398a8f01a1cca0eae0ed"
+metadot-extension-base@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/metadot-extension-base/-/metadot-extension-base-0.0.4.tgz#afcef85555a63d54b982671221947ef77abc1ac5"
+  integrity sha512-g7dfRUWBl651MulKxBuDXSM84nZbc051w2uy2YpbJZypHhQe/6Un14JV4v0vg4Ft6og2jNMmlHqdoCG6jlUkMg==
   dependencies:
     "@babel/runtime" "^7.17.2"
     "@polkadot/api" "^7.8.1"
