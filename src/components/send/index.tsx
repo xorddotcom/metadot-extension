@@ -507,6 +507,10 @@ const Send: React.FunctionComponent = () => {
 
     const amountInput = {
         onChange: (e: string): boolean => {
+            setTransferAll({
+                transferAll: false,
+                keepAlive: false,
+            });
             // if (amount > e) setAmount(e);
             if (e[0] === '0' && e[1] === '0') {
                 return false;
@@ -550,6 +554,7 @@ const Send: React.FunctionComponent = () => {
         disableToggleButtons,
         setDisableToggleButtons,
         tokenName,
+        transferAll,
     };
 
     const nextBtn = {
