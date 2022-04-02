@@ -88,6 +88,8 @@ import ToggleOff from '../assets/images/icons/toggle_off.svg';
 import CSVIcon from '../assets/images/icons/csv_icon.svg';
 import AddCircle from '../assets/images/icons/add_circle.svg';
 import GoUpButton from '../assets/images/icons/go_up.svg';
+import DeleteIcon from '../assets/images/icons/delete.svg';
+import EditIcon from '../assets/images/icons/edit.svg';
 
 export default {
     TestNetIcon,
@@ -166,4 +168,6 @@ export default {
     CSVIcon,
     AddCircle,
     GoUpButton,
+    DeleteIcon,
+    EditIcon,
 };

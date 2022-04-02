@@ -15,6 +15,7 @@ import PopupSign from './popup-sign';
 import PopupMeta from './popup-meta';
 import Swap from './swap';
 import SeedphraseWarning from './seedphrase-warning';
+import BatchSend from './batch-send';
 
 export default {
     Welcome,
@@ -34,4 +35,5 @@ export default {
     PopupMeta,
     Swap,
     SeedphraseWarning,
+    BatchSend,
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useNavigate } from 'react-router-dom';
 import { images } from '../../../../utils';
 import { HorizontalContentDiv } from '../../../common/wrapper';
 import { Button } from '../../../common';
@@ -10,20 +11,38 @@ import RecepientCard from '../recepient-card';
 const { AddCircle, GoUpButton } = images;
 
 const BatchView: React.FunctionComponent = () => {
+    const navigate = useNavigate();
+
     const [recepientList, setRecepientList] = React.useState([
-        { amount: '', address: '' },
-        { amount: '', address: '' },
+        { id: 1, amount: '', address: '' },
+        { id: 2, amount: '', address: '' },
     ]);
 
     const handleOnAdd = (): void => {
-        setRecepientList((items) => [...items, { amount: '', address: '' }]);
+        console.log(recepientList.length);
+        setRecepientList((items) => [
+            ...items,
+            { amount: '', address: '', id: recepientList.length + 1 },
+        ]);
+    };
+    const handleDelete = (id: number): void => {
+        setRecepientList(
+            recepientList.filter((recepient) => recepient.id !== id)
+        );
     };
 
     return (
         <>
             <FileInput />
             {recepientList.map((item) => (
-                <RecepientCard />
+                <RecepientCard
+                    key={item.id}
+                    amount={item.amount}
+                    address={item.address}
+                    recepientNumber={item.id}
+                    id={item.id}
+                    handleDelete={() => handleDelete(item.id)}
+                />
             ))}
             <HorizontalContentDiv
                 justifyContent="space-between"
@@ -45,7 +64,9 @@ const BatchView: React.FunctionComponent = () => {
                 <Button
                     id="next-button"
                     text="Next"
-                    handleClick={() => console.log('next')}
+                    handleClick={() => {
+                        navigate(BATCH_SEND);
+                    }}
                     style={{
                         width: '100%',
                         height: 50,

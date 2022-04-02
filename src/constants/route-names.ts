@@ -9,6 +9,7 @@ export const WELCOME_BACK = '/welcome-back';
 // authorized Routes
 export const DASHBOARD = '/';
 export const SEND = '/send';
+export const BATCH_SEND = '/batch-send';
 export const SUPPORT = '/support';
 export const ACCOUNTS = '/accounts';
 export const CREATE_DERIVED_ACCOUNT = '/create-derived-account';
