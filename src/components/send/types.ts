@@ -103,6 +103,13 @@ export interface SendViewProps {
     setAmountOnToggle(input: boolean, keepAlive: boolean): void;
 }
 
+export interface BatchSendViewProps {
+    amount: string;
+    address: string;
+    id: number;
+    recepientNumber: number;
+    handleDelete(): void;
+}
 export interface CalculatedAmountInterface {
     marginTop?: string;
 }

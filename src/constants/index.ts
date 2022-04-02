@@ -12,6 +12,7 @@ import {
     WELCOME_BACK,
     SWAP,
     SEEDPHRASE_WARNING,
+    BATCH_SEND,
 } from './route-names';
 
 export {
@@ -28,4 +29,5 @@ export {
     WELCOME_BACK,
     SWAP,
     SEEDPHRASE_WARNING,
+    BATCH_SEND,
 };
