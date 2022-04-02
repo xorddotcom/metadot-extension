@@ -31,6 +31,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     disableToggleButtons,
     existentialDeposit,
     amount,
+    transferAll,
 }) => {
     const { balance, balanceInUsd, tokenName, tokenImage } = useSelector(
         (state: RootState) => state.activeAccount
@@ -46,8 +47,8 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         setSwitchCheckedSecond(false);
         setSwitchChecked(!switchChecked);
         setTransferAll({
-            keepAlive: true,
-            transferAll: true,
+            keepAlive: !transferAll.keepAlive,
+            transferAll: !transferAll.transferAll,
         });
         return true;
     };
@@ -59,7 +60,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         setSwitchCheckedSecond(!switchCheckedSecond);
         setTransferAll({
             keepAlive: false,
-            transferAll: true,
+            transferAll: !transferAll.transferAll,
         });
         return false;
     };
