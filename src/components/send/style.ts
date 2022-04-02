@@ -20,7 +20,6 @@ export const Wrapper = styled.div`
 `;
 
 export const MainContent = styled.div`
-    margin: 34px auto 25px;
     width: 100%;
 `;
 
@@ -34,8 +33,10 @@ export const VerticalContentDiv = styled.div<VerticalContentDivPropsInterface>`
 export const HorizontalContentDiv = styled.div<VerticalContentDivPropsInterface>`
     display: flex;
     width: 100%;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: ${(props) =>
+        props.flexDirection ? props.flexDirection : 'row'};
+    align-items: ${(props) =>
+        props.flexDirection ? props.flexDirection : 'center'};
 `;
 
 export const FromAccount = styled(HorizontalContentDiv)`
@@ -120,4 +121,27 @@ export const FlexBetween = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+`;
+
+export const FileInputDiv = styled.div`
+    width: 100%;
+    height: 45px;
+    left: 25px;
+    top: 289px;
+    background: rgba(20, 20, 20, 0.6);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+`;
+
+export const RecpientInputDiv = styled.div`
+    width: 100%;
+    height: 297px;
+    border: 0.8px solid rgba(250, 250, 250, 0.1);
+    box-sizing: border-box;
+    filter: drop-shadow(0px 0px 16px rgba(46, 155, 155, 0.08));
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 18px 20px 20px;
 `;

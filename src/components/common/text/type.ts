@@ -44,6 +44,9 @@ export interface MainTextInterface {
     fontWeight?: string;
     textAlign?: string;
     style?: object;
+    mb?: string;
+    mt?: string;
+    ml?: string;
 }
 
 export interface ModalTextPropsInterface {

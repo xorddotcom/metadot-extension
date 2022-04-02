@@ -82,6 +82,12 @@ import visibilityOn from '../assets/images/icons/openEye.svg';
 import rightArrowIcon from '../assets/images/icons/rightArrowIcon.svg';
 import Importicon from '../assets/images/icons/import.svg';
 
+import ToggleOn from '../assets/images/icons/toggle_on.svg';
+import ToggleOff from '../assets/images/icons/toggle_off.svg';
+import CSVIcon from '../assets/images/icons/csv_icon.svg';
+import AddCircle from '../assets/images/icons/add_circle.svg';
+import GoUpButton from '../assets/images/icons/go_up.svg';
+
 export default {
     crossIconRound,
     Importicon,
@@ -153,4 +159,9 @@ export default {
     greenCheck,
     connected,
     ContentCopyIconWhite,
+    ToggleOff,
+    ToggleOn,
+    CSVIcon,
+    AddCircle,
+    GoUpButton,
 };

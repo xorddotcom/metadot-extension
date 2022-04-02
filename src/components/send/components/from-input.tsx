@@ -50,7 +50,7 @@ const FromInput: React.FunctionComponent = () => {
         mt: '-4px',
     };
     return (
-        <VerticalContentDiv mb="20px">
+        <VerticalContentDiv>
             <MainText className={mainHeadingfontFamilyClass}>From</MainText>
             <FromAccount
                 id="from-account"

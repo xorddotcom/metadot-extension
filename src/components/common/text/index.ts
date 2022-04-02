@@ -74,8 +74,9 @@ export const MainText = styled.p<MainTextInterface>`
     line-height: 14px;
     letter-spacing: 0.32px;
     color: ${(props) => (props.color ? props.color : '#ffffff')};
-    margin-top: 0px;
-    margin-bottom: 3px;
+    margin-top: ${(props) => props.mt && props.mt};
+    margin-bottom: ${(props) => (props.mb ? props.mb : '3px')};
+    margin-leftcana: ${(props) => props.ml && props.ml};
     text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
     ${(props) =>
         props.balOverFlow &&

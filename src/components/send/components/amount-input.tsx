@@ -134,6 +134,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
             fontWeight: 300,
             transition: 'all 0.1s ease-in',
             width: '150px',
+            padding: '10px',
         },
     };
 
