@@ -12,7 +12,11 @@ import { images } from '../../utils';
 import { RootState } from '../../redux/store';
 import accounts from '../../utils/accounts';
 import services from '../../utils/services';
-import { Wrapper as AuthWrapper } from '../common/wrapper';
+import {
+    Wrapper,
+    VerticalContentDiv,
+    HorizontalContentDiv,
+} from '../common/wrapper';
 import { WarningModal, AuthModal } from '../common/modals';
 import {
     setAuthScreenModal,
@@ -23,9 +27,13 @@ import { addTransaction } from '../../redux/slices/transactions';
 import { DASHBOARD } from '../../constants';
 import useDispatcher from '../../hooks/useDispatcher';
 import useResponseModal from '../../hooks/useResponseModal';
-import SendView from './view';
+import SendView from './components/single-view/view';
+import BatchView from './components/batch-view/view';
+import { SubHeading } from '../common/text';
+import { Header } from '../common';
+import FromInput from './components/from-input';
 
-const { UnsuccessCheckIcon, SuccessCheckPngIcon } = images;
+const { UnsuccessCheckIcon, SuccessCheckPngIcon, ToggleOff, ToggleOn } = images;
 
 const { signTransaction, isPasswordSaved } = accounts;
 
@@ -604,19 +612,43 @@ const Send: React.FunctionComponent = () => {
         subText: subTextForWarningModal,
     };
 
+    const [batchView, setBatchView] = useState(false);
+
+    const handleBatchSwitch = (): void => {
+        setBatchView(!batchView);
+    };
+
     return (
-        <AuthWrapper width="89%">
-            <SendView
-                toInput={toInput}
-                amountInput={amountInput}
-                confirmSend={confirmSend}
-                nextBtn={nextBtn}
-                setTransferAll={setTransferAll}
-                setAmountOnToggle={setAmountOnToggle}
-                // transactionFee={transactionFee}
-                // existentialDeposit={existentialDeposit}
-                // disableToggleButtons={disableToggleButtons}
-            />
+        <Wrapper width="88%">
+            <Header centerText="Send" />
+
+            <HorizontalContentDiv
+                justifyContent="flex-end"
+                onClick={handleBatchSwitch}
+                marginTop="28px"
+            >
+                <SubHeading>Batch Transaction</SubHeading>
+                <img
+                    src={batchView ? ToggleOn : ToggleOff}
+                    alt="Toggle"
+                    style={{ marginLeft: '10px' }}
+                />
+            </HorizontalContentDiv>
+
+            <FromInput />
+            {batchView ? (
+                <BatchView />
+            ) : (
+                <SendView
+                    toInput={toInput}
+                    amountInput={amountInput}
+                    confirmSend={confirmSend}
+                    nextBtn={nextBtn}
+                    setTransferAll={setTransferAll}
+                    setAmountOnToggle={setAmountOnToggle}
+                />
+            )}
+
             <AuthModal
                 publicKey={publicKey}
                 open={authScreenModal}
@@ -645,7 +677,7 @@ const Send: React.FunctionComponent = () => {
                 }}
             />
             <WarningModal {...warningModal} />
-        </AuthWrapper>
+        </Wrapper>
     );
 };
 

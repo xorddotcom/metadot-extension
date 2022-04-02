@@ -20,6 +20,7 @@ const Input: React.FunctionComponent<Props> = ({
     isCorrect,
     disabled,
     id,
+    type,
     rightIconDropDown,
     rightIcon,
     rightIconCross,
@@ -84,7 +85,7 @@ const Input: React.FunctionComponent<Props> = ({
                 width: '100%',
             }}
         >
-            <Field {...FieldProps} autocomplete="off" />
+            <Field {...FieldProps} autocomplete="off" type={type} />
             {rightIcon && (
                 <Icon
                     onClick={hideHandler}

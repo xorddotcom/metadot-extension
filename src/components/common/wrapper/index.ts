@@ -20,6 +20,14 @@ export const Wrapper = styled.div<AuthorizationPopupWrapperInterface>`
     background: ${darkBackground};
 `;
 
+export const Wrapper2 = styled.div<AuthorizationPopupWrapperInterface>`
+    height: ${(props) => props.height && props.height};
+    width: ${(props) => props.width && props.width};
+    border-radius: ${(props) => props.borderRadius && props.borderRadius};
+    border-color: ${(props) => props.borderRadius && props.borderRadius};
+    background: ${darkBackground};
+`;
+
 export const MainDiv = styled.div`
     margin-top: ${(props: { mt?: string; mb?: string }) =>
         props.mt ? props.mt : '34px'};
@@ -37,6 +45,7 @@ export const HorizontalContentDiv = styled.div<HorizontalContentInterface>`
     background-color: ${(props) =>
         props.backgroundColor && props.backgroundColor};
     border-radius: ${(props) => props.borderRadius && props.borderRadius};
+    margin-top: ${(props) => props.marginTop && props.marginTop};
 `;
 
 export const VerticalContentDiv = styled.div<VerticalContentDivPropsInterface>`
