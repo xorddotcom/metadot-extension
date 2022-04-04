@@ -82,10 +82,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
         fontSize: '12px',
         onChange: (t: string) => {
             setInputErrorState('');
-            if (t.length < 20) setInput(t);
-            else {
-                setInputErrorState('Only 19 characters allowed.');
-            }
+            setInput(t);
         },
         hideHandler: () => setShowPassword(!showPassword),
         hideState: showPassword,

@@ -106,7 +106,7 @@ const Send: React.FunctionComponent = () => {
 
     useEffect(() => {
         async function getED(): Promise<void> {
-            const decimalPlaces = await api.registry.chainDecimals[0];
+            const decimalPlaces = await api?.registry?.chainDecimals[0];
             const ED: number =
                 Number(api?.consts?.balances?.existentialDeposit.toString()) /
                 10 ** decimalPlaces;

@@ -132,7 +132,7 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
         value: password,
         onChange: (t: string) => {
             setPasswordError('');
-            return t.length <= 19 && setPassword(t);
+            setPassword(t);
         },
         hideHandler: () => setShowPassword(!showPassword),
         hideState: showPassword,
@@ -144,7 +144,7 @@ const Step2: React.FunctionComponent<ChildMetaDataInterface> = ({
         value: confirmPassword,
         onChange: (t: string) => {
             setPasswordError('');
-            return t.length <= 19 && setConfirmPassword(t);
+            setConfirmPassword(t);
         },
         hideHandler: () => setShowConfirmPassword(!showConfirmPassword),
         hideState: showConfirmPassword,
