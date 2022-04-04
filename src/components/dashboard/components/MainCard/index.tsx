@@ -92,10 +92,6 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
                     id="refresh"
                     onClick={() => {
                         dispatch(setApiInitializationStarts(true));
-                        setTimeout(
-                            () => dispatch(setApiInitializationStarts(false)),
-                            1000
-                        );
                     }}
                 >
                     <img src={refreshIcon} alt="refresh-icon" />
