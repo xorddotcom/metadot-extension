@@ -40,7 +40,7 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
             <FileInput />
             {recepientList.map((item, index) => (
                 // eslint-disable-next-line react/no-array-index-key
-                <RecepientCard key={index} />
+                <RecepientCard key={index} recepient={item} index={index} />
             ))}
             <HorizontalContentDiv
                 justifyContent="space-between"

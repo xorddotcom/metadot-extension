@@ -10,6 +10,8 @@ import { HorizontalContentDiv } from '../../common/wrapper/index';
 import { fonts, images } from '../../../utils';
 import { RecpientInputDiv } from '../style';
 
+import { RecepientCardInterface } from '../types';
+
 const { crossIcon } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -19,7 +21,10 @@ const errorMessages = {
     enterAmount: 'Enter amount',
 };
 
-const RecepientCard = (): JSX.Element => {
+const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
+    recepient,
+    index,
+}) => {
     const [isCorrect, setIsCorrect] = React.useState(true);
     const [receiverAddress, setReceiverAddress] = React.useState('');
     const [amountInput, setAmountInput] = React.useState('');
@@ -35,7 +40,7 @@ const RecepientCard = (): JSX.Element => {
         id: 'InputField',
         placeholder: 'Amount',
         type: 'Number',
-        value: amountInput,
+        value: recepient.amount,
         className: subHeadingfontFamilyClass,
         onChange: (e: string) => setAmountInput(e),
         blockInvalidChar: true,
@@ -51,13 +56,13 @@ const RecepientCard = (): JSX.Element => {
             </HorizontalContentDiv>
 
             <SubHeading lineHeight="0px" color="#FAFAFA">
-                Recepient 1
+                Recepient {index + 1}
             </SubHeading>
             <ToInput
                 errorMessages={errorMessages}
                 onChange={onChange}
                 isCorrect={isCorrect}
-                receiverAddress={receiverAddress}
+                receiverAddress={recepient.address}
             />
             <MainText className={mainHeadingfontFamilyClass}>Amount</MainText>
             <Input {...styledInput} />

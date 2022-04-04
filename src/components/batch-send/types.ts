@@ -13,3 +13,8 @@ export interface ConfirmBatchViewProps {
     recepientList: Recepient[];
     setRecepientList(value: Recepient[]): void;
 }
+
+export interface RecepientCardInterface {
+    recepient: Recepient;
+    index: number;
+}

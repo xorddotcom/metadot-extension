@@ -18,8 +18,8 @@ const BatchSend: React.FunctionComponent = () => {
 
     const [step, setStep] = React.useState(0);
     const [recepientList, setRecepientList] = React.useState<Recepient[]>([
-        { amount: '', address: '' },
-        { amount: '', address: '' },
+        { amount: '0.001', address: 'abc' },
+        { amount: '0.002', address: 'xyz' },
     ]);
 
     const handleSendSwitch = (): void => {
