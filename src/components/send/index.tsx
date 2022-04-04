@@ -12,11 +12,7 @@ import { images } from '../../utils';
 import { RootState } from '../../redux/store';
 import accounts from '../../utils/accounts';
 import services from '../../utils/services';
-import {
-    Wrapper,
-    VerticalContentDiv,
-    HorizontalContentDiv,
-} from '../common/wrapper';
+import { Wrapper, HorizontalContentDiv } from '../common/wrapper';
 import { WarningModal, AuthModal } from '../common/modals';
 import {
     setAuthScreenModal,
