@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import CancelIcon from '@mui/icons-material/Cancel';
 import { fonts, images } from '../../../../utils';
 
 import {
@@ -17,7 +16,7 @@ import { Input } from '../../../common';
 import { UploadJSONInterface } from '../../type';
 import { PASSWORD } from '../../../../utils/app-content';
 
-const { UploadFileIcon } = images;
+const { UploadFileIcon, crossIconRound } = images;
 
 const UploadJson: React.FC<UploadJSONInterface> = ({
     fileName,
@@ -205,15 +204,8 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                         <div>{fileNameRender()}</div>
                     </HorizontalContentDiv>
                     {isFilePicked && (
-                        <div>
-                            <CancelIcon
-                                onClick={() => handleClick('cancel')}
-                                fontSize="small"
-                                style={{
-                                    marginTop: '3.2px',
-                                    marginRight: '-4.8px',
-                                }}
-                            />
+                        <div onClick={() => handleClick('cancel')} aria-hidden>
+                            <img src={crossIconRound} alt="cancel icon" />
                         </div>
                     )}
                 </UploadFile>
