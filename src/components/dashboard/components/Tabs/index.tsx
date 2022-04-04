@@ -8,6 +8,7 @@ import TxCard from '../../../common/tx-card';
 
 import { queryData } from '../../../../utils/queryData';
 import { fonts, helpers } from '../../../../utils';
+import services from '../../../../utils/services';
 import {
     AssetsAndTransactionsWrapper,
     Tabs,
@@ -27,6 +28,7 @@ import { SubHeading } from '../../../common/text/index';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { trimBalance } = helpers;
+const { addressMapper } = services;
 
 const TxView: React.FunctionComponent<TxViewProps> = (
     props
@@ -140,7 +142,9 @@ const AssetsAndTransactions: React.FunctionComponent<
                 ).toString(),
                 hash: transaction.extrinsicHash,
                 operation:
-                    publicKey === transaction.fromId ? 'Send' : 'Receive',
+                    publicKey === addressMapper(transaction.fromId, 42)
+                        ? 'Send'
+                        : 'Receive',
                 status: transaction.status ? 'Confirmed' : 'Failed',
                 chainName: transaction.token,
                 tokenName: transaction.token,
