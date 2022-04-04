@@ -45,7 +45,7 @@ export const FromAccount = styled(HorizontalContentDiv)`
     justify-content: space-between;
     padding-left: 10px;
     padding-right: 10px;
-    background: ${secondaryBlack};
+    background: rgba(20, 20, 20, 0.5);
     border-radius: 8px;
     color: ${primaryText};
     margin-bottom: 20px;

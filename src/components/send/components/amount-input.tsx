@@ -92,6 +92,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         tokenLogo: true,
         tokenName,
         tokenImage,
+        bgColor: '#141414',
         // isCorrect: amountState.isValid || insufficientBal,
     };
 
@@ -202,12 +203,12 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                 <MainText
                     style={{
                         margin: '16px 0px',
-                        fontSize: '14px',
+                        fontSize: '13px',
                         color: 'rgba(250, 250, 250, 0.8)',
                     }}
                     className={mainHeadingfontFamilyClass}
                 >
-                    Leave existential deposit.
+                    Transfer all excluding existential deposit.
                 </MainText>
 
                 <img
@@ -237,12 +238,12 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                     // onClick={toggleClickedHandler}
                     style={{
                         margin: '16px 0px',
-                        fontSize: '14px',
+                        fontSize: '13px',
                         color: 'rgba(250, 250, 250, 0.8)',
                     }}
                     className={mainHeadingfontFamilyClass}
                 >
-                    Empty account.
+                    Transfer all including existential deposit.
                 </MainText>
 
                 <img

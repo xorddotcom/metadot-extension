@@ -19,6 +19,7 @@ const ToInput: React.FunctionComponent<ToInputInterface> = ({
         onChange,
         placeholder: 'Enter wallet address',
         type: 'text',
+        bgColor: '#141414',
     };
 
     const warningTextInlineStyle = {
