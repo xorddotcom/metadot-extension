@@ -24,14 +24,13 @@ import {
     setConfirmSendModal,
 } from '../../redux/slices/modalHandling';
 import { addTransaction } from '../../redux/slices/transactions';
-import { DASHBOARD } from '../../constants';
+import { DASHBOARD, BATCH_SEND } from '../../constants';
 import useDispatcher from '../../hooks/useDispatcher';
 import useResponseModal from '../../hooks/useResponseModal';
-import SendView from './components/single-view/view';
-import BatchView from './components/batch-view/view';
+import SendView from './view';
+
 import { SubHeading } from '../common/text';
 import { Header } from '../common';
-import FromInput from './components/from-input';
 
 const { UnsuccessCheckIcon, SuccessCheckPngIcon, ToggleOff, ToggleOn } = images;
 
@@ -565,6 +564,51 @@ const Send: React.FunctionComponent = () => {
         transferAll,
     };
 
+    const ED = {
+        onChange: (e: string): boolean => {
+            setTransferAll({
+                transferAll: false,
+                keepAlive: false,
+            });
+            // if (amount > e) setAmount(e);
+            if (e[0] === '0' && e[1] === '0') {
+                return false;
+            }
+            if (e.length < 14) {
+                let decimalInStart = false;
+                if (e[0] === '.') {
+                    // eslint-disable-next-line no-param-reassign
+                    e = `0${e}`;
+                    decimalInStart = true;
+                }
+                const reg = /^-?\d+\.?\d*$/;
+                const test = reg.test(e);
+
+                if (!test && e.length !== 0 && !decimalInStart) {
+                    return false;
+                }
+                if (Number(e) + transactionFee >= balance) {
+                    setInsufficientBal(true);
+                }
+                setInsufficientBal(false);
+                if (e.length === 0) {
+                    setAmount(e);
+                    setIsInputEmpty(true);
+                } else {
+                    setAmount(e);
+                    setIsInputEmpty(false);
+                }
+                return true;
+            }
+            return false;
+        },
+        setTransferAll,
+        setAmountOnToggle,
+        disableToggleButtons,
+        existentialDeposit,
+        transferAll,
+    };
+
     const nextBtn = {
         id: 'send-next',
         text: 'Next',
@@ -607,10 +651,8 @@ const Send: React.FunctionComponent = () => {
         subText: subTextForWarningModal,
     };
 
-    const [batchView, setBatchView] = useState(false);
-
     const handleBatchSwitch = (): void => {
-        setBatchView(!batchView);
+        navigate(BATCH_SEND);
     };
 
     return (
@@ -624,25 +666,21 @@ const Send: React.FunctionComponent = () => {
             >
                 <SubHeading>Batch Transaction</SubHeading>
                 <img
-                    src={batchView ? ToggleOn : ToggleOff}
+                    src={ToggleOff}
                     alt="Toggle"
                     style={{ marginLeft: '10px' }}
                 />
             </HorizontalContentDiv>
 
-            <FromInput />
-            {batchView ? (
-                <BatchView />
-            ) : (
-                <SendView
-                    toInput={toInput}
-                    amountInput={amountInput}
-                    confirmSend={confirmSend}
-                    nextBtn={nextBtn}
-                    setTransferAll={setTransferAll}
-                    setAmountOnToggle={setAmountOnToggle}
-                />
-            )}
+            <SendView
+                toInput={toInput}
+                amountInput={amountInput}
+                ED={ED}
+                confirmSend={confirmSend}
+                nextBtn={nextBtn}
+                setTransferAll={setTransferAll}
+                setAmountOnToggle={setAmountOnToggle}
+            />
 
             <AuthModal
                 publicKey={publicKey}
