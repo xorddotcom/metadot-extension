@@ -1,14 +1,17 @@
 import React from 'react';
 
+import { decodeAddress, encodeAddress } from '@polkadot/keyring';
+import { hexToU8a, isHex } from '@polkadot/util';
 import { Button } from '../common';
 import { VerticalContentDiv, HorizontalContentDiv } from '../common/wrapper';
 import { SubHeading } from '../common/text';
 import { RecepientDetailDiv, TransactionDetailDiv, Divider } from './style';
 
-import { fonts, images, colors } from '../../utils';
+import { fonts, images, colors, helpers } from '../../utils';
 
 import { ConfirmBatchViewProps } from './types';
 import EditRecepientModal from '../common/modals/edit-recepient';
+import { WarningModal } from '../common/modals';
 
 const { mainHeadingFontSize } = fonts;
 const { DeleteIcon, EditIcon } = images;
@@ -31,11 +34,57 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
         setShowEditModal(true);
     };
 
+    const [showWarning, setShowWarning] = React.useState(false);
+
+    const handleDelete = (index: number): void => {
+        setActiveRecepient(index);
+        setShowWarning(true);
+    };
+
+    const warningModal = {
+        open: showWarning,
+        handleClose: () => setShowWarning(false),
+        onConfirm: () => {
+            deleteRecepient(activeRecepient);
+            setShowWarning(false);
+        },
+        style: {
+            width: '290px',
+            background: '#141414',
+            position: 'relative',
+            bottom: 30,
+            p: 2,
+            px: 2,
+            pb: 3,
+        },
+        mainText: 'Remove Recepient',
+        subText: 'Are you sure you want to delete this Recepient?',
+    };
+
+    const calculatedAmount = (): string => {
+        const dummyArray = [...recepientList];
+        const val = dummyArray.reduce((a, b) => {
+            return {
+                amount: String(Number(a.amount) + Number(b.amount)),
+                address: a.address,
+            };
+        });
+        return val.amount;
+    };
+
     return (
         <>
+            <WarningModal {...warningModal} />
             <EditRecepientModal
                 open={showEditModal}
                 handleClose={handleEditModalClose}
+                addressChangeHandler={addressChangeHandler}
+                amountChangeHandler={amountChangeHandler}
+                activeRecepient={{
+                    index: activeRecepient,
+                    address: recepientList[activeRecepient].address,
+                    amount: recepientList[activeRecepient].amount,
+                }}
             />
             {recepientList.map((recepient, index) => (
                 <RecepientDetailDiv>
@@ -62,7 +111,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                                 src={DeleteIcon}
                                 alt="edit"
                                 aria-hidden
-                                onClick={() => deleteRecepient(index)}
+                                onClick={() => handleDelete(index)}
                             />
                         </HorizontalContentDiv>
                     </HorizontalContentDiv>
@@ -88,7 +137,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
 
                         <HorizontalContentDiv justifyContent="space-between">
                             <SubHeading lineHeight="0px">
-                                {recepient.address}
+                                {helpers.addressModifier(recepient.address)}
                             </SubHeading>
                             <SubHeading lineHeight="0px">
                                 {recepient.amount}
@@ -124,7 +173,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                             color={white}
                             fontSize="12px"
                         >
-                            0.2345 DOT
+                            {calculatedAmount()}
                         </SubHeading>
                     </HorizontalContentDiv>
 
@@ -157,7 +206,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                         fontSize="19px"
                         color={primaryBackground}
                     >
-                        0.2345 DOT
+                        {calculatedAmount()}
                     </SubHeading>
                 </HorizontalContentDiv>
             </TransactionDetailDiv>
