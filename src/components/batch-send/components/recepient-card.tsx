@@ -1,5 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { decodeAddress, encodeAddress } from '@polkadot/keyring';
+import { hexToU8a, isHex } from '@polkadot/util';
 import { RootState } from '../../../redux/store';
 
 import ToInput from '../../common/to-input';
@@ -34,6 +36,8 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
     const { tokenName, tokenImage } = useSelector(
         (state: RootState) => state.activeAccount
     );
+
+    const [isCorrect, setIsCorrect] = React.useState(false);
 
     const styledInput = {
         id: 'InputField',
