@@ -54,7 +54,12 @@ const BatchSend: React.FunctionComponent = () => {
     };
 
     const addRecepient = (recepient: Recepient): void => {
-        setRecepientList([...recepientList, recepient]);
+        if (Array.isArray(recepient)) {
+            const newRecepientList = recepientList.concat(recepient);
+            setRecepientList(newRecepientList);
+        } else {
+            setRecepientList([...recepientList, recepient]);
+        }
     };
 
     const deleteRecepient = (index: number): void => {

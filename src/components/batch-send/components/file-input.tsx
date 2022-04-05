@@ -1,15 +1,54 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { SubHeading, MainText } from '../../common/text';
 import { fonts, images } from '../../../utils';
 import { FileInputDiv } from '../style';
 
+import { FileInputProps, Recepient } from '../types';
+
 const { CSVIcon } = images;
 const { mainHeadingfontFamilyClass } = fonts;
 
-const FileInput = (): JSX.Element => {
+const FileInput: React.FunctionComponent<FileInputProps> = ({
+    addRecepient,
+}) => {
+    const [csvFile, setCsvFile] = React.useState<any>();
     const hiddenFileInput = React.useRef<HTMLInputElement>(null);
-    const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        console.log('click');
+
+    useEffect(() => {
+        if (csvFile) {
+            const file = csvFile;
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const text = e.target?.result as string;
+                const keys = text?.slice(0, text.indexOf('\n')).split(',');
+                const values = text?.slice(text.indexOf('\n') + 1).split('\n');
+
+                const recepientList = values.map((value) => {
+                    return {
+                        [keys[0]]: value.split(',')[0],
+                        [keys[1]]: value.split(',')[1],
+                    };
+                });
+
+                recepientList.pop();
+                addRecepient(recepientList as unknown as Recepient[]);
+            };
+
+            reader.readAsText(file);
+        }
+    }, [csvFile]);
+
+    const handleClick = (operation: string): void => {
+        try {
+            if (operation === 'select') {
+                if (hiddenFileInput.current) hiddenFileInput.current.click();
+            } else if (operation === 'cancel') {
+                if (hiddenFileInput.current) hiddenFileInput.current.value = '';
+            }
+        } catch (err) {
+            console.log('in handle click error', err);
+        }
     };
 
     return (
@@ -21,7 +60,7 @@ const FileInput = (): JSX.Element => {
             >
                 Upload CSV File (optional)
             </MainText>
-            <FileInputDiv>
+            <FileInputDiv onClick={() => handleClick('select')}>
                 <img
                     src={CSVIcon}
                     alt="Upload CSV"
@@ -31,14 +70,18 @@ const FileInput = (): JSX.Element => {
                         marginLeft: '14px',
                     }}
                 />
-                <SubHeading ml="14px">Choose File</SubHeading>
+                <SubHeading ml="14px">
+                    {csvFile ? csvFile.name : 'Choose File'}
+                </SubHeading>
             </FileInputDiv>
             <input
-                id="upload-file"
+                id="csv-file"
                 type="file"
-                accept=".json"
+                accept=".csv"
                 ref={hiddenFileInput}
-                onChange={(e) => handleFileInput(e)}
+                onChange={(e) => {
+                    return e.target.files && setCsvFile(e.target.files[0]);
+                }}
                 style={{ display: 'none' }}
             />
         </>

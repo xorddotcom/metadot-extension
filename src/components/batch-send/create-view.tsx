@@ -26,7 +26,7 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
             <VerticalContentDiv marginTop="20px">
                 <FromInput />
             </VerticalContentDiv>
-            <FileInput />
+            <FileInput addRecepient={addRecepient} />
             {recepientList.map((item, index) => (
                 <RecepientCard
                     // eslint-disable-next-line react/no-array-index-key

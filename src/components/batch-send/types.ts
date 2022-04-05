@@ -8,7 +8,7 @@ export interface CreateBatchViewProps {
     setStep(value: number): void;
     addressChangeHandler(value: string, index: number): void;
     amountChangeHandler(value: string, index: number): void;
-    addRecepient(recepient: Recepient): void;
+    addRecepient(recepient: Recepient | Recepient[]): void;
     deleteRecepient(index: number): void;
 }
 
@@ -26,4 +26,8 @@ export interface ConfirmBatchViewProps {
     amountChangeHandler(value: string, index: number): void;
     deleteRecepient(index: number): void;
     sendTransaction(): void;
+}
+
+export interface FileInputProps {
+    addRecepient(recepient: Recepient[]): void;
 }
