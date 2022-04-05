@@ -56,3 +56,27 @@ export const RecpientInputDiv = styled.div`
     flex-direction: column;
     padding: 15px 18px 20px 20px;
 `;
+
+export const AddCircle = styled.div`
+    height: 44px;
+    width: 44px;
+    border-radius: 22px;
+    background: #2e9b9b;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+export const GoUpCircle = styled.div`
+    height: 44px;
+    width: 44px;
+    border-radius: 22px;
+    border: 1px solid #2e9b9b;
+    cursor: pointer;
+    box-sizing: border-box;
+    filter: drop-shadow(0px 0px 10px rgba(46, 155, 155, 0.2));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
