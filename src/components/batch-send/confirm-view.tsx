@@ -8,6 +8,7 @@ import { RecepientDetailDiv, TransactionDetailDiv, Divider } from './style';
 import { fonts, images, colors } from '../../utils';
 
 import { ConfirmBatchViewProps } from './types';
+import EditRecepientModal from '../common/modals/edit-recepient';
 
 const { mainHeadingFontSize } = fonts;
 const { DeleteIcon, EditIcon } = images;
@@ -20,9 +21,21 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
     deleteRecepient,
 }) => {
     const [activeRecepient, setActiveRecepient] = React.useState(0);
+    const [showEditModal, setShowEditModal] = React.useState(false);
+    const handleEditModalClose = (): void => {
+        setShowEditModal(false);
+    };
+    const handleEditModalShow = (index: number): void => {
+        setActiveRecepient(index);
+        setShowEditModal(true);
+    };
 
     return (
         <>
+            <EditRecepientModal
+                open={showEditModal}
+                handleClose={handleEditModalClose}
+            />
             {recepientList.map((recepient, index) => (
                 <RecepientDetailDiv>
                     <HorizontalContentDiv justifyContent="space-between">
@@ -32,7 +45,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                             color="#FAFAFA"
                             opacity="0.85"
                         >
-                            Recepient
+                            Recepient {index + 1}
                         </SubHeading>
                         <HorizontalContentDiv>
                             <img
@@ -40,7 +53,9 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                                 alt="edit"
                                 style={{ marginRight: '12px' }}
                                 aria-hidden
-                                onClick={() => setActiveRecepient(index)}
+                                onClick={() => {
+                                    handleEditModalShow(index);
+                                }}
                             />
                             <img
                                 src={DeleteIcon}
@@ -72,10 +87,10 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
 
                         <HorizontalContentDiv justifyContent="space-between">
                             <SubHeading lineHeight="0px">
-                                (bnb13...txjd5)
+                                {recepient.address}
                             </SubHeading>
                             <SubHeading lineHeight="0px">
-                                0.000001 DOT
+                                {recepient.amount}
                             </SubHeading>
                         </HorizontalContentDiv>
                     </VerticalContentDiv>
