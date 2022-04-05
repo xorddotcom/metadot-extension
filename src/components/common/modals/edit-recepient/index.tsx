@@ -15,7 +15,25 @@ const { crossIcon } = images;
 const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
     props
 ) => {
-    const { open, handleClose } = props;
+    const {
+        open,
+        handleClose,
+        addressChangeHandler,
+        amountChangeHandler,
+        activeRecepient,
+    } = props;
+
+    console.log(props, 'dikha do bhai');
+
+    const [amount, setAmount] = React.useState('');
+    const [address, setAddress] = React.useState('');
+
+    React.useEffect(() => {
+        if (activeRecepient.address && activeRecepient.amount) {
+            setAmount(activeRecepient.amount);
+            setAddress(activeRecepient.address);
+        }
+    }, [activeRecepient.address, activeRecepient.amount]);
 
     const style = {
         background: '#141414',
@@ -27,17 +45,14 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         enterAddress: 'Enter address',
         enterAmount: 'Enter amount',
     };
-    const onChange = (value: string): void => {
-        console.log(value);
-    };
 
     const styledToInput = {
         id: 'InputField',
-        placeholder: 'Enter Wallet Address',
-        type: 'Number',
-        value: '0xc',
+        placeholder: address,
+        type: 'String',
+        value: address,
         className: subHeadingfontFamilyClass,
-        onChange: (value: string) => console.log('abc'),
+        onChange: (value: string) => setAddress(value),
         blockInvalidChar: true,
     };
 
@@ -45,9 +60,9 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         id: 'InputField',
         placeholder: 'Enter Amount',
         type: 'Number',
-        value: '0.00',
+        value: amount,
         className: subHeadingfontFamilyClass,
-        onChange: (value: string) => console.log('abc'),
+        onChange: (value: string) => setAmount(value),
         blockInvalidChar: true,
     };
 
@@ -62,6 +77,14 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         handleClick: () => handleClose(),
         lightBtn: true,
     };
+
+    const handleConfirm = (): void => {
+        // validation lagani hai yahan
+        addressChangeHandler(address, activeRecepient.index);
+        amountChangeHandler(amount, activeRecepient.index);
+        handleClose();
+    };
+
     const btnConfirm = {
         text: 'Confirm',
         style: {
@@ -70,7 +93,7 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
             borderRadius: 40,
             fontSize: '14px',
         },
-        handleClick: () => console.log('confirm'),
+        handleClick: handleConfirm,
         isLoading: false,
     };
 
