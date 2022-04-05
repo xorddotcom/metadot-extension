@@ -19,9 +19,11 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
     amountChangeHandler,
     deleteRecepient,
 }) => {
+    const [activeRecepient, setActiveRecepient] = React.useState(0);
+
     return (
         <>
-            {recepientList.map((recepient) => (
+            {recepientList.map((recepient, index) => (
                 <RecepientDetailDiv>
                     <HorizontalContentDiv justifyContent="space-between">
                         <SubHeading
@@ -37,8 +39,15 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                                 src={EditIcon}
                                 alt="edit"
                                 style={{ marginRight: '12px' }}
+                                aria-hidden
+                                onClick={() => setActiveRecepient(index)}
                             />
-                            <img src={DeleteIcon} alt="edit" />
+                            <img
+                                src={DeleteIcon}
+                                alt="edit"
+                                aria-hidden
+                                onClick={() => deleteRecepient(index)}
+                            />
                         </HorizontalContentDiv>
                     </HorizontalContentDiv>
                     <VerticalContentDiv>

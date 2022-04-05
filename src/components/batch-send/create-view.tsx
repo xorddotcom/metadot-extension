@@ -4,13 +4,14 @@ import { images } from '../../utils';
 import { VerticalContentDiv, HorizontalContentDiv } from '../common/wrapper';
 import FromInput from '../common/from-input';
 import { Button } from '../common';
+import { SubHeading } from '../common/text';
 
 import FileInput from './components/file-input';
 import RecepientCard from './components/recepient-card';
-
+import { AddCircle, GoUpCircle } from './style';
 import { CreateBatchViewProps } from './types';
 
-const { AddCircle, GoUpButton } = images;
+const { GoUpIcon, PlusIcon } = images;
 
 const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
     recepientList,
@@ -41,13 +42,19 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                 justifyContent="space-between"
                 marginTop="50px"
             >
-                <img
-                    src={AddCircle}
-                    alt="add-circle"
-                    aria-hidden
+                <HorizontalContentDiv
                     onClick={() => addRecepient({ address: '', amount: '' })}
-                />
-                <img src={GoUpButton} alt="add-circle" />
+                >
+                    <AddCircle>
+                        <img src={PlusIcon} alt="plus" />
+                    </AddCircle>
+                    <SubHeading color="#2E9B9B" fontSize="14px" ml="12px">
+                        Add Recepient
+                    </SubHeading>
+                </HorizontalContentDiv>
+                <GoUpCircle>
+                    <img src={GoUpIcon} alt="go up" />
+                </GoUpCircle>
             </HorizontalContentDiv>
 
             <HorizontalContentDiv
