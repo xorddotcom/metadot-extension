@@ -18,6 +18,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
     addressChangeHandler,
     amountChangeHandler,
     deleteRecepient,
+    sendTransaction,
 }) => {
     return (
         <>
@@ -140,7 +141,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
             <VerticalContentDiv marginTop="50px">
                 <Button
                     id="Send-btn"
-                    handleClick={() => console.log('')}
+                    handleClick={() => sendTransaction()}
                     text="Send"
                     style={{
                         width: '100%',

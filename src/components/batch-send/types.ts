@@ -25,4 +25,5 @@ export interface ConfirmBatchViewProps {
     addressChangeHandler(value: string, index: number): void;
     amountChangeHandler(value: string, index: number): void;
     deleteRecepient(index: number): void;
+    sendTransaction(): void;
 }
