@@ -15,7 +15,9 @@ const { primaryBackground, white } = colors;
 
 const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
     recepientList,
-    setRecepientList,
+    addressChangeHandler,
+    amountChangeHandler,
+    deleteRecepient,
 }) => {
     return (
         <>

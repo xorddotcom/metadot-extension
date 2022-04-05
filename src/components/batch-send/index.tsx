@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../common';
 import { Wrapper, HorizontalContentDiv } from '../common/wrapper';
@@ -26,6 +26,28 @@ const BatchSend: React.FunctionComponent = () => {
         navigate(SEND);
     };
 
+    const addRecepient = (recepient: Recepient): void => {
+        setRecepientList([...recepientList, recepient]);
+    };
+
+    const deleteRecepient = (index: number): void => {
+        const newState = [...recepientList];
+        newState.splice(index, 1);
+        setRecepientList(newState);
+    };
+
+    const addressChangeHandler = (value: string, index: number): void => {
+        const newState = [...recepientList];
+        newState[index].address = value;
+        setRecepientList([...recepientList]);
+    };
+
+    const amountChangeHandler = (value: string, index: number): void => {
+        const newState = [...recepientList];
+        newState[index].amount = value;
+        setRecepientList([...recepientList]);
+    };
+
     return (
         <Wrapper width="88%">
             <Header
@@ -47,13 +69,18 @@ const BatchSend: React.FunctionComponent = () => {
             {step === 0 ? (
                 <BatchCreateView
                     recepientList={recepientList}
-                    setRecepientList={setRecepientList}
                     setStep={setStep}
+                    addressChangeHandler={addressChangeHandler}
+                    amountChangeHandler={amountChangeHandler}
+                    addRecepient={addRecepient}
+                    deleteRecepient={deleteRecepient}
                 />
             ) : (
                 <BatchConfirmView
                     recepientList={recepientList}
-                    setRecepientList={setRecepientList}
+                    addressChangeHandler={addressChangeHandler}
+                    amountChangeHandler={amountChangeHandler}
+                    deleteRecepient={deleteRecepient}
                 />
             )}
         </Wrapper>

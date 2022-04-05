@@ -7,7 +7,6 @@ import { Button } from '../common';
 
 import FileInput from './components/file-input';
 import RecepientCard from './components/recepient-card';
-import { BATCH_SEND } from '../../constants';
 
 import { CreateBatchViewProps } from './types';
 
@@ -15,23 +14,12 @@ const { AddCircle, GoUpButton } = images;
 
 const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
     recepientList,
-    setRecepientList,
     setStep,
+    addressChangeHandler,
+    amountChangeHandler,
+    addRecepient,
+    deleteRecepient,
 }) => {
-    const handleOnAdd = (): void => {
-        console.log('add handler');
-        // setRecepientList((items) => [
-        //     ...items,
-        //     { amount: '', address: '', id: recepientList.length + 1 },
-        // ]);
-    };
-    const handleDelete = (): void => {
-        console.log('delete handler');
-        // setRecepientList(
-        //     recepientList.filter((recepient) => recepient.id !== id)
-        // );
-    };
-
     return (
         <>
             <VerticalContentDiv marginTop="20px">
@@ -39,8 +27,15 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
             </VerticalContentDiv>
             <FileInput />
             {recepientList.map((item, index) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <RecepientCard key={index} recepient={item} index={index} />
+                <RecepientCard
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={index}
+                    recepient={item}
+                    index={index}
+                    addressChangeHandler={addressChangeHandler}
+                    amountChangeHandler={amountChangeHandler}
+                    deleteRecepient={deleteRecepient}
+                />
             ))}
             <HorizontalContentDiv
                 justifyContent="space-between"
@@ -50,7 +45,7 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                     src={AddCircle}
                     alt="add-circle"
                     aria-hidden
-                    onClick={handleOnAdd}
+                    onClick={() => addRecepient({ address: '', amount: '' })}
                 />
                 <img src={GoUpButton} alt="add-circle" />
             </HorizontalContentDiv>
