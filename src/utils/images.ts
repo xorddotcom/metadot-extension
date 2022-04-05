@@ -85,6 +85,8 @@ import Importicon from '../assets/images/icons/import.svg';
 
 import ToggleOn from '../assets/images/icons/toggle_on.svg';
 import ToggleOff from '../assets/images/icons/toggle_off.svg';
+import PlusIcon from '../assets/images/icons/plus_vector.svg';
+import GoUpIcon from '../assets/images/icons/go_up_vector.svg';
 import CSVIcon from '../assets/images/icons/csv_icon.svg';
 import AddCircle from '../assets/images/icons/add_circle.svg';
 import GoUpButton from '../assets/images/icons/go_up.svg';
@@ -170,4 +172,6 @@ export default {
     GoUpButton,
     DeleteIcon,
     EditIcon,
+    PlusIcon,
+    GoUpIcon,
 };
