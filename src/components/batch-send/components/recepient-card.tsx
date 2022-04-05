@@ -24,13 +24,12 @@ const errorMessages = {
 const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
     recepient,
     index,
+    addressChangeHandler,
+    amountChangeHandler,
+    deleteRecepient,
 }) => {
-    const [isCorrect, setIsCorrect] = React.useState(true);
-    const [receiverAddress, setReceiverAddress] = React.useState('');
-    const [amountInput, setAmountInput] = React.useState('');
-
-    const onChange = (e: string): void => {
-        setReceiverAddress(e);
+    const onChange = (value: string): void => {
+        addressChangeHandler(value, index);
     };
     const { tokenName, tokenImage } = useSelector(
         (state: RootState) => state.activeAccount
@@ -42,7 +41,7 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
         type: 'Number',
         value: recepient.amount,
         className: subHeadingfontFamilyClass,
-        onChange: (e: string) => setAmountInput(e),
+        onChange: (value: string) => amountChangeHandler(value, index),
         blockInvalidChar: true,
         tokenLogo: true,
         tokenName,
@@ -51,17 +50,19 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
 
     return (
         <RecpientInputDiv style={{ marginTop: '20px' }}>
-            <HorizontalContentDiv justifyContent="flex-end">
+            <HorizontalContentDiv
+                onClick={() => deleteRecepient(index)}
+                justifyContent="flex-end"
+            >
                 <img src={crossIcon} alt="close-btn" />
             </HorizontalContentDiv>
-
             <SubHeading lineHeight="0px" color="#FAFAFA">
                 Recepient {index + 1}
             </SubHeading>
             <ToInput
                 errorMessages={errorMessages}
                 onChange={onChange}
-                isCorrect={isCorrect}
+                isCorrect
                 receiverAddress={recepient.address}
             />
             <MainText className={mainHeadingfontFamilyClass}>Amount</MainText>
