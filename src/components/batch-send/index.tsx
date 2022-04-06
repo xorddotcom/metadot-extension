@@ -53,10 +53,14 @@ const BatchSend: React.FunctionComponent = () => {
         navigate(SEND);
     };
 
-    const addRecepient = (recepient: Recepient): void => {
+    const addRecepient = (recepient: Recepient, overWrite = false): void => {
         if (Array.isArray(recepient)) {
-            const newRecepientList = recepientList.concat(recepient);
-            setRecepientList(newRecepientList);
+            if (overWrite) {
+                setRecepientList(recepient);
+            } else {
+                const newRecepientList = recepientList.concat(recepient);
+                setRecepientList(newRecepientList);
+            }
         } else {
             setRecepientList([...recepientList, recepient]);
         }
