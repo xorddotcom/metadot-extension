@@ -1,6 +1,13 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
+import { decodeAddress, encodeAddress } from '@polkadot/keyring';
+import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
+import { hexToU8a, isHex } from '@polkadot/util';
+import { RootState } from '../../redux/store';
 import { images } from '../../utils';
+import services from '../../utils/services';
+
 import { VerticalContentDiv, HorizontalContentDiv } from '../common/wrapper';
 import FromInput from '../common/from-input';
 import { Button } from '../common';
@@ -20,7 +27,97 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
     amountChangeHandler,
     addRecepient,
     deleteRecepient,
+    setValidation,
 }) => {
+    const { activeAccount, modalHandling } = useSelector(
+        (state: RootState) => state
+    );
+    const { getTransactionFee, getBalance } = services;
+    const { publicKey, balance, tokenName } = activeAccount;
+
+    const [insufficientBal, setInsufficientBal] = React.useState(false);
+    const [transactionFee, setTransactionFee] = React.useState<number>(0);
+    const [isCorrect, setIsCorrect] = React.useState(true);
+
+    const isValidAddressPolkadotAddress = (address: string): boolean => {
+        try {
+            encodeAddress(
+                isHex(address) ? hexToU8a(address) : decodeAddress(address)
+            );
+            setIsCorrect(true);
+            return true;
+        } catch (err) {
+            setIsCorrect(false);
+            return false;
+        }
+    };
+    const calculatedAmount = (): string => {
+        const dummyArray = [...recepientList];
+        const val = dummyArray.reduce((a, b) => {
+            return {
+                amount: String(Number(a.amount) + Number(b.amount)),
+                address: a.address,
+            };
+        });
+        return val.amount;
+    };
+
+    const [submitError, setSubmitError] = React.useState(false);
+
+    const validateInputFields = (): void => {
+        recepientList.forEach((item, index) => {
+            if (!isValidAddressPolkadotAddress(item.address)) {
+                setValidation(false, index);
+                setSubmitError(true);
+            } else {
+                setValidation(true, index);
+            }
+        });
+
+        if (
+            Number(balance) <
+            Number(calculatedAmount()) + Number(transactionFee)
+        ) {
+            setInsufficientBal(true);
+            setSubmitError(true);
+            throw new Error('Insufficient funds');
+        }
+    };
+
+    const handleSubmit = (): void => {
+        setSubmitError(false);
+        validateInputFields();
+        console.log('here', submitError, 'yeh dekho');
+        if (!submitError) {
+            setStep(1);
+        }
+    };
+
+    const checkButttonStatus = (): boolean => {
+        if (recepientList.some((e) => e.address === '' || e.amount === ''))
+            return true;
+        return false;
+    };
+
+    const currReduxState = useSelector((state: RootState) => state);
+    const api = currReduxState.api.api as unknown as ApiPromiseType;
+
+    React.useEffect(() => {
+        async function get(): Promise<void> {
+            const estimatedTxFee = await getTransactionFee(
+                api,
+                publicKey,
+                publicKey,
+                Number(calculatedAmount()),
+                tokenName
+            );
+            const txFeeWithFivePercentMargin =
+                estimatedTxFee + estimatedTxFee / 5;
+            setTransactionFee(txFeeWithFivePercentMargin);
+        }
+        get();
+    }, []);
+
     return (
         <>
             <VerticalContentDiv marginTop="20px">
@@ -41,6 +138,19 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                     deleteRecepient={deleteRecepient}
                 />
             ))}
+
+            {insufficientBal && (
+                <SubHeading
+                    color="#F63A3A"
+                    fontSize="12px"
+                    opacity="0.7"
+                    lineHeight="0px"
+                    marginTop="20px"
+                >
+                    Insufficient Funds
+                </SubHeading>
+            )}
+
             <HorizontalContentDiv
                 justifyContent="space-between"
                 marginTop="50px"
@@ -68,13 +178,15 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                     id="next-button"
                     text="Next"
                     handleClick={() => {
-                        setStep(1);
+                        // setStep(1);
+                        handleSubmit();
                     }}
                     style={{
                         width: '100%',
                         height: 50,
                         borderRadius: 40,
                     }}
+                    disabled={checkButttonStatus()}
                 />
             </HorizontalContentDiv>
         </>
