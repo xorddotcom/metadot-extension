@@ -40,7 +40,11 @@ const TxView: React.FunctionComponent<TxViewProps> = (
     return (
         // eslint-disable-next-line react/jsx-no-useless-fragment
         <>
-            {Object.values(transactionData[publicKey]).length > 0 ? (
+            {Object.values(transactionData[publicKey]).length > 0 &&
+            Object.values(transactionData[publicKey]).filter(
+                (transaction: TransactionRecord) =>
+                    transaction.tokenName === tokenName
+            ).length !== 0 ? (
                 Object.values(transactionData[publicKey])
                     .filter(
                         (transaction: TransactionRecord) =>
