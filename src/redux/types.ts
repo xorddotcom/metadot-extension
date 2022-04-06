@@ -28,3 +28,28 @@ export interface Transaction {
 export interface Transactions {
     [publicKey: string]: Transaction;
 }
+
+type BalancesType = {
+    name: string;
+    balance: string;
+    isNative: boolean;
+    decimal: number;
+};
+
+export interface ActiveAccount {
+    isLoggedIn: boolean;
+    publicKey: string;
+    accountName: string;
+    rpcUrl: string;
+    chainName: string;
+    tokenName: string;
+    tokenImage: string;
+    balance: number;
+    balanceInUsd: number;
+    jsonFileUploadScreen: boolean;
+    prefix: number;
+    lastVisitedTimestamp: string;
+    queryEndpoint: string;
+    isWalletConnected: boolean;
+    balances: [BalancesType];
+}

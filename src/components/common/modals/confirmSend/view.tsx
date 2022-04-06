@@ -12,7 +12,7 @@ import {
     VerticalContentDiv,
 } from './styledComponents';
 import { ModalText } from '../../text';
-import { fonts } from '../../../../utils';
+import { fonts, helpers } from '../../../../utils';
 import { RootState } from '../../../../redux/store';
 import {
     AMOUNT,
@@ -26,6 +26,7 @@ import {
 import { ConfirmSendModalViewProps } from './types';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+const { trimBalance } = helpers;
 
 const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
     handleClose,
@@ -35,6 +36,8 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
     loading2,
     transactionAmount,
     btnConfirm,
+    locationTokenName,
+    isNative,
 }) => {
     const { publicKey, tokenName } = useSelector(
         (state: RootState) => state.activeAccount
@@ -42,6 +45,25 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
     const { confirmSendModal } = useSelector(
         (state: RootState) => state.modalHandling
     );
+
+    const totalAmount = (valueOne: number, valueTwo: number): string => {
+        console.log('total amount working', valueOne, valueTwo);
+        if (isNative) {
+            console.log('IF 123');
+            const value = valueOne + valueTwo;
+            console.log('value ====>>', value);
+            const val = value.toString();
+            const trimmedValue = val.slice(0, val.indexOf('.') + 6);
+            console.log('trimmed value -----[][]', trimmedValue);
+            return `${trimmedValue} ${locationTokenName}`;
+        }
+        console.log('ELSE 123');
+        console.log(trimBalance(amount), trimBalance(transactionFee));
+        return `${trimBalance(amount)} ${locationTokenName} + ${trimBalance(
+            transactionFee
+        )} ${tokenName}`;
+    };
+
     return (
         <Modal
             open={confirmSendModal}
@@ -153,7 +175,7 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                                     id="amount"
                                     textAlign="end"
                                     className={mainHeadingfontFamilyClass}
-                                >{`${amount} ${tokenName}`}</ModalText2>
+                                >{`${amount} ${locationTokenName}`}</ModalText2>
                                 <ModalText2
                                     id="transaction-fee"
                                     marginTop="10px"
@@ -186,10 +208,16 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                                     id="transaction-amount"
                                     textAlign="end"
                                     className={mainHeadingfontFamilyClass}
-                                >{`${transactionAmount(
+                                >
+                                    {/* {`${transactionAmount(
                                     amount,
                                     transactionFee
-                                )} ${tokenName}`}</ModalText2>
+                                )} ${tokenName}`} */}
+                                    {totalAmount(
+                                        Number(amount),
+                                        Number(transactionFee)
+                                    )}
+                                </ModalText2>
                                 <ModalText2
                                     textAlign="end"
                                     hide

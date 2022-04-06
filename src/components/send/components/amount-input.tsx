@@ -141,7 +141,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                     className={subHeadingfontFamilyClass}
                     style={{ marginBottom: '1rem' }}
                 >
-                    balance is too low to pay network fees!
+                    Insufficient balance
                 </WarningText>
             )}
 

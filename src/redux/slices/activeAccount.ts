@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import constants from '../../constants/onchain';
+import { ActiveAccount } from '../types';
 
 const { POLKADOT_CONFIG } = constants;
 
-const initialState = {
-    isLoggedIn: true,
-    publicKey: '5Dz1i42ygyhi4BxPnvKtRY4TBShTMC9T2FvaMB8CWxoU3QgG',
-    accountName: 'Hello',
+const initialState: ActiveAccount = {
+    isLoggedIn: false,
+    publicKey: '',
+    accountName: '',
     rpcUrl: POLKADOT_CONFIG.rpcUrl,
     chainName: POLKADOT_CONFIG.name,
     tokenName: POLKADOT_CONFIG.tokenName,
@@ -18,7 +19,7 @@ const initialState = {
     lastVisitedTimestamp: '',
     queryEndpoint: POLKADOT_CONFIG.queryEndpoint,
     isWalletConnected: false,
-    balances: [],
+    balances: [{ name: '', balance: '', isNative: false, decimal: 0 }],
 };
 
 export const activeAccountSlice = createSlice({
@@ -106,7 +107,7 @@ export const activeAccountSlice = createSlice({
             return { ...state, isWalletConnected: action.payload };
         },
         setBalances: (state, action: PayloadAction<any>) => {
-            console.log('Action', action.payload);
+            console.log('Action set balances', action.payload);
             return { ...state, balances: action.payload };
         },
     },
