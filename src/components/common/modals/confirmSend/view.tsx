@@ -14,6 +14,7 @@ import {
 } from './styledComponents';
 import { ModalText } from '../../text';
 import { fonts, images } from '../../../../utils';
+import services from '../../../../utils/services';
 import { RootState } from '../../../../redux/store';
 import {
     AMOUNT,
@@ -26,6 +27,7 @@ import {
 } from '../../../../utils/app-content';
 import { ConfirmSendModalViewProps } from './types';
 
+const { addressMapper } = services;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { arrowRight } = images;
 const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
@@ -37,12 +39,17 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
     transactionAmount,
     btnConfirm,
 }) => {
-    const { publicKey, tokenName } = useSelector(
+    const { publicKey, tokenName, prefix } = useSelector(
         (state: RootState) => state.activeAccount
     );
     const { confirmSendModal } = useSelector(
         (state: RootState) => state.modalHandling
     );
+
+    const fromAddressMapper = (): string => {
+        const res = addressMapper(publicKey, prefix);
+        return `${res.slice(0, 5)} ... ${res.slice(-5)}`;
+    };
     return (
         <Modal
             open={confirmSendModal}
@@ -95,9 +102,9 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                                 id="account-from"
                                 textAlign="start"
                                 className={subHeadingfontFamilyClass}
-                            >{`${publicKey.slice(0, 5)} ... ${publicKey.slice(
-                                -5
-                            )}`}</SubText2>
+                            >
+                                {fromAddressMapper()}
+                            </SubText2>
                         </VerticalContentDiv>
 
                         <img

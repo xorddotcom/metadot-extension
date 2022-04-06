@@ -82,30 +82,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
     }, [setIsWalletConnected]);
 
     useEffect(() => {
-        const updateBalance = async (): Promise<void> => {
-            if (apiInitializationStarts) {
-                const balanceOfSelectedNetwork = await getBalance(
-                    api,
-                    publicKey
-                );
-                const dollarAmount = await convertIntoUsd(
-                    api?.runtimeChain?.toString(),
-                    balanceOfSelectedNetwork
-                );
-
-                generalDispatcher(() => setBalanceInUsd(dollarAmount));
-
-                generalDispatcher(() =>
-                    setBalance(exponentConversion(balanceOfSelectedNetwork))
-                );
-                generalDispatcher(() => setApiInitializationStarts(false));
-            }
-        };
-
-        updateBalance();
-    }, [apiInitializationStarts]);
-
-    useEffect(() => {
         const setAPI = async (rpcUrl: string): Promise<void> => {
             try {
                 generalDispatcher(() => setApiInitializationStarts(true));
