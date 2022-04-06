@@ -1,6 +1,7 @@
 export interface Recepient {
     amount: string;
     address: string;
+    validateAddress?: boolean;
 }
 
 export interface CreateBatchViewProps {
@@ -10,6 +11,7 @@ export interface CreateBatchViewProps {
     amountChangeHandler(value: string, index: number): void;
     addRecepient(recepient: Recepient | Recepient[]): void;
     deleteRecepient(index: number): void;
+    setValidation(value: boolean, index: number): void;
 }
 
 export interface RecepientCardInterface {

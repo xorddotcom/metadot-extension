@@ -84,6 +84,12 @@ const BatchSend: React.FunctionComponent = () => {
         generalDispatcher(() => setAuthScreenModal(true));
     };
 
+    const setValidation = (value: boolean, index: number): void => {
+        const newState = [...recepientList];
+        newState[index].validateAddress = value;
+        setRecepientList([...recepientList]);
+    };
+
     const signTransactionHandler = async (
         tx: any,
         address: string,
@@ -194,6 +200,7 @@ const BatchSend: React.FunctionComponent = () => {
                     amountChangeHandler={amountChangeHandler}
                     addRecepient={addRecepient}
                     deleteRecepient={deleteRecepient}
+                    setValidation={setValidation}
                 />
             ) : (
                 <BatchConfirmView

@@ -69,6 +69,18 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
                 isCorrect
                 receiverAddress={recepient.address}
             />
+
+            <SubHeading
+                color="#F63A3A"
+                fontSize="12px"
+                opacity={recepient.validateAddress === false ? '0.7' : '0'}
+                lineHeight="0px"
+                marginTop="-10px"
+                mb="10px"
+            >
+                Account can not be validated
+            </SubHeading>
+
             <MainText className={mainHeadingfontFamilyClass}>Amount</MainText>
             <Input {...styledInput} />
         </RecpientInputDiv>
