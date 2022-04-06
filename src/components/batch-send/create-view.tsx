@@ -62,33 +62,33 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
         return val.amount;
     };
 
-    const [submitError, setSubmitError] = React.useState(false);
-
-    const validateInputFields = (): void => {
+    const validateAddresses = (): boolean => {
+        const invalidAddress = [];
         recepientList.forEach((item, index) => {
             if (!isValidAddressPolkadotAddress(item.address)) {
                 setValidation(false, index);
-                setSubmitError(true);
+                invalidAddress.push(item.address);
             } else {
                 setValidation(true, index);
             }
         });
+        if (invalidAddress.length > 0) return false;
+        return true;
+    };
+
+    const handleSubmit = (): void => {
+        setInsufficientBal(false);
+        const addressValidated = validateAddresses();
 
         if (
             Number(balance) <
             Number(calculatedAmount()) + Number(transactionFee)
         ) {
             setInsufficientBal(true);
-            setSubmitError(true);
-            throw new Error('Insufficient funds');
+            return;
         }
-    };
 
-    const handleSubmit = (): void => {
-        setSubmitError(false);
-        validateInputFields();
-        console.log('here', submitError, 'yeh dekho');
-        if (!submitError) {
+        if (addressValidated) {
             setStep(1);
         }
     };
