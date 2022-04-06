@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import {
     approveSignPassword,
     cancelSignRequest,
@@ -18,6 +19,8 @@ import {
 } from '../common/text';
 import { Button, Input } from '../common';
 import { fonts, images } from '../../utils';
+import '../../index.css';
+import { CopyIcon, CopyText, CopyToolTip } from './styles';
 
 const { ContentCopyIcon, CheckboxDisabled, CheckboxEnabled } = images;
 
@@ -29,6 +32,12 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     const [passwordError, setPasswordError] = useState(false);
     const [savePass, setSavePass] = useState(false);
     const [isLock, setIsLock] = useState(false);
+    const [copy, setCopy] = useState('Copy');
+
+    const copySeedText = (text: string): void => {
+        navigator.clipboard.writeText(text);
+        setCopy('Copied');
+    };
 
     useEffect(() => {
         setIsLock(true);
@@ -123,6 +132,13 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
         setPasswordError(false);
         setPassword(e);
     };
+
+    const contentCopyIconDivProps = {
+        id: 'copy-seed',
+        onMouseOver: () => setCopy('Copy'),
+        style: { cursor: 'pointer' },
+    };
+
     return (
         <Wrapper
             width="90%"
@@ -163,7 +179,9 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                     </div>
                     <VerticalContentDiv style={{ width: '70%' }}>
                         <SubHeading ml="5px" marginTop="0px" mb="0px">
-                            {requests[requests.length - 1].account.name}
+                            {`${
+                                requests[requests.length - 1].account.name
+                            } here I am`}
                         </SubHeading>
                         <SubHeading ml="5px" marginTop="0px" mb="0px">
                             {trimString(
@@ -171,24 +189,18 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                             )}
                         </SubHeading>
                     </VerticalContentDiv>
-                    <div
-                        style={{
-                            width: '15%',
-                        }}
+                    <CopyText
+                        {...contentCopyIconDivProps}
+                        onClick={() =>
+                            copySeedText(
+                                requests[requests.length - 1].account.address
+                            )
+                        }
+                        aria-hidden
                     >
-                        <img
-                            src={ContentCopyIcon}
-                            alt="copy"
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => {
-                                navigator.clipboard.writeText(
-                                    requests[requests.length - 1].account
-                                        .address
-                                );
-                            }}
-                            aria-hidden
-                        />
-                    </div>
+                        <CopyIcon src={ContentCopyIcon} alt="copyIcon" />
+                        <CopyToolTip>{copy}</CopyToolTip>
+                    </CopyText>
                 </HorizontalContentDiv>
             </VerticalContentDiv>
 
@@ -200,6 +212,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                 }}
             >
                 {Signaturedata.map((el) => {
+                    console.log('el', el);
                     if (el.copy) {
                         return (
                             <HorizontalContentDiv height="20%">
@@ -213,19 +226,18 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                                         {el.data}
                                     </SubHeading>
                                 </div>
-                                <div style={{ width: '10%' }}>
-                                    <img
+
+                                <CopyText
+                                    {...contentCopyIconDivProps}
+                                    onClick={() => copySeedText(el.dataToCopy)}
+                                    aria-hidden
+                                >
+                                    <CopyIcon
                                         src={ContentCopyIcon}
-                                        alt="copy"
-                                        style={{ cursor: 'pointer' }}
-                                        onClick={() => {
-                                            navigator.clipboard.writeText(
-                                                el.dataToCopy
-                                            );
-                                        }}
-                                        aria-hidden
+                                        alt="copyIcon"
                                     />
-                                </div>
+                                    <CopyToolTip>{copy}</CopyToolTip>
+                                </CopyText>
                             </HorizontalContentDiv>
                         );
                     }
