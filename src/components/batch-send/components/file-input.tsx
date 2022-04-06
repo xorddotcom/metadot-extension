@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 import { hexToU8a, isHex } from '@polkadot/util';
+import CancelIcon from '@mui/icons-material/Cancel';
 import { SubHeading, MainText, WarningText } from '../../common/text';
 import { fonts, images } from '../../../utils';
 import { FileInputDiv } from '../style';
@@ -11,10 +12,14 @@ const { CSVIcon } = images;
 const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
 
 const FileInput: React.FunctionComponent<FileInputProps> = ({
+    recepientList,
     addRecepient,
 }) => {
     const [csvFile, setCsvFile] = React.useState<any>();
     const [csvData, setCsvData] = React.useState<any>();
+    const [resetRecepientList, setResetRecepientList] = React.useState<
+        Recepient[]
+    >([]);
     const [error, setError] = React.useState<string>('');
     const hiddenFileInput = React.useRef<HTMLInputElement>(null);
 
@@ -43,14 +48,14 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
                         ?.slice(text.indexOf('\n') + 1)
                         .split('\n');
 
-                    const recepientList = values.map((value) => {
+                    const recepientLists = values.map((value) => {
                         return {
                             [keys[0]]: value.split(',')[0],
                             [keys[1]]: value.split(',')[1],
                         };
                     });
-                    recepientList.pop();
-                    setCsvData(recepientList);
+                    recepientLists.pop();
+                    setCsvData(recepientLists);
                 };
 
                 reader.readAsText(file);
@@ -62,6 +67,7 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
 
     useEffect(() => {
         if (csvData) {
+            setResetRecepientList(recepientList);
             const allowedKeys = ['address', 'amount'];
 
             const keysValidation = allowedKeys.every((val) =>
@@ -85,9 +91,12 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
     const handleClick = (operation: string): void => {
         try {
             if (operation === 'select') {
-                if (hiddenFileInput.current) hiddenFileInput.current.click();
+                if (hiddenFileInput.current && !csvFile)
+                    hiddenFileInput.current.click();
             } else if (operation === 'cancel') {
                 if (hiddenFileInput.current) hiddenFileInput.current.value = '';
+                setCsvFile(undefined);
+                addRecepient(resetRecepientList, true);
             }
         } catch (err) {
             console.log('in handle click error', err);
@@ -116,6 +125,27 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
                 <SubHeading ml="14px">
                     {csvFile ? csvFile.name : 'Choose File'}
                 </SubHeading>
+                {csvFile && (
+                    <div
+                        style={{
+                            display: 'flex',
+                            marginLeft: 'auto',
+                            marginRight: '16px',
+                        }}
+                    >
+                        <CancelIcon
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleClick('cancel');
+                            }}
+                            fontSize="small"
+                            style={{
+                                marginTop: '3.2px',
+                                marginRight: '-4.8px',
+                            }}
+                        />
+                    </div>
+                )}
             </FileInputDiv>
             {error && (
                 <WarningText
