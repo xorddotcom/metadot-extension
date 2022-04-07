@@ -88,7 +88,6 @@ const Input: React.FunctionComponent<Props> = ({
             <Field
                 {...FieldProps}
                 autocomplete="off"
-                type={type}
                 onWheel={(e: React.WheelEvent<HTMLInputElement>) =>
                     e.currentTarget.blur()
                 }
