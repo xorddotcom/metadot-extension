@@ -3,8 +3,8 @@ import { QueryObjectInterface } from './types';
 
 const getQuery = (prefix: number, publicKey: string): string => {
     const address = encodeAddress(publicKey, prefix);
-    const query = `
-      query {
+    const queryWithoutTxFees = `
+     query {
     account(id: "${address}") {
         id
         transferTo {
@@ -35,7 +35,41 @@ const getQuery = (prefix: number, publicKey: string): string => {
         }
     }
   }`;
-    return query;
+    const query = `
+     query {
+    account(id: "${address}") {
+        id
+        transferTo {
+          nodes {
+            id
+            token
+            decimals
+            extrinsicHash
+            amount
+            fees
+            status
+            toId
+            fromId
+            timestamp
+          }
+        }
+        transferFrom {
+          nodes {
+            id
+            token
+            decimals
+            extrinsicHash
+            amount
+            status
+            fees
+            toId
+            fromId
+            timestamp
+          }
+        }
+    }
+  }`;
+    return prefix === 0 ? queryWithoutTxFees : query;
 };
 export const queryData = (
     queryEndpoint: string,

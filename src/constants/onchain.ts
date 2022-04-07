@@ -124,8 +124,7 @@ const SHIDEN_CONFIG: NetworkConfig = {
 const WESTEND_CONFIG: NetworkConfig = {
     name: 'Westend',
     tokenName: 'WND',
-    queryEndpoint:
-        'https://api.subquery.network/sq/khuzama98/subql-westend__a2h1e',
+    queryEndpoint: 'https://api.subquery.network/sq/khuzama98/subql-westend',
     logo: westendColour,
     rpcUrl: 'wss://westend-rpc.polkadot.io',
     prefix: 42,

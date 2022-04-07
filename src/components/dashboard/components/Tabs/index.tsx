@@ -137,6 +137,12 @@ const AssetsAndTransactions: React.FunctionComponent<
             ...transactionObject.data.account.transferTo.nodes,
             ...transactionObject.data.account.transferFrom.nodes,
         ].map((transaction) => {
+            const gasFee = transaction.fees
+                ? (
+                      parseInt(transaction.fees) /
+                      parseInt(transaction.decimals)
+                  ).toString()
+                : '0';
             return {
                 accountFrom: transaction.fromId,
                 accountTo: transaction.toId,
@@ -152,7 +158,7 @@ const AssetsAndTransactions: React.FunctionComponent<
                 status: transaction.status ? 'Confirmed' : 'Failed',
                 chainName: transaction.token,
                 tokenName: transaction.token,
-                transactionFee: '0',
+                transactionFee: gasFee,
                 timestamp: transaction.timestamp,
             };
         });
