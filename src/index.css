@@ -220,6 +220,16 @@ input:focus {
   width: 300px;
 }
 
+.real-txDetails-modal-style {
+  outline: none !important;
+  border: 0.8px solid var(--primaryBackground);
+  box-sizing: border-box;
+  box-shadow: 0px 2px 20px 5px var(--boxShadowColor);
+  border-radius: 8px;
+  margin: 15px auto;
+  width: 300px;
+}
+
 .btn-row {
   display: flex;
   flex-direction: row;

@@ -82,7 +82,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
     };
     return (
         <Modal open={open} onClose={handleClose}>
-            <Box sx={style} className="txDetails-modal-style">
+            <Box sx={style} className="real-txDetails-modal-style">
                 <CloseIconDiv
                     id="close-icon"
                     onClick={() => {
@@ -289,6 +289,17 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                 >
                                     Amount
                                 </MainText1>
+                                <MainText1
+                                    marginTop="10px"
+                                    textAlign="start"
+                                    className={subHeadingfontFamilyClass}
+                                    fontSize="12px"
+                                    color="#FFFFFF"
+                                    fontWeight="400"
+                                    opacity="0.8"
+                                >
+                                    Transaction Fees
+                                </MainText1>
                             </VerticalContentDiv>
 
                             <VerticalContentDiv marginBottom="10px">
@@ -299,6 +310,17 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                     fontSize="12px"
                                     color="#FFFFFF"
                                 >{`${amount} ${tokenName}`}</MainText1>
+                                <MainText1
+                                    marginTop="10px"
+                                    textAlign="end"
+                                    className={mainHeadingfontFamilyClass}
+                                    fontSize="12px"
+                                    color="#FFFFFF"
+                                >{`${
+                                    transactionFee
+                                        ? transactionFee.slice(0, 6)
+                                        : '0'
+                                } ${tokenName}`}</MainText1>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
 
