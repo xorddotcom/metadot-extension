@@ -2,6 +2,7 @@ export interface Recepient {
     amount: string;
     address: string;
     validateAddress?: boolean;
+    validateReaping?: boolean;
 }
 
 export interface CreateBatchViewProps {
@@ -13,6 +14,7 @@ export interface CreateBatchViewProps {
     deleteRecepient(index: number): void;
     setValidation(value: boolean, index: number): void;
     getTransactionFees(amount: string): Promise<number>;
+    setValidateReaping(value: boolean, index: number): void;
 }
 
 export interface RecepientCardInterface {

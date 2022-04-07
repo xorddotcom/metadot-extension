@@ -91,13 +91,13 @@ const BatchSend: React.FunctionComponent = () => {
     const addressChangeHandler = (value: string, index: number): void => {
         const newState = [...recepientList];
         newState[index].address = value;
-        setRecepientList([...recepientList]);
+        setRecepientList([...newState]);
     };
 
     const amountChangeHandler = (value: string, index: number): void => {
         const newState = [...recepientList];
         newState[index].amount = value;
-        setRecepientList([...recepientList]);
+        setRecepientList([...newState]);
     };
 
     const getTotalAmount = (value: string, index: number): string => {
@@ -119,7 +119,13 @@ const BatchSend: React.FunctionComponent = () => {
     const setValidation = (value: boolean, index: number): void => {
         const newState = [...recepientList];
         newState[index].validateAddress = value;
-        setRecepientList([...recepientList]);
+        setRecepientList([...newState]);
+    };
+
+    const setValidateReaping = (value: boolean, index: number): void => {
+        const newState = [...recepientList];
+        newState[index].validateReaping = value;
+        setRecepientList([...newState]);
     };
 
     const getTxFees = async (amount: string): Promise<number> => {
@@ -269,6 +275,7 @@ const BatchSend: React.FunctionComponent = () => {
                     deleteRecepient={deleteRecepient}
                     setValidation={setValidation}
                     getTransactionFees={getTxFees}
+                    setValidateReaping={setValidateReaping}
                 />
             ) : (
                 <BatchConfirmView
