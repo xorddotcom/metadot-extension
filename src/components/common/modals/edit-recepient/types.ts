@@ -7,6 +7,7 @@ export interface ResponseModalProps {
     activeRecepient: ActiveRecepient;
     getTotalAmount(value: string, index: number): string;
     getTransactionFees: () => Promise<number>;
+    existentialDeposit: number;
 }
 
 interface ActiveRecepient {

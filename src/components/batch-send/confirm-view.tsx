@@ -26,6 +26,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
     isButtonLoading,
     getTotalAmount,
     getTransactionFees,
+    existentialDeposit,
 }) => {
     const [activeRecepient, setActiveRecepient] = React.useState(0);
     const [showEditModal, setShowEditModal] = React.useState(false);
@@ -103,6 +104,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                 }}
                 getTotalAmount={getTotalAmount}
                 getTransactionFees={getTransactionFees}
+                existentialDeposit={existentialDeposit}
             />
             {recepientList.map((recepient, index) => (
                 <RecepientDetailDiv>

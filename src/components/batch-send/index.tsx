@@ -38,8 +38,8 @@ const BatchSend: React.FunctionComponent = () => {
 
     const [step, setStep] = React.useState(0);
     const [recepientList, setRecepientList] = React.useState<Recepient[]>([
-        { amount: '0.001', address: 'abc' },
-        { amount: '0.002', address: 'xyz' },
+        { amount: '', address: '' },
+        { amount: '', address: '' },
     ]);
     const [savePassword, setSavePassword] = React.useState(false);
     const [passwordSaved, setPasswordSaved] = React.useState(false);
@@ -246,6 +246,21 @@ const BatchSend: React.FunctionComponent = () => {
         return true;
     };
 
+    const [existentialDeposit, setExistentialDeposit] = React.useState(0);
+
+    React.useEffect(() => {
+        async function getED(): Promise<void> {
+            const decimalPlaces = api.registry.chainDecimals[0];
+            const ED: number =
+                Number(api?.consts?.balances?.existentialDeposit.toString()) /
+                10 ** decimalPlaces;
+
+            setExistentialDeposit(ED);
+        }
+        getED();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <Wrapper width="88%">
             <Header
@@ -286,6 +301,7 @@ const BatchSend: React.FunctionComponent = () => {
                     isButtonLoading={isButtonLoading}
                     getTotalAmount={getTotalAmount}
                     getTransactionFees={getTxFees}
+                    existentialDeposit={existentialDeposit}
                 />
             )}
 

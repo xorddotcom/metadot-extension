@@ -1,8 +1,12 @@
 import React from 'react';
+
+import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { useSelector } from 'react-redux';
 import { fonts, images, helpers } from '../../../../utils';
+import services from '../../../../utils/services';
+
 import { MainText, SubHeading } from '../../text';
 import { ResponseModalProps } from './types';
 import { HorizontalContentDiv } from '../../wrapper';
@@ -10,6 +14,8 @@ import ToInput from '../../to-input';
 import Input from '../../input';
 import Button from '../../button';
 import { RootState } from '../../../../redux/store';
+
+const { getBalance } = services;
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { crossIcon } = images;
@@ -26,6 +32,7 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         activeRecepient,
         getTotalAmount,
         getTransactionFees,
+        existentialDeposit,
     } = props;
 
     console.log(props, 'dikha do bhai');
@@ -83,8 +90,13 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         lightBtn: true,
     };
 
+    const currReduxState = useSelector((state: RootState) => state);
+    const api = currReduxState.api.api as unknown as ApiPromiseType;
+
     const [addressError, setAddressError] = React.useState(false);
     const [amountError, setAmountError] = React.useState(false);
+    const [addressErrorMessage, setAddressErrorMessage] = React.useState('');
+    const [amountErrorMessage, setAmountErrorMessage] = React.useState('');
     const { activeAccount } = useSelector((state: RootState) => state);
     const { balance, tokenName } = activeAccount;
 
@@ -97,6 +109,7 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         }
 
         setAddressError(true);
+        setAddressErrorMessage('Insufficient Funds');
         return false;
     };
     const validateTotalAmount = async (): Promise<boolean> => {
@@ -106,9 +119,34 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         console.log(totalAmount, transactionFee, '---> amount and fee');
         if (Number(balance) < Number(totalAmount) + Number(transactionFee)) {
             setAmountError(true);
+            setAmountErrorMessage('Insufficient Funds');
             return false;
         }
+
+        if (
+            Number(balance) - Number(totalAmount) - Number(transactionFee) <
+            Number(existentialDeposit)
+        ) {
+            setAmountError(true);
+            setAmountErrorMessage('Your account might get reaped');
+            return false;
+        }
+
         setAmountError(false);
+        return true;
+    };
+
+    const validateReapingReceiver = async (): Promise<boolean> => {
+        const receiverBalance = await getBalance(api, address);
+        if (
+            Number(existentialDeposit) >
+            Number(Number(receiverBalance) + Number(amount))
+        ) {
+            setAddressError(true);
+            setAddressErrorMessage('Receiver might get reaped');
+            return false;
+        }
+        setAddressError(false);
         return true;
     };
 
@@ -116,7 +154,8 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         // validation lagani hai yahan
         const addressValidated = validateAddress();
         const amountValidated = await validateTotalAmount();
-        if (addressValidated && amountValidated) {
+        const reapingValidated = await validateReapingReceiver();
+        if (addressValidated && amountValidated && reapingValidated) {
             addressChangeHandler(address, activeRecepient.index);
             amountChangeHandler(amount, activeRecepient.index);
             handleClose();
@@ -181,7 +220,7 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
                         marginTop="8px"
                         mb="25px"
                     >
-                        Account cannot be validated
+                        {addressErrorMessage}
                     </SubHeading>
 
                     <SubHeading
@@ -201,7 +240,7 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
                         marginTop="8px"
                         mb="25px"
                     >
-                        Insufficient Funds
+                        {amountErrorMessage}
                     </SubHeading>
 
                     <HorizontalContentDiv justifyContent="space-between">
