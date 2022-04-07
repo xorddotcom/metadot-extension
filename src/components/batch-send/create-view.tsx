@@ -21,6 +21,7 @@ import { CreateBatchViewProps } from './types';
 const { GoUpIcon, PlusIcon } = images;
 const { mainHeadingfontFamilyClass } = fonts;
 const { trimContent } = helpers;
+const { getBalance } = services;
 
 const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
     recepientList,
@@ -31,11 +32,28 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
     deleteRecepient,
     setValidation,
     getTransactionFees,
+    setValidateReaping,
 }) => {
     const { activeAccount } = useSelector((state: RootState) => state);
     const { balance, tokenName } = activeAccount;
-
     const [insufficientBal, setInsufficientBal] = React.useState(false);
+    const [senderReaped, setSenderReaped] = React.useState(false);
+    const [existentialDeposit, setExistentialDeposit] =
+        React.useState<number>(0);
+
+    const currReduxState = useSelector((state: RootState) => state);
+    const api = currReduxState.api.api as unknown as ApiPromiseType;
+
+    const calculatedAmount = (): string => {
+        const dummyArray = [...recepientList];
+        const val = dummyArray.reduce((a, b) => {
+            return {
+                amount: String(Number(a.amount) + Number(b.amount)),
+                address: a.address,
+            };
+        });
+        return val.amount;
+    };
 
     const isValidAddressPolkadotAddress = (address: string): boolean => {
         try {
@@ -47,16 +65,19 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
             return false;
         }
     };
-    const calculatedAmount = (): string => {
-        const dummyArray = [...recepientList];
-        const val = dummyArray.reduce((a, b) => {
-            return {
-                amount: String(Number(a.amount) + Number(b.amount)),
-                address: a.address,
-            };
-        });
-        return val.amount;
-    };
+
+    React.useEffect(() => {
+        async function getED(): Promise<void> {
+            const decimalPlaces = api.registry.chainDecimals[0];
+            const ED: number =
+                Number(api?.consts?.balances?.existentialDeposit.toString()) /
+                10 ** decimalPlaces;
+
+            setExistentialDeposit(ED);
+        }
+        getED();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const validateAddresses = (): boolean => {
         const invalidAddress = [];
@@ -75,8 +96,7 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
     const validateBalance = async (): Promise<boolean> => {
         const totalAmount = calculatedAmount();
         const transactionFee = await getTransactionFees(totalAmount);
-        console.log(balance, totalAmount, transactionFee, '----> amt, feee');
-        console.log(transactionFee);
+
         if (Number(balance) < Number(totalAmount) + Number(transactionFee)) {
             setInsufficientBal(true);
             return false;
@@ -84,15 +104,57 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
         return true;
     };
 
+    const validateReaping = async (): Promise<boolean> => {
+        // validate sender reaping
+        const totalAmount = calculatedAmount();
+        const transactionFee = await getTransactionFees(totalAmount);
+        if (
+            Number(balance) -
+                Number(calculatedAmount()) -
+                Number(transactionFee) <
+            Number(existentialDeposit)
+        ) {
+            setSenderReaped(true);
+            return false;
+        }
+
+        // validate receiver reaping
+        const invalidSending = [];
+        const recipientBalancesPromises = recepientList.map(
+            async (recepient) => {
+                return getBalance(api, recepient.address);
+            }
+        );
+        const recipientBalances = await Promise.all(recipientBalancesPromises);
+
+        recipientBalances.forEach((recipientBalance, index) => {
+            if (
+                Number(existentialDeposit) >
+                Number(
+                    Number(recipientBalance) +
+                        Number(recepientList[index].amount)
+                )
+            ) {
+                setValidateReaping(false, index);
+                invalidSending.push(recipientBalance);
+            } else {
+                setValidateReaping(true, index);
+            }
+        });
+
+        if (invalidSending.length > 0) return false;
+        return true;
+    };
+
     const handleSubmit = async (): Promise<void> => {
         setInsufficientBal(false);
+        setSenderReaped(false);
         const addressValidated = validateAddresses();
         const balanceValidated = await validateBalance();
+        const reapingValidated = await validateReaping();
 
-        if (addressValidated && balanceValidated) {
+        if (addressValidated && balanceValidated && reapingValidated) {
             setStep(1);
-        } else {
-            console.log('check errors');
         }
     };
 
@@ -146,6 +208,17 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                     Balance: {`${trimContent(balance, 6)} ${tokenName}`}
                 </SubHeading>
             </HorizontalContentDiv>
+            {senderReaped && (
+                <SubHeading
+                    color="#F63A3A"
+                    fontSize="12px"
+                    opacity="0.7"
+                    lineHeight="0px"
+                    marginTop="20px"
+                >
+                    Sender might get reaped
+                </SubHeading>
+            )}
 
             <HorizontalContentDiv
                 justifyContent="space-between"

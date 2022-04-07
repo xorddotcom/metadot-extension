@@ -73,12 +73,19 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
             <SubHeading
                 color="#F63A3A"
                 fontSize="12px"
-                opacity={recepient.validateAddress === false ? '0.7' : '0'}
+                opacity={
+                    recepient.validateAddress === false ||
+                    recepient.validateReaping === false
+                        ? '0.7'
+                        : '0'
+                }
                 lineHeight="0px"
                 marginTop="-10px"
                 mb="10px"
             >
-                Account can not be validated
+                {!recepient.validateAddress
+                    ? 'Account can not be validated'
+                    : 'Receiver might get reaped'}
             </SubHeading>
 
             <MainText className={mainHeadingfontFamilyClass}>Amount</MainText>
