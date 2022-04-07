@@ -179,9 +179,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                     </div>
                     <VerticalContentDiv style={{ width: '70%' }}>
                         <SubHeading ml="5px" marginTop="0px" mb="0px">
-                            {`${
-                                requests[requests.length - 1].account.name
-                            } here I am`}
+                            {requests[requests.length - 1].account.name}
                         </SubHeading>
                         <SubHeading ml="5px" marginTop="0px" mb="0px">
                             {trimString(
