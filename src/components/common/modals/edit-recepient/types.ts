@@ -6,7 +6,7 @@ export interface ResponseModalProps {
     style?: object;
     activeRecepient: ActiveRecepient;
     getTotalAmount(value: string, index: number): string;
-    getTransactionFees: (amount: string) => Promise<number>;
+    getTransactionFees: () => Promise<number>;
 }
 
 interface ActiveRecepient {

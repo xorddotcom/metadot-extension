@@ -25,7 +25,7 @@ import {
 } from '../../redux/slices/modalHandling';
 
 const { ToggleOn, UnsuccessCheckIcon, SuccessCheckPngIcon } = images;
-const { getTransactionFee } = services;
+const { getBatchTransactionFee } = services;
 const { signTransaction, isPasswordSaved } = accounts;
 
 const BatchSend: React.FunctionComponent = () => {
@@ -128,12 +128,11 @@ const BatchSend: React.FunctionComponent = () => {
         setRecepientList([...newState]);
     };
 
-    const getTxFees = async (amount: string): Promise<number> => {
-        const estimatedTxFee = await getTransactionFee(
+    const getTxFees = async (): Promise<number> => {
+        const estimatedTxFee = await getBatchTransactionFee(
             api,
             publicKey,
-            publicKey,
-            Number(amount),
+            recepientList,
             tokenName
         );
         const txFeeWithFivePercentMargin = estimatedTxFee + estimatedTxFee / 5;
