@@ -94,6 +94,7 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
     };
 
     const validateBalance = async (): Promise<boolean> => {
+        // validate sender reaping
         const totalAmount = calculatedAmount();
         const transactionFee = await getTransactionFees(totalAmount);
 
@@ -101,13 +102,7 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
             setInsufficientBal(true);
             return false;
         }
-        return true;
-    };
 
-    const validateReaping = async (): Promise<boolean> => {
-        // validate sender reaping
-        const totalAmount = calculatedAmount();
-        const transactionFee = await getTransactionFees(totalAmount);
         if (
             Number(balance) -
                 Number(calculatedAmount()) -
@@ -117,7 +112,10 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
             setSenderReaped(true);
             return false;
         }
+        return true;
+    };
 
+    const validateReaping = async (): Promise<boolean> => {
         // validate receiver reaping
         const invalidSending = [];
         const recipientBalancesPromises = recepientList.map(
@@ -150,10 +148,10 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
         setInsufficientBal(false);
         setSenderReaped(false);
         const addressValidated = validateAddresses();
-        const balanceValidated = await validateBalance();
         const reapingValidated = await validateReaping();
+        const balanceValidated = await validateBalance();
 
-        if (addressValidated && balanceValidated && reapingValidated) {
+        if (addressValidated && reapingValidated && balanceValidated) {
             setStep(1);
         }
     };

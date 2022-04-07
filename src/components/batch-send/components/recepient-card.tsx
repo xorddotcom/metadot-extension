@@ -84,7 +84,7 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
                 mb="10px"
             >
                 {!recepient.validateAddress
-                    ? 'Account can not be validated'
+                    ? 'Invalid Address'
                     : 'Receiver might get reaped'}
             </SubHeading>
 
