@@ -653,7 +653,10 @@ const Send: React.FunctionComponent = () => {
 
     return (
         <Wrapper width="88%">
-            <Header centerText="Send" />
+            <Header
+                centerText="Send"
+                overWriteBackHandler={() => navigate(DASHBOARD)}
+            />
 
             <HorizontalContentDiv
                 justifyContent="flex-end"

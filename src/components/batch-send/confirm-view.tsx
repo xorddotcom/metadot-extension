@@ -83,7 +83,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
     React.useEffect(() => {
         const getTxFees = async (): Promise<void> => {
             const txFee = await getTransactionFees();
-            setTransactionFee(txFee);
+            setTransactionFee(Math.round(txFee * 100000) / 100000);
         };
 
         getTxFees();
