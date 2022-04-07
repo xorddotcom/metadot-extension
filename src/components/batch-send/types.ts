@@ -34,6 +34,7 @@ export interface ConfirmBatchViewProps {
     isButtonLoading: boolean;
     getTotalAmount(value: string, index: number): string;
     getTransactionFees(): Promise<number>;
+    existentialDeposit: number;
 }
 
 export interface FileInputProps {

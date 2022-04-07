@@ -157,8 +157,12 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
     };
 
     const checkButttonStatus = (): boolean => {
-        if (recepientList.some((e) => e.address === '' || e.amount === ''))
+        if (
+            recepientList.some((e) => e.address === '' || e.amount === '') &&
+            recepientList.length > 2
+        )
             return true;
+
         return false;
     };
 
