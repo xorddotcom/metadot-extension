@@ -102,7 +102,7 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
     const validateTotalAmount = async (): Promise<boolean> => {
         const totalAmount = getTotalAmount(amount, activeRecepient.index);
 
-        const transactionFee = await getTransactionFees(totalAmount);
+        const transactionFee = await getTransactionFees();
         console.log(totalAmount, transactionFee, '---> amount and fee');
         if (Number(balance) < Number(totalAmount) + Number(transactionFee)) {
             setAmountError(true);

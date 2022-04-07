@@ -96,7 +96,7 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
     const validateBalance = async (): Promise<boolean> => {
         // validate sender reaping
         const totalAmount = calculatedAmount();
-        const transactionFee = await getTransactionFees(totalAmount);
+        const transactionFee = await getTransactionFees();
 
         if (Number(balance) < Number(totalAmount) + Number(transactionFee)) {
             setInsufficientBal(true);
