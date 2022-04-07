@@ -85,7 +85,13 @@ const Input: React.FunctionComponent<Props> = ({
                 width: '100%',
             }}
         >
-            <Field {...FieldProps} autocomplete="off" type={type} />
+            <Field
+                {...FieldProps}
+                autocomplete="off"
+                onWheel={(e: React.WheelEvent<HTMLInputElement>) =>
+                    e.currentTarget.blur()
+                }
+            />
             {rightIcon && (
                 <Icon
                     onClick={hideHandler}

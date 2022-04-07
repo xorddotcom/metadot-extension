@@ -1,5 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { decodeAddress, encodeAddress } from '@polkadot/keyring';
+import { hexToU8a, isHex } from '@polkadot/util';
 import { RootState } from '../../../redux/store';
 
 import ToInput from '../../common/to-input';
@@ -10,6 +12,8 @@ import { HorizontalContentDiv } from '../../common/wrapper/index';
 import { fonts, images } from '../../../utils';
 import { RecpientInputDiv } from '../style';
 
+import { RecepientCardInterface } from '../types';
+
 const { crossIcon } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -19,25 +23,29 @@ const errorMessages = {
     enterAmount: 'Enter amount',
 };
 
-const RecepientCard = (): JSX.Element => {
-    const [isCorrect, setIsCorrect] = React.useState(true);
-    const [receiverAddress, setReceiverAddress] = React.useState('');
-    const [amountInput, setAmountInput] = React.useState('');
-
-    const onChange = (e: string): void => {
-        setReceiverAddress(e);
+const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
+    recepient,
+    index,
+    addressChangeHandler,
+    amountChangeHandler,
+    deleteRecepient,
+}) => {
+    const onChange = (value: string): void => {
+        addressChangeHandler(value, index);
     };
     const { tokenName, tokenImage } = useSelector(
         (state: RootState) => state.activeAccount
     );
 
+    const [isCorrect, setIsCorrect] = React.useState(false);
+
     const styledInput = {
         id: 'InputField',
         placeholder: 'Amount',
         type: 'Number',
-        value: amountInput,
+        value: recepient.amount,
         className: subHeadingfontFamilyClass,
-        onChange: (e: string) => setAmountInput(e),
+        onChange: (value: string) => amountChangeHandler(value, index),
         blockInvalidChar: true,
         tokenLogo: true,
         tokenName,
@@ -46,19 +54,40 @@ const RecepientCard = (): JSX.Element => {
 
     return (
         <RecpientInputDiv style={{ marginTop: '20px' }}>
-            <HorizontalContentDiv justifyContent="flex-end">
+            <HorizontalContentDiv
+                onClick={() => deleteRecepient(index)}
+                justifyContent="flex-end"
+            >
                 <img src={crossIcon} alt="close-btn" />
             </HorizontalContentDiv>
-
             <SubHeading lineHeight="0px" color="#FAFAFA">
-                Recepient 1
+                Recepient {index + 1}
             </SubHeading>
             <ToInput
                 errorMessages={errorMessages}
                 onChange={onChange}
-                isCorrect={isCorrect}
-                receiverAddress={receiverAddress}
+                isCorrect
+                receiverAddress={recepient.address}
             />
+
+            <SubHeading
+                color="#F63A3A"
+                fontSize="12px"
+                opacity={
+                    recepient.validateAddress === false ||
+                    recepient.validateReaping === false
+                        ? '0.7'
+                        : '0'
+                }
+                lineHeight="0px"
+                marginTop="-10px"
+                mb="10px"
+            >
+                {!recepient.validateAddress
+                    ? 'Invalid Address'
+                    : 'Receiver might get reaped'}
+            </SubHeading>
+
             <MainText className={mainHeadingfontFamilyClass}>Amount</MainText>
             <Input {...styledInput} />
         </RecpientInputDiv>
