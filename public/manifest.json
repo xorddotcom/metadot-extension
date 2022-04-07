@@ -1,6 +1,6 @@
 {
   "name": "Metadot",
-  "description": "An extension based crypto wallet for Polkadot, Kusama and their parachains",
+  "description": "Metadot is a browser extension based non-custodial crypto wallet built to support the Polkadot & Kusama Ecosystem.",
   "version": "1.1.9",
   "manifest_version": 2,
   "permissions": ["storage", "tabs"],
