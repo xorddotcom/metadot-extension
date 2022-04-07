@@ -12,6 +12,7 @@ export interface CreateBatchViewProps {
     addRecepient(recepient: Recepient | Recepient[], overWrite?: boolean): void;
     deleteRecepient(index: number): void;
     setValidation(value: boolean, index: number): void;
+    getTransactionFees(amount: string): Promise<number>;
 }
 
 export interface RecepientCardInterface {
@@ -28,6 +29,9 @@ export interface ConfirmBatchViewProps {
     amountChangeHandler(value: string, index: number): void;
     deleteRecepient(index: number): void;
     sendTransaction(): void;
+    isButtonLoading: boolean;
+    getTotalAmount(value: string, index: number): string;
+    getTransactionFees(amount: string): Promise<number>;
 }
 
 export interface FileInputProps {

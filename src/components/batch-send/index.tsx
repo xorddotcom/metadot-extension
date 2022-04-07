@@ -10,8 +10,10 @@ import BatchConfirmView from './confirm-view';
 import { SubHeading } from '../common/text';
 import { SEND, DASHBOARD } from '../../constants';
 import useDispatcher from '../../hooks/useDispatcher';
+import useResponseModal from '../../hooks/useResponseModal';
 
 import { images, accounts } from '../../utils';
+import services from '../../utils/services';
 
 import { Recepient } from './types';
 import { RootState } from '../../redux/store';
@@ -20,10 +22,10 @@ import { AuthModal } from '../common/modals';
 import {
     setAuthScreenModal,
     setIsResponseModalOpen,
-    setConfirmSendModal,
 } from '../../redux/slices/modalHandling';
 
-const { ToggleOn } = images;
+const { ToggleOn, UnsuccessCheckIcon, SuccessCheckPngIcon } = images;
+const { getTransactionFee } = services;
 const { signTransaction, isPasswordSaved } = accounts;
 
 const BatchSend: React.FunctionComponent = () => {
@@ -32,7 +34,7 @@ const BatchSend: React.FunctionComponent = () => {
     const currReduxState = useSelector((state: RootState) => state);
     const api = currReduxState.api.api as unknown as ApiPromiseType;
     const { authScreenModal } = currReduxState.modalHandling;
-    const { publicKey } = currReduxState.activeAccount;
+    const { publicKey, tokenName } = currReduxState.activeAccount;
 
     const [step, setStep] = React.useState(0);
     const [recepientList, setRecepientList] = React.useState<Recepient[]>([
@@ -41,6 +43,20 @@ const BatchSend: React.FunctionComponent = () => {
     ]);
     const [savePassword, setSavePassword] = React.useState(false);
     const [passwordSaved, setPasswordSaved] = React.useState(false);
+
+    const openResponseModalForTxFailed = useResponseModal({
+        isOpen: true,
+        modalImage: UnsuccessCheckIcon,
+        mainText: 'Transaction Failed!',
+        subText: '',
+    });
+
+    const openResponseModalForTxSuccess = useResponseModal({
+        isOpen: true,
+        modalImage: SuccessCheckPngIcon,
+        mainText: 'Transaction Successful!',
+        subText: '',
+    });
 
     useEffect(() => {
         isPasswordSaved(publicKey).then((res) => {
@@ -84,6 +100,18 @@ const BatchSend: React.FunctionComponent = () => {
         setRecepientList([...recepientList]);
     };
 
+    const getTotalAmount = (value: string, index: number): string => {
+        const newState = [...recepientList];
+        newState[index].amount = value;
+        const val = newState.reduce((a, b) => {
+            return {
+                amount: String(Number(a.amount) + Number(b.amount)),
+                address: a.address,
+            };
+        });
+        return val.amount;
+    };
+
     const openAuthModal = (): void => {
         generalDispatcher(() => setAuthScreenModal(true));
     };
@@ -92,6 +120,18 @@ const BatchSend: React.FunctionComponent = () => {
         const newState = [...recepientList];
         newState[index].validateAddress = value;
         setRecepientList([...recepientList]);
+    };
+
+    const getTxFees = async (amount: string): Promise<number> => {
+        const estimatedTxFee = await getTransactionFee(
+            api,
+            publicKey,
+            publicKey,
+            Number(amount),
+            tokenName
+        );
+        const txFeeWithFivePercentMargin = estimatedTxFee + estimatedTxFee / 5;
+        return txFeeWithFivePercentMargin;
     };
 
     const signTransactionHandler = async (
@@ -130,10 +170,12 @@ const BatchSend: React.FunctionComponent = () => {
         return tx;
     };
 
+    const [isButtonLoading, setIsButtonLoading] = React.useState(false);
     const sendTransaction = async (
         address: string,
         password: string
     ): Promise<boolean> => {
+        setIsButtonLoading(true);
         console.log('sending transaction ==>>', recepientList);
         const txs = recepientList.map((recepient) => {
             return api.tx.balances.transfer(
@@ -163,18 +205,39 @@ const BatchSend: React.FunctionComponent = () => {
                 );
                 if (status.isInBlock) {
                     if (txResFail.length >= 1) {
+                        console.log('from 1');
+                        openResponseModalForTxSuccess();
+                        setTimeout(() => {
+                            generalDispatcher(() =>
+                                setIsResponseModalOpen(false)
+                            );
+                        }, 2000);
+                        setIsButtonLoading(false);
                         navigate(DASHBOARD);
                     }
                     if (txResSuccess.length >= 1) {
+                        console.log('from 2');
+                        openResponseModalForTxSuccess();
+                        setTimeout(() => {
+                            generalDispatcher(() =>
+                                setIsResponseModalOpen(false)
+                            );
+                        }, 2000);
+                        setIsButtonLoading(false);
                         navigate(DASHBOARD);
                     }
                 }
             })
             .catch(() => {
+                console.log('from 3');
+                openResponseModalForTxFailed();
+                setTimeout(() => {
+                    generalDispatcher(() => setIsResponseModalOpen(false));
+                }, 4000);
                 navigate(DASHBOARD);
+                setIsButtonLoading(false);
                 return false;
             });
-
         return true;
     };
 
@@ -205,6 +268,7 @@ const BatchSend: React.FunctionComponent = () => {
                     addRecepient={addRecepient}
                     deleteRecepient={deleteRecepient}
                     setValidation={setValidation}
+                    getTransactionFees={getTxFees}
                 />
             ) : (
                 <BatchConfirmView
@@ -213,6 +277,9 @@ const BatchSend: React.FunctionComponent = () => {
                     amountChangeHandler={amountChangeHandler}
                     deleteRecepient={deleteRecepient}
                     sendTransaction={openAuthModal}
+                    isButtonLoading={isButtonLoading}
+                    getTotalAmount={getTotalAmount}
+                    getTransactionFees={getTxFees}
                 />
             )}
 
@@ -221,7 +288,6 @@ const BatchSend: React.FunctionComponent = () => {
                 open={authScreenModal}
                 handleClose={() => {
                     generalDispatcher(() => setAuthScreenModal(false));
-                    generalDispatcher(() => setConfirmSendModal(true));
                 }}
                 onConfirm={sendTransaction}
                 functionType={

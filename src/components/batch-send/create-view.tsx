@@ -5,7 +5,7 @@ import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import { hexToU8a, isHex } from '@polkadot/util';
 import { RootState } from '../../redux/store';
-import { images } from '../../utils';
+import { images, fonts, helpers } from '../../utils';
 import services from '../../utils/services';
 
 import { VerticalContentDiv, HorizontalContentDiv } from '../common/wrapper';
@@ -19,6 +19,8 @@ import { AddCircle, GoUpCircle } from './style';
 import { CreateBatchViewProps } from './types';
 
 const { GoUpIcon, PlusIcon } = images;
+const { mainHeadingfontFamilyClass } = fonts;
+const { trimContent } = helpers;
 
 const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
     recepientList,
@@ -28,26 +30,20 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
     addRecepient,
     deleteRecepient,
     setValidation,
+    getTransactionFees,
 }) => {
-    const { activeAccount, modalHandling } = useSelector(
-        (state: RootState) => state
-    );
-    const { getTransactionFee, getBalance } = services;
-    const { publicKey, balance, tokenName } = activeAccount;
+    const { activeAccount } = useSelector((state: RootState) => state);
+    const { balance, tokenName } = activeAccount;
 
     const [insufficientBal, setInsufficientBal] = React.useState(false);
-    const [transactionFee, setTransactionFee] = React.useState<number>(0);
-    const [isCorrect, setIsCorrect] = React.useState(true);
 
     const isValidAddressPolkadotAddress = (address: string): boolean => {
         try {
             encodeAddress(
                 isHex(address) ? hexToU8a(address) : decodeAddress(address)
             );
-            setIsCorrect(true);
             return true;
         } catch (err) {
-            setIsCorrect(false);
             return false;
         }
     };
@@ -76,20 +72,27 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
         return true;
     };
 
-    const handleSubmit = (): void => {
+    const validateBalance = async (): Promise<boolean> => {
+        const totalAmount = calculatedAmount();
+        const transactionFee = await getTransactionFees(totalAmount);
+        console.log(balance, totalAmount, transactionFee, '----> amt, feee');
+        console.log(transactionFee);
+        if (Number(balance) < Number(totalAmount) + Number(transactionFee)) {
+            setInsufficientBal(true);
+            return false;
+        }
+        return true;
+    };
+
+    const handleSubmit = async (): Promise<void> => {
         setInsufficientBal(false);
         const addressValidated = validateAddresses();
+        const balanceValidated = await validateBalance();
 
-        if (
-            Number(balance) <
-            Number(calculatedAmount()) + Number(transactionFee)
-        ) {
-            setInsufficientBal(true);
-            return;
-        }
-
-        if (addressValidated) {
+        if (addressValidated && balanceValidated) {
             setStep(1);
+        } else {
+            console.log('check errors');
         }
     };
 
@@ -98,25 +101,6 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
             return true;
         return false;
     };
-
-    const currReduxState = useSelector((state: RootState) => state);
-    const api = currReduxState.api.api as unknown as ApiPromiseType;
-
-    React.useEffect(() => {
-        async function get(): Promise<void> {
-            const estimatedTxFee = await getTransactionFee(
-                api,
-                publicKey,
-                publicKey,
-                Number(calculatedAmount()),
-                tokenName
-            );
-            const txFeeWithFivePercentMargin =
-                estimatedTxFee + estimatedTxFee / 5;
-            setTransactionFee(txFeeWithFivePercentMargin);
-        }
-        get();
-    }, []);
 
     return (
         <>
@@ -150,6 +134,18 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                     Insufficient Funds
                 </SubHeading>
             )}
+
+            <HorizontalContentDiv justifyContent="flex-end" marginTop="12px">
+                <SubHeading
+                    className={mainHeadingfontFamilyClass}
+                    lineHeight="0px"
+                    color="#FAFAFA"
+                    opacity="0.7"
+                    fontSize="12px"
+                >
+                    Balance: {`${trimContent(balance, 6)} ${tokenName}`}
+                </SubHeading>
+            </HorizontalContentDiv>
 
             <HorizontalContentDiv
                 justifyContent="space-between"

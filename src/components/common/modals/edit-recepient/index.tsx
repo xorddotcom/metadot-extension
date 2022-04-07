@@ -1,16 +1,19 @@
 import React from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
-import { fonts, images } from '../../../../utils';
+import { useSelector } from 'react-redux';
+import { fonts, images, helpers } from '../../../../utils';
 import { MainText, SubHeading } from '../../text';
 import { ResponseModalProps } from './types';
 import { HorizontalContentDiv } from '../../wrapper';
 import ToInput from '../../to-input';
 import Input from '../../input';
 import Button from '../../button';
+import { RootState } from '../../../../redux/store';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { crossIcon } = images;
+const { isValidAddressPolkadotAddress, trimContent } = helpers;
 
 const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
     props
@@ -21,6 +24,8 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         addressChangeHandler,
         amountChangeHandler,
         activeRecepient,
+        getTotalAmount,
+        getTransactionFees,
     } = props;
 
     console.log(props, 'dikha do bhai');
@@ -78,11 +83,44 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         lightBtn: true,
     };
 
-    const handleConfirm = (): void => {
+    const [addressError, setAddressError] = React.useState(false);
+    const [amountError, setAmountError] = React.useState(false);
+    const { activeAccount } = useSelector((state: RootState) => state);
+    const { balance, tokenName } = activeAccount;
+
+    console.log('🚀 85 ~ amountError', amountError);
+    console.log('🚀 84 ~ addressError', addressError);
+    const validateAddress = (): boolean => {
+        if (isValidAddressPolkadotAddress(address)) {
+            setAddressError(false);
+            return true;
+        }
+
+        setAddressError(true);
+        return false;
+    };
+    const validateTotalAmount = async (): Promise<boolean> => {
+        const totalAmount = getTotalAmount(amount, activeRecepient.index);
+
+        const transactionFee = await getTransactionFees(totalAmount);
+        console.log(totalAmount, transactionFee, '---> amount and fee');
+        if (Number(balance) < Number(totalAmount) + Number(transactionFee)) {
+            setAmountError(true);
+            return false;
+        }
+        setAmountError(false);
+        return true;
+    };
+
+    const handleConfirm = async (): Promise<void> => {
         // validation lagani hai yahan
-        addressChangeHandler(address, activeRecepient.index);
-        amountChangeHandler(amount, activeRecepient.index);
-        handleClose();
+        const addressValidated = validateAddress();
+        const amountValidated = await validateTotalAmount();
+        if (addressValidated && amountValidated) {
+            addressChangeHandler(address, activeRecepient.index);
+            amountChangeHandler(amount, activeRecepient.index);
+            handleClose();
+        }
     };
 
     const btnConfirm = {
@@ -100,11 +138,15 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
     return (
         <div>
             <Modal
-                style={{ backgroundColor: 'rgba(33, 33, 33, 0.2)' }}
+                style={{
+                    backgroundColor: 'rgba(33, 33, 33, 0.2)',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
                 open={open}
                 onClose={handleClose}
             >
-                <Box sx={style} className="warning-modal-style">
+                <Box sx={style} className="edit-recepient-modal-style">
                     <HorizontalContentDiv justifyContent="flex-end">
                         {' '}
                         <img
@@ -131,6 +173,16 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
                         To
                     </SubHeading>
                     <Input {...styledToInput} />
+                    <SubHeading
+                        color="#F63A3A"
+                        fontSize="12px"
+                        opacity={addressError ? '0.7' : '0'}
+                        lineHeight="0px"
+                        marginTop="8px"
+                        mb="25px"
+                    >
+                        Account cannot be validated
+                    </SubHeading>
 
                     <SubHeading
                         className={mainHeadingfontFamilyClass}
@@ -140,6 +192,17 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
                         Amount
                     </SubHeading>
                     <Input {...styledAmountInput} />
+
+                    <SubHeading
+                        color="#F63A3A"
+                        fontSize="12px"
+                        opacity={amountError ? '0.7' : '0'}
+                        lineHeight="0px"
+                        marginTop="8px"
+                        mb="25px"
+                    >
+                        Insufficient Funds
+                    </SubHeading>
 
                     <HorizontalContentDiv justifyContent="space-between">
                         <SubHeading
@@ -159,7 +222,7 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
                             opacity="0.7"
                             fontSize="12px"
                         >
-                            Balance 712.983 DOT
+                            Balance: {`${trimContent(balance, 6)} ${tokenName}`}
                         </SubHeading>
                     </HorizontalContentDiv>
 
