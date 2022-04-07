@@ -28,11 +28,11 @@ const ToInput: React.FunctionComponent<ToInputInterface> = ({
     };
 
     return (
-        <VerticalContentDiv mb="10px">
+        <VerticalContentDiv marginBottom="12px">
             <MainText className={mainHeadingfontFamilyClass}>To</MainText>
             {/* <StyledInput id="to-address" {...styledInput} /> */}
             <Input id="username" {...receiverAddressInput} />
-            <div style={{ height: '16px' }}>
+            <div style={{ height: '16px', marginTop: '-8px' }}>
                 {!isCorrect && (
                     <WarningText
                         id="warning-text-1"
