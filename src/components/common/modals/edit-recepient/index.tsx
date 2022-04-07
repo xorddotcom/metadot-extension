@@ -109,7 +109,7 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         }
 
         setAddressError(true);
-        setAddressErrorMessage('Insufficient Funds');
+        setAddressErrorMessage('Account can not be validated');
         return false;
     };
     const validateTotalAmount = async (): Promise<boolean> => {
@@ -150,15 +150,22 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         return true;
     };
 
+    const [isButtonLoading, setIsButtonLoading] = React.useState(false);
+
     const handleConfirm = async (): Promise<void> => {
         // validation lagani hai yahan
+        setIsButtonLoading(true);
         const addressValidated = validateAddress();
         const amountValidated = await validateTotalAmount();
         const reapingValidated = await validateReapingReceiver();
+
         if (addressValidated && amountValidated && reapingValidated) {
             addressChangeHandler(address, activeRecepient.index);
             amountChangeHandler(amount, activeRecepient.index);
+            setIsButtonLoading(false);
             handleClose();
+        } else {
+            setIsButtonLoading(false);
         }
     };
 

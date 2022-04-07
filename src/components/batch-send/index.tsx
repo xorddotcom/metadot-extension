@@ -22,6 +22,7 @@ import { AuthModal } from '../common/modals';
 import {
     setAuthScreenModal,
     setIsResponseModalOpen,
+    setConfirmSendModal,
 } from '../../redux/slices/modalHandling';
 
 const { ToggleOn, UnsuccessCheckIcon, SuccessCheckPngIcon } = images;
@@ -217,6 +218,8 @@ const BatchSend: React.FunctionComponent = () => {
                                 setIsResponseModalOpen(false)
                             );
                         }, 2000);
+                        generalDispatcher(() => setConfirmSendModal(false));
+
                         setIsButtonLoading(false);
                         navigate(DASHBOARD);
                     }
@@ -228,6 +231,7 @@ const BatchSend: React.FunctionComponent = () => {
                                 setIsResponseModalOpen(false)
                             );
                         }, 2000);
+                        generalDispatcher(() => setConfirmSendModal(false));
                         setIsButtonLoading(false);
                         navigate(DASHBOARD);
                     }
@@ -265,7 +269,9 @@ const BatchSend: React.FunctionComponent = () => {
         <Wrapper width="88%">
             <Header
                 centerText="Batch"
-                overWriteBackHandler={step === 1 ? () => setStep(0) : undefined}
+                overWriteBackHandler={
+                    step === 1 ? () => setStep(0) : () => navigate(DASHBOARD)
+                }
             />
             <HorizontalContentDiv
                 justifyContent="flex-end"
