@@ -1,7 +1,7 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
-import { decodeAddress, encodeAddress } from '@polkadot/keyring';
-import { hexToU8a, isHex } from '@polkadot/util';
 import { Button } from '../common';
 import { VerticalContentDiv, HorizontalContentDiv } from '../common/wrapper';
 import { SubHeading } from '../common/text';
@@ -23,6 +23,9 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
     amountChangeHandler,
     deleteRecepient,
     sendTransaction,
+    isButtonLoading,
+    getTotalAmount,
+    getTransactionFees,
 }) => {
     const [activeRecepient, setActiveRecepient] = React.useState(0);
     const [showEditModal, setShowEditModal] = React.useState(false);
@@ -72,6 +75,20 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
         return val.amount;
     };
 
+    const { activeAccount } = useSelector((state: RootState) => state);
+    const { tokenName } = activeAccount;
+    const [transactionFee, setTransactionFee] = React.useState(0);
+
+    React.useEffect(() => {
+        const getTxFees = async (): Promise<void> => {
+            const totalAmount = calculatedAmount();
+            const txFee = await getTransactionFees(totalAmount);
+            setTransactionFee(txFee);
+        };
+
+        getTxFees();
+    }, [recepientList]);
+
     return (
         <>
             <WarningModal {...warningModal} />
@@ -85,6 +102,8 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                     address: recepientList[activeRecepient].address,
                     amount: recepientList[activeRecepient].amount,
                 }}
+                getTotalAmount={getTotalAmount}
+                getTransactionFees={getTransactionFees}
             />
             {recepientList.map((recepient, index) => (
                 <RecepientDetailDiv>
@@ -191,7 +210,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                             color={white}
                             fontSize="12px"
                         >
-                            0.2345 DOT
+                            {transactionFee} {tokenName}
                         </SubHeading>
                     </HorizontalContentDiv>
                 </VerticalContentDiv>
@@ -221,6 +240,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                         height: 50,
                         borderRadius: 40,
                     }}
+                    isLoading={isButtonLoading}
                 />
             </VerticalContentDiv>
         </>

@@ -1,3 +1,5 @@
+import { hexToU8a, isHex } from '@polkadot/util';
+import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 import constants from '../constants/onchain';
 
 function arrayFromSeedSentence(seed: string): Array<string> {
@@ -192,6 +194,17 @@ const openOptions = async (url: string): Promise<void> => {
     }
 };
 
+const isValidAddressPolkadotAddress = (address: string): boolean => {
+    try {
+        encodeAddress(
+            isHex(address) ? hexToU8a(address) : decodeAddress(address)
+        );
+        return true;
+    } catch (err) {
+        return false;
+    }
+};
+
 export default {
     arrayFromSeedSentence,
     arrayOfFourRandomNumbers,
@@ -206,5 +219,6 @@ export default {
     dateFormatter,
     openOptions,
     isTabViewOpened,
+    isValidAddressPolkadotAddress,
     // showInternetSnackBar,
 };

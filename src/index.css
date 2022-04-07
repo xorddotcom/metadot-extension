@@ -187,6 +187,20 @@ input:focus {
   position: relative;
 }
 
+
+.edit-recepient-modal-style {
+  outline: none !important;
+  border: 0.8px solid var(--primaryBackground);
+  box-sizing: border-box;
+  box-shadow: 0 0 20px 7px var(--boxShadowColor);
+  border-radius: 6px;
+  margin: 100px auto;
+  width: 100%;
+  max-width: 290px;
+  text-align: left !important;
+  position: relative;
+}
+
 .select-network-modal-style {
   outline: none;
   border: 0.8px solid var(--primaryBackground) !important;
