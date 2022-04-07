@@ -287,7 +287,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                             className={subHeadingfontFamilyClass}
                             visibility={passwordError}
                         >
-                            Account can not be validated.
+                            Invalid Password.
                         </WarningText>
                     )}
                 </VerticalContentDiv>
@@ -317,6 +317,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                 style={{ alignItems: 'center', marginTop: '30px' }}
             >
                 <Button
+                    disabled={password.length === 0}
                     handleClick={handleSubmit}
                     text="Sign The Transaction"
                     id="Authorization-Popup"
