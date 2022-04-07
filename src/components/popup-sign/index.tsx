@@ -294,13 +294,14 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
             )}
 
             {isLock && (
-                <HorizontalContentDiv>
+                <HorizontalContentDiv
+                    onClick={() => setSavePass(!savePass)}
+                    style={{ cursor: 'pointer' }}
+                >
                     <img
                         src={savePass ? CheckboxEnabled : CheckboxDisabled}
                         alt="checkbox"
                         style={{ height: '15px', width: '15px' }}
-                        aria-hidden
-                        onClick={() => setSavePass(!savePass)}
                     />
                     <SubHeading
                         fontSize="12px"

@@ -115,7 +115,9 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
             borderRadius: '40px',
             fontSize: '14px',
         },
-        disabled: isBtnLoading || input.length === 0,
+        disabled:
+            isBtnLoading ||
+            (input.length === 0 && functionType !== 'PasswordSaved'),
         isLoading: isBtnLoading,
         handleClick: () => handleSubmit(),
     };
