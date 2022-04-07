@@ -140,7 +140,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     };
 
     const ED =
-        "Existential deposit (ED) is an amount that needs to be maintained in an account. Having the accounts balance go below the ED causes the accoun't to get reaped. ";
+        "Existential deposit (ED) is an amount that needs to be maintained in an account. Having the account's balance go below the ED causes the account to get reaped. ";
 
     return (
         <VerticalContentDiv marginBottom="25px">
