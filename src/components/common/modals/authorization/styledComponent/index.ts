@@ -34,6 +34,7 @@ export const HorizontalContentDiv = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 `;
 
 export const VerticalContentDiv = styled.div<VerticalContentDivPropsInterface>`
