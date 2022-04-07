@@ -447,10 +447,12 @@ const Send: React.FunctionComponent = () => {
         }
     };
 
-    const handleSubmit = async (): Promise<void> => {
+    const handleSubmit = async (): Promise<boolean> => {
         try {
-            if (transferAll.transferAll)
+            if (transferAll.transferAll) {
                 generalDispatcher(() => setConfirmSendModal(true));
+                return true;
+            }
             setLoading1(true);
             if (!validateInputValues(receiverAddress)) {
                 throw new Error('An error occurred');
@@ -478,8 +480,10 @@ const Send: React.FunctionComponent = () => {
             } else {
                 setLoading1(false);
             }
+            return true;
         } catch (err) {
             setLoading1(false);
+            return false;
         }
     };
     const setAmountOnToggle = (toggleOn: boolean, keepAlive: boolean): void => {

@@ -134,9 +134,13 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
             fontSize: '11px',
             fontWeight: 300,
             transition: 'all 0.1s ease-in',
-            width: '150px',
+            width: '160px',
+            padding: '8px',
         },
     };
+
+    const ED =
+        'Existential deposit or ED is an amount that needs to be maintained in an account. Having the accounts balance go below the ED causes the account to be deleted or reaped. ';
 
     return (
         <VerticalContentDiv marginBottom="25px">
@@ -190,9 +194,15 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                         style={{ margin: '0px 8px' }}
                     />
                     <span {...copyIconTooltipText}>
-                        The ED exists so that accounts with very small balances,
-                        or completely empty, do not bloat the state of the
-                        blockchain. Learn more about ED here
+                        {ED}
+                        <a
+                            style={{ fontSize: '11px' }}
+                            target="_blank"
+                            href="https://wiki.polkadot.network/docs/learn-accounts#existential-deposit-and-reaping"
+                            rel="noreferrer"
+                        >
+                            Learn more here.
+                        </a>
                     </span>
                 </div>
             </MainText>
