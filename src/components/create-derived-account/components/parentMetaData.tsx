@@ -37,7 +37,7 @@ const ParentMetaData: React.FunctionComponent<ParentMetaDataInterface> = ({
     const [derivePathError, setDerivePathError] = useState('');
 
     const passwordErrorMessages = {
-        wrongPassword: 'Wrong Password',
+        wrongPassword: 'Invalid Password',
     };
 
     const { wrongPassword } = passwordErrorMessages;

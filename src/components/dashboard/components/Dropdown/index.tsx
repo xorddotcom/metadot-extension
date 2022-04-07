@@ -366,7 +366,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
 
                         <MenuItem
                             style={{
-                                minHeight: '37px',
+                                // minHeight: '37px',
                                 color: '#fafafa',
                                 fontSize: '15px',
                             }}
@@ -397,8 +397,11 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                         </MenuItem>
 
                         <MenuItem
-                            id="menu-item-1"
-                            style={{ minHeight: '37px', color: '#fafafa' }}
+                            style={{
+                                minHeight: '37px',
+                                color: '#fafafa',
+                                fontSize: '15px',
+                            }}
                             onClick={() => {
                                 dispatch(setLoggedIn(false));
                             }}
@@ -411,7 +414,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                     src={LockOutlinedIcon}
                                     alt="lock-icon"
                                     style={{
-                                        marginTop: '-4.8px',
+                                        marginTop: '-3.2px',
                                         marginLeft: '5px',
                                     }}
                                 />
