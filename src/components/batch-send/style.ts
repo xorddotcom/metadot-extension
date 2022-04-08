@@ -43,6 +43,7 @@ export const FileInputDiv = styled.div`
     border-radius: 8px;
     display: flex;
     align-items: center;
+    cursor: pointer;
 `;
 
 export const RecpientInputDiv = styled.div`
@@ -79,4 +80,8 @@ export const GoUpCircle = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+`;
+
+export const ImageButtons = styled.img`
+    cursor: pointer;
 `;

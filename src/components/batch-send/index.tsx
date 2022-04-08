@@ -266,7 +266,7 @@ const BatchSend: React.FunctionComponent = () => {
     }, []);
 
     return (
-        <Wrapper width="88%">
+        <Wrapper width="90%">
             <Header
                 centerText="Batch"
                 overWriteBackHandler={

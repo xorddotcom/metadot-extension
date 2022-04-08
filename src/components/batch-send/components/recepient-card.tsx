@@ -10,7 +10,7 @@ import { Input } from '../../common';
 import { SubHeading, MainText } from '../../common/text';
 import { HorizontalContentDiv } from '../../common/wrapper/index';
 import { fonts, images } from '../../../utils';
-import { RecpientInputDiv } from '../style';
+import { RecpientInputDiv, ImageButtons } from '../style';
 
 import { RecepientCardInterface } from '../types';
 
@@ -58,7 +58,7 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
                 onClick={() => deleteRecepient(index)}
                 justifyContent="flex-end"
             >
-                <img src={crossIcon} alt="close-btn" />
+                <ImageButtons src={crossIcon} alt="close-btn" />
             </HorizontalContentDiv>
             <SubHeading lineHeight="0px" color="#FAFAFA">
                 Recepient {index + 1}
