@@ -116,16 +116,17 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
 
     const handleSubmit = async (): Promise<void> => {
         try {
-            setPasswordError(false);
             await approveSignPassword(
                 requests[requests.length - 1].id,
                 savePass,
                 password
             );
+            setPasswordError(false);
         } catch (e) {
             console.log(e, 'check transaction error');
             setPasswordError(true);
         }
+        setPasswordError(false);
     };
 
     const handlePassword = (e: string): void => {

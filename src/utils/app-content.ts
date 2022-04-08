@@ -40,7 +40,7 @@ export const CONTINUE_BUTTON = `Continue`;
 export const CREATE_DERIVE_ACCOUNT_BUTTON = `Create Derive Account`;
 export const CANCEL_BUTTON = `Cancel`;
 export const PASSWORD = `Password`;
-export const AUTHORIZATION = `Authorization`;
+export const AUTHORIZATION = `Authentication`;
 
 export const WALLET_NAME_LABEL = `Wallet Name`;
 export const NAME_WARNING = `Name should not be less than 1 character`;
