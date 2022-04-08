@@ -25,6 +25,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     onChange,
     maxInputHandler,
     insufficientBal,
+    setInsufficientBal,
     transactionFee,
     setTransferAll,
     setAmountOnToggle,
@@ -42,6 +43,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     const [switchCheckedSecond, setSwitchCheckedSecond] = useState(false);
 
     const handleChangeFirst = (e: any): boolean => {
+        setInsufficientBal(false);
         if (disableToggleButtons.firstToggle) return false;
         setAmountOnToggle(!switchChecked, true);
         setSwitchCheckedSecond(false);
@@ -54,6 +56,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     };
 
     const handleChangeSecond = (): boolean => {
+        setInsufficientBal(false);
         if (disableToggleButtons.secondToggle) return true;
         setAmountOnToggle(!switchCheckedSecond, false);
         setSwitchChecked(false);
@@ -169,7 +172,11 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                     ${balanceInUsd === 0 ? 0 : balanceInUsd.toFixed(5)}
                 </EquivalentInUSDT>
                 <Balance {...balanceProps}>
-                    Balance: {`${trimContent(balance, 6)} ${tokenName}`}
+                    Balance:{' '}
+                    {`${trimContent(
+                        exponentConversion(balance),
+                        6
+                    )} ${tokenName}`}
                 </Balance>
             </CalculatedAmount>
 
@@ -201,7 +208,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                             href="https://wiki.polkadot.network/docs/learn-accounts#existential-deposit-and-reaping"
                             rel="noreferrer"
                         >
-                            Learn more here.
+                            Learn more.
                         </a>
                     </span>
                 </div>
