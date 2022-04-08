@@ -5,7 +5,12 @@ import { RootState } from '../../redux/store';
 import { Button } from '../common';
 import { VerticalContentDiv, HorizontalContentDiv } from '../common/wrapper';
 import { SubHeading } from '../common/text';
-import { RecepientDetailDiv, TransactionDetailDiv, Divider } from './style';
+import {
+    RecepientDetailDiv,
+    TransactionDetailDiv,
+    Divider,
+    ImageButtons,
+} from './style';
 
 import { fonts, images, colors, helpers } from '../../utils';
 
@@ -118,7 +123,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                             Recepient {index + 1}
                         </SubHeading>
                         <HorizontalContentDiv>
-                            <img
+                            <ImageButtons
                                 src={EditIcon}
                                 alt="edit"
                                 style={{ marginRight: '12px' }}
@@ -127,7 +132,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                                     handleEditModalShow(index);
                                 }}
                             />
-                            <img
+                            <ImageButtons
                                 src={DeleteIcon}
                                 alt="edit"
                                 aria-hidden
@@ -242,6 +247,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                         borderRadius: 40,
                     }}
                     isLoading={isButtonLoading}
+                    disabled={isButtonLoading}
                 />
             </VerticalContentDiv>
         </>
