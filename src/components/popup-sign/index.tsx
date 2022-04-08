@@ -318,7 +318,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                 style={{ alignItems: 'center', marginTop: '30px' }}
             >
                 <Button
-                    disabled={password.length === 0}
+                    disabled={password.length === 0 && !(isLock === false)}
                     handleClick={handleSubmit}
                     text="Sign The Transaction"
                     id="Authorization-Popup"
