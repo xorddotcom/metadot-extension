@@ -16,11 +16,11 @@ const { green } = colors;
 const PopupAuth: React.FunctionComponent<any> = ({ requests }) => {
     return (
         <Wrapper
-            height="595px"
             style={{
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
+                height: '574px',
             }}
         >
             <VerticalContentDiv>
@@ -46,7 +46,7 @@ const PopupAuth: React.FunctionComponent<any> = ({ requests }) => {
                         {requests[requests.length - 1].request.origin}
                     </span>{' '}
                     is requesting access from{' '}
-                    <span style={{ color: '#2e9b9b' }}>
+                    <span style={{ color: '#2e9b9b' }} className="text-wrap">
                         {requests[requests.length - 1].url}
                     </span>
                 </SubHeading>

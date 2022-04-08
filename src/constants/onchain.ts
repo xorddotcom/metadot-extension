@@ -207,8 +207,7 @@ const ASTAR_CONFIG: NetworkConfig = {
 const SHIBUYA_CONFIG: NetworkConfig = {
     name: 'Shibuya',
     tokenName: 'SBY',
-    queryEndpoint:
-        'https://api.subquery.network/sq/khuzama98/subql-shibuya__a2h1e',
+    queryEndpoint: 'https://api.subquery.network/sq/khuzama98/subql-shibuya',
     logo: shibuyaIcon,
     rpcUrl: 'wss://rpc.shibuya.astar.network',
     prefix: 5,
