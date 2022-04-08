@@ -80,7 +80,14 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
             );
 
             if (keysValidation && valuesValidation) {
-                addRecepient(csvData);
+                addRecepient(
+                    recepientList
+                        .filter(
+                            (recepient) => recepient.address || recepient.amount
+                        )
+                        .concat(csvData),
+                    true
+                );
             } else {
                 setError('Invalid csv');
             }

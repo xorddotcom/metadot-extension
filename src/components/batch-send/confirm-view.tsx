@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
@@ -84,6 +84,10 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
     const { activeAccount } = useSelector((state: RootState) => state);
     const { tokenName } = activeAccount;
     const [transactionFee, setTransactionFee] = React.useState(0);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     React.useEffect(() => {
         const getTxFees = async (): Promise<void> => {
