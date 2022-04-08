@@ -33,12 +33,14 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
                         <VerticalContentDiv>
                             <MainText
                                 id="operation-coin"
+                                mt="0px"
                                 className={mainHeadingfontFamilyClass}
                                 fontSize="18px"
                             >{`${operation}`}</MainText>
                             <TxHorizontalContentDiv>
                                 <MainText
                                     id="status"
+                                    mt="0px"
                                     className={subHeadingfontFamilyClass}
                                     color={
                                         status === 'Failed' ? red : '#02CC53'
@@ -74,6 +76,7 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
                 >
                     <VerticalContentDiv>
                         <MainText
+                            mt="0px"
                             className={mainHeadingfontFamilyClass}
                             balOverFlow
                             fontSize="18px"
