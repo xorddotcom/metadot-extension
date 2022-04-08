@@ -2,7 +2,7 @@ import constants from '../../constants/onchain';
 import { NetworkConfigType } from './types';
 import { images } from '../../utils';
 
-const { yellow } = images;
+const { TestNetIcon } = images;
 
 const {
     POLKADOT_CONFIG,
@@ -21,7 +21,7 @@ const availableNetworks: NetworkConfigType[] = [
     { ...KUSAMA_CONFIG },
     {
         name: 'Test Networks',
-        logo: yellow,
+        logo: TestNetIcon,
         moreOptions: true,
         prefix: 0,
         queryEndpoint: 'xyz',

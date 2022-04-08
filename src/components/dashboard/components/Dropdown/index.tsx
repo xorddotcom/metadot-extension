@@ -116,6 +116,8 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
         return url;
     };
 
+    const isCTXActive = prefix === 11820;
+
     return (
         <>
             <Menu
@@ -269,8 +271,15 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                 minHeight: '37px',
                                 color: '#fafafa',
                                 fontSize: '15px',
+                                opacity: !isCTXActive ? 1 : 0.5,
                             }}
-                            onClick={() => window.open(getURl(publicKey))}
+                            onClick={() =>
+                                !isCTXActive
+                                    ? window.open(getURl(publicKey))
+                                    : // eslint-disable-next-line max-len
+                                      // eslint-disable-next-line no-restricted-syntax
+                                      console.clear()
+                            }
                         >
                             <ListItemIcon
                                 className="flexStart"
@@ -366,7 +375,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
 
                         <MenuItem
                             style={{
-                                // minHeight: '37px',
+                                minHeight: '37px',
                                 color: '#fafafa',
                                 fontSize: '15px',
                             }}

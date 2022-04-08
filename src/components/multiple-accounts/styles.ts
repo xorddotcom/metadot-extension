@@ -9,6 +9,7 @@ export const Wrapper = styled.div`
     padding: 18px 20px 8px;
     position: relative;
     background: ${darkBackground};
+    width: 89%;
 `;
 
 export const WrapperScroll = styled.div`

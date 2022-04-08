@@ -43,7 +43,7 @@ export const MainText1 = styled.p<CommonTextInterface>`
 `;
 
 export const MainText2 = styled.p<CommonTextInterface>`
-    font-size: ${buttonFontSize};
+    font-size: ${(props) => (props.fontSize ? props.fontSize : buttonFontSize)};
     line-height: 20px;
     height: 20px;
     color: ${(props) => (props.successText ? green : primaryText)};
@@ -67,7 +67,7 @@ export const SubText1 = styled.p<CommonTextInterface>`
 `;
 
 export const SubText2 = styled.p<CommonTextInterface>`
-    font-size: 12px;
+    font-size: ${(props) => (props.fontSize ? props.fontSize : '12px')};
     line-height: 16px;
     height: 16px;
     /* identical to box height, or 114% */

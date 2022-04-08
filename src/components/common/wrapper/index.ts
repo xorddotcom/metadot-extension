@@ -70,7 +70,7 @@ export const VerticalContentDiv = styled.div<VerticalContentDivPropsInterface>`
             box-shadow: 0px 0px 40px rgba(13, 13, 13, 0.2);
             border-radius: 5px;
             height: 100px;
-            padding: 15px 15px 10px;
+            padding: 11px 15px 25px;
         `}
     ${(props) =>
         props.transactionTitleDiv &&

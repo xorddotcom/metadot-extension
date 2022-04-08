@@ -2,3 +2,7 @@
     height: 15px;
     width: 15px;
 }
+
+.text-wrap {
+    overflow-x: 'break-word'
+}

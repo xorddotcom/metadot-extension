@@ -5,6 +5,7 @@ import ShidenIcon from '../assets/images/shiden.svg';
 import PhalaIcon from '../assets/images/phala.svg';
 import BifrostIcon from '../assets/images/bifrost.svg';
 import AcalaIcon from '../assets/images/tokenImg/acala.svg';
+import TestNetIcon from '../assets/images/tokenImg/testnet.svg';
 // Assests Token images
 import dusty from '../assets/images/tokenImg/dusty.png';
 import contextFree from '../assets/images/contextfree.png';
@@ -83,6 +84,7 @@ import rightArrowIcon from '../assets/images/icons/rightArrowIcon.svg';
 import Importicon from '../assets/images/icons/import.svg';
 
 export default {
+    TestNetIcon,
     crossIconRound,
     Importicon,
     externalLink,

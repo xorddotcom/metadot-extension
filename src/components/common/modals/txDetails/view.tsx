@@ -115,6 +115,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                 successText
                                 textAlign="start"
                                 className={mainHeadingfontFamilyClass}
+                                fontSize="14px"
                                 style={{
                                     color: status === 'Failed' ? red : green,
                                 }}
@@ -157,6 +158,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                     pl10
                                     textAlign="end"
                                     className={mainHeadingfontFamilyClass}
+                                    fontSize="12px"
                                     onClick={() =>
                                         window.open(getURl(hash || 'abc'))
                                     }
@@ -183,6 +185,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                             <SubText2
                                 textAlign="start"
                                 className={subHeadingfontFamilyClass}
+                                fontSize="12px"
                             >
                                 {addressModifier(accountFrom)}
                                 <div
@@ -227,6 +230,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                             <SubText2
                                 textAlign="end"
                                 className={subHeadingfontFamilyClass}
+                                fontSize="12px"
                             >
                                 <div
                                     className={`tooltip ${subHeadingfontFamilyClass}`}
