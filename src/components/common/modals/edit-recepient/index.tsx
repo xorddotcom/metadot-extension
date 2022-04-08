@@ -200,6 +200,7 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
                             alt="cross"
                             aria-hidden
                             onClick={handleClose}
+                            style={{ cursor: 'pointer' }}
                         />
                     </HorizontalContentDiv>
                     <SubHeading
