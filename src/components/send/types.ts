@@ -65,6 +65,8 @@ export interface AmountInputInterface {
     transferAll: transferAllType;
     existentialDeposit: number;
     disableToggleButtons: disableToggleButtons;
+
+    setInsufficientBal(e: boolean): void;
 }
 
 type transferAllType = {

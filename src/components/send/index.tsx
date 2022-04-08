@@ -549,6 +549,7 @@ const Send: React.FunctionComponent = () => {
         },
         maxInputHandler,
         insufficientBal,
+        setInsufficientBal,
         errorMessages,
         transactionFee,
         amount,

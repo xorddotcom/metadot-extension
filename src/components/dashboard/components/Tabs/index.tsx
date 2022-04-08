@@ -7,7 +7,7 @@ import AssetCard from '../../../common/asset-card';
 import TxCard from '../../../common/tx-card';
 
 import { queryData } from '../../../../utils/queryData';
-import { fonts, helpers } from '../../../../utils';
+import { fonts, helpers, exponentConversion } from '../../../../utils';
 import services from '../../../../utils/services';
 import {
     AssetsAndTransactionsWrapper,
@@ -200,7 +200,7 @@ const AssetsAndTransactions: React.FunctionComponent<
                     <AssetCard
                         name={chainName}
                         shortName={tokenName}
-                        amount={trimBalance(balance)}
+                        amount={trimBalance(exponentConversion(balance))}
                         balanceInUsd={balanceInUsd}
                         logo={tokenImage}
                     />
