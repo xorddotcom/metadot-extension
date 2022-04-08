@@ -236,7 +236,7 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                         Add Recepient
                     </SubHeading>
                 </HorizontalContentDiv>
-                <GoUpCircle>
+                <GoUpCircle onClick={() => window.scrollTo(0, 0)}>
                     <img src={GoUpIcon} alt="go up" />
                 </GoUpCircle>
             </HorizontalContentDiv>
