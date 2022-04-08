@@ -69,7 +69,7 @@ const getQuery = (prefix: number, publicKey: string): string => {
         }
     }
   }`;
-    return prefix === 0 ? queryWithoutTxFees : query;
+    return prefix === 0 || prefix === 2 ? queryWithoutTxFees : query;
 };
 export const queryData = (
     queryEndpoint: string,

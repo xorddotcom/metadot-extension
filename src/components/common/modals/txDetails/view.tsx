@@ -302,7 +302,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                     fontWeight="400"
                                     opacity="0.8"
                                 >
-                                    Transaction Fees
+                                    Transaction Fee
                                 </MainText1>
                             </VerticalContentDiv>
 
