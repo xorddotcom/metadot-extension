@@ -29,9 +29,11 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
     addressChangeHandler,
     amountChangeHandler,
     deleteRecepient,
+    setErrorsFalse,
 }) => {
     const onChange = (value: string): void => {
         addressChangeHandler(value, index);
+        setErrorsFalse();
     };
     const { tokenName, tokenImage } = useSelector(
         (state: RootState) => state.activeAccount
@@ -45,20 +47,37 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
         type: 'Number',
         value: recepient.amount,
         className: subHeadingfontFamilyClass,
-        onChange: (value: string) => amountChangeHandler(value, index),
+        onChange: (value: string) => {
+            amountChangeHandler(value, index);
+            setErrorsFalse();
+        },
         blockInvalidChar: true,
         tokenLogo: true,
         tokenName,
         tokenImage,
     };
 
+    const checkForAccountErrors = (): string => {
+        let errMessage = '';
+        if (recepient.empytAaddress) {
+            errMessage = 'Enter Recepient Address';
+        } else if (!recepient.validateAddress) {
+            errMessage = 'Invalid Address';
+        } else {
+            errMessage = 'Receiver might get reaped';
+        }
+        return errMessage;
+    };
+
     return (
         <RecpientInputDiv style={{ marginTop: '20px' }}>
-            <HorizontalContentDiv
-                onClick={() => deleteRecepient(index)}
-                justifyContent="flex-end"
-            >
-                <ImageButtons src={crossIcon} alt="close-btn" />
+            <HorizontalContentDiv justifyContent="flex-end">
+                <ImageButtons
+                    src={crossIcon}
+                    alt="close-btn"
+                    aria-hidden
+                    onClick={() => deleteRecepient(index)}
+                />
             </HorizontalContentDiv>
             <SubHeading lineHeight="0px" color="#FAFAFA">
                 Recepient {index + 1}
@@ -75,7 +94,8 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
                 fontSize="12px"
                 opacity={
                     recepient.validateAddress === false ||
-                    recepient.validateReaping === false
+                    recepient.validateReaping === false ||
+                    recepient.empytAaddress === true
                         ? '0.7'
                         : '0'
                 }
@@ -83,13 +103,20 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
                 marginTop="-10px"
                 mb="10px"
             >
-                {!recepient.validateAddress
-                    ? 'Invalid Address'
-                    : 'Receiver might get reaped'}
+                {checkForAccountErrors()}
             </SubHeading>
 
             <MainText className={mainHeadingfontFamilyClass}>Amount</MainText>
             <Input {...styledInput} />
+            <SubHeading
+                color="#F63A3A"
+                fontSize="12px"
+                opacity={recepient.empytAmount ? '0.7' : '0'}
+                lineHeight="0px"
+                mb="10px"
+            >
+                Enter Amount
+            </SubHeading>
         </RecpientInputDiv>
     );
 };

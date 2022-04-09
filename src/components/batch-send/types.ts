@@ -3,6 +3,8 @@ export interface Recepient {
     address: string;
     validateAddress?: boolean;
     validateReaping?: boolean;
+    empytAmount?: boolean;
+    empytAaddress?: boolean;
 }
 
 export interface CreateBatchViewProps {
@@ -15,6 +17,9 @@ export interface CreateBatchViewProps {
     setValidation(value: boolean, index: number): void;
     getTransactionFees(): Promise<number>;
     setValidateReaping(value: boolean, index: number): void;
+    setListErrors(): void;
+    setRecepientAmountError(value: boolean, index: number): void;
+    setRecepientAddressError(value: boolean, index: number): void;
 }
 
 export interface RecepientCardInterface {
@@ -23,6 +28,7 @@ export interface RecepientCardInterface {
     addressChangeHandler(value: string, index: number): void;
     amountChangeHandler(value: string, index: number): void;
     deleteRecepient(index: number): void;
+    setErrorsFalse(): void;
 }
 
 export interface ConfirmBatchViewProps {

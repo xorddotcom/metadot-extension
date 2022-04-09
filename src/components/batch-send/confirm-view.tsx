@@ -235,7 +235,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                         fontSize="19px"
                         color={primaryBackground}
                     >
-                        {calculatedAmount()}
+                        {Number(calculatedAmount()) + transactionFee}
                     </SubHeading>
                 </HorizontalContentDiv>
             </TransactionDetailDiv>

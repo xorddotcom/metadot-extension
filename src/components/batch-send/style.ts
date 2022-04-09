@@ -48,7 +48,6 @@ export const FileInputDiv = styled.div`
 
 export const RecpientInputDiv = styled.div`
     width: 100%;
-    height: 297px;
     border: 0.8px solid rgba(250, 250, 250, 0.1);
     box-sizing: border-box;
     filter: drop-shadow(0px 0px 16px rgba(46, 155, 155, 0.08));

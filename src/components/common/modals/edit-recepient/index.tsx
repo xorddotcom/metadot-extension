@@ -58,13 +58,22 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         enterAmount: 'Enter amount',
     };
 
+    const [addressError, setAddressError] = React.useState(false);
+    const [amountError, setAmountError] = React.useState(false);
+    const [addressErrorMessage, setAddressErrorMessage] = React.useState('');
+    const [amountErrorMessage, setAmountErrorMessage] = React.useState('');
+
     const styledToInput = {
         id: 'InputField',
         placeholder: address,
         type: 'String',
         value: address,
         className: subHeadingfontFamilyClass,
-        onChange: (value: string) => setAddress(value),
+        onChange: (value: string) => {
+            setAddress(value);
+            setAddressError(false);
+            setAmountError(false);
+        },
         blockInvalidChar: true,
     };
 
@@ -74,7 +83,11 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         type: 'Number',
         value: amount,
         className: subHeadingfontFamilyClass,
-        onChange: (value: string) => setAmount(value),
+        onChange: (value: string) => {
+            setAmount(value);
+            setAddressError(false);
+            setAmountError(false);
+        },
         blockInvalidChar: true,
     };
 
@@ -93,10 +106,6 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
     const currReduxState = useSelector((state: RootState) => state);
     const api = currReduxState.api.api as unknown as ApiPromiseType;
 
-    const [addressError, setAddressError] = React.useState(false);
-    const [amountError, setAmountError] = React.useState(false);
-    const [addressErrorMessage, setAddressErrorMessage] = React.useState('');
-    const [amountErrorMessage, setAmountErrorMessage] = React.useState('');
     const { activeAccount } = useSelector((state: RootState) => state);
     const { balance, tokenName } = activeAccount;
 
@@ -155,6 +164,16 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
     const handleConfirm = async (): Promise<void> => {
         // validation lagani hai yahan
         setIsButtonLoading(true);
+        if (address === '') {
+            setAddressError(true);
+            setAddressErrorMessage('Enter Recepient Address');
+            return;
+        }
+        if (amount === '') {
+            setAmountError(true);
+            setAmountErrorMessage('Enter Amount');
+            return;
+        }
         const addressValidated = validateAddress();
         const amountValidated = await validateTotalAmount();
         const reapingValidated = await validateReapingReceiver();
