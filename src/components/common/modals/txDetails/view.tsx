@@ -380,7 +380,9 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                             <Button
                                 id="subscan-button"
                                 handleClick={() =>
-                                    window.open(getURl(hash || 'abc'))
+                                    window.open(
+                                        getURl(hash?.split('\\')[0] || 'abc')
+                                    )
                                 }
                                 text="View on Subscan"
                                 style={{

@@ -264,11 +264,34 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                             }
                         );
 
+                        transactions
+                            .reverse()
+                            .reduce(
+                                (
+                                    currentArray: any,
+                                    transaction: any,
+                                    i: number
+                                ) => {
+                                    const index = currentArray.findIndex(
+                                        (element: any) =>
+                                            element.hash === transaction.hash
+                                    );
+                                    if (index !== -1) {
+                                        // eslint-disable-next-line no-param-reassign
+                                        transaction.hash = `${transaction.hash}\\${i}`;
+                                    }
+                                    currentArray.push(transaction);
+
+                                    return currentArray;
+                                },
+                                []
+                            );
+
                         const txHashes = new Set();
                         const uniqueTransactions = transactions.filter(
                             (el: any) => {
-                                const duplicate = txHashes.has(el.id);
-                                txHashes.add(el.id);
+                                const duplicate = txHashes.has(el.hash);
+                                txHashes.add(el.hash);
                                 return !duplicate;
                             }
                         );
