@@ -658,16 +658,16 @@ const Send: React.FunctionComponent = () => {
                 overWriteBackHandler={() => navigate(DASHBOARD)}
             />
 
-            <HorizontalContentDiv
-                justifyContent="flex-end"
-                onClick={handleBatchSwitch}
-                marginTop="28px"
-            >
-                <SubHeading>Batch Transaction</SubHeading>
+            <HorizontalContentDiv justifyContent="flex-end" marginTop="28px">
+                <SubHeading onClick={handleBatchSwitch}>
+                    Batch Transactions
+                </SubHeading>
                 <img
                     src={ToggleOff}
                     alt="Toggle"
                     style={{ marginLeft: '10px' }}
+                    aria-hidden
+                    onClick={handleBatchSwitch}
                 />
             </HorizontalContentDiv>
 

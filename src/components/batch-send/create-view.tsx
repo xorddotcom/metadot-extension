@@ -33,6 +33,9 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
     setValidation,
     getTransactionFees,
     setValidateReaping,
+    setListErrors,
+    setRecepientAmountError,
+    setRecepientAddressError,
 }) => {
     const { activeAccount } = useSelector((state: RootState) => state);
     const { balance, tokenName } = activeAccount;
@@ -79,21 +82,54 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const validateAddresses = (): boolean => {
+    const checkEmptyAddress = (): boolean => {
         const invalidAddress = [];
         recepientList.forEach((item, index) => {
-            if (!isValidAddressPolkadotAddress(item.address)) {
-                setValidation(false, index);
-                invalidAddress.push(item.address);
-            } else {
-                setValidation(true, index);
+            if (item.address === '') {
+                setRecepientAddressError(true, index);
+                invalidAddress.push(index);
             }
         });
         if (invalidAddress.length > 0) return false;
         return true;
     };
 
+    const validateAddresses = (): boolean => {
+        // check empytaddress
+        // check valid polkadot address
+        const invalidAddress = [];
+        recepientList.forEach((item, index) => {
+            if (item.address === '') {
+                setRecepientAddressError(true, index);
+                invalidAddress.push(index);
+            } else if (!isValidAddressPolkadotAddress(item.address)) {
+                setValidation(false, index);
+                invalidAddress.push(item.address);
+            } else {
+                setValidation(true, index);
+                setRecepientAddressError(false, index);
+            }
+        });
+        if (invalidAddress.length > 0) return false;
+        return true;
+    };
+
+    const validateAllAmount = (): boolean => {
+        const invalidAmounts = [];
+
+        recepientList.forEach((item, index) => {
+            if (item.amount === '') {
+                setRecepientAmountError(true, index);
+                invalidAmounts.push(index);
+            }
+        });
+        if (invalidAmounts.length > 0) return false;
+        return true;
+    };
+
     const validateBalance = async (): Promise<boolean> => {
+        // validate individual recepient amount
+
         // validate sender reaping
         const totalAmount = calculatedAmount();
         const transactionFee = await getTransactionFees();
@@ -147,11 +183,17 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
     const handleSubmit = async (): Promise<void> => {
         setInsufficientBal(false);
         setSenderReaped(false);
+        const amountsValidated = validateAllAmount();
         const addressValidated = validateAddresses();
         const reapingValidated = await validateReaping();
         const balanceValidated = await validateBalance();
 
-        if (addressValidated && reapingValidated && balanceValidated) {
+        if (
+            amountsValidated &&
+            addressValidated &&
+            reapingValidated &&
+            balanceValidated
+        ) {
             setStep(1);
         }
     };
@@ -166,9 +208,15 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
         return false;
     };
 
+    const setErrorsFalse = (): void => {
+        setListErrors();
+        setInsufficientBal(false);
+        setSenderReaped(false);
+    };
+
     return (
         <>
-            <VerticalContentDiv marginTop="20px">
+            <VerticalContentDiv>
                 <FromInput />
             </VerticalContentDiv>
             <FileInput
@@ -184,6 +232,7 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                     addressChangeHandler={addressChangeHandler}
                     amountChangeHandler={amountChangeHandler}
                     deleteRecepient={deleteRecepient}
+                    setErrorsFalse={setErrorsFalse}
                 />
             ))}
 
