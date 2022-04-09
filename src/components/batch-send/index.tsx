@@ -129,6 +129,29 @@ const BatchSend: React.FunctionComponent = () => {
         setRecepientList([...newState]);
     };
 
+    const setRecepientAmountError = (value: boolean, index: number): void => {
+        const newState = [...recepientList];
+        newState[index].empytAmount = value;
+        setRecepientList([...newState]);
+    };
+
+    const setRecepientAddressError = (value: boolean, index: number): void => {
+        const newState = [...recepientList];
+        newState[index].empytAaddress = value;
+        setRecepientList([...newState]);
+    };
+
+    const setListErrors = (): void => {
+        const newState = [...recepientList];
+        newState.forEach((value, index) => {
+            newState[index].validateReaping = true;
+            newState[index].validateAddress = true;
+            newState[index].empytAmount = false;
+        });
+        // newState[index].validateReaping = false;
+        setRecepientList([...newState]);
+    };
+
     const getTxFees = async (): Promise<number> => {
         const estimatedTxFee = await getBatchTransactionFee(
             api,
@@ -266,23 +289,23 @@ const BatchSend: React.FunctionComponent = () => {
     }, []);
 
     return (
-        <Wrapper width="90%">
+        <Wrapper width="89%">
             <Header
-                centerText="Batch"
+                centerText="Send"
                 overWriteBackHandler={
                     step === 1 ? () => setStep(0) : () => navigate(DASHBOARD)
                 }
             />
-            <HorizontalContentDiv
-                justifyContent="flex-end"
-                onClick={handleSendSwitch}
-                marginTop="28px"
-            >
-                <SubHeading>Batch Transaction</SubHeading>
+            <HorizontalContentDiv justifyContent="flex-end" marginTop="28px">
+                <SubHeading onClick={handleSendSwitch}>
+                    Batch Transactions
+                </SubHeading>
                 <img
                     src={ToggleOn}
                     alt="Toggle"
                     style={{ marginLeft: '10px' }}
+                    aria-hidden
+                    onClick={handleSendSwitch}
                 />
             </HorizontalContentDiv>
             {step === 0 ? (
@@ -296,6 +319,9 @@ const BatchSend: React.FunctionComponent = () => {
                     setValidation={setValidation}
                     getTransactionFees={getTxFees}
                     setValidateReaping={setValidateReaping}
+                    setListErrors={setListErrors}
+                    setRecepientAmountError={setRecepientAmountError}
+                    setRecepientAddressError={setRecepientAddressError}
                 />
             ) : (
                 <BatchConfirmView
