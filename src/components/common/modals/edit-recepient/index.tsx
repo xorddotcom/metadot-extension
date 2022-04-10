@@ -195,11 +195,13 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         if (address === '') {
             setAddressError(true);
             setAddressErrorMessage('Enter Recepient Address');
+            setIsButtonLoading(false);
             return;
         }
         if (amount === '') {
             setAmountError(true);
             setAmountErrorMessage('Enter Amount');
+            setIsButtonLoading(false);
             return;
         }
         const addressValidated = validateAddress();
