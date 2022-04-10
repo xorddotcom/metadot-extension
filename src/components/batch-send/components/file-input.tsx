@@ -42,7 +42,10 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
 
                 reader.onload = function (e) {
                     const text = e.target?.result as string;
-                    const keys = text?.slice(0, text.indexOf('\n')).split(',');
+                    const keys = text
+                        ?.slice(0, text.indexOf('\n'))
+                        .trim()
+                        .split(',');
 
                     const values = text
                         ?.slice(text.indexOf('\n') + 1)
@@ -50,8 +53,8 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
 
                     const recepientLists = values.map((value) => {
                         return {
-                            [keys[0]]: value.split(',')[0],
-                            [keys[1]]: value.split(',')[1],
+                            [keys[0]]: value.trim().split(',')[0],
+                            [keys[1]]: value.trim().split(',')[1],
                         };
                     });
                     recepientLists.pop();
@@ -69,15 +72,18 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
         if (csvData) {
             setResetRecepientList(recepientList);
             const allowedKeys = ['address', 'amount'];
+            console.log('csv data ==>>', csvData);
 
             const keysValidation = allowedKeys.every((val) =>
                 Object.keys(csvData[0]).includes(val)
             );
+            console.log('keys validation ==>>', keysValidation);
             const valuesValidation = csvData.every(
                 (val: Recepient) =>
                     isValidAddressPolkadotAddress(val.address) &&
                     !Number.isNaN(Number(val.amount))
             );
+            console.log('values validation ==>>', valuesValidation);
 
             if (keysValidation && valuesValidation) {
                 addRecepient(
