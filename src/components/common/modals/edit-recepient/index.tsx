@@ -14,6 +14,7 @@ import ToInput from '../../to-input';
 import Input from '../../input';
 import Button from '../../button';
 import { RootState } from '../../../../redux/store';
+import { WarningModal } from '..';
 
 const { getBalance } = services;
 
@@ -63,6 +64,18 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
     const [addressErrorMessage, setAddressErrorMessage] = React.useState('');
     const [amountErrorMessage, setAmountErrorMessage] = React.useState('');
 
+    const [receiverReapModal, setReceiverReapModal] = React.useState(false);
+    const [senderReapModal, setSenderReapModal] = React.useState(false);
+    const [isButtonLoading, setIsButtonLoading] = React.useState(false);
+
+    const confirmSubmit = (): void => {
+        addressChangeHandler(address, activeRecepient.index);
+        amountChangeHandler(amount, activeRecepient.index);
+
+        setIsButtonLoading(false);
+        handleClose();
+    };
+
     const styledToInput = {
         id: 'InputField',
         placeholder: address,
@@ -109,8 +122,6 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
     const { activeAccount } = useSelector((state: RootState) => state);
     const { balance, tokenName } = activeAccount;
 
-    console.log('🚀 85 ~ amountError', amountError);
-    console.log('🚀 84 ~ addressError', addressError);
     const validateAddress = (): boolean => {
         if (isValidAddressPolkadotAddress(address)) {
             setAddressError(false);
@@ -132,34 +143,34 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
             return false;
         }
 
-        if (
-            Number(balance) - Number(totalAmount) - Number(transactionFee) <
-            Number(existentialDeposit)
-        ) {
-            setAmountError(true);
-            setAmountErrorMessage('Your account might get reaped');
-            return false;
-        }
-
         setAmountError(false);
         return true;
     };
 
-    const validateReapingReceiver = async (): Promise<boolean> => {
+    const validateReapingReceiver = async (): Promise<void> => {
         const receiverBalance = await getBalance(api, address);
         if (
             Number(existentialDeposit) >
             Number(Number(receiverBalance) + Number(amount))
         ) {
-            setAddressError(true);
-            setAddressErrorMessage('Receiver might get reaped');
-            return false;
+            setReceiverReapModal(true);
+        } else {
+            confirmSubmit();
         }
-        setAddressError(false);
-        return true;
     };
 
-    const [isButtonLoading, setIsButtonLoading] = React.useState(false);
+    const validateSenderReaping = async (): Promise<void> => {
+        const totalAmount = getTotalAmount(amount, activeRecepient.index);
+        const transactionFee = await getTransactionFees();
+        if (
+            Number(balance) - Number(totalAmount) - Number(transactionFee) <
+            Number(existentialDeposit)
+        ) {
+            setSenderReapModal(true);
+        } else {
+            validateReapingReceiver();
+        }
+    };
 
     const handleConfirm = async (): Promise<void> => {
         // validation lagani hai yahan
@@ -176,13 +187,10 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         }
         const addressValidated = validateAddress();
         const amountValidated = await validateTotalAmount();
-        const reapingValidated = await validateReapingReceiver();
+        // const reapingValidated = await validateReapingReceiver();
 
-        if (addressValidated && amountValidated && reapingValidated) {
-            addressChangeHandler(address, activeRecepient.index);
-            amountChangeHandler(amount, activeRecepient.index);
-            setIsButtonLoading(false);
-            handleClose();
+        if (addressValidated && amountValidated) {
+            validateSenderReaping();
         } else {
             setIsButtonLoading(false);
         }
@@ -197,11 +205,62 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
             fontSize: '14px',
         },
         handleClick: handleConfirm,
-        isLoading: false,
+        isLoading: isButtonLoading,
+    };
+
+    const receiverReapModalwarning = {
+        open: receiverReapModal,
+        handleClose: () => {
+            setIsButtonLoading(false);
+            setReceiverReapModal(false);
+        },
+        onConfirm: () => {
+            confirmSubmit();
+            setIsButtonLoading(false);
+            setReceiverReapModal(false);
+        },
+        style: {
+            width: '290px',
+            background: '#141414',
+            position: 'relative',
+            bottom: 30,
+            p: 2,
+            px: 2,
+            pb: 3,
+        },
+        mainText: 'Account Reap Warning',
+        subText:
+            'The Recepient account might get reaped. Do you still wish to continue?',
+    };
+
+    const senderReapModalwarning = {
+        open: senderReapModal,
+        handleClose: () => {
+            setIsButtonLoading(false);
+            setSenderReapModal(false);
+        },
+        onConfirm: () => {
+            validateReapingReceiver();
+            setSenderReapModal(false);
+        },
+        style: {
+            width: '290px',
+            background: '#141414',
+            position: 'relative',
+            bottom: 30,
+            p: 2,
+            px: 2,
+            pb: 3,
+        },
+        mainText: 'Account Reap Warning',
+        subText:
+            'Your account might get reaped. Do you still wish to continue?',
     };
 
     return (
         <div>
+            <WarningModal {...receiverReapModalwarning} />
+            <WarningModal {...senderReapModalwarning} />
             <Modal
                 style={{
                     backgroundColor: 'rgba(33, 33, 33, 0.2)',
