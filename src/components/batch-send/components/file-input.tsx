@@ -5,6 +5,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { SubHeading, MainText, WarningText } from '../../common/text';
 import { fonts, images } from '../../../utils';
 import { FileInputDiv } from '../style';
+import help from '../../../assets/images/icons/ED_help.svg';
 
 import { FileInputProps, Recepient } from '../types';
 
@@ -116,6 +117,22 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
         }
     };
 
+    const copyIconTooltip = {
+        id: 'copy-icon',
+        className: `main-card-tooltip ${mainHeadingfontFamilyClass}`,
+        style: { cursor: 'pointer' },
+    };
+
+    const copyIconTooltipText = {
+        className: 'main-card-tooltiptext',
+        style: {
+            bottom: '120%',
+            fontSize: '11px',
+            fontWeight: 300,
+            transition: 'all 0.1s ease-in',
+        },
+    };
+
     return (
         <>
             <MainText
@@ -138,14 +155,15 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
                 <SubHeading ml="14px">
                     {csvFile ? csvFile.name : 'Choose File'}
                 </SubHeading>
-                {csvFile && (
-                    <div
-                        style={{
-                            display: 'flex',
-                            marginLeft: 'auto',
-                            marginRight: '16px',
-                        }}
-                    >
+
+                <div
+                    style={{
+                        display: 'flex',
+                        marginLeft: 'auto',
+                        marginRight: '16px',
+                    }}
+                >
+                    {csvFile ? (
                         <CancelIcon
                             onClick={(e) => {
                                 e.stopPropagation();
@@ -157,8 +175,22 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
                                 marginRight: '-4.8px',
                             }}
                         />
-                    </div>
-                )}
+                    ) : (
+                        <div {...copyIconTooltip}>
+                            <img
+                                aria-hidden
+                                src={help}
+                                alt="img"
+                                height="max-content"
+                                style={{ margin: '0px 8px' }}
+                            />
+                            <span {...copyIconTooltipText}>
+                                Your csv must contain amount and address columns
+                                with atleast 2 entries
+                            </span>
+                        </div>
+                    )}
+                </div>
             </FileInputDiv>
             {error && (
                 <WarningText
