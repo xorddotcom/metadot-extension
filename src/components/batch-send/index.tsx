@@ -96,9 +96,26 @@ const BatchSend: React.FunctionComponent = () => {
     };
 
     const amountChangeHandler = (value: string, index: number): void => {
-        const newState = [...recepientList];
-        newState[index].amount = value;
-        setRecepientList([...newState]);
+        if (value[0] === '0' && value[1] === '0') {
+            return;
+        }
+        if (value.length < 14) {
+            let decimalInStart = false;
+            if (value[0] === '.') {
+                // eslint-disable-next-line no-param-reassign
+                value = `0${value}`;
+                decimalInStart = true;
+            }
+            const reg = /^-?\d+\.?\d*$/;
+            const test = reg.test(value);
+
+            if (!test && value.length !== 0 && !decimalInStart) {
+                return;
+            }
+            const newState = [...recepientList];
+            newState[index].amount = value;
+            setRecepientList([...newState]);
+        }
     };
 
     const getTotalAmount = (value: string, index: number): string => {
