@@ -97,9 +97,26 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         value: amount,
         className: subHeadingfontFamilyClass,
         onChange: (value: string) => {
-            setAmount(value);
             setAddressError(false);
             setAmountError(false);
+            if (value[0] === '0' && value[1] === '0') {
+                return;
+            }
+            if (value.length < 14) {
+                let decimalInStart = false;
+                if (value[0] === '.') {
+                    // eslint-disable-next-line no-param-reassign
+                    value = `0${value}`;
+                    decimalInStart = true;
+                }
+                const reg = /^-?\d+\.?\d*$/;
+                const test = reg.test(value);
+
+                if (!test && value.length !== 0 && !decimalInStart) {
+                    return;
+                }
+                setAmount(value);
+            }
         },
         blockInvalidChar: true,
     };
