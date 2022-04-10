@@ -12,6 +12,7 @@ import { VerticalContentDiv, HorizontalContentDiv } from '../common/wrapper';
 import FromInput from '../common/from-input';
 import { Button } from '../common';
 import { SubHeading } from '../common/text';
+import { WarningModal } from '../common/modals';
 
 import FileInput from './components/file-input';
 import RecepientCard from './components/recepient-card';
@@ -41,6 +42,7 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
     const { balance, tokenName } = activeAccount;
     const [insufficientBal, setInsufficientBal] = React.useState(false);
     const [senderReaped, setSenderReaped] = React.useState(false);
+    const [isButtonLoading, setIsButtonLoading] = React.useState(false);
     const [existentialDeposit, setExistentialDeposit] =
         React.useState<number>(0);
 
@@ -67,31 +69,6 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
         } catch (err) {
             return false;
         }
-    };
-
-    React.useEffect(() => {
-        async function getED(): Promise<void> {
-            const decimalPlaces = api.registry.chainDecimals[0];
-            const ED: number =
-                Number(api?.consts?.balances?.existentialDeposit.toString()) /
-                10 ** decimalPlaces;
-
-            setExistentialDeposit(ED);
-        }
-        getED();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    const checkEmptyAddress = (): boolean => {
-        const invalidAddress = [];
-        recepientList.forEach((item, index) => {
-            if (item.address === '') {
-                setRecepientAddressError(true, index);
-                invalidAddress.push(index);
-            }
-        });
-        if (invalidAddress.length > 0) return false;
-        return true;
     };
 
     const validateAddresses = (): boolean => {
@@ -127,9 +104,7 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
         return true;
     };
 
-    const validateBalance = async (): Promise<boolean> => {
-        // validate individual recepient amount
-
+    const validateSenderBalance = async (): Promise<boolean> => {
         // validate sender reaping
         const totalAmount = calculatedAmount();
         const transactionFee = await getTransactionFees();
@@ -139,21 +114,16 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
             return false;
         }
 
-        if (
-            Number(balance) -
-                Number(calculatedAmount()) -
-                Number(transactionFee) <
-            Number(existentialDeposit)
-        ) {
-            setSenderReaped(true);
-            return false;
-        }
         return true;
     };
 
-    const validateReaping = async (): Promise<boolean> => {
-        // validate receiver reaping
-        const invalidSending = [];
+    const [showSenderReapWarning, setShowSenderReapWarning] =
+        React.useState(false);
+    const [showReceiverReapWarning, setShowReceiverReapWarning] =
+        React.useState(false);
+
+    const validateReceiverAccountsReaping = async (): Promise<void> => {
+        const reapReceiverAccounts = [];
         const recipientBalancesPromises = recepientList.map(
             async (recepient) => {
                 return getBalance(api, recepient.address);
@@ -169,33 +139,93 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                         Number(recepientList[index].amount)
                 )
             ) {
-                setValidateReaping(false, index);
-                invalidSending.push(recipientBalance);
-            } else {
-                setValidateReaping(true, index);
+                // setValidateReaping(false, index);
+                reapReceiverAccounts.push(recipientBalance);
             }
         });
 
-        if (invalidSending.length > 0) return false;
-        return true;
+        if (reapReceiverAccounts.length > 0) setShowReceiverReapWarning(true);
+        else {
+            setIsButtonLoading(false);
+            setStep(1);
+        }
+    };
+
+    const validateSenderReaping = async (): Promise<void> => {
+        const totalAmount = calculatedAmount();
+        const transactionFee = await getTransactionFees();
+        if (
+            Number(balance) - Number(totalAmount) - Number(transactionFee) <
+            Number(existentialDeposit)
+        ) {
+            setShowSenderReapWarning(true);
+        } else {
+            await validateReceiverAccountsReaping();
+        }
     };
 
     const handleSubmit = async (): Promise<void> => {
         setInsufficientBal(false);
         setSenderReaped(false);
+        setIsButtonLoading(true);
         const amountsValidated = validateAllAmount();
         const addressValidated = validateAddresses();
-        const reapingValidated = await validateReaping();
-        const balanceValidated = await validateBalance();
+        // const reapingValidated = await validateReaping();
+        const balanceValidated = await validateSenderBalance();
 
-        if (
-            amountsValidated &&
-            addressValidated &&
-            reapingValidated &&
-            balanceValidated
-        ) {
-            setStep(1);
+        if (amountsValidated && addressValidated && balanceValidated) {
+            await validateSenderReaping();
+        } else {
+            setIsButtonLoading(false);
         }
+    };
+
+    const receiverReapModalwarning = {
+        open: showReceiverReapWarning,
+        handleClose: () => {
+            setIsButtonLoading(false);
+            setShowReceiverReapWarning(false);
+        },
+        onConfirm: () => {
+            setStep(1);
+            setShowReceiverReapWarning(false);
+        },
+        style: {
+            width: '290px',
+            background: '#141414',
+            position: 'relative',
+            bottom: 30,
+            p: 2,
+            px: 2,
+            pb: 3,
+        },
+        mainText: 'Account Reap Warning',
+        subText:
+            'These recepient account(s) might get reaped. Do you still wish to continue?',
+    };
+
+    const senderReapModalwarning = {
+        open: showSenderReapWarning,
+        handleClose: () => {
+            setIsButtonLoading(false);
+            setShowSenderReapWarning(false);
+        },
+        onConfirm: () => {
+            validateReceiverAccountsReaping();
+            setShowSenderReapWarning(false);
+        },
+        style: {
+            width: '290px',
+            background: '#141414',
+            position: 'relative',
+            bottom: 30,
+            p: 2,
+            px: 2,
+            pb: 3,
+        },
+        mainText: 'Account Reap Warning',
+        subText:
+            'Your account might get reaped. Do you still wish to continue?',
     };
 
     const checkButttonStatus = (): boolean => {
@@ -214,8 +244,22 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
         setSenderReaped(false);
     };
 
+    React.useEffect(() => {
+        async function getED(): Promise<void> {
+            const decimalPlaces = api.registry.chainDecimals[0];
+            const ED: number =
+                Number(api?.consts?.balances?.existentialDeposit.toString()) /
+                10 ** decimalPlaces;
+
+            setExistentialDeposit(ED);
+        }
+        getED();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     return (
         <>
+            <WarningModal {...receiverReapModalwarning} />
+            <WarningModal {...senderReapModalwarning} />
             <VerticalContentDiv>
                 <FromInput />
             </VerticalContentDiv>
@@ -307,6 +351,7 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                         borderRadius: 40,
                     }}
                     disabled={checkButttonStatus()}
+                    isLoading={isButtonLoading}
                 />
             </HorizontalContentDiv>
         </>
