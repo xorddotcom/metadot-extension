@@ -205,6 +205,47 @@ const isValidAddressPolkadotAddress = (address: string): boolean => {
     }
 };
 
+const formatExtrinsic = (extrinsic: any): any => {
+    const id = extrinsic?.hash?.toString();
+    const method = extrinsic?.method?.method;
+    const section = extrinsic?.method?.section;
+    const args = function (): string {
+        // eslint-disable-next-line @typescript-eslint/no-shadow
+        const { args, meta, method } = extrinsic || {};
+        const { args: argsDef } = meta;
+        const result = args.map((arg: any, index: any) => {
+            const { name, type } = argsDef[index];
+            return {
+                name,
+                type,
+                method: method?.method,
+                section: method?.section,
+                value: arg.toJSON(),
+            };
+        });
+        return result;
+    };
+    const signer = extrinsic?.signer?.toString();
+    const nonce = extrinsic?.nonce?.toBigInt() || BigInt(0);
+    const isSigned = extrinsic?.isSigned;
+    const signature = extrinsic?.signature?.toString();
+    const tip = extrinsic?.tip?.toBigInt() || BigInt(0);
+    const isSuccess = true;
+
+    return {
+        id,
+        method,
+        section,
+        args: args(),
+        signer,
+        nonce,
+        isSigned,
+        signature,
+        tip,
+        isSuccess,
+    };
+};
+
 export default {
     arrayFromSeedSentence,
     arrayOfFourRandomNumbers,
@@ -220,5 +261,6 @@ export default {
     openOptions,
     isTabViewOpened,
     isValidAddressPolkadotAddress,
+    formatExtrinsic,
     // showInternetSnackBar,
 };

@@ -44,7 +44,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
     const { loadingForApi } = modalHandling;
     const { apiInitializationStarts } = currentUser.api;
 
-    const { convertIntoUsd } = helpers;
+    const { convertIntoUsd, formatExtrinsic } = helpers;
     const { getBalance, providerInitialization, addressMapper } = services;
     const { publicKey, chainName, tokenName } = activeAccount;
 
@@ -204,9 +204,9 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                 ) {
                                     blockTimeStamp = new Date(
                                         Number(extrinsic?.args?.[0].toString())
-                                    ).toString();
+                                    ).toISOString();
                                 } else {
-                                    blockTimeStamp = new Date().toString();
+                                    blockTimeStamp = new Date().toISOString();
                                 }
 
                                 allEvents
@@ -214,94 +214,104 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                         ({ event, phase }: any) =>
                                             phase.isApplyExtrinsic &&
                                             phase.asApplyExtrinsic.eq(index) &&
-                                            event.section === 'balances' &&
-                                            event.method === 'Transfer' &&
-                                            (event.data[0].toString() ===
-                                                addressMapper(
-                                                    publicKey,
-                                                    api?.registry
-                                                        ?.chainSS58 as number
-                                                ) ||
-                                                event.data[1].toString() ===
-                                                    addressMapper(
-                                                        publicKey,
-                                                        api?.registry
-                                                            .chainSS58 as number
-                                                    ))
+                                            event.section === 'utility' &&
+                                            event.method === 'BatchCompleted'
+                                        // (event.data[0]?.toString() ===
+                                        //     addressMapper(
+                                        //         publicKey,
+                                        //         api?.registry
+                                        //             ?.chainSS58 as number
+                                        //     ) ||
+                                        //     event.data[1]?.toString() ===
+                                        //         addressMapper(
+                                        //             publicKey,
+                                        //             api?.registry
+                                        //                 .chainSS58 as number
+                                        //         ))
                                     )
-                                    .forEach(({ event }: any) => {
-                                        const chainDecimal =
-                                            api?.registry?.chainDecimals[0];
-                                        const convertedAmount =
-                                            Number(event.data[2].toString()) /
-                                            10 ** chainDecimal;
-                                        transactions.push({
-                                            accountFrom:
-                                                event.data[0].toString(),
-                                            accountTo: event.data[1].toString(),
-                                            amount: exponentConversion(
-                                                convertedAmount
-                                            ),
-                                            hash: extrinsic.hash.toString(),
-                                            operation:
-                                                event.data[0].toString() ===
-                                                addressMapper(
-                                                    publicKey,
-                                                    api?.registry
-                                                        ?.chainSS58 as number
-                                                )
-                                                    ? 'Send'
-                                                    : 'Receive',
-                                            status: 'Confirmed',
-                                            chainName:
-                                                api.runtimeChain.toString(),
-                                            tokenName:
-                                                api?.registry?.chainTokens[0],
-                                            transactionFee: '0',
-                                            timestamp: blockTimeStamp,
-                                        });
+                                    .forEach((Fevent: any) => {
+                                        console.log(
+                                            'batch ==>>',
+                                            extrinsic.hash.toString(),
+                                            extrinsic,
+                                            formatExtrinsic(extrinsic)
+                                        );
+
+                                        // const chainDecimal =
+                                        //     api?.registry?.chainDecimals[0];
+                                        // const convertedAmount =
+                                        //     Number(event.data[2].toString()) /
+                                        //     10 ** chainDecimal;
+                                        // transactions.push({
+                                        //     accountFrom:
+                                        //         event.data[0].toString(),
+                                        //     accountTo: event.data[1].toString(),
+                                        //     amount: exponentConversion(
+                                        //         convertedAmount
+                                        //     ),
+                                        //     hash: extrinsic.hash.toString(),
+                                        //     operation:
+                                        //         event.data[0].toString() ===
+                                        //         addressMapper(
+                                        //             publicKey,
+                                        //             api?.registry
+                                        //                 ?.chainSS58 as number
+                                        //         )
+                                        //             ? 'Send'
+                                        //             : 'Receive',
+                                        //     status: 'Confirmed',
+                                        //     chainName:
+                                        //         api.runtimeChain.toString(),
+                                        //     tokenName:
+                                        //         api?.registry?.chainTokens[0],
+                                        //     transactionFee: '0',
+                                        //     timestamp: blockTimeStamp.slice(
+                                        //         0,
+                                        //         -1
+                                        //     ),
+                                        // });
                                     });
                             }
                         );
 
-                        transactions
-                            .reverse()
-                            .reduce(
-                                (
-                                    currentArray: any,
-                                    transaction: any,
-                                    i: number
-                                ) => {
-                                    const index = currentArray.findIndex(
-                                        (element: any) =>
-                                            element.hash === transaction.hash
-                                    );
-                                    if (index !== -1) {
-                                        // eslint-disable-next-line no-param-reassign
-                                        transaction.hash = `${transaction.hash}\\${i}`;
-                                    }
-                                    currentArray.push(transaction);
+                        // transactions
+                        //     .reverse()
+                        //     .reduce(
+                        //         (
+                        //             currentArray: any,
+                        //             transaction: any,
+                        //             i: number
+                        //         ) => {
+                        //             const index = currentArray.findIndex(
+                        //                 (element: any) =>
+                        //                     element.hash === transaction.hash
+                        //             );
+                        //             if (index !== -1) {
+                        //                 // eslint-disable-next-line no-param-reassign
+                        //                 transaction.hash = `${transaction.hash}\\${i}`;
+                        //             }
+                        //             currentArray.push(transaction);
 
-                                    return currentArray;
-                                },
-                                []
-                            );
+                        //             return currentArray;
+                        //         },
+                        //         []
+                        //     );
 
-                        const txHashes = new Set();
-                        const uniqueTransactions = transactions.filter(
-                            (el: any) => {
-                                const duplicate = txHashes.has(el.hash);
-                                txHashes.add(el.hash);
-                                return !duplicate;
-                            }
-                        );
+                        // const txHashes = new Set();
+                        // const uniqueTransactions = transactions.filter(
+                        //     (el: any) => {
+                        //         const duplicate = txHashes.has(el.hash);
+                        //         txHashes.add(el.hash);
+                        //         return !duplicate;
+                        //     }
+                        // );
 
-                        generalDispatcher(() =>
-                            addTransaction({
-                                transactions: uniqueTransactions,
-                                publicKey,
-                            })
-                        );
+                        // generalDispatcher(() =>
+                        //     addTransaction({
+                        //         transactions: uniqueTransactions,
+                        //         publicKey,
+                        //     })
+                        // );
                     }
                 );
             }

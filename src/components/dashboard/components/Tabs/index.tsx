@@ -50,12 +50,11 @@ const TxView: React.FunctionComponent<TxViewProps> = (
                         (transaction: TransactionRecord) =>
                             transaction.tokenName === tokenName
                     )
-                    .reverse()
-                    // .sort(
-                    //     (a: any, b: any) =>
-                    //         Number(new Date(b.timestamp)) -
-                    //         Number(new Date(a.timestamp))
-                    // )
+                    .sort(
+                        (a: any, b: any) =>
+                            Number(new Date(b.timestamp)) -
+                            Number(new Date(a.timestamp))
+                    )
                     .map((transaction) => {
                         const {
                             operation,
