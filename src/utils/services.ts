@@ -163,6 +163,62 @@ const fetchBalanceWithMultipleTokens = async (
     }
 };
 
+const multipleTokens = async (
+    api: ApiPromiseType,
+    publicKey: string
+): Promise<any> => {
+    const tokens = api?.registry?.chainTokens;
+    const decimals = api?.registry?.chainDecimals;
+
+    const nativeBalance = await getBalanceWithSingleToken(api, publicKey);
+    const balancesArray: any[] = [];
+    const promises: any[] = [];
+    async function fetch(): Promise<any> {
+        tokens.map(async (token: any, index: number) => {
+            api?.query?.tokens?.accounts(
+                publicKey,
+                { Token: token },
+                (res: any) => {
+                    balancesArray.push({
+                        name: token,
+                        balance: res.free.toString() / 10 ** decimals[index],
+                    });
+                }
+            );
+
+            promises.push(
+                api?.query?.tokens?.accounts(publicKey, { Token: token })
+            );
+
+            return true;
+        });
+        const res = await Promise.all(promises);
+        const res2: any[] = [];
+        res.map(async (singleToken: any, i: number): Promise<any> => {
+            if (i === 0) {
+                const data = {
+                    name: tokens[0],
+                    balance: nativeBalance,
+                    isNative: true,
+                    decimal: decimals[i],
+                };
+                res2[0] = data;
+            } else {
+                res2.push({
+                    name: tokens[i],
+                    balance: singleToken.free / 10 ** decimals[i],
+                    isNative: false,
+                    decimal: decimals[i],
+                });
+            }
+            return true;
+        });
+        return res2;
+    }
+    const val = await fetch();
+    return val;
+};
+
 const getBalance = async (
     api: ApiPromiseType,
     account: string
@@ -170,6 +226,10 @@ const getBalance = async (
     const chainTokens = api?.registry?.chainTokens;
     console.log('service tokens ====>>', chainTokens);
 
+    if (chainTokens.length > 1) {
+        const balance = await multipleTokens(api, account);
+        return balance;
+    }
     const balance = await getBalanceWithSingleToken(api, account);
     return balance;
 };

@@ -47,18 +47,12 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
     );
 
     const totalAmount = (valueOne: number, valueTwo: number): string => {
-        console.log('total amount working', valueOne, valueTwo);
         if (isNative) {
-            console.log('IF 123');
             const value = valueOne + valueTwo;
-            console.log('value ====>>', value);
             const val = value.toString();
             const trimmedValue = val.slice(0, val.indexOf('.') + 6);
-            console.log('trimmed value -----[][]', trimmedValue);
             return `${trimmedValue} ${locationTokenName}`;
         }
-        console.log('ELSE 123');
-        console.log(trimBalance(amount), trimBalance(transactionFee));
         return `${trimBalance(amount)} ${locationTokenName} + ${trimBalance(
             transactionFee
         )} ${tokenName}`;
@@ -182,7 +176,9 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                                     marginBottom="10px"
                                     textAlign="end"
                                     className={mainHeadingfontFamilyClass}
-                                >{`${transactionFee} ${tokenName}`}</ModalText2>
+                                >{`${transactionFee.toFixed(
+                                    4
+                                )} ${tokenName}`}</ModalText2>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
 

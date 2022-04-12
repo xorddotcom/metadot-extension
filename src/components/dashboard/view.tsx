@@ -62,6 +62,8 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
         (state: RootState) => state.activeAccount
     );
 
+    const api = useSelector((state: RootState) => state);
+
     const allMainnetsName = [
         'Polkadot',
         'Kusama',

@@ -41,17 +41,22 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
             setIsBtnLoading(true);
             if (isPassword) {
                 const valid: boolean = await validateAccount(publicKey, input);
-                if (!valid) throw new Error('Invalid password 1');
+                if (!valid) {
+                    throw new Error('Invalid password 1');
+                }
             }
             const res: boolean = await onConfirm(publicKey, input);
             if (!isPassword && res) handleClose();
-            if (!res) throw new Error('Invalid password 2');
+            if (!res) {
+                throw new Error('Invalid password 2');
+            }
 
             generalDispatcher(() => setAuthScreenModal(false));
             generalDispatcher(() => setConfirmSendModal(true));
             setInput('');
             return true;
         } catch (err) {
+            console.log('In catch error', err);
             setPasswordError('Invalid password!');
             setIsBtnLoading(false);
             return false;
