@@ -35,6 +35,7 @@ const WarningModalView: React.FunctionComponent<WarningModalProps> = (
             width: '115px',
             height: '35px',
             borderRadius: 40,
+            fontSize: '14px',
         },
         handleClick: () => handleClose(),
         lightBtn: true,
@@ -45,6 +46,7 @@ const WarningModalView: React.FunctionComponent<WarningModalProps> = (
             width: '115px',
             height: '35px',
             borderRadius: 40,
+            fontSize: '14px',
         },
         handleClick: () => onConfirm(),
         isLoading,
@@ -71,7 +73,7 @@ const WarningModalView: React.FunctionComponent<WarningModalProps> = (
                 >
                     {subText}
                 </SubHeading>
-                <div style={{ marginTop: '1.5rem' }} className="btn-row">
+                <div style={{ marginTop: '24px' }} className="btn-row">
                     <Button id="cancel" {...btnCancel} />
                     <Button id="confirm" {...btnConfirm} />
                 </div>

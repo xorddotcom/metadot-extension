@@ -53,3 +53,17 @@ export interface ActiveAccount {
     isWalletConnected: boolean;
     balances: [BalancesType];
 }
+
+interface decimal {
+    new: number;
+    old: number;
+}
+
+interface TOKEN {
+    name: string;
+    decimals: number | decimal;
+}
+
+export interface TOKEN_INFO_INTERFACE {
+    [TokenName: string]: TOKEN;
+}

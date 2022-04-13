@@ -95,6 +95,7 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                     width: '160px',
                     height: '110px',
                     marginTop: '12px',
+                    position: 'absolute !important',
                 }}
                 PaperProps={{
                     elevation: 0,
@@ -125,8 +126,8 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                     id="paper"
                     style={{
                         width: '210px',
-                        marginLeft: '-4.9rem',
-                        marginTop: '-0.5rem',
+                        marginLeft: '-78px',
+                        marginTop: '-8px',
                         backgroundColor: '#141414',
                         border: '0.9px solid #219A9A',
                         boxShadow: '0px 0px 20px 5px rgba(33, 154, 154, 0.08)',
@@ -148,14 +149,17 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                             >
                                 <ListItemIcon
                                     className="flexStart"
-                                    style={{ color: '#fafafa' }}
+                                    style={{
+                                        color: '#fafafa',
+                                        alignItems: 'center',
+                                    }}
                                 >
                                     <img
                                         src={derivedAccountIcon}
                                         alt="create-account"
                                         width="14.55"
                                         height="15"
-                                        style={{ marginTop: '0.15rem' }}
+                                        style={{ marginTop: '2.4px' }}
                                     />
                                     &nbsp; &nbsp;
                                     <span style={dropdownOptionStyle}>
@@ -175,14 +179,17 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                         >
                             <ListItemIcon
                                 className="flexStart"
-                                style={{ color: '#fafafa' }}
+                                style={{
+                                    color: '#fafafa',
+                                    alignItems: 'center',
+                                }}
                             >
                                 <img
                                     src={renameAccountImage}
                                     alt="rename-account"
                                     width="14.55"
                                     height="15"
-                                    style={{ marginTop: '0.15rem' }}
+                                    style={{ marginTop: '2.4px' }}
                                 />
                                 &nbsp; &nbsp;
                                 <span style={dropdownOptionStyle}>
@@ -201,12 +208,15 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
                         >
                             <ListItemIcon
                                 className="flexStart"
-                                style={{ color: '#fafafa' }}
+                                style={{
+                                    color: '#fafafa',
+                                    alignItems: 'center',
+                                }}
                             >
                                 <img
                                     src={FileUploadOutlinedIcon}
                                     alt="export-account"
-                                    style={{ marginTop: '-0.2rem' }}
+                                    style={{ marginTop: '-3.2px' }}
                                 />
                                 &nbsp; &nbsp;
                                 <span style={dropdownOptionStyle}>
@@ -217,20 +227,26 @@ const AccountDropDown: React.FunctionComponent<AccountDropDownInterface> = ({
 
                         <MenuItem
                             id="menu-item-4"
-                            style={{ minHeight: '37px', color: '#fafafa' }}
+                            style={{
+                                minHeight: '37px',
+                                color: '#fafafa',
+                            }}
                             onClick={warnModalHandler}
                             key={Math.random()}
                         >
                             <ListItemIcon
                                 className="flexStart"
-                                style={{ color: '#fafafa' }}
+                                style={{
+                                    color: '#fafafa',
+                                    alignItems: 'center',
+                                }}
                             >
                                 <img
                                     src={RemoveIcon}
                                     alt="remove-account"
                                     width="14.55"
                                     height="15"
-                                    style={{ marginTop: '0.15rem' }}
+                                    style={{ marginTop: '2.4px' }}
                                 />
                                 &nbsp; &nbsp;
                                 <span style={dropdownOptionStyle}>

@@ -58,6 +58,7 @@ export const WarningText = styled.p<WarningTextInterface>`
     display: ${(props) => (props.visibility ? 'none' : 'block')} 
     margin-left: ${(props) => props.ml && props.ml};
     margin-bottom: ${(props) => props.mb && props.mb};
+    margin-top: ${(props) => props.mt && props.mt}
 `;
 
 export const EquivalentInUSDT = styled.p`
@@ -71,10 +72,11 @@ export const MainText = styled.p<MainTextInterface>`
     font-size: ${(props) => (props.fontSize ? props.fontSize : '16px')};
     font-weight: ${(props) => (props.fontWeight ? props.fontWeight : 'bold')};
     line-height: 14px;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.32px;
     color: ${(props) => (props.color ? props.color : '#ffffff')};
-    margin-top: 0px;
-    margin-bottom: 3px;
+    margin-top: ${(props) => props.mt && props.mt};
+    margin-bottom: ${(props) => (props.mb ? props.mb : '3px')};
+    margin-leftcana: ${(props) => props.ml && props.ml};
     text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
     ${(props) =>
         props.balOverFlow &&
@@ -92,4 +94,15 @@ export const ModalText = styled.p<ModalTextPropsInterface>`
     margin-top: ${(props) => props.marginTop && props.marginTop};
     color: rgba(250, 250, 250, 0.85);
     text-align: ${(props) => props.textAlign};
+`;
+
+export const CancelText = styled.p`
+    font-size: 14px;
+    line-height: 14px;
+    color: rgba(246, 58, 58, 0.7);
+    font-weight: 500;
+    align-self: center;
+    text-align: center;
+    text-decoration: underline;
+    cursor: pointer;
 `;

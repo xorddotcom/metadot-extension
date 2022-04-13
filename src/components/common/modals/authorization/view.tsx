@@ -3,13 +3,20 @@ import React from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import { AuthtModalViewProps } from './types';
 
 import Button from '../../button';
-import { colors, fonts } from '../../../../utils';
+import { colors, fonts, images } from '../../../../utils';
 import StyledInput from '../../input';
-import { MainDiv, MainText, VerticalContentDiv } from './styledComponent';
-import { ModalText, WarningText } from '../../text';
+import {
+    MainDiv,
+    MainText,
+    VerticalContentDiv,
+    HorizontalContentDiv,
+} from './styledComponent';
+import { ModalText, WarningText, SubHeading } from '../../text';
 import {
     AUTHORIZATION,
     PASSWORD,
@@ -21,15 +28,19 @@ import {
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { darkBackground1 } = colors;
 
+const { CheckboxEnabled, CheckboxDisabled } = images;
+
 const AuthModalView: React.FunctionComponent<AuthtModalViewProps> = ({
     open,
     style,
     onClose,
     styledInput,
-    passwordError,
     btnCancel,
     btnConfirm,
     functionType,
+    inputErrorState,
+    savePassword,
+    setSavePassword,
 }) => {
     const HEADING =
         // eslint-disable-next-line no-nested-ternary
@@ -63,32 +74,75 @@ const AuthModalView: React.FunctionComponent<AuthtModalViewProps> = ({
                     <VerticalContentDiv marginTop="15px" mb="20px">
                         <MainText
                             fontSize="14px"
-                            marginBottom="15px"
+                            marginBottom="0px"
                             className={mainHeadingfontFamilyClass}
                         >
                             {LABEL}
                         </MainText>
 
-                        <StyledInput
-                            id="auth-password"
-                            fullWidth="80%"
-                            mr="1.2rem"
-                            typePassword={functionType !== 'RenameAccount'}
-                            rightIcon={functionType !== 'RenameAccount'}
-                            rightPosition="9px"
-                            topPosition="28px"
-                            {...styledInput}
-                            style={{
-                                paddingLeft: '10px !important',
-                            }}
-                            bgColor={darkBackground1}
-                        />
-                        <WarningText
-                            className={subHeadingfontFamilyClass}
-                            visibility={!!passwordError}
-                        >
-                            {passwordError}
-                        </WarningText>
+                        {functionType === 'PasswordSaved' ? (
+                            <SubHeading
+                                fontSize="12px"
+                                color="#FAFAFA"
+                                lineHeight="16px"
+                            >
+                                Your password is already saved
+                            </SubHeading>
+                        ) : (
+                            <>
+                                <StyledInput
+                                    id="auth-password"
+                                    fullWidth="80%"
+                                    mr="1.2rem"
+                                    typePassword={
+                                        functionType !== 'RenameAccount'
+                                    }
+                                    rightIcon={functionType !== 'RenameAccount'}
+                                    rightPosition="9px"
+                                    topPosition="28px"
+                                    {...styledInput}
+                                    style={{
+                                        paddingLeft: '10px !important',
+                                    }}
+                                    bgColor={darkBackground1}
+                                />
+                                <WarningText
+                                    className={subHeadingfontFamilyClass}
+                                    visibility={!!inputErrorState}
+                                >
+                                    {inputErrorState}
+                                </WarningText>{' '}
+                            </>
+                        )}
+
+                        {functionType === 'PasswordNotSaved' ? (
+                            <HorizontalContentDiv>
+                                <img
+                                    src={
+                                        savePassword
+                                            ? CheckboxEnabled
+                                            : CheckboxDisabled
+                                    }
+                                    alt="checkbox"
+                                    style={{ height: '15px', width: '15px' }}
+                                    aria-hidden
+                                    onClick={() =>
+                                        setSavePassword &&
+                                        setSavePassword(!savePassword)
+                                    }
+                                />
+                                <SubHeading
+                                    fontSize="12px"
+                                    color="#FAFAFA"
+                                    ml="12px"
+                                    lineHeight="16px"
+                                >
+                                    Remember my password for next 15 minutes
+                                </SubHeading>
+                            </HorizontalContentDiv>
+                        ) : (
+                            ''
+                        )}
                     </VerticalContentDiv>
 
                     <div className="btn-row">

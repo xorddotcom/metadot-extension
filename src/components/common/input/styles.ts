@@ -81,8 +81,8 @@ export const Field = styled.input<FieldInterface>`
             : props.border
             ? props.border
             : '0px'};
-    opacity: 0.8;
-    letter-spacing: 0.02em;
+    opacity: 0.5;
+    letter-spacing: 0.32px;
     width: ${(props) => (props.fullWidth ? props.fullWidth : '80%')};
     height: ${(props) =>
         props.tokenLogo ? '60px !important' : '45px !important'};
@@ -95,6 +95,7 @@ export const Field = styled.input<FieldInterface>`
 `;
 
 export const Icon = styled.span<IconInterface>`
+    display: flex;
     position: absolute;
     right: ${(props) => (props.rightPosition ? props.rightPosition : '9px')};
     top: ${(props) => (props.topPosition ? props.topPosition : '4px')};

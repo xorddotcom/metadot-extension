@@ -147,7 +147,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                         />
                                         <span
                                             className="tooltiptext"
-                                            style={{ fontSize: '0.7rem' }}
+                                            style={{ fontSize: '11px' }}
                                         >
                                             {copy}
                                         </span>
@@ -202,7 +202,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                         />
                                         <span
                                             className="tooltiptext"
-                                            style={{ fontSize: '0.7rem' }}
+                                            style={{ fontSize: '11px' }}
                                         >
                                             {copy}
                                         </span>
@@ -212,7 +212,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                         </VerticalContentDiv>
 
                         <img
-                            style={{ marginTop: '-8%' }}
+                            style={{ marginTop: '-6%' }}
                             src={arrowRight}
                             alt="arrow right"
                         />
@@ -245,7 +245,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                         />
                                         <span
                                             className="tooltiptext"
-                                            style={{ fontSize: '0.7rem' }}
+                                            style={{ fontSize: '11px' }}
                                         >
                                             {copy}
                                         </span>
@@ -271,7 +271,8 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                             className={mainHeadingfontFamilyClass}
                             margin="13px 0px 0px 0px"
                             fontSize="14px"
-                            color="#FFFFFF"
+                            color="rgba(255, 255, 255, 0.84)"
+                            fontWeight="500"
                         >
                             Details
                         </MainText1>
@@ -283,6 +284,8 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                     className={subHeadingfontFamilyClass}
                                     fontSize="12px"
                                     color="#FFFFFF"
+                                    fontWeight="400"
+                                    opacity="0.8"
                                 >
                                     Amount
                                 </MainText1>
@@ -310,6 +313,8 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                     margin="0px"
                                     fontSize="12px"
                                     color="#FFFFFF"
+                                    fontWeight="400"
+                                    opacity="0.8"
                                 >
                                     Total
                                 </MainText1>
@@ -344,12 +349,14 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                         </HorizontalContentDiv>
                     </VerticalContentDiv>
 
-                    {chainName !== 'ContextFree' && (
+                    <div className={`tooltip ${subHeadingfontFamilyClass}`}>
                         <VerticalContentDiv marginTop="30px">
                             <Button
                                 id="subscan-button"
                                 handleClick={() =>
-                                    window.open(getURl(hash || 'abc'))
+                                    window.open(
+                                        getURl(hash?.split('\\')[0] || 'abc')
+                                    )
                                 }
                                 text="View on Subscan"
                                 style={{
@@ -360,8 +367,22 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                 }}
                                 disabled={chainName === 'ContextFree'}
                             />
+                            {chainName === 'ContextFree' ? (
+                                <span
+                                    className="tooltiptext"
+                                    style={{
+                                        marginTop: '20px',
+                                        fontSize: '12px',
+                                        width: '140px',
+                                        marginLeft: '100px',
+                                        padding: '10px',
+                                    }}
+                                >
+                                    Explorer for this network does not exist.
+                                </span>
+                            ) : null}
                         </VerticalContentDiv>
-                    )}
+                    </div>
                 </VerticalContentDiv>
             </Box>
         </Modal>

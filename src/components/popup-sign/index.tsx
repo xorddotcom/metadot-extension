@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { approveSignPassword, cancelSignRequest } from '../../messaging';
+import {
+    approveSignPassword,
+    cancelSignRequest,
+    isSignLocked,
+} from '../../messaging';
 import {
     HorizontalContentDiv,
     VerticalContentDiv,
     Wrapper,
 } from '../common/wrapper';
 
-import { MainHeading, SubHeading, WarningText } from '../common/text';
+import {
+    MainHeading,
+    SubHeading,
+    WarningText,
+    CancelText,
+} from '../common/text';
 import { Button, Input } from '../common';
 import { fonts, images } from '../../utils';
 
-const { ContentCopyIcon } = images;
+const { ContentCopyIcon, CheckboxDisabled, CheckboxEnabled } = images;
 
 const { subHeadingfontFamilyClass } = fonts;
 
@@ -19,6 +28,32 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+    const [savePass, setSavePass] = useState(false);
+    const [isLock, setIsLock] = useState(false);
+
+    useEffect(() => {
+        setIsLock(true);
+        let timeout: NodeJS.Timeout;
+
+        isSignLocked(requests[requests.length - 1].id)
+            .then(({ isLocked, remainingTime }) => {
+                console.log(
+                    '🚀 ~ file: index.tsx ~ line 39 ~ .then ~ isLocked, remainingTime',
+                    isLocked,
+                    remainingTime
+                );
+
+                setIsLock(isLocked);
+                timeout = setTimeout(() => {
+                    setIsLock(true);
+                }, remainingTime);
+            })
+            .catch((error: Error) => console.error(error));
+
+        return () => {
+            if (timeout) clearTimeout(timeout);
+        };
+    }, []);
 
     const styledInputPassword = {
         hideHandler: () => setShowPassword(!showPassword),
@@ -81,7 +116,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
             setPasswordError(false);
             await approveSignPassword(
                 requests[requests.length - 1].id,
-                false,
+                savePass,
                 password
             );
         } catch (e) {
@@ -96,7 +131,6 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     };
     return (
         <Wrapper
-            height="570px"
             width="90%"
             style={{
                 display: 'flex',
@@ -105,7 +139,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
             }}
         >
             <VerticalContentDiv>
-                <MainHeading textAlign="center">
+                <MainHeading textAlign="center" style={{ marginTop: '0px' }}>
                     Transaction{' '}
                     {requests.length > 0 ? `(1 out of ${requests.length})` : ''}
                 </MainHeading>
@@ -113,7 +147,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
 
             <VerticalContentDiv
                 transactionTitleDiv
-                style={{ justifyContent: 'center' }}
+                style={{ justifyContent: 'center', marginTop: '30px' }}
             >
                 <HorizontalContentDiv>
                     <div
@@ -168,6 +202,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                 transactionDetailDiv
                 style={{
                     justifyContent: 'center',
+                    marginTop: '30px',
                 }}
             >
                 {Signaturedata.map((el) => {
@@ -218,62 +253,82 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                 })}
             </VerticalContentDiv>
 
-            <VerticalContentDiv transactionPasswordDiv>
-                <SubHeading ml="5px" marginTop="0px" mb="0px">
-                    Password
-                </SubHeading>
+            {isLock && (
+                <VerticalContentDiv
+                    transactionPasswordDiv
+                    style={{ marginTop: '30px' }}
+                >
+                    <SubHeading ml="5px" marginTop="0px" mb="0px">
+                        Password
+                    </SubHeading>
 
-                <Input
-                    id="TransactionPassword"
-                    value={password}
-                    onChange={(e) => handlePassword(e)}
-                    placeholder="Password For This Account"
-                    typePassword
-                    rightIcon
-                    isCorrect
-                    rightPosition="18px"
-                    topPosition="27px"
-                    {...styledInputPassword}
-                    fullWidth="89%"
-                />
-                {passwordError && (
-                    <WarningText
-                        id="warning-text"
-                        mb="5px"
-                        className={subHeadingfontFamilyClass}
-                        visibility={passwordError}
+                    <Input
+                        id="TransactionPassword"
+                        value={password}
+                        onChange={(e) => handlePassword(e)}
+                        placeholder="Password For This Account"
+                        typePassword
+                        rightIcon
+                        isCorrect
+                        rightPosition="18px"
+                        topPosition="27px"
+                        {...styledInputPassword}
+                        fullWidth="83%"
+                    />
+                    {passwordError && (
+                        <WarningText
+                            id="warning-text"
+                            mb="5px"
+                            mt="0px"
+                            className={subHeadingfontFamilyClass}
+                            visibility={passwordError}
+                        >
+                            Account can not be validated.
+                        </WarningText>
+                    )}
+                </VerticalContentDiv>
+            )}
+
+            {isLock && (
+                <HorizontalContentDiv>
+                    <img
+                        src={savePass ? CheckboxEnabled : CheckboxDisabled}
+                        alt="checkbox"
+                        style={{ height: '15px', width: '15px' }}
+                        aria-hidden
+                        onClick={() => setSavePass(!savePass)}
+                    />
+                    <SubHeading
+                        fontSize="12px"
+                        color="#FAFAFA"
+                        lineHeight="0px"
+                        ml="12px"
                     >
-                        Account can not be validated.
-                    </WarningText>
-                )}
-            </VerticalContentDiv>
+                        Remember my password for next 15 minutes
+                    </SubHeading>
+                </HorizontalContentDiv>
+            )}
 
-            <VerticalContentDiv style={{ alignItems: 'center' }}>
+            <VerticalContentDiv
+                style={{ alignItems: 'center', marginTop: '30px' }}
+            >
                 <Button
                     handleClick={handleSubmit}
                     text="Sign The Transaction"
                     id="Authorization-Popup"
                     style={{
-                        width: '80%',
+                        width: '100%',
                         height: 50,
                         borderRadius: 40,
                     }}
-                    disabled={password.length === 0}
                 />
-                <WarningText
-                    visibility
-                    style={{
-                        alignSelf: 'center',
-                        textAlign: 'center',
-                        textDecoration: 'underline',
-                        cursor: 'pointer',
-                    }}
+                <CancelText
                     onClick={() =>
                         cancelSignRequest(requests[requests.length - 1].id)
                     }
                 >
-                    cancel
-                </WarningText>
+                    Cancel
+                </CancelText>
             </VerticalContentDiv>
         </Wrapper>
     );

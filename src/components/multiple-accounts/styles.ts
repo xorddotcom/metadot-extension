@@ -45,6 +45,7 @@ export const Account = styled.div`
     );
     box-shadow: 0px 0px 40px rgba(13, 13, 13, 0.2);
     border-radius: 8px;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -75,14 +76,16 @@ export const AccountFlex = styled.div`
 
 export const AccountCircle = styled.div`
     background-color: #880041;
-    width: 25px;
-    height: 25px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
-    margin-right: 1rem;
+    margin-right: 16px;
+    display: flex;
+    justify-content: flex-end;
 `;
 
 export const AccountText = styled.div`
-    margin-left: '1rem';
+    margin-left: 16px;
     cursor: pointer;
     text-align: left;
 `;
@@ -90,19 +93,19 @@ export const AccountText = styled.div`
 export const AccountMainText = styled.p`
     font-weight: 500;
     font-size: 16px;
-    line-height: 16px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     color: #fafafa;
     opacity: 0.8;
     text-align: left;
     margin-bottom: -5px;
     cursor: pointer;
     display: inline-block;
+    margin: 3px 0px 3px 0px;
 `;
 
 export const AccountActiveText = styled.p`
     display: inline-block;
-    margin: 0px 12px;
+    margin: 3px 0px 3px 10px;
     font-size: 12px;
     color: #02cc53;
 `;
@@ -111,15 +114,16 @@ export const AccountSubText = styled.p`
     font-weight: normal;
     font-size: 14px;
     line-height: 16px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     color: rgba(250, 250, 250, 0.69);
     opacity: 0.8;
     text-align: left;
+    margin: 3px 0px 3px 0px;
 `;
 
 export const DrivedAccountMain = styled.div`
-    width: 318px;
-    margin-top: -1.24rem;
+    width: 100%;
+    margin-top: -6px;
 `;
 
 export const DrivedAccount = styled.div`
@@ -131,29 +135,25 @@ export const DrivedAccount = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 27px;
-    margin-top: -0.65rem;
-    margin-bottom: 0.2rem;
     cursor: pointer;
 `;
 
 export const Border = styled.div`
-    /* border: 0.4px solid rgba(255, 255, 255, 0.2); */
+    margin: auto;
     background: rgba(255, 255, 255, 0.1);
     width: 278px;
     height: 1px;
-    margin: 12px auto;
-    margin-left: 29px;
 `;
 
 export const DrivedAccountText = styled.p`
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     color: #ffffff;
     opacity: 0.8;
     text-align: left;
-    margin-left: 2.6rem;
+    margin-left: 41px;
 `;
 
 export const ButtonDiv = styled.div`
@@ -197,7 +197,7 @@ export const DropDownList = styled.ul`
 export const ListItem = styled.li`
     list-style: none;
     /* margin-bottom: 1em; */
-    margin-left: -1.5rem;
+    margin-left: 24px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -215,7 +215,7 @@ export const MainDiv = styled.div`
     flex-flow: column;
     justify-content: center;
     align-items: center;
-    padding: 1rem 0.5rem;
+    padding: 16px 8px;
     box-sizing: border-box;
     border-radius: 6px;
 `;
@@ -235,7 +235,7 @@ export const MainText = styled.p<MainTextInterface>`
     font-size: ${(props) => (props.fs ? props.fs : '16px')};
     line-height: ${(props) => (props.lh ? props.lh : '19px')};
     font-weight: 500;
-    letter-spacing: ${(props) => (props.ls ? props.ls : '0.01em')};
+    letter-spacing: ${(props) => (props.ls ? props.ls : '0.16px')};
     color: ${(props) => (props.color ? props.color : primaryText)};
     width: 100%;
     text-align: start;
@@ -250,4 +250,18 @@ export const CloseIconDiv = styled.div`
     top: 10px;
     color: ${primaryText};
     cursor: pointer;
+`;
+
+export const FlexColumn = styled.div`
+    display: flex;
+    flexdirection: column;
+`;
+
+export const CopyIconDiv = styled.div`
+    margin-left: 12px;
+`;
+
+export const KebabIcon = styled.img`
+    height: 20;
+    width: 5;
 `;

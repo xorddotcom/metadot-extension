@@ -33,12 +33,14 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
                         <VerticalContentDiv>
                             <MainText
                                 id="operation-coin"
+                                mt="0px"
                                 className={mainHeadingfontFamilyClass}
                                 fontSize="18px"
                             >{`${operation}`}</MainText>
                             <TxHorizontalContentDiv>
                                 <MainText
                                     id="status"
+                                    mt="0px"
                                     className={subHeadingfontFamilyClass}
                                     color={
                                         status === 'Failed' ? red : '#02CC53'
@@ -65,15 +67,16 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
                 <div
                     style={{
                         display: 'flex',
-                        justifyContent: 'flex-start',
+                        justifyContent: 'center',
                         width: '40%',
                         paddingLeft: 10,
                         alignItems: 'center',
-                        marginRight: '0.45rem',
+                        marginRight: '7px',
                     }}
                 >
                     <VerticalContentDiv>
                         <MainText
+                            mt="0px"
                             className={mainHeadingfontFamilyClass}
                             balOverFlow
                             fontSize="18px"
@@ -81,6 +84,7 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
                             textAlign="end"
                             color="#2E9B9B"
                             height="20px"
+                            style={{ lineHeight: '16px' }}
                         >
                             {`${trimBalance(Number(amount))} ${coin}`}
                         </MainText>

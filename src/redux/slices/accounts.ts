@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { AccountJson } from 'metadot-extension-base/background/types';
-import services from '../../utils/services';
 import { Accounts } from '../types';
 
 const initialState: Accounts = {

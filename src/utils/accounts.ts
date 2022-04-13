@@ -11,6 +11,7 @@ import {
     editAccount,
     validateDerivePath,
     signTransaction as signTransactionMessage,
+    isAccountLocked,
 } from '../messaging';
 
 function GenerateSeedPhrase(): string {
@@ -22,13 +23,15 @@ async function signTransaction(
     address: string,
     password: string,
     txHex: string,
-    type: string
+    type: string,
+    savePass: boolean
 ): Promise<any> {
     const { signature } = await signTransactionMessage(
         address,
         password,
         txHex,
-        type
+        type,
+        savePass
     );
     return signature;
 }
@@ -138,6 +141,11 @@ async function validateAccount(
     return result;
 }
 
+async function isPasswordSaved(address: string): Promise<boolean> {
+    const { isLocked } = await isAccountLocked(address);
+    return isLocked;
+}
+
 async function deleteAccount(address: string): Promise<boolean> {
     const result = await forgetAccount(address);
     return result;
@@ -160,4 +168,5 @@ export default {
     renameAccount,
     derivePathValidation,
     signTransaction,
+    isPasswordSaved,
 };

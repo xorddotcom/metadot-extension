@@ -44,11 +44,12 @@ const TxView: React.FunctionComponent<TxViewProps> = (
                         (transaction: TransactionRecord) =>
                             transaction.tokenName === tokenName
                     )
-                    .sort(
-                        (a: any, b: any) =>
-                            Number(new Date(b.timestamp)) -
-                            Number(new Date(a.timestamp))
-                    )
+                    .reverse()
+                    // .sort(
+                    //     (a: any, b: any) =>
+                    //         Number(new Date(b.timestamp)) -
+                    //         Number(new Date(a.timestamp))
+                    // )
                     .map((transaction) => {
                         const {
                             operation,
@@ -228,7 +229,7 @@ const AssetsAndTransactions: React.FunctionComponent<
                         name={chainName}
                         shortName={tokenName}
                         amount={trimBalance(balance)}
-                        amountInUsd={balanceInUsd}
+                        balanceInUsd={balanceInUsd}
                         logo={tokenImage}
                         isNative
                     />

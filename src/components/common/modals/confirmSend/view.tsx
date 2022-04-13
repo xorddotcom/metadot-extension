@@ -10,9 +10,10 @@ import {
     ModalText2,
     SubText2,
     VerticalContentDiv,
+    MainText1,
 } from './styledComponents';
 import { ModalText } from '../../text';
-import { fonts, helpers } from '../../../../utils';
+import { fonts, helpers, images } from '../../../../utils';
 import { RootState } from '../../../../redux/store';
 import {
     AMOUNT,
@@ -28,6 +29,7 @@ import { ConfirmSendModalViewProps } from './types';
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { trimBalance } = helpers;
 
+const { arrowRight } = images;
 const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
     handleClose,
     accountTo,
@@ -115,6 +117,12 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                             )}`}</SubText2>
                         </VerticalContentDiv>
 
+                        <img
+                            style={{ marginTop: '-6%' }}
+                            src={arrowRight}
+                            alt="arrow right"
+                        />
+
                         <VerticalContentDiv>
                             <ModalText2
                                 textAlign="end"
@@ -140,87 +148,110 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                         {TRANSACTIONS}
                     </ModalText>
 
-                    <VerticalContentDiv
-                        specialPadding
-                        border
-                        paddingBottom
-                        marginTop="2px"
-                    >
-                        <HorizontalContentDiv paddingTop borderBottom>
-                            <VerticalContentDiv marginTop="10px">
-                                <ModalText2
+                    <VerticalContentDiv specialPadding border paddingBottom>
+                        <MainText1
+                            textAlign="start"
+                            className={mainHeadingfontFamilyClass}
+                            margin="13px 0px 0px 0px"
+                            fontSize="14px"
+                            color="rgba(255, 255, 255, 0.84)"
+                            fontWeight="500"
+                        >
+                            Details
+                        </MainText1>
+
+                        <HorizontalContentDiv marginTop="10px">
+                            <VerticalContentDiv>
+                                <MainText1
                                     textAlign="start"
                                     className={subHeadingfontFamilyClass}
+                                    fontSize="12px"
+                                    color="#FFFFFF"
+                                    fontWeight="400"
+                                    opacity="0.8"
                                 >
-                                    {AMOUNT}
-                                </ModalText2>
-                                <ModalText2
-                                    marginTop="10px"
-                                    marginBottom="10px"
-                                    textAlign="start"
-                                    className={subHeadingfontFamilyClass}
-                                >
-                                    {NETWORK_FEE}
-                                </ModalText2>
+                                    Amount
+                                </MainText1>
                             </VerticalContentDiv>
 
-                            <VerticalContentDiv marginTop="10px">
-                                <ModalText2
-                                    id="amount"
+                            <VerticalContentDiv>
+                                <MainText1
                                     textAlign="end"
                                     className={mainHeadingfontFamilyClass}
-                                >{`${amount} ${locationTokenName}`}</ModalText2>
-                                <ModalText2
-                                    id="transaction-fee"
-                                    marginTop="10px"
-                                    marginBottom="10px"
+                                    fontSize="12px"
+                                    color="#FFFFFF"
+                                >{`${amount} ${tokenName}`}</MainText1>
+                            </VerticalContentDiv>
+                        </HorizontalContentDiv>
+
+                        <HorizontalContentDiv borderBottom>
+                            <VerticalContentDiv>
+                                <MainText1
+                                    textAlign="start"
+                                    className={subHeadingfontFamilyClass}
+                                    fontSize="12px"
+                                    color="#FFFFFF"
+                                    fontWeight="400"
+                                    opacity="0.8"
+                                >
+                                    {NETWORK_FEE}
+                                </MainText1>
+                            </VerticalContentDiv>
+
+                            <VerticalContentDiv>
+                                <MainText1
                                     textAlign="end"
                                     className={mainHeadingfontFamilyClass}
-                                >{`${transactionFee.toFixed(
-                                    4
-                                )} ${tokenName}`}</ModalText2>
+                                    fontSize="12px"
+                                    color="#FFFFFF"
+                                >
+                                    {`${transactionFee} ${tokenName}`}
+                                </MainText1>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
 
                         <HorizontalContentDiv paddingTop marginBottom>
-                            <VerticalContentDiv marginTop="10px">
-                                <ModalText2
+                            <VerticalContentDiv
+                                marginTop="10px"
+                                marginBottom="10px"
+                            >
+                                <MainText1
                                     textAlign="start"
                                     className={subHeadingfontFamilyClass}
+                                    margin="0px"
+                                    fontSize="12px"
+                                    color="#FFFFFF"
+                                    fontWeight="400"
+                                    opacity="0.8"
                                 >
                                     {TOTAL_AMOUNT}
-                                </ModalText2>
-                                <ModalText2
+                                </MainText1>
+                                {/* <SubText1
                                     textAlign="start"
                                     hide
                                     className={subHeadingfontFamilyClass}
                                 >
                                     .
-                                </ModalText2>
+                                </SubText1> */}
                             </VerticalContentDiv>
 
-                            <VerticalContentDiv marginTop="10px">
-                                <ModalText2
-                                    id="transaction-amount"
+                            <VerticalContentDiv
+                                marginTop="10px"
+                                marginBottom="10px"
+                            >
+                                <MainText1
                                     textAlign="end"
                                     className={mainHeadingfontFamilyClass}
+                                    margin="0px"
+                                    fontSize="19px"
+                                    fontWeight="600"
+                                    color="#2E9B9B"
                                 >
-                                    {/* {`${transactionAmount(
-                                    amount,
-                                    transactionFee
-                                )} ${tokenName}`} */}
-                                    {totalAmount(
-                                        Number(amount),
-                                        Number(transactionFee)
-                                    )}
-                                </ModalText2>
-                                <ModalText2
-                                    textAlign="end"
-                                    hide
-                                    className={mainHeadingfontFamilyClass}
-                                >
-                                    {tokenName[0] === 'WND' ? '' : '$ 594.304'}
-                                </ModalText2>
+                                    {`${transactionAmount(
+                                        amount,
+                                        transactionFee
+                                    )} ${tokenName}`}
+                                </MainText1>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
                     </VerticalContentDiv>

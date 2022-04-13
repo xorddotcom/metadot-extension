@@ -200,7 +200,7 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                         <img
                             src={UploadFileIcon}
                             alt="upload-file-icon"
-                            style={{ marginRight: '1rem' }}
+                            style={{ marginRight: '16px' }}
                         />
                         <div>{fileNameRender()}</div>
                     </HorizontalContentDiv>
@@ -210,8 +210,8 @@ const UploadJson: React.FC<UploadJSONInterface> = ({
                                 onClick={() => handleClick('cancel')}
                                 fontSize="small"
                                 style={{
-                                    marginTop: '0.2rem',
-                                    marginRight: '-0.3rem',
+                                    marginTop: '3.2px',
+                                    marginRight: '-4.8px',
                                 }}
                             />
                         </div>

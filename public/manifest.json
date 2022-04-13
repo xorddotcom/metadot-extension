@@ -1,7 +1,11 @@
 {
   "name": "Metadot",
   "description": "An extension based crypto wallet for Polkadot, Kusama and their parachains",
+<<<<<<< HEAD
   "version": "1.0.0",
+=======
+  "version": "1.1.6",
+>>>>>>> f7a0ed76d7a293664fb3ba1a7b80f523b0536986
   "manifest_version": 2,
   "permissions": ["storage", "tabs"],
   "browser_action": {

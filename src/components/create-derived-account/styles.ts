@@ -44,11 +44,13 @@ export const AccountCircle = styled.div`
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    margin-right: 1rem;
+    margin-right: 16px;
+    display: flex;
+    justify-content: flex-end;
 `;
 
 export const AccountText = styled.div`
-    margin-left: '1rem';
+    margin-left: '16px';
     cursor: pointer;
     text-align: left;
 `;
@@ -57,13 +59,14 @@ export const AccountMainText = styled.p`
     font-weight: 500;
     font-size: 16px;
     line-height: 16px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     color: #fafafa;
     opacity: 0.8;
     text-align: left;
     margin-bottom: -5px;
     cursor: pointer;
     display: inline-block;
+    margin: 3px 0px 3px 0px;
 `;
 
 export const AccountActiveText = styled.p`
@@ -77,10 +80,11 @@ export const AccountSubText = styled.p`
     font-weight: normal;
     font-size: 14px;
     line-height: 16px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     color: rgba(250, 250, 250, 0.69);
     opacity: 0.8;
     text-align: left;
+    margin: 3px 0px 3px 0px;
 `;
 
 export const CopyIconImg = styled.img`

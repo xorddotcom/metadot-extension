@@ -49,7 +49,7 @@ const WelcomeView: React.FunctionComponent<WelcomeViewProps> = (
                         borderRadius: 40,
                     }}
                 />
-                <div style={{ margin: '0.5rem' }} />
+                <div style={{ margin: '8px' }} />
                 <Button
                     id="btn-import"
                     lightBtn

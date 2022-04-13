@@ -66,7 +66,7 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
             maxWidth: '70px',
             left: '20%',
             bottom: '120%',
-            fontSize: '0.7rem',
+            fontSize: '11px',
             fontWeight: 300,
             transition: 'all 0.1s ease-in',
         },
@@ -157,7 +157,7 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
                     id="balance-in-usd"
                     className={mainHeadingfontFamilyClass}
                 >
-                    ${balanceInUsd}
+                    ${balanceInUsd === 0 ? 0 : balanceInUsd.toFixed(5)}
                 </PerUnitPrice>
             </VerticalContentDiv>
         </MainPanel>

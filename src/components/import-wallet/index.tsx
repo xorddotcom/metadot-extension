@@ -194,7 +194,7 @@ function ImportWallet(): JSX.Element {
         className: mainHeadingfontFamilyClass,
         fontWeight: 'bold',
         lineHeight: '21px',
-        fontSize: '18px',
+        fontSize: '16px',
     };
 
     const btn = {
@@ -204,6 +204,7 @@ function ImportWallet(): JSX.Element {
             width: '100%',
             height: 50,
             borderRadius: 40,
+            marginTop: '20px',
         },
         handleClick: () => {
             setIsLoading(true);
@@ -287,7 +288,7 @@ function ImportWallet(): JSX.Element {
                 {selectedType === 'json' && (
                     <div
                         style={{
-                            marginTop: '1rem',
+                            marginTop: '16px',
                         }}
                     >
                         <UploadJson {...UploadJsonProps} />

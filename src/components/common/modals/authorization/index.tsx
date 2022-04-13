@@ -20,23 +20,32 @@ const { subHeadingfontFamilyClass } = fonts;
 const { validateAccount } = accounts;
 
 const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
-    const { open, handleClose, style, onConfirm, publicKey, functionType } =
-        props;
+    const {
+        open,
+        handleClose,
+        style,
+        onConfirm,
+        publicKey,
+        functionType,
+        savePassword,
+        setSavePassword,
+    } = props;
 
-    const isPassword = functionType !== 'RenameAccount';
+    const isPassword =
+        functionType !== 'RenameAccount' && functionType !== 'PasswordSaved';
 
     const generalDispatcher = useDispatcher();
 
     const [input, setInput] = useState('');
     const [isBtnLoading, setIsBtnLoading] = useState(false);
 
-    const [passwordError, setPasswordError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [inputErrorState, setInputErrorState] = useState('');
 
     const handleSubmit = async (): Promise<boolean> => {
-        if (!input) {
-            return false;
-        }
+        // if (!input) {
+        //     return false;
+        // }
         try {
             setIsBtnLoading(true);
             if (isPassword) {
@@ -54,19 +63,20 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
             generalDispatcher(() => setAuthScreenModal(false));
             generalDispatcher(() => setConfirmSendModal(true));
             setInput('');
+            setIsBtnLoading(false);
             return true;
         } catch (err) {
-            console.log('In catch error', err);
-            setPasswordError('Invalid password!');
+            setInputErrorState('Invalid password');
             setIsBtnLoading(false);
             return false;
         }
     };
 
     const closeModal = (): void => {
-        setPasswordError('');
+        setInputErrorState('');
         setInput('');
         handleClose();
+        setIsBtnLoading(false);
     };
 
     const styledInput = {
@@ -75,12 +85,15 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
         className: subHeadingfontFamilyClass,
         fontSize: '12px',
         onChange: (t: string) => {
+            setInputErrorState('');
             if (t.length < 20) setInput(t);
-            setPasswordError('');
+            else {
+                setInputErrorState('Only 19 characters allowed.');
+            }
         },
         hideHandler: () => setShowPassword(!showPassword),
         hideState: showPassword,
-        mt: '0.03rem',
+        mt: '0.48px',
     };
 
     const btnF = {
@@ -89,6 +102,7 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
             width: '110px',
             height: '40px',
             borderRadius: '40px',
+            fontSize: '14px',
         },
         handleClick: () => closeModal(),
     };
@@ -99,8 +113,10 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
             width: '110px',
             height: '40px',
             borderRadius: '40px',
+            fontSize: '14px',
         },
-        disabled: isBtnLoading || input.length === 0,
+        // disabled: isBtnLoading || input.length === 0,
+        disabled: isBtnLoading,
         isLoading: isBtnLoading,
         handleClick: () => handleSubmit(),
     };
@@ -111,10 +127,12 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
             style={style}
             onClose={() => closeModal()}
             styledInput={styledInput}
-            passwordError={passwordError}
             btnCancel={btnF}
             btnConfirm={btnS}
             functionType={functionType}
+            inputErrorState={inputErrorState}
+            savePassword={savePassword}
+            setSavePassword={setSavePassword}
         />
     );
 };

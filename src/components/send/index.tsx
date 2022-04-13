@@ -12,7 +12,7 @@ import { images } from '../../utils';
 import { RootState } from '../../redux/store';
 import accounts from '../../utils/accounts';
 import services from '../../utils/services';
-import { Wrapper as AuthWrapper } from '../common/wrapper';
+import { Wrapper, HorizontalContentDiv } from '../common/wrapper';
 import { WarningModal, AuthModal } from '../common/modals';
 import {
     setAuthScreenModal,
@@ -20,15 +20,18 @@ import {
     setConfirmSendModal,
 } from '../../redux/slices/modalHandling';
 import { addTransaction } from '../../redux/slices/transactions';
-import { DASHBOARD } from '../../constants';
+import { DASHBOARD, BATCH_SEND } from '../../constants';
 import useDispatcher from '../../hooks/useDispatcher';
 import useResponseModal from '../../hooks/useResponseModal';
 import SendView from './view';
 import { getExistentialDepositConfig } from '../../utils/existentialDeposit';
 
-const { UnsuccessCheckIcon, SuccessCheckPngIcon } = images;
+import { SubHeading } from '../common/text';
+import { Header } from '../common';
 
-const { signTransaction } = accounts;
+const { UnsuccessCheckIcon, SuccessCheckPngIcon, ToggleOff, ToggleOn } = images;
+
+const { signTransaction, isPasswordSaved } = accounts;
 
 const errorMessages = {
     invalidAddress: 'Invalid address',
@@ -70,6 +73,9 @@ const Send: React.FunctionComponent = () => {
         firstToggle: false,
         secondToggle: false,
     });
+    const [savePassword, setSavePassword] = useState(false);
+    const [passwordSaved, setPasswordSaved] = useState(false);
+
     const currReduxState = useSelector((state: RootState) => state);
     const { activeAccount, modalHandling } = useSelector(
         (state: RootState) => state
@@ -139,8 +145,11 @@ const Send: React.FunctionComponent = () => {
     }, []);
 
     useEffect(() => {
-        console.log('Tx fee changed ------>>>', balance);
-    }, [transactionFee]);
+        isPasswordSaved(publicKey).then((res) => {
+            setPasswordSaved(!res);
+            setSavePassword(!res);
+        });
+    }, []);
 
     useEffect(() => {
         if (balance - transactionFee > existentialDeposit) {
@@ -244,7 +253,8 @@ const Send: React.FunctionComponent = () => {
                 address,
                 password,
                 txHex,
-                'substrate'
+                'substrate',
+                savePassword
             );
         } catch (err) {
             setLoading2(false);
@@ -582,6 +592,10 @@ const Send: React.FunctionComponent = () => {
             console.log('Tx fee', transactionFee);
             setInsufficientBal(false);
             setInsufficientTxFee(false);
+            setTransferAll({
+                transferAll: false,
+                keepAlive: false,
+            });
             // if (amount > e) setAmount(e);
             if (e[0] === '0' && e[1] === '0') {
                 return false;
@@ -627,6 +641,52 @@ const Send: React.FunctionComponent = () => {
         tokenName,
         balance,
         insufficientTxFee,
+        transferAll,
+    };
+
+    const ED = {
+        onChange: (e: string): boolean => {
+            setTransferAll({
+                transferAll: false,
+                keepAlive: false,
+            });
+            // if (amount > e) setAmount(e);
+            if (e[0] === '0' && e[1] === '0') {
+                return false;
+            }
+            if (e.length < 14) {
+                let decimalInStart = false;
+                if (e[0] === '.') {
+                    // eslint-disable-next-line no-param-reassign
+                    e = `0${e}`;
+                    decimalInStart = true;
+                }
+                const reg = /^-?\d+\.?\d*$/;
+                const test = reg.test(e);
+
+                if (!test && e.length !== 0 && !decimalInStart) {
+                    return false;
+                }
+                if (Number(e) + transactionFee >= balance) {
+                    setInsufficientBal(true);
+                }
+                setInsufficientBal(false);
+                if (e.length === 0) {
+                    setAmount(e);
+                    setIsInputEmpty(true);
+                } else {
+                    setAmount(e);
+                    setIsInputEmpty(false);
+                }
+                return true;
+            }
+            return false;
+        },
+        setTransferAll,
+        setAmountOnToggle,
+        disableToggleButtons,
+        existentialDeposit,
+        transferAll,
     };
 
     const nextBtn = {
@@ -673,19 +733,40 @@ const Send: React.FunctionComponent = () => {
         subText: subTextForWarningModal,
     };
 
+    const handleBatchSwitch = (): void => {
+        navigate(BATCH_SEND);
+    };
+
     return (
-        <AuthWrapper width="89%">
+        <Wrapper width="88%">
+            <Header
+                centerText="Send"
+                overWriteBackHandler={() => navigate(DASHBOARD)}
+            />
+
+            <HorizontalContentDiv justifyContent="flex-end" marginTop="28px">
+                <SubHeading onClick={handleBatchSwitch}>
+                    Batch Transactions
+                </SubHeading>
+                <img
+                    src={ToggleOff}
+                    alt="Toggle"
+                    style={{ marginLeft: '10px' }}
+                    aria-hidden
+                    onClick={handleBatchSwitch}
+                />
+            </HorizontalContentDiv>
+
             <SendView
                 toInput={toInput}
                 amountInput={amountInput}
+                ED={ED}
                 confirmSend={confirmSend}
                 nextBtn={nextBtn}
                 setTransferAll={setTransferAll}
                 setAmountOnToggle={setAmountOnToggle}
-                // transactionFee={transactionFee}
-                // existentialDeposit={existentialDeposit}
-                // disableToggleButtons={disableToggleButtons}
             />
+
             <AuthModal
                 publicKey={publicKey}
                 open={authScreenModal}
@@ -702,6 +783,11 @@ const Send: React.FunctionComponent = () => {
                     //     ? doTransactionTransferAll
                     //     : doTransaction
                 }
+                functionType={
+                    passwordSaved ? 'PasswordSaved' : 'PasswordNotSaved'
+                }
+                savePassword={savePassword}
+                setSavePassword={setSavePassword}
                 style={{
                     width: '290px',
                     background: '#141414',
@@ -713,7 +799,7 @@ const Send: React.FunctionComponent = () => {
                 }}
             />
             <WarningModal {...warningModal} />
-        </AuthWrapper>
+        </Wrapper>
     );
 };
 

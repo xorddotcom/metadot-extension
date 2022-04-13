@@ -39,6 +39,7 @@ export const MainText1 = styled.p<CommonTextInterface>`
     color: ${(props) =>
         props.color ? props.color : 'rgba(250, 250, 250, 0.85)'};
     text-align: ${(props) => props.textAlign};
+    opacity: ${(props) => props.opacity && props.opacity};
 `;
 
 export const MainText2 = styled.p<CommonTextInterface>`
@@ -52,12 +53,12 @@ export const MainText2 = styled.p<CommonTextInterface>`
 `;
 
 export const SubText1 = styled.p<CommonTextInterface>`
-    font-size: 0.803rem;
+    font-size: 12px;
     line-height: 16px;
     height: 16px;
     visibility: ${(props) => (props.hide ? 'hidden' : 'normal')};
     /* identical to box height, or 114% */
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     /* Text and Icons */
     color: ${primaryText};
     opacity: 0.8;
@@ -66,11 +67,11 @@ export const SubText1 = styled.p<CommonTextInterface>`
 `;
 
 export const SubText2 = styled.p<CommonTextInterface>`
-    font-size: 0.803rem;
+    font-size: 12px;
     line-height: 16px;
     height: 16px;
     /* identical to box height, or 114% */
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     color: rgba(250, 250, 250, 0.7);
     opacity: 0.8;
     text-align: ${(props) => props.textAlign};

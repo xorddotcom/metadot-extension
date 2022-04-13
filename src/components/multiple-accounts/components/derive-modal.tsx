@@ -62,7 +62,7 @@ const DeriveModal: React.FunctionComponent<DeriveModalInterface> = ({
         },
         hideHandler: () => setShowPassword(!showPassword),
         hideState: showPassword,
-        mt: '0.03rem',
+        mt: '0.48px',
     };
 
     const input = {
@@ -87,7 +87,7 @@ const DeriveModal: React.FunctionComponent<DeriveModalInterface> = ({
             borderRadius: 40,
         },
         disabled: password.length === 0 || isLoading,
-        fontSize: '0.8rem',
+        fontSize: '12px',
         isLoading,
         handleClick: () => derivationValidate(publicKey, '//0', password),
     };

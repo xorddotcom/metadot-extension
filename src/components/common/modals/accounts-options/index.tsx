@@ -146,7 +146,7 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
             modal: () => accountCreation(),
         },
         {
-            name: 'Derive an Account',
+            name: 'Derive Account',
             image: derivedAccountIcon,
             modal: () => newDeriveAccount,
         },
@@ -210,7 +210,7 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
                         />
                         {accountOptions.map((account: any) => {
                             if (
-                                account.name === 'Derive an Account' &&
+                                account.name === 'Derive Account' &&
                                 checkIfDerivedAccount()
                             )
                                 return null;

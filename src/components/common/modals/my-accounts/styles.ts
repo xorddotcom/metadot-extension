@@ -74,8 +74,8 @@ export const HorizontalContentDiv = styled.div`
     padding-left: 20px;
 
     img {
-        width: 1.8rem;
-        height: 1.8rem;
+        width: 28px;
+        height: 28px;
         border-radius: 50%;
     }
 `;
@@ -93,7 +93,7 @@ export const OptionText = styled.div`
     margin-left: 20px;
     font-size: 14px;
     line-height: 16px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     color: ${primaryText};
     opacity: 0.8;
 `;

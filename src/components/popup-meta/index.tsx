@@ -6,7 +6,7 @@ import {
     VerticalContentDiv,
     Wrapper,
 } from '../common/wrapper';
-import { MainHeading, SubHeading, WarningText } from '../common/text';
+import { MainHeading, SubHeading, CancelText } from '../common/text';
 import { Button } from '../common';
 
 const { WarningTriangleIcon } = images;
@@ -106,8 +106,7 @@ const PopupMeta: React.FunctionComponent<any> = ({ requests }) => {
                     }
                 />
 
-                <WarningText
-                    visibility
+                <CancelText
                     style={{
                         alignSelf: 'center',
                         textAlign: 'center',
@@ -118,8 +117,8 @@ const PopupMeta: React.FunctionComponent<any> = ({ requests }) => {
                         rejectMetaRequest(requests[requests.length - 1].id)
                     }
                 >
-                    cancel
-                </WarningText>
+                    Cancel
+                </CancelText>
             </VerticalContentDiv>
         </Wrapper>
     );

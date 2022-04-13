@@ -22,8 +22,8 @@ const index: React.FunctionComponent<EnterSeedInterface> = ({
             color: primaryText,
             width: '100%',
             borderRadius: '8px',
-            fontSize: '0.8rem',
-            lineHeight: '1.7em',
+            fontSize: '12px',
+            height: '120px',
         },
         className: subHeadingfontFamilyClass,
         onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -37,7 +37,7 @@ const index: React.FunctionComponent<EnterSeedInterface> = ({
     useEffect(() => setPassword(''));
 
     return (
-        <div style={{ marginTop: '1rem', height: 167 }}>
+        <div style={{ marginTop: '16px', height: 167 }}>
             <form
                 onSubmit={(e) => {
                     e.preventDefault();

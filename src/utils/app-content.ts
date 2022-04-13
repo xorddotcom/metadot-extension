@@ -79,7 +79,7 @@ export const LOCK_TEXT = `Lock`;
 
 export const SEED_INPUT_PLACEHOLDER = `Place your seed here`;
 
-export const CREATE_DERIVE_ACCOUNT_TEXT = `Derive an Account`;
+export const CREATE_DERIVE_ACCOUNT_TEXT = `Derive Account`;
 
 export const REMOVE_ACCOUNT = `Remove Account`;
 export const RENAME_ACCOUNT = `Rename Account`;

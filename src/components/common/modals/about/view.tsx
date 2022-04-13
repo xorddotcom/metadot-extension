@@ -23,7 +23,7 @@ import {
     ABOUT_METADOT_DESCRIPTION,
 } from '../../../../utils/app-content';
 
-const { logo } = images;
+const { logo, crossIcon } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
 const AboutView: React.FunctionComponent<AboutModalProps> = ({
@@ -41,7 +41,7 @@ const AboutView: React.FunctionComponent<AboutModalProps> = ({
                         handleClose();
                     }}
                 >
-                    <CloseIcon />
+                    <img src={crossIcon} alt="cros icon" />
                 </CloseIconDiv>
                 <VerticalContentDiv marginTop="30px">
                     <MainText1
@@ -75,6 +75,8 @@ const AboutView: React.FunctionComponent<AboutModalProps> = ({
                                 textDecoration: 'underline',
                                 marginBottom: 5,
                                 cursor: 'pointer',
+                                fontSize: '14px',
+                                margin: '8px 0px',
                             }}
                             onClick={() => window.open('https://metadot.app/')}
                             role="link"
@@ -88,6 +90,8 @@ const AboutView: React.FunctionComponent<AboutModalProps> = ({
                                 textDecoration: 'underline',
                                 marginBottom: 5,
                                 cursor: 'pointer',
+                                fontSize: '14px',
+                                margin: '8px 0px',
                             }}
                             onClick={() => window.open('https://metadot.app/')}
                             role="link"

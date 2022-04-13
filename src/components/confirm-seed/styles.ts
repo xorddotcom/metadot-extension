@@ -48,7 +48,7 @@ export const SeedGridRow = styled.div`
     grid-template-columns: repeat(4, 1fr);
     width: 100%;
     border-radius: 8px;
-    grid-column-gap: 0.4rem;
+    grid-column-gap: 6px;
 `;
 
 export const SeedGrid = styled.div`

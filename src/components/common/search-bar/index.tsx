@@ -38,6 +38,7 @@ const SearchBar: React.FunctionComponent<Props> = ({
                     marginLeft: '15px',
                     color: '#FAFAFA',
                     opacity: '0.8',
+                    fontSize: '14px',
                 }}
                 id={id}
             />

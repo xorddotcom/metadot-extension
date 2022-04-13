@@ -20,7 +20,6 @@ export const Wrapper = styled.div`
 `;
 
 export const MainContent = styled.div`
-    margin: 34px auto 25px;
     width: 100%;
 `;
 
@@ -34,8 +33,10 @@ export const VerticalContentDiv = styled.div<VerticalContentDivPropsInterface>`
 export const HorizontalContentDiv = styled.div<VerticalContentDivPropsInterface>`
     display: flex;
     width: 100%;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: ${(props) =>
+        props.flexDirection ? props.flexDirection : 'row'};
+    align-items: ${(props) =>
+        props.flexDirection ? props.flexDirection : 'center'};
 `;
 
 export const FromAccount = styled(HorizontalContentDiv)`
@@ -67,7 +68,7 @@ export const MainText = styled.p<MainTextPropsInterface>`
     font-size: ${(props) => (props.fs ? props.fs : '16px')};
     line-height: ${(props) => (props.lh ? props.lh : '19px')};
     font-weight: 500;
-    letter-spacing: ${(props) => (props.ls ? props.ls : '0.01em')};
+    letter-spacing: ${(props) => (props.ls ? props.ls : '0.16px')};
     color: ${(props) => (props.color ? props.color : primaryText)};
     width: 100%;
     text-align: start;
@@ -81,7 +82,7 @@ export const Balance = styled.p`
     width: 100%;
     height: 14.12px;
     line-height: 16px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.32px;
     margin: 0px;
     color: rgba(250, 250, 250, 0.8);
     text-align: ${(props: { textAlign?: string }) =>
@@ -95,7 +96,7 @@ export const EquivalentInUSDT = styled.p`
     color: rgba(250, 250, 250, 0.8);
     text-align: start;
     margin: 0px;
-    margin-top: -1rem;
+    margin-top: -16px;
 `;
 
 export const CalculatedAmount = styled.div<CalculatedAmountInterface>`
@@ -106,7 +107,7 @@ export const CalculatedAmount = styled.div<CalculatedAmountInterface>`
     align-items: center;
     flex-direction: row;
     align-items: center;
-    margin-left: 0.3rem;
+    margin-left: 5px;
     margin-top: ${(props) => props.marginTop && props.marginTop};
 `;
 

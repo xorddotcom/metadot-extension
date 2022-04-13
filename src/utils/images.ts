@@ -47,6 +47,7 @@ import RemoveIcon from '../assets/images/icons/Remove.svg';
 import derivedAccountIcon from '../assets/images/icons/deriveAccount.svg';
 
 import dropDownIcon from '../assets/images/icons/3Dots.svg';
+import crossIconRound from '../assets/images/icons/crossIcon.svg';
 import downIcon from '../assets/images/icons/downArrow.svg';
 import upArrowIcon from '../assets/images/icons/upArrow.svg';
 
@@ -81,7 +82,23 @@ import visibilityOn from '../assets/images/icons/openEye.svg';
 import rightArrowIcon from '../assets/images/icons/rightArrowIcon.svg';
 import Importicon from '../assets/images/icons/import.svg';
 
+import ToggleOn from '../assets/images/icons/toggle_on.svg';
+import ToggleOff from '../assets/images/icons/toggle_off.svg';
+import PlusIcon from '../assets/images/icons/plus_vector.svg';
+import GoUpIcon from '../assets/images/icons/go_up_vector.svg';
+import CSVIcon from '../assets/images/icons/csv_icon.svg';
+import AddCircle from '../assets/images/icons/add_circle.svg';
+import GoUpButton from '../assets/images/icons/go_up.svg';
+import DeleteIcon from '../assets/images/icons/delete.svg';
+import EditIcon from '../assets/images/icons/edit.svg';
+
+import SendFeatureIcon from '../assets/images/icons/SendFeature.svg';
+import SwapFeatureIcon from '../assets/images/icons/SwapFeature.svg';
+import GovernanceFeatureIcon from '../assets/images/icons/GovernanceFeature.svg';
+import StakeFeatureIcon from '../assets/images/icons/StakeFeature.svg';
+
 export default {
+    crossIconRound,
     Importicon,
     externalLink,
     expandView,
@@ -151,4 +168,17 @@ export default {
     greenCheck,
     connected,
     ContentCopyIconWhite,
+    ToggleOff,
+    ToggleOn,
+    CSVIcon,
+    AddCircle,
+    GoUpButton,
+    DeleteIcon,
+    EditIcon,
+    PlusIcon,
+    GoUpIcon,
+    SendFeatureIcon,
+    SwapFeatureIcon,
+    GovernanceFeatureIcon,
+    StakeFeatureIcon,
 };

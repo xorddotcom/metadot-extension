@@ -4,24 +4,27 @@ import Header from '../common/header';
 import Button from '../common/button';
 import { MainContent, CenterContent, Wrapper } from './style';
 import ConfirmSend from '../common/modals/confirmSend';
-import FromInput from './components/from-input';
-import ToInput from './components/to-input';
-import AmountInput from './components/amount-input';
+
+import FromInput from '../common/from-input';
+import ToInput from '../common/to-input';
+import AmountInput from '../common/amount-input';
+import EDC from './components/existential-deposit';
 import { SendViewProps } from './types';
 
 const SendView: React.FunctionComponent<SendViewProps> = (props) => {
-    const { toInput, amountInput, nextBtn, confirmSend } = props;
+    const { toInput, amountInput, ED, nextBtn, confirmSend } = props;
     return (
         <>
-            <Header centerText="Send" />
+            <FromInput />
             <MainContent>
-                <FromInput />
                 <ToInput {...toInput} />
                 <AmountInput {...amountInput} />
+                <EDC {...ED} />
             </MainContent>
             <CenterContent>
                 <Button {...nextBtn} />
             </CenterContent>
+
             <ConfirmSend {...confirmSend} />
         </>
     );

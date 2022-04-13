@@ -50,7 +50,7 @@ const AccountCard: React.FunctionComponent<{
             maxWidth: '70px',
             left: '20%',
             bottom: '120%',
-            fontSize: '0.7rem',
+            fontSize: '11px',
             fontWeight: 300,
             transition: 'all 0.1s ease-in',
         },
@@ -61,18 +61,16 @@ const AccountCard: React.FunctionComponent<{
     return (
         <Account key={publicKey} marginBottom="10px" marginTop="10px">
             <AccountFlex>
-                {activeAccount.publicKey === publicKey && (
-                    <img
-                        style={{
-                            position: 'relative',
-                            left: '24px',
-                            bottom: '8px',
-                        }}
-                        src={activeIcon}
-                        alt="active-account-icon"
-                    />
-                )}
-                <AccountCircle />
+                <AccountCircle>
+                    {activeAccount.publicKey === publicKey && (
+                        <img
+                            height="10px"
+                            width="10px"
+                            src={activeIcon}
+                            alt="active-account-icon"
+                        />
+                    )}
+                </AccountCircle>
                 <AccountText>
                     <AccountMainText
                         style={{ height: '18px' }}
@@ -88,7 +86,11 @@ const AccountCard: React.FunctionComponent<{
                 </AccountText>
             </AccountFlex>
             <div {...copyIconTooltip}>
-                <CopyIconImg src={ContentCopyIcon} alt="copy-icon" />
+                <CopyIconImg
+                    src={ContentCopyIcon}
+                    alt="copy-icon"
+                    style={{ height: 14, width: 14 }}
+                />
                 <span {...copyIconTooltipText}>{copy}</span>
             </div>
         </Account>

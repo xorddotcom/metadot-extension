@@ -256,6 +256,34 @@ const getTransactionFee = async (
     }
 };
 
+const getBatchTransactionFee = async (
+    api: ApiPromiseType,
+    sender: string,
+    recepientList: any,
+    tokenName: string
+): Promise<number> => {
+    try {
+        const decimals = api?.registry?.chainDecimals[0];
+
+        const txs = recepientList.map((recepient: any) => {
+            return api.tx.balances.transfer(
+                recepient.address,
+                BigInt(Number(recepient.amount) * 10 ** decimals)
+            );
+        });
+
+        const info = await api?.tx?.utility?.batch(txs)?.paymentInfo(sender);
+
+        const txFee = await convertTransactionFee(
+            tokenName,
+            info.partialFee.toHuman()
+        );
+        return txFee;
+    } catch (err) {
+        return 0;
+    }
+};
+
 const addressMapper = (address: string, prefix: number): string =>
     encodeAddress(address, prefix);
 
@@ -264,6 +292,7 @@ export default {
     getBalance,
     getSender,
     getTransactionFee,
+    getBatchTransactionFee,
     addressMapper,
     convertTransactionFee,
     fetchBalanceWithMultipleTokens,

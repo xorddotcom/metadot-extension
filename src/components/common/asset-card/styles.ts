@@ -35,7 +35,7 @@ export const CoinName = styled.p`
     width: 100%;
     font-size: 12px;
     line-height: 14px;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.16px;
     color: #ffffff;
     margin-top: 0px;
     margin-bottom: 3px;

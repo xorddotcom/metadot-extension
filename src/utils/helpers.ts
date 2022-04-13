@@ -1,3 +1,5 @@
+import { hexToU8a, isHex } from '@polkadot/util';
+import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 import constants from '../constants/onchain';
 
 function arrayFromSeedSentence(seed: string): Array<string> {
@@ -90,88 +92,22 @@ const trimBalance = (value: string | number): string => {
     return trimmedValue;
 };
 
-async function getKSM(): Promise<any> {
-    let amm;
-    await fetch(constants.USD_PER_KSM_API)
-        .then((response) => response.json())
-        .then((data) => {
-            amm = data;
-        });
-    return amm;
-}
-
-async function getDOT(): Promise<any> {
-    let amm;
-    await fetch(constants.USD_PER_POLKADOT_API)
-        .then((response) => response.json())
-        .then((data) => {
-            amm = data;
-        });
-    return amm;
-}
-
-async function getASTR(): Promise<any> {
-    let amm;
-    await fetch(constants.USD_PER_ASTAR_API)
-        .then((response) => response.json())
-        .then((data) => {
-            amm = data;
-        });
-    return amm;
-}
-
-async function getSDN(): Promise<any> {
-    let amm;
-    await fetch(constants.USD_PER_SHIDEN_API)
-        .then((response) => response.json())
-        .then((data) => {
-            amm = data;
-        });
-    return amm;
-}
-
-async function getKAR(): Promise<any> {
-    let amm;
-    await fetch(constants.USD_PER_KARURA_API)
-        .then((response) => response.json())
-        .then((data) => {
-            amm = data;
-        });
-    return amm;
-}
-
 async function convertIntoUsd(
-    token: string,
-    amountToConvert: number
+    chainName: string,
+    amount: number
 ): Promise<number> {
-    let converted = 0;
-    if (token === 'KSM') {
-        const oneKSMintoUsd = await getKSM();
-        converted = Number(
-            (Number(amountToConvert) * oneKSMintoUsd.kusama.usd).toFixed(3)
-        );
-    } else if (token === 'DOT') {
-        const oneDOTIntoUsd = await getDOT();
-        converted = Number(
-            (Number(amountToConvert) * oneDOTIntoUsd.polkadot.usd).toFixed(3)
-        );
-    } else if (token === 'ASTR') {
-        const oneASTRintoUsd = await getASTR();
-        converted = Number(
-            (Number(amountToConvert) * oneASTRintoUsd.astar.usd).toFixed(3)
-        );
-    } else if (token === 'SDN') {
-        const oneSDNintoUsd = await getSDN();
-        converted = Number(
-            (Number(amountToConvert) * oneSDNintoUsd.shiden.usd).toFixed(3)
-        );
-    } else if (token === 'KAR') {
-        const oneKARintoUsd = await getKAR();
-        converted = Number(
-            (Number(amountToConvert) * oneKARintoUsd.karura.usd).toFixed(3)
-        );
+    try {
+        const val = await fetch(
+            `https://api.coingecko.com/api/v3/simple/price?ids=${chainName}&vs_currencies=Usd`
+        )
+            .then((res) => res.json())
+            .then((data) => {
+                return data;
+            });
+        return val[chainName.toLowerCase()].usd * amount;
+    } catch (err) {
+        return 0;
     }
-    return converted;
 }
 
 // function showInternetSnackBar() {
@@ -258,6 +194,17 @@ const openOptions = async (url: string): Promise<void> => {
     }
 };
 
+const isValidAddressPolkadotAddress = (address: string): boolean => {
+    try {
+        encodeAddress(
+            isHex(address) ? hexToU8a(address) : decodeAddress(address)
+        );
+        return true;
+    } catch (err) {
+        return false;
+    }
+};
+
 export default {
     arrayFromSeedSentence,
     arrayOfFourRandomNumbers,
@@ -272,5 +219,6 @@ export default {
     dateFormatter,
     openOptions,
     isTabViewOpened,
+    isValidAddressPolkadotAddress,
     // showInternetSnackBar,
 };

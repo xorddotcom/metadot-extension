@@ -1,5 +1,6 @@
 import { SetStateAction } from 'react';
-import { RootState } from '../../redux/store';
+import { AmountInputInterface } from '../common/amount-input/types';
+import { ToInputInterface } from '../common/to-input/types';
 
 export interface errorMessages {
     invalidAddress?: string;
@@ -39,20 +40,13 @@ export interface actionAmountReducerType {
     txFee?: number;
 }
 
-export interface ToInputInterface {
-    errorMessages: errorMessages;
-    onChange(e: string): void;
-    isCorrect: boolean;
-    receiverAddress: string;
-}
-
 export interface Account {
     publicKey: string;
     accountName: string;
     parentAddress?: string;
 }
 
-export interface AmountInputInterface {
+export interface ExistensialDepositInterface {
     onChange(e: string): void;
     maxInputHandler(): void;
     insufficientBal: boolean;
@@ -63,10 +57,10 @@ export interface AmountInputInterface {
     tokenName: string;
     setTransferAll: React.Dispatch<SetStateAction<transferAllType>>;
     setAmountOnToggle(input: boolean, keepAlive: boolean): void;
-
-    existentialDeposit: number;
     disableToggleButtons: disableToggleButtons;
     insufficientTxFee: boolean;
+    existentialDeposit: number;
+    transferAll: transferAllType;
 }
 
 type transferAllType = {
@@ -82,6 +76,7 @@ type disableToggleButtons = {
 export interface SendViewProps {
     toInput: ToInputInterface;
     amountInput: AmountInputInterface;
+    ED: any;
     nextBtn: {
         id: string;
         text: string;
@@ -105,6 +100,13 @@ export interface SendViewProps {
     setAmountOnToggle(input: boolean, keepAlive: boolean): void;
 }
 
+export interface BatchSendViewProps {
+    amount: string;
+    address: string;
+    id: number;
+    recepientNumber: number;
+    handleDelete(): void;
+}
 export interface CalculatedAmountInterface {
     marginTop?: string;
 }

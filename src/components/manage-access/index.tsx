@@ -57,7 +57,7 @@ function ManageAccess(): JSX.Element {
                     >
                         <SubHeading
                             color="#FAFAFA"
-                            opacity="0.7"
+                            opacity="0.8"
                             fontSize="18px"
                             mb="135px"
                         >

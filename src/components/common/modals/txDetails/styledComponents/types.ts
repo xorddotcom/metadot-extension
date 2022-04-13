@@ -18,4 +18,5 @@ export interface CommonTextInterface {
     margin?: string;
     fontWeight?: string;
     color?: string;
+    opacity?: string;
 }
