@@ -92,6 +92,11 @@ import GoUpButton from '../assets/images/icons/go_up.svg';
 import DeleteIcon from '../assets/images/icons/delete.svg';
 import EditIcon from '../assets/images/icons/edit.svg';
 
+import SendFeatureIcon from '../assets/images/icons/SendFeature.svg';
+import SwapFeatureIcon from '../assets/images/icons/SwapFeature.svg';
+import GovernanceFeatureIcon from '../assets/images/icons/GovernanceFeature.svg';
+import StakeFeatureIcon from '../assets/images/icons/StakeFeature.svg';
+
 export default {
     crossIconRound,
     Importicon,
@@ -172,4 +177,8 @@ export default {
     EditIcon,
     PlusIcon,
     GoUpIcon,
+    SendFeatureIcon,
+    SwapFeatureIcon,
+    GovernanceFeatureIcon,
+    StakeFeatureIcon,
 };

@@ -244,7 +244,7 @@ export const AssetsAndTransactionsWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 30px;
+    margin-top: 24px;
     padding-top: 10px;
     padding-bottom: 10px;
     overflow-y: hidden;
@@ -294,4 +294,28 @@ export const LabelAndTextInput = styled.div`
     margin-top: ${(props: LabelAndTextInputPropsInterface) =>
         props.marginTop && props.marginTop};
     position: relative;
+`;
+
+export const FeatureBox = styled.div`
+    width: 70px;
+    height: 70px;
+    border-radius: 15px;
+    background: #232323;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
+
+export const FeatureImage = styled.img`
+    width: 20px;
+    role: presentation;
+`;
+
+export const FeatureText = styled.p`
+    font-size: 10px;
+    color: #f9f9f9;
+    margin: 0;
+    margin-top: 8px;
 `;

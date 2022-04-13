@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import MainCard from './components/MainCard';
+import SelectFeature from './components/SelectFeature';
 import AssetsAndTransactions from './components/Tabs';
 import DropDown from './components/Dropdown';
 import { SelectNetwork, TxDetails } from '../common/modals';
@@ -146,6 +147,7 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
                 accountName={accountName}
             />
 
+            <SelectFeature />
             <AssetsAndTransactions
                 handleOpenTxDetailsModal={() => setIsTxDetailsModalOpen(true)}
                 setTxDetailsModalData={setTxDetailsModalData}
