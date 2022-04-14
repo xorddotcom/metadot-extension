@@ -88,7 +88,8 @@ export const Wrapper2 = styled.div`
     align-items: center;
     min-height: 528px;
     padding-bottom: ${(props: { pb: string | boolean }) => props.pb && '0'};
-    background: rgba(20, 20, 20);
+    width: 90%;
+    align-self: center;
 `;
 
 export const Wrapper = styled.div`
@@ -109,4 +110,5 @@ export const SwapDetailDiv = styled.div`
     display: flex;
     flex-direction: column;
     padding: 10px 20px 10px 20px;
+    background: rgba(20, 20, 20);
 `;

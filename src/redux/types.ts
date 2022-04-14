@@ -51,7 +51,7 @@ export interface ActiveAccount {
     lastVisitedTimestamp: string;
     queryEndpoint: string;
     isWalletConnected: boolean;
-    balances: [BalancesType];
+    balances: BalancesType[];
 }
 
 interface decimal {

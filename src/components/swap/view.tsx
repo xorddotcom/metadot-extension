@@ -18,9 +18,15 @@ import {
     SwapDetailDiv,
 } from './style';
 
+import { SwapViewProps } from './types';
+
 const { SwapIcon } = images;
 
-const SwapView: React.FunctionComponent = (): JSX.Element => {
+const SwapView: React.FunctionComponent<SwapViewProps> = ({
+    handleOpen,
+    tokenFrom,
+    tokenTo,
+}) => {
     const maxBtn = {
         id: 'SendBtn',
         text: 'Max',
@@ -100,9 +106,11 @@ const SwapView: React.FunctionComponent = (): JSX.Element => {
                                     fontSize="12px"
                                     style={{ fontWeight: '500' }}
                                 >
-                                    DOT
+                                    {tokenFrom?.name}
                                 </SubHeading>
-                                <DownIcon />
+                                <DownIcon
+                                    onClick={() => handleOpen('tokenFrom')}
+                                />
                             </SelectNetworkDiv>
                         </NetworkDiv>
                         <BalDiv>
@@ -110,8 +118,8 @@ const SwapView: React.FunctionComponent = (): JSX.Element => {
                                 $23.498
                             </SubHeading>
                             <SubHeading lineHeight="14px" fontSize="12px">
-                                {' '}
-                                Balance: 712.938 DOT
+                                Balance:
+                                {`${tokenFrom?.balance} ${tokenFrom?.name}`}
                             </SubHeading>
                         </BalDiv>
                     </SwapChildDiv>
@@ -146,9 +154,11 @@ const SwapView: React.FunctionComponent = (): JSX.Element => {
                                     fontSize="12px"
                                     style={{ fontWeight: '500' }}
                                 >
-                                    DOT
+                                    {tokenTo?.name}
                                 </SubHeading>
-                                <DownIcon />
+                                <DownIcon
+                                    onClick={() => handleOpen('tokenTo')}
+                                />
                             </SelectNetworkDiv>
                         </NetworkDiv>
                         <BalDiv>
@@ -156,8 +166,8 @@ const SwapView: React.FunctionComponent = (): JSX.Element => {
                                 $23.498
                             </SubHeading>
                             <SubHeading lineHeight="14px" fontSize="12px">
-                                {' '}
-                                Balance: 712.938
+                                Balance:
+                                {`${tokenTo?.balance} ${tokenTo?.name}`}
                             </SubHeading>
                         </BalDiv>
                     </SwapChildDiv>
