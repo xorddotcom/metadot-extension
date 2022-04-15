@@ -288,11 +288,13 @@ const Send: React.FunctionComponent = () => {
                                         address,
                                         api.registry.chainSS58 as number
                                     ),
-                                    accountTo: addressMapper(
-                                        receiverAddress,
-                                        api.registry.chainSS58 as number
-                                    ),
-                                    amount,
+                                    accountTo: [
+                                        addressMapper(
+                                            receiverAddress,
+                                            api.registry.chainSS58 as number
+                                        ),
+                                    ],
+                                    amount: [amount],
                                     hash: signedTx.hash.toString(),
                                     operation: 'Send',
                                     status: 'Failed',

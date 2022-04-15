@@ -86,7 +86,7 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
                             height="20px"
                             style={{ lineHeight: '16px' }}
                         >
-                            {`${trimBalance(Number(amount))} ${coin}`}
+                            {`${trimBalance(amount[0])} ${coin}`}
                         </MainText>
                     </VerticalContentDiv>
                 </div>

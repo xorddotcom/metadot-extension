@@ -44,7 +44,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
     const { loadingForApi } = modalHandling;
     const { apiInitializationStarts } = currentUser.api;
 
-    const { convertIntoUsd, formatExtrinsic, txMadeOrReceiveByUser } = helpers;
+    const { convertIntoUsd } = helpers;
     const { getBalance, providerInitialization, addressMapper } = services;
     const { publicKey, chainName, tokenName } = activeAccount;
 
@@ -204,76 +204,62 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                 ) {
                                     blockTimeStamp = new Date(
                                         Number(extrinsic?.args?.[0].toString())
-                                    ).toISOString();
+                                    ).toString();
                                 } else {
-                                    blockTimeStamp = new Date().toISOString();
+                                    blockTimeStamp = new Date().toString();
                                 }
 
-                                const userAddress = addressMapper(
-                                    publicKey,
-                                    api?.registry?.chainSS58 as number
-                                );
                                 allEvents
                                     .filter(
                                         ({ event, phase }: any) =>
                                             phase.isApplyExtrinsic &&
-                                            phase.asApplyExtrinsic.eq(index)
+                                            phase.asApplyExtrinsic.eq(index) &&
+                                            event.section === 'balances' &&
+                                            event.method === 'Transfer' &&
+                                            (event.data[0].toString() ===
+                                                addressMapper(
+                                                    publicKey,
+                                                    api?.registry
+                                                        ?.chainSS58 as number
+                                                ) ||
+                                                event.data[1].toString() ===
+                                                    addressMapper(
+                                                        publicKey,
+                                                        api?.registry
+                                                            .chainSS58 as number
+                                                    ))
                                     )
-                                    .forEach((event: any) => {
-                                        const userSentOrReceiveTx =
-                                            txMadeOrReceiveByUser(
-                                                extrinsic,
-                                                event.event.section,
-                                                event.event.method,
-                                                userAddress,
-                                                event
-                                            );
-                                        if (userSentOrReceiveTx.bool) {
-                                            console.log(
-                                                'user made or receive this transaction ===>'
-                                            );
-                                            const chainDecimal =
-                                                api?.registry?.chainDecimals[0];
-                                            const txChainName =
-                                                api.runtimeChain.toString();
-                                            const txTokenName =
-                                                api?.registry?.chainTokens[0];
-                                            const formattedExtrinsic =
-                                                formatExtrinsic(
-                                                    extrinsic,
-                                                    userAddress,
-                                                    userSentOrReceiveTx.method,
-                                                    chainDecimal
-                                                );
-                                            console.log(
-                                                formattedExtrinsic,
-                                                'final'
-                                            );
-                                            const {
-                                                accountFrom,
-                                                accountTo,
-                                                amount,
-                                                hash,
-                                                operation,
-                                                status,
-                                            } = formattedExtrinsic;
-
-                                            transactions.push({
-                                                accountFrom,
-                                                accountTo,
-                                                amount,
-                                                hash,
-                                                operation,
-                                                status: 'Confirmed',
-                                                chainName: txChainName,
-                                                tokenName: txTokenName,
-                                                transactionFee: '0',
-                                                timestamp: blockTimeStamp.slice(
-                                                    0,
-                                                    -1
-                                                ),
-                                            });
-                                        }
+                                    .forEach(({ event }: any) => {
+                                        const chainDecimal =
+                                            api?.registry?.chainDecimals[0];
+                                        const convertedAmount =
+                                            Number(event.data[2].toString()) /
+                                            10 ** chainDecimal;
+                                        transactions.push({
+                                            accountFrom:
+                                                event.data[0].toString(),
+                                            accountTo: event.data[1].toString(),
+                                            amount: exponentConversion(
+                                                convertedAmount
+                                            ),
+                                            hash: extrinsic.hash.toString(),
+                                            operation:
+                                                event.data[0].toString() ===
+                                                addressMapper(
+                                                    publicKey,
+                                                    api?.registry
+                                                        ?.chainSS58 as number
+                                                )
+                                                    ? 'Send'
+                                                    : 'Receive',
+                                            status: 'Confirmed',
+                                            chainName:
+                                                api.runtimeChain.toString(),
+                                            tokenName:
+                                                api?.registry?.chainTokens[0],
+                                            transactionFee: '0',
+                                            timestamp: blockTimeStamp,
+                                        });
                                     });
                             }
                         );
@@ -281,15 +267,10 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                         const txHashes = new Set();
                         const uniqueTransactions = transactions.filter(
                             (el: any) => {
-                                const duplicate = txHashes.has(el.hash);
-                                txHashes.add(el.hash);
+                                const duplicate = txHashes.has(el.id);
+                                txHashes.add(el.id);
                                 return !duplicate;
                             }
-                        );
-
-                        console.log(
-                            uniqueTransactions,
-                            'yeh wali transactionssssss'
                         );
 
                         generalDispatcher(() =>

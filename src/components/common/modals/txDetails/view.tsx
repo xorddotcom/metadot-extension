@@ -256,7 +256,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                     </div>
                                 </div>
 
-                                {addressModifier(accountTo)}
+                                {addressModifier(accountTo[0])}
                             </SubText2>
                         </VerticalContentDiv>
                     </HorizontalContentDiv>
@@ -366,8 +366,8 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                     color="#2E9B9B"
                                 >
                                     {`${getTotalBalance(
-                                        amount || '10',
-                                        transactionFee || '10'
+                                        amount[0],
+                                        transactionFee
                                     )}
                   ${tokenName}`}
                                 </MainText1>

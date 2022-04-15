@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
+import { TransactionRecord } from '../../redux/types';
 
 export interface MainCardPropsInterface {
     balance: number;
@@ -21,19 +22,6 @@ export interface AssetsAndTransactionsPropsInterface {
     handleOpenTxDetailsModal(): void;
     setTxDetailsModalData: Dispatch<SetStateAction<TransactionRecord>>;
     transactionData: Transactions;
-}
-
-export interface TransactionRecord {
-    accountFrom?: string;
-    accountTo?: string;
-    amount?: string;
-    hash: string;
-    operation?: string;
-    status?: string;
-    chainName?: string;
-    tokenName?: string;
-    transactionFee?: string;
-    timestamp?: string;
 }
 
 export interface Transaction {

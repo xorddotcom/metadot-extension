@@ -26,13 +26,11 @@ import {
 
 import networks from './networkModalData';
 import { RootState } from '../../redux/store';
+import { TransactionRecord } from '../../redux/types';
+
 import useDispatcher from '../../hooks/useDispatcher';
 import useResponseModal from '../../hooks/useResponseModal';
-import {
-    ModalStateInterface,
-    NetworkConfigType,
-    TransactionRecord,
-} from './types';
+import { ModalStateInterface, NetworkConfigType } from './types';
 import { IMPORT_WALLET, WELCOME } from '../../constants';
 import DashboardView from './view';
 
@@ -62,8 +60,8 @@ const Dashboard: React.FunctionComponent = () => {
     const [txDetailsModalData, setTxDetailsModalData] =
         useState<TransactionRecord>({
             accountFrom: '',
-            accountTo: '',
-            amount: '',
+            accountTo: [],
+            amount: [],
             hash: '',
             operation: '',
             status: '',

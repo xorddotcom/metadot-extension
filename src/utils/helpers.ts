@@ -1,6 +1,9 @@
 import { hexToU8a, isHex } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 import constants from '../constants/onchain';
+import addressMapper from './services';
+// eslint-disable-next-line import/no-cycle
+import { exponentConversion } from './index';
 
 function arrayFromSeedSentence(seed: string): Array<string> {
     return seed.split(' ');
@@ -205,44 +208,141 @@ const isValidAddressPolkadotAddress = (address: string): boolean => {
     }
 };
 
-const formatExtrinsic = (extrinsic: any): any => {
-    const id = extrinsic?.hash?.toString();
-    const method = extrinsic?.method?.method;
-    const section = extrinsic?.method?.section;
-    const args = function (): string {
-        // eslint-disable-next-line @typescript-eslint/no-shadow
-        const { args, meta, method } = extrinsic || {};
-        const { args: argsDef } = meta;
-        const result = args.map((arg: any, index: any) => {
-            const { name, type } = argsDef[index];
-            return {
-                name,
-                type,
-                method: method?.method,
-                section: method?.section,
-                value: arg.toJSON(),
-            };
+const txMadeOrReceiveByUser = (
+    extrinsic: any,
+    section: any,
+    method: any,
+    userAddress: string,
+    event: any
+): { bool: boolean; method: string } => {
+    if (
+        event.event.section === 'balances' &&
+        event.event.method === 'Transfer' &&
+        (event.event.data[0].toString() === userAddress ||
+            event.event.data[1].toString() === userAddress)
+    ) {
+        console.log('balance transfer transaction');
+        return { bool: true, method: 'transfer' };
+    }
+    if (
+        section.toString() === 'utility' &&
+        method.toString() === 'BatchCompleted'
+    ) {
+        const signer = extrinsic?.signer?.toString();
+
+        const argsData = function (): any {
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+            const { args, meta, method } = extrinsic || {};
+            const { args: argsDef } = meta;
+
+            const result = args.map((arg: any, index: any) => {
+                const { name, type } = argsDef[index];
+                return {
+                    name,
+                    type,
+                    method: method?.method,
+                    section: method?.section,
+                    value: arg.toJSON(),
+                };
+            });
+            return result[0].value;
+        };
+
+        const result = argsData();
+
+        let receiverArray = [];
+        receiverArray = result.map((res: any) => {
+            return res.args?.dest?.id?.toString();
         });
-        return result;
-    };
-    const signer = extrinsic?.signer?.toString();
-    const nonce = extrinsic?.nonce?.toBigInt() || BigInt(0);
-    const isSigned = extrinsic?.isSigned;
-    const signature = extrinsic?.signature?.toString();
-    const tip = extrinsic?.tip?.toBigInt() || BigInt(0);
-    const isSuccess = true;
+        if (signer === userAddress || receiverArray.includes(userAddress))
+            return { bool: true, method: 'batch' };
+        return { bool: false, method: 'batch' };
+    }
+    return { bool: false, method: 'none' };
+};
+
+const formatExtrinsic = (
+    extrinsic: any,
+    userAddress: string,
+    method: string,
+    chainDecimal: number
+): {
+    accountFrom: string;
+    accountTo: string[];
+    amount: number[];
+    hash: string;
+    operation: string;
+    status: boolean;
+} => {
+    const accountFrom = extrinsic?.signer?.toString();
+    let accountTo = [];
+    let amount = [];
+    const hash = extrinsic?.hash?.toString();
+    let operation = '';
+    const status = true;
+
+    if (method === 'transfer') {
+        const args = function (): any {
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+            const { args, meta, method } = extrinsic || {};
+            const { args: argsDef } = meta;
+            const result = args.map((arg: any, index: any) => {
+                const { name, type } = argsDef[index];
+                return {
+                    value: arg.toJSON(),
+                };
+            });
+            return result;
+        };
+        const argsData = args();
+        operation = accountFrom === userAddress ? 'Send' : 'Receive';
+
+        accountTo = [argsData[0]?.value.id];
+        amount = [
+            exponentConversion(Number(argsData[1]?.value) / 10 ** chainDecimal),
+        ];
+        console.log(accountTo, amount);
+        console.log('finish');
+    }
+    if (method === 'batch') {
+        const args = function (): any {
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+            const { args, meta, method } = extrinsic || {};
+            const { args: argsDef } = meta;
+            const result = args.map((arg: any, index: any) => {
+                const { name, type } = argsDef[index];
+                return {
+                    value: arg.toJSON(),
+                };
+            });
+            return result[0].value;
+        };
+        const argsData = args();
+
+        operation = accountFrom === userAddress ? 'Send' : 'Receive';
+        console.log('start for batch');
+        console.log(argsData);
+        accountTo = argsData.map((res: any) => {
+            return res.args?.dest?.id?.toString();
+        });
+        amount = argsData.map((res: any) => {
+            const convertedAmount = exponentConversion(
+                Number(res.args?.value) / 10 ** chainDecimal
+            );
+            return convertedAmount;
+        });
+
+        console.log(accountTo, amount);
+        console.log('finish for batch');
+    }
 
     return {
-        id,
-        method,
-        section,
-        args: args(),
-        signer,
-        nonce,
-        isSigned,
-        signature,
-        tip,
-        isSuccess,
+        accountFrom,
+        accountTo,
+        amount,
+        hash,
+        operation,
+        status,
     };
 };
 
@@ -262,5 +362,6 @@ export default {
     isTabViewOpened,
     isValidAddressPolkadotAddress,
     formatExtrinsic,
+    txMadeOrReceiveByUser,
     // showInternetSnackBar,
 };

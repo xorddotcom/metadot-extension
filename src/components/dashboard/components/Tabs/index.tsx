@@ -2,6 +2,7 @@
 /* eslint-disable radix */
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { TransactionRecord } from '../../../../redux/types';
 
 import AssetCard from '../../../common/asset-card';
 import TxCard from '../../../common/tx-card';
@@ -17,7 +18,6 @@ import {
 
 import {
     AssetsAndTransactionsPropsInterface,
-    TransactionRecord,
     TransactionRecordFromSubQuery,
     TxViewProps,
 } from '../../types';
@@ -145,11 +145,11 @@ const AssetsAndTransactions: React.FunctionComponent<
                 : '0';
             return {
                 accountFrom: transaction.fromId,
-                accountTo: transaction.toId,
-                amount: (
+                accountTo: [transaction.toId],
+                amount: [
                     parseInt(transaction.amount) /
-                    parseInt(transaction.decimals)
-                ).toString(),
+                        parseInt(transaction.decimals),
+                ],
                 hash: transaction.extrinsicHash,
                 operation:
                     publicKey === addressMapper(transaction.fromId, 42)
