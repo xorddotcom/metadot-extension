@@ -103,10 +103,10 @@ const getBalanceWithSingleToken = async (
     const data = {
         name: api?.registry?.chainTokens[0],
         balance: transferableBalance,
-        decimal: decimalPlace,
         isNative: true,
+        decimal: decimalPlace,
     };
-    console.log('Data in service', data);
+
     return data;
     // return transferableBalance;
 };
@@ -180,6 +180,7 @@ const multipleTokens = async (
     const decimals = api?.registry?.chainDecimals;
 
     const nativeBalance = await getBalanceWithSingleToken(api, publicKey);
+    console.log('Native balance');
     const balancesArray: any[] = [];
     const promises: any[] = [];
     async function fetch(): Promise<any> {
@@ -240,6 +241,7 @@ const getBalance = async (
         return balance;
     }
     const balance = await getBalanceWithSingleToken(api, account);
+    console.log('in service getBalanceWithSingleToken [][]', balance);
     return balance;
 };
 const getTransactionFee = async (

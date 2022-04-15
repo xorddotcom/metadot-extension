@@ -200,16 +200,12 @@ const AssetsAndTransactions: React.FunctionComponent<
                 {balances.length > 1
                     ? isTab1Active &&
                       balances.map((singleToken: any) => {
-                          console.log(
-                              `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${singleToken.name}.png`
-                          );
-                          console.log('Single token', singleToken);
                           return (
                               <AssetCard
                                   name={chainName}
                                   shortName={singleToken.name}
                                   amount={String(singleToken.balance)}
-                                  amountInUsd={100}
+                                  amountInUsd={10}
                                   logo={`https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${singleToken.name}.png`}
                                   //   logo={tokenImage}
                                   isNative={singleToken.isNative}
