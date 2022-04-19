@@ -40,6 +40,8 @@ export interface Props {
     tokenName?: string;
     tokenImage?: string;
     tokenLogo?: boolean;
+    tokenDropDown?: boolean;
+    tokenDropDownHandler?(): void;
     rightPosition?: string;
     className?: string;
     placeholder?: string;

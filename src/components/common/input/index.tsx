@@ -38,6 +38,8 @@ const Input: React.FunctionComponent<Props> = ({
     topPosition,
     style,
     tokenLogo,
+    tokenDropDown,
+    tokenDropDownHandler,
     tokenImage,
     tokenName,
     bgColor,
@@ -150,6 +152,15 @@ const Input: React.FunctionComponent<Props> = ({
                     <TokenName className={subHeadingfontFamilyClass}>
                         {tokenName}
                     </TokenName>
+                    {tokenDropDown && tokenDropDownHandler && (
+                        <img
+                            onClick={tokenDropDownHandler}
+                            style={{ width: '8px', margin: '0px 8px' }}
+                            src={dropdownIcon}
+                            alt="dropdown"
+                            aria-hidden="true"
+                        />
+                    )}
                 </TokenBox>
             )}
         </div>

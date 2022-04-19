@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { images } from '../../utils';
+import { fonts, images } from '../../utils';
 import { HorizontalContentDiv } from '../common/wrapper';
 import { SubHeading } from '../common/text';
-import { Button, Header } from '../common';
+import { Button, Header, Input } from '../common';
 import {
     SwapDiv,
     SwapChildDiv,
@@ -21,12 +21,30 @@ import {
 import { SwapViewProps } from './types';
 
 const { SwapIcon } = images;
-
+const { subHeadingfontFamilyClass } = fonts;
 const SwapView: React.FunctionComponent<SwapViewProps> = ({
     handleOpen,
     tokenFrom,
     tokenTo,
+    tokenImage,
+    amountFrom,
+    handleAmountChange,
+    swapClickHandler,
 }) => {
+    const [confirm, setConfirm] = useState(false);
+    const [showDetail, setShowDetail] = useState(false);
+
+    const styledInput = {
+        id: 'InputField',
+        placeholder: 'Amount',
+        type: 'Number',
+        className: subHeadingfontFamilyClass,
+        blockInvalidChar: true,
+        tokenLogo: true,
+        tokenDropDown: true,
+        tokenImage,
+    };
+
     const maxBtn = {
         id: 'SendBtn',
         text: 'Max',
@@ -40,9 +58,6 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
         disabled: false,
     };
 
-    const [confirm, setConfirm] = useState(false);
-    const [showDetail, setShowDetail] = useState(false);
-
     const btn = {
         id: 'SwapBtn',
         text: confirm ? 'Swap' : 'Continue',
@@ -53,7 +68,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
             marginTop: 40,
         },
         handleClick: () => {
-            setConfirm(true);
+            return confirm ? swapClickHandler() : setConfirm(true);
         },
         disabled: false,
     };
@@ -92,27 +107,15 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
                             </SubHeading>
                             <Button {...maxBtn} />
                         </AmountMaxDiv>
-                        <NetworkDiv>
-                            <SubHeading
-                                lineHeight="18px"
-                                style={{ fontWeight: '800' }}
-                            >
-                                0.000
-                            </SubHeading>
-                            <SelectNetworkDiv>
-                                <Circle color="#E6007AE5" />
-                                <SubHeading
-                                    lineHeight="14px"
-                                    fontSize="12px"
-                                    style={{ fontWeight: '500' }}
-                                >
-                                    {tokenFrom?.name}
-                                </SubHeading>
-                                <DownIcon
-                                    onClick={() => handleOpen('tokenFrom')}
-                                />
-                            </SelectNetworkDiv>
-                        </NetworkDiv>
+                        <Input
+                            {...styledInput}
+                            value={amountFrom}
+                            tokenName={tokenFrom?.name}
+                            onChange={(value: string) => {
+                                handleAmountChange(value);
+                            }}
+                            tokenDropDownHandler={() => handleOpen('tokenFrom')}
+                        />
                         <BalDiv>
                             <SubHeading lineHeight="14px" fontSize="12px">
                                 $23.498
@@ -140,27 +143,16 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
                                 Amount
                             </SubHeading>
                         </AmountMaxDiv>
-                        <NetworkDiv>
-                            <SubHeading
-                                lineHeight="18px"
-                                style={{ fontWeight: '800' }}
-                            >
-                                0.000
-                            </SubHeading>
-                            <SelectNetworkDiv>
-                                <Circle color="#E6007AE5" />
-                                <SubHeading
-                                    lineHeight="14px"
-                                    fontSize="12px"
-                                    style={{ fontWeight: '500' }}
-                                >
-                                    {tokenTo?.name}
-                                </SubHeading>
-                                <DownIcon
-                                    onClick={() => handleOpen('tokenTo')}
-                                />
-                            </SelectNetworkDiv>
-                        </NetworkDiv>
+                        <Input
+                            {...styledInput}
+                            value="0"
+                            tokenName={tokenTo?.name}
+                            onChange={(value: string) => {
+                                console.log('amountTo value');
+                            }}
+                            disabled
+                            tokenDropDownHandler={() => handleOpen('tokenTo')}
+                        />
                         <BalDiv>
                             <SubHeading lineHeight="14px" fontSize="12px">
                                 $23.498

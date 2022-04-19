@@ -229,7 +229,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
 
                 unsub = await api?.query?.system?.account(
                     publicKey,
-                    ({ data: balance }) => {
+                    ({ data: balance }: any) => {
                         const res: number =
                             Number(balance.free) - Number(balance.miscFrozen);
                         const newBalance: number = res / 10 ** decimals;
