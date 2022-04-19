@@ -86,11 +86,12 @@ const getBalanceWithSingleToken = async (
 ): Promise<any> => {
     const balance: any = await api?.query?.system?.account(acc);
     let transferableBalance = 0;
+    const decimalPlace = api?.registry?.chainDecimals[0];
+
     if (balance?.data) {
         const balancesKeys: string[] = Object.keys(balance?.data);
         const balancesValues: string[] = Object.values(balance?.data);
         const balancesObject: any = {};
-        const decimalPlace = api?.registry?.chainDecimals[0];
         balancesValues.map((singleData, index) => {
             const newRes = Number(singleData.toString()) / 10 ** decimalPlace;
             balancesObject[balancesKeys[index]] = newRes;
@@ -99,7 +100,15 @@ const getBalanceWithSingleToken = async (
         transferableBalance =
             Number(balancesObject.free) - Number(balancesObject.miscFrozen);
     }
-    return transferableBalance;
+    const data = {
+        name: api?.registry?.chainTokens[0],
+        balance: transferableBalance,
+        decimal: decimalPlace,
+        isNative: true,
+    };
+    console.log('Data in service', data);
+    return data;
+    // return transferableBalance;
 };
 
 const fetchBalanceWithMultipleTokens = async (
@@ -196,13 +205,13 @@ const multipleTokens = async (
         const res2: any[] = [];
         res.map(async (singleToken: any, i: number): Promise<any> => {
             if (i === 0) {
-                const data = {
-                    name: tokens[0],
-                    balance: nativeBalance,
-                    isNative: true,
-                    decimal: decimals[i],
-                };
-                res2[0] = data;
+                // const data = {
+                //     name: tokens[0],
+                //     balance: nativeBalance,
+                //     isNative: true,
+                //     decimal: decimals[i],
+                // };
+                res2[0] = nativeBalance;
             } else {
                 res2.push({
                     name: tokens[i],

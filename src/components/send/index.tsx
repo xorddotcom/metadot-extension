@@ -389,11 +389,6 @@ const Send: React.FunctionComponent = () => {
     };
 
     const validateInputValues = (address: string): boolean => {
-        if (Number(balance) < Number(amount) + Number(transactionFee)) {
-            setInsufficientBal(true);
-            throw new Error('Insufficient funds');
-        }
-
         if (!isValidAddressPolkadotAddress(address)) return false;
 
         return true;
@@ -516,6 +511,7 @@ const Send: React.FunctionComponent = () => {
             }
 
             if (location.isNative) {
+                console.log('is native', location.balance, amount, txFee);
                 if (location.balance < amount + txFee) {
                     console.log('hello');
                     setInsufficientBal(true);
@@ -525,7 +521,7 @@ const Send: React.FunctionComponent = () => {
                 }
             } else if (txFee > Number(balances[0]?.balance)) {
                 setInsufficientTxFee(true);
-                throw new Error('Not every funds to pay gas fee');
+                throw new Error('Not enough funds to pay gas fee');
             } else if (amount > location.balance) {
                 setInsufficientBal(true);
                 throw new Error('Insufficient balance');

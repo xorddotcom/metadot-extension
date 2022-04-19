@@ -9,6 +9,7 @@ import {
     setBalanceInUsd,
     setTokenName,
     setWalletConnected,
+    updateBalance,
 } from '../../redux/slices/activeAccount';
 import { setIsResponseModalOpen } from '../../redux/slices/modalHandling';
 import { RootState } from '../../redux/store';
@@ -110,8 +111,13 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                         newApiInstance,
                         publicKey
                     );
-                    generalDispatcher(() =>
-                        setBalance(exponentConversion(balanceOfSelectedNetwork))
+                    // generalDispatcher(() =>
+                    //     setBalance(exponentConversion(balanceOfSelectedNetwork))
+                    // );
+
+                    console.log(
+                        'balanceOfSelectedNetwork',
+                        balanceOfSelectedNetwork
                     );
 
                     generalDispatcher(() =>
@@ -174,6 +180,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
         const accountChanged = async (): Promise<void> => {
             // getting token balance
             const balanceOfSelectedNetwork = await getBalance(api, publicKey);
+            console.log('balanceOfSelectedNetwork', balanceOfSelectedNetwork);
             // getting token balance in usd
             const dollarAmount = await convertIntoUsd(
                 tokenName,
@@ -192,12 +199,12 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
         let unsub: any;
         let unsub2: any;
         (async () => {
+            const tokens = api?.registry?.chainTokens;
+            const allDecimals = api?.registry?.chainDecimals;
             if (api && publicKey) {
-                const decimals = api?.registry?.chainDecimals[0];
+                // const decimals = api?.registry?.chainDecimals[0];
 
-                const tokens = api?.registry?.chainTokens;
-                const allDecimals = api?.registry?.chainDecimals;
-                const promises: any[] = [];
+                // const promises: any[] = [];
 
                 tokens.map(async (token: any, index: number) => {
                     unsub = await api?.query?.tokens?.accounts(
@@ -219,10 +226,23 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                 Number(
                                     res.free.toString() /
                                         10 ** allDecimals[index]
-                                ) !== Number(balances[index].balance)
+                                ) !== Number(balances[index].balance) &&
+                                !balances[index].isNative
                             ) {
-                                console.log('Balance changed');
-                                alert('Update balance in redux');
+                                console.log(
+                                    'Balance changed',
+                                    token,
+                                    balances[index].balance
+                                );
+                                generalDispatcher(() =>
+                                    updateBalance({
+                                        balances,
+                                        token,
+                                        updBalance:
+                                            res.free.toString() /
+                                            10 ** allDecimals[index],
+                                    })
+                                );
                             }
                         }
                     );
@@ -233,7 +253,10 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                     ({ data: balance }: any) => {
                         const res: number =
                             Number(balance.free) - Number(balance.miscFrozen);
-                        const newBalance: number = res / 10 ** decimals;
+                        const newBalance: number = res / 10 ** allDecimals[0];
+                        const updBalance: number =
+                            Number(balance.free.toString()) /
+                            10 ** allDecimals[0];
                         console.log(
                             'new listener native',
                             newBalance,
@@ -243,6 +266,13 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                             exponentConversion(newBalance);
                         generalDispatcher(() =>
                             setBalance(Number(exponentConverted))
+                        );
+                        generalDispatcher(() =>
+                            updateBalance({
+                                balances,
+                                token: tokens[0],
+                                updBalance,
+                            })
                         );
                     }
                 );

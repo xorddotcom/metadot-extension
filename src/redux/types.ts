@@ -44,7 +44,7 @@ export interface TOKEN_INFO_INTERFACE {
 }
 type BalancesType = {
     name: string;
-    balance: string;
+    balance: number;
     isNative: boolean;
     decimal: number;
 };

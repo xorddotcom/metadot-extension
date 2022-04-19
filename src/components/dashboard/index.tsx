@@ -83,6 +83,7 @@ const Dashboard: React.FunctionComponent = () => {
         prefix,
         chainName,
         balance,
+        balances,
         tokenName,
         balanceInUsd,
         accountName,
@@ -240,7 +241,7 @@ const Dashboard: React.FunctionComponent = () => {
             publicKey={publicKey}
             prefix={prefix}
             chainName={chainName}
-            balance={balance}
+            balance={balances[0] ? balances[0].balance : 0}
             balanceInUsd={balanceInUsd}
             tokenName={tokenName}
             accountName={accountName}

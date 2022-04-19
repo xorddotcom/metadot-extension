@@ -5,9 +5,9 @@ import { ActiveAccount } from '../types';
 const { POLKADOT_CONFIG } = constants;
 
 const initialState: ActiveAccount = {
-    isLoggedIn: true,
-    publicKey: '5GjSQRFYEFBY1nmVuGHTyKkRHrodQmUKdA7kWzfmfLp262xG',
-    accountName: 'Hello',
+    isLoggedIn: false,
+    publicKey: '',
+    accountName: '',
     rpcUrl: POLKADOT_CONFIG.rpcUrl,
     chainName: POLKADOT_CONFIG.name,
     tokenName: POLKADOT_CONFIG.tokenName,
@@ -19,7 +19,7 @@ const initialState: ActiveAccount = {
     lastVisitedTimestamp: '',
     queryEndpoint: POLKADOT_CONFIG.queryEndpoint,
     isWalletConnected: false,
-    balances: [{ name: '', balance: '', isNative: false, decimal: 0 }],
+    balances: [{ name: '', balance: 0, isNative: false, decimal: 0 }],
 };
 
 export const activeAccountSlice = createSlice({
@@ -46,7 +46,7 @@ export const activeAccountSlice = createSlice({
                 accountName: '',
                 balance: 0,
                 balances: [
-                    { name: '', balance: '', isNative: false, decimal: 0 },
+                    { name: '', balance: 0, isNative: false, decimal: 0 },
                 ],
                 balanceInUsd: 0,
                 jsonFileUploadScreen: false,
@@ -110,8 +110,19 @@ export const activeAccountSlice = createSlice({
             return { ...state, isWalletConnected: action.payload };
         },
         setBalances: (state, action: PayloadAction<any>) => {
-            console.log('Action set balances', action.payload);
+            console.log('Action in redux', action.payload);
             return { ...state, balances: action.payload };
+        },
+        updateBalance: (state, action: PayloadAction<any>) => {
+            const currBalances = action.payload.balances;
+            const { token, updBalance } = action.payload;
+            const updatingLiveBalance = currBalances.map((balance: any) => {
+                if (token === balance.name) {
+                    return { ...balance, balance: updBalance };
+                }
+                return balance;
+            });
+            return { ...state, balances: updatingLiveBalance };
         },
     },
 });
@@ -135,6 +146,7 @@ export const {
     setQueryEndpoint,
     setWalletConnected,
     setBalances,
+    updateBalance,
 } = activeAccountSlice.actions;
 
 export default activeAccountSlice.reducer;

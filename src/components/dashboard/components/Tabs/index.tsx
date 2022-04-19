@@ -196,16 +196,22 @@ const AssetsAndTransactions: React.FunctionComponent<
                 </TabSection>
             </Tabs>
             <div className="scrollbar" style={{ marginTop: '0' }}>
+                {console.log('Balances ===>>>', balances)}
                 {balances.length > 1
                     ? isTab1Active &&
                       balances.map((singleToken: any) => {
+                          console.log(
+                              `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${singleToken.name}.png`
+                          );
+                          console.log('Single token', singleToken);
                           return (
                               <AssetCard
                                   name={chainName}
                                   shortName={singleToken.name}
                                   amount={String(singleToken.balance)}
                                   amountInUsd={100}
-                                  logo={tokenImage}
+                                  logo={`https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${singleToken.name}.png`}
+                                  //   logo={tokenImage}
                                   isNative={singleToken.isNative}
                                   decimal={singleToken.decimal}
                               />
