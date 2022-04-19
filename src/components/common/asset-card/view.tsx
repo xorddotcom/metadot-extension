@@ -28,10 +28,11 @@ const AssetCardView: React.FunctionComponent<ViewProps> = ({
             fontSize: '10px',
             marginTop: 10,
         },
-        handleClick: () => navigate(SEND),
+        handleClick: () => navigate(SEND, { state: { name: 'Hello' } }),
         disabled: !!apiInitializationStarts,
     };
 
+    console.log('asset details <<<<>>>>', AssetDetails);
     return (
         <AssetCardWrapper id="asset-card">
             <HorizontalContentDiv>
