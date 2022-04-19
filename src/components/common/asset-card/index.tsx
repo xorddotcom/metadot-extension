@@ -68,6 +68,9 @@ const AssetCard: React.FunctionComponent<Props> = ({
             chainName={name}
             AssetDetails={AssetDetails}
             apiInitializationStarts={apiInitializationStarts}
+            balance={amount}
+            tokenName={shortName}
+            isNative={isNative}
         />
     );
 };

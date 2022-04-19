@@ -12,4 +12,7 @@ export interface ViewProps {
     chainName: string;
     AssetDetails: JSX.Element;
     apiInitializationStarts: boolean;
+    balance: string;
+    tokenName: string;
+    isNative: boolean;
 }
