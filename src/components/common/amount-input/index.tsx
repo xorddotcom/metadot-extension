@@ -84,7 +84,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
 
             <CalculatedAmount marginTop="5px">
                 <Balance {...txFeeProps}>
-                    Estimated Tx Fee:{' '}
+                    Estimated Gas Fee:{' '}
                     {`${trimContent(transactionFee, 6)} ${tokenName}`}
                 </Balance>
             </CalculatedAmount>

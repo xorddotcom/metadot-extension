@@ -9,7 +9,7 @@ import help from '../../../assets/images/icons/ED_help.svg';
 
 import { FileInputProps, Recepient } from '../types';
 
-const { CSVIcon } = images;
+const { CSVIcon, crossIconRound } = images;
 const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
 
 const FileInput: React.FunctionComponent<FileInputProps> = ({
@@ -129,6 +129,7 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
             bottom: '120%',
             fontSize: '11px',
             fontWeight: 300,
+            padding: '5px',
             transition: 'all 0.1s ease-in',
         },
     };
@@ -152,6 +153,7 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
                         marginLeft: '14px',
                     }}
                 />
+
                 <SubHeading ml="14px">
                     {csvFile ? csvFile.name : 'Choose File'}
                 </SubHeading>
@@ -164,15 +166,13 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
                     }}
                 >
                     {csvFile ? (
-                        <CancelIcon
+                        <img
+                            src={crossIconRound}
+                            alt="cros icon"
+                            aria-hidden
                             onClick={(e) => {
                                 e.stopPropagation();
                                 handleClick('cancel');
-                            }}
-                            fontSize="small"
-                            style={{
-                                marginTop: '3.2px',
-                                marginRight: '-4.8px',
                             }}
                         />
                     ) : (

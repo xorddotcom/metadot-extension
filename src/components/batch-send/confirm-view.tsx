@@ -66,8 +66,8 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
             px: 2,
             pb: 3,
         },
-        mainText: 'Remove Recepient',
-        subText: 'Are you sure you want to delete this Recepient?',
+        mainText: 'Remove Recipient',
+        subText: 'Are you sure you want to delete this Recipient?',
     };
 
     const calculatedAmount = (): string => {
@@ -124,7 +124,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                             color="#FAFAFA"
                             opacity="0.85"
                         >
-                            Recepient {index + 1}
+                            Recipient {index + 1}
                         </SubHeading>
                         <HorizontalContentDiv>
                             <ImageButtons
@@ -228,7 +228,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
 
                 <HorizontalContentDiv justifyContent="space-between">
                     <SubHeading lineHeight="0px" color={white} fontSize="12px">
-                        Total Amount
+                        Total Transferable Amount
                     </SubHeading>
                     <SubHeading
                         lineHeight="0px"

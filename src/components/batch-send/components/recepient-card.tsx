@@ -60,7 +60,7 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
     const checkForAccountErrors = (): string => {
         let errMessage = '';
         if (recepient.empytAaddress) {
-            errMessage = 'Enter Recepient Address';
+            errMessage = 'Enter Recipient Address';
         } else if (!recepient.validateAddress) {
             errMessage = 'Invalid Address';
         } else {
@@ -80,7 +80,7 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
                 />
             </HorizontalContentDiv>
             <SubHeading lineHeight="0px" color="#FAFAFA">
-                Recepient {index + 1}
+                Recipient {index + 1}
             </SubHeading>
             <ToInput
                 errorMessages={errorMessages}

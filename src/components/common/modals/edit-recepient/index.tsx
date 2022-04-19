@@ -249,7 +249,7 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         },
         mainText: 'Account Reap Warning',
         subText:
-            'The Recepient account might get reaped. Do you still wish to continue?',
+            'The Recipient account might get reaped. Do you still wish to continue?',
     };
 
     const senderReapModalwarning = {

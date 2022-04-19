@@ -11,14 +11,13 @@ import { SubHeading } from '../common/text';
 import { SEND, DASHBOARD } from '../../constants';
 import useDispatcher from '../../hooks/useDispatcher';
 import useResponseModal from '../../hooks/useResponseModal';
+import { WarningModal, AuthModal } from '../common/modals';
 
 import { images, accounts } from '../../utils';
 import services from '../../utils/services';
 
 import { Recepient } from './types';
 import { RootState } from '../../redux/store';
-
-import { AuthModal } from '../common/modals';
 import {
     setAuthScreenModal,
     setIsResponseModalOpen,
@@ -83,10 +82,38 @@ const BatchSend: React.FunctionComponent = () => {
         }
     };
 
+    const [showDeleteModal, setShowDeleteModal] = React.useState(false);
+    const deleteWarning = {
+        open: showDeleteModal,
+        handleClose: () => {
+            setShowDeleteModal(false);
+        },
+        onConfirm: () => {
+            navigate(SEND);
+            setShowDeleteModal(false);
+        },
+        style: {
+            width: '290px',
+            background: '#141414',
+            position: 'relative',
+            bottom: 30,
+            p: 2,
+            px: 2,
+            pb: 3,
+        },
+        mainText: 'Minimum Batch Requirement',
+        subText:
+            'A Batch Transaction requires 2 or more Recipients. Would you like to switch to Single Transaction screen instead?',
+    };
+
     const deleteRecepient = (index: number): void => {
-        const newState = [...recepientList];
-        newState.splice(index, 1);
-        setRecepientList(newState);
+        if (recepientList.length === 2) {
+            setShowDeleteModal(true);
+        } else {
+            const newState = [...recepientList];
+            newState.splice(index, 1);
+            setRecepientList(newState);
+        }
     };
 
     const addressChangeHandler = (value: string, index: number): void => {
@@ -307,8 +334,9 @@ const BatchSend: React.FunctionComponent = () => {
 
     return (
         <Wrapper width="89%">
+            <WarningModal {...deleteWarning} />
             <Header
-                centerText="Send"
+                centerText={step === 1 ? 'Batch' : 'Send'}
                 overWriteBackHandler={
                     step === 1 ? () => setStep(0) : () => navigate(DASHBOARD)
                 }
@@ -320,7 +348,7 @@ const BatchSend: React.FunctionComponent = () => {
                 <img
                     src={ToggleOn}
                     alt="Toggle"
-                    style={{ marginLeft: '10px' }}
+                    style={{ marginLeft: '10px', marginRight: '6px' }}
                     aria-hidden
                     onClick={handleSendSwitch}
                 />
