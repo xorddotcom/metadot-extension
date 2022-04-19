@@ -5,6 +5,7 @@ export interface Props {
     balanceInUsd: number;
     logo: string;
     isNative: boolean;
+    decimal: number;
 }
 
 export interface ViewProps {
@@ -15,4 +16,5 @@ export interface ViewProps {
     balance: string;
     tokenName: string;
     isNative: boolean;
+    decimal: number;
 }

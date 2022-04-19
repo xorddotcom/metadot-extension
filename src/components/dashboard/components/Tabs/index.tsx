@@ -196,8 +196,34 @@ const AssetsAndTransactions: React.FunctionComponent<
                 </TabSection>
             </Tabs>
             <div className="scrollbar" style={{ marginTop: '0' }}>
-                {console.log('user balances', balances)}
-                {isTab1Active &&
+                {balances.length > 1
+                    ? isTab1Active &&
+                      balances.map((singleToken: any) => {
+                          return (
+                              <AssetCard
+                                  name={chainName}
+                                  shortName={singleToken.name}
+                                  amount={String(singleToken.balance)}
+                                  amountInUsd={100}
+                                  logo={tokenImage}
+                                  isNative={singleToken.isNative}
+                                  decimal={singleToken.decimal}
+                              />
+                          );
+                      })
+                    : isTab1Active && (
+                          <AssetCard
+                              name={chainName}
+                              shortName={chainName}
+                              amount={String(balance)}
+                              amountInUsd={10}
+                              logo={tokenImage}
+                              isNative
+                              decimal={10}
+                          />
+                      )}
+
+                {/* {isTab1Active &&
                     balances.map((singleToken: any) => {
                         console.log('Single token', singleToken);
                         return (
@@ -211,7 +237,7 @@ const AssetsAndTransactions: React.FunctionComponent<
                             />
                         );
                     })}
-                {/* {isTab1Active && (
+                 {isTab1Active && (
                     <AssetCard
                         name={chainName}
                         shortName={tokenName}
@@ -220,7 +246,7 @@ const AssetsAndTransactions: React.FunctionComponent<
                         logo={tokenImage}
                         isNative
                     />
-                )} */}
+                )}  */}
                 {isTab2Active && (
                     <TxView
                         transactionData={transactionData}

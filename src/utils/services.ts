@@ -110,8 +110,21 @@ const fetchBalanceWithMultipleTokens = async (
     try {
         const allTokens = api?.registry?.chainTokens;
         const allDecimals = api?.registry?.chainDecimals;
+        console.log('fetch', allTokens);
         await allTokens.map(
             async (singleToken: any, index: number): Promise<boolean> => {
+                if (index === 0) {
+                    const balance: any = await api?.query?.system?.account(
+                        account
+                    );
+                    const data = {
+                        name: allTokens[0],
+                        balance: balance.data.free / 10 ** allDecimals[0],
+                        isNative: true,
+                        decimal: allDecimals[0],
+                    };
+                    allBalances = [...allBalances, data];
+                }
                 await api?.query?.tokens?.accounts(
                     account,
                     { Token: singleToken },
@@ -122,21 +135,26 @@ const fetchBalanceWithMultipleTokens = async (
                                 result.free.toString() /
                                 10 ** allDecimals[index],
                             isNative: false,
+                            decimal: allDecimals[index],
                         };
+                        console.log('data --->>', data);
+                        console.log('all balances', allBalances);
                         allBalances = [...allBalances, data];
+                        // allBalances.push(data);
                         return true;
                     }
                 );
                 return true;
             }
         );
-        const balance: any = await api?.query?.system?.account(account);
-        if (balance?.data)
-            allBalances[0] = {
-                name: allTokens[0],
-                balance: balance.data.free / 10 ** allDecimals[0],
-                isNative: true,
-            };
+        // const balance: any = await api?.query?.system?.account(account);
+        // if (balance?.data) counter += 1;
+        // allBalances[0] = {
+        //     name: allTokens[0],
+        //     balance: balance.data.free / 10 ** allDecimals[0],
+        //     isNative: true,
+        //     decimal: allDecimals[0],
+        // };
 
         return allBalances;
     } catch (err) {
@@ -144,21 +162,15 @@ const fetchBalanceWithMultipleTokens = async (
         return false;
     }
 };
+
 const getBalance = async (
     api: ApiPromiseType,
     account: string
 ): Promise<number> => {
-    let balance;
     const chainTokens = api?.registry?.chainTokens;
-    if (chainTokens.length > 1) {
-        console.log('run func with multiple tokens');
-        balance = await Promise.all([
-            fetchBalanceWithMultipleTokens(api, account),
-        ]);
-        console.log('Balance service', balance[0]);
-        return balance[0];
-    }
-    balance = await getBalanceWithSingleToken(api, account);
+    console.log('service tokens ====>>', chainTokens);
+
+    const balance = await getBalanceWithSingleToken(api, account);
     return balance;
 };
 const getTransactionFee = async (

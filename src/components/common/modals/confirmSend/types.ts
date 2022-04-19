@@ -15,4 +15,6 @@ export interface ConfirmSendModalViewProps {
     loading2: boolean;
     transactionAmount(v1: string, v2: number): string;
     btnConfirm: any;
+    locationTokenName?: string;
+    isNative?: boolean;
 }

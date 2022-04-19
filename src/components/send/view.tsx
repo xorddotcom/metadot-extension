@@ -10,11 +10,15 @@ import AmountInput from './components/amount-input';
 import { SendViewProps } from './types';
 
 const SendView: React.FunctionComponent<SendViewProps> = (props) => {
-    const { toInput, amountInput, nextBtn, confirmSend } = props;
+    const { toInput, amountInput, nextBtn, confirmSend, multipleTokens } =
+        props;
     return (
         <>
             <Header centerText="Send" />
 
+            <button type="button" onClick={multipleTokens}>
+                Hello
+            </button>
             <MainContent>
                 <FromInput />
                 <ToInput {...toInput} />
