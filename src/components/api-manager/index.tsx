@@ -10,6 +10,7 @@ import {
     setTokenName,
     setWalletConnected,
     updateBalance,
+    setPrefix,
 } from '../../redux/slices/activeAccount';
 import { setIsResponseModalOpen } from '../../redux/slices/modalHandling';
 import { RootState } from '../../redux/store';
@@ -47,12 +48,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
     const { apiInitializationStarts } = currentUser.api;
 
     const { convertIntoUsd } = helpers;
-    const {
-        getBalance,
-        providerInitialization,
-        addressMapper,
-        fetchBalanceWithMultipleTokens,
-    } = services;
+    const { getBalance, providerInitialization, addressMapper } = services;
     const { publicKey, chainName, tokenName, balances } = activeAccount;
 
     const compareSites = (arr: any, sub: any): any => {
@@ -143,6 +139,13 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                         setTokenName(tokenNameofSelectedNetwork)
                     );
 
+                    const chainInfo =
+                        await newApiInstance?.registry?.getChainProperties();
+
+                    generalDispatcher(() =>
+                        setPrefix(Number(chainInfo?.ss58Format.toString()))
+                    );
+
                     // generalDispatcher(() =>
                     //     setBalances(balanceOfSelectedNetwork)
                     // );
@@ -180,7 +183,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
         const accountChanged = async (): Promise<void> => {
             // getting token balance
             const balanceOfSelectedNetwork = await getBalance(api, publicKey);
-            console.log('balanceOfSelectedNetwork', balanceOfSelectedNetwork);
             // getting token balance in usd
             const dollarAmount = await convertIntoUsd(
                 tokenName,
@@ -202,10 +204,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
             const tokens = api?.registry?.chainTokens;
             const allDecimals = api?.registry?.chainDecimals;
             if (api && publicKey) {
-                // const decimals = api?.registry?.chainDecimals[0];
-
-                // const promises: any[] = [];
-
                 tokens.map(async (token: any, index: number) => {
                     unsub = await api?.query?.tokens?.accounts(
                         publicKey,
@@ -213,15 +211,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                             Token: token,
                         },
                         (res: any) => {
-                            console.log(
-                                'New listener non native',
-                                balances[index].name,
-                                res.free.toString() / 10 ** allDecimals[index]
-                            );
-                            console.log(
-                                'new listener balances',
-                                `${token}: ${balances[index].balance}`
-                            );
                             if (
                                 Number(
                                     res.free.toString() /
@@ -229,11 +218,11 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                 ) !== Number(balances[index].balance) &&
                                 !balances[index].isNative
                             ) {
-                                console.log(
-                                    'Balance changed',
-                                    token,
-                                    balances[index].balance
-                                );
+                                // console.log(
+                                //     'Balance changed',
+                                //     token,
+                                //     balances[index].balance
+                                // );
                                 generalDispatcher(() =>
                                     updateBalance({
                                         balances,

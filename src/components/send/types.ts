@@ -69,6 +69,7 @@ export interface AmountInputInterface {
 
     setInsufficientBal(e: boolean): void;
     insufficientTxFee: boolean;
+    // tokenImage: any;
 }
 
 type transferAllType = {

@@ -119,7 +119,6 @@ const fetchBalanceWithMultipleTokens = async (
     try {
         const allTokens = api?.registry?.chainTokens;
         const allDecimals = api?.registry?.chainDecimals;
-        console.log('fetch', allTokens);
         await allTokens.map(
             async (singleToken: any, index: number): Promise<boolean> => {
                 if (index === 0) {
@@ -146,8 +145,6 @@ const fetchBalanceWithMultipleTokens = async (
                             isNative: false,
                             decimal: allDecimals[index],
                         };
-                        console.log('data --->>', data);
-                        console.log('all balances', allBalances);
                         allBalances = [...allBalances, data];
                         // allBalances.push(data);
                         return true;
@@ -180,7 +177,6 @@ const multipleTokens = async (
     const decimals = api?.registry?.chainDecimals;
 
     const nativeBalance = await getBalanceWithSingleToken(api, publicKey);
-    console.log('Native balance');
     const balancesArray: any[] = [];
     const promises: any[] = [];
     async function fetch(): Promise<any> {
@@ -234,15 +230,15 @@ const getBalance = async (
     account: string
 ): Promise<number> => {
     const chainTokens = api?.registry?.chainTokens;
-    console.log('service tokens ====>>', chainTokens);
 
     if (chainTokens.length > 1) {
         const balance = await multipleTokens(api, account);
         return balance;
     }
     const balance = await getBalanceWithSingleToken(api, account);
-    console.log('in service getBalanceWithSingleToken [][]', balance);
-    return balance;
+    const balanceArray: any = [];
+    balanceArray.push(balance);
+    return balanceArray;
 };
 const getTransactionFee = async (
     api: ApiPromiseType,

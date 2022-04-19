@@ -15,7 +15,7 @@ const initialState: ActiveAccount = {
     balance: 0,
     balanceInUsd: 0,
     jsonFileUploadScreen: false,
-    prefix: POLKADOT_CONFIG.prefix,
+    prefix: 0,
     lastVisitedTimestamp: '',
     queryEndpoint: POLKADOT_CONFIG.queryEndpoint,
     isWalletConnected: false,
@@ -58,6 +58,7 @@ export const activeAccountSlice = createSlice({
             };
         },
         setPublicKey: (state, action: PayloadAction<string>) => {
+            console.log('set public key working ---->>>');
             return {
                 ...state,
                 publicKey: action.payload,
@@ -115,6 +116,7 @@ export const activeAccountSlice = createSlice({
         },
         updateBalance: (state, action: PayloadAction<any>) => {
             const currBalances = action.payload.balances;
+            console.log('curr balances', currBalances);
             const { token, updBalance } = action.payload;
             const updatingLiveBalance = currBalances.map((balance: any) => {
                 if (token === balance.name) {

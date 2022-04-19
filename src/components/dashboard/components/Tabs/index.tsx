@@ -196,7 +196,6 @@ const AssetsAndTransactions: React.FunctionComponent<
                 </TabSection>
             </Tabs>
             <div className="scrollbar" style={{ marginTop: '0' }}>
-                {console.log('Balances ===>>>', balances)}
                 {balances.length > 1
                     ? isTab1Active &&
                       balances.map((singleToken: any) => {
@@ -207,7 +206,6 @@ const AssetsAndTransactions: React.FunctionComponent<
                                   amount={String(singleToken.balance)}
                                   amountInUsd={10}
                                   logo={`https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${singleToken.name}.png`}
-                                  //   logo={tokenImage}
                                   isNative={singleToken.isNative}
                                   decimal={singleToken.decimal}
                               />

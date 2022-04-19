@@ -180,7 +180,7 @@ const Dashboard: React.FunctionComponent = () => {
         generalDispatcher(()=>setRpcUrl(data.rpcUrl ? data.rpcUrl : ''));
         generalDispatcher(()=>setChainName(data.name));
         generalDispatcher(()=>setTokenImage(data.logo));
-        generalDispatcher(()=>setPrefix(data.prefix));
+        // generalDispatcher(()=>setPrefix(data.prefix));
         generalDispatcher(()=>setQueryEndpoint(data.queryEndpoint));
         
         // eslint-disable-next-line max-len
