@@ -5,9 +5,9 @@ import { ActiveAccount } from '../types';
 const { POLKADOT_CONFIG } = constants;
 
 const initialState: ActiveAccount = {
-    isLoggedIn: false,
-    publicKey: '',
-    accountName: '',
+    isLoggedIn: true,
+    publicKey: '5GjSQRFYEFBY1nmVuGHTyKkRHrodQmUKdA7kWzfmfLp262xG',
+    accountName: 'Hello',
     rpcUrl: POLKADOT_CONFIG.rpcUrl,
     chainName: POLKADOT_CONFIG.name,
     tokenName: POLKADOT_CONFIG.tokenName,
@@ -45,6 +45,9 @@ export const activeAccountSlice = createSlice({
                 isLoggedIn: false,
                 accountName: '',
                 balance: 0,
+                balances: [
+                    { name: '', balance: '', isNative: false, decimal: 0 },
+                ],
                 balanceInUsd: 0,
                 jsonFileUploadScreen: false,
                 rpcUrl: POLKADOT_CONFIG.rpcUrl,

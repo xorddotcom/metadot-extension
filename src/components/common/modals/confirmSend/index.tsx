@@ -9,7 +9,6 @@ import { CONFIRM_BUTTON } from '../../../../utils/app-content';
 import ConfirmSendView from './view';
 
 const ConfirmSend: React.FunctionComponent<ConfirmSendModalProps> = (props) => {
-    console.log('confirm send props =====>>>', props);
     const { loading2 } = props;
     const transactionAmount = (valueOne: string, valueTwo: number): string => {
         const value = parseFloat(valueOne) + valueTwo;

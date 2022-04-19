@@ -36,6 +36,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     transferAll,
     balance,
     tokenName,
+    insufficientTxFee,
 }) => {
     const { balanceInUsd, tokenImage } = useSelector(
         (state: RootState) => state.activeAccount
@@ -167,7 +168,17 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                     className={subHeadingfontFamilyClass}
                     style={{ marginBottom: '16px' }}
                 >
-                    Insufficient balance
+                    Insufficient balance.
+                </WarningText>
+            )}
+
+            {insufficientTxFee && (
+                <WarningText
+                    id="warning-text-1"
+                    className={subHeadingfontFamilyClass}
+                    style={{ marginBottom: '1rem' }}
+                >
+                    Not enough balance to pay transaction fee.
                 </WarningText>
             )}
 

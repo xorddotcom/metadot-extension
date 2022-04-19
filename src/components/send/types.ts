@@ -68,6 +68,7 @@ export interface AmountInputInterface {
     disableToggleButtons: disableToggleButtons;
 
     setInsufficientBal(e: boolean): void;
+    insufficientTxFee: boolean;
 }
 
 type transferAllType = {
@@ -104,7 +105,6 @@ export interface SendViewProps {
     };
     setTransferAll: React.Dispatch<SetStateAction<transferAllType>>;
     setAmountOnToggle(input: boolean, keepAlive: boolean): void;
-    multipleTokens(): void;
 }
 
 export interface CalculatedAmountInterface {

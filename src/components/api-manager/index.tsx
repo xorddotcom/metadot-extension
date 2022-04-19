@@ -25,7 +25,6 @@ const { wifiOff, SuccessCheckIcon } = images;
 const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
     const setIsWalletConnected = localStorage.getItem('setIsWalletConnected');
     const currentUser = useSelector((state: RootState) => state);
-    const [userBalances, setUserBalances]: any[] = useState([]);
     const openModal = useResponseModal({
         isOpen: true,
         modalImage: SuccessCheckIcon,
@@ -47,8 +46,13 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
     const { apiInitializationStarts } = currentUser.api;
 
     const { convertIntoUsd } = helpers;
-    const { getBalance, providerInitialization, addressMapper } = services;
-    const { publicKey, chainName, tokenName } = activeAccount;
+    const {
+        getBalance,
+        providerInitialization,
+        addressMapper,
+        fetchBalanceWithMultipleTokens,
+    } = services;
+    const { publicKey, chainName, tokenName, balances } = activeAccount;
 
     const compareSites = (arr: any, sub: any): any => {
         const sub2 = sub.toLowerCase();
@@ -83,63 +87,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
         setConnectedSites();
     }, [setIsWalletConnected]);
 
-    const fetchBalanceWithMultipleTokens = async (
-        newApi: ApiPromiseType,
-        account: string
-    ): Promise<any> => {
-        let allBalances: any[] = [];
-        try {
-            const allTokens = newApi?.registry?.chainTokens;
-            const allDecimals = newApi?.registry?.chainDecimals;
-            const res = await allTokens.map(
-                async (singleToken: any, index: number): Promise<any> => {
-                    await newApi?.query?.tokens?.accounts(
-                        account,
-                        { Token: singleToken },
-                        (result: any) => {
-                            const data = {
-                                name: singleToken,
-                                balance:
-                                    result.free.toString() /
-                                    10 ** allDecimals[index],
-                                isNative: false,
-                                decimal: allDecimals[index],
-                            };
-                            allBalances = [...allBalances, data];
-
-                            setUserBalances((prevState: any) => ({
-                                ...prevState,
-                                data,
-                            }));
-                            return allBalances;
-                        }
-                    );
-                    if (index === 0) {
-                        const balance: any =
-                            await newApi?.query?.system?.account(account);
-                        const data = {
-                            name: allTokens[0],
-                            balance: balance.data.free / 10 ** allDecimals[0],
-                            isNative: true,
-                            decimal: allDecimals[0],
-                        };
-                        allBalances[0] = data;
-                        // allBalances = [...allBalances, data];
-                    }
-                    if (allBalances.length === allTokens.length) {
-                        generalDispatcher(() => setBalances(allBalances));
-                        return allBalances;
-                    }
-                    return allBalances;
-                }
-            );
-            return allBalances;
-        } catch (err) {
-            console.log('Error', err);
-            return false;
-        }
-    };
-
     useEffect(() => {
         const setAPI = async (rpcUrl: string): Promise<void> => {
             try {
@@ -159,24 +106,17 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                     //     publicKey
                     // );
 
-                    const tokens = newApiInstance?.registry?.chainTokens;
+                    const balanceOfSelectedNetwork = await getBalance(
+                        newApiInstance,
+                        publicKey
+                    );
+                    generalDispatcher(() =>
+                        setBalance(exponentConversion(balanceOfSelectedNetwork))
+                    );
 
-                    if (tokens.length > 1) {
-                        await fetchBalanceWithMultipleTokens(
-                            newApiInstance,
-                            publicKey
-                        );
-                    } else {
-                        const balanceOfSelectedNetwork = await getBalance(
-                            newApiInstance,
-                            publicKey
-                        );
-                        generalDispatcher(() =>
-                            setBalance(
-                                exponentConversion(balanceOfSelectedNetwork)
-                            )
-                        );
-                    }
+                    generalDispatcher(() =>
+                        setBalances(balanceOfSelectedNetwork)
+                    );
 
                     // const res = await fetchBalanceWithMultipleTokens(
                     //     newApiInstance,
@@ -230,23 +170,23 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
         setAPI(rpc);
     }, [chainName, loadingForApi, rpc]);
 
-    // useEffect(() => {
-    //     const accountChanged = async (): Promise<void> => {
-    //         // getting token balance
-    //         const balanceOfSelectedNetwork = await getBalance(api, publicKey);
-    //         // getting token balance in usd
-    //         const dollarAmount = await convertIntoUsd(
-    //             tokenName,
-    //             balanceOfSelectedNetwork
-    //         );
-    //         generalDispatcher(() => setBalanceInUsd(dollarAmount));
-    //         generalDispatcher(() =>
-    //             setBalance(exponentConversion(balanceOfSelectedNetwork))
-    //         );
-    //         generalDispatcher(() => setBalances(balanceOfSelectedNetwork));
-    //     };
-    //     accountChanged();
-    // }, [publicKey]);
+    useEffect(() => {
+        const accountChanged = async (): Promise<void> => {
+            // getting token balance
+            const balanceOfSelectedNetwork = await getBalance(api, publicKey);
+            // getting token balance in usd
+            const dollarAmount = await convertIntoUsd(
+                tokenName,
+                balanceOfSelectedNetwork
+            );
+            generalDispatcher(() => setBalanceInUsd(dollarAmount));
+            generalDispatcher(() =>
+                setBalance(exponentConversion(balanceOfSelectedNetwork))
+            );
+            generalDispatcher(() => setBalances(balanceOfSelectedNetwork));
+        };
+        accountChanged();
+    }, [publicKey]);
 
     useEffect(() => {
         let unsub: any;
@@ -255,12 +195,50 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
             if (api && publicKey) {
                 const decimals = api?.registry?.chainDecimals[0];
 
+                const tokens = api?.registry?.chainTokens;
+                const allDecimals = api?.registry?.chainDecimals;
+                const promises: any[] = [];
+
+                tokens.map(async (token: any, index: number) => {
+                    unsub = await api?.query?.tokens?.accounts(
+                        publicKey,
+                        {
+                            Token: token,
+                        },
+                        (res: any) => {
+                            console.log(
+                                'New listener non native',
+                                balances[index].name,
+                                res.free.toString() / 10 ** allDecimals[index]
+                            );
+                            console.log(
+                                'new listener balances',
+                                `${token}: ${balances[index].balance}`
+                            );
+                            if (
+                                Number(
+                                    res.free.toString() /
+                                        10 ** allDecimals[index]
+                                ) !== Number(balances[index].balance)
+                            ) {
+                                console.log('Balance changed');
+                                alert('Update balance in redux');
+                            }
+                        }
+                    );
+                });
+
                 unsub = await api?.query?.system?.account(
                     publicKey,
                     ({ data: balance }: any) => {
                         const res: number =
                             Number(balance.free) - Number(balance.miscFrozen);
                         const newBalance: number = res / 10 ** decimals;
+                        console.log(
+                            'new listener native',
+                            newBalance,
+                            tokens[0]
+                        );
                         const exponentConverted =
                             exponentConversion(newBalance);
                         generalDispatcher(() =>
