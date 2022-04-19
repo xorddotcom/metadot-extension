@@ -33,7 +33,6 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     const [passwordError, setPasswordError] = useState(false);
     const [savePass, setSavePass] = useState(false);
     const [isLock, setIsLock] = useState(false);
-    const [copy, setCopy] = useState('Copy');
 
     const copySeedText = (text: string): void => {
         navigator.clipboard.writeText(text);

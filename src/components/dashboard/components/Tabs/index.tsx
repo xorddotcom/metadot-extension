@@ -204,7 +204,7 @@ const AssetsAndTransactions: React.FunctionComponent<
                                   name={chainName}
                                   shortName={singleToken.name}
                                   amount={String(singleToken.balance)}
-                                  amountInUsd={10}
+                                  balanceInUsd={10}
                                   logo={`https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${singleToken.name}.png`}
                                   isNative={singleToken.isNative}
                                   decimal={singleToken.decimal}
@@ -214,9 +214,9 @@ const AssetsAndTransactions: React.FunctionComponent<
                     : isTab1Active && (
                           <AssetCard
                               name={chainName}
-                              shortName={chainName}
-                              amount={String(balance)}
-                              amountInUsd={10}
+                              shortName={balances[0].name}
+                              amount={String(balances[0].balance.toFixed(5))}
+                              balanceInUsd={10}
                               logo={tokenImage}
                               isNative
                               decimal={10}

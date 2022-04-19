@@ -17,4 +17,5 @@ export interface ViewProps {
     tokenName: string;
     isNative: boolean;
     decimal: number;
+    balanceInUsd?: number;
 }

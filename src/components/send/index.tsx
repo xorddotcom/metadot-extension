@@ -194,48 +194,55 @@ const Send: React.FunctionComponent = () => {
     };
 
     const validateTxErrors = async (txFee: number): Promise<void> => {
-        const tokens = await api?.registry?.chainTokens;
+        try {
+            const tokens = await api?.registry?.chainTokens;
 
-        const recipientBalance: any = await getBalance(api, receiverAddress);
-        const filterBalance = recipientBalance.filter((e: any) => {
-            return e.name === tokenName;
-        });
-        const senderBalance = location.balance;
+            const recipientBalance: any = await getBalance(
+                api,
+                receiverAddress
+            );
+            const filterBalance = recipientBalance.filter((e: any) => {
+                return e.name === tokenName;
+            });
+            const senderBalance = location.balance;
 
-        const ED = existentialDeposit;
+            const ED = existentialDeposit;
 
-        if (Number(ED) > Number(filterBalance[0].balance + amount)) {
-            // Show warning modal
-            setSubTextForWarningModal(
-                `The receiver have insufficient balance
+            if (Number(ED) > Number(filterBalance[0].balance + amount)) {
+                // Show warning modal
+                setSubTextForWarningModal(
+                    `The receiver have insufficient balance
                  to receive the transaction.
                  Do you still want to confirm?`
-            );
-            setIsWarningModalOpen(true);
-            // return [false, txFee];
+                );
+                setIsWarningModalOpen(true);
+                // return [false, txFee];
+            }
+            if (
+                Number(senderBalance) -
+                    Number(amount) -
+                    Number(isNative ? txFee : 0) <
+                Number(ED)
+            ) {
+                // if (tokens.length > 1) {
+                setSubTextForWarningModal(
+                    `The ${
+                        tokens.length > 1 ? 'sending token' : 'sender account'
+                    } might get reaped`
+                );
+                // }
+                //  else {
+                //     setSubTextForWarningModal(
+                //         `The sender account might get reaped`
+                //     );
+                // }
+                setIsWarningModalOpen(true);
+                // return [false, txFee];
+            }
+            // return [true, txFee];
+        } catch (err) {
+            console.log('In validate tx errors', err);
         }
-        if (
-            Number(senderBalance) -
-                Number(amount) -
-                Number(isNative ? txFee : 0) <
-            Number(ED)
-        ) {
-            // if (tokens.length > 1) {
-            setSubTextForWarningModal(
-                `The ${
-                    tokens.length > 1 ? 'sending token' : 'sender account'
-                } might get reaped`
-            );
-            // }
-            //  else {
-            //     setSubTextForWarningModal(
-            //         `The sender account might get reaped`
-            //     );
-            // }
-            setIsWarningModalOpen(true);
-            // return [false, txFee];
-        }
-        // return [true, txFee];
     };
 
     const signTransactionFunction = async (
@@ -283,6 +290,7 @@ const Send: React.FunctionComponent = () => {
             setLoading2(true);
 
             const amountSending = amount * 10 ** decimal;
+
             const txSingle = api?.tx?.balances?.transfer(
                 receiverAddress as string,
                 BigInt(amountSending)
@@ -517,7 +525,6 @@ const Send: React.FunctionComponent = () => {
 
             if (isNative) {
                 if (location.balance < amount + txFee) {
-                    console.log('hello');
                     setInsufficientBal(true);
                     throw new Error('Insufficient balance');
                 } else {
