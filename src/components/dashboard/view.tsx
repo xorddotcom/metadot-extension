@@ -184,6 +184,8 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
                     p: 2,
                     px: 2,
                     pb: 3,
+                    maxHeight: `calc(100vh - 80px)`,
+                    overflowY: 'scroll',
                 }}
             />
         </Wrapper>

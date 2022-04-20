@@ -220,52 +220,111 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                             </SubText2>
                         </VerticalContentDiv>
 
-                        <img
-                            style={{ marginTop: '-6%' }}
-                            src={arrowRight}
-                            alt="arrow right"
-                        />
+                        {accountTo.length === 1 && (
+                            <img
+                                style={{ marginTop: '-6%' }}
+                                src={arrowRight}
+                                alt="arrow right"
+                            />
+                        )}
 
+                        {accountTo.length === 1 && (
+                            <VerticalContentDiv>
+                                <MainText2
+                                    textAlign="end"
+                                    className={mainHeadingfontFamilyClass}
+                                >
+                                    To
+                                </MainText2>
+                                <SubText2
+                                    textAlign="end"
+                                    className={subHeadingfontFamilyClass}
+                                >
+                                    <div
+                                        className={`tooltip ${subHeadingfontFamilyClass}`}
+                                        style={{ marginRight: 10 }}
+                                    >
+                                        <div
+                                            id="copy-icon"
+                                            onClick={() => onClick(accountTo)}
+                                            onMouseOver={() => onMouseOver()}
+                                            aria-hidden="true"
+                                            onFocus={() =>
+                                                console.log('onFocus')
+                                            }
+                                        >
+                                            <img
+                                                src={ContentCopyIconWhite}
+                                                alt="copy-icon"
+                                            />
+                                            <span
+                                                className="tooltiptext"
+                                                style={{ fontSize: '11px' }}
+                                            >
+                                                {copy}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {addressModifier(accountTo[0])}
+                                </SubText2>
+                            </VerticalContentDiv>
+                        )}
+                    </HorizontalContentDiv>
+
+                    {accountTo.length > 1 && (
                         <VerticalContentDiv>
                             <MainText2
-                                textAlign="end"
                                 className={mainHeadingfontFamilyClass}
+                                marginTop="20px"
                             >
                                 To
                             </MainText2>
-                            <SubText2
-                                textAlign="end"
-                                className={subHeadingfontFamilyClass}
-                                fontSize="12px"
-                            >
-                                <div
-                                    className={`tooltip ${subHeadingfontFamilyClass}`}
-                                    style={{ marginRight: 10 }}
-                                >
-                                    <div
-                                        id="copy-icon"
-                                        onClick={() => onClick(accountTo)}
-                                        onMouseOver={() => onMouseOver()}
-                                        aria-hidden="true"
-                                        onFocus={() => console.log('onFocus')}
-                                    >
-                                        <img
-                                            src={ContentCopyIconWhite}
-                                            alt="copy-icon"
-                                        />
-                                        <span
-                                            className="tooltiptext"
-                                            style={{ fontSize: '11px' }}
-                                        >
-                                            {copy}
-                                        </span>
-                                    </div>
-                                </div>
+                            {accountTo.map((recepient, index) => {
+                                return (
+                                    <>
+                                        <HorizontalContentDiv marginTop="12px">
+                                            <MainText2
+                                                fontSize="14px"
+                                                className={
+                                                    mainHeadingfontFamilyClass
+                                                }
+                                            >
+                                                Recipient {index + 1}
+                                            </MainText2>
+                                            <MainText2
+                                                fontSize="14px"
+                                                className={
+                                                    mainHeadingfontFamilyClass
+                                                }
+                                            >
+                                                Amount
+                                            </MainText2>
+                                        </HorizontalContentDiv>
 
-                                {addressModifier(accountTo[0])}
-                            </SubText2>
+                                        <HorizontalContentDiv>
+                                            <SubText2
+                                                className={
+                                                    mainHeadingfontFamilyClass
+                                                }
+                                            >
+                                                {addressModifier(
+                                                    accountTo[index]
+                                                )}
+                                            </SubText2>
+                                            <SubText2
+                                                className={
+                                                    mainHeadingfontFamilyClass
+                                                }
+                                            >
+                                                {amount[index]} {tokenName}
+                                            </SubText2>
+                                        </HorizontalContentDiv>
+                                    </>
+                                );
+                            })}
                         </VerticalContentDiv>
-                    </HorizontalContentDiv>
+                    )}
 
                     <MainText1
                         marginTop="30px"
