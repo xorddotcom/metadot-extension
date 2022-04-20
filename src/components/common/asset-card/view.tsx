@@ -16,6 +16,10 @@ const AssetCardView: React.FunctionComponent<ViewProps> = ({
     chainName,
     AssetDetails,
     apiInitializationStarts,
+    balance,
+    tokenName,
+    isNative,
+    decimal,
 }) => {
     const navigate = useNavigate();
     const sendBtn = {
@@ -28,7 +32,10 @@ const AssetCardView: React.FunctionComponent<ViewProps> = ({
             fontSize: '10px',
             marginTop: 10,
         },
-        handleClick: () => navigate(SEND),
+        handleClick: () =>
+            navigate(SEND, {
+                state: { tokenName, balance, isNative, decimal },
+            }),
         disabled: !!apiInitializationStarts,
     };
 

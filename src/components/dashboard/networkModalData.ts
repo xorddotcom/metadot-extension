@@ -14,6 +14,8 @@ const {
     CONTEXTFREE_CONFIG,
     ASTAR_CONFIG,
     ACALA_CONFIG,
+    BIFROST_STAGE_TESTNET_CONFIG,
+    BIFROST_KUSAMA_CONFIG,
 } = constants;
 
 const availableNetworks: NetworkConfigType[] = [
@@ -23,7 +25,6 @@ const availableNetworks: NetworkConfigType[] = [
         name: 'Test Networks',
         logo: TestNetIcon,
         moreOptions: true,
-        prefix: 0,
         queryEndpoint: 'xyz',
         tokenName: 'test',
         rpcUrl: 'xyz',
@@ -41,12 +42,14 @@ const KusamaMainNetworks: NetworkConfigType[] = [
     { ...KUSAMA_CONFIG },
     { ...KARURA_CONFIG },
     { ...SHIDEN_CONFIG },
+    { ...BIFROST_KUSAMA_CONFIG },
 ];
 
 const TestNetworks: NetworkConfigType[] = [
     { ...WESTEND_CONFIG },
     { ...CONTEXTFREE_CONFIG },
     { ...SHIBUYA_CONFIG },
+    { ...BIFROST_STAGE_TESTNET_CONFIG },
 ];
 
 export default {

@@ -5,9 +5,12 @@ import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import { setApi, setApiInitializationStarts } from '../../redux/slices/api';
 import {
     setBalance,
+    setBalances,
     setBalanceInUsd,
     setTokenName,
     setWalletConnected,
+    updateBalance,
+    setPrefix,
 } from '../../redux/slices/activeAccount';
 import { setIsResponseModalOpen } from '../../redux/slices/modalHandling';
 import { RootState } from '../../redux/store';
@@ -46,7 +49,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
 
     const { convertIntoUsd, formatExtrinsic, txMadeOrReceiveByUser } = helpers;
     const { getBalance, providerInitialization, addressMapper } = services;
-    const { publicKey, chainName, tokenName } = activeAccount;
+    const { publicKey, chainName, tokenName, balances } = activeAccount;
 
     const compareSites = (arr: any, sub: any): any => {
         const sub2 = sub.toLowerCase();
@@ -95,14 +98,36 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                         ?.registry?.chainTokens[0];
 
                     // getting token balance
+                    // const balanceOfSelectedNetwork = await getBalance(
+                    //     newApiInstance,
+                    //     publicKey
+                    // );
+
                     const balanceOfSelectedNetwork = await getBalance(
                         newApiInstance,
                         publicKey
                     );
+                    // generalDispatcher(() =>
+                    //     setBalance(exponentConversion(balanceOfSelectedNetwork))
+                    // );
+
+                    console.log(
+                        'balanceOfSelectedNetwork',
+                        balanceOfSelectedNetwork
+                    );
+
+                    generalDispatcher(() =>
+                        setBalances(balanceOfSelectedNetwork)
+                    );
+
+                    // const res = await fetchBalanceWithMultipleTokens(
+                    //     newApiInstance,
+                    //     publicKey
+                    // );
 
                     const dollarAmount = await convertIntoUsd(
-                        newApiInstance.runtimeChain.toString(),
-                        balanceOfSelectedNetwork
+                        tokenNameofSelectedNetwork,
+                        10
                     );
                     await newApiInstance.isReady;
                     generalDispatcher(() => setBalanceInUsd(dollarAmount));
@@ -113,9 +138,17 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                     generalDispatcher(() =>
                         setTokenName(tokenNameofSelectedNetwork)
                     );
+
+                    const chainInfo =
+                        await newApiInstance?.registry?.getChainProperties();
+
                     generalDispatcher(() =>
-                        setBalance(exponentConversion(balanceOfSelectedNetwork))
+                        setPrefix(Number(chainInfo?.ss58Format.toString()))
                     );
+
+                    // generalDispatcher(() =>
+                    //     setBalances(balanceOfSelectedNetwork)
+                    // );
 
                     if (loadingForApi) {
                         openModal();
@@ -159,6 +192,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
             generalDispatcher(() =>
                 setBalance(exponentConversion(balanceOfSelectedNetwork))
             );
+            generalDispatcher(() => setBalances(balanceOfSelectedNetwork));
         };
         accountChanged();
     }, [publicKey]);
@@ -167,19 +201,67 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
         let unsub: any;
         let unsub2: any;
         (async () => {
+            const tokens = api?.registry?.chainTokens;
+            const allDecimals = api?.registry?.chainDecimals;
             if (api && publicKey) {
-                const decimals = api?.registry?.chainDecimals[0];
+                tokens.map(async (token: any, index: number) => {
+                    unsub = await api?.query?.tokens?.accounts(
+                        publicKey,
+                        {
+                            Token: token,
+                        },
+                        (res: any) => {
+                            if (
+                                Number(
+                                    res.free.toString() /
+                                        10 ** allDecimals[index]
+                                ) !== Number(balances[index].balance) &&
+                                !balances[index].isNative
+                            ) {
+                                // console.log(
+                                //     'Balance changed',
+                                //     token,
+                                //     balances[index].balance
+                                // );
+                                generalDispatcher(() =>
+                                    updateBalance({
+                                        balances,
+                                        token,
+                                        updBalance:
+                                            res.free.toString() /
+                                            10 ** allDecimals[index],
+                                    })
+                                );
+                            }
+                        }
+                    );
+                });
 
                 unsub = await api?.query?.system?.account(
                     publicKey,
-                    ({ data: balance }) => {
+                    ({ data: balance }: any) => {
                         const res: number =
                             Number(balance.free) - Number(balance.miscFrozen);
-                        const newBalance: number = res / 10 ** decimals;
+                        const newBalance: number = res / 10 ** allDecimals[0];
+                        const updBalance: number =
+                            Number(balance.free.toString()) /
+                            10 ** allDecimals[0];
+                        console.log(
+                            'new listener native',
+                            newBalance,
+                            tokens[0]
+                        );
                         const exponentConverted =
                             exponentConversion(newBalance);
                         generalDispatcher(() =>
                             setBalance(Number(exponentConverted))
+                        );
+                        generalDispatcher(() =>
+                            updateBalance({
+                                balances,
+                                token: tokens[0],
+                                updBalance,
+                            })
                         );
                     }
                 );

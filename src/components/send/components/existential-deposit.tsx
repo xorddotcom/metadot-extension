@@ -20,10 +20,13 @@ const AmountInput: React.FunctionComponent<ExistensialDepositInterface> = ({
     disableToggleButtons,
     existentialDeposit,
     transferAll,
+    balance,
+    insufficientTxFee,
 }) => {
     const { tokenName } = useSelector(
         (state: RootState) => state.activeAccount
     );
+
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
     const [switchChecked, setSwitchChecked] = useState(false);

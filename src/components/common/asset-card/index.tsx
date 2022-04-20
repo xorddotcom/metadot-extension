@@ -16,6 +16,8 @@ const AssetCard: React.FunctionComponent<Props> = ({
     shortName,
     balanceInUsd,
     logo,
+    isNative,
+    decimal,
 }): React.ReactElement => {
     const { apiInitializationStarts } = useSelector(
         (state: RootState) => state.api
@@ -67,6 +69,10 @@ const AssetCard: React.FunctionComponent<Props> = ({
             chainName={name}
             AssetDetails={AssetDetails}
             apiInitializationStarts={apiInitializationStarts}
+            balance={amount}
+            tokenName={shortName}
+            isNative={isNative}
+            decimal={decimal}
         />
     );
 };

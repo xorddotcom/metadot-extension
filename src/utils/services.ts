@@ -1,11 +1,11 @@
 import { options as AcalaOptions } from '@acala-network/api';
 import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import { WsProvider, ApiPromise, Keyring } from '@polkadot/api';
+
 import '@polkadot/api-augment';
 
 import { encodeAddress } from '@polkadot/util-crypto';
 import type { KeyringJson } from '@polkadot/ui-keyring/types';
-import { formatBalance } from '@polkadot/util';
 import {
     OverrideBundleDefinition,
     OverrideBundleType,
@@ -86,11 +86,12 @@ const getBalanceWithSingleToken = async (
 ): Promise<any> => {
     const balance: any = await api?.query?.system?.account(acc);
     let transferableBalance = 0;
+    const decimalPlace = api?.registry?.chainDecimals[0];
+
     if (balance?.data) {
         const balancesKeys: string[] = Object.keys(balance?.data);
         const balancesValues: string[] = Object.values(balance?.data);
         const balancesObject: any = {};
-        const decimalPlace = api?.registry?.chainDecimals[0];
         balancesValues.map((singleData, index) => {
             const newRes = Number(singleData.toString()) / 10 ** decimalPlace;
             balancesObject[balancesKeys[index]] = newRes;
@@ -99,37 +100,145 @@ const getBalanceWithSingleToken = async (
         transferableBalance =
             Number(balancesObject.free) - Number(balancesObject.miscFrozen);
     }
-    return transferableBalance;
+    const data = {
+        name: api?.registry?.chainTokens[0],
+        balance: transferableBalance,
+        isNative: true,
+        decimal: decimalPlace,
+    };
+
+    return data;
+    // return transferableBalance;
 };
 
-// Get balance of a chain with multiple tokens
-const getBalanceWithMultipleTokens = async (
-    api: ApiPromiseType,
+const fetchBalanceWithMultipleTokens = async (
+    api: any,
     account: string
-): Promise<number> => {
-    // eslint-disable-next-line no-useless-catch
+): Promise<any> => {
+    let allBalances: any[] = [];
     try {
-        const { data: balances }: any = await Promise.all([
-            api?.query?.timestamp.now(),
-            api?.query?.system?.account(account),
-        ]);
+        const allTokens = api?.registry?.chainTokens;
+        const allDecimals = api?.registry?.chainDecimals;
+        await allTokens.map(
+            async (singleToken: any, index: number): Promise<boolean> => {
+                if (index === 0) {
+                    const balance: any = await api?.query?.system?.account(
+                        account
+                    );
+                    const data = {
+                        name: allTokens[0],
+                        balance: balance.data.free / 10 ** allDecimals[0],
+                        isNative: true,
+                        decimal: allDecimals[0],
+                    };
+                    allBalances = [...allBalances, data];
+                }
+                await api?.query?.tokens?.accounts(
+                    account,
+                    { Token: singleToken },
+                    (result: any) => {
+                        const data = {
+                            name: singleToken,
+                            balance:
+                                result.free.toString() /
+                                10 ** allDecimals[index],
+                            isNative: false,
+                            decimal: allDecimals[index],
+                        };
+                        allBalances = [...allBalances, data];
+                        // allBalances.push(data);
+                        return true;
+                    }
+                );
+                return true;
+            }
+        );
+        // const balance: any = await api?.query?.system?.account(account);
+        // if (balance?.data) counter += 1;
+        // allBalances[0] = {
+        //     name: allTokens[0],
+        //     balance: balance.data.free / 10 ** allDecimals[0],
+        //     isNative: true,
+        //     decimal: allDecimals[0],
+        // };
 
-        const userBalance = formatBalance(balances.free, {
-            decimals: api?.registry?.chainDecimals[0],
-            forceUnit: '-',
-            withUnit: false,
-        });
-        return parseFloat(userBalance);
+        return allBalances;
     } catch (err) {
-        throw err;
+        console.log('Error', err);
+        return false;
     }
 };
+
+const multipleTokens = async (
+    api: ApiPromiseType,
+    publicKey: string
+): Promise<any> => {
+    const tokens = api?.registry?.chainTokens;
+    const decimals = api?.registry?.chainDecimals;
+
+    const nativeBalance = await getBalanceWithSingleToken(api, publicKey);
+    const balancesArray: any[] = [];
+    const promises: any[] = [];
+    async function fetch(): Promise<any> {
+        tokens.map(async (token: any, index: number) => {
+            api?.query?.tokens?.accounts(
+                publicKey,
+                { Token: token },
+                (res: any) => {
+                    balancesArray.push({
+                        name: token,
+                        balance: res.free.toString() / 10 ** decimals[index],
+                    });
+                }
+            );
+
+            promises.push(
+                api?.query?.tokens?.accounts(publicKey, { Token: token })
+            );
+
+            return true;
+        });
+        const res = await Promise.all(promises);
+        const res2: any[] = [];
+        res.map(async (singleToken: any, i: number): Promise<any> => {
+            if (i === 0) {
+                // const data = {
+                //     name: tokens[0],
+                //     balance: nativeBalance,
+                //     isNative: true,
+                //     decimal: decimals[i],
+                // };
+                res2[0] = nativeBalance;
+            } else {
+                res2.push({
+                    name: tokens[i],
+                    balance: singleToken.free / 10 ** decimals[i],
+                    isNative: false,
+                    decimal: decimals[i],
+                });
+            }
+            return true;
+        });
+        return res2;
+    }
+    const val = await fetch();
+    return val;
+};
+
 const getBalance = async (
     api: ApiPromiseType,
     account: string
 ): Promise<number> => {
+    const chainTokens = api?.registry?.chainTokens;
+
+    if (chainTokens.length > 1) {
+        const balance = await multipleTokens(api, account);
+        return balance;
+    }
     const balance = await getBalanceWithSingleToken(api, account);
-    return balance;
+    const balanceArray: any = [];
+    balanceArray.push(balance);
+    return balanceArray;
 };
 const getTransactionFee = async (
     api: ApiPromiseType,
@@ -193,4 +302,5 @@ export default {
     getBatchTransactionFee,
     addressMapper,
     convertTransactionFee,
+    fetchBalanceWithMultipleTokens,
 };

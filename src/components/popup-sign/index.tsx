@@ -27,12 +27,12 @@ const { ContentCopyIcon, CheckboxDisabled, CheckboxEnabled } = images;
 const { subHeadingfontFamilyClass } = fonts;
 
 const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
+    const [copy, setCopy] = useState('Copy');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
     const [savePass, setSavePass] = useState(false);
     const [isLock, setIsLock] = useState(false);
-    const [copy, setCopy] = useState('Copy');
 
     const copySeedText = (text: string): void => {
         navigator.clipboard.writeText(text);
@@ -71,6 +71,11 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     function trimString(s: any): string {
         return `${s.substring(0, 7)}...${s.substring(s.length - 7)}`;
     }
+
+    const tooltipText = {
+        onMouseOver: () => setCopy('Copy'),
+        style: { cursor: 'pointer' },
+    };
 
     const Signaturedata = [
         {

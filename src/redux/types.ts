@@ -42,3 +42,27 @@ interface TOKEN {
 export interface TOKEN_INFO_INTERFACE {
     [TokenName: string]: TOKEN;
 }
+type BalancesType = {
+    name: string;
+    balance: number;
+    isNative: boolean;
+    decimal: number;
+};
+
+export interface ActiveAccount {
+    isLoggedIn: boolean;
+    publicKey: string;
+    accountName: string;
+    rpcUrl: string;
+    chainName: string;
+    tokenName: string;
+    tokenImage: string;
+    balance: number;
+    balanceInUsd: number;
+    jsonFileUploadScreen: boolean;
+    prefix: number;
+    lastVisitedTimestamp: string;
+    queryEndpoint: string;
+    isWalletConnected: boolean;
+    balances: [BalancesType];
+}

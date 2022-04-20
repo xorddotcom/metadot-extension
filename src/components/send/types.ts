@@ -48,12 +48,21 @@ export interface Account {
 
 export interface ExistensialDepositInterface {
     onChange(e: string): void;
+    maxInputHandler(): void;
+    insufficientBal: boolean;
+    errorMessages: errorMessages;
+    transactionFee: number;
+    amount: any;
+    balance: number;
+    tokenName: string;
     setTransferAll: React.Dispatch<SetStateAction<transferAllType>>;
     setAmountOnToggle(input: boolean, keepAlive: boolean): void;
     disableToggleButtons: disableToggleButtons;
     setInsufficientBal(e: boolean): void;
     existentialDeposit: number;
     transferAll: transferAllType;
+    insufficientTxFee: boolean;
+    // tokenImage: any;
 }
 
 type transferAllType = {

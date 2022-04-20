@@ -1,12 +1,12 @@
 export interface NetworkConfig {
     name: string;
-    EXISTENTIAL_DEPOSIT?: number;
+    // EXISTENTIAL_DEPOSIT?: number;
     queryEndpoint: string;
     logo: string;
     moreOptions?: boolean;
     relayChain?: boolean;
     rpcUrl: string;
-    prefix: number;
+    // prefix: number;
     disabled?: boolean;
     icon?: string;
     tokenName: string;

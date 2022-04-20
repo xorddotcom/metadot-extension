@@ -81,6 +81,7 @@ const Dashboard: React.FunctionComponent = () => {
         prefix,
         chainName,
         balance,
+        balances,
         tokenName,
         balanceInUsd,
         accountName,
@@ -177,7 +178,7 @@ const Dashboard: React.FunctionComponent = () => {
         generalDispatcher(()=>setRpcUrl(data.rpcUrl ? data.rpcUrl : ''));
         generalDispatcher(()=>setChainName(data.name));
         generalDispatcher(()=>setTokenImage(data.logo));
-        generalDispatcher(()=>setPrefix(data.prefix));
+        // generalDispatcher(()=>setPrefix(data.prefix));
         generalDispatcher(()=>setQueryEndpoint(data.queryEndpoint));
         
         // eslint-disable-next-line max-len
@@ -238,7 +239,7 @@ const Dashboard: React.FunctionComponent = () => {
             publicKey={publicKey}
             prefix={prefix}
             chainName={chainName}
-            balance={balance}
+            balance={balances[0] ? balances[0].balance : 0}
             balanceInUsd={balanceInUsd}
             tokenName={tokenName}
             accountName={accountName}

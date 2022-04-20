@@ -4,6 +4,8 @@ export interface Props {
     shortName: string;
     balanceInUsd: number;
     logo: string;
+    isNative: boolean;
+    decimal: number;
 }
 
 export interface ViewProps {
@@ -11,4 +13,9 @@ export interface ViewProps {
     chainName: string;
     AssetDetails: JSX.Element;
     apiInitializationStarts: boolean;
+    balance: string;
+    tokenName: string;
+    isNative: boolean;
+    decimal: number;
+    balanceInUsd?: number;
 }

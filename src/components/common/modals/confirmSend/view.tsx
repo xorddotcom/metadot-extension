@@ -13,7 +13,7 @@ import {
     MainText1,
 } from './styledComponents';
 import { ModalText } from '../../text';
-import { fonts, images } from '../../../../utils';
+import { fonts, images, helpers } from '../../../../utils';
 import services from '../../../../utils/services';
 import { RootState } from '../../../../redux/store';
 import {
@@ -30,6 +30,8 @@ import { ConfirmSendModalViewProps } from './types';
 const { addressMapper } = services;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { arrowRight } = images;
+const { trimBalance } = helpers;
+
 const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
     handleClose,
     accountTo,
@@ -38,6 +40,8 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
     loading2,
     transactionAmount,
     btnConfirm,
+    locationTokenName,
+    isNative,
 }) => {
     const { publicKey, tokenName, prefix } = useSelector(
         (state: RootState) => state.activeAccount
@@ -50,6 +54,18 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
         const res = addressMapper(publicKey, prefix);
         return `${res.slice(0, 5)} ... ${res.slice(-5)}`;
     };
+    const totalAmount = (valueOne: number, valueTwo: number): string => {
+        if (isNative) {
+            const value = valueOne + valueTwo;
+            const val = value.toString();
+            const trimmedValue = val.slice(0, val.indexOf('.') + 6);
+            return `${trimmedValue} ${locationTokenName}`;
+        }
+        return `${trimBalance(amount)} ${locationTokenName} + ${trimBalance(
+            transactionFee
+        )} ${tokenName}`;
+    };
+
     return (
         <Modal
             open={confirmSendModal}
@@ -168,14 +184,16 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                                     id="amount"
                                     textAlign="end"
                                     className={mainHeadingfontFamilyClass}
-                                >{`${amount} ${tokenName}`}</ModalText2>
+                                >{`${amount} ${locationTokenName}`}</ModalText2>
                                 <ModalText2
                                     id="transaction-fee"
                                     marginTop="10px"
                                     marginBottom="10px"
                                     textAlign="end"
                                     className={mainHeadingfontFamilyClass}
-                                >{`${transactionFee} ${tokenName}`}</ModalText2>
+                                >{`${transactionFee.toFixed(
+                                    4
+                                )} ${tokenName}`}</ModalText2>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
 
@@ -201,10 +219,16 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                                     id="transaction-amount"
                                     textAlign="end"
                                     className={mainHeadingfontFamilyClass}
-                                >{`${transactionAmount(
+                                >
+                                    {/* {`${transactionAmount(
                                     amount,
                                     transactionFee
-                                )} ${tokenName}`}</ModalText2>
+                                )} ${tokenName}`} */}
+                    {/* {totalAmount(
+                                        Number(amount),
+                                        Number(transactionFee)
+                                    )}
+                                </ModalText2>
                                 <ModalText2
                                     textAlign="end"
                                     hide
@@ -214,7 +238,7 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                                 </ModalText2>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
-                    </VerticalContentDiv> */}
+                    </VerticalContentDiv>  */}
 
                     <VerticalContentDiv specialPadding border paddingBottom>
                         <MainText1
@@ -315,10 +339,14 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                                     fontWeight="600"
                                     color="#2E9B9B"
                                 >
-                                    {`${transactionAmount(
+                                    {/* {`${transactionAmount(
                                         amount,
                                         transactionFee
-                                    )} ${tokenName}`}
+                                    )} ${tokenName}`} */}
+                                    {totalAmount(
+                                        Number(amount),
+                                        Number(transactionFee)
+                                    )}
                                 </MainText1>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
