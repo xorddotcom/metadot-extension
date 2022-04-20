@@ -219,7 +219,7 @@ const AssetsAndTransactions: React.FunctionComponent<
                               balanceInUsd={10}
                               logo={tokenImage}
                               isNative
-                              decimal={10}
+                              decimal={balances[0].decimal}
                           />
                       )}
 

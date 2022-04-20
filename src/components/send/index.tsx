@@ -45,6 +45,15 @@ const Send: React.FunctionComponent = () => {
     const generalDispatcher = useDispatcher();
     const navigate = useNavigate();
 
+    const currReduxState = useSelector((state: RootState) => state);
+    const { activeAccount, modalHandling } = useSelector(
+        (state: RootState) => state
+    );
+
+    // const { publicKey, balance, tokenName } = activeAccount;
+
+    const { publicKey, balances } = activeAccount;
+
     const location = useLocation().state as {
         tokenName: string;
         balance: number;
@@ -77,14 +86,6 @@ const Send: React.FunctionComponent = () => {
     const [savePassword, setSavePassword] = useState(false);
     const [passwordSaved, setPasswordSaved] = useState(false);
 
-    const currReduxState = useSelector((state: RootState) => state);
-    const { activeAccount, modalHandling } = useSelector(
-        (state: RootState) => state
-    );
-
-    // const { publicKey, balance, tokenName } = activeAccount;
-
-    const { publicKey, balances } = activeAccount;
     const { tokenName, isNative, decimal } = location;
     const { authScreenModal } = modalHandling;
     const api = currReduxState.api.api as unknown as ApiPromiseType;
@@ -198,6 +199,7 @@ const Send: React.FunctionComponent = () => {
 
     const validateTxErrors = async (txFee: number): Promise<void> => {
         try {
+            console.log('validateTxErrors', txFee);
             const tokens = await api?.registry?.chainTokens;
 
             const recipientBalance: any = await getBalance(
@@ -289,11 +291,12 @@ const Send: React.FunctionComponent = () => {
         address = '',
         password = ''
     ): Promise<boolean> => {
+        console.log('handle transaction working');
         try {
             setLoading2(true);
 
             const amountSending = amount * 10 ** decimal;
-
+            console.log('Amount sending', amountSending);
             const txSingle = api?.tx?.balances?.transfer(
                 receiverAddress as string,
                 BigInt(amountSending)
@@ -506,6 +509,7 @@ const Send: React.FunctionComponent = () => {
         }
     };
     const handleSubmit = async (): Promise<void | boolean> => {
+        console.log('handle submit');
         try {
             const txFee = await getTransactionFee(
                 api,
@@ -701,6 +705,8 @@ const Send: React.FunctionComponent = () => {
         disableToggleButtons,
         existentialDeposit,
         transferAll,
+        setInsufficientBal,
+        tokenName,
     };
 
     const nextBtn = {

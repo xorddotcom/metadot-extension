@@ -20,10 +20,13 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     insufficientBal,
     transactionFee,
     amount,
+    tokenName,
+    balance,
 }) => {
-    const { balance, balanceInUsd, tokenName, tokenImage } = useSelector(
+    const { balanceInUsd, balances } = useSelector(
         (state: RootState) => state.activeAccount
     );
+
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
     const styledInput = {
@@ -36,7 +39,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         amount,
         tokenLogo: true,
         tokenName,
-        tokenImage,
+        tokenImage: `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenName}.png`,
         // isCorrect: amountState.isValid || insufficientBal,
     };
 
@@ -85,7 +88,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
             <CalculatedAmount marginTop="5px">
                 <Balance {...txFeeProps}>
                     Estimated Gas Fee:{' '}
-                    {`${trimContent(transactionFee, 6)} ${tokenName}`}
+                    {`${trimContent(transactionFee, 6)} ${balances[0].name}`}
                 </Balance>
             </CalculatedAmount>
         </VerticalContentDiv>
