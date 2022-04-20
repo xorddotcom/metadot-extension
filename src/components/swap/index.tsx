@@ -3,7 +3,9 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import { Token as SDKToken } from '@acala-network/sdk-core/token';
+import { FixedPointNumber } from '@acala-network/sdk-core';
 import { TradeGraph } from '@acala-network/sdk-swap';
+
 import { WalletPromise } from '@acala-network/sdk-wallet';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { options } from '@acala-network/api';
@@ -58,6 +60,17 @@ class TokenPair {
         return (
             pair.token1.isEqual(this.token1, compare) &&
             pair.token2.isEqual(this.token2, compare)
+        );
+    }
+
+    toChainData(): any {
+        return [this.token1.toChainData(), this.token2.toChainData()];
+    }
+
+    toTradingPair(api: any): any {
+        return api.registry.createType(
+            'AcalaPrimitivesTradingPair',
+            this.toChainData()
         );
     }
 }
@@ -137,6 +150,17 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
         generalDispatcher(() => setAuthScreenModal(true));
     };
 
+    const getTokenPairsFromPath = (path: any): any => {
+        const temp = path.slice(); // push undefined as tail sentinel
+
+        temp.push(undefined);
+        return temp.reduce((acc: any, cur: any, current: any) => {
+            if (!cur || !temp[current + 1]) return acc;
+            acc.push(new TokenPair(cur, temp[current + 1]));
+            return acc;
+        }, []);
+    };
+
     const handleAmountChange = async (amount: string): Promise<void> => {
         if (tokenFrom && tokenTo) {
             setAmountFrom(amount);
@@ -154,11 +178,9 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                         item[0].args[0][1]
                     )
                 );
-
             console.log('tradingPairs', tradingPairs);
 
             const tradeGraph = new TradeGraph(tradingPairs);
-
             console.log('tradeGraph', tradeGraph);
 
             const tradingPaths = tradeGraph.getPathes(
@@ -166,8 +188,52 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                 SDKToken.fromCurrencyId(tokenTo.name as any),
                 3
             );
-
             console.log('tradingPaths', tradingPaths);
+
+            const tokenPairFromPaths = tradingPaths
+                .reduce((acc: any, path) => {
+                    // eslint-disable-next-line no-param-reassign
+                    acc = acc.concat(getTokenPairsFromPath(path));
+                    return acc;
+                }, [])
+                .reduce((acc: any, cur: any) => {
+                    const isExist = acc.find((item: any) => item.isEqual(cur));
+                    if (isExist) return acc;
+                    acc.push(cur);
+                    return acc;
+                }, []);
+
+            console.log('tokenPairFromPaths', tokenPairFromPaths);
+
+            const liquidityPoolsFromTokenPairs = await api.queryMulti(
+                tokenPairFromPaths.map((item: any) => [
+                    api.query.dex.liquidityPool,
+                    item.toTradingPair(api),
+                ])
+            );
+            console.log(
+                'liquidityPoolsFromTokenPairs',
+                liquidityPoolsFromTokenPairs
+            );
+
+            const finalResult = tokenPairFromPaths.map(
+                (item: any, index: any) => {
+                    const liquidity = liquidityPoolsFromTokenPairs[index];
+                    const pair = item.getPair();
+                    return {
+                        token1: pair[0],
+                        token2: pair[1],
+                        balance1: FixedPointNumber.fromInner(
+                            liquidity[0].toString()
+                        ),
+                        balance2: FixedPointNumber.fromInner(
+                            liquidity[1].toString()
+                        ),
+                    };
+                }
+            );
+
+            console.log('finalResult', finalResult);
         }
     };
 
