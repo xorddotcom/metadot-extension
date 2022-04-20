@@ -30,7 +30,7 @@ const {
     Send,
     Swap,
     SeedphraseWarning,
-    BatchSend,
+    // BatchSend,
 } = Views;
 
 export const UnAuthorizedRoutes = [
@@ -67,10 +67,10 @@ export const AuthorizedRoutes = [
         path: DASHBOARD,
         Component: Dashboard,
     },
-    {
-        path: BATCH_SEND,
-        Component: BatchSend,
-    },
+    // {
+    //     path: BATCH_SEND,
+    //     Component: BatchSend,
+    // },
     {
         path: SEEDPHRASE_WARNING,
         Component: SeedphraseWarning,
