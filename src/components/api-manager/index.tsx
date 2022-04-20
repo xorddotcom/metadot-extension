@@ -229,9 +229,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                                 event
                                             );
                                         if (userSentOrReceiveTx.bool) {
-                                            console.log(
-                                                'user made or receive this transaction ===>'
-                                            );
                                             const chainDecimal =
                                                 api?.registry?.chainDecimals[0];
                                             const txChainName =
@@ -245,10 +242,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                                     userSentOrReceiveTx.method,
                                                     chainDecimal
                                                 );
-                                            console.log(
-                                                formattedExtrinsic,
-                                                'final'
-                                            );
+
                                             const {
                                                 accountFrom,
                                                 accountTo,
@@ -258,21 +252,33 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                                 status,
                                             } = formattedExtrinsic;
 
-                                            transactions.push({
+                                            console.log(
+                                                'formatted result =>',
                                                 accountFrom,
                                                 accountTo,
                                                 amount,
                                                 hash,
-                                                operation,
-                                                status: 'Confirmed',
-                                                chainName: txChainName,
-                                                tokenName: txTokenName,
-                                                transactionFee: '0',
-                                                timestamp: blockTimeStamp.slice(
-                                                    0,
-                                                    -1
-                                                ),
-                                            });
+                                                operation
+                                            );
+
+                                            if (!amount.includes(NaN)) {
+                                                transactions.push({
+                                                    accountFrom,
+                                                    accountTo,
+                                                    amount,
+                                                    hash,
+                                                    operation,
+                                                    status: 'Confirmed',
+                                                    chainName: txChainName,
+                                                    tokenName: txTokenName,
+                                                    transactionFee: '0',
+                                                    timestamp:
+                                                        blockTimeStamp.slice(
+                                                            0,
+                                                            -1
+                                                        ),
+                                                });
+                                            }
                                         }
                                     });
                             }
@@ -287,10 +293,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                             }
                         );
 
-                        console.log(
-                            uniqueTransactions,
-                            'yeh wali transactionssssss'
-                        );
+                        console.log(uniqueTransactions, 'unqiuer Transaction');
 
                         generalDispatcher(() =>
                             addTransaction({

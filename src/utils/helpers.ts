@@ -221,7 +221,12 @@ const txMadeOrReceiveByUser = (
         (event.event.data[0].toString() === userAddress ||
             event.event.data[1].toString() === userAddress)
     ) {
-        console.log('balance transfer transaction');
+        console.log('balance transfer method returning');
+        console.log(
+            event.event.data[0].toString(),
+            event.event.data[1].toString(),
+            userAddress
+        );
         return { bool: true, method: 'transfer' };
     }
     if (
@@ -254,8 +259,11 @@ const txMadeOrReceiveByUser = (
         receiverArray = result.map((res: any) => {
             return res.args?.dest?.id?.toString();
         });
-        if (signer === userAddress || receiverArray.includes(userAddress))
+        if (signer === userAddress || receiverArray.includes(userAddress)) {
+            console.log('utility batch completed method returning');
             return { bool: true, method: 'batch' };
+        }
+
         return { bool: false, method: 'batch' };
     }
     return { bool: false, method: 'none' };

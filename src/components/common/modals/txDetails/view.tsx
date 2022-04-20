@@ -80,6 +80,12 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
 
         return `${currentChain[0].explorer}extrinsic/${txHash}`;
     };
+    const getTotalAmount = (): number => {
+        const totalAmount = amount.reduce(function (a, b) {
+            return a + b;
+        }, 0);
+        return totalAmount;
+    };
     return (
         <Modal open={open} onClose={handleClose}>
             <Box sx={style} className="real-txDetails-modal-style">
@@ -313,18 +319,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                     className={mainHeadingfontFamilyClass}
                                     fontSize="12px"
                                     color="#FFFFFF"
-                                >{`${amount} ${tokenName}`}</MainText1>
-                                <MainText1
-                                    marginTop="10px"
-                                    textAlign="end"
-                                    className={mainHeadingfontFamilyClass}
-                                    fontSize="12px"
-                                    color="#FFFFFF"
-                                >{`${
-                                    transactionFee
-                                        ? transactionFee.slice(0, 6)
-                                        : '0'
-                                } ${tokenName}`}</MainText1>
+                                >{`${getTotalAmount()} ${tokenName}`}</MainText1>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
 
