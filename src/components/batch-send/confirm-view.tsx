@@ -195,7 +195,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                             fontSize="12px"
                             opacity="0.8"
                         >
-                            Total Amount
+                            Total Transferable Amount
                         </SubHeading>
                         <SubHeading
                             lineHeight="0px"
@@ -228,7 +228,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
 
                 <HorizontalContentDiv justifyContent="space-between">
                     <SubHeading lineHeight="0px" color={white} fontSize="12px">
-                        Total Transferable Amount
+                        Total Amount
                     </SubHeading>
                     <SubHeading
                         lineHeight="0px"

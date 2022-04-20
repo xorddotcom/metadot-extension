@@ -36,6 +36,7 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
     };
 
     useEffect(() => {
+        console.log(csvFile, 'file');
         if (csvFile) {
             try {
                 const file = csvFile;
@@ -70,7 +71,12 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
     }, [csvFile]);
 
     useEffect(() => {
+        console.log(csvData, 'data');
         if (csvData) {
+            if (csvData.length === 0) {
+                setError('Invalid CSV');
+                return;
+            }
             setResetRecepientList(recepientList);
             const allowedKeys = ['address', 'amount'];
             console.log('csv data ==>>', csvData);
@@ -208,6 +214,7 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
                 accept=".csv"
                 ref={hiddenFileInput}
                 onChange={(e) => {
+                    console.log(e.target.files, 'aage kuch');
                     return e.target.files && setCsvFile(e.target.files[0]);
                 }}
                 style={{ display: 'none' }}

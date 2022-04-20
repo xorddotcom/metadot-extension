@@ -43,7 +43,9 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
     const [insufficientBal, setInsufficientBal] = React.useState(false);
     const [senderReaped, setSenderReaped] = React.useState(false);
     const [isButtonLoading, setIsButtonLoading] = React.useState(false);
-    const [reapingAddressList, setReapingAddressList] = React.useState([]);
+    const [reapingAddressList, setReapingAddressList] = React.useState<
+        number[]
+    >([]);
     const [existentialDeposit, setExistentialDeposit] =
         React.useState<number>(0);
 
@@ -123,7 +125,6 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
     const [showReceiverReapWarning, setShowReceiverReapWarning] =
         React.useState(false);
 
-    let reapReceiverAccounts: number[] = [];
     const validateReceiverAccountsReaping = async (): Promise<void> => {
         const recipientBalancesPromises = recepientList.map(
             async (recepient) => {
@@ -131,7 +132,7 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
             }
         );
 
-        reapReceiverAccounts = [];
+        const reapReceiverAccounts: number[] = [];
         const recipientBalances = await Promise.all(recipientBalancesPromises);
 
         recipientBalances.forEach((recipientBalance, index) => {
@@ -142,9 +143,12 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                         Number(recepientList[index].amount)
                 )
             ) {
+                console.log(index + 1, 'yehg ander lo');
                 reapReceiverAccounts.push(index + 1);
             }
         });
+        console.log(reapReceiverAccounts);
+        setReapingAddressList(reapReceiverAccounts);
 
         if (reapReceiverAccounts.length > 0) setShowReceiverReapWarning(true);
         else {
@@ -202,7 +206,7 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
             pb: 3,
         },
         mainText: 'Account Reap Warning',
-        subText: `These recipient account(s) ${reapReceiverAccounts} might get reaped. Do you still wish to continue?`,
+        subText: `These recipient account(s) ${reapingAddressList} might get reaped. Do you still wish to continue?`,
     };
 
     const senderReapModalwarning = {
