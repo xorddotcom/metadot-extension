@@ -31,7 +31,7 @@ class TokenPair {
 
     origin;
 
-    static fromCurrencies(currency1: string, currency2: string): any {
+    static fromCurrencies(currency1: any, currency2: any): any {
         return new TokenPair(
             SDKToken.fromCurrencyId(currency1),
             SDKToken.fromCurrencyId(currency2)
@@ -162,8 +162,8 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
             console.log('tradeGraph', tradeGraph);
 
             const tradingPaths = tradeGraph.getPathes(
-                SDKToken.fromCurrencyId(tokenFrom.name),
-                SDKToken.fromCurrencyId(tokenTo.name),
+                SDKToken.fromCurrencyId(tokenFrom.name as any),
+                SDKToken.fromCurrencyId(tokenTo.name as any),
                 3
             );
 
