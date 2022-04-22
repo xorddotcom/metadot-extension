@@ -622,9 +622,9 @@ const Send: React.FunctionComponent = () => {
                 transferAll: false,
                 keepAlive: false,
             });
-            setDisableToggleButtons({
-                firstToggle: false,
-                secondToggle: false,
+            setTransferAll({
+                transferAll: false,
+                keepAlive: false,
             });
             setInsufficientBal(false);
             setInsufficientTxFee(false);
@@ -774,7 +774,7 @@ const Send: React.FunctionComponent = () => {
     };
 
     return (
-        <Wrapper width="88%">
+        <Wrapper width="89%">
             <Header
                 centerText="Send"
                 overWriteBackHandler={() => navigate(DASHBOARD)}

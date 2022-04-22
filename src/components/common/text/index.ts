@@ -65,6 +65,7 @@ export const EquivalentInUSDT = styled.p`
     font-size: 12px;
     color: rgba(250, 250, 250, 0.8);
     margin-left: 8px;
+    visibility: hidden;
 `;
 
 export const MainText = styled.p<MainTextInterface>`

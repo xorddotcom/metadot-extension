@@ -220,6 +220,7 @@ export const PerUnitPrice = styled.p`
     margin-right: 15px;
     margin-top: 10px;
     margin-bottom: 20px;
+    visibility: hidden;
 `;
 
 export const VariationAmount = styled.p`
