@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import { fonts, helpers } from '../../../utils';
@@ -23,9 +23,20 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     tokenName,
     balance,
 }) => {
-    const { balanceInUsd, balances } = useSelector(
+    const { balanceInUsd, balances, publicKey } = useSelector(
         (state: RootState) => state.activeAccount
     );
+    const tokenToSend = balances.filter((bal) => bal.name === tokenName);
+    const [blanaceAfterAccountSwitch, setBalanaceAfterAccountSwitch] =
+        useState(balance);
+
+    useEffect(() => {
+        balances.forEach((bal) => {
+            if (bal.name === tokenName) {
+                setBalanaceAfterAccountSwitch(bal.balance);
+            }
+        });
+    }, [publicKey, tokenToSend[0].balance]);
 
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -81,7 +92,11 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                     ${balanceInUsd === 0 ? 0 : balanceInUsd.toFixed(5)}
                 </EquivalentInUSDT>
                 <Balance {...balanceProps}>
-                    Balance: {`${trimContent(balance, 6)} ${tokenName}`}
+                    Balance:{' '}
+                    {`${trimContent(
+                        blanaceAfterAccountSwitch,
+                        6
+                    )} ${tokenName}`}
                 </Balance>
             </CalculatedAmount>
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import { EventRecord } from '@polkadot/types/interfaces';
@@ -29,12 +29,20 @@ const { getBatchTransactionFee } = services;
 const { signTransaction, isPasswordSaved } = accounts;
 
 const BatchSend: React.FunctionComponent = () => {
+    const location = useLocation().state as {
+        tokenName: string;
+        balance: number;
+        isNative: boolean;
+        decimal: number;
+        // tokenImage: any;
+    };
+    const { tokenName } = location;
     const navigate = useNavigate();
     const generalDispatcher = useDispatcher();
     const currReduxState = useSelector((state: RootState) => state);
     const api = currReduxState.api.api as unknown as ApiPromiseType;
     const { authScreenModal } = currReduxState.modalHandling;
-    const { publicKey, tokenName } = currReduxState.activeAccount;
+    const { publicKey } = currReduxState.activeAccount;
 
     const [step, setStep] = React.useState(0);
     const [recepientList, setRecepientList] = React.useState<Recepient[]>([
@@ -66,7 +74,8 @@ const BatchSend: React.FunctionComponent = () => {
     }, []);
 
     const handleSendSwitch = (): void => {
-        navigate(SEND);
+        const { balance, isNative, decimal } = location;
+        navigate(SEND, { state: { tokenName, balance, isNative, decimal } });
     };
 
     const addRecepient = (recepient: Recepient, overWrite = false): void => {

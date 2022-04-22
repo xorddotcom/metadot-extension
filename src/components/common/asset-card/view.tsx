@@ -45,7 +45,7 @@ const AssetCardView: React.FunctionComponent<ViewProps> = ({
                 {tokenLogo}
                 <NameAndAmount>
                     <CoinName className={mainHeadingfontFamilyClass}>
-                        {chainName}
+                        {tokenName}
                     </CoinName>
                     {AssetDetails}
                 </NameAndAmount>

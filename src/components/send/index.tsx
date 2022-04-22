@@ -754,7 +754,7 @@ const Send: React.FunctionComponent = () => {
     };
 
     const handleBatchSwitch = (): void => {
-        navigate(BATCH_SEND);
+        navigate(BATCH_SEND, { state: location });
     };
 
     return (
