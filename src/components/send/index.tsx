@@ -524,6 +524,18 @@ const Send: React.FunctionComponent = () => {
                     throw new Error('Tx fee');
                 }
                 validateTxErrors(txFee);
+                if (transferAll.transferAll && !transferAll.keepAlive) {
+                    console.log('reap error!!!!!!');
+                    setSubTextForWarningModal(
+                        `The ${
+                            api.registry.chainTokens.length > 1
+                                ? 'sending token'
+                                : 'sender account'
+                        } might get reaped`
+                    );
+                    setIsWarningModalOpen(true);
+                    return false;
+                }
                 generalDispatcher(() => setConfirmSendModal(true));
                 return true;
             }
@@ -609,6 +621,10 @@ const Send: React.FunctionComponent = () => {
             setTransferAll({
                 transferAll: false,
                 keepAlive: false,
+            });
+            setDisableToggleButtons({
+                firstToggle: false,
+                secondToggle: false,
             });
             setInsufficientBal(false);
             setInsufficientTxFee(false);
@@ -763,19 +779,23 @@ const Send: React.FunctionComponent = () => {
                 centerText="Send"
                 overWriteBackHandler={() => navigate(DASHBOARD)}
             />
-
-            <HorizontalContentDiv justifyContent="flex-end" marginTop="28px">
-                <SubHeading onClick={handleBatchSwitch}>
-                    Batch Transactions
-                </SubHeading>
-                <img
-                    src={ToggleOff}
-                    alt="Toggle"
-                    style={{ marginLeft: '10px' }}
-                    aria-hidden
-                    onClick={handleBatchSwitch}
-                />
-            </HorizontalContentDiv>
+            {isNative && (
+                <HorizontalContentDiv
+                    justifyContent="flex-end"
+                    marginTop="28px"
+                >
+                    <SubHeading onClick={handleBatchSwitch}>
+                        Batch Transactions
+                    </SubHeading>
+                    <img
+                        src={ToggleOff}
+                        alt="Toggle"
+                        style={{ marginLeft: '10px' }}
+                        aria-hidden
+                        onClick={handleBatchSwitch}
+                    />
+                </HorizontalContentDiv>
+            )}
 
             <SendView
                 toInput={toInput}

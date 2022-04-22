@@ -39,7 +39,7 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
     setRecepientAddressError,
 }) => {
     const { activeAccount } = useSelector((state: RootState) => state);
-    const { balance, tokenName } = activeAccount;
+    const { balances, tokenName } = activeAccount;
     const [insufficientBal, setInsufficientBal] = React.useState(false);
     const [senderReaped, setSenderReaped] = React.useState(false);
     const [isButtonLoading, setIsButtonLoading] = React.useState(false);
@@ -112,7 +112,10 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
         const totalAmount = calculatedAmount();
         const transactionFee = await getTransactionFees();
 
-        if (Number(balance) < Number(totalAmount) + Number(transactionFee)) {
+        if (
+            Number(balances[0].balance) <
+            Number(totalAmount) + Number(transactionFee)
+        ) {
             setInsufficientBal(true);
             return false;
         }
@@ -161,7 +164,9 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
         const totalAmount = calculatedAmount();
         const transactionFee = await getTransactionFees();
         if (
-            Number(balance) - Number(totalAmount) - Number(transactionFee) <
+            Number(balances[0].balance) -
+                Number(totalAmount) -
+                Number(transactionFee) <
             Number(existentialDeposit)
         ) {
             setShowSenderReapWarning(true);
@@ -305,7 +310,8 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                     opacity="0.7"
                     fontSize="12px"
                 >
-                    Balance: {`${trimContent(balance, 6)} ${tokenName}`}
+                    Balance:{' '}
+                    {`${trimContent(balances[0].balance, 6)} ${tokenName}`}
                 </SubHeading>
             </HorizontalContentDiv>
             {senderReaped && (

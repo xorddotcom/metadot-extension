@@ -379,6 +379,17 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                     fontSize="12px"
                                     color="#FFFFFF"
                                 >{`${getTotalAmount()} ${tokenName}`}</MainText1>
+                                <MainText1
+                                    marginTop="10px"
+                                    textAlign="end"
+                                    className={mainHeadingfontFamilyClass}
+                                    fontSize="12px"
+                                    color="#FFFFFF"
+                                >{`${
+                                    transactionFee
+                                        ? transactionFee.slice(0, 6)
+                                        : '0'
+                                } ${tokenName}`}</MainText1>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
 

@@ -125,12 +125,12 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
 
     const copyIconTooltip = {
         id: 'copy-icon',
-        className: `main-card-tooltip ${mainHeadingfontFamilyClass}`,
+        className: `csv-tooltip ${mainHeadingfontFamilyClass}`,
         style: { cursor: 'pointer' },
     };
 
     const copyIconTooltipText = {
-        className: 'main-card-tooltiptext',
+        className: 'csv-tooltiptext',
         style: {
             bottom: '120%',
             fontSize: '11px',

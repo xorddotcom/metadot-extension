@@ -90,7 +90,7 @@ function isUserNameValid(username: string): boolean {
 }
 
 const trimBalance = (value: string | number): string => {
-    const val = value.toString();
+    const val = value ? value.toString() : '';
     const trimmedValue = val.slice(0, val.indexOf('.') + 4);
     return trimmedValue;
 };

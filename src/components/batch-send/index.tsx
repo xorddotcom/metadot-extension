@@ -98,7 +98,10 @@ const BatchSend: React.FunctionComponent = () => {
             setShowDeleteModal(false);
         },
         onConfirm: () => {
-            navigate(SEND);
+            const { balance, isNative, decimal } = location;
+            navigate(SEND, {
+                state: { tokenName, balance, isNative, decimal },
+            });
             setShowDeleteModal(false);
         },
         style: {
