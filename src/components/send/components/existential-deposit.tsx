@@ -74,12 +74,12 @@ const AmountInput: React.FunctionComponent<ExistensialDepositInterface> = ({
 
     const copyIconTooltip = {
         id: 'copy-icon',
-        className: `main-card-tooltip ${mainHeadingfontFamilyClass}`,
+        className: `ed-tooltip ${mainHeadingfontFamilyClass}`,
         style: { cursor: 'pointer' },
     };
 
     const copyIconTooltipText = {
-        className: 'main-card-tooltiptext',
+        className: 'ed-tooltiptext',
         style: {
             left: '20%',
             bottom: '120%',
