@@ -7,6 +7,7 @@ import About from './about';
 import TxDetails from './txDetails';
 import MyAccounts from './my-accounts';
 import AccountOptions from './accounts-options';
+import SelectTokenModal from './selectToken';
 
 export {
     AuthModal,
@@ -18,4 +19,5 @@ export {
     TxDetails,
     MyAccounts,
     AccountOptions,
+    SelectTokenModal,
 };

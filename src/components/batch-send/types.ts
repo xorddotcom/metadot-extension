@@ -1,10 +1,12 @@
 export interface Recepient {
     amount: string;
     address: string;
+    token: string;
     validateAddress?: boolean;
     validateReaping?: boolean;
     empytAmount?: boolean;
     empytAaddress?: boolean;
+    insufficientError?: boolean;
 }
 
 export interface CreateBatchViewProps {
@@ -20,6 +22,7 @@ export interface CreateBatchViewProps {
     setListErrors(): void;
     setRecepientAmountError(value: boolean, index: number): void;
     setRecepientAddressError(value: boolean, index: number): void;
+    handleNetworkModalOpen(index: number): void;
 }
 
 export interface RecepientCardInterface {
@@ -29,6 +32,7 @@ export interface RecepientCardInterface {
     amountChangeHandler(value: string, index: number): void;
     deleteRecepient(index: number): void;
     setErrorsFalse(): void;
+    handleNetworkModalOpen(index: number): void;
 }
 
 export interface ConfirmBatchViewProps {

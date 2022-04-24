@@ -11,6 +11,7 @@ import {
     OverrideBundleType,
 } from '@polkadot/types/types';
 import constants from '../constants/onchain';
+import { RecepientInterface } from './types';
 
 const { ACALA_MANDALA_CONFIG, CONTEXTFREE_CONFIG } = constants;
 
@@ -271,7 +272,6 @@ const getBatchTransactionFee = async (
 ): Promise<number> => {
     try {
         const decimals = api?.registry?.chainDecimals[0];
-
         const txs = recepientList.map((recepient: any) => {
             return api.tx.balances.transfer(
                 recepient.address,
@@ -294,6 +294,41 @@ const getBatchTransactionFee = async (
 const addressMapper = (address: string, prefix: number): string =>
     encodeAddress(address, prefix);
 
+const getBalancesForBatch = async (
+    api: ApiPromiseType,
+    recepient: RecepientInterface[]
+): Promise<number[]> => {
+    const queries = recepient.map((rec) => {
+        if (api.registry.chainTokens[0] === rec.token) {
+            return [api.query.system.account, rec.address];
+        }
+        return [
+            api.query.tokens.accounts,
+            [
+                rec.address,
+                {
+                    Token: rec.token,
+                },
+            ],
+        ];
+    });
+
+    const result = await api.queryMulti(queries as any);
+    console.log('result ==>>', result);
+    const balances = result.map((item: any, index: number) => {
+        const free = item.data ? item.data.free : item.free;
+        return (
+            free /
+            10 **
+                api.registry.chainDecimals[
+                    api.registry.chainTokens.indexOf(recepient[index].token)
+                ]
+        );
+    });
+
+    return balances;
+};
+
 export default {
     providerInitialization,
     getBalance,
@@ -303,4 +338,5 @@ export default {
     addressMapper,
     convertTransactionFee,
     fetchBalanceWithMultipleTokens,
+    getBalancesForBatch,
 };

@@ -74,4 +74,6 @@ export interface Props {
     border?: string;
     setSwitchCheckedSecond?(input: boolean): void;
     setSwitchChecked?(input: boolean): void;
+    tokenDropDown?: boolean;
+    tokenDropDownHandler?(): void;
 }
