@@ -147,7 +147,7 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
                 <Balance id="balance" className={mainHeadingfontFamilyClass}>
                     <div className={`topTooltip ${mainHeadingfontFamilyClass}`}>
                         <span id="trim-balance">
-                            {trimBalance(exponentConversion(balance))}
+                            {String(exponentConversion(balance)).slice(0, 6)}
                         </span>
                         <span id="token-name" style={{ marginLeft: 7 }}>
                             {tokenName}

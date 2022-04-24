@@ -246,42 +246,42 @@ const ACALA_CONFIG: NetworkConfig = {
     name: 'Acala',
     tokenName: 'ACA',
     queryEndpoint: 'https://api.subquery.network/sq/kumailraza404/acala-1',
-    logo: AcalaIcon,
+    logo: 'https://token-resources-git-dev-acalanetwork.vercel.app/tokens/ACA.png',
     rpcUrl: 'wss://acala-rpc.dwellir.com',
     // prefix: 10,
     disabled: false,
     explorer: 'https://acala.subscan.io/',
 };
 
-const BIFROST_STAGE_TESTNET_CONFIG: NetworkConfig = {
-    name: 'Bifrost',
-    tokenName: '',
-    queryEndpoint: '',
-    logo: BifrostIcon,
-    rpcUrl: 'wss://bifrost-rpc.testnet.liebi.com/ws',
-    // prefix: 10,
-    disabled: false,
-    explorer: '',
-};
+// const BIFROST_STAGE_TESTNET_CONFIG: NetworkConfig = {
+//     name: 'Bifrost',
+//     tokenName: '',
+//     queryEndpoint: '',
+//     logo: BifrostIcon,
+//     rpcUrl: 'wss://bifrost-rpc.testnet.liebi.com/ws',
+//     // prefix: 10,
+//     disabled: true,
+//     explorer: '',
+// };
 
-const BIFROST_KUSAMA_CONFIG: NetworkConfig = {
-    name: 'Bifrost',
-    tokenName: '',
-    queryEndpoint: '',
-    logo: BifrostIcon,
-    rpcUrl: 'wss://eu.bifrost-rpc.liebi.com/ws',
-    // prefix: 10,
-    disabled: false,
-    explorer: '',
-};
+// const BIFROST_KUSAMA_CONFIG: NetworkConfig = {
+//     name: 'Bifrost',
+//     tokenName: '',
+//     queryEndpoint: '',
+//     logo: BifrostIcon,
+//     rpcUrl: 'wss://eu.bifrost-rpc.liebi.com/ws',
+//     // prefix: 10,
+//     disabled: false,
+//     explorer: '',
+// };
 
 export default {
     CONTEXTFREE_CONFIG,
     // BITCOUNTRY_CONFIG,
     POLKADOT_CONFIG,
     KUSAMA_CONFIG,
-    BIFROST_STAGE_TESTNET_CONFIG,
-    BIFROST_KUSAMA_CONFIG,
+    // BIFROST_STAGE_TESTNET_CONFIG,
+    // BIFROST_KUSAMA_CONFIG,
     // BIFROST_CONFIG,
     // MOONRIVER_CONFIG,
     SHIDEN_CONFIG,

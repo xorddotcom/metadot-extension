@@ -272,7 +272,9 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                                     className={mainHeadingfontFamilyClass}
                                     fontSize="12px"
                                     color="#FFFFFF"
-                                >{`${amount} ${tokenName}`}</MainText1>
+                                >{`${amount
+                                    .toString()
+                                    .slice(0, 6)} ${tokenName}`}</MainText1>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
 
@@ -297,7 +299,9 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                                     fontSize="12px"
                                     color="#FFFFFF"
                                 >
-                                    {`${transactionFee} ${tokenName}`}
+                                    {`${transactionFee.toFixed(
+                                        4
+                                    )} ${tokenName}`}
                                 </MainText1>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>

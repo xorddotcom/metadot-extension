@@ -91,7 +91,13 @@ function isUserNameValid(username: string): boolean {
 
 const trimBalance = (value: string | number): string => {
     const val = value ? value.toString() : '';
-    const trimmedValue = val.slice(0, val.indexOf('.') + 4);
+    const isDecimalExist = val.indexOf('.');
+    let trimmedValue;
+    if (isDecimalExist) {
+        trimmedValue = val.slice(0, val.indexOf('.') + 4);
+    } else {
+        trimmedValue = val;
+    }
     return trimmedValue;
 };
 

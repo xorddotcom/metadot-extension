@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable no-unused-expressions */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable radix */
 import React, { useEffect, useState } from 'react';
@@ -27,7 +29,6 @@ import { ASSETS, TRANSACTIONS } from '../../../../utils/app-content';
 import { SubHeading } from '../../../common/text/index';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-const { trimBalance } = helpers;
 const { addressMapper } = services;
 
 const TxView: React.FunctionComponent<TxViewProps> = (
@@ -199,6 +200,15 @@ const AssetsAndTransactions: React.FunctionComponent<
                 {balances.length > 1
                     ? isTab1Active &&
                       balances.map((singleToken: any) => {
+                          //   const imageUrl = `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${singleToken.name}.png`;
+                          //   const ifImageExists = checkImage(imageUrl);
+                          //   ifImageExists
+                          //       .then((res) => setTokenImg(imageUrl))
+                          //       .catch((err) => setTokenImg(tokenImage));
+                          //   console.log('ifImageExists', {
+                          //       ifImageExists,
+                          //       tokenImage,
+                          //   });
                           return (
                               <AssetCard
                                   name={chainName}

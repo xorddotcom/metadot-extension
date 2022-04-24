@@ -35,11 +35,15 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
         addressChangeHandler(value, index);
         setErrorsFalse();
     };
-    const { tokenName, tokenImage } = useSelector(
+    const { tokenName } = useSelector(
         (state: RootState) => state.activeAccount
     );
 
     const [isCorrect, setIsCorrect] = React.useState(false);
+    console.log(
+        'here ia ma',
+        `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenName}.png`
+    );
 
     const styledInput = {
         id: 'InputField',
@@ -54,7 +58,7 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
         blockInvalidChar: true,
         tokenLogo: true,
         tokenName,
-        tokenImage,
+        tokenImage: `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenName}.png`,
     };
 
     const checkForAccountErrors = (): string => {

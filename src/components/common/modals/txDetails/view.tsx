@@ -378,7 +378,9 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                     className={mainHeadingfontFamilyClass}
                                     fontSize="12px"
                                     color="#FFFFFF"
-                                >{`${getTotalAmount()} ${tokenName}`}</MainText1>
+                                >{`${getTotalAmount().toFixed(
+                                    4
+                                )} ${tokenName}`}</MainText1>
                                 <MainText1
                                     marginTop="10px"
                                     textAlign="end"

@@ -25,6 +25,7 @@ const AssetCard: React.FunctionComponent<Props> = ({
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
     const { trimBalance } = helpers;
 
+    console.log('tokenName in card', logo);
     const tokenLogo = !apiInitializationStarts ? (
         <img
             src={logo}

@@ -23,7 +23,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     tokenName,
     balance,
 }) => {
-    const { balanceInUsd, balances, publicKey } = useSelector(
+    const { balanceInUsd, balances, publicKey, tokenImage } = useSelector(
         (state: RootState) => state.activeAccount
     );
     const tokenToSend = balances.filter((bal) => bal.name === tokenName);
@@ -38,8 +38,26 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         });
     }, [publicKey, tokenToSend[0].balance]);
 
+    const [tokenImg, setTokenImg] = useState(
+        `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenName}.png`
+    );
+    useEffect(() => {
+        const url = `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenName}.png`;
+        const request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.send();
+        request.onload = () => {
+            if (request.status === 200) {
+                setTokenImg(url);
+            } else {
+                setTokenImg(tokenImage);
+            }
+        };
+    }, []);
+
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
+    console.log('tokenName', tokenName);
     const styledInput = {
         id: 'InputField',
         placeholder: 'Amount',
@@ -50,7 +68,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         amount,
         tokenLogo: true,
         tokenName,
-        tokenImage: `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenName}.png`,
+        tokenImage: tokenImg,
         // isCorrect: amountState.isValid || insufficientBal,
     };
 
