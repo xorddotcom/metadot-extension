@@ -5,6 +5,7 @@ import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { useSelector } from 'react-redux';
 import { fonts, images, helpers } from '../../../../utils';
+import { getExistentialDepositConfig } from '../../../../utils/existentialDeposit';
 import services from '../../../../utils/services';
 
 import { MainText, SubHeading } from '../../text';
@@ -16,7 +17,7 @@ import Button from '../../button';
 import { RootState } from '../../../../redux/store';
 import { WarningModal } from '..';
 
-const { getBalance } = services;
+const { getBalancesForBatch } = services;
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { crossIcon } = images;
@@ -33,7 +34,6 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         activeRecepient,
         getTotalAmount,
         getTransactionFees,
-        existentialDeposit,
     } = props;
 
     console.log(props, 'dikha do bhai');
@@ -119,6 +119,9 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
             }
         },
         blockInvalidChar: true,
+        tokenLogo: true,
+        tokenName: activeRecepient.token,
+        tokenImage: `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${activeRecepient.token}.png`,
     };
 
     const btnCancel = {
@@ -137,6 +140,24 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
     const api = currReduxState.api.api as unknown as ApiPromiseType;
 
     const { activeAccount } = useSelector((state: RootState) => state);
+
+    const fetchExistentialDeposit = (token: { name: string }): number => {
+        const decimalPlaces = api?.registry?.chainDecimals[0];
+        let ED: number;
+        if (!(api.registry.chainTokens[0] === token.name)) {
+            ED = Number(
+                getExistentialDepositConfig(
+                    api.runtimeChain.toString(),
+                    token.name.toUpperCase()
+                )
+            );
+        } else {
+            ED =
+                Number(api?.consts?.balances?.existentialDeposit.toString()) /
+                10 ** decimalPlaces;
+        }
+        return ED;
+    };
     const { balance, tokenName } = activeAccount;
 
     const validateAddress = (): boolean => {
@@ -165,11 +186,15 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
     };
 
     const validateReapingReceiver = async (): Promise<void> => {
-        const receiverBalance = await getBalance(api, address);
-        if (
-            Number(existentialDeposit) >
-            Number(Number(receiverBalance) + Number(amount))
-        ) {
+        const receiverBalance = await getBalancesForBatch(api, [
+            {
+                address,
+                amount,
+                token: activeRecepient.token,
+            },
+        ]);
+        const ed = fetchExistentialDeposit({ name: activeRecepient.token });
+        if (Number(ed) > Number(Number(receiverBalance) + Number(amount))) {
             setReceiverReapModal(true);
         } else {
             confirmSubmit();
@@ -179,9 +204,10 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
     const validateSenderReaping = async (): Promise<void> => {
         const totalAmount = getTotalAmount(amount, activeRecepient.index);
         const transactionFee = await getTransactionFees();
+        const ed = fetchExistentialDeposit({ name: activeRecepient.token });
         if (
             Number(balance) - Number(totalAmount) - Number(transactionFee) <
-            Number(existentialDeposit)
+            Number(ed)
         ) {
             setSenderReapModal(true);
         } else {

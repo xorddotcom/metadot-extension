@@ -275,6 +275,24 @@ const txMadeOrReceiveByUser = (
     return { bool: false, method: 'none' };
 };
 
+// const fetchExistentialDeposit = (token: { name: string }): number => {
+//     const decimalPlaces = api?.registry?.chainDecimals[0];
+//     let ED: number;
+//     if (!(api.registry.chainTokens[0] === token.name)) {
+//         ED = Number(
+//             getExistentialDepositConfig(
+//                 api.runtimeChain.toString(),
+//                 token.name.toUpperCase()
+//             )
+//         );
+//     } else {
+//         ED =
+//             Number(api?.consts?.balances?.existentialDeposit.toString()) /
+//             10 ** decimalPlaces;
+//     }
+//     return ED;
+// };
+
 const formatExtrinsic = (
     extrinsic: any,
     userAddress: string,

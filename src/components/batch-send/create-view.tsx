@@ -64,11 +64,18 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
         }
     };
 
-    const validateAddresses = (): boolean => {
-        // check empytaddress
-        // check valid polkadot address
+    const validateAmountAndAddresses = (): boolean => {
+        const invalidAmounts = [];
         const invalidAddress = [];
+
         recepientList.forEach((item, index) => {
+            if (item.amount === '') {
+                setRecepientAmountError(true, index);
+                invalidAmounts.push(index);
+            } else {
+                setRecepientAmountError(false, index);
+            }
+
             if (item.address === '') {
                 setRecepientAddressError(true, index);
                 invalidAddress.push(index);
@@ -80,20 +87,8 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                 setRecepientAddressError(false, index);
             }
         });
-        if (invalidAddress.length > 0) return false;
-        return true;
-    };
-
-    const validateAllAmount = (): boolean => {
-        const invalidAmounts = [];
-
-        recepientList.forEach((item, index) => {
-            if (item.amount === '') {
-                setRecepientAmountError(true, index);
-                invalidAmounts.push(index);
-            }
-        });
-        if (invalidAmounts.length > 0) return false;
+        if (invalidAmounts.length > 0 || invalidAddress.length > 0)
+            return false;
         return true;
     };
 
@@ -221,12 +216,10 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
         setInsufficientBal('');
         setSenderReaped(false);
         setIsButtonLoading(true);
-        const amountsValidated = validateAllAmount();
-        const addressValidated = validateAddresses();
-        // const reapingValidated = await validateReaping();
+        const amountsAndAddressValidated = validateAmountAndAddresses();
         const balanceValidated = await validateSenderBalance();
 
-        if (amountsValidated && addressValidated && balanceValidated) {
+        if (amountsAndAddressValidated && balanceValidated) {
             await validateSenderReaping();
         } else {
             setIsButtonLoading(false);
