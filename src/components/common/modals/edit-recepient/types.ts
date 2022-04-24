@@ -14,4 +14,5 @@ interface ActiveRecepient {
     index: number;
     amount: string;
     address: string;
+    token: string;
 }

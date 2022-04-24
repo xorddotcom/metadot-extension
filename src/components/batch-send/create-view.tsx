@@ -18,11 +18,12 @@ import FileInput from './components/file-input';
 import RecepientCard from './components/recepient-card';
 import { AddCircle, GoUpCircle } from './style';
 import { CreateBatchViewProps } from './types';
+import { getExistentialDepositConfig } from '../../utils/existentialDeposit';
 
 const { GoUpIcon, PlusIcon } = images;
 const { mainHeadingfontFamilyClass } = fonts;
 const { trimContent } = helpers;
-const { getBalance } = services;
+const { getBalancesForBatch } = services;
 
 const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
     recepientList,
@@ -33,35 +34,24 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
     deleteRecepient,
     setValidation,
     getTransactionFees,
-    setValidateReaping,
+    handleNetworkModalOpen,
     setListErrors,
     setRecepientAmountError,
     setRecepientAddressError,
 }) => {
     const { activeAccount } = useSelector((state: RootState) => state);
-    const { balances, tokenName } = activeAccount;
-    const [insufficientBal, setInsufficientBal] = React.useState(false);
+    const { balance, tokenName } = activeAccount;
+    const [insufficientBal, setInsufficientBal] = React.useState('');
+    const [senderReapWarnMsg, setSenderReapWarnMsg] = React.useState('');
     const [senderReaped, setSenderReaped] = React.useState(false);
     const [isButtonLoading, setIsButtonLoading] = React.useState(false);
     const [reapingAddressList, setReapingAddressList] = React.useState<
         number[]
     >([]);
-    const [existentialDeposit, setExistentialDeposit] =
-        React.useState<number>(0);
 
     const currReduxState = useSelector((state: RootState) => state);
     const api = currReduxState.api.api as unknown as ApiPromiseType;
-
-    const calculatedAmount = (): string => {
-        const dummyArray = [...recepientList];
-        const val = dummyArray.reduce((a, b) => {
-            return {
-                amount: String(Number(a.amount) + Number(b.amount)),
-                address: a.address,
-            };
-        });
-        return val.amount;
-    };
+    const allTokens = currReduxState.activeAccount.balances;
 
     const isValidAddressPolkadotAddress = (address: string): boolean => {
         try {
@@ -74,11 +64,18 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
         }
     };
 
-    const validateAddresses = (): boolean => {
-        // check empytaddress
-        // check valid polkadot address
+    const validateAmountAndAddresses = (): boolean => {
+        const invalidAmounts = [];
         const invalidAddress = [];
+
         recepientList.forEach((item, index) => {
+            if (item.amount === '') {
+                setRecepientAmountError(true, index);
+                invalidAmounts.push(index);
+            } else {
+                setRecepientAmountError(false, index);
+            }
+
             if (item.address === '') {
                 setRecepientAddressError(true, index);
                 invalidAddress.push(index);
@@ -90,59 +87,80 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                 setRecepientAddressError(false, index);
             }
         });
-        if (invalidAddress.length > 0) return false;
-        return true;
-    };
-
-    const validateAllAmount = (): boolean => {
-        const invalidAmounts = [];
-
-        recepientList.forEach((item, index) => {
-            if (item.amount === '') {
-                setRecepientAmountError(true, index);
-                invalidAmounts.push(index);
-            }
-        });
-        if (invalidAmounts.length > 0) return false;
+        if (invalidAmounts.length > 0 || invalidAddress.length > 0)
+            return false;
         return true;
     };
 
     const validateSenderBalance = async (): Promise<boolean> => {
         // validate sender reaping
-        const totalAmount = calculatedAmount();
         const transactionFee = await getTransactionFees();
+        const balancePerToken: any = {};
+        recepientList.forEach((recepient) => {
+            console.log(recepient, balancePerToken, 'kuch likh');
+            if (balancePerToken[recepient.token] === undefined) {
+                balancePerToken[recepient.token] = Number(recepient.amount);
+            } else {
+                balancePerToken[recepient.token] =
+                    Number(balancePerToken[recepient.token]) +
+                    Number(recepient.amount);
+            }
+        });
+        console.log(balancePerToken, 'balance per token');
+        const insufficientBalanceErrorinToken: string[] = [];
 
-        if (
-            Number(balances[0].balance) <
-            Number(totalAmount) + Number(transactionFee)
-        ) {
-            setInsufficientBal(true);
+        // eslint-disable-next-line consistent-return
+        allTokens.forEach((item) => {
+            if (item.name in balancePerToken) {
+                const txFee = item.isNative ? Number(transactionFee) : 0;
+                if (
+                    Number(item.balance) <
+                    Number(balancePerToken[item.name]) + txFee
+                ) {
+                    insufficientBalanceErrorinToken.push(item.name);
+                }
+            }
+        });
+        if (insufficientBalanceErrorinToken.length > 0) {
+            const errMessage = `Insufficient Funds in ${insufficientBalanceErrorinToken}`;
+            setInsufficientBal(errMessage);
             return false;
         }
 
         return true;
     };
 
-    const [showSenderReapWarning, setShowSenderReapWarning] =
-        React.useState(false);
     const [showReceiverReapWarning, setShowReceiverReapWarning] =
         React.useState(false);
+    const fetchExistentialDeposit = (token: { name: string }): number => {
+        const decimalPlaces = api?.registry?.chainDecimals[0];
+        let ED: number;
+        if (!(api.registry.chainTokens[0] === token.name)) {
+            ED = Number(
+                getExistentialDepositConfig(
+                    api.runtimeChain.toString(),
+                    token.name.toUpperCase()
+                )
+            );
+        } else {
+            ED =
+                Number(api?.consts?.balances?.existentialDeposit.toString()) /
+                10 ** decimalPlaces;
+        }
+        return ED;
+    };
 
     const validateReceiverAccountsReaping = async (): Promise<void> => {
-        const recipientBalancesPromises = recepientList.map(
-            async (recepient) => {
-                return getBalance(api, recepient.address);
-            }
-        );
+        const recepientBalances = await getBalancesForBatch(api, recepientList);
 
         const reapReceiverAccounts: number[] = [];
-        const recipientBalances = await Promise.all(recipientBalancesPromises);
+        const tempList = recepientList.map((el) => el.token);
 
-        recipientBalances.forEach((recipientBalance, index) => {
+        recepientBalances.forEach((recepientBalance, index) => {
             if (
-                Number(existentialDeposit) >
+                fetchExistentialDeposit({ name: recepientList[index].token }) >
                 Number(
-                    Number(recipientBalance) +
+                    Number(recepientBalance) +
                         Number(recepientList[index].amount)
                 )
             ) {
@@ -150,41 +168,58 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                 reapReceiverAccounts.push(index + 1);
             }
         });
-        console.log(reapReceiverAccounts);
-        setReapingAddressList(reapReceiverAccounts);
 
-        if (reapReceiverAccounts.length > 0) setShowReceiverReapWarning(true);
-        else {
+        if (reapReceiverAccounts.length > 0) {
+            setReapingAddressList(reapReceiverAccounts);
+            setShowReceiverReapWarning(true);
+        } else {
             setIsButtonLoading(false);
             setStep(1);
         }
     };
 
     const validateSenderReaping = async (): Promise<void> => {
-        const totalAmount = calculatedAmount();
         const transactionFee = await getTransactionFees();
-        if (
-            Number(balances[0].balance) -
-                Number(totalAmount) -
-                Number(transactionFee) <
-            Number(existentialDeposit)
-        ) {
-            setShowSenderReapWarning(true);
+        const balancePerToken: any = {};
+        recepientList.forEach((recepient) => {
+            console.log(recepient, balancePerToken);
+
+            if (balancePerToken[recepient.token] === undefined) {
+                balancePerToken[recepient.token] = Number(recepient.amount);
+            } else {
+                balancePerToken[recepient.token] =
+                    Number(balancePerToken[recepient.token]) +
+                    Number(recepient.amount);
+            }
+        });
+        const reapingTokensPerAddress: string[] = [];
+        allTokens.forEach((item, value) => {
+            const txFee = item.isNative ? Number(transactionFee) : 0;
+            if (
+                Number(item.balance) -
+                    Number(balancePerToken[item.name]) +
+                    txFee <
+                fetchExistentialDeposit(item)
+            ) {
+                reapingTokensPerAddress.push(item.name);
+            }
+        });
+        if (reapingTokensPerAddress.length > 0) {
+            const errMsg = `Your Token(s): ${reapingTokensPerAddress} might get reaped. Do you still wish to continue`;
+            setSenderReapWarnMsg(errMsg);
         } else {
             await validateReceiverAccountsReaping();
         }
     };
 
     const handleSubmit = async (): Promise<void> => {
-        setInsufficientBal(false);
+        setInsufficientBal('');
         setSenderReaped(false);
         setIsButtonLoading(true);
-        const amountsValidated = validateAllAmount();
-        const addressValidated = validateAddresses();
-        // const reapingValidated = await validateReaping();
+        const amountsAndAddressValidated = validateAmountAndAddresses();
         const balanceValidated = await validateSenderBalance();
 
-        if (amountsValidated && addressValidated && balanceValidated) {
+        if (amountsAndAddressValidated && balanceValidated) {
             await validateSenderReaping();
         } else {
             setIsButtonLoading(false);
@@ -215,14 +250,14 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
     };
 
     const senderReapModalwarning = {
-        open: showSenderReapWarning,
+        open: senderReapWarnMsg.length > 0,
         handleClose: () => {
             setIsButtonLoading(false);
-            setShowSenderReapWarning(false);
+            setSenderReapWarnMsg('');
         },
         onConfirm: () => {
             validateReceiverAccountsReaping();
-            setShowSenderReapWarning(false);
+            setSenderReapWarnMsg('');
         },
         style: {
             width: '290px',
@@ -234,8 +269,7 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
             pb: 3,
         },
         mainText: 'Account Reap Warning',
-        subText:
-            'Your account might get reaped. Do you still wish to continue?',
+        subText: senderReapWarnMsg,
     };
 
     const checkButttonStatus = (): boolean => {
@@ -250,22 +284,10 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
 
     const setErrorsFalse = (): void => {
         setListErrors();
-        setInsufficientBal(false);
+        setInsufficientBal('');
         setSenderReaped(false);
     };
 
-    React.useEffect(() => {
-        async function getED(): Promise<void> {
-            const decimalPlaces = api.registry.chainDecimals[0];
-            const ED: number =
-                Number(api?.consts?.balances?.existentialDeposit.toString()) /
-                10 ** decimalPlaces;
-
-            setExistentialDeposit(ED);
-        }
-        getED();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
     return (
         <>
             <WarningModal {...receiverReapModalwarning} />
@@ -287,22 +309,23 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                     amountChangeHandler={amountChangeHandler}
                     deleteRecepient={deleteRecepient}
                     setErrorsFalse={setErrorsFalse}
+                    handleNetworkModalOpen={handleNetworkModalOpen}
                 />
             ))}
 
-            {insufficientBal && (
+            {insufficientBal.length > 0 && (
                 <SubHeading
                     color="#F63A3A"
                     fontSize="12px"
                     opacity="0.7"
-                    lineHeight="0px"
+                    lineHeight="10px"
                     marginTop="20px"
                 >
-                    Insufficient Funds
+                    {insufficientBal}
                 </SubHeading>
             )}
 
-            <HorizontalContentDiv justifyContent="flex-end" marginTop="12px">
+            {/* <HorizontalContentDiv justifyContent="flex-end" marginTop="12px">
                 <SubHeading
                     className={mainHeadingfontFamilyClass}
                     lineHeight="0px"
@@ -313,7 +336,7 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                     Balance:{' '}
                     {`${trimContent(balances[0].balance, 6)} ${tokenName}`}
                 </SubHeading>
-            </HorizontalContentDiv>
+            </HorizontalContentDiv> */}
             {senderReaped && (
                 <SubHeading
                     color="#F63A3A"
@@ -331,7 +354,9 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                 marginTop="50px"
             >
                 <HorizontalContentDiv
-                    onClick={() => addRecepient({ address: '', amount: '' })}
+                    onClick={() =>
+                        addRecepient({ address: '', amount: '', token: '' })
+                    }
                 >
                     <AddCircle>
                         <img src={PlusIcon} alt="plus" />

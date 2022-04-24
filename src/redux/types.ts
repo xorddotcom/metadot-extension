@@ -42,7 +42,7 @@ interface TOKEN {
 export interface TOKEN_INFO_INTERFACE {
     [TokenName: string]: TOKEN;
 }
-type BalancesType = {
+export type BalancesType = {
     name: string;
     balance: number;
     isNative: boolean;

@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@acala-network/api": "^4.0.1",
-    "@acala-network/sdk-core": "^4.0.1",
+    "@acala-network/sdk-core": "^4.1.1",
     "@bifrost-finance/api": "^1.5.0",
     "@craco/craco": "^6.4.3",
     "@emotion/react": "^11.7.1",

@@ -779,23 +779,19 @@ const Send: React.FunctionComponent = () => {
                 centerText="Send"
                 overWriteBackHandler={() => navigate(DASHBOARD)}
             />
-            {isNative && (
-                <HorizontalContentDiv
-                    justifyContent="flex-end"
-                    marginTop="28px"
-                >
-                    <SubHeading onClick={handleBatchSwitch}>
-                        Batch Transactions
-                    </SubHeading>
-                    <img
-                        src={ToggleOff}
-                        alt="Toggle"
-                        style={{ marginLeft: '10px' }}
-                        aria-hidden
-                        onClick={handleBatchSwitch}
-                    />
-                </HorizontalContentDiv>
-            )}
+
+            <HorizontalContentDiv justifyContent="flex-end" marginTop="28px">
+                <SubHeading onClick={handleBatchSwitch}>
+                    Batch Transactions
+                </SubHeading>
+                <img
+                    src={ToggleOff}
+                    alt="Toggle"
+                    style={{ marginLeft: '10px' }}
+                    aria-hidden
+                    onClick={handleBatchSwitch}
+                />
+            </HorizontalContentDiv>
 
             <SendView
                 toInput={toInput}

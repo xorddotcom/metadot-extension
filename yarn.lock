@@ -24,10 +24,10 @@
     "@polkadot/api" "^7.1.1"
     "@polkadot/rpc-core" "^7.1.1"
 
-"@acala-network/sdk-core@^4.0.1":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@acala-network/sdk-core/-/sdk-core-4.0.1.tgz#88481aa5a634bb559f2a351cbab0d93723432aa9"
-  integrity sha512-PayjUXXVFiG+NVvmDYOkvhHT+bIyT84KfWzI/n6phn2/e2udrrjqCp9VeUIckk9sjzbmmWa1+ALx0sEjfmD1AQ==
+"@acala-network/sdk-core@^4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@acala-network/sdk-core/-/sdk-core-4.1.1.tgz#b8bdb24d8930c997769d702e4f950efad548580d"
+  integrity sha512-KEVr292gHDS0OZyDKyesi23ItkEC2mnw0fPUKQduFQPprBi+YSBpH9fJe2oOE0Loadl6BDpZMqJO95LGIUEw2g==
   dependencies:
     "@polkadot/api" "^7.1.1"
     "@polkadot/types" "^7.1.1"

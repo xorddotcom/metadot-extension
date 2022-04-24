@@ -30,6 +30,7 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
     amountChangeHandler,
     deleteRecepient,
     setErrorsFalse,
+    handleNetworkModalOpen,
 }) => {
     const onChange = (value: string): void => {
         addressChangeHandler(value, index);
@@ -37,12 +38,6 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
     };
     const { tokenName } = useSelector(
         (state: RootState) => state.activeAccount
-    );
-
-    const [isCorrect, setIsCorrect] = React.useState(false);
-    console.log(
-        'here ia ma',
-        `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenName}.png`
     );
 
     const styledInput = {
@@ -57,8 +52,10 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
         },
         blockInvalidChar: true,
         tokenLogo: true,
-        tokenName,
-        tokenImage: `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenName}.png`,
+        tokenName: recepient.token,
+        tokenImage: `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${recepient.token}.png`,
+        tokenDropDown: true,
+        tokenDropDownHandler: () => handleNetworkModalOpen(index),
     };
 
     const checkForAccountErrors = (): string => {

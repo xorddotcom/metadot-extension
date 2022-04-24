@@ -76,6 +76,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
             return {
                 amount: String(Number(a.amount) + Number(b.amount)),
                 address: a.address,
+                token: a.token,
             };
         });
         return val.amount;
@@ -110,6 +111,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                     index: activeRecepient,
                     address: recepientList[activeRecepient].address,
                     amount: recepientList[activeRecepient].amount,
+                    token: recepientList[activeRecepient].token,
                 }}
                 getTotalAmount={getTotalAmount}
                 getTransactionFees={getTransactionFees}
