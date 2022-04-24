@@ -325,7 +325,7 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                 </SubHeading>
             )}
 
-            <HorizontalContentDiv justifyContent="flex-end" marginTop="12px">
+            {/* <HorizontalContentDiv justifyContent="flex-end" marginTop="12px">
                 <SubHeading
                     className={mainHeadingfontFamilyClass}
                     lineHeight="0px"
@@ -336,7 +336,7 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                     Balance:{' '}
                     {`${trimContent(balances[0].balance, 6)} ${tokenName}`}
                 </SubHeading>
-            </HorizontalContentDiv>
+            </HorizontalContentDiv> */}
             {senderReaped && (
                 <SubHeading
                     color="#F63A3A"

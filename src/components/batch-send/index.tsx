@@ -30,14 +30,6 @@ const { getBatchTransactionFee } = services;
 const { signTransaction, isPasswordSaved } = accounts;
 
 const BatchSend: React.FunctionComponent = () => {
-    const location = useLocation().state as {
-        tokenName: string;
-        balance: number;
-        isNative: boolean;
-        decimal: number;
-        // tokenImage: any;
-    };
-    const { tokenName } = location;
     const navigate = useNavigate();
     const location = useLocation().state as {
         tokenName: string;
