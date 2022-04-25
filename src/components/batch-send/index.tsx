@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import { EventRecord } from '@polkadot/types/interfaces';
+import { assert, isHex, u8aToHex } from '@polkadot/util';
 import { Header } from '../common';
 import { Wrapper, HorizontalContentDiv } from '../common/wrapper';
 import BatchCreateView from './create-view';
@@ -107,13 +108,24 @@ const BatchSend: React.FunctionComponent = () => {
     const addRecepient = (recepient: Recepient, overWrite = false): void => {
         if (Array.isArray(recepient)) {
             if (overWrite) {
-                setRecepientList(recepient);
+                let newRecepientList = [...recepient];
+                newRecepientList = newRecepientList.map((r) => ({
+                    ...r,
+                    token: r.token ? r.token : location.tokenName,
+                }));
+                setRecepientList(newRecepientList);
             } else {
-                const newRecepientList = recepientList.concat(recepient);
+                console.log(recepient, 'yeh recepient add honge 2');
+                let newRecepientList = recepientList.concat(recepient);
+                newRecepientList = newRecepientList.map((r) => ({
+                    ...r,
+                    token: r.token ? r.token : location.tokenName,
+                }));
                 setRecepientList(newRecepientList);
             }
         } else {
-            setRecepientList([...recepientList, recepient]);
+            const newRecepient = { ...recepient, token: location.tokenName };
+            setRecepientList([...recepientList, newRecepient]);
         }
     };
 
@@ -264,13 +276,19 @@ const BatchSend: React.FunctionComponent = () => {
             signer.toPayload(),
             { version: api?.extrinsicVersion }
         );
-        const txHex = txPayload.toU8a(true);
+        const txU8a = txPayload.toU8a(true);
+        let txHex;
+        if (txU8a.length > 256) {
+            txHex = api.registry.hash(txU8a);
+        } else {
+            txHex = u8aToHex(txU8a);
+        }
         let signature;
         try {
             signature = await signTransaction(
                 address,
                 password,
-                txHex,
+                txHex.toString(),
                 'substrate',
                 false
             );
