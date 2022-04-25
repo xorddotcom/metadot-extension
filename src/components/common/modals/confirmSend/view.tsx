@@ -274,7 +274,10 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                                     color="#FFFFFF"
                                 >{`${amount
                                     .toString()
-                                    .slice(0, 6)} ${tokenName}`}</MainText1>
+                                    .slice(
+                                        0,
+                                        6
+                                    )} ${locationTokenName}`}</MainText1>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
 

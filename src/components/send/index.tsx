@@ -63,6 +63,8 @@ const Send: React.FunctionComponent = () => {
     };
 
     const [insufficientBal, setInsufficientBal] = useState(false);
+    const [switchChecked, setSwitchChecked] = useState(false);
+    const [switchCheckedSecond, setSwitchCheckedSecond] = useState(false);
     const [loading1, setLoading1] = useState(false);
     const [loading2, setLoading2] = useState(false);
     const [toAddressError, setToAddressError] = useState(false);
@@ -174,28 +176,6 @@ const Send: React.FunctionComponent = () => {
             });
         }
     }, [transactionFee, existentialDeposit]);
-
-    const maxInputHandler = async (): Promise<void> => {
-        setInsufficientBal(false);
-        const txFeeForMaxAmount = await getTransactionFee(
-            api,
-            publicKey,
-            receiverAddress,
-            amount,
-
-            balances[0]?.name
-        );
-        const txFeeWithFivePercentMargin =
-            txFeeForMaxAmount + txFeeForMaxAmount / 5;
-        setTransactionFee(txFeeWithFivePercentMargin);
-        setAmount(
-            (
-                location.balance -
-                (txFeeForMaxAmount + txFeeForMaxAmount / 2)
-            ).toFixed(5)
-        );
-        setIsInputEmpty(false);
-    };
 
     const validateTxErrors = async (txFee: number): Promise<void> => {
         try {
@@ -545,7 +525,7 @@ const Send: React.FunctionComponent = () => {
             }
 
             if (isNative) {
-                if (location.balance < amount + txFee) {
+                if (location.balance < Number(amount) + Number(txFee)) {
                     setInsufficientBal(true);
                     throw new Error('Insufficient balance');
                 } else {
@@ -596,16 +576,12 @@ const Send: React.FunctionComponent = () => {
                 ? (res - val).toFixed(4)
                 : Number(res).toFixed(4);
             setAmount(Number(data) > 0 ? data : 0);
-            // setAmount(
-            //     keepAlive
-            //         ? (res - existentialDeposit).toFixed(4)
-            //         : res.toFixed(4)
-            // );
             setIsInputEmpty(false);
         } else setAmount('');
     };
 
     const toInput = {
+        setAmount,
         isCorrect,
         errorMessages,
         onChange: (e: string): void => {
@@ -618,6 +594,8 @@ const Send: React.FunctionComponent = () => {
 
     const amountInput = {
         onChange: (e: string): boolean => {
+            setSwitchChecked(false);
+            setSwitchCheckedSecond(false);
             setTransferAll({
                 transferAll: false,
                 keepAlive: false,
@@ -660,22 +638,22 @@ const Send: React.FunctionComponent = () => {
             }
             return false;
         },
-        maxInputHandler,
         insufficientBal,
         setInsufficientBal,
         errorMessages,
         transactionFee,
         amount,
+        transferAll,
         setTransferAll,
         setAmountOnToggle,
         existentialDeposit,
         disableToggleButtons,
         setDisableToggleButtons,
         tokenName,
-        transferAll,
         balance: location.balance,
         insufficientTxFee,
-        // tokenImage: location.tokenImage,
+        setSwitchChecked,
+        setSwitchCheckedSecond,
     };
 
     const ED = {
@@ -684,6 +662,8 @@ const Send: React.FunctionComponent = () => {
                 transferAll: false,
                 keepAlive: false,
             });
+            setSwitchChecked(false);
+            setSwitchCheckedSecond(false);
             // if (amount > e) setAmount(e);
             if (e[0] === '0' && e[1] === '0') {
                 return false;
@@ -723,6 +703,10 @@ const Send: React.FunctionComponent = () => {
         transferAll,
         setInsufficientBal,
         tokenName,
+        setSwitchChecked,
+        setSwitchCheckedSecond,
+        switchChecked,
+        switchCheckedSecond,
     };
 
     const nextBtn = {
@@ -754,7 +738,11 @@ const Send: React.FunctionComponent = () => {
 
     const warningModal = {
         open: isWarningModalOpen,
-        handleClose: () => setIsWarningModalOpen(false),
+        handleClose: () => {
+            console.log('handle close');
+            setIsWarningModalOpen(false);
+            generalDispatcher(() => setConfirmSendModal(false));
+        },
         onConfirm: () => SendTx(transactionFee),
         style: {
             width: '290px',
@@ -771,6 +759,32 @@ const Send: React.FunctionComponent = () => {
 
     const handleBatchSwitch = (): void => {
         navigate(BATCH_SEND, { state: location });
+    };
+
+    const resetToggles = (): void => {
+        setSwitchChecked(false);
+        setSwitchCheckedSecond(false);
+        setTransferAll({
+            transferAll: false,
+            keepAlive: false,
+        });
+        setAmount('');
+    };
+
+    const fromInput = {
+        resetToggles: () => resetToggles(),
+        setAmount,
+    };
+
+    const sendView = {
+        toInput,
+        amountInput,
+        ED,
+        confirmSend,
+        nextBtn,
+        setTransferAll,
+        setAmountOnToggle,
+        fromInput,
     };
 
     return (
@@ -793,15 +807,7 @@ const Send: React.FunctionComponent = () => {
                 />
             </HorizontalContentDiv>
 
-            <SendView
-                toInput={toInput}
-                amountInput={amountInput}
-                ED={ED}
-                confirmSend={confirmSend}
-                nextBtn={nextBtn}
-                setTransferAll={setTransferAll}
-                setAmountOnToggle={setAmountOnToggle}
-            />
+            <SendView {...sendView} />
 
             <AuthModal
                 publicKey={publicKey}

@@ -12,10 +12,10 @@ import EDC from './components/existential-deposit';
 import { SendViewProps } from './types';
 
 const SendView: React.FunctionComponent<SendViewProps> = (props) => {
-    const { toInput, amountInput, ED, nextBtn, confirmSend } = props;
+    const { toInput, amountInput, ED, nextBtn, confirmSend, fromInput } = props;
     return (
         <>
-            <FromInput />
+            <FromInput {...fromInput} />
             <MainContent>
                 <ToInput {...toInput} />
                 <AmountInput {...amountInput} />

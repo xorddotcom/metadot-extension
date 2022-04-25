@@ -111,11 +111,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                     //     setBalance(exponentConversion(balanceOfSelectedNetwork))
                     // );
 
-                    console.log(
-                        'balanceOfSelectedNetwork',
-                        balanceOfSelectedNetwork
-                    );
-
                     generalDispatcher(() =>
                         setBalances(balanceOfSelectedNetwork)
                     );
@@ -246,11 +241,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                         const updBalance: number =
                             Number(balance.free.toString()) /
                             10 ** allDecimals[0];
-                        console.log(
-                            'new listener native',
-                            newBalance,
-                            tokens[0]
-                        );
                         const exponentConverted =
                             exponentConversion(newBalance);
                         generalDispatcher(() =>

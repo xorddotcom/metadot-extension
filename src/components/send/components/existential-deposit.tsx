@@ -23,6 +23,10 @@ const AmountInput: React.FunctionComponent<ExistensialDepositInterface> = ({
     tokenName,
     balance,
     insufficientTxFee,
+    switchChecked,
+    switchCheckedSecond,
+    setSwitchChecked,
+    setSwitchCheckedSecond,
 }) => {
     // const { tokenName } = useSelector(
     //     (state: RootState) => state.activeAccount
@@ -30,8 +34,8 @@ const AmountInput: React.FunctionComponent<ExistensialDepositInterface> = ({
 
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
-    const [switchChecked, setSwitchChecked] = useState(false);
-    const [switchCheckedSecond, setSwitchCheckedSecond] = useState(false);
+    // const [switchChecked, setSwitchChecked] = useState(false);
+    // const [switchCheckedSecond, setSwitchCheckedSecond] = useState(false);
 
     const handleChangeFirst = (e: any): boolean => {
         setInsufficientBal(false);
