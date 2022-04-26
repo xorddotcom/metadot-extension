@@ -57,7 +57,6 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
 
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
-    console.log('tokenName', tokenName);
     const styledInput = {
         id: 'InputField',
         placeholder: 'Amount',

@@ -3,3 +3,7 @@ export interface Account {
     accountName: string;
     parentAddress?: string;
 }
+
+export interface FromInputProps {
+    resetToggles?(): void;
+}

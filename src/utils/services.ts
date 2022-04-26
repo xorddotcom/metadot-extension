@@ -232,7 +232,7 @@ const getBalance = async (
 ): Promise<number> => {
     const chainTokens = api?.registry?.chainTokens;
 
-    if (chainTokens.length > 1) {
+    if (chainTokens?.length > 1) {
         const balance = await multipleTokens(api, account);
         return balance;
     }
