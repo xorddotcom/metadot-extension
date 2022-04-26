@@ -409,10 +409,10 @@ const BatchSend: React.FunctionComponent = () => {
 
     React.useEffect(() => {
         if (tokenName) {
-            const TokenList = allTokens.filter((token) => {
-                return token.name !== tokenName;
-            });
-            setTokenList(TokenList);
+            // const TokenList = allTokens.filter((token) => {
+            //     return token.name !== tokenName;
+            // });
+            setTokenList(allTokens);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tokenName]);

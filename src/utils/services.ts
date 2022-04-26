@@ -332,6 +332,7 @@ const getBalancesForBatch = async (
 };
 
 export default {
+    getBalanceWithSingleToken,
     providerInitialization,
     getBalance,
     getSender,

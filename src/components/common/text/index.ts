@@ -36,6 +36,7 @@ export const SubHeading = styled.p<SubHeadingInterface>`
     margin-bottom: ${(props) => props.mb && props.mb};
     margin-left: ${(props) => props.ml && props.ml};
     opacity: ${(props) => props.opacity && props.opacity};
+    display: ${(props) => props.hide && 'none'};
     ${(props) =>
         props.overFlow &&
         css`

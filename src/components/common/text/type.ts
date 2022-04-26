@@ -8,6 +8,7 @@ export interface MainHeadingInterface {
 }
 
 export interface SubHeadingInterface {
+    hide?: boolean;
     weight?: string;
     className?: string;
     fontSize?: string;

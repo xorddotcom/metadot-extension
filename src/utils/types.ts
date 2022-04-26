@@ -11,7 +11,7 @@ export interface QueryObjectInterface {
 }
 
 export interface RecepientInterface {
-    amount: string;
+    amount?: string;
     address: string;
     token: string;
     validateAddress?: boolean;
