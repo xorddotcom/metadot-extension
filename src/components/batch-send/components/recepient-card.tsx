@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 import { hexToU8a, isHex } from '@polkadot/util';
 import { RootState } from '../../../redux/store';
@@ -9,13 +10,16 @@ import { Input } from '../../common';
 
 import { SubHeading, MainText } from '../../common/text';
 import { HorizontalContentDiv } from '../../common/wrapper/index';
-import { fonts, images } from '../../../utils';
+import { fonts, helpers, images } from '../../../utils';
 import { RecpientInputDiv, ImageButtons } from '../style';
 
 import { RecepientCardInterface } from '../types';
+import services from '../../../utils/services';
 
 const { crossIcon } = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+const { trimContent } = helpers;
+const { getBalancesForBatch, getBalanceWithSingleToken } = services;
 
 const errorMessages = {
     invalidAddress: 'Invalid address',
@@ -36,9 +40,41 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
         addressChangeHandler(value, index);
         setErrorsFalse();
     };
-    const { tokenName } = useSelector(
+    const currRedux = useSelector((state: RootState) => state);
+    const api = currRedux.api.api as unknown as ApiPromiseType;
+    const { tokenName, balances, publicKey } = useSelector(
         (state: RootState) => state.activeAccount
     );
+    const [balanceOfSelectedToken, setBalanceOfSelectedToken] = useState(
+        balances[0].balance
+    );
+
+    useEffect(() => {
+        const getBalForSelectedToken = async (): Promise<void> => {
+            const isNativeToken = balances.filter(
+                (bal) => bal.name === recepient.token
+            );
+            console.log('isNativeToken', isNativeToken);
+            if (!isNativeToken[0].isNative) {
+                const receiverBalance = await getBalancesForBatch(api, [
+                    {
+                        address: publicKey,
+                        token: recepient.token,
+                    },
+                ]);
+                console.log('receiverBalance', receiverBalance);
+                setBalanceOfSelectedToken(receiverBalance[0]);
+            } else {
+                const nativeBalance = await getBalanceWithSingleToken(
+                    api,
+                    publicKey
+                );
+                console.log('nativeBalance', nativeBalance);
+                setBalanceOfSelectedToken(nativeBalance.balance);
+            }
+        };
+        getBalForSelectedToken();
+    }, [recepient.token]);
 
     const styledInput = {
         id: 'InputField',
@@ -115,9 +151,24 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
                 opacity={recepient.empytAmount ? '0.7' : '0'}
                 lineHeight="0px"
                 mb="10px"
+                hide={!recepient.empytAmount}
             >
                 Enter Amount
             </SubHeading>
+            <HorizontalContentDiv justifyContent="flex-end" marginTop="12px">
+                <SubHeading
+                    className={mainHeadingfontFamilyClass}
+                    lineHeight="0px"
+                    color="#FAFAFA"
+                    opacity="0.7"
+                    fontSize="12px"
+                >
+                    Balance:{' '}
+                    {`${trimContent(balanceOfSelectedToken, 6)} ${
+                        recepient.token
+                    }`}
+                </SubHeading>
+            </HorizontalContentDiv>
         </RecpientInputDiv>
     );
 };

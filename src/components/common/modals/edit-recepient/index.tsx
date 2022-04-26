@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import { Modal } from '@mui/material';
@@ -17,7 +17,7 @@ import Button from '../../button';
 import { RootState } from '../../../../redux/store';
 import { WarningModal } from '..';
 
-const { getBalancesForBatch } = services;
+const { getBalancesForBatch, getBalanceWithSingleToken } = services;
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { crossIcon } = images;
@@ -67,6 +67,43 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
     const [receiverReapModal, setReceiverReapModal] = React.useState(false);
     const [senderReapModal, setSenderReapModal] = React.useState(false);
     const [isButtonLoading, setIsButtonLoading] = React.useState(false);
+
+    const currReduxState = useSelector((state: RootState) => state);
+    const api = currReduxState.api.api as unknown as ApiPromiseType;
+
+    const { activeAccount } = useSelector((state: RootState) => state);
+    const { balances, balance, tokenName, publicKey } = activeAccount;
+
+    const [balanceOfSelectedToken, setBalanceOfSelectedToken] = useState(
+        balances[0].balance
+    );
+
+    useEffect(() => {
+        const getBalForSelectedToken = async (): Promise<void> => {
+            const isNativeToken = balances.filter(
+                (bal) => bal.name === activeRecepient.token
+            );
+            console.log('isNativeToken', isNativeToken);
+            if (!isNativeToken[0].isNative) {
+                const receiverBalance = await getBalancesForBatch(api, [
+                    {
+                        address: publicKey,
+                        token: activeRecepient.token,
+                    },
+                ]);
+                console.log('receiverBalance', receiverBalance);
+                setBalanceOfSelectedToken(receiverBalance[0]);
+            } else {
+                const nativeBalance = await getBalanceWithSingleToken(
+                    api,
+                    publicKey
+                );
+                console.log('nativeBalance', nativeBalance);
+                setBalanceOfSelectedToken(nativeBalance.balance);
+            }
+        };
+        getBalForSelectedToken();
+    }, [activeRecepient.token]);
 
     const confirmSubmit = (): void => {
         addressChangeHandler(address, activeRecepient.index);
@@ -136,11 +173,6 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         lightBtn: true,
     };
 
-    const currReduxState = useSelector((state: RootState) => state);
-    const api = currReduxState.api.api as unknown as ApiPromiseType;
-
-    const { activeAccount } = useSelector((state: RootState) => state);
-
     const fetchExistentialDeposit = (token: { name: string }): number => {
         const decimalPlaces = api?.registry?.chainDecimals[0];
         let ED: number;
@@ -158,7 +190,6 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         }
         return ED;
     };
-    const { balance, tokenName } = activeAccount;
 
     const validateAddress = (): boolean => {
         if (isValidAddressPolkadotAddress(address)) {
@@ -392,7 +423,10 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
                             opacity="0.7"
                             fontSize="12px"
                         >
-                            Balance: {`${trimContent(balance, 6)} ${tokenName}`}
+                            Balance:{' '}
+                            {`${trimContent(balanceOfSelectedToken, 6)} ${
+                                activeRecepient.token
+                            }`}
                         </SubHeading>
                     </HorizontalContentDiv>
 
