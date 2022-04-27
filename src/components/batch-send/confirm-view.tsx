@@ -171,7 +171,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                                 {helpers.addressModifier(recepient.address)}
                             </SubHeading>
                             <SubHeading lineHeight="0px">
-                                {recepient.amount}
+                                {`${recepient.amount} ${recepient.token}`}
                             </SubHeading>
                         </HorizontalContentDiv>
                     </VerticalContentDiv>

@@ -29,7 +29,7 @@ import { ConfirmSendModalViewProps } from './types';
 
 const { addressMapper } = services;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-const { arrowRight } = images;
+const { arrowRight, crossIcon } = images;
 const { trimBalance } = helpers;
 
 const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
@@ -96,7 +96,7 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                         }
                     }}
                 >
-                    <CloseIcon />
+                    <img src={crossIcon} alt="cross icon" />
                 </CloseIconDiv>
                 <VerticalContentDiv>
                     <ModalText

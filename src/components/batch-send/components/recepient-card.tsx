@@ -42,7 +42,7 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
     };
     const currRedux = useSelector((state: RootState) => state);
     const api = currRedux.api.api as unknown as ApiPromiseType;
-    const { tokenName, balances, publicKey } = useSelector(
+    const { tokenName, tokenImage, balances, publicKey } = useSelector(
         (state: RootState) => state.activeAccount
     );
     const [balanceOfSelectedToken, setBalanceOfSelectedToken] = useState(
@@ -89,7 +89,10 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
         blockInvalidChar: true,
         tokenLogo: true,
         tokenName: recepient.token,
-        tokenImage: `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${recepient.token}.png`,
+        tokenImage:
+            balances.length > 1
+                ? `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${recepient.token}.png`
+                : tokenImage,
         tokenDropDown: true,
         tokenDropDownHandler: () => handleNetworkModalOpen(index),
     };

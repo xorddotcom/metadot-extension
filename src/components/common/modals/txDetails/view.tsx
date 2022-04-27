@@ -1,7 +1,6 @@
 import React from 'react';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
-import CloseIcon from '@mui/icons-material/Close';
 
 import { useSelector } from 'react-redux';
 import {
@@ -30,7 +29,7 @@ const {
     SHIBUYA_CONFIG,
     ACALA_CONFIG,
 } = constants;
-const { ContentCopyIconWhite, arrowRight } = images;
+const { ContentCopyIconWhite, arrowRight, crossIcon } = images;
 const { addressModifier } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -95,7 +94,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                         handleClose();
                     }}
                 >
-                    <CloseIcon />
+                    <img src={crossIcon} alt="cross icon" />
                 </CloseIconDiv>
                 <VerticalContentDiv marginTop="5px">
                     <MainText1
