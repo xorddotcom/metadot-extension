@@ -161,6 +161,31 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
         }, []);
     };
 
+    const sortLiquidityPoolWithTokenOrder = (pool: any, token1: any): any => {
+        return pool.token1.isEqual(token1)
+            ? [pool.balance1, pool.balance2]
+            : [pool.balance2, pool.balance1];
+    };
+
+    const getTargetAmount = (
+        supplyPool: any,
+        targetPool: any,
+        supplyAmount: any,
+        exchangeFee: any
+    ): any => {
+        if (supplyAmount.isZero() || supplyPool.isZero() || targetPool.isZero())
+            return FixedPointNumber.ZERO;
+        const supplyAmountWithFee = supplyAmount.times(
+            exchangeFee.denominator.minus(exchangeFee.numerator)
+        );
+        const numerator = supplyAmountWithFee.times(targetPool);
+        const denominator = supplyPool
+            .times(exchangeFee.denominator)
+            .plus(supplyAmountWithFee);
+        if (denominator.isZero()) return FixedPointNumber.ZERO;
+        return numerator.div(denominator);
+    }; // get how much supply amount will be paid for specific target amount
+
     const handleAmountChange = async (amount: string): Promise<void> => {
         if (tokenFrom && tokenTo) {
             setAmountFrom(amount);
@@ -177,6 +202,11 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                         item[0].args[0][0],
                         item[0].args[0][1]
                     )
+                )
+                .filter(
+                    (pair: any) =>
+                        !pair.token1.name.includes('//') &&
+                        !pair.token2.name.includes('//')
                 );
             console.log('tradingPairs', tradingPairs);
 
@@ -232,8 +262,53 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                     };
                 }
             );
-
             console.log('finalResult', finalResult);
+
+            const bestSwapResults = tradingPaths.map((path) => {
+                const amounts = {
+                    inputAmount: amount,
+                    outputAmount: FixedPointNumber.ZERO,
+                };
+
+                // eslint-disable-next-line no-plusplus
+                for (let i = 0; i < path.length - 1; i++) {
+                    const pair = new TokenPair(path[i], path[i + 1]);
+                    const [token1, token2] = pair.getPair();
+                    const pool = finalResult.find(
+                        (item: any) =>
+                            item.token1.isEqual(token1) &&
+                            item.token2.isEqual(token2)
+                    );
+
+                    const [supply, target] = sortLiquidityPoolWithTokenOrder(
+                        pool,
+                        path[i]
+                    );
+
+                    const exchangeFee = api.consts.dex.getExchangeFee;
+
+                    const fee = {
+                        denominator: new FixedPointNumber(
+                            exchangeFee[1].toString()
+                        ),
+                        numerator: new FixedPointNumber(
+                            exchangeFee[0].toString()
+                        ),
+                    };
+
+                    const outputAmount = getTargetAmount(
+                        supply,
+                        target,
+                        i === 0 ? amounts.inputAmount : amounts.outputAmount,
+                        fee
+                    );
+                    amounts.outputAmount = outputAmount;
+                }
+
+                return amounts;
+            });
+
+            console.log('bestswap result ==>>', bestSwapResults);
         }
     };
 
