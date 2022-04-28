@@ -237,7 +237,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                 fontSize: '15px',
                             }}
                             onClick={() => {
-                                const url = `${chrome.extension.getURL(
+                                const url = `${chrome.runtime.getURL(
                                     'index.html'
                                 )}#${DASHBOARD}`;
                                 openOptions(url);

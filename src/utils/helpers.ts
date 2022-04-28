@@ -193,7 +193,7 @@ const isTabViewOpened = async (url: string): Promise<boolean> => {
 
 const openOptions = async (url: string): Promise<void> => {
     const ownTabs = await getOwnTabs();
-    const urlFormatching = `${chrome.extension.getURL('index.html')}`;
+    const urlFormatching = `${chrome.runtime.getURL('index.html')}`;
     const tabd = ownTabs.find((tab: any) => tab.url.includes(urlFormatching));
     const isTabOpen = await isTabViewOpened(urlFormatching);
     if (tabd && isTabOpen) {

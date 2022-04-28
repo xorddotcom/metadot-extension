@@ -91,7 +91,7 @@ const Dashboard: React.FunctionComponent = () => {
 
     useEffect(() => {
         if (jsonFileUploadScreen) {
-            const url = `${chrome.extension.getURL('index.html')}`;
+            const url = `${chrome.runtime.getURL('index.html')}`;
             const isTabOpen = isTabViewOpened(url);
 
             isTabOpen.then((res) => {

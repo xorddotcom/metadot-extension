@@ -25,7 +25,12 @@ import { addTransaction } from '../../redux/slices/transactions';
 const { wifiOff, SuccessCheckIcon } = images;
 
 const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
-    const setIsWalletConnected = localStorage.getItem('setIsWalletConnected');
+    const setIsWalletConnected = chrome.storage.local.get(
+        ['setIsWalletConnected'],
+        function (result) {
+            console.log(`Value currently is ${result.key}`);
+        }
+    );
     const currentUser = useSelector((state: RootState) => state);
     const openModal = useResponseModal({
         isOpen: true,

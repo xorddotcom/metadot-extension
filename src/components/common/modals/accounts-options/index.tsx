@@ -119,7 +119,7 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
     };
 
     const accountCreation = async (): Promise<void> => {
-        const url = `${chrome.extension.getURL('index.html')}#${SHOW_SEED}`;
+        const url = `${chrome.runtime.getURL('index.html')}#${SHOW_SEED}`;
         openOptions(url);
     };
 

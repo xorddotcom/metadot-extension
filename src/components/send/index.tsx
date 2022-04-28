@@ -6,7 +6,7 @@ import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 import { EventRecord } from '@polkadot/types/interfaces';
 
-import { hexToU8a, isHex } from '@polkadot/util';
+import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
 
 import { images } from '../../utils';
 import { RootState } from '../../redux/store';
@@ -249,13 +249,19 @@ const Send: React.FunctionComponent = () => {
             signer.toPayload(),
             { version: api?.extrinsicVersion }
         );
-        const txHex = txPayload.toU8a(true);
+        const txU8a = txPayload.toU8a(true);
+        let txHex;
+        if (txU8a.length > 256) {
+            txHex = api.registry.hash(txU8a);
+        } else {
+            txHex = u8aToHex(txU8a);
+        }
         let signature;
         try {
             signature = await signTransaction(
                 address,
                 password,
-                txHex,
+                txHex.toString(),
                 'substrate',
                 savePassword
             );
