@@ -111,12 +111,10 @@ export const activeAccountSlice = createSlice({
             return { ...state, isWalletConnected: action.payload };
         },
         setBalances: (state, action: PayloadAction<any>) => {
-            console.log('Action in redux', action.payload);
             return { ...state, balances: action.payload };
         },
         updateBalance: (state, action: PayloadAction<any>) => {
             const currBalances = action.payload.balances;
-            console.log('curr balances', currBalances);
             const { token, updBalance } = action.payload;
             const updatingLiveBalance = currBalances.map((balance: any) => {
                 if (token === balance.name) {

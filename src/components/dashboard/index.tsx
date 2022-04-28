@@ -66,7 +66,7 @@ const Dashboard: React.FunctionComponent = () => {
             operation: '',
             status: '',
             chainName: '',
-            tokenName: '',
+            tokenName: [],
             transactionFee: '',
             timestamp: '',
         });

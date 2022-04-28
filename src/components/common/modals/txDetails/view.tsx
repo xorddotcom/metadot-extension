@@ -316,7 +316,8 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                                     mainHeadingfontFamilyClass
                                                 }
                                             >
-                                                {amount[index]} {tokenName}
+                                                {amount[index]}{' '}
+                                                {tokenName[index]}
                                             </SubText2>
                                         </HorizontalContentDiv>
                                     </>

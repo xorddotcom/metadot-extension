@@ -332,7 +332,7 @@ const Send: React.FunctionComponent = () => {
                                     operation: 'Send',
                                     status: 'Failed',
                                     chainName: api.runtimeChain.toString(),
-                                    tokenName,
+                                    tokenName: [tokenName],
                                     transactionFee: '0',
                                     timestamp: new Date().toString(),
                                 },

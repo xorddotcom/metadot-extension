@@ -227,12 +227,17 @@ const txMadeOrReceiveByUser = (
         (event.event.data[0].toString() === userAddress ||
             event.event.data[1].toString() === userAddress)
     ) {
-        console.log('balance transfer method returning');
-        console.log(
-            event.event.data[0].toString(),
-            event.event.data[1].toString(),
-            userAddress
-        );
+        return { bool: true, method: 'transfer' };
+    }
+    if (
+        event.event.section === 'currencies' &&
+        event.event.method === 'Transferred' &&
+        (event.event.data[1].toString() === userAddress ||
+            event.event.data[2].toString() === userAddress)
+    ) {
+        console.log('from currencies');
+        console.log('eve', event);
+        console.log('exe', extrinsic);
         return { bool: true, method: 'transfer' };
     }
     if (
@@ -297,7 +302,9 @@ const formatExtrinsic = (
     extrinsic: any,
     userAddress: string,
     method: string,
-    chainDecimal: number
+    chainDecimal: number,
+    chainDecimalList: number[],
+    tknList: string[]
 ): {
     accountFrom: string;
     accountTo: string[];
@@ -305,6 +312,7 @@ const formatExtrinsic = (
     hash: string;
     operation: string;
     status: boolean;
+    tokenList: string[];
 } => {
     const accountFrom = extrinsic?.signer?.toString();
     let accountTo = [];
@@ -312,6 +320,7 @@ const formatExtrinsic = (
     const hash = extrinsic?.hash?.toString();
     let operation = '';
     const status = true;
+    let tokenList: string[] = [];
 
     if (method === 'transfer') {
         const args = function (): any {
@@ -328,25 +337,39 @@ const formatExtrinsic = (
         };
         const argsData = args();
         operation = accountFrom === userAddress ? 'Send' : 'Receive';
-
+        console.log(argsData, 'args check kero');
         accountTo = [argsData[0]?.value.id];
-        amount = [
-            exponentConversion(Number(argsData[1]?.value) / 10 ** chainDecimal),
+
+        tokenList = [
+            argsData[1]?.value.token ? argsData[1]?.value.token : tknList[0],
         ];
-        console.log(accountTo, amount);
-        console.log('finish');
+
+        const i = chainDecimalList[tknList.indexOf(tokenList[0])];
+        amount = [
+            exponentConversion(
+                Number(
+                    argsData.length === 2
+                        ? argsData[1]?.value
+                        : argsData[2]?.value
+                ) /
+                    10 ** i
+            ),
+        ];
     }
     if (method === 'batch') {
         const args = function (): any {
             // eslint-disable-next-line @typescript-eslint/no-shadow
-            const { args, meta, method } = extrinsic || {};
+            const { args, meta } = extrinsic || {};
             const { args: argsDef } = meta;
+            console.log(' From Metadot :');
+            console.log(args);
             const result = args.map((arg: any, index: any) => {
                 const { name, type } = argsDef[index];
                 return {
                     value: arg.toJSON(),
                 };
             });
+            console.log(result, 'logging after map');
             return result[0].value;
         };
         const argsData = args();
@@ -357,17 +380,34 @@ const formatExtrinsic = (
         accountTo = argsData.map((res: any) => {
             return res.args?.dest?.id?.toString();
         });
-        amount = argsData.map((res: any) => {
+        tokenList = argsData.map((res: any) => {
+            return res.args.currency_id
+                ? res.args.currency_id.token
+                : tknList[0];
+        });
+        amount = argsData.map((res: any, index: number) => {
+            const token = tokenList[index];
+            const i = chainDecimalList[tknList.indexOf(token)];
             const convertedAmount = exponentConversion(
-                Number(res.args?.value) / 10 ** chainDecimal
+                Number(res.args?.value ? res.args?.value : res.args?.amount) /
+                    10 ** i
             );
             return convertedAmount;
         });
 
-        console.log(accountTo, amount);
+        console.log(accountTo, amount, tokenList);
         console.log('finish for batch');
     }
-
+    console.log('end of finction');
+    console.log(
+        accountFrom,
+        accountTo,
+        amount,
+        hash,
+        operation,
+        status,
+        tokenList
+    );
     return {
         accountFrom,
         accountTo,
@@ -375,6 +415,7 @@ const formatExtrinsic = (
         hash,
         operation,
         status,
+        tokenList,
     };
 };
 
