@@ -94,6 +94,8 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
     const [passwordSaved, setPasswordSaved] = React.useState(false);
     const [amountFrom, setAmountFrom] = React.useState('0');
 
+    const [swapParams, setSwapParams] = React.useState<any>({});
+
     React.useEffect(() => {
         if (balances.length > 1) {
             if (!tokenFrom) setTokenFrom(balances[0]);
@@ -113,6 +115,13 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tokenFrom, tokenTo]);
+
+    React.useEffect(() => {
+        if (Object.keys(swapParams).length > 0) {
+            console.log('swap params ===>>', swapParams);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [swapParams]);
 
     React.useEffect(() => {
         isPasswordSaved(publicKey).then((res) => {
@@ -173,18 +182,70 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
         supplyAmount: any,
         exchangeFee: any
     ): any => {
-        if (supplyAmount.isZero() || supplyPool.isZero() || targetPool.isZero())
-            return FixedPointNumber.ZERO;
-        const supplyAmountWithFee = supplyAmount.times(
-            exchangeFee.denominator.minus(exchangeFee.numerator)
+        // console.log(
+        //     'supplyPool targetPool supplyAmount exchangeFee ==>>',
+        //     supplyPool.toString(),
+        //     targetPool.toString(),
+        //     supplyAmount.toString(),
+        //     exchangeFee
+        // );
+
+        const amountRatio =
+            +targetPool.toString() /
+            10 ** 18 /
+            (+supplyPool.toString() / 10 ** 18);
+
+        console.log('amount Ratio ==>>', amountRatio);
+
+        return new FixedPointNumber(
+            amountRatio * Number(supplyAmount.toString())
         );
-        const numerator = supplyAmountWithFee.times(targetPool);
-        const denominator = supplyPool
-            .times(exchangeFee.denominator)
-            .plus(supplyAmountWithFee);
-        if (denominator.isZero()) return FixedPointNumber.ZERO;
-        return numerator.div(denominator);
+
+        // if (supplyAmount.isZero() || supplyPool.isZero() || targetPool.isZero())
+        //     return FixedPointNumber.ZERO;
+        // const supplyAmountWithFee = supplyAmount.times(
+        //     exchangeFee.denominator.minus(exchangeFee.numerator)
+        // );
+        // const numerator = supplyAmountWithFee.times(targetPool);
+        // const denominator = supplyPool
+        //     .times(exchangeFee.denominator)
+        //     .plus(supplyAmountWithFee);
+        // if (denominator.isZero()) return FixedPointNumber.ZERO;
+        // return numerator.div(denominator);
     }; // get how much supply amount will be paid for specific target amount
+
+    const calculateMidPrice = (path: any, pools: any): any => {
+        const prices = [];
+
+        // eslint-disable-next-line no-plusplus
+        for (let i = 0; i < path.length - 1; i++) {
+            const pair = new TokenPair(path[i], path[i + 1]);
+            const [token1, token2] = pair.getPair();
+            const pool = pools.find(
+                (item: any) =>
+                    item.token1.isEqual(token1) && item.token2.isEqual(token2)
+            );
+
+            const [balance1, balance2] = sortLiquidityPoolWithTokenOrder(
+                pool,
+                path[i]
+            );
+            prices.push(balance2.div(balance1));
+        }
+
+        return prices.slice(1).reduce((acc, cur) => {
+            return acc.times(cur);
+        }, prices[0]);
+    };
+
+    const calculatePriceImpact = (
+        midPrice: any,
+        inputAmount: any,
+        outputAmount: any
+    ): any => {
+        const temp = midPrice.times(inputAmount);
+        return temp.minus(outputAmount).div(temp);
+    };
 
     const handleAmountChange = async (amount: string): Promise<void> => {
         if (tokenFrom && tokenTo) {
@@ -246,7 +307,7 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                 liquidityPoolsFromTokenPairs
             );
 
-            const finalResult = tokenPairFromPaths.map(
+            const LiqPoolsWithTokens = tokenPairFromPaths.map(
                 (item: any, index: any) => {
                     const liquidity = liquidityPoolsFromTokenPairs[index];
                     const pair = item.getPair();
@@ -262,11 +323,15 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                     };
                 }
             );
-            console.log('finalResult', finalResult);
+            console.log('LiqPoolsWithTokens', LiqPoolsWithTokens);
 
-            const bestSwapResults = tradingPaths.map((path) => {
-                const amounts = {
-                    inputAmount: amount,
+            const swapResults = tradingPaths.map((path) => {
+                const swapResult = {
+                    path,
+                    inputAmount: new FixedPointNumber(
+                        amount,
+                        tokenFrom.decimal
+                    ),
                     outputAmount: FixedPointNumber.ZERO,
                 };
 
@@ -274,18 +339,26 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                 for (let i = 0; i < path.length - 1; i++) {
                     const pair = new TokenPair(path[i], path[i + 1]);
                     const [token1, token2] = pair.getPair();
-                    const pool = finalResult.find(
+                    const pool = LiqPoolsWithTokens.find(
                         (item: any) =>
                             item.token1.isEqual(token1) &&
                             item.token2.isEqual(token2)
                     );
+
+                    console.log('pool bhai ==>>', pool);
 
                     const [supply, target] = sortLiquidityPoolWithTokenOrder(
                         pool,
                         path[i]
                     );
 
+                    console.log('supply target bhai ==>>', supply, target);
+
                     const exchangeFee = api.consts.dex.getExchangeFee;
+                    console.log(
+                        'Exchange fees ==>>',
+                        api.consts.dex.getExchangeFee
+                    );
 
                     const fee = {
                         denominator: new FixedPointNumber(
@@ -299,16 +372,33 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                     const outputAmount = getTargetAmount(
                         supply,
                         target,
-                        i === 0 ? amounts.inputAmount : amounts.outputAmount,
+                        i === 0
+                            ? swapResult.inputAmount
+                            : swapResult.outputAmount,
                         fee
                     );
-                    amounts.outputAmount = outputAmount;
+                    swapResult.outputAmount = outputAmount;
                 }
 
-                return amounts;
+                const midPrice = calculateMidPrice(path, LiqPoolsWithTokens);
+                // result.priceImpact = calculatePriceImpact(
+                //     midPrice,
+                //     result.inputAmount,
+                //     result.outputAmount
+                // );
+
+                return swapResult;
             });
 
-            console.log('bestswap result ==>>', bestSwapResults);
+            console.log('swapResults ==>>', swapResults);
+
+            const bestSwapResult = swapResults.reduce(function (prev, current) {
+                return prev.outputAmount > current.outputAmount
+                    ? prev
+                    : current;
+            });
+
+            setSwapParams(bestSwapResult);
         }
     };
 
@@ -317,59 +407,70 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
         password: string
     ): Promise<any> => {
         if (tokenFrom && tokenTo) {
-            const nonce = await api.rpc.system.accountNextIndex(address);
+            try {
+                const nonce = await api.rpc.system.accountNextIndex(address);
 
-            const decimals = tokenFrom.decimal;
+                const decimals = tokenFrom.decimal;
 
-            const supplyAmount = Number(amountFrom) * 10 ** decimals;
-            const path = [
-                {
-                    TOKEN: tokenFrom.name,
-                },
-                {
-                    TOKEN: tokenTo.name,
-                },
-            ];
+                const path = swapParams.path.map((token: any) => {
+                    return { TOKEN: token.name };
+                });
 
-            const minTargetAmount = '0x0';
+                console.log('address, password, path', address, password, path);
 
-            const tx = api.tx.dex.swapWithExactSupply(
-                path,
-                supplyAmount,
-                minTargetAmount
-            );
+                const supplyAmount = Number(amountFrom) * 10 ** decimals;
 
-            const signer = api.createType('SignerPayload', {
-                method: tx,
-                nonce,
-                genesisHash: api.genesisHash,
-                blockHash: api.genesisHash,
-                runtimeVersion: api.runtimeVersion,
-                version: api.extrinsicVersion,
-            });
+                const slippage = '0x0';
 
-            const txPayload: any = api.createType(
-                'ExtrinsicPayload',
-                signer.toPayload(),
-                { version: api.extrinsicVersion }
-            );
+                const tx = api.tx.dex.swapWithExactSupply(
+                    path,
+                    supplyAmount,
+                    slippage
+                );
 
-            const txHex = txPayload.toU8a(true);
+                const signer = api.createType('SignerPayload', {
+                    method: tx,
+                    nonce,
+                    genesisHash: api.genesisHash,
+                    blockHash: api.genesisHash,
+                    runtimeVersion: api.runtimeVersion,
+                    version: api.extrinsicVersion,
+                });
 
-            const response = await signTransaction(
-                address,
-                password,
-                txHex,
-                'substrate',
-                false
-            );
+                const txPayload: any = api.createType(
+                    'ExtrinsicPayload',
+                    signer.toPayload(),
+                    { version: api.extrinsicVersion }
+                );
 
-            const { signature } = response;
+                const txHex = txPayload.toU8a(true);
 
-            tx.addSignature(address, signature, txPayload);
+                console.log('txhex ==>', txHex);
 
-            return tx;
+                const signature = await signTransaction(
+                    address,
+                    password,
+                    txHex,
+                    'substrate',
+                    false
+                );
+
+                // const { signature } = response;
+
+                console.log('signature ==>>', signature);
+
+                await tx.addSignature(address, signature, txPayload);
+
+                await tx.send(({ status, events }: any) => {
+                    console.log(status);
+                });
+
+                return tx;
+            } catch (error) {
+                console.log('swap transaction ==>>', error);
+            }
         }
+
         return null;
     };
 

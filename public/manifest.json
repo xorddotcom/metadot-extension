@@ -1,33 +1,29 @@
 {
-  "name": "Metadot",
-  "description": "An extension based crypto wallet for Polkadot, Kusama and their parachains",
-<<<<<<< HEAD
-  "version": "1.0.0",
-=======
-  "version": "1.1.6",
->>>>>>> f7a0ed76d7a293664fb3ba1a7b80f523b0536986
-  "manifest_version": 2,
-  "permissions": ["storage", "tabs"],
-  "browser_action": {
-    "default_title": "Metadot",
-    "default_popup": "index.html"
-  },
-  "content_scripts": [
-    {
-      "js": ["content.js"],
-      "matches": ["http://*/*", "https://*/*"],
-      "run_at": "document_start"
+    "name": "Metadot",
+    "description": "An extension based crypto wallet for Polkadot, Kusama and their parachains",
+    "version": "1.1.6",
+    "manifest_version": 2,
+    "permissions": ["storage", "tabs"],
+    "browser_action": {
+        "default_title": "Metadot",
+        "default_popup": "index.html"
+    },
+    "content_scripts": [
+        {
+            "js": ["content.js"],
+            "matches": ["http://*/*", "https://*/*"],
+            "run_at": "document_start"
+        }
+    ],
+    "icons": {
+        "16": "16x16.png",
+        "48": "48x48.png",
+        "128": "128x128.png"
+    },
+    "web_accessible_resources": ["page.js"],
+    "content_security_policy": "script-src 'self' blob: 'unsafe-eval' 'wasm-eval'; object-src 'self'",
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": true
     }
-  ],
-  "icons": {
-    "16": "16x16.png",
-    "48": "48x48.png",
-    "128": "128x128.png"
-  },
-  "web_accessible_resources": ["page.js"],
-  "content_security_policy": "script-src 'self' blob: 'unsafe-eval' 'wasm-eval'; object-src 'self'",
-  "background": {
-    "scripts": ["background.js"],
-    "persistent": true
-  }
 }
