@@ -93,7 +93,7 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
             balances.length > 1
                 ? `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${recepient.token}.png`
                 : tokenImage,
-        tokenDropDown: true,
+        tokenDropDown: balances.length > 1,
         tokenDropDownHandler: () => handleNetworkModalOpen(index),
     };
 
