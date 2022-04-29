@@ -16,7 +16,7 @@ export interface TransactionRecord {
     operation: string;
     status: string;
     chainName: string;
-    tokenName: string;
+    tokenName: string[];
     transactionFee: string;
     timestamp: string;
 }

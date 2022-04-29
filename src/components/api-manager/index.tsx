@@ -218,11 +218,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                 ) !== Number(balances[index].balance) &&
                                 !balances[index].isNative
                             ) {
-                                // console.log(
-                                //     'Balance changed',
-                                //     token,
-                                //     balances[index].balance
-                                // );
                                 generalDispatcher(() =>
                                     updateBalance({
                                         balances,
@@ -312,12 +307,16 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                                 api.runtimeChain.toString();
                                             const txTokenName =
                                                 api?.registry?.chainTokens[0];
+
                                             const formattedExtrinsic =
                                                 formatExtrinsic(
                                                     extrinsic,
                                                     userAddress,
                                                     userSentOrReceiveTx.method,
-                                                    chainDecimal
+                                                    chainDecimal,
+                                                    api?.registry
+                                                        ?.chainDecimals,
+                                                    api?.registry?.chainTokens
                                                 );
 
                                             const {
@@ -326,7 +325,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                                 amount,
                                                 hash,
                                                 operation,
-                                                status,
+                                                tokenList,
                                             } = formattedExtrinsic;
 
                                             console.log(
@@ -335,7 +334,8 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                                 accountTo,
                                                 amount,
                                                 hash,
-                                                operation
+                                                operation,
+                                                tokenList
                                             );
 
                                             if (!amount.includes(NaN)) {
@@ -347,7 +347,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                                     operation,
                                                     status: 'Confirmed',
                                                     chainName: txChainName,
-                                                    tokenName: txTokenName,
+                                                    tokenName: tokenList,
                                                     transactionFee: '0',
                                                     timestamp:
                                                         blockTimeStamp.slice(
@@ -369,8 +369,11 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                 return !duplicate;
                             }
                         );
-
-                        console.log(uniqueTransactions, 'unqiuer Transaction');
+                        if (uniqueTransactions.length > 0)
+                            console.log(
+                                'transaction hogayi:',
+                                uniqueTransactions
+                            );
 
                         generalDispatcher(() =>
                             addTransaction({

@@ -35,7 +35,7 @@ const TxView: React.FunctionComponent<TxViewProps> = (
     props
 ): React.ReactElement => {
     const { transactionData, tokenName, handleClickOnTxCard } = props;
-    const { publicKey } = useSelector(
+    const { publicKey, chainName } = useSelector(
         (state: RootState) => state.activeAccount
     );
     return (
@@ -44,12 +44,12 @@ const TxView: React.FunctionComponent<TxViewProps> = (
             {Object.values(transactionData[publicKey]).length > 0 &&
             Object.values(transactionData[publicKey]).filter(
                 (transaction: TransactionRecord) =>
-                    transaction.tokenName === tokenName
+                    transaction.chainName === chainName
             ).length !== 0 ? (
                 Object.values(transactionData[publicKey])
                     .filter(
                         (transaction: TransactionRecord) =>
-                            transaction.tokenName === tokenName
+                            transaction.chainName === chainName
                     )
                     .sort(
                         (a: any, b: any) =>
@@ -66,8 +66,8 @@ const TxView: React.FunctionComponent<TxViewProps> = (
                         } = transaction;
 
                         const txCard = {
-                            coin: tokenNames,
-                            amountInUsd: tokenNames === 'WND' ? '$0' : '$0',
+                            coin: tokenNames[0],
+                            amountInUsd: '$0',
                             handleClick: () => handleClickOnTxCard(transaction),
                             operation,
                             status,
