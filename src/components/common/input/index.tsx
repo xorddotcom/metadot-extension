@@ -143,7 +143,7 @@ const Input: React.FunctionComponent<Props> = ({
                 </Icon>
             )}
             {tokenLogo && (
-                <TokenBox>
+                <TokenBox tokenDropDown={tokenDropDown === true}>
                     <img
                         src={tokenImage}
                         alt="token"

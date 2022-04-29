@@ -39,6 +39,8 @@ export const NewWrapper = styled.div<NewWrapperInterface>`
 `;
 
 export const TokenBox = styled.div`
+    padding: ${(props: { tokenDropDown: boolean }) =>
+        props.tokenDropDown && `0px 6px`};
     position: absolute;
     right: 16px;
     top: 22px;

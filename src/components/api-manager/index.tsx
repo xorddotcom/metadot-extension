@@ -203,7 +203,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
         (async () => {
             const tokens = api?.registry?.chainTokens;
             const allDecimals = api?.registry?.chainDecimals;
-            if (api && publicKey) {
+            if (api && publicKey && tokens) {
                 tokens.map(async (token: any, index: number) => {
                     unsub = await api?.query?.tokens?.accounts(
                         publicKey,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import AssetCardView from './view';
@@ -25,8 +25,11 @@ const AssetCard: React.FunctionComponent<Props> = ({
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
     const { trimBalance } = helpers;
 
+    // const ifUrlImage = logo.includes('http') ? fetch(logo) : logo;
+
     const tokenLogo = !apiInitializationStarts ? (
         <img
+            // src={ifUrlImage.then((res: string) => res)}
             src={logo}
             alt="currency icon"
             width="30px"

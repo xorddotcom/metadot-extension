@@ -36,7 +36,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                 setBalanaceAfterAccountSwitch(bal.balance);
             }
         });
-    }, [publicKey, tokenToSend[0].balance]);
+    }, [publicKey, tokenToSend[0]?.balance]);
 
     const [tokenImg, setTokenImg] = useState(
         `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenName}.png`
