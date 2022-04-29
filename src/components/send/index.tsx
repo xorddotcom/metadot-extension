@@ -32,12 +32,8 @@ const { UnsuccessCheckIcon, SuccessCheckPngIcon, ToggleOff, ToggleOn } = images;
 
 const { signTransaction, isPasswordSaved } = accounts;
 
-const {
-    fetchExistentialDeposit,
-    signTransactionFunction,
-    setTransactionType,
-    setToggleButtons,
-} = sendScreenService;
+const { fetchExistentialDeposit, signTransactionFunction, setToggleButtons } =
+    sendScreenService;
 
 const errorMessages = {
     invalidAddress: 'Invalid address',
@@ -146,9 +142,11 @@ const Send: React.FunctionComponent = () => {
     useEffect(() => {
         setToggleButtons(
             location.balance,
+            balances[0].balance,
             transactionFee,
             existentialDeposit,
-            setDisableToggleButtons
+            setDisableToggleButtons,
+            isNative
         );
     }, [transactionFee, existentialDeposit]);
 
@@ -196,6 +194,7 @@ const Send: React.FunctionComponent = () => {
     };
 
     const doTransactionCallBackForSuccess = (): void => {
+        console.log('tx for success');
         setLoading2(false);
         generalDispatcher(() => setConfirmSendModal(false));
         openResponseModalForTxSuccess();
@@ -209,6 +208,7 @@ const Send: React.FunctionComponent = () => {
         address: string,
         signedTx: any
     ): void => {
+        console.log('tx for fail');
         const transactionRecord = [
             {
                 accountFrom: addressMapper(
@@ -267,6 +267,7 @@ const Send: React.FunctionComponent = () => {
         const txResSuccess = events.filter(({ event }: EventRecord) =>
             api?.events?.system?.ExtrinsicSuccess.is(event)
         );
+        console.log('tx res success', txResSuccess.length);
         const txResFail = events.filter(({ event }: EventRecord) =>
             api?.events?.system?.ExtrinsicFailed.is(event)
         );
@@ -285,15 +286,22 @@ const Send: React.FunctionComponent = () => {
     ): Promise<boolean> => {
         try {
             setLoading2(true);
-            const tx = setTransactionType(
-                api,
-                amount,
-                decimal,
-                receiverAddress,
-                tokenName,
-                isNative,
-                transferAll
+            const amountSending = amount * 10 ** decimal;
+            console.log('Amount sending', amountSending);
+            const txSingle = api?.tx?.balances?.transfer(
+                receiverAddress as string,
+                BigInt(amountSending)
             );
+
+            const txMultiple = api?.tx?.currencies?.transfer(
+                receiverAddress as string,
+                {
+                    Token: tokenName,
+                },
+                BigInt(amountSending)
+            );
+
+            const tx = isNative ? txSingle : txMultiple;
 
             const signedTx = await signTransactionFunction(
                 tx,
@@ -306,7 +314,7 @@ const Send: React.FunctionComponent = () => {
 
             await signedTx
                 .send(({ status, events }: any) => {
-                    transactionCallBack(events, address, signedTx, events);
+                    transactionCallBack(events, address, signedTx, status);
                 })
                 .catch(() => {
                     doTransactionCallBackForCatch();
@@ -333,15 +341,19 @@ const Send: React.FunctionComponent = () => {
         try {
             setLoading2(true);
 
-            const tx = setTransactionType(
-                api,
-                amount,
-                decimal,
-                receiverAddress,
-                tokenName,
-                isNative,
-                transferAll
-            );
+            let tx;
+            if (isNative) {
+                tx = await api?.tx?.balances?.transferAll(
+                    receiverAddress,
+                    transferAll.keepAlive
+                );
+            } else {
+                tx = await api?.tx?.currencies?.transferAll(
+                    receiverAddress,
+                    { Token: tokenName },
+                    transferAll.keepAlive
+                );
+            }
 
             const signedTx = await signTransactionFunction(
                 tx,
