@@ -333,6 +333,7 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                         tokenFrom.decimal
                     ),
                     outputAmount: FixedPointNumber.ZERO,
+                    priceImpact: 0,
                 };
 
                 // eslint-disable-next-line no-plusplus
@@ -381,11 +382,11 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                 }
 
                 const midPrice = calculateMidPrice(path, LiqPoolsWithTokens);
-                // result.priceImpact = calculatePriceImpact(
-                //     midPrice,
-                //     result.inputAmount,
-                //     result.outputAmount
-                // );
+                swapResult.priceImpact = calculatePriceImpact(
+                    midPrice,
+                    swapResult.inputAmount,
+                    swapResult.outputAmount
+                );
 
                 return swapResult;
             });
