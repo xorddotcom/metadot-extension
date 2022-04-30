@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useSelector } from 'react-redux';
+import { u8aToHex } from '@polkadot/util';
 
 import SwapView from './view';
 import SelectTokenModal from '../common/modals/selectToken';
@@ -182,7 +183,14 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                     { version: api.extrinsicVersion }
                 );
 
-                const txHex = txPayload.toU8a(true);
+                const txU8a = txPayload.toU8a(true);
+
+                let txHex;
+                if (txU8a.length > 256) {
+                    txHex = api.registry.hash(txU8a);
+                } else {
+                    txHex = u8aToHex(txU8a);
+                }
 
                 const signature = await signTransaction(
                     address,
