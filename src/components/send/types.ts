@@ -65,7 +65,6 @@ export interface ExistensialDepositInterface {
     switchCheckedSecond: boolean;
     setSwitchChecked(e: boolean): void;
     setSwitchCheckedSecond(e: boolean): void;
-    // tokenImage: any;
 }
 
 type transferAllType = {

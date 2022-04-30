@@ -39,6 +39,17 @@ const AssetCardView: React.FunctionComponent<ViewProps> = ({
         disabled: !!apiInitializationStarts,
     };
 
+    React.useEffect(() => {
+        fetch(
+            `https://api.polkawallet.io/price-server/?token=${tokenName}&from=market`
+        )
+            .then((res) => res.json())
+            .then(({ data: { price } }) =>
+                console.log('real data', { tokenName, price: price[0] })
+            )
+            .catch((e) => console.log('fetching tx records...'));
+    }, []);
+
     return (
         <AssetCardWrapper id="asset-card">
             <HorizontalContentDiv>

@@ -190,7 +190,7 @@ const multipleTokens = async (
     const nativeBalance = await getBalanceWithSingleToken(api, publicKey);
     const balancesArray: any[] = [];
     const promises: any[] = [];
-    async function fetch(): Promise<any> {
+    async function fetchTokens(): Promise<any> {
         tokens.map(async (token: any, index: number) => {
             api?.query?.tokens?.accounts(
                 publicKey,
@@ -234,7 +234,7 @@ const multipleTokens = async (
         });
         return res2;
     }
-    const val = await fetch();
+    const val = await fetchTokens();
     return val;
 };
 
