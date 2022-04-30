@@ -38,8 +38,6 @@ const Input: React.FunctionComponent<Props> = ({
     topPosition,
     style,
     tokenLogo,
-    tokenDropDown,
-    tokenDropDownHandler,
     tokenImage,
     tokenName,
     bgColor,

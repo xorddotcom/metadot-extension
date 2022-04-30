@@ -12,7 +12,9 @@ import ToggleOn from '../../../assets/images/icons/transferToggleOn.svg';
 import ToggleOff from '../../../assets/images/icons/transferToggleOff.svg';
 import help from '../../../assets/images/icons/ED_help.svg';
 
-const AmountInput: React.FunctionComponent<ExistensialDepositInterface> = ({
+const ExistensialDeposit: React.FunctionComponent<
+    ExistensialDepositInterface
+> = ({
     onChange,
     setInsufficientBal,
     setTransferAll,

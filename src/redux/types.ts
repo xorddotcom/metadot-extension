@@ -29,9 +29,9 @@ export interface Transactions {
     [publicKey: string]: Transaction;
 }
 
-type BalancesType = {
+export type BalancesType = {
     name: string;
-    balance: string;
+    balance: number;
     isNative: boolean;
     decimal: number;
 };

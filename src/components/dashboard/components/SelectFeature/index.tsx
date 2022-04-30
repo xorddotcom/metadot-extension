@@ -10,12 +10,7 @@ import { DASHBOARD, SWAP } from '../../../../constants';
 
 import { images } from '../../../../utils';
 
-const {
-    SendFeatureIcon,
-    SwapFeatureIcon,
-    GovernanceFeatureIcon,
-    StakeFeatureIcon,
-} = images;
+const { DeleteIcon } = images;
 
 const SelectFeature: React.FunctionComponent = () => {
     const navigate = useNavigate();
@@ -27,19 +22,19 @@ const SelectFeature: React.FunctionComponent = () => {
     return (
         <HorizontalContentDiv justifyContent="space-around" marginTop="24px">
             <FeatureBox onClick={() => featureClickHandler(DASHBOARD)}>
-                <FeatureImage src={SendFeatureIcon} alt="send" />
+                <FeatureImage src={DeleteIcon} alt="send" />
                 <FeatureText>Send</FeatureText>
             </FeatureBox>
             <FeatureBox onClick={() => featureClickHandler(SWAP)}>
-                <FeatureImage src={SwapFeatureIcon} alt="swap" />
+                <FeatureImage src={DeleteIcon} alt="swap" />
                 <FeatureText>Swap</FeatureText>
             </FeatureBox>
             <FeatureBox>
-                <FeatureImage src={GovernanceFeatureIcon} alt="governance" />
+                <FeatureImage src={DeleteIcon} alt="governance" />
                 <FeatureText>Governance</FeatureText>
             </FeatureBox>
             <FeatureBox>
-                <FeatureImage src={StakeFeatureIcon} alt="stake" />
+                <FeatureImage src={DeleteIcon} alt="stake" />
                 <FeatureText>Stake</FeatureText>
             </FeatureBox>
         </HorizontalContentDiv>
