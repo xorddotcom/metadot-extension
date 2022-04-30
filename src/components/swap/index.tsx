@@ -118,7 +118,23 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
 
     React.useEffect(() => {
         if (Object.keys(swapParams).length > 0) {
-            console.log('swap params ===>>', swapParams);
+            console.log(
+                'swap params input ===>>',
+                swapParams.inputAmount.toString()
+            );
+            console.log(
+                'swap params outputAmount ===>>',
+                swapParams.outputAmount.toString()
+            );
+            console.log(
+                'swap params priceImpact ===>>',
+                swapParams.priceImpact.toString()
+            );
+            console.log(
+                'swap params tradingFee ===>>',
+                swapParams.tradingFee.toString()
+            );
+            console.log('swap params path ===>>', swapParams.path);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [swapParams]);
@@ -192,14 +208,24 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
 
         const amountRatio =
             +targetPool.toString() /
-            10 ** 18 /
-            (+supplyPool.toString() / 10 ** 18);
+            10 ** 12 /
+            (+supplyPool.toString() / 10 ** 12);
 
         console.log('amount Ratio ==>>', amountRatio);
 
-        return new FixedPointNumber(
-            amountRatio * Number(supplyAmount.toString())
+        const supplyAmountAfterFees =
+            Number(supplyAmount.toString()) -
+            Number((Number(supplyAmount.toString()) * exchangeFee) / 100);
+
+        console.log(
+            'output amount test ==>>',
+            supplyAmount.toString(),
+            exchangeFee,
+            supplyAmountAfterFees,
+            amountRatio * supplyAmountAfterFees
         );
+
+        return new FixedPointNumber(amountRatio * supplyAmountAfterFees);
 
         // if (supplyAmount.isZero() || supplyPool.isZero() || targetPool.isZero())
         //     return FixedPointNumber.ZERO;
@@ -334,6 +360,7 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                     ),
                     outputAmount: FixedPointNumber.ZERO,
                     priceImpact: 0,
+                    tradingFee: 0,
                 };
 
                 // eslint-disable-next-line no-plusplus
@@ -356,19 +383,11 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                     console.log('supply target bhai ==>>', supply, target);
 
                     const exchangeFee = api.consts.dex.getExchangeFee;
-                    console.log(
-                        'Exchange fees ==>>',
-                        api.consts.dex.getExchangeFee
-                    );
 
-                    const fee = {
-                        denominator: new FixedPointNumber(
+                    const fee = Number(
+                        (exchangeFee[0].toString() * 100) /
                             exchangeFee[1].toString()
-                        ),
-                        numerator: new FixedPointNumber(
-                            exchangeFee[0].toString()
-                        ),
-                    };
+                    );
 
                     const outputAmount = getTargetAmount(
                         supply,
@@ -379,6 +398,14 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                         fee
                     );
                     swapResult.outputAmount = outputAmount;
+                    swapResult.tradingFee =
+                        swapResult.tradingFee + i === 0
+                            ? (Number(swapResult.inputAmount.toString()) *
+                                  fee) /
+                              100
+                            : (Number(swapResult.outputAmount.toString()) *
+                                  fee) /
+                              100;
                 }
 
                 const midPrice = calculateMidPrice(path, LiqPoolsWithTokens);
