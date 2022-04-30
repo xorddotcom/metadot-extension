@@ -112,6 +112,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                         newApiInstance,
                         publicKey
                     );
+
                     // generalDispatcher(() =>
                     //     setBalance(exponentConversion(balanceOfSelectedNetwork))
                     // );

@@ -19,6 +19,7 @@ const {
     astarIcon,
     shibuyaIcon,
     AcalaIcon,
+    ACA,
 } = images;
 
 const POLKADOT_CONFIG: NetworkConfig = {
@@ -246,7 +247,7 @@ const ACALA_CONFIG: NetworkConfig = {
     name: 'Acala',
     tokenName: 'ACA',
     queryEndpoint: 'https://api.subquery.network/sq/kumailraza404/acala-1',
-    logo: 'https://token-resources-git-dev-acalanetwork.vercel.app/tokens/ACA.png',
+    logo: ACA,
     rpcUrl: 'wss://acala-rpc.dwellir.com',
     // prefix: 10,
     disabled: false,

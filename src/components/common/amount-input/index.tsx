@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
-import { fonts, helpers } from '../../../utils';
+import { fonts, helpers, images } from '../../../utils';
 import { Input } from '..';
 import { WarningText, MainText } from '../text';
 import { VerticalContentDiv } from '../wrapper';
@@ -12,6 +12,8 @@ import {
     Balance,
 } from './style';
 import { AmountInputInterface } from './types';
+
+const allTokenImages = images;
 
 const { trimContent } = helpers;
 
@@ -38,23 +40,6 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         });
     }, [publicKey, tokenToSend[0]?.balance]);
 
-    const [tokenImg, setTokenImg] = useState(
-        `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenName}.png`
-    );
-    useEffect(() => {
-        const url = `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenName}.png`;
-        const request = new XMLHttpRequest();
-        request.open('GET', url, true);
-        request.send();
-        request.onload = () => {
-            if (request.status === 200) {
-                setTokenImg(url);
-            } else {
-                setTokenImg(tokenImage);
-            }
-        };
-    }, []);
-
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
     const styledInput = {
@@ -67,7 +52,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         amount,
         tokenLogo: true,
         tokenName,
-        tokenImage: tokenImg,
+        tokenImage: allTokenImages[tokenName],
         // isCorrect: amountState.isValid || insufficientBal,
     };
 

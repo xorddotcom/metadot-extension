@@ -12,6 +12,9 @@ import {
 } from '@polkadot/types/types';
 import constants from '../constants/onchain';
 import { RecepientInterface } from './types';
+import images from './images';
+
+const allTokenImages = images;
 
 const { ACALA_MANDALA_CONFIG, CONTEXTFREE_CONFIG } = constants;
 
@@ -101,11 +104,16 @@ const getBalanceWithSingleToken = async (
         transferableBalance =
             Number(balancesObject.free) - Number(balancesObject.miscFrozen);
     }
+
+    const tokenName = api?.registry?.chainTokens[0];
+    const tokenImage = allTokenImages[tokenName];
+
     const data = {
-        name: api?.registry?.chainTokens[0],
+        name: tokenName,
         balance: transferableBalance,
         isNative: true,
         decimal: decimalPlace,
+        tokenImage,
     };
 
     return data;
@@ -211,11 +219,13 @@ const multipleTokens = async (
                 // };
                 res2[0] = nativeBalance;
             } else {
+                const tokenImage = allTokenImages[tokens[i]];
                 res2.push({
                     name: tokens[i],
                     balance: singleToken.free / 10 ** decimals[i],
                     isNative: false,
                     decimal: decimals[i],
+                    tokenImage,
                 });
             }
             return true;

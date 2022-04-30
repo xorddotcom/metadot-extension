@@ -200,22 +200,13 @@ const AssetsAndTransactions: React.FunctionComponent<
                 {balances.length > 1
                     ? isTab1Active &&
                       balances.map((singleToken: any) => {
-                          //   const imageUrl = `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${singleToken.name}.png`;
-                          //   const ifImageExists = checkImage(imageUrl);
-                          //   ifImageExists
-                          //       .then((res) => setTokenImg(imageUrl))
-                          //       .catch((err) => setTokenImg(tokenImage));
-                          //   console.log('ifImageExists', {
-                          //       ifImageExists,
-                          //       tokenImage,
-                          //   });
                           return (
                               <AssetCard
                                   name={chainName}
                                   shortName={singleToken.name}
                                   amount={String(singleToken.balance)}
                                   balanceInUsd={10}
-                                  logo={`https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${singleToken.name}.png`}
+                                  logo={singleToken.tokenImage}
                                   isNative={singleToken.isNative}
                                   decimal={singleToken.decimal}
                               />
@@ -227,7 +218,7 @@ const AssetsAndTransactions: React.FunctionComponent<
                               shortName={balances[0].name}
                               amount={String(balances[0].balance.toFixed(5))}
                               balanceInUsd={10}
-                              logo={tokenImage}
+                              logo={balances[0].tokenImage || tokenImage}
                               isNative
                               decimal={balances[0].decimal}
                           />
