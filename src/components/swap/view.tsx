@@ -28,11 +28,12 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
     tokenTo,
     tokenImage,
     amountFrom,
+    swapParams,
+    handleCurrencySwitch,
     handleAmountChange,
     swapClickHandler,
 }) => {
-    const [confirm, setConfirm] = useState(false);
-    const [showDetail, setShowDetail] = useState(false);
+    const [showDetail, setShowDetail] = useState(true);
 
     const styledInput = {
         id: 'InputField',
@@ -60,39 +61,29 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
 
     const btn = {
         id: 'SwapBtn',
-        text: confirm ? 'Swap' : 'Continue',
+        text: 'Swap',
         style: {
             width: '95%',
             height: 50,
             borderRadius: 40,
             marginTop: 40,
         },
-        handleClick: () => {
-            return confirm ? swapClickHandler() : setConfirm(true);
-        },
+        handleClick: swapClickHandler,
         disabled: false,
     };
 
     const DetailsData = [
-        [
-            { property: 'Minimum Received', data: '0.2345 DOT' },
-            { property: 'Price', data: '0.2345 DOT' },
-            { property: 'Price Impact', data: '0.2345 DOT' },
-            { property: 'Gas Fee', data: '0.2345 DOT' },
-            { property: '', data: '0.2345 DOT' },
-        ],
-        [
-            { property: 'Amount', data: '0.2345 DOT' },
-            { property: 'Estimated Gas Fee', data: '0.00403 DOT' },
-            { property: 'Total', data: '0.2388 DOT' },
-            { property: 'Dollar Value', data: '$23.98' },
-        ],
+        { property: 'Minimum Received', data: '0.2345 DOT' },
+        { property: 'Price', data: '0.2345 DOT' },
+        { property: 'Price Impact', data: '0.2345 DOT' },
+        { property: 'Gas Fee', data: '0.2345 DOT' },
+        { property: '', data: '0.2345 DOT' },
     ];
 
     return (
         <>
             <Wrapper>
-                <Header centerText={confirm ? 'Confirmation' : 'Swap Token'} />
+                <Header centerText="Swap Token" />
             </Wrapper>
 
             <Wrapper2 pb>
@@ -131,7 +122,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
                             src={SwapIcon}
                             alt="swap"
                             aria-hidden
-                            onClick={() => setShowDetail(true)}
+                            onClick={() => handleCurrencySwitch()}
                         />
                     </SwapIconDiv>
                     <SwapChildDiv>
@@ -145,7 +136,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
                         </AmountMaxDiv>
                         <Input
                             {...styledInput}
-                            value="0"
+                            value={swapParams.outputAmount.toString()}
                             tokenName={tokenTo?.name}
                             onChange={(value: string) => {
                                 console.log('amountTo value');
@@ -174,8 +165,11 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
                         >
                             Details
                         </SubHeading>
-                        {DetailsData[confirm ? 1 : 0].map((el) => (
-                            <HorizontalContentDiv justifyContent="space-between">
+                        {DetailsData.map((el) => (
+                            <HorizontalContentDiv
+                                key={Math.random()}
+                                justifyContent="space-between"
+                            >
                                 <SubHeading
                                     lineHeight="0px"
                                     fontSize="12px"

@@ -15,6 +15,8 @@ export interface SwapViewProps {
     tokenTo?: Token;
     tokenImage: string;
     amountFrom: string;
+    swapParams: any;
+    handleCurrencySwitch(): void;
     handleAmountChange(value: string): void;
     swapClickHandler(): void;
 }
