@@ -54,6 +54,3 @@ There is a separate component for it named **api-manager** which is responsible 
 
 ### Maintaining Transaction Records :
 We are using **[subquery](https://subquery.network/)** for getting overall history of transaction records(both send and receive) for every integrated network. This means the wallet keeps transaction records of not just the transactions from Metadot but all other channels as well.
-
-### Note :
-Our current codebase is under refactoring phase in which we are migrating the whole application into Typescript and optimizing code.

@@ -166,7 +166,7 @@ const CreateWallet: React.FunctionComponent = () => {
         height: '15px',
         onChange: (t: string) => {
             setPasswordError('');
-            if (t.length < 20) setPassword(t);
+            setPassword(t);
         },
         hideHandler: () => setShowPassword(!showPassword),
         hideState: showPassword,
@@ -179,7 +179,7 @@ const CreateWallet: React.FunctionComponent = () => {
         height: '15px',
         onChange: (t: string) => {
             setPasswordError('');
-            if (t.length < 20) setConfirmPassword(t);
+            setConfirmPassword(t);
         },
         hideHandler: () => setShowConfirmPassword(!showConfirmPassword),
         hideState: showConfirmPassword,

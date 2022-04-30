@@ -9,16 +9,16 @@ export interface Accounts {
 }
 
 export interface TransactionRecord {
-    accountFrom?: string;
-    accountTo?: string;
-    amount?: string;
+    accountFrom: string;
+    accountTo: string[];
+    amount: number[];
     hash: string;
-    operation?: string;
-    status?: string;
-    chainName?: string;
-    tokenName?: string;
-    transactionFee?: string;
-    timestamp?: string;
+    operation: string;
+    status: string;
+    chainName: string;
+    tokenName: string[];
+    transactionFee: string;
+    timestamp: string;
 }
 
 export interface Transaction {

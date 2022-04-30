@@ -116,7 +116,12 @@ const AuthModalView: React.FunctionComponent<AuthtModalViewProps> = ({
                         )}
 
                         {functionType === 'PasswordNotSaved' ? (
-                            <HorizontalContentDiv>
+                            <HorizontalContentDiv
+                                onClick={() =>
+                                    setSavePassword &&
+                                    setSavePassword(!savePassword)
+                                }
+                            >
                                 <img
                                     src={
                                         savePassword
@@ -125,11 +130,6 @@ const AuthModalView: React.FunctionComponent<AuthtModalViewProps> = ({
                                     }
                                     alt="checkbox"
                                     style={{ height: '15px', width: '15px' }}
-                                    aria-hidden
-                                    onClick={() =>
-                                        setSavePassword &&
-                                        setSavePassword(!savePassword)
-                                    }
                                 />
                                 <SubHeading
                                     fontSize="12px"

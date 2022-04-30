@@ -16,7 +16,7 @@ const Welcome: React.FunctionComponent = (): JSX.Element | null => {
     );
 
     const createHandler = (): void => {
-        const url = `${chrome.extension.getURL('index.html')}#${SHOW_SEED}`;
+        const url = `${chrome.runtime.getURL('index.html')}#${SHOW_SEED}`;
         openOptions(url);
     };
 

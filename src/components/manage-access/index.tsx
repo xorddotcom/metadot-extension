@@ -68,7 +68,7 @@ function ManageAccess(): JSX.Element {
                     <div className="website-list">
                         {Object.entries(authList)
                             .filter(([url]: [string, AuthUrlInfo]) =>
-                                url.includes(search)
+                                url.includes(search.toLocaleLowerCase())
                             )
                             .map(([url, info]: [string, AuthUrlInfo]) => (
                                 <ManageAccessCard

@@ -7,12 +7,9 @@ const { mainHeadingFontSize } = fonts;
 
 export const Wrapper = styled.div`
     padding: 18px 20px 8px;
-    overflow-y: scroll;
-    min-height: 100%;
-    max-height: 100%;
-    height: 556px;
     position: relative;
     background: ${darkBackground};
+    width: 89%;
 `;
 
 export const WrapperScroll = styled.div`

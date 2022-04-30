@@ -1,6 +1,6 @@
 export interface Token {
     name: string;
-    balance: string;
+    balance: number;
     isNative: boolean;
     decimal: number;
 }

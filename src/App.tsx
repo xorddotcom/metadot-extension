@@ -101,7 +101,9 @@ function App(): JSX.Element {
     }, [RdxAccounts]);
 
     let content;
-    if (authRequests && authRequests.length > 0) {
+    if (!activeAccount.isLoggedIn && activeAccount.publicKey) {
+        content = <Route path="/" element={<WelcomeBack />} />;
+    } else if (authRequests && authRequests.length > 0) {
         content = (
             <Route path="/" element={<PopupAuth requests={authRequests} />} />
         );
@@ -113,8 +115,6 @@ function App(): JSX.Element {
         content = (
             <Route path="/" element={<PopupMeta requests={metaRequests} />} />
         );
-    } else if (!activeAccount.isLoggedIn && activeAccount.publicKey) {
-        content = <Route path="/" element={<WelcomeBack />} />;
     } else if (activeAccount.isLoggedIn && activeAccount.publicKey) {
         content = (
             <>

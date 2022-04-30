@@ -39,13 +39,15 @@ export const NewWrapper = styled.div<NewWrapperInterface>`
 `;
 
 export const TokenBox = styled.div`
+    padding: ${(props: { tokenDropDown: boolean }) =>
+        props.tokenDropDown && `0px 6px`};
     position: absolute;
     right: 16px;
     top: 22px;
     width: 86px;
     height: 42px;
     border-radius: 8px;
-    background: #141414;
+    background: #1f1f1f;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -69,8 +71,7 @@ export const Field = styled.input<FieldInterface>`
     margin-top: 12px;
     margin-bottom: 8px;
     color: ${primaryText};
-    background-color: ${(props) =>
-        props.bgColor ? props.bgColor : secondaryBlack};
+    background-color: ${(props) => (props.bgColor ? props.bgColor : '#141414')};
     font-size: 14px !important;
     line-height: 17px;
     border-radius: 8px;
@@ -81,7 +82,7 @@ export const Field = styled.input<FieldInterface>`
             : props.border
             ? props.border
             : '0px'};
-    opacity: 0.5;
+    opacity: 0.6;
     letter-spacing: 0.32px;
     width: ${(props) => (props.fullWidth ? props.fullWidth : '80%')};
     height: ${(props) =>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap'); */
 /* hiding scrollbar in chrome */
 ::-webkit-scrollbar {
   /* display: none; */
@@ -11,6 +11,17 @@ html,
 body {
   scrollbar-width: none;
 }
+
+/* getting font family */
+@font-face {
+  font-family: 'Roboto', sans-serif;
+  src: url('./assets/fonts/Roboto-Bold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Roboto', sans-serif;
+  src: url('./assets/fonts/Roboto-Regular.ttf') format('truetype');
+}
+
 
 .font-face-robotoB {
   font-family: 'Roboto', sans-serif;
@@ -234,6 +245,16 @@ input:focus {
   width: 300px;
 }
 
+.real-txDetails-modal-style {
+  outline: none !important;
+  border: 0.8px solid var(--primaryBackground);
+  box-sizing: border-box;
+  box-shadow: 0px 2px 20px 5px var(--boxShadowColor);
+  border-radius: 8px;
+  margin: 15px auto;
+  width: 300px;
+}
+
 .btn-row {
   display: flex;
   flex-direction: row;
@@ -296,7 +317,7 @@ select:-webkit-autofill:focus {
   text-align: center;
   padding: 7px 0;
   position: absolute;
-  top:-50px;
+  top:-35px;
   left: -10px;
   z-index: 1;
   /* bottom: 140%;
@@ -331,36 +352,124 @@ select:-webkit-autofill:focus {
 
 .main-card-tooltip .main-card-tooltiptext {
   visibility: hidden;
-  width: 100px;
   background-color: var(--tooltipColor) !important;
   box-shadow: 0px 18.5334px 37.0668px rgba(0, 0, 0, 0.2) !important;
   border-radius: 9.71px !important;
   color: #fafafa;
   text-align: center;
-  padding: 7px 0;
+  border-radius: 6px;
+  padding: 6px 20px !important;
   position: absolute;
   z-index: 1;
-  /* bottom: 150%; */
-  left: -130%;
-  /* top: -35px; */
-  margin-left: -5px;
-  margin-bottom: 3.2px;
+  bottom: 25px !important;
+  left: 65px !important;
+  margin-left: -60px;
+  font-size: 11px;
+  font-weight: 300;
 }
 
 .main-card-tooltip .main-card-tooltiptext::after {
-  content: '';
+  content: ' ';
   position: absolute;
-  top: 27px;
-  left: 17%;
-  border-radius: 2px;
-  margin-left: -3px;
-  border-width: 7px;
+  /* bottom: 90%; At the top of the tooltip */
+  top:102%;
+  left: 20%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
   border-color: var(--tooltipColor) transparent transparent transparent;
 }
 
 .main-card-tooltip:hover .main-card-tooltiptext {
   visibility: visible;
 }
+
+
+/* Main Card Tooltip */
+.ed-tooltip {
+  position: relative;
+  display: inline-block;
+  /* border: 1px solid #777777 !important; */
+}
+
+.ed-tooltip .ed-tooltiptext {
+  visibility: hidden;
+  background-color: var(--tooltipColor) !important;
+  box-shadow: 0px 18.5334px 37.0668px rgba(0, 0, 0, 0.2) !important;
+  border-radius: 9.71px !important;
+  color: #fafafa;
+  text-align: center;
+  border-radius: 6px;
+  padding: 6px 20px !important;
+  position: absolute;
+  z-index: 1;
+  bottom: 25px !important;
+  left: 65px !important;
+  margin-left: -60px;
+  font-size: 11px;
+  font-weight: 300;
+}
+
+.ed-tooltip .ed-tooltiptext::after {
+  content: ' ';
+  position: absolute;
+  /* bottom: 90%; At the top of the tooltip */
+  top:100%;
+  left: 7%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--tooltipColor) transparent transparent transparent;
+}
+
+.ed-tooltip:hover .ed-tooltiptext {
+  visibility: visible;
+}
+
+
+
+
+/* Main Card Tooltip */
+.csv-tooltip {
+  position: relative;
+  display: inline-block;
+  /* border: 1px solid #777777 !important; */
+}
+
+.csv-tooltip .csv-tooltiptext {
+  visibility: hidden;
+  background-color: var(--tooltipColor) !important;
+  box-shadow: 0px 18.5334px 37.0668px rgba(0, 0, 0, 0.2) !important;
+  border-radius: 9.71px !important;
+  color: #fafafa;
+  text-align: center;
+  border-radius: 6px;
+  padding: 6px 6px !important;
+  position: absolute;
+  z-index: 1;
+  bottom: 25px !important;
+  right: 0px !important;
+  margin-left: -60px;
+  font-size: 11px;
+  font-weight: 300;
+}
+
+.csv-tooltip .csv-tooltiptext::after {
+  content: ' ';
+  position: absolute;
+  /* bottom: 90%; At the top of the tooltip */
+  top:100%;
+  left: 88%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--tooltipColor) transparent transparent transparent;
+}
+
+.csv-tooltip:hover .csv-tooltiptext {
+  visibility: visible;
+}
+
 
 /* ---------------------------- */
 

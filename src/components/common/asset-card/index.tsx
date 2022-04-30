@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import AssetCardView from './view';
@@ -8,7 +8,7 @@ import { HorizontalContentDiv } from '../wrapper';
 
 import { Props } from './type';
 import { RootState } from '../../../redux/store';
-import { fonts } from '../../../utils';
+import { fonts, helpers } from '../../../utils';
 
 const AssetCard: React.FunctionComponent<Props> = ({
     name,
@@ -23,9 +23,13 @@ const AssetCard: React.FunctionComponent<Props> = ({
         (state: RootState) => state.api
     );
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+    const { trimBalance } = helpers;
+
+    // const ifUrlImage = logo.includes('http') ? fetch(logo) : logo;
 
     const tokenLogo = !apiInitializationStarts ? (
         <img
+            // src={ifUrlImage.then((res: string) => res)}
             src={logo}
             alt="currency icon"
             width="30px"
@@ -44,13 +48,13 @@ const AssetCard: React.FunctionComponent<Props> = ({
     const AssetDetails = !apiInitializationStarts ? (
         <HorizontalContentDiv height="17px">
             <CoinAmount id="coin-amount" className={mainHeadingfontFamilyClass}>
-                {`${amount} ${shortName}`}
+                {`${trimBalance(amount)}`}
             </CoinAmount>
             <EquivalentInUSDT
                 id="equivalent-in-usd"
                 className={subHeadingfontFamilyClass}
             >
-                ${balanceInUsd === 0 ? 0 : balanceInUsd.toFixed(5)}
+                ${balanceInUsd === 0 ? 0 : trimBalance(balanceInUsd.toFixed(5))}
             </EquivalentInUSDT>
         </HorizontalContentDiv>
     ) : (

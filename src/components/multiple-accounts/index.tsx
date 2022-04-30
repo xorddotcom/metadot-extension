@@ -138,7 +138,10 @@ const MultipleAccounts: React.FunctionComponent = () => {
     return (
         <Wrapper>
             <WrapperScroll>
-                <Header centerText="Accounts" />
+                <Header
+                    overWriteBackHandler={() => navigate(DASHBOARD)}
+                    centerText="Accounts"
+                />
                 <AccountsList
                     accounts={transformedAccounts}
                     activateAccount={activateAccountHandler}

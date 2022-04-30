@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import { EventRecord } from '@polkadot/types/interfaces';
+import { assert, isHex, u8aToHex } from '@polkadot/util';
 import { Header } from '../common';
 import { Wrapper, HorizontalContentDiv } from '../common/wrapper';
 import BatchCreateView from './create-view';
@@ -11,14 +12,14 @@ import { SubHeading } from '../common/text';
 import { SEND, DASHBOARD } from '../../constants';
 import useDispatcher from '../../hooks/useDispatcher';
 import useResponseModal from '../../hooks/useResponseModal';
+import { WarningModal, AuthModal, SelectTokenModal } from '../common/modals';
 
 import { images, accounts } from '../../utils';
 import services from '../../utils/services';
 
 import { Recepient } from './types';
+import { BalancesType } from '../../redux/types';
 import { RootState } from '../../redux/store';
-
-import { AuthModal } from '../common/modals';
 import {
     setAuthScreenModal,
     setIsResponseModalOpen,
@@ -31,17 +32,50 @@ const { signTransaction, isPasswordSaved } = accounts;
 
 const BatchSend: React.FunctionComponent = () => {
     const navigate = useNavigate();
+    const location = useLocation().state as {
+        tokenName: string;
+        balance: number;
+        isNative: boolean;
+        decimal: number;
+        // tokenImage: any;
+    };
+    const { tokenName } = location;
+
+    console.log('location in batch', location);
     const generalDispatcher = useDispatcher();
     const currReduxState = useSelector((state: RootState) => state);
     const api = currReduxState.api.api as unknown as ApiPromiseType;
+    const allTokens = currReduxState.activeAccount.balances;
+
     const { authScreenModal } = currReduxState.modalHandling;
-    const { publicKey, tokenName } = currReduxState.activeAccount;
+    const { publicKey } = currReduxState.activeAccount;
 
     const [step, setStep] = React.useState(0);
     const [recepientList, setRecepientList] = React.useState<Recepient[]>([
-        { amount: '', address: '' },
-        { amount: '', address: '' },
+        { amount: '', address: '', token: location.tokenName },
+        { amount: '', address: '', token: location.tokenName },
     ]);
+
+    const [tokenList, setTokenList] = React.useState<BalancesType[]>([]);
+    const [openNetworkModal, setOpenNetworkModal] = React.useState(false);
+    const [activeRecepientIndex, setActiveRecepientIndex] =
+        React.useState<number>(0);
+    const handleNetworkModalClose = (): void => {
+        setOpenNetworkModal(false);
+    };
+    const handleNetworkModalOpen = (index: number): void => {
+        setActiveRecepientIndex(index);
+        setOpenNetworkModal(true);
+    };
+
+    const handleNetworkSelect = (value: BalancesType): void => {
+        console.log('select network');
+        const newState = [...recepientList];
+        newState[activeRecepientIndex].token = value.name;
+        setRecepientList([...newState]);
+        setOpenNetworkModal(false);
+    };
+
     const [savePassword, setSavePassword] = React.useState(false);
     const [passwordSaved, setPasswordSaved] = React.useState(false);
 
@@ -67,26 +101,69 @@ const BatchSend: React.FunctionComponent = () => {
     }, []);
 
     const handleSendSwitch = (): void => {
-        navigate(SEND);
+        const { balance, isNative, decimal } = location;
+        navigate(SEND, { state: { tokenName, balance, isNative, decimal } });
     };
 
     const addRecepient = (recepient: Recepient, overWrite = false): void => {
         if (Array.isArray(recepient)) {
             if (overWrite) {
-                setRecepientList(recepient);
+                let newRecepientList = [...recepient];
+                newRecepientList = newRecepientList.map((r) => ({
+                    ...r,
+                    token: r.token ? r.token : location.tokenName,
+                }));
+                setRecepientList(newRecepientList);
             } else {
-                const newRecepientList = recepientList.concat(recepient);
+                console.log(recepient, 'yeh recepient add honge 2');
+                let newRecepientList = recepientList.concat(recepient);
+                newRecepientList = newRecepientList.map((r) => ({
+                    ...r,
+                    token: r.token ? r.token : location.tokenName,
+                }));
                 setRecepientList(newRecepientList);
             }
         } else {
-            setRecepientList([...recepientList, recepient]);
+            const newRecepient = { ...recepient, token: location.tokenName };
+            setRecepientList([...recepientList, newRecepient]);
         }
     };
 
+    const [showDeleteModal, setShowDeleteModal] = React.useState(false);
+    const deleteWarning = {
+        open: showDeleteModal,
+        handleClose: () => {
+            setShowDeleteModal(false);
+        },
+        onConfirm: () => {
+            const { balance, isNative, decimal } = location;
+            navigate(SEND, {
+                state: { tokenName, balance, isNative, decimal },
+            });
+            setShowDeleteModal(false);
+        },
+        style: {
+            width: '290px',
+            background: '#141414',
+            position: 'relative',
+            bottom: 30,
+            p: 2,
+            px: 2,
+            pb: 3,
+        },
+        mainText: 'Minimum Batch Requirement',
+        subText:
+            'A Batch Transaction requires 2 or more Recipients. Would you like to switch to Single Transaction screen instead?',
+    };
+
     const deleteRecepient = (index: number): void => {
-        const newState = [...recepientList];
-        newState.splice(index, 1);
-        setRecepientList(newState);
+        if (recepientList.length === 2) {
+            setShowDeleteModal(true);
+        } else {
+            const newState = [...recepientList];
+            newState.splice(index, 1);
+            setRecepientList(newState);
+        }
     };
 
     const addressChangeHandler = (value: string, index: number): void => {
@@ -125,6 +202,7 @@ const BatchSend: React.FunctionComponent = () => {
             return {
                 amount: String(Number(a.amount) + Number(b.amount)),
                 address: a.address,
+                token: a.token,
             };
         });
         return val.amount;
@@ -165,7 +243,6 @@ const BatchSend: React.FunctionComponent = () => {
             newState[index].validateAddress = true;
             newState[index].empytAmount = false;
         });
-        // newState[index].validateReaping = false;
         setRecepientList([...newState]);
     };
 
@@ -199,13 +276,19 @@ const BatchSend: React.FunctionComponent = () => {
             signer.toPayload(),
             { version: api?.extrinsicVersion }
         );
-        const txHex = txPayload.toU8a(true);
+        const txU8a = txPayload.toU8a(true);
+        let txHex;
+        if (txU8a.length > 256) {
+            txHex = api.registry.hash(txU8a);
+        } else {
+            txHex = u8aToHex(txU8a);
+        }
         let signature;
         try {
             signature = await signTransaction(
                 address,
                 password,
-                txHex,
+                txHex.toString(),
                 'substrate',
                 false
             );
@@ -221,73 +304,92 @@ const BatchSend: React.FunctionComponent = () => {
         address: string,
         password: string
     ): Promise<boolean> => {
-        setIsButtonLoading(true);
-        console.log('sending transaction ==>>', recepientList);
-        const txs = recepientList.map((recepient) => {
-            return api.tx.balances.transfer(
-                recepient.address,
-                BigInt(
-                    Number(recepient.amount) *
-                        10 ** api.registry.chainDecimals[0]
-                )
-            );
-        });
-
-        const batchTx = api.tx.utility.batch(txs);
-
-        const signedTx = await signTransactionHandler(
-            batchTx,
-            address,
-            password
-        );
-
-        await signedTx
-            .send(({ status, events }: any) => {
-                const txResSuccess = events.filter(({ event }: EventRecord) =>
-                    api?.events?.system?.ExtrinsicSuccess.is(event)
-                );
-                const txResFail = events.filter(({ event }: EventRecord) =>
-                    api?.events?.system?.ExtrinsicFailed.is(event)
-                );
-                if (status.isInBlock) {
-                    if (txResFail.length >= 1) {
-                        console.log('from 1');
-                        openResponseModalForTxSuccess();
-                        setTimeout(() => {
-                            generalDispatcher(() =>
-                                setIsResponseModalOpen(false)
-                            );
-                        }, 2000);
-                        generalDispatcher(() => setConfirmSendModal(false));
-
-                        setIsButtonLoading(false);
-                        navigate(DASHBOARD);
-                    }
-                    if (txResSuccess.length >= 1) {
-                        console.log('from 2');
-                        openResponseModalForTxSuccess();
-                        setTimeout(() => {
-                            generalDispatcher(() =>
-                                setIsResponseModalOpen(false)
-                            );
-                        }, 2000);
-                        generalDispatcher(() => setConfirmSendModal(false));
-                        setIsButtonLoading(false);
-                        navigate(DASHBOARD);
-                    }
+        try {
+            setIsButtonLoading(true);
+            console.log('sending transaction ==>>', recepientList);
+            const txs = recepientList.map((recepient) => {
+                if (api.registry.chainTokens[0] === recepient.token) {
+                    return api.tx.balances.transfer(
+                        recepient.address,
+                        BigInt(
+                            Number(recepient.amount) *
+                                10 ** api.registry.chainDecimals[0]
+                        )
+                    );
                 }
-            })
-            .catch(() => {
-                console.log('from 3');
-                openResponseModalForTxFailed();
-                setTimeout(() => {
-                    generalDispatcher(() => setIsResponseModalOpen(false));
-                }, 4000);
-                navigate(DASHBOARD);
-                setIsButtonLoading(false);
-                return false;
+
+                return api.tx.currencies.transfer(
+                    recepient.address,
+                    {
+                        Token: recepient.token,
+                    },
+                    BigInt(
+                        Number(recepient.amount) *
+                            10 ** api.registry.chainDecimals[0]
+                    )
+                );
             });
-        return true;
+
+            const batchTx = api.tx.utility.batch(txs);
+
+            const signedTx = await signTransactionHandler(
+                batchTx,
+                address,
+                password
+            );
+
+            await signedTx
+                .send(({ status, events }: any) => {
+                    const txResSuccess = events.filter(
+                        ({ event }: EventRecord) =>
+                            api?.events?.system?.ExtrinsicSuccess.is(event)
+                    );
+                    const txResFail = events.filter(({ event }: EventRecord) =>
+                        api?.events?.system?.ExtrinsicFailed.is(event)
+                    );
+                    if (status.isInBlock) {
+                        if (txResFail.length >= 1) {
+                            console.log('from 1');
+                            openResponseModalForTxSuccess();
+                            setTimeout(() => {
+                                generalDispatcher(() =>
+                                    setIsResponseModalOpen(false)
+                                );
+                            }, 2000);
+                            generalDispatcher(() => setConfirmSendModal(false));
+
+                            setIsButtonLoading(false);
+                            navigate(DASHBOARD);
+                        }
+                        if (txResSuccess.length >= 1) {
+                            console.log('from 2');
+                            openResponseModalForTxSuccess();
+                            setTimeout(() => {
+                                generalDispatcher(() =>
+                                    setIsResponseModalOpen(false)
+                                );
+                            }, 2000);
+                            generalDispatcher(() => setConfirmSendModal(false));
+                            setIsButtonLoading(false);
+                            navigate(DASHBOARD);
+                        }
+                    }
+                })
+                .catch(() => {
+                    console.log('from 3');
+                    openResponseModalForTxFailed();
+                    setTimeout(() => {
+                        generalDispatcher(() => setIsResponseModalOpen(false));
+                    }, 4000);
+                    navigate(DASHBOARD);
+                    setIsButtonLoading(false);
+                    return false;
+                });
+            return true;
+        } catch (error) {
+            console.log('error ==>>', error);
+            return false;
+        }
     };
 
     const [existentialDeposit, setExistentialDeposit] = React.useState(0);
@@ -305,10 +407,37 @@ const BatchSend: React.FunctionComponent = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    React.useEffect(() => {
+        if (tokenName) {
+            // const TokenList = allTokens.filter((token) => {
+            //     return token.name !== tokenName;
+            // });
+            setTokenList(allTokens);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [tokenName]);
+
     return (
         <Wrapper width="89%">
+            <SelectTokenModal
+                open={openNetworkModal}
+                handleClose={handleNetworkModalClose}
+                tokenList={tokenList}
+                handleSelect={handleNetworkSelect}
+                style={{
+                    position: 'relative',
+                    width: '326px',
+                    height: '386px',
+                    background: '#141414',
+                    pb: 3,
+                    overflowY: 'scroll',
+                    overflowX: 'hidden',
+                    marginBottom: '220px',
+                }}
+            />
+            <WarningModal {...deleteWarning} />
             <Header
-                centerText="Send"
+                centerText={step === 1 ? 'Batch' : 'Send'}
                 overWriteBackHandler={
                     step === 1 ? () => setStep(0) : () => navigate(DASHBOARD)
                 }
@@ -320,13 +449,14 @@ const BatchSend: React.FunctionComponent = () => {
                 <img
                     src={ToggleOn}
                     alt="Toggle"
-                    style={{ marginLeft: '10px' }}
+                    style={{ marginLeft: '10px', marginRight: '6px' }}
                     aria-hidden
                     onClick={handleSendSwitch}
                 />
             </HorizontalContentDiv>
             {step === 0 ? (
                 <BatchCreateView
+                    handleNetworkModalOpen={handleNetworkModalOpen}
                     recepientList={recepientList}
                     setStep={setStep}
                     addressChangeHandler={addressChangeHandler}

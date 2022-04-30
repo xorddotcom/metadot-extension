@@ -1,13 +1,17 @@
+/* eslint-disable max-len */
+/* eslint-disable no-unused-expressions */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable radix */
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { TransactionRecord } from '../../../../redux/types';
 
 import AssetCard from '../../../common/asset-card';
 import TxCard from '../../../common/tx-card';
 
 import { queryData } from '../../../../utils/queryData';
-import { fonts, helpers } from '../../../../utils';
+import { fonts, helpers, exponentConversion } from '../../../../utils';
+import services from '../../../../utils/services';
 import {
     AssetsAndTransactionsWrapper,
     Tabs,
@@ -16,7 +20,6 @@ import {
 
 import {
     AssetsAndTransactionsPropsInterface,
-    TransactionRecord,
     TransactionRecordFromSubQuery,
     TxViewProps,
 } from '../../types';
@@ -26,23 +29,27 @@ import { ASSETS, TRANSACTIONS } from '../../../../utils/app-content';
 import { SubHeading } from '../../../common/text/index';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-const { trimBalance } = helpers;
+const { addressMapper } = services;
 
 const TxView: React.FunctionComponent<TxViewProps> = (
     props
 ): React.ReactElement => {
     const { transactionData, tokenName, handleClickOnTxCard } = props;
-    const { publicKey } = useSelector(
+    const { publicKey, chainName } = useSelector(
         (state: RootState) => state.activeAccount
     );
     return (
         // eslint-disable-next-line react/jsx-no-useless-fragment
         <>
-            {Object.values(transactionData[publicKey]).length > 0 ? (
+            {Object.values(transactionData[publicKey]).length > 0 &&
+            Object.values(transactionData[publicKey]).filter(
+                (transaction: TransactionRecord) =>
+                    transaction.chainName === chainName
+            ).length !== 0 ? (
                 Object.values(transactionData[publicKey])
                     .filter(
                         (transaction: TransactionRecord) =>
-                            transaction.tokenName === tokenName
+                            transaction.chainName === chainName
                     )
                     .reverse()
                     // .sort(
@@ -60,8 +67,8 @@ const TxView: React.FunctionComponent<TxViewProps> = (
                         } = transaction;
 
                         const txCard = {
-                            coin: tokenNames,
-                            amountInUsd: tokenNames === 'WND' ? '$0' : '$0',
+                            coin: tokenNames[0],
+                            amountInUsd: '$0',
                             handleClick: () => handleClickOnTxCard(transaction),
                             operation,
                             status,
@@ -133,20 +140,28 @@ const AssetsAndTransactions: React.FunctionComponent<
             ...transactionObject.data.account.transferTo.nodes,
             ...transactionObject.data.account.transferFrom.nodes,
         ].map((transaction) => {
+            const gasFee = transaction.fees
+                ? (
+                      parseInt(transaction.fees) /
+                      parseInt(transaction.decimals)
+                  ).toString()
+                : '0';
             return {
                 accountFrom: transaction.fromId,
-                accountTo: transaction.toId,
-                amount: (
+                accountTo: [transaction.toId],
+                amount: [
                     parseInt(transaction.amount) /
-                    parseInt(transaction.decimals)
-                ).toString(),
+                        parseInt(transaction.decimals),
+                ],
                 hash: transaction.extrinsicHash,
                 operation:
-                    publicKey === transaction.fromId ? 'Send' : 'Receive',
+                    publicKey === addressMapper(transaction.fromId, 42)
+                        ? 'Send'
+                        : 'Receive',
                 status: transaction.status ? 'Confirmed' : 'Failed',
                 chainName: transaction.token,
                 tokenName: transaction.token,
-                transactionFee: '0',
+                transactionFee: gasFee,
                 timestamp: transaction.timestamp,
             };
         });
@@ -186,13 +201,22 @@ const AssetsAndTransactions: React.FunctionComponent<
                 {balances.length > 1
                     ? isTab1Active &&
                       balances.map((singleToken: any) => {
+                          //   const imageUrl = `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${singleToken.name}.png`;
+                          //   const ifImageExists = checkImage(imageUrl);
+                          //   ifImageExists
+                          //       .then((res) => setTokenImg(imageUrl))
+                          //       .catch((err) => setTokenImg(tokenImage));
+                          //   console.log('ifImageExists', {
+                          //       ifImageExists,
+                          //       tokenImage,
+                          //   });
                           return (
                               <AssetCard
                                   name={chainName}
                                   shortName={singleToken.name}
                                   amount={String(singleToken.balance)}
-                                  balanceInUsd={100}
-                                  logo={tokenImage}
+                                  balanceInUsd={10}
+                                  logo={`https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${singleToken.name}.png`}
                                   isNative={singleToken.isNative}
                                   decimal={singleToken.decimal}
                               />
@@ -201,12 +225,12 @@ const AssetsAndTransactions: React.FunctionComponent<
                     : isTab1Active && (
                           <AssetCard
                               name={chainName}
-                              shortName={chainName}
-                              amount={String(balance)}
+                              shortName={balances[0].name}
+                              amount={String(balances[0].balance.toFixed(5))}
                               balanceInUsd={10}
                               logo={tokenImage}
                               isNative
-                              decimal={10}
+                              decimal={balances[0].decimal}
                           />
                       )}
 
@@ -229,7 +253,7 @@ const AssetsAndTransactions: React.FunctionComponent<
                         name={chainName}
                         shortName={tokenName}
                         amount={trimBalance(balance)}
-                        balanceInUsd={balanceInUsd}
+                        amountInUsd={balanceInUsd}
                         logo={tokenImage}
                         isNative
                     />

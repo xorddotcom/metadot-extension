@@ -8,8 +8,8 @@ const TxDetails: React.FunctionComponent<TxDetailsProps> = (props) => {
 
     const [copy, setCopy] = useState('Copy');
 
-    const getTotalBalance = (value1: string, value2: string): number => {
-        const val = parseFloat(value1) + parseFloat(value2);
+    const getTotalBalance = (value1: number, value2: string): number => {
+        const val = value1 + parseFloat(value2);
         return Number(val.toFixed(4));
     };
 

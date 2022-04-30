@@ -9,7 +9,7 @@ import help from '../../../assets/images/icons/ED_help.svg';
 
 import { FileInputProps, Recepient } from '../types';
 
-const { CSVIcon } = images;
+const { CSVIcon, crossIconRound } = images;
 const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
 
 const FileInput: React.FunctionComponent<FileInputProps> = ({
@@ -36,6 +36,7 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
     };
 
     useEffect(() => {
+        console.log(csvFile, 'file');
         if (csvFile) {
             try {
                 const file = csvFile;
@@ -70,7 +71,12 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
     }, [csvFile]);
 
     useEffect(() => {
+        console.log(csvData, 'data');
         if (csvData) {
+            if (csvData.length === 0) {
+                setError('Invalid CSV');
+                return;
+            }
             setResetRecepientList(recepientList);
             const allowedKeys = ['address', 'amount'];
             console.log('csv data ==>>', csvData);
@@ -119,16 +125,17 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
 
     const copyIconTooltip = {
         id: 'copy-icon',
-        className: `main-card-tooltip ${mainHeadingfontFamilyClass}`,
+        className: `csv-tooltip ${mainHeadingfontFamilyClass}`,
         style: { cursor: 'pointer' },
     };
 
     const copyIconTooltipText = {
-        className: 'main-card-tooltiptext',
+        className: 'csv-tooltiptext',
         style: {
             bottom: '120%',
             fontSize: '11px',
             fontWeight: 300,
+            padding: '5px',
             transition: 'all 0.1s ease-in',
         },
     };
@@ -164,15 +171,13 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
                     }}
                 >
                     {csvFile ? (
-                        <CancelIcon
+                        <img
+                            src={crossIconRound}
+                            alt="cros icon"
+                            aria-hidden
                             onClick={(e) => {
                                 e.stopPropagation();
                                 handleClick('cancel');
-                            }}
-                            fontSize="small"
-                            style={{
-                                marginTop: '3.2px',
-                                marginRight: '-4.8px',
                             }}
                         />
                     ) : (
@@ -208,6 +213,7 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
                 accept=".csv"
                 ref={hiddenFileInput}
                 onChange={(e) => {
+                    console.log(e.target.files, 'aage kuch');
                     return e.target.files && setCsvFile(e.target.files[0]);
                 }}
                 style={{ display: 'none' }}

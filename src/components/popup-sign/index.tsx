@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import {
     approveSignPassword,
     cancelSignRequest,
@@ -18,6 +19,8 @@ import {
 } from '../common/text';
 import { Button, Input } from '../common';
 import { fonts, images } from '../../utils';
+import '../../index.css';
+import { CopyIcon, CopyText, CopyToolTip } from './styles';
 
 const { ContentCopyIcon, CheckboxDisabled, CheckboxEnabled } = images;
 
@@ -30,6 +33,11 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     const [passwordError, setPasswordError] = useState(false);
     const [savePass, setSavePass] = useState(false);
     const [isLock, setIsLock] = useState(false);
+
+    const copySeedText = (text: string): void => {
+        navigator.clipboard.writeText(text);
+        setCopy('Copied');
+    };
 
     useEffect(() => {
         setIsLock(true);
@@ -113,22 +121,30 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
 
     const handleSubmit = async (): Promise<void> => {
         try {
-            setPasswordError(false);
             await approveSignPassword(
                 requests[requests.length - 1].id,
                 savePass,
                 password
             );
+            setPasswordError(false);
         } catch (e) {
             console.log(e, 'check transaction error');
             setPasswordError(true);
         }
+        setPasswordError(false);
     };
 
     const handlePassword = (e: string): void => {
         setPasswordError(false);
         setPassword(e);
     };
+
+    const contentCopyIconDivProps = {
+        id: 'copy-seed',
+        onMouseOver: () => setCopy('Copy'),
+        style: { cursor: 'pointer' },
+    };
+
     return (
         <Wrapper
             width="90%"
@@ -177,24 +193,18 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                             )}
                         </SubHeading>
                     </VerticalContentDiv>
-                    <div
-                        style={{
-                            width: '15%',
-                        }}
+                    <CopyText
+                        {...contentCopyIconDivProps}
+                        onClick={() =>
+                            copySeedText(
+                                requests[requests.length - 1].account.address
+                            )
+                        }
+                        aria-hidden
                     >
-                        <img
-                            src={ContentCopyIcon}
-                            alt="copy"
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => {
-                                navigator.clipboard.writeText(
-                                    requests[requests.length - 1].account
-                                        .address
-                                );
-                            }}
-                            aria-hidden
-                        />
-                    </div>
+                        <CopyIcon src={ContentCopyIcon} alt="copyIcon" />
+                        <CopyToolTip>{copy}</CopyToolTip>
+                    </CopyText>
                 </HorizontalContentDiv>
             </VerticalContentDiv>
 
@@ -206,6 +216,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                 }}
             >
                 {Signaturedata.map((el) => {
+                    console.log('el', el);
                     if (el.copy) {
                         return (
                             <HorizontalContentDiv height="20%">
@@ -219,19 +230,18 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                                         {el.data}
                                     </SubHeading>
                                 </div>
-                                <div style={{ width: '10%' }}>
-                                    <img
+
+                                <CopyText
+                                    {...contentCopyIconDivProps}
+                                    onClick={() => copySeedText(el.dataToCopy)}
+                                    aria-hidden
+                                >
+                                    <CopyIcon
                                         src={ContentCopyIcon}
-                                        alt="copy"
-                                        style={{ cursor: 'pointer' }}
-                                        onClick={() => {
-                                            navigator.clipboard.writeText(
-                                                el.dataToCopy
-                                            );
-                                        }}
-                                        aria-hidden
+                                        alt="copyIcon"
                                     />
-                                </div>
+                                    <CopyToolTip>{copy}</CopyToolTip>
+                                </CopyText>
                             </HorizontalContentDiv>
                         );
                     }
@@ -283,20 +293,21 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                             className={subHeadingfontFamilyClass}
                             visibility={passwordError}
                         >
-                            Account can not be validated.
+                            Invalid Password.
                         </WarningText>
                     )}
                 </VerticalContentDiv>
             )}
 
             {isLock && (
-                <HorizontalContentDiv>
+                <HorizontalContentDiv
+                    onClick={() => setSavePass(!savePass)}
+                    style={{ cursor: 'pointer' }}
+                >
                     <img
                         src={savePass ? CheckboxEnabled : CheckboxDisabled}
                         alt="checkbox"
                         style={{ height: '15px', width: '15px' }}
-                        aria-hidden
-                        onClick={() => setSavePass(!savePass)}
                     />
                     <SubHeading
                         fontSize="12px"
@@ -313,6 +324,7 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                 style={{ alignItems: 'center', marginTop: '30px' }}
             >
                 <Button
+                    disabled={password.length === 0 && !(isLock === false)}
                     handleClick={handleSubmit}
                     text="Sign The Transaction"
                     id="Authorization-Popup"

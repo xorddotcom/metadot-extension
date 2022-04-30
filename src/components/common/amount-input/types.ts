@@ -10,6 +10,8 @@ export interface AmountInputInterface {
     insufficientBal: boolean;
     transactionFee: number;
     amount: any;
+    tokenName: string;
+    balance: number;
 }
 
 export interface CalculatedAmountInterface {

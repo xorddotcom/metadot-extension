@@ -28,8 +28,8 @@ const POLKADOT_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     logo: polkadot,
     rpcUrl: 'wss://rpc.polkadot.io',
-    EXISTENTIAL_DEPOSIT: 1,
-    prefix: 0,
+    // EXISTENTIAL_DEPOSIT: 1,
+    // prefix: 0,
     relayChain: true,
     disabled: false,
     explorer: 'https://polkadot.subscan.io/',
@@ -40,8 +40,8 @@ const KUSAMA_CONFIG: NetworkConfig = {
     tokenName: 'KSM',
     logo: KusamaIcon,
     rpcUrl: 'wss://kusama-rpc.polkadot.io',
-    EXISTENTIAL_DEPOSIT: 0.0000333333,
-    prefix: 2,
+    // EXISTENTIAL_DEPOSIT: 0.0000333333,
+    // prefix: 2,
     queryEndpoint:
         'https://api.subquery.network/sq/kumailraza404/kusamaindexer',
     relayChain: true,
@@ -55,8 +55,8 @@ const KARURA_CONFIG: NetworkConfig = {
     logo: KaruraIcon,
     rpcUrl: 'wss://karura-rpc-0.aca-api.network',
     queryEndpoint:
-        'https://api.subquery.network/sq/kumailraza404/karura-indexer',
-    prefix: 8,
+        'https://api.subquery.network/sq/ahmedali8/metadot-subql-karura__YWhtZ',
+    // prefix: 8,
     disabled: false,
     explorer: 'https://karura.subscan.io/',
 };
@@ -80,7 +80,7 @@ const SHIDEN_CONFIG: NetworkConfig = {
     rpcUrl: 'wss://shiden.api.onfinality.io/public-ws',
     queryEndpoint:
         'https://api.subquery.network/sq/kumailraza404/shiden-indexer',
-    prefix: 5,
+    // prefix: 5,
     disabled: false,
     explorer: 'https://shiden.subscan.io/',
 };
@@ -124,11 +124,10 @@ const SHIDEN_CONFIG: NetworkConfig = {
 const WESTEND_CONFIG: NetworkConfig = {
     name: 'Westend',
     tokenName: 'WND',
-    queryEndpoint:
-        'https://api.subquery.network/sq/khuzama98/subql-westend__a2h1e',
+    queryEndpoint: 'https://api.subquery.network/sq/khuzama98/subql-westend',
     logo: westendColour,
     rpcUrl: 'wss://westend-rpc.polkadot.io',
-    prefix: 42,
+    // prefix: 42,
     disabled: false,
     explorer: 'https://westend.subscan.io/',
 };
@@ -138,7 +137,7 @@ const ROCOCO_CONFIG: NetworkConfig = {
     tokenName: 'ROC',
     logo: rococoIcon,
     rpcUrl: 'wss://rococo-rpc.polkadot.io',
-    prefix: 42,
+    // prefix: 42,
     queryEndpoint:
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     disabled: true,
@@ -150,7 +149,7 @@ const ACALA_MANDALA_CONFIG: NetworkConfig = {
     tokenName: 'ACA',
     logo: acala,
     rpcUrl: 'wss://acala-mandala.api.onfinality.io/public-ws',
-    prefix: 42,
+    // prefix: 42,
     queryEndpoint:
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     disabled: true,
@@ -198,7 +197,7 @@ const ASTAR_CONFIG: NetworkConfig = {
     tokenName: 'ASTR',
     logo: astarIcon,
     rpcUrl: 'wss://rpc.astar.network',
-    prefix: 5,
+    // prefix: 5,
     queryEndpoint:
         'https://api.subquery.network/sq/kumailraza404/astar-indexer',
     disabled: false,
@@ -208,11 +207,10 @@ const ASTAR_CONFIG: NetworkConfig = {
 const SHIBUYA_CONFIG: NetworkConfig = {
     name: 'Shibuya',
     tokenName: 'SBY',
-    queryEndpoint:
-        'https://api.subquery.network/sq/khuzama98/subql-shibuya__a2h1e',
+    queryEndpoint: 'https://api.subquery.network/sq/khuzama98/subql-shibuya',
     logo: shibuyaIcon,
     rpcUrl: 'wss://rpc.shibuya.astar.network',
-    prefix: 5,
+    // prefix: 5,
     disabled: false,
     explorer: 'https://shibuya.subscan.io/',
 };
@@ -238,7 +236,7 @@ const CONTEXTFREE_CONFIG: NetworkConfig = {
     rpcUrl: 'wss://cf-api.ata.network',
     // rpcUrl: 'wss://contextfree.api.onfinality.io/public-ws',
     // rpcUrl: 'wss://api.ata.network',
-    prefix: 11820,
+    // prefix: 11820,
     disabled: false,
     explorer:
         'https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fcf-api.ata.network#/explorer',
@@ -248,18 +246,42 @@ const ACALA_CONFIG: NetworkConfig = {
     name: 'Acala',
     tokenName: 'ACA',
     queryEndpoint: 'https://api.subquery.network/sq/kumailraza404/acala-1',
-    logo: AcalaIcon,
+    logo: 'https://token-resources-git-dev-acalanetwork.vercel.app/tokens/ACA.png',
     rpcUrl: 'wss://acala-rpc.dwellir.com',
-    prefix: 10,
+    // prefix: 10,
     disabled: false,
     explorer: 'https://acala.subscan.io/',
 };
+
+// const BIFROST_STAGE_TESTNET_CONFIG: NetworkConfig = {
+//     name: 'Bifrost',
+//     tokenName: '',
+//     queryEndpoint: '',
+//     logo: BifrostIcon,
+//     rpcUrl: 'wss://bifrost-rpc.testnet.liebi.com/ws',
+//     // prefix: 10,
+//     disabled: true,
+//     explorer: '',
+// };
+
+// const BIFROST_KUSAMA_CONFIG: NetworkConfig = {
+//     name: 'Bifrost',
+//     tokenName: '',
+//     queryEndpoint: '',
+//     logo: BifrostIcon,
+//     rpcUrl: 'wss://eu.bifrost-rpc.liebi.com/ws',
+//     // prefix: 10,
+//     disabled: false,
+//     explorer: '',
+// };
 
 export default {
     CONTEXTFREE_CONFIG,
     // BITCOUNTRY_CONFIG,
     POLKADOT_CONFIG,
     KUSAMA_CONFIG,
+    // BIFROST_STAGE_TESTNET_CONFIG,
+    // BIFROST_KUSAMA_CONFIG,
     // BIFROST_CONFIG,
     // MOONRIVER_CONFIG,
     SHIDEN_CONFIG,

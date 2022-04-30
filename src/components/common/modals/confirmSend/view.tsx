@@ -13,7 +13,8 @@ import {
     MainText1,
 } from './styledComponents';
 import { ModalText } from '../../text';
-import { fonts, helpers, images } from '../../../../utils';
+import { fonts, images, helpers } from '../../../../utils';
+import services from '../../../../utils/services';
 import { RootState } from '../../../../redux/store';
 import {
     AMOUNT,
@@ -26,10 +27,11 @@ import {
 } from '../../../../utils/app-content';
 import { ConfirmSendModalViewProps } from './types';
 
+const { addressMapper } = services;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
+const { arrowRight, crossIcon } = images;
 const { trimBalance } = helpers;
 
-const { arrowRight } = images;
 const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
     handleClose,
     accountTo,
@@ -41,13 +43,17 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
     locationTokenName,
     isNative,
 }) => {
-    const { publicKey, tokenName } = useSelector(
+    const { publicKey, tokenName, prefix } = useSelector(
         (state: RootState) => state.activeAccount
     );
     const { confirmSendModal } = useSelector(
         (state: RootState) => state.modalHandling
     );
 
+    const fromAddressMapper = (): string => {
+        const res = addressMapper(publicKey, prefix);
+        return `${res.slice(0, 5)} ... ${res.slice(-5)}`;
+    };
     const totalAmount = (valueOne: number, valueTwo: number): string => {
         if (isNative) {
             const value = valueOne + valueTwo;
@@ -90,7 +96,7 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                         }
                     }}
                 >
-                    <CloseIcon />
+                    <img src={crossIcon} alt="cross icon" />
                 </CloseIconDiv>
                 <VerticalContentDiv>
                     <ModalText
@@ -112,9 +118,9 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                                 id="account-from"
                                 textAlign="start"
                                 className={subHeadingfontFamilyClass}
-                            >{`${publicKey.slice(0, 5)} ... ${publicKey.slice(
-                                -5
-                            )}`}</SubText2>
+                            >
+                                {fromAddressMapper()}
+                            </SubText2>
                         </VerticalContentDiv>
 
                         <img
@@ -148,6 +154,92 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                         {TRANSACTIONS}
                     </ModalText>
 
+                    {/* <VerticalContentDiv
+                        specialPadding
+                        border
+                        paddingBottom
+                        marginTop="2px"
+                        style={{ border: '1px solid red' }}
+                    >
+                        <HorizontalContentDiv paddingTop borderBottom>
+                            <VerticalContentDiv marginTop="10px">
+                                <ModalText2
+                                    textAlign="start"
+                                    className={subHeadingfontFamilyClass}
+                                >
+                                    {AMOUNT}
+                                </ModalText2>
+                                <ModalText2
+                                    marginTop="10px"
+                                    marginBottom="10px"
+                                    textAlign="start"
+                                    className={subHeadingfontFamilyClass}
+                                >
+                                    {NETWORK_FEE}
+                                </ModalText2>
+                            </VerticalContentDiv>
+
+                            <VerticalContentDiv marginTop="10px">
+                                <ModalText2
+                                    id="amount"
+                                    textAlign="end"
+                                    className={mainHeadingfontFamilyClass}
+                                >{`${amount} ${locationTokenName}`}</ModalText2>
+                                <ModalText2
+                                    id="transaction-fee"
+                                    marginTop="10px"
+                                    marginBottom="10px"
+                                    textAlign="end"
+                                    className={mainHeadingfontFamilyClass}
+                                >{`${transactionFee.toFixed(
+                                    4
+                                )} ${tokenName}`}</ModalText2>
+                            </VerticalContentDiv>
+                        </HorizontalContentDiv>
+
+                        <HorizontalContentDiv paddingTop marginBottom>
+                            <VerticalContentDiv marginTop="10px">
+                                <ModalText2
+                                    textAlign="start"
+                                    className={subHeadingfontFamilyClass}
+                                >
+                                    {TOTAL_AMOUNT}
+                                </ModalText2>
+                                <ModalText2
+                                    textAlign="start"
+                                    hide
+                                    className={subHeadingfontFamilyClass}
+                                >
+                                    .
+                                </ModalText2>
+                            </VerticalContentDiv>
+
+                            <VerticalContentDiv marginTop="10px">
+                                <ModalText2
+                                    id="transaction-amount"
+                                    textAlign="end"
+                                    className={mainHeadingfontFamilyClass}
+                                >
+                                    {/* {`${transactionAmount(
+                                    amount,
+                                    transactionFee
+                                )} ${tokenName}`} */}
+                    {/* {totalAmount(
+                                        Number(amount),
+                                        Number(transactionFee)
+                                    )}
+                                </ModalText2>
+                                <ModalText2
+                                    textAlign="end"
+                                    hide
+                                    className={mainHeadingfontFamilyClass}
+                                >
+                                    {tokenName[0] === 'WND' ? '' : '$ 594.304'}
+                                </ModalText2>
+                            </VerticalContentDiv>
+                        </HorizontalContentDiv>
+                    </VerticalContentDiv>  */}
+
                     <VerticalContentDiv specialPadding border paddingBottom>
                         <MainText1
                             textAlign="start"
@@ -180,7 +272,12 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                                     className={mainHeadingfontFamilyClass}
                                     fontSize="12px"
                                     color="#FFFFFF"
-                                >{`${amount} ${tokenName}`}</MainText1>
+                                >{`${amount
+                                    .toString()
+                                    .slice(
+                                        0,
+                                        6
+                                    )} ${locationTokenName}`}</MainText1>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
 
@@ -205,7 +302,9 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                                     fontSize="12px"
                                     color="#FFFFFF"
                                 >
-                                    {`${transactionFee} ${tokenName}`}
+                                    {`${transactionFee.toFixed(
+                                        4
+                                    )} ${tokenName}`}
                                 </MainText1>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
@@ -247,10 +346,14 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                                     fontWeight="600"
                                     color="#2E9B9B"
                                 >
-                                    {`${transactionAmount(
+                                    {/* {`${transactionAmount(
                                         amount,
                                         transactionFee
-                                    )} ${tokenName}`}
+                                    )} ${tokenName}`} */}
+                                    {totalAmount(
+                                        Number(amount),
+                                        Number(transactionFee)
+                                    )}
                                 </MainText1>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>

@@ -22,6 +22,7 @@ export const EquivalentInUSDT = styled.p`
     text-align: start;
     margin: 0px;
     margin-top: -16px;
+    visibility: hidden;
 `;
 
 export const CalculatedAmount = styled.div<CalculatedAmountInterface>`

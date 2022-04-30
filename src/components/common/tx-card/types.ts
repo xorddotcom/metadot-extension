@@ -2,7 +2,7 @@ export interface Props {
     operation?: string;
     status?: string;
     coin?: string;
-    amount?: string;
+    amount: number[];
     amountInUsd?: string;
     logo?: string;
     handleClick(): void;

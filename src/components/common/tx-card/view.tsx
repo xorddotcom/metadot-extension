@@ -17,6 +17,12 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
     const { green, red } = colors;
     const { trimBalance, dateFormatter } = helpers;
+    const getTotalAmount = (): number => {
+        const totalAmount = amount.reduce(function (a, b) {
+            return a + b;
+        }, 0);
+        return totalAmount;
+    };
 
     return (
         <TxCardWrapper
@@ -86,7 +92,7 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
                             height="20px"
                             style={{ lineHeight: '16px' }}
                         >
-                            {`${trimBalance(Number(amount))} ${coin}`}
+                            {`${trimBalance(getTotalAmount())} ${coin}`}
                         </MainText>
                     </VerticalContentDiv>
                 </div>

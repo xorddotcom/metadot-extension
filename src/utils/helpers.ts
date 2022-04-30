@@ -1,6 +1,9 @@
 import { hexToU8a, isHex } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 import constants from '../constants/onchain';
+import addressMapper from './services';
+// eslint-disable-next-line import/no-cycle
+import { exponentConversion } from './index';
 
 function arrayFromSeedSentence(seed: string): Array<string> {
     return seed.split(' ');
@@ -87,8 +90,14 @@ function isUserNameValid(username: string): boolean {
 }
 
 const trimBalance = (value: string | number): string => {
-    const val = value.toString();
-    const trimmedValue = val.slice(0, val.indexOf('.') + 4);
+    const val = value ? value.toString() : '';
+    const isDecimalExist = val.indexOf('.');
+    let trimmedValue;
+    if (isDecimalExist) {
+        trimmedValue = val.slice(0, val.indexOf('.') + 4);
+    } else {
+        trimmedValue = val;
+    }
     return trimmedValue;
 };
 
@@ -184,7 +193,7 @@ const isTabViewOpened = async (url: string): Promise<boolean> => {
 
 const openOptions = async (url: string): Promise<void> => {
     const ownTabs = await getOwnTabs();
-    const urlFormatching = `${chrome.extension.getURL('index.html')}`;
+    const urlFormatching = `${chrome.runtime.getURL('index.html')}`;
     const tabd = ownTabs.find((tab: any) => tab.url.includes(urlFormatching));
     const isTabOpen = await isTabViewOpened(urlFormatching);
     if (tabd && isTabOpen) {
@@ -205,6 +214,211 @@ const isValidAddressPolkadotAddress = (address: string): boolean => {
     }
 };
 
+const txMadeOrReceiveByUser = (
+    extrinsic: any,
+    section: any,
+    method: any,
+    userAddress: string,
+    event: any
+): { bool: boolean; method: string } => {
+    if (
+        event.event.section === 'balances' &&
+        event.event.method === 'Transfer' &&
+        (event.event.data[0].toString() === userAddress ||
+            event.event.data[1].toString() === userAddress)
+    ) {
+        return { bool: true, method: 'transfer' };
+    }
+    if (
+        event.event.section === 'currencies' &&
+        event.event.method === 'Transferred' &&
+        (event.event.data[1].toString() === userAddress ||
+            event.event.data[2].toString() === userAddress)
+    ) {
+        console.log('from currencies');
+        console.log('eve', event);
+        console.log('exe', extrinsic);
+        return { bool: true, method: 'transfer' };
+    }
+    if (
+        section.toString() === 'utility' &&
+        method.toString() === 'BatchCompleted'
+    ) {
+        const signer = extrinsic?.signer?.toString();
+
+        const argsData = function (): any {
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+            const { args, meta, method } = extrinsic || {};
+            const { args: argsDef } = meta;
+
+            const result = args.map((arg: any, index: any) => {
+                const { name, type } = argsDef[index];
+                return {
+                    name,
+                    type,
+                    method: method?.method,
+                    section: method?.section,
+                    value: arg.toJSON(),
+                };
+            });
+            return result[0].value;
+        };
+
+        const result = argsData();
+
+        let receiverArray = [];
+        receiverArray = result.map((res: any) => {
+            return res.args?.dest?.id?.toString();
+        });
+        if (signer === userAddress || receiverArray.includes(userAddress)) {
+            console.log('utility batch completed method returning');
+            return { bool: true, method: 'batch' };
+        }
+
+        return { bool: false, method: 'batch' };
+    }
+    return { bool: false, method: 'none' };
+};
+
+// const fetchExistentialDeposit = (token: { name: string }): number => {
+//     const decimalPlaces = api?.registry?.chainDecimals[0];
+//     let ED: number;
+//     if (!(api.registry.chainTokens[0] === token.name)) {
+//         ED = Number(
+//             getExistentialDepositConfig(
+//                 api.runtimeChain.toString(),
+//                 token.name.toUpperCase()
+//             )
+//         );
+//     } else {
+//         ED =
+//             Number(api?.consts?.balances?.existentialDeposit.toString()) /
+//             10 ** decimalPlaces;
+//     }
+//     return ED;
+// };
+
+const formatExtrinsic = (
+    extrinsic: any,
+    userAddress: string,
+    method: string,
+    chainDecimal: number,
+    chainDecimalList: number[],
+    tknList: string[]
+): {
+    accountFrom: string;
+    accountTo: string[];
+    amount: number[];
+    hash: string;
+    operation: string;
+    status: boolean;
+    tokenList: string[];
+} => {
+    const accountFrom = extrinsic?.signer?.toString();
+    let accountTo = [];
+    let amount = [];
+    const hash = extrinsic?.hash?.toString();
+    let operation = '';
+    const status = true;
+    let tokenList: string[] = [];
+
+    if (method === 'transfer') {
+        const args = function (): any {
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+            const { args, meta, method } = extrinsic || {};
+            const { args: argsDef } = meta;
+            const result = args.map((arg: any, index: any) => {
+                const { name, type } = argsDef[index];
+                return {
+                    value: arg.toJSON(),
+                };
+            });
+            return result;
+        };
+        const argsData = args();
+        operation = accountFrom === userAddress ? 'Send' : 'Receive';
+        console.log(argsData, 'args check kero');
+        accountTo = [argsData[0]?.value.id];
+
+        tokenList = [
+            argsData[1]?.value.token ? argsData[1]?.value.token : tknList[0],
+        ];
+
+        const i = chainDecimalList[tknList.indexOf(tokenList[0])];
+        amount = [
+            exponentConversion(
+                Number(
+                    argsData.length === 2
+                        ? argsData[1]?.value
+                        : argsData[2]?.value
+                ) /
+                    10 ** i
+            ),
+        ];
+    }
+    if (method === 'batch') {
+        const args = function (): any {
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+            const { args, meta } = extrinsic || {};
+            const { args: argsDef } = meta;
+            console.log(' From Metadot :');
+            console.log(args);
+            const result = args.map((arg: any, index: any) => {
+                const { name, type } = argsDef[index];
+                return {
+                    value: arg.toJSON(),
+                };
+            });
+            console.log(result, 'logging after map');
+            return result[0].value;
+        };
+        const argsData = args();
+
+        operation = accountFrom === userAddress ? 'Send' : 'Receive';
+        console.log('start for batch');
+        console.log(argsData);
+        accountTo = argsData.map((res: any) => {
+            return res.args?.dest?.id?.toString();
+        });
+        tokenList = argsData.map((res: any) => {
+            return res.args.currency_id
+                ? res.args.currency_id.token
+                : tknList[0];
+        });
+        amount = argsData.map((res: any, index: number) => {
+            const token = tokenList[index];
+            const i = chainDecimalList[tknList.indexOf(token)];
+            const convertedAmount = exponentConversion(
+                Number(res.args?.value ? res.args?.value : res.args?.amount) /
+                    10 ** i
+            );
+            return convertedAmount;
+        });
+
+        console.log(accountTo, amount, tokenList);
+        console.log('finish for batch');
+    }
+    console.log('end of finction');
+    console.log(
+        accountFrom,
+        accountTo,
+        amount,
+        hash,
+        operation,
+        status,
+        tokenList
+    );
+    return {
+        accountFrom,
+        accountTo,
+        amount,
+        hash,
+        operation,
+        status,
+        tokenList,
+    };
+};
+
 export default {
     arrayFromSeedSentence,
     arrayOfFourRandomNumbers,
@@ -220,5 +434,7 @@ export default {
     openOptions,
     isTabViewOpened,
     isValidAddressPolkadotAddress,
+    formatExtrinsic,
+    txMadeOrReceiveByUser,
     // showInternetSnackBar,
 };

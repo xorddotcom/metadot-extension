@@ -18,6 +18,7 @@ const ToInput: React.FunctionComponent<ToInputInterface> = ({
         onChange,
         placeholder: 'Enter wallet address',
         type: 'text',
+        bgColor: '#141414',
     };
 
     const warningTextInlineStyle = {
@@ -26,10 +27,10 @@ const ToInput: React.FunctionComponent<ToInputInterface> = ({
     };
 
     return (
-        <VerticalContentDiv mb="10px">
+        <VerticalContentDiv marginBottom="12px">
             <MainText className={mainHeadingfontFamilyClass}>To</MainText>
             <Input id="username" {...receiverAddressInput} />
-            <div style={{ height: '16px' }}>
+            <div style={{ height: '16px', marginTop: '-8px' }}>
                 {!isCorrect && (
                     <WarningText
                         id="warning-text-1"

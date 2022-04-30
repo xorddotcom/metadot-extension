@@ -66,8 +66,8 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
             px: 2,
             pb: 3,
         },
-        mainText: 'Remove Recepient',
-        subText: 'Are you sure you want to delete this Recepient?',
+        mainText: 'Remove Recipient',
+        subText: 'Are you sure you want to delete this Recipient?',
     };
 
     const calculatedAmount = (): string => {
@@ -76,6 +76,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
             return {
                 amount: String(Number(a.amount) + Number(b.amount)),
                 address: a.address,
+                token: a.token,
             };
         });
         return val.amount;
@@ -110,6 +111,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                     index: activeRecepient,
                     address: recepientList[activeRecepient].address,
                     amount: recepientList[activeRecepient].amount,
+                    token: recepientList[activeRecepient].token,
                 }}
                 getTotalAmount={getTotalAmount}
                 getTransactionFees={getTransactionFees}
@@ -124,7 +126,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                             color="#FAFAFA"
                             opacity="0.85"
                         >
-                            Recepient {index + 1}
+                            Recipient {index + 1}
                         </SubHeading>
                         <HorizontalContentDiv>
                             <ImageButtons
@@ -169,7 +171,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                                 {helpers.addressModifier(recepient.address)}
                             </SubHeading>
                             <SubHeading lineHeight="0px">
-                                {recepient.amount}
+                                {`${recepient.amount} ${recepient.token}`}
                             </SubHeading>
                         </HorizontalContentDiv>
                     </VerticalContentDiv>
@@ -195,14 +197,16 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                             fontSize="12px"
                             opacity="0.8"
                         >
-                            Total Amount
+                            Total Transferable Amount
                         </SubHeading>
                         <SubHeading
                             lineHeight="0px"
                             color={white}
                             fontSize="12px"
                         >
-                            {calculatedAmount()}
+                            {`${Number(calculatedAmount()).toFixed(
+                                4
+                            )} ${tokenName}`}
                         </SubHeading>
                     </HorizontalContentDiv>
 
@@ -235,7 +239,9 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                         fontSize="19px"
                         color={primaryBackground}
                     >
-                        {Number(calculatedAmount()) + transactionFee}
+                        {(Number(calculatedAmount()) + transactionFee).toFixed(
+                            4
+                        )}
                     </SubHeading>
                 </HorizontalContentDiv>
             </TransactionDetailDiv>

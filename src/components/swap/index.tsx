@@ -6,7 +6,6 @@ import { Token as SDKToken } from '@acala-network/sdk-core/token';
 import { FixedPointNumber } from '@acala-network/sdk-core';
 import { TradeGraph } from '@acala-network/sdk-swap';
 
-import { WalletPromise } from '@acala-network/sdk-wallet';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { options } from '@acala-network/api';
 import SwapView from './view';
@@ -98,8 +97,8 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
 
     React.useEffect(() => {
         if (balances.length > 1) {
-            if (!tokenFrom) setTokenFrom(balances[0]);
-            if (!tokenTo) setTokenTo(balances[1]);
+            if (!tokenFrom) setTokenFrom(balances[0] as any);
+            if (!tokenTo) setTokenTo(balances[1] as any);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [balances]);
@@ -111,7 +110,7 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                     token.name !== tokenFrom.name && token.name !== tokenTo.name
                 );
             });
-            setTokenList(TokenList);
+            setTokenList(TokenList as any);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tokenFrom, tokenTo]);
@@ -506,8 +505,8 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
         <>
             <SwapView
                 handleOpen={handleOpen}
-                tokenFrom={tokenFrom}
-                tokenTo={tokenTo}
+                tokenFrom={tokenFrom as any}
+                tokenTo={tokenTo as any}
                 tokenImage={tokenImage}
                 amountFrom={amountFrom}
                 handleAmountChange={handleAmountChange}

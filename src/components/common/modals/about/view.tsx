@@ -78,7 +78,11 @@ const AboutView: React.FunctionComponent<AboutModalProps> = ({
                                 fontSize: '14px',
                                 margin: '8px 0px',
                             }}
-                            onClick={() => window.open('https://metadot.app/')}
+                            onClick={() =>
+                                window.open(
+                                    'https://metadot.app/privacy-policy/'
+                                )
+                            }
                             role="link"
                             aria-hidden
                         >
@@ -93,7 +97,11 @@ const AboutView: React.FunctionComponent<AboutModalProps> = ({
                                 fontSize: '14px',
                                 margin: '8px 0px',
                             }}
-                            onClick={() => window.open('https://metadot.app/')}
+                            onClick={() =>
+                                window.open(
+                                    'https://metadot.app/terms-and-conditions/'
+                                )
+                            }
                             role="link"
                             aria-hidden
                         >

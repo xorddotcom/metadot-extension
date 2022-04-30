@@ -85,10 +85,14 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
         className: subHeadingfontFamilyClass,
         fontSize: '12px',
         onChange: (t: string) => {
-            setInputErrorState('');
-            if (t.length < 20) setInput(t);
-            else {
-                setInputErrorState('Only 19 characters allowed.');
+            if (!isPassword) {
+                if (t.length < 20) {
+                    setInputErrorState('');
+                    setInput(t);
+                }
+            } else {
+                setInputErrorState('');
+                setInput(t);
             }
         },
         hideHandler: () => setShowPassword(!showPassword),
@@ -115,8 +119,9 @@ const AuthModal: React.FunctionComponent<AuthtModalProps> = (props) => {
             borderRadius: '40px',
             fontSize: '14px',
         },
-        // disabled: isBtnLoading || input.length === 0,
-        disabled: isBtnLoading,
+        disabled:
+            isBtnLoading ||
+            (input.length === 0 && functionType !== 'PasswordSaved'),
         isLoading: isBtnLoading,
         handleClick: () => handleSubmit(),
     };

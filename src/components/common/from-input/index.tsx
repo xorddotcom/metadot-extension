@@ -12,14 +12,15 @@ import {
     setAccountName,
     setPublicKey,
 } from '../../../redux/slices/activeAccount';
-import { Account } from './types';
+import { Account, FromInputProps } from './types';
 
 const { addressModifier } = helpers;
 const { addressMapper } = services;
 
 const { dropdownIcon } = images;
 
-const FromInput: React.FunctionComponent = () => {
+const FromInput: React.FunctionComponent<FromInputProps> = (props) => {
+    const { resetToggles } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const generalDispatcher = useDispatcher();
     const { accountName, publicKey, prefix } = useSelector(
@@ -30,6 +31,9 @@ const FromInput: React.FunctionComponent = () => {
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
     const onAccountSelection = (data: Account): void => {
+        if (resetToggles) {
+            resetToggles();
+        }
         setIsModalOpen(false);
         generalDispatcher(() => setPublicKey(data.publicKey));
         generalDispatcher(() => setAccountName(data.accountName));

@@ -26,13 +26,11 @@ import {
 
 import networks from './networkModalData';
 import { RootState } from '../../redux/store';
+import { TransactionRecord } from '../../redux/types';
+
 import useDispatcher from '../../hooks/useDispatcher';
 import useResponseModal from '../../hooks/useResponseModal';
-import {
-    ModalStateInterface,
-    NetworkConfigType,
-    TransactionRecord,
-} from './types';
+import { ModalStateInterface, NetworkConfigType } from './types';
 import { IMPORT_WALLET, WELCOME } from '../../constants';
 import DashboardView from './view';
 
@@ -62,13 +60,13 @@ const Dashboard: React.FunctionComponent = () => {
     const [txDetailsModalData, setTxDetailsModalData] =
         useState<TransactionRecord>({
             accountFrom: '',
-            accountTo: '',
-            amount: '',
+            accountTo: [],
+            amount: [],
             hash: '',
             operation: '',
             status: '',
             chainName: '',
-            tokenName: '',
+            tokenName: [],
             transactionFee: '',
             timestamp: '',
         });
@@ -83,6 +81,7 @@ const Dashboard: React.FunctionComponent = () => {
         prefix,
         chainName,
         balance,
+        balances,
         tokenName,
         balanceInUsd,
         accountName,
@@ -92,7 +91,7 @@ const Dashboard: React.FunctionComponent = () => {
 
     useEffect(() => {
         if (jsonFileUploadScreen) {
-            const url = `${chrome.extension.getURL('index.html')}`;
+            const url = `${chrome.runtime.getURL('index.html')}`;
             const isTabOpen = isTabViewOpened(url);
 
             isTabOpen.then((res) => {
@@ -179,7 +178,7 @@ const Dashboard: React.FunctionComponent = () => {
         generalDispatcher(()=>setRpcUrl(data.rpcUrl ? data.rpcUrl : ''));
         generalDispatcher(()=>setChainName(data.name));
         generalDispatcher(()=>setTokenImage(data.logo));
-        generalDispatcher(()=>setPrefix(data.prefix));
+        // generalDispatcher(()=>setPrefix(data.prefix));
         generalDispatcher(()=>setQueryEndpoint(data.queryEndpoint));
         
         // eslint-disable-next-line max-len
@@ -240,7 +239,7 @@ const Dashboard: React.FunctionComponent = () => {
             publicKey={publicKey}
             prefix={prefix}
             chainName={chainName}
-            balance={balance}
+            balance={balances[0] ? balances[0].balance : 0}
             balanceInUsd={balanceInUsd}
             tokenName={tokenName}
             accountName={accountName}

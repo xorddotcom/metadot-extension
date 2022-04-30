@@ -116,6 +116,8 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
         return url;
     };
 
+    const isCTXActive = prefix === 11820;
+
     return (
         <>
             <Menu
@@ -235,7 +237,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                 fontSize: '15px',
                             }}
                             onClick={() => {
-                                const url = `${chrome.extension.getURL(
+                                const url = `${chrome.runtime.getURL(
                                     'index.html'
                                 )}#${DASHBOARD}`;
                                 openOptions(url);
@@ -269,8 +271,15 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                 minHeight: '37px',
                                 color: '#fafafa',
                                 fontSize: '15px',
+                                opacity: !isCTXActive ? 1 : 0.5,
                             }}
-                            onClick={() => window.open(getURl(publicKey))}
+                            onClick={() =>
+                                !isCTXActive
+                                    ? window.open(getURl(publicKey))
+                                    : // eslint-disable-next-line max-len
+                                      // eslint-disable-next-line no-restricted-syntax
+                                      console.clear()
+                            }
                         >
                             <ListItemIcon
                                 className="flexStart"
@@ -397,8 +406,11 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                         </MenuItem>
 
                         <MenuItem
-                            id="menu-item-1"
-                            style={{ minHeight: '37px', color: '#fafafa' }}
+                            style={{
+                                minHeight: '37px',
+                                color: '#fafafa',
+                                fontSize: '15px',
+                            }}
                             onClick={() => {
                                 dispatch(setLoggedIn(false));
                             }}
@@ -411,7 +423,7 @@ const DropDown: React.FunctionComponent<DropDownProps> = (props) => {
                                     src={LockOutlinedIcon}
                                     alt="lock-icon"
                                     style={{
-                                        marginTop: '-4.8px',
+                                        marginTop: '-3.2px',
                                         marginLeft: '5px',
                                     }}
                                 />

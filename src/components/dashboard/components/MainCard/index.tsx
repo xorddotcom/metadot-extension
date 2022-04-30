@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import { RootState } from '../../../../redux/store';
 import { MainCardPropsInterface } from '../../types';
-import { fonts, helpers, images } from '../../../../utils';
+import { fonts, helpers, images, exponentConversion } from '../../../../utils';
 
 import { setApiInitializationStarts } from '../../../../redux/slices/api';
+
+import {
+    setBalance,
+    setBalanceInUsd,
+} from '../../../../redux/slices/activeAccount';
 
 import {
     AccountName,
@@ -22,9 +28,9 @@ import {
 import services from '../../../../utils/services';
 
 const { refreshIcon, ContentCopyIconWhite, notConnected, connected } = images;
-const { addressModifier, trimBalance } = helpers;
+const { addressModifier, trimBalance, convertIntoUsd } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-const { addressMapper } = services;
+const { addressMapper, getBalance } = services;
 
 const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
     props
@@ -38,6 +44,9 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
     const dispatch = useDispatch();
     const { apiInitializationStarts } = useSelector(
         (state: RootState) => state.api
+    );
+    const api = useSelector(
+        (state: RootState) => state.api.api as unknown as ApiPromiseType
     );
     const {
         activeAccount: { isWalletConnected },
@@ -90,12 +99,25 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
                 </MoreOptions>
                 <Refresh
                     id="refresh"
-                    onClick={() => {
+                    onClick={async () => {
                         dispatch(setApiInitializationStarts(true));
-                        setTimeout(
-                            () => dispatch(setApiInitializationStarts(false)),
-                            1000
+                        const balanceOfSelectedNetwork = await getBalance(
+                            api,
+                            address
                         );
+                        const dollarAmount = await convertIntoUsd(
+                            api.runtimeChain.toString(),
+                            balanceOfSelectedNetwork
+                        );
+
+                        dispatch(setBalanceInUsd(dollarAmount));
+
+                        dispatch(
+                            setBalance(
+                                exponentConversion(balanceOfSelectedNetwork)
+                            )
+                        );
+                        dispatch(setApiInitializationStarts(false));
                     }}
                 >
                     <img src={refreshIcon} alt="refresh-icon" />
@@ -124,12 +146,14 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
             {!apiInitializationStarts ? (
                 <Balance id="balance" className={mainHeadingfontFamilyClass}>
                     <div className={`topTooltip ${mainHeadingfontFamilyClass}`}>
-                        <span id="trim-balance">{trimBalance(balance)}</span>
+                        <span id="trim-balance">
+                            {String(exponentConversion(balance)).slice(0, 6)}
+                        </span>
                         <span id="token-name" style={{ marginLeft: 7 }}>
                             {tokenName}
                         </span>
                         <span id="complete-balance" {...addTooltipText}>
-                            {balance}
+                            {exponentConversion(balance)}
                         </span>
                     </div>
                 </Balance>

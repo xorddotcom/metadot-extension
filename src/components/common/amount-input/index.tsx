@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import { fonts, helpers } from '../../../utils';
@@ -20,10 +20,41 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     insufficientBal,
     transactionFee,
     amount,
+    tokenName,
+    balance,
 }) => {
-    const { balance, balanceInUsd, tokenName, tokenImage } = useSelector(
+    const { balanceInUsd, balances, publicKey, tokenImage } = useSelector(
         (state: RootState) => state.activeAccount
     );
+    const tokenToSend = balances.filter((bal) => bal.name === tokenName);
+    const [blanaceAfterAccountSwitch, setBalanaceAfterAccountSwitch] =
+        useState(balance);
+
+    useEffect(() => {
+        balances.forEach((bal) => {
+            if (bal.name === tokenName) {
+                setBalanaceAfterAccountSwitch(bal.balance);
+            }
+        });
+    }, [publicKey, tokenToSend[0]?.balance]);
+
+    const [tokenImg, setTokenImg] = useState(
+        `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenName}.png`
+    );
+    useEffect(() => {
+        const url = `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenName}.png`;
+        const request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.send();
+        request.onload = () => {
+            if (request.status === 200) {
+                setTokenImg(url);
+            } else {
+                setTokenImg(tokenImage);
+            }
+        };
+    }, []);
+
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
     const styledInput = {
@@ -36,7 +67,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         amount,
         tokenLogo: true,
         tokenName,
-        tokenImage,
+        tokenImage: tokenImg,
         // isCorrect: amountState.isValid || insufficientBal,
     };
 
@@ -78,14 +109,18 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                     ${balanceInUsd === 0 ? 0 : balanceInUsd.toFixed(5)}
                 </EquivalentInUSDT>
                 <Balance {...balanceProps}>
-                    Balance: {`${trimContent(balance, 6)} ${tokenName}`}
+                    Balance:{' '}
+                    {`${trimContent(
+                        blanaceAfterAccountSwitch,
+                        6
+                    )} ${tokenName}`}
                 </Balance>
             </CalculatedAmount>
 
             <CalculatedAmount marginTop="5px">
                 <Balance {...txFeeProps}>
-                    Estimated Tx Fee:{' '}
-                    {`${trimContent(transactionFee, 6)} ${tokenName}`}
+                    Estimated Gas Fee:{' '}
+                    {`${trimContent(transactionFee, 6)} ${balances[0].name}`}
                 </Balance>
             </CalculatedAmount>
         </VerticalContentDiv>

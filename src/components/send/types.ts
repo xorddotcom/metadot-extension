@@ -48,7 +48,6 @@ export interface Account {
 
 export interface ExistensialDepositInterface {
     onChange(e: string): void;
-    maxInputHandler(): void;
     insufficientBal: boolean;
     errorMessages: errorMessages;
     transactionFee: number;
@@ -58,9 +57,15 @@ export interface ExistensialDepositInterface {
     setTransferAll: React.Dispatch<SetStateAction<transferAllType>>;
     setAmountOnToggle(input: boolean, keepAlive: boolean): void;
     disableToggleButtons: disableToggleButtons;
-    insufficientTxFee: boolean;
+    setInsufficientBal(e: boolean): void;
     existentialDeposit: number;
     transferAll: transferAllType;
+    insufficientTxFee: boolean;
+    switchChecked: boolean;
+    switchCheckedSecond: boolean;
+    setSwitchChecked(e: boolean): void;
+    setSwitchCheckedSecond(e: boolean): void;
+    // tokenImage: any;
 }
 
 type transferAllType = {
@@ -98,6 +103,9 @@ export interface SendViewProps {
     };
     setTransferAll: React.Dispatch<SetStateAction<transferAllType>>;
     setAmountOnToggle(input: boolean, keepAlive: boolean): void;
+    fromInput: {
+        resetToggles(): void;
+    };
 }
 
 export interface BatchSendViewProps {

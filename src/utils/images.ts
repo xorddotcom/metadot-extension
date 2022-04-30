@@ -5,6 +5,7 @@ import ShidenIcon from '../assets/images/shiden.svg';
 import PhalaIcon from '../assets/images/phala.svg';
 import BifrostIcon from '../assets/images/bifrost.svg';
 import AcalaIcon from '../assets/images/tokenImg/acala.svg';
+import TestNetIcon from '../assets/images/tokenImg/testnet.svg';
 // Assests Token images
 import dusty from '../assets/images/tokenImg/dusty.png';
 import contextFree from '../assets/images/contextfree.png';
@@ -92,12 +93,8 @@ import GoUpButton from '../assets/images/icons/go_up.svg';
 import DeleteIcon from '../assets/images/icons/delete.svg';
 import EditIcon from '../assets/images/icons/edit.svg';
 
-import SendFeatureIcon from '../assets/images/icons/SendFeature.svg';
-import SwapFeatureIcon from '../assets/images/icons/SwapFeature.svg';
-import GovernanceFeatureIcon from '../assets/images/icons/GovernanceFeature.svg';
-import StakeFeatureIcon from '../assets/images/icons/StakeFeature.svg';
-
 export default {
+    TestNetIcon,
     crossIconRound,
     Importicon,
     externalLink,
@@ -177,8 +174,4 @@ export default {
     EditIcon,
     PlusIcon,
     GoUpIcon,
-    SendFeatureIcon,
-    SwapFeatureIcon,
-    GovernanceFeatureIcon,
-    StakeFeatureIcon,
 };
