@@ -32,7 +32,7 @@ const FromInput: React.FunctionComponent<FromInputProps> = (props) => {
 
     const onAccountSelection = (data: Account): void => {
         if (resetToggles) {
-            resetToggles();
+            resetToggles(true);
         }
         setIsModalOpen(false);
         generalDispatcher(() => setPublicKey(data.publicKey));

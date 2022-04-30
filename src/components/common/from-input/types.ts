@@ -5,5 +5,5 @@ export interface Account {
 }
 
 export interface FromInputProps {
-    resetToggles?(): void;
+    resetToggles?(e: boolean): void;
 }

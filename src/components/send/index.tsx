@@ -458,23 +458,18 @@ const Send: React.FunctionComponent = () => {
         navigate(BATCH_SEND, { state: location });
     };
 
-    const resetToggles = (): void => {
+    const resetToggles = (setAmountBool: boolean): void => {
         setSwitchChecked(false);
         setSwitchCheckedSecond(false);
         setTransferAll({
             transferAll: false,
             keepAlive: false,
         });
-        setAmount('');
+        if (setAmountBool) setAmount('');
     };
 
     const amountInputOnChange = (e: string): boolean => {
-        setSwitchChecked(false);
-        setSwitchCheckedSecond(false);
-        setTransferAll({
-            transferAll: false,
-            keepAlive: false,
-        });
+        resetToggles(false);
         setInsufficientBal(false);
         setInsufficientTxFee(false);
         if (e[0] === '0' && e[1] === '0') {
