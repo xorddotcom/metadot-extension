@@ -17,6 +17,7 @@ import { RecepientCardInterface } from '../types';
 import services from '../../../utils/services';
 
 const { crossIcon } = images;
+const allTokenImages = images;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { trimContent } = helpers;
 const { getBalancesForBatch, getBalanceWithSingleToken } = services;
@@ -89,10 +90,7 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
         blockInvalidChar: true,
         tokenLogo: true,
         tokenName: recepient.token,
-        tokenImage:
-            balances.length > 1
-                ? `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${recepient.token}.png`
-                : tokenImage,
+        tokenImage: allTokenImages[recepient.token],
         tokenDropDown: balances.length > 1,
         tokenDropDownHandler: () => handleNetworkModalOpen(index),
     };
