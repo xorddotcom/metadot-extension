@@ -29,5 +29,5 @@ export interface TxDetailsViewProps {
         onMouseOver(): void;
         style: object;
     };
-    getTotalBalance(v1: number, v2: string): number;
+    getTotalBalance(v1: number[], v2: string): number;
 }

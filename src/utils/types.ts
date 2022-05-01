@@ -10,6 +10,11 @@ export interface QueryObjectInterface {
     endPoint: string;
 }
 
+export interface QueryForBatchObjectInterface {
+    queryForBatch: string;
+    endPoint: string;
+}
+
 export interface RecepientInterface {
     amount?: string;
     address: string;
