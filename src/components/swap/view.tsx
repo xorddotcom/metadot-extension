@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../redux/store';
 import { fonts, images } from '../../utils';
 import { HorizontalContentDiv } from '../common/wrapper';
 import { SubHeading } from '../common/text';
@@ -6,13 +8,9 @@ import { Button, Header, Input } from '../common';
 import {
     SwapDiv,
     SwapChildDiv,
-    NetworkDiv,
     AmountMaxDiv,
-    SwapIconDiv,
+    InputAndBalanceDiv,
     BalDiv,
-    SelectNetworkDiv,
-    Circle,
-    DownIcon,
     Wrapper2,
     Wrapper,
     SwapDetailDiv,
@@ -32,10 +30,11 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
     handleCurrencySwitch,
     handleAmountChange,
     swapClickHandler,
+    insufficientBalance,
 }) => {
     const [showDetail, setShowDetail] = useState(true);
 
-    const styledInput = {
+    const styledInputPay = {
         id: 'InputField',
         placeholder: 'Amount',
         type: 'Number',
@@ -43,7 +42,22 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
         blockInvalidChar: true,
         tokenLogo: true,
         tokenDropDown: true,
-        tokenImage,
+        tokenImage: `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenFrom?.name}.png`,
+        bgColor: '#212121',
+        tokenBoxColor: '#141414',
+    };
+
+    const styledInputGet = {
+        id: 'InputField',
+        placeholder: 'Amount',
+        type: 'Number',
+        className: subHeadingfontFamilyClass,
+        blockInvalidChar: true,
+        tokenLogo: true,
+        tokenDropDown: true,
+        tokenImage: `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenTo?.name}.png`,
+        bgColor: '#212121',
+        tokenBoxColor: '#141414',
     };
 
     const maxBtn = {
@@ -54,6 +68,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
             height: '25.12px',
             borderRadius: '6px',
             fontSize: '12px',
+            margin: 0,
         },
         handleClick: () => console.log('max'),
         disabled: false,
@@ -69,7 +84,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
             marginTop: 40,
         },
         handleClick: swapClickHandler,
-        disabled: false,
+        disabled: !(swapParams.outputAmount > 0),
     };
 
     const DetailsData = [
@@ -79,6 +94,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
         { property: 'Gas Fee', data: '0.2345 DOT' },
         { property: '', data: '0.2345 DOT' },
     ];
+    console.log(swapParams.outputAmount, 'swap param amount');
 
     return (
         <>
@@ -88,13 +104,15 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
 
             <Wrapper2 pb>
                 <SwapDiv>
-                    <SwapChildDiv>
+                    {/* <SwapChildDiv style={{ border: '1px solid red' }}>
                         <AmountMaxDiv>
                             <SubHeading
-                                lineHeight="18px"
+                                lineHeight="0px"
+                                fontSize="16px"
+                                color="#FAFAFA"
                                 style={{ fontWeight: '800' }}
                             >
-                                Amount
+                                You Pay
                             </SubHeading>
                             <Button {...maxBtn} />
                         </AmountMaxDiv>
@@ -117,7 +135,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
                             </SubHeading>
                         </BalDiv>
                     </SwapChildDiv>
-                    <SwapIconDiv>
+                    <SwapIconDiv style={{ border: '1px solid yellow' }}>
                         <img
                             src={SwapIcon}
                             alt="swap"
@@ -125,7 +143,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
                             onClick={() => handleCurrencySwitch()}
                         />
                     </SwapIconDiv>
-                    <SwapChildDiv>
+                    <SwapChildDiv style={{ border: '1px solid green' }}>
                         <AmountMaxDiv>
                             <SubHeading
                                 lineHeight="18px"
@@ -153,10 +171,109 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
                                 {`${tokenTo?.balance} ${tokenTo?.name}`}
                             </SubHeading>
                         </BalDiv>
+                    </SwapChildDiv> */}
+                    <SwapChildDiv>
+                        <AmountMaxDiv>
+                            <SubHeading
+                                lineHeight="0px"
+                                fontSize="16px"
+                                color="#FAFAFA"
+                                style={{ fontWeight: '800' }}
+                            >
+                                You Pay
+                            </SubHeading>
+                            <Button {...maxBtn} />
+                        </AmountMaxDiv>
+                        <InputAndBalanceDiv>
+                            <Input
+                                {...styledInputPay}
+                                value={amountFrom}
+                                tokenName={tokenFrom?.name}
+                                onChange={(value: string) => {
+                                    handleAmountChange(value);
+                                }}
+                                tokenDropDownHandler={() =>
+                                    handleOpen('tokenFrom')
+                                }
+                            />
+                            {insufficientBalance && (
+                                <SubHeading
+                                    lineHeight="0px"
+                                    fontSize="12px"
+                                    marginTop="0px"
+                                    color="#F63A3AB2"
+                                    opacity="0.7"
+                                >
+                                    Insufficient Balance
+                                </SubHeading>
+                            )}
+                            <BalDiv>
+                                <SubHeading
+                                    lineHeight="0px"
+                                    fontSize="12px"
+                                    marginTop="0px"
+                                >
+                                    $23.498
+                                </SubHeading>
+                                <SubHeading lineHeight="0px" fontSize="12px">
+                                    Balance:
+                                    {`${tokenFrom?.balance} ${tokenFrom?.name}`}
+                                </SubHeading>
+                            </BalDiv>
+                        </InputAndBalanceDiv>
+                    </SwapChildDiv>
+                    <img
+                        src={SwapIcon}
+                        alt="swap"
+                        aria-hidden
+                        onClick={handleCurrencySwitch}
+                    />
+                    <SwapChildDiv>
+                        <AmountMaxDiv>
+                            <SubHeading
+                                lineHeight="0px"
+                                fontSize="16px"
+                                color="#FAFAFA"
+                                style={{ fontWeight: '800' }}
+                            >
+                                You Get
+                            </SubHeading>
+                        </AmountMaxDiv>
+                        <InputAndBalanceDiv>
+                            <Input
+                                {...styledInputGet}
+                                value={
+                                    swapParams.outputAmount.toString() === 'NaN'
+                                        ? '0'
+                                        : swapParams.outputAmount.toString()
+                                }
+                                tokenName={tokenTo?.name}
+                                onChange={(value: string) => {
+                                    console.log('amountTo value');
+                                }}
+                                disabled
+                                tokenDropDownHandler={() =>
+                                    handleOpen('tokenTo')
+                                }
+                            />
+                            <BalDiv>
+                                <SubHeading
+                                    lineHeight="0px"
+                                    fontSize="12px"
+                                    marginTop="0px"
+                                >
+                                    $23.498
+                                </SubHeading>
+                                <SubHeading lineHeight="0px" fontSize="12px">
+                                    Balance:
+                                    {`${tokenTo?.balance} ${tokenTo?.name}`}
+                                </SubHeading>
+                            </BalDiv>
+                        </InputAndBalanceDiv>
                     </SwapChildDiv>
                 </SwapDiv>
 
-                {showDetail && (
+                {swapParams.outputAmount > 0 && (
                     <SwapDetailDiv>
                         <SubHeading
                             lineHeight="0px"
