@@ -93,6 +93,11 @@ import GoUpButton from '../assets/images/icons/go_up.svg';
 import DeleteIcon from '../assets/images/icons/delete.svg';
 import EditIcon from '../assets/images/icons/edit.svg';
 
+import GovernanceDashboardIcon from '../assets/images/icons/GovernanceFeature.svg';
+import SendDashboardIcon from '../assets/images/icons/SendFeature.svg';
+import StakeDashboardIcon from '../assets/images/icons/StakeFeature.svg';
+import SwapDashboardIcon from '../assets/images/icons/SwapFeature.svg';
+
 export default {
     TestNetIcon,
     crossIconRound,
@@ -174,4 +179,8 @@ export default {
     EditIcon,
     PlusIcon,
     GoUpIcon,
+    GovernanceDashboardIcon,
+    SendDashboardIcon,
+    StakeDashboardIcon,
+    SwapDashboardIcon,
 };

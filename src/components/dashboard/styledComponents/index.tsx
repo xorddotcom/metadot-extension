@@ -238,7 +238,7 @@ export const CopyIconImg = styled.img`
 
 export const AssetsAndTransactionsWrapper = styled.div`
     width: 100%;
-    height: 273px;
+    height: 210px;
     background: ${darkBackground2};
     box-shadow: 0px 0px 10px rgba(230, 0, 122, 0.03);
     border-radius: 8px;

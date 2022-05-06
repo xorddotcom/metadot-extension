@@ -7,6 +7,7 @@ export interface Token {
     balance: string;
     isNative: boolean;
     decimal: number;
+    image?: string;
 }
 
 export interface SwapViewProps {
@@ -19,4 +20,5 @@ export interface SwapViewProps {
     handleCurrencySwitch(): void;
     handleAmountChange(value: string): void;
     swapClickHandler(): void;
+    insufficientBalance: boolean;
 }

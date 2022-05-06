@@ -8,16 +8,18 @@ const SearchBar: React.FunctionComponent<Props> = ({
     id,
     value,
     onChange,
+    style,
 }) => {
+    const searhBarStyle = {
+        border: '1px solid rgba(196, 196, 196, 0.4)',
+        height: '52px',
+        borderRadius: '8px',
+        marginTop: '30px',
+        ...style,
+    };
+
     return (
-        <HorizontalContentDiv
-            style={{
-                border: '1px solid rgba(196, 196, 196, 0.4)',
-                height: '52px',
-                borderRadius: '8px',
-                marginTop: '30px',
-            }}
-        >
+        <HorizontalContentDiv style={searhBarStyle}>
             <img
                 src={SearchIcon}
                 alt="search"
