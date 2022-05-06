@@ -1,3 +1,6 @@
+/* eslint no-underscore-dangle: 0 */
+/* eslint prefer-destructuring: 0 */
+
 import { Token as SDKToken } from '@acala-network/sdk-core/token';
 import { FixedPointNumber } from '@acala-network/sdk-core';
 import { TradeGraph } from '@acala-network/sdk-swap';
@@ -74,14 +77,17 @@ const getTargetAmount = (
     supplyAmount: any,
     exchangeFee: any
 ): any => {
-    const amountRatio =
-        +targetPool.toString() / 10 ** 12 / (+supplyPool.toString() / 10 ** 12);
-
-    const supplyAmountAfterFees =
-        Number(supplyAmount.toString()) -
-        Number((Number(supplyAmount.toString()) * exchangeFee) / 100);
-
-    return new FixedPointNumber(amountRatio * supplyAmountAfterFees);
+    if (supplyAmount.isZero() || supplyPool.isZero() || targetPool.isZero())
+        return FixedPointNumber.ZERO;
+    const supplyAmountWithFee = supplyAmount.times(
+        exchangeFee.denominator.minus(exchangeFee.numerator)
+    );
+    const numerator = supplyAmountWithFee.times(targetPool);
+    const denominator = supplyPool
+        .times(exchangeFee.denominator)
+        .plus(supplyAmountWithFee);
+    if (denominator.isZero()) return FixedPointNumber.ZERO;
+    return numerator.div(denominator);
 };
 
 const calculateMidPrice = (path: any, pools: any): any => {
@@ -115,6 +121,33 @@ const calculatePriceImpact = (
 ): any => {
     const temp = midPrice.times(inputAmount);
     return temp.minus(outputAmount).div(temp);
+};
+
+const calculateExchangeFeeRate = (path: any, fee: any): any => {
+    const ONE = FixedPointNumber.ONE;
+    return ONE.minus(
+        path.slice(1).reduce((acc: any) => {
+            return acc.times(ONE.minus(fee));
+        }, ONE)
+    );
+};
+
+const calculateExchangeFee = (
+    path: any,
+    input: any,
+    fee: any,
+    decimal: any
+): any => {
+    const rate = calculateExchangeFeeRate(
+        path,
+        fee.numerator.div(fee.denominator)
+    );
+    const data = input.times(rate);
+    data.forceSetPrecision(decimal);
+    return {
+        fee: data,
+        rate,
+    };
 };
 
 export const getSwapParams = async (
@@ -187,10 +220,21 @@ export const getSwapParams = async (
     );
     console.log('LiqPoolsWithTokens', LiqPoolsWithTokens);
 
+    const fee = {
+        denominator: new FixedPointNumber(
+            api.consts.dex.getExchangeFee[1].toString()
+        ),
+        numerator: new FixedPointNumber(
+            api.consts.dex.getExchangeFee[0].toString()
+        ),
+    };
+
     const swapResults = tradingPaths.map((path) => {
         const swapResult = {
             path,
-            inputAmount: new FixedPointNumber(amount, tokenFrom.decimal),
+            inputAmount: FixedPointNumber._fromBN(
+                new FixedPointNumber(amount, tokenFrom.decimal)._getInner()
+            ),
             outputAmount: FixedPointNumber.ZERO,
             priceImpact: 0,
             tradingFee: 0,
@@ -214,31 +258,36 @@ export const getSwapParams = async (
 
             console.log('supply target bhai ==>>', supply, target);
 
-            const exchangeFee = api.consts.dex.getExchangeFee;
-
-            const fee = Number(
-                (exchangeFee[0].toString() * 100) / exchangeFee[1].toString()
-            );
-
             const outputAmount = getTargetAmount(
                 supply,
                 target,
                 i === 0 ? swapResult.inputAmount : swapResult.outputAmount,
                 fee
             );
+
             swapResult.outputAmount = outputAmount;
-            swapResult.tradingFee =
-                swapResult.tradingFee + i === 0
-                    ? (Number(swapResult.inputAmount.toString()) * fee) / 100
-                    : (Number(swapResult.outputAmount.toString()) * fee) / 100;
         }
 
+        const { fee: exchangeFee, rate: exchangeRate } = calculateExchangeFee(
+            path,
+            swapResult.inputAmount,
+            fee,
+            tokenFrom.decimal
+        );
         const midPrice = calculateMidPrice(path, LiqPoolsWithTokens);
-        swapResult.priceImpact = calculatePriceImpact(
+
+        const priceImpact = calculatePriceImpact(
             midPrice,
             swapResult.inputAmount,
             swapResult.outputAmount
         );
+
+        swapResult.inputAmount.forceSetPrecision(tokenFrom.decimal);
+        swapResult.outputAmount.forceSetPrecision(tokenTo.decimal);
+        swapResult.tradingFee = exchangeFee;
+        swapResult.priceImpact = priceImpact
+            .sub(exchangeRate)
+            .max(FixedPointNumber.ZERO);
 
         return swapResult;
     });
