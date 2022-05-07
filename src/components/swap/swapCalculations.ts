@@ -236,6 +236,7 @@ export const getSwapParams = async (
                 new FixedPointNumber(amount, tokenFrom.decimal)._getInner()
             ),
             outputAmount: FixedPointNumber.ZERO,
+            price: 0,
             priceImpact: 0,
             tradingFee: 0,
         };
@@ -285,6 +286,7 @@ export const getSwapParams = async (
         swapResult.inputAmount.forceSetPrecision(tokenFrom.decimal);
         swapResult.outputAmount.forceSetPrecision(tokenTo.decimal);
         swapResult.tradingFee = exchangeFee;
+        swapResult.price = midPrice;
         swapResult.priceImpact = priceImpact
             .sub(exchangeRate)
             .max(FixedPointNumber.ZERO);

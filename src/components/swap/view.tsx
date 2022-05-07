@@ -88,11 +88,22 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
     };
 
     const DetailsData = [
-        { property: 'Minimum Received', data: '0.2345 DOT' },
-        { property: 'Price', data: '0.2345 DOT' },
-        { property: 'Price Impact', data: '0.2345 DOT' },
-        { property: 'Gas Fee', data: '0.2345 DOT' },
-        { property: '', data: '0.2345 DOT' },
+        {
+            property: 'Price',
+            data: `${Number(swapParams.price?.toString()).toFixed(2)} ${
+                tokenTo?.name
+            }`,
+        },
+        {
+            property: 'Price Impact',
+            data: `${(Number(swapParams.priceImpact?.toString()) * 100).toFixed(
+                2
+            )}%`,
+        },
+        {
+            property: 'Gas Fee',
+            data: `${swapParams.tradingFee?.toString()} KAR`,
+        },
     ];
     console.log(swapParams.outputAmount, 'swap param amount');
 
@@ -245,7 +256,9 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
                                 value={
                                     swapParams.outputAmount.toString() === 'NaN'
                                         ? '0'
-                                        : swapParams.outputAmount.toString()
+                                        : Number(
+                                              swapParams.outputAmount.toString()
+                                          ).toFixed(4)
                                 }
                                 tokenName={tokenTo?.name}
                                 onChange={(value: string) => {
@@ -313,6 +326,35 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
                                 </SubHeading>
                             </HorizontalContentDiv>
                         ))}
+                        <HorizontalContentDiv
+                            key={Math.random()}
+                            justifyContent="space-between"
+                        >
+                            <SubHeading
+                                lineHeight="0px"
+                                fontSize="12px"
+                                opacity="0.8"
+                            >
+                                Path
+                            </SubHeading>
+                            <SubHeading
+                                lineHeight="0px"
+                                fontSize="12px"
+                                color="#cccccc"
+                            >
+                                {swapParams.path?.map(
+                                    (element: any, index: any) => {
+                                        if (
+                                            index ===
+                                            swapParams.path.length - 1
+                                        ) {
+                                            return element.name;
+                                        }
+                                        return `${element.name} -->`;
+                                    }
+                                )}
+                            </SubHeading>
+                        </HorizontalContentDiv>
                     </SwapDetailDiv>
                 )}
                 <Button {...btn} />
