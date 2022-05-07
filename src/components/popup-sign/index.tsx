@@ -131,7 +131,6 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
             console.log(e, 'check transaction error');
             setPasswordError(true);
         }
-        setPasswordError(false);
     };
 
     const handlePassword = (e: string): void => {
