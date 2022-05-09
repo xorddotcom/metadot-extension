@@ -13,6 +13,7 @@ import {
     SWAP,
     SEEDPHRASE_WARNING,
     BATCH_SEND,
+    MULTISIG,
 } from './route-names';
 
 export {
@@ -30,4 +31,5 @@ export {
     SWAP,
     SEEDPHRASE_WARNING,
     BATCH_SEND,
+    MULTISIG,
 };

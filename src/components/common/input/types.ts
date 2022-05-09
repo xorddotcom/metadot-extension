@@ -78,6 +78,7 @@ export interface Props {
     inputWrapperWidth?: string;
     searchIcon?: boolean;
     rightIconDropDown?: boolean;
+    rightIconDropDownHandler?(): void;
     border?: string;
     setSwitchCheckedSecond?(input: boolean): void;
     setSwitchChecked?(input: boolean): void;

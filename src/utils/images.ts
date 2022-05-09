@@ -46,6 +46,7 @@ import UploadFileIcon from '../assets/images/icons/uploadFile.svg';
 import RemoveIcon from '../assets/images/icons/Remove.svg';
 
 import derivedAccountIcon from '../assets/images/icons/deriveAccount.svg';
+import MultisigAccountIcon from '../assets/images/icons/multisig.svg';
 
 import dropDownIcon from '../assets/images/icons/3Dots.svg';
 import crossIconRound from '../assets/images/icons/crossIcon.svg';
@@ -188,6 +189,7 @@ const allImages: { [key: string]: string } = {
     UploadFileIcon,
     RemoveIcon,
     derivedAccountIcon,
+    MultisigAccountIcon,
     dropDownIcon,
     downIcon,
     upArrowIcon,

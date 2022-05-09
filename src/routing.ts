@@ -14,6 +14,7 @@ import {
     SWAP,
     SEEDPHRASE_WARNING,
     BATCH_SEND,
+    MULTISIG,
 } from './constants';
 
 const {
@@ -31,6 +32,7 @@ const {
     Swap,
     SeedphraseWarning,
     BatchSend,
+    Multisig,
 } = Views;
 
 export const UnAuthorizedRoutes = [
@@ -115,5 +117,9 @@ export const AuthorizedRoutes = [
     {
         path: SWAP,
         Component: Swap,
+    },
+    {
+        path: MULTISIG,
+        Component: Multisig,
     },
 ];

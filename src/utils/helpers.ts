@@ -203,7 +203,7 @@ const openOptions = async (url: string): Promise<void> => {
     }
 };
 
-const isValidAddressPolkadotAddress = (address: string): boolean => {
+export const isValidAddressPolkadotAddress = (address: string): boolean => {
     try {
         encodeAddress(
             isHex(address) ? hexToU8a(address) : decodeAddress(address)
@@ -227,6 +227,7 @@ const txMadeOrReceiveByUser = (
         (event.event.data[0].toString() === userAddress ||
             event.event.data[1].toString() === userAddress)
     ) {
+        console.log('from balances', event);
         return { bool: true, method: 'transfer' };
     }
     if (

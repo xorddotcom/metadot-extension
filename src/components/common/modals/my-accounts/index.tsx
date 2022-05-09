@@ -22,7 +22,7 @@ const { crossIcon } = images;
 const { mainHeadingfontFamilyClass } = fonts;
 
 const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
-    const { open, handleClose, style, onSelection } = props;
+    const { open, handleClose, style, onSelection, accountList } = props;
 
     const allAccounts = useSelector((state: RootState) =>
         Object.values(state.accounts)
@@ -44,21 +44,41 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
                         </CloseIconDiv>
                     </TitleDiv>
                     <NetworkModalContent>
-                        {allAccounts.map((account) => (
-                            <OptionRow
-                                className="abc"
-                                onClick={() => onSelection(account)}
-                            >
-                                <HorizontalContentDiv>
-                                    <PlainIcon />
-                                    <OptionText
-                                        className={mainHeadingfontFamilyClass}
-                                    >
-                                        {account.accountName}
-                                    </OptionText>
-                                </HorizontalContentDiv>
-                            </OptionRow>
-                        ))}
+                        {accountList
+                            ? accountList.map((account) => (
+                                  <OptionRow
+                                      className="abc"
+                                      onClick={() => onSelection(account)}
+                                  >
+                                      <HorizontalContentDiv>
+                                          <PlainIcon />
+                                          <OptionText
+                                              className={
+                                                  mainHeadingfontFamilyClass
+                                              }
+                                          >
+                                              {account.accountName}
+                                          </OptionText>
+                                      </HorizontalContentDiv>
+                                  </OptionRow>
+                              ))
+                            : allAccounts.map((account) => (
+                                  <OptionRow
+                                      className="abc"
+                                      onClick={() => onSelection(account)}
+                                  >
+                                      <HorizontalContentDiv>
+                                          <PlainIcon />
+                                          <OptionText
+                                              className={
+                                                  mainHeadingfontFamilyClass
+                                              }
+                                          >
+                                              {account.accountName}
+                                          </OptionText>
+                                      </HorizontalContentDiv>
+                                  </OptionRow>
+                              ))}
                     </NetworkModalContent>
                 </div>
             </Box>
