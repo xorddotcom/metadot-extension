@@ -124,6 +124,15 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    React.useEffect(() => {
+        if (api && tokenFrom && tokenTo && amountFrom) {
+            getSwapParams(api, tokenFrom, tokenTo, amountFrom).then((res) => {
+                setSwapParams(res);
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [tokenFrom, tokenTo, amountFrom]);
+
     const handleOpen = (tokenType: string): void => {
         setSelectTokenModalState({
             open: true,
@@ -162,15 +171,6 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
         setInsufficientBalance(false);
         if (tokenFrom && tokenTo) {
             setAmountFrom(amount);
-
-            const SwapParams = await getSwapParams(
-                api,
-                tokenFrom,
-                tokenTo,
-                amount
-            );
-
-            setSwapParams(SwapParams);
         }
     };
     const handleSubmit = (): void => {

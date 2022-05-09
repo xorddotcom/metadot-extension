@@ -34,6 +34,8 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
 }) => {
     const [showDetail, setShowDetail] = useState(true);
 
+    console.log('swap params komal ==>>', swapParams);
+
     const styledInputPay = {
         id: 'InputField',
         placeholder: 'Amount',
