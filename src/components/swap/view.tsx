@@ -31,6 +31,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
     handleAmountChange,
     swapClickHandler,
     insufficientBalance,
+    isLoading,
 }) => {
     const [showDetail, setShowDetail] = useState(true);
 
@@ -87,6 +88,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
         },
         handleClick: swapClickHandler,
         disabled: !(swapParams.outputAmount > 0),
+        isLoading,
     };
 
     const DetailsData = [

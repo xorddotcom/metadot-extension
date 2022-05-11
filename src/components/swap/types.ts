@@ -21,4 +21,5 @@ export interface SwapViewProps {
     handleAmountChange(value: string): void;
     swapClickHandler(): void;
     insufficientBalance: boolean;
+    isLoading: boolean;
 }
