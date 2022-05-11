@@ -63,6 +63,7 @@ export const Account = styled.div`
         marginBottom?: string;
     }) => props.marginTop && props.marginTop};
     width: 320px;
+    position: relative;
 `;
 
 export const AccountFlex = styled.div`
@@ -261,4 +262,18 @@ export const CopyIconDiv = styled.div`
 export const KebabIcon = styled.img`
     height: 20;
     width: 5;
+`;
+
+export const MultisigFlag = styled.div`
+    background: rgba(33, 154, 154, 0.15);
+    height: 22px;
+    width: 58px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;

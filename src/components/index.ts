@@ -17,6 +17,7 @@ import Swap from './swap';
 import SeedphraseWarning from './seedphrase-warning';
 import BatchSend from './batch-send';
 import Multisig from './multisig';
+import MultisigSign from './multisig-sign';
 
 export default {
     Welcome,
@@ -38,4 +39,5 @@ export default {
     SeedphraseWarning,
     BatchSend,
     Multisig,
+    MultisigSign,
 };

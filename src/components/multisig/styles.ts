@@ -20,3 +20,17 @@ export const AddCircle = styled.div`
     justify-content: center;
     align-items: center;
 `;
+
+export const AddAccountInput = styled.div`
+    width: 100%;
+    background: #141414;
+    height: 45px;
+    opacity: 0.6;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+`;

@@ -15,6 +15,7 @@ import {
     SEEDPHRASE_WARNING,
     BATCH_SEND,
     MULTISIG,
+    MULTSIG_SIGN,
 } from './constants';
 
 const {
@@ -33,6 +34,7 @@ const {
     SeedphraseWarning,
     BatchSend,
     Multisig,
+    MultisigSign,
 } = Views;
 
 export const UnAuthorizedRoutes = [
@@ -121,5 +123,9 @@ export const AuthorizedRoutes = [
     {
         path: MULTISIG,
         Component: Multisig,
+    },
+    {
+        path: MULTSIG_SIGN,
+        Component: MultisigSign,
     },
 ];

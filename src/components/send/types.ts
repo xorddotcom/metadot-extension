@@ -80,6 +80,7 @@ type disableToggleButtons = {
 export interface SendViewProps {
     toInput: ToInputInterface;
     amountInput: AmountInputInterface;
+    multisig: boolean;
     ED: any;
     nextBtn: {
         id: string;

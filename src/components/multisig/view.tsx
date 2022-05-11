@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { AccountBoxProps, MultisigViewProps } from './types';
+import { AccountBoxProps, InputBoxProps, MultisigViewProps } from './types';
 
 import { Button, Header, Input } from '../common';
 import { SubHeading, MainText } from '../common/text';
@@ -14,7 +14,7 @@ import {
     VerticalContentDiv,
 } from '../common/wrapper';
 import { DASHBOARD } from '../../constants';
-import { AddCircle } from './styles';
+import { AddCircle, AddAccountInput } from './styles';
 import { Balance, FromAccount, PlainIcon } from '../common/from-input/style';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
@@ -58,6 +58,41 @@ const AccountBox: React.FunctionComponent<AccountBoxProps> = ({
                 style={{ marginRight: 10 }}
             />
         </FromAccount>
+    );
+};
+const InputBox: React.FunctionComponent<InputBoxProps> = ({
+    index,
+    onChangeAddress,
+    onRemoveAccount,
+    handleOpenModal,
+    address,
+}) => {
+    if (index !== 0) {
+        return (
+            <Input
+                onChange={(e) => onChangeAddress(index, e)}
+                value={address}
+                id="name"
+                placeholder="Add Address Or Copy Address"
+                rightIconDropDown
+                topPosition="30px"
+                rightPosition="20px"
+                rightIconDropDownHandler={() => handleOpenModal(index)}
+            />
+        );
+    }
+
+    return (
+        <AddAccountInput onClick={() => handleOpenModal(index)}>
+            <SubHeading lineHeight="0px" ml="17px" fontSize="16px">
+                Add From Your Account
+            </SubHeading>
+            <img
+                src={dropdownIcon}
+                alt="dropdown"
+                style={{ marginRight: 19, height: '7px', width: '12px' }}
+            />
+        </AddAccountInput>
     );
 };
 
@@ -117,17 +152,19 @@ const MultisigView: React.FunctionComponent<MultisigViewProps> = ({
                             Add Account {index + 1}
                         </MainText>
 
-                        <img
-                            src={crossIcon}
-                            alt="close-btn"
-                            onClick={() => onRemoveAccount(index)}
-                            aria-hidden="true"
-                            style={{
-                                marginTop: '30px',
-                                cursor: 'pointer',
-                                paddingRight: '10px',
-                            }}
-                        />
+                        {index > 1 && (
+                            <img
+                                src={crossIcon}
+                                alt="close-btn"
+                                onClick={() => onRemoveAccount(index)}
+                                aria-hidden="true"
+                                style={{
+                                    marginTop: '30px',
+                                    cursor: 'pointer',
+                                    paddingRight: '10px',
+                                }}
+                            />
+                        )}
                     </HorizontalContentDiv>
 
                     {account.accountFromMetadot ? (
@@ -136,17 +173,24 @@ const MultisigView: React.FunctionComponent<MultisigViewProps> = ({
                             address={account.address}
                         />
                     ) : (
-                        <Input
-                            onChange={(e) => onChangeAddress(index, e)}
-                            value={account.address}
-                            id="name"
-                            placeholder="Add Address Or Copy Address"
-                            rightIconDropDown
-                            topPosition="30px"
-                            rightPosition="20px"
-                            rightIconDropDownHandler={() =>
-                                handleOpenModal(index)
-                            }
+                        // <Input
+                        //     onChange={(e) => onChangeAddress(index, e)}
+                        //     value={account.address}
+                        //     id="name"
+                        //     placeholder="Add Address Or Copy Address"
+                        //     rightIconDropDown
+                        //     topPosition="30px"
+                        //     rightPosition="20px"
+                        //     rightIconDropDownHandler={() =>
+                        //         handleOpenModal(index)
+                        //     }
+                        // />
+                        <InputBox
+                            index={index}
+                            address={account.address}
+                            handleOpenModal={handleOpenModal}
+                            onChangeAddress={onChangeAddress}
+                            onRemoveAccount={onRemoveAccount}
                         />
                     )}
 

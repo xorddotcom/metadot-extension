@@ -56,6 +56,9 @@ const Send: React.FunctionComponent = () => {
     const { activeAccount, modalHandling } = useSelector(
         (state: RootState) => state
     );
+    const thisAccount = useSelector(
+        (state: RootState) => state.accounts[activeAccount.publicKey]
+    );
 
     const { publicKey, balances } = activeAccount;
 
@@ -628,6 +631,7 @@ const Send: React.FunctionComponent = () => {
         setTransferAll,
         setAmountOnToggle,
         fromInput,
+        multisig: !!thisAccount.multisig,
     };
 
     const authModal = {

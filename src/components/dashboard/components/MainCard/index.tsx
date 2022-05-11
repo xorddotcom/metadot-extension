@@ -12,6 +12,7 @@ import {
     setBalance,
     setBalanceInUsd,
 } from '../../../../redux/slices/activeAccount';
+import { SubHeading } from '../../../common/text';
 
 import {
     AccountName,
@@ -24,10 +25,18 @@ import {
     CopyIconImg,
     MoreOptions,
     ConnectionStatus,
+    MultisigFlag,
 } from '../../styledComponents';
 import services from '../../../../utils/services';
+import MultisigDetail from '../../../common/modals/multisig-detail';
 
-const { refreshIcon, ContentCopyIconWhite, notConnected, connected } = images;
+const {
+    refreshIcon,
+    ContentCopyIconWhite,
+    notConnected,
+    connected,
+    dropdownIcon,
+} = images;
 const { addressModifier, trimBalance, convertIntoUsd } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { addressMapper, getBalance } = services;
@@ -85,8 +94,26 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
         className: 'topTooltiptext',
     };
 
+    const thisAccount = useSelector(
+        (state: RootState) => state.accounts[address]
+    );
+
+    const [openModal, setOpenModal] = React.useState(false);
+
     return (
         <MainPanel>
+            {thisAccount.multisig && (
+                <MultisigFlag>
+                    <SubHeading
+                        fontSize="10px"
+                        color="#FAFAFA"
+                        lineHeight="0px"
+                        opacity="0.7"
+                    >
+                        Multisig
+                    </SubHeading>
+                </MultisigFlag>
+            )}
             <div>
                 <MoreOptions>
                     <img
@@ -122,13 +149,33 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
                 >
                     <img src={refreshIcon} alt="refresh-icon" />
                 </Refresh>
-
-                <AccountName
-                    id="account-name"
-                    className={mainHeadingfontFamilyClass}
+                <div
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'flex-start',
+                    }}
                 >
-                    {accountName}
-                </AccountName>
+                    <AccountName
+                        id="account-name"
+                        className={mainHeadingfontFamilyClass}
+                    >
+                        {accountName}
+                    </AccountName>
+                    {thisAccount.multisig && (
+                        <img
+                            src={dropdownIcon}
+                            alt="dropdown"
+                            style={{
+                                height: '5px',
+                                width: '8px',
+                                marginTop: '30px',
+                                marginLeft: '10px',
+                            }}
+                            onClick={() => setOpenModal(true)}
+                            aria-hidden="true"
+                        />
+                    )}
+                </div>
             </div>
             <VerticalContentDiv>
                 <PublicAddress
@@ -184,6 +231,20 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
                     ${balanceInUsd === 0 ? 0 : balanceInUsd.toFixed(5)}
                 </PerUnitPrice>
             </VerticalContentDiv>
+            {thisAccount.multisig && (
+                <MultisigDetail
+                    open={openModal}
+                    handleClose={() => setOpenModal(false)}
+                    address="9000jsh...jshdufdnf"
+                    name="Multisig"
+                    threshold={2}
+                    singatories={[
+                        '9000jshd...jshdufdnf',
+                        '9000jshd...jshdufdnf',
+                        '9000jshd...jshdufdnf',
+                    ]}
+                />
+            )}
         </MainPanel>
     );
 };

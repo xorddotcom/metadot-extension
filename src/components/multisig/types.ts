@@ -22,3 +22,11 @@ export interface AccountBoxProps {
     name: string;
     address: string;
 }
+
+export interface InputBoxProps {
+    index: number;
+    onChangeAddress(index: number, value: string): void;
+    onRemoveAccount(index: number): void;
+    handleOpenModal(index: number): void;
+    address: string;
+}

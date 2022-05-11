@@ -2,6 +2,7 @@ export interface Account {
     publicKey: string;
     accountName: string;
     parentAddress?: string;
+    multisig?: boolean;
 }
 
 export interface Accounts {
