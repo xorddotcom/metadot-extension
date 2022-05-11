@@ -47,29 +47,7 @@ export const activeAccountSlice = createSlice({
             };
         },
         resetAccountSlice: (state) => {
-            return {
-                ...state,
-                publicKey: '',
-                isLoggedIn: false,
-                accountName: '',
-                balance: 0,
-                balances: [
-                    {
-                        name: '',
-                        balance: 0,
-                        isNative: false,
-                        decimal: 0,
-                        tokenImage: POLKADOT_CONFIG.logo,
-                    },
-                ],
-                balanceInUsd: 0,
-                jsonFileUploadScreen: false,
-                rpcUrl: POLKADOT_CONFIG.rpcUrl,
-                chainName: POLKADOT_CONFIG.name,
-                tokenName: POLKADOT_CONFIG.tokenName,
-                tokenImage: POLKADOT_CONFIG.logo,
-                queryEndpoint: POLKADOT_CONFIG.queryEndpoint,
-            };
+            return { ...initialState };
         },
         setPublicKey: (state, action: PayloadAction<string>) => {
             console.log('set public key working ---->>>');
