@@ -295,7 +295,10 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
         }
     };
 
-    const handleSwap = async (): Promise<any> => {
+    const handleSwap = async (
+        address: string,
+        password: string
+    ): Promise<any> => {
         if (tokenFrom && tokenTo) {
             setIsLoading(true);
             try {
@@ -342,14 +345,14 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                 }
 
                 const signature = await signTransaction(
-                    publicKey,
-                    'Dell1234@',
-                    txHex,
+                    address,
+                    password,
+                    txHex.toString(),
                     'substrate',
                     false
                 );
 
-                await tx.addSignature(publicKey, signature, txPayload);
+                await tx.addSignature(address, signature, txPayload);
 
                 await tx
                     .send(({ status, events }: any) => {
