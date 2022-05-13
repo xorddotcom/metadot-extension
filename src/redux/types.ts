@@ -34,6 +34,7 @@ export type BalancesType = {
     balance: number;
     isNative: boolean;
     decimal: number;
+    tokenImage?: string;
 };
 
 export interface ActiveAccount {

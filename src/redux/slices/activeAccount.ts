@@ -19,7 +19,15 @@ const initialState: ActiveAccount = {
     lastVisitedTimestamp: '',
     queryEndpoint: POLKADOT_CONFIG.queryEndpoint,
     isWalletConnected: false,
-    balances: [{ name: '', balance: 0, isNative: false, decimal: 0 }],
+    balances: [
+        {
+            name: '',
+            balance: 0,
+            isNative: false,
+            decimal: 0,
+            tokenImage: POLKADOT_CONFIG.logo,
+        },
+    ],
 };
 
 export const activeAccountSlice = createSlice({
@@ -46,7 +54,13 @@ export const activeAccountSlice = createSlice({
                 accountName: '',
                 balance: 0,
                 balances: [
-                    { name: '', balance: 0, isNative: false, decimal: 0 },
+                    {
+                        name: '',
+                        balance: 0,
+                        isNative: false,
+                        decimal: 0,
+                        tokenImage: POLKADOT_CONFIG.logo,
+                    },
                 ],
                 balanceInUsd: 0,
                 jsonFileUploadScreen: false,

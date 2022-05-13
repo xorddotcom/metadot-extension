@@ -1,3 +1,4 @@
+/* eslint-disable import/no-duplicates */
 import KusamaIcon from '../assets/images/kusama.svg';
 import KaruraIcon from '../assets/images/karura.svg';
 import MoonriverIcon from '../assets/images/moonriver.svg';
@@ -98,7 +99,48 @@ import SendDashboardIcon from '../assets/images/icons/SendFeature.svg';
 import StakeDashboardIcon from '../assets/images/icons/StakeFeature.svg';
 import SwapDashboardIcon from '../assets/images/icons/SwapFeature.svg';
 
-export default {
+import DOT from '../assets/images/tokenImg/polkadot.png';
+import ACA from '../assets/images/tokenImg/ACA.png';
+import AUSD from '../assets/images/tokenImg/AUSD.png';
+import LDOT from '../assets/images/tokenImg/LDOT.png';
+import ASTR from '../assets/images/tokenImg/astar.png';
+
+import SDN from '../assets/images/tokenImg/shiden.svg';
+import BNC from '../assets/images/tokenImg/BNC.png';
+import KAR from '../assets/images/tokenImg/KAR.png';
+import KBTC from '../assets/images/tokenImg/KBTC.png';
+import KINT from '../assets/images/tokenImg/KINT.png';
+import KSM from '../assets/images/tokenImg/KSM.png';
+import KUSD from '../assets/images/tokenImg/KUSD.png';
+import LKSM from '../assets/images/tokenImg/LKSM.png';
+import PHA from '../assets/images/tokenImg/PHA.png';
+import TAI from '../assets/images/tokenImg/TAI.png';
+import VSKSM from '../assets/images/tokenImg/VSKSM.png';
+
+import WND from '../assets/images/tokenImg/westend_colour.svg';
+import SBY from '../assets/images/tokenImg/shibuya.svg';
+import CTX from '../assets/images/tokenImg/contextfree.png';
+
+const allImages: { [key: string]: string } = {
+    DOT,
+    ACA,
+    AUSD,
+    LDOT,
+    ASTR,
+    WND,
+    SBY,
+    CTX,
+    SDN,
+    BNC,
+    KAR,
+    KBTC,
+    KINT,
+    KSM,
+    KUSD,
+    LKSM,
+    PHA,
+    TAI,
+    VSKSM,
     TestNetIcon,
     crossIconRound,
     Importicon,
@@ -184,3 +226,5 @@ export default {
     StakeDashboardIcon,
     SwapDashboardIcon,
 };
+
+export default allImages;
