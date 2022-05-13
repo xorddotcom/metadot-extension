@@ -9,7 +9,7 @@ import { TransactionRecord } from '../../../../redux/types';
 import AssetCard from '../../../common/asset-card';
 import TxCard from '../../../common/tx-card';
 
-import { queryData } from '../../../../utils/queryData';
+import { queryData, queryDataForBatch } from '../../../../utils/queryData';
 import { fonts, helpers, exponentConversion } from '../../../../utils';
 import services from '../../../../utils/services';
 import {
@@ -35,28 +35,36 @@ const TxView: React.FunctionComponent<TxViewProps> = (
     props
 ): React.ReactElement => {
     const { transactionData, tokenName, handleClickOnTxCard } = props;
-    const { publicKey, chainName } = useSelector(
+    const { publicKey } = useSelector(
         (state: RootState) => state.activeAccount
     );
+
+    const transactionsOfActiveAccount = Object.values(
+        transactionData[publicKey]
+    );
+    const txRecordsForSelectedNetwork = transactionsOfActiveAccount.filter(
+        // eslint-disable-next-line array-callback-return
+        (transaction: TransactionRecord) =>
+            transaction.tokenName[0] && transaction.tokenName[0] === tokenName
+    );
+
+    console.log('transactionsOfActiveAccount', {
+        transactionsOfActiveAccount,
+        tokenName,
+        txRecordsForSelectedNetwork,
+    });
+
     return (
         // eslint-disable-next-line react/jsx-no-useless-fragment
         <>
-            {Object.values(transactionData[publicKey]).length > 0 &&
-            Object.values(transactionData[publicKey]).filter(
-                (transaction: TransactionRecord) =>
-                    transaction.chainName === chainName
-            ).length !== 0 ? (
-                Object.values(transactionData[publicKey])
-                    .filter(
-                        (transaction: TransactionRecord) =>
-                            transaction.chainName === chainName
+            {transactionsOfActiveAccount.length > 0 &&
+            txRecordsForSelectedNetwork.length !== 0 ? (
+                txRecordsForSelectedNetwork
+                    .sort(
+                        (a: any, b: any) =>
+                            Number(new Date(b.timestamp)) -
+                            Number(new Date(a.timestamp))
                     )
-                    .reverse()
-                    // .sort(
-                    //     (a: any, b: any) =>
-                    //         Number(new Date(b.timestamp)) -
-                    //         Number(new Date(a.timestamp))
-                    // )
                     .map((transaction) => {
                         const {
                             operation,
@@ -136,14 +144,17 @@ const AssetsAndTransactions: React.FunctionComponent<
     };
 
     const handleTransaction = (transactionObject: any): void => {
+        console.log('transactionObject', { transactionObject });
         const transactions = [
             ...transactionObject.data.account.transferTo.nodes,
             ...transactionObject.data.account.transferFrom.nodes,
+            // eslint-disable-next-line array-callback-return
         ].map((transaction) => {
+            console.log('transaction', transaction);
             const gasFee = transaction.fees
                 ? (
                       parseInt(transaction.fees) /
-                      parseInt(transaction.decimals)
+                      parseInt(transaction.token.decimals)
                   ).toString()
                 : '0';
             return {
@@ -151,7 +162,7 @@ const AssetsAndTransactions: React.FunctionComponent<
                 accountTo: [transaction.toId],
                 amount: [
                     parseInt(transaction.amount) /
-                        parseInt(transaction.decimals),
+                        parseInt(transaction.token.decimals),
                 ],
                 hash: transaction.extrinsicHash,
                 operation:
@@ -160,7 +171,7 @@ const AssetsAndTransactions: React.FunctionComponent<
                         : 'Receive',
                 status: transaction.status ? 'Confirmed' : 'Failed',
                 chainName: transaction.token,
-                tokenName: transaction.token,
+                tokenName: [transaction.token.name],
                 transactionFee: gasFee,
                 timestamp: transaction.timestamp,
             };
@@ -169,9 +180,57 @@ const AssetsAndTransactions: React.FunctionComponent<
         dispatch(addTransaction({ transactions, publicKey }));
     };
 
-    const { query, endPoint } = queryData(queryEndpoint, publicKey, prefix);
+    const handleBatchRecords = (transactionObject: any): void => {
+        console.log('raw batch', transactionObject);
+        const transactions = [
+            ...transactionObject.data.query.account.batchRecordsFrom.nodes,
+            ...transactionObject.data.query.account.batchRecordsTo.nodes,
+            // eslint-disable-next-line array-callback-return
+        ].map((transaction) => {
+            console.log('EACH BATCH', transaction);
+            // return transaction;
+            const senderId =
+                transaction.senderId ||
+                transaction.batch.sender.nodes[0].senderId;
+            console.log('senderId ======', senderId);
+            const gasFee = transaction.fees
+                ? (
+                      parseInt(transaction.fees) /
+                      parseInt(transaction.token.decimals)
+                  ).toString()
+                : '0';
+            return {
+                accountFrom: senderId,
+                accountTo: transaction.batch.calls.map(
+                    (item: any) => item.receiver
+                ),
+                amount: transaction.batch.calls.map((item: any) => {
+                    return (
+                        parseInt(item.amount) / parseInt(item.token.decimals)
+                    );
+                }),
+                hash: transaction.batch.extrinsicHash,
+                operation:
+                    publicKey === addressMapper(senderId, 42)
+                        ? 'Batch Send'
+                        : 'Batch Receive',
+                status: 'Confirmed',
+                chainName: transaction.token,
+                tokenName: transaction.batch.calls.map(
+                    (item: any) => item.token.name
+                ),
+                transactionFee: gasFee,
+                timestamp: transaction.batch.calls[0].timestamp,
+            };
+        });
 
-    const fetchTransactions = async (): Promise<any> =>
+        console.log('transactions FOR BATCH', transactions);
+
+        dispatch(addTransaction({ transactions, publicKey }));
+    };
+
+    const fetchTransactions = async (): Promise<any> => {
+        const { query, endPoint } = queryData(queryEndpoint, publicKey, prefix);
         fetch(endPoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -182,10 +241,30 @@ const AssetsAndTransactions: React.FunctionComponent<
             .then((r) => r.json())
             .then((r) => handleTransaction(r))
             .catch((e) => console.log('fetching tx records...'));
+    };
+
+    const fetchBatchRecords = async (): Promise<any> => {
+        const { query, endPoint } = queryDataForBatch(
+            queryEndpoint,
+            publicKey,
+            prefix
+        );
+        fetch(endPoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                query,
+            }),
+        })
+            .then((r) => r.json())
+            .then((r) => handleBatchRecords(r))
+            .catch((e) => console.log('fetching tx records...', e));
+    };
 
     useEffect(() => {
         if (publicKey) {
             fetchTransactions();
+            fetchBatchRecords();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [rpcUrl, publicKey]);

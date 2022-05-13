@@ -79,6 +79,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
 
         return `${currentChain[0].explorer}extrinsic/${txHash}`;
     };
+    console.log('token and amount', { tokenName, amount });
     const getTotalAmount = (): number => {
         const totalAmount = amount.reduce(function (a, b) {
             return a + b;
@@ -378,9 +379,11 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                     className={mainHeadingfontFamilyClass}
                                     fontSize="12px"
                                     color="#FFFFFF"
-                                >{`${getTotalAmount().toFixed(
-                                    4
-                                )} ${tokenName}`}</MainText1>
+                                >
+                                    {`${getTotalAmount().toFixed(4)} ${
+                                        tokenName[0]
+                                    }`}
+                                </MainText1>
                                 <MainText1
                                     marginTop="10px"
                                     textAlign="end"
@@ -391,7 +394,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                     transactionFee
                                         ? transactionFee.slice(0, 6)
                                         : '0'
-                                } ${tokenName}`}</MainText1>
+                                } ${tokenName[0]}`}</MainText1>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
 
@@ -432,11 +435,8 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                     fontWeight="600"
                                     color="#2E9B9B"
                                 >
-                                    {`${getTotalBalance(
-                                        amount[0],
-                                        transactionFee
-                                    )}
-                  ${tokenName}`}
+                                    {`${getTotalBalance(amount, transactionFee)}
+                  ${tokenName[0]}`}
                                 </MainText1>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>

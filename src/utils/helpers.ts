@@ -374,7 +374,8 @@ const formatExtrinsic = (
         };
         const argsData = args();
 
-        operation = accountFrom === userAddress ? 'Send' : 'Receive';
+        operation =
+            accountFrom === userAddress ? 'Batch Send' : 'Batch Receive';
         console.log('start for batch');
         console.log(argsData);
         accountTo = argsData.map((res: any) => {

@@ -1,5 +1,45 @@
 import { encodeAddress } from '@polkadot/util-crypto';
-import { QueryObjectInterface } from './types';
+import { QueryForBatchObjectInterface, QueryObjectInterface } from './types';
+
+const getQueryForBatch = (prefix: number, publicKey: string): string => {
+    const address = encodeAddress(publicKey, prefix);
+
+    return `{
+query {
+    account (id: "${address}") {
+      transferTotalCount
+      batchTotalCount
+      batchRecordsFrom {
+        nodes {
+          senderId
+          batch {
+            extrinsicHash
+            receivers {
+              nodes {
+                id
+              }
+            }
+            calls
+          }
+        }
+      }
+      batchRecordsTo {
+        nodes {
+          batch {
+            extrinsicHash
+            sender {
+              nodes {
+                senderId
+              }
+            }
+            calls
+          }
+        }
+      }
+    }
+  }
+  }`;
+};
 
 const getQuery = (prefix: number, publicKey: string): string => {
     const address = encodeAddress(publicKey, prefix);
@@ -11,7 +51,6 @@ const getQuery = (prefix: number, publicKey: string): string => {
           nodes {
             id
             token
-            decimals
             extrinsicHash
             amount
             status
@@ -24,7 +63,6 @@ const getQuery = (prefix: number, publicKey: string): string => {
           nodes {
             id
             token
-            decimals
             extrinsicHash
             amount
             status
@@ -43,7 +81,6 @@ const getQuery = (prefix: number, publicKey: string): string => {
           nodes {
             id
             token
-            decimals
             extrinsicHash
             amount
             fees
@@ -57,7 +94,6 @@ const getQuery = (prefix: number, publicKey: string): string => {
           nodes {
             id
             token
-            decimals
             extrinsicHash
             amount
             status
@@ -77,5 +113,14 @@ export const queryData = (
     prefix: number
 ): QueryObjectInterface => {
     const query = getQuery(prefix, publicKey);
+    return { query, endPoint: queryEndpoint };
+};
+
+export const queryDataForBatch = (
+    queryEndpoint: string,
+    publicKey: string,
+    prefix: number
+): QueryObjectInterface => {
+    const query = getQueryForBatch(prefix, publicKey);
     return { query, endPoint: queryEndpoint };
 };
