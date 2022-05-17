@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
+import { useSelector } from 'react-redux';
+
 import { HorizontalContentDiv } from '../../../common/wrapper';
 import {
     FeatureBox,
@@ -9,6 +11,8 @@ import {
 import { DASHBOARD, SWAP } from '../../../../constants';
 
 import { images } from '../../../../utils';
+
+import { RootState } from '../../../../redux/store';
 
 const {
     GovernanceDashboardIcon,
@@ -20,8 +24,12 @@ const {
 const SelectFeature: React.FunctionComponent = () => {
     const navigate = useNavigate();
 
+    const { balances } = useSelector((state: RootState) => state.activeAccount);
+
     const featureClickHandler = (path: string): void => {
-        navigate(path);
+        if (balances.length > 1) {
+            navigate(path);
+        }
     };
 
     return (

@@ -337,17 +337,14 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                 return !duplicate;
                             }
                         );
-                        if (uniqueTransactions.length > 0)
-                            console.log(
-                                'transaction hogayi:',
-                                uniqueTransactions
+                        if (uniqueTransactions.length > 0) {
+                            generalDispatcher(() =>
+                                addTransaction({
+                                    transactions: uniqueTransactions,
+                                    publicKey,
+                                })
                             );
-                        generalDispatcher(() =>
-                            addTransaction({
-                                transactions: uniqueTransactions,
-                                publicKey,
-                            })
-                        );
+                        }
                     }
                 );
             }

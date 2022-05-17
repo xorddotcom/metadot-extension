@@ -27,11 +27,15 @@ import { getExistentialDepositConfig } from '../../utils/existentialDeposit';
 
 import { RootState } from '../../redux/store';
 
+import { addTransaction } from '../../redux/slices/transactions';
+
 import services from '../../utils/services';
+
+import { TransactionRecord } from '../../redux/types';
 
 const { signTransaction, isPasswordSaved } = accounts;
 const { UnsuccessCheckIcon, SuccessCheckPngIcon } = images;
-const { getTxTransactionFee } = services;
+const { getTxTransactionFee, addressMapper } = services;
 
 const Swap: React.FunctionComponent = (): JSX.Element => {
     const generalDispatcher = useDispatcher();
@@ -354,6 +358,30 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
 
                 await tx.addSignature(address, signature, txPayload);
 
+                const transactionRecord: any = [
+                    {
+                        accountFrom: addressMapper(
+                            address,
+                            api.registry.chainSS58 as number
+                        ),
+                        accountTo: [
+                            addressMapper(
+                                address,
+                                api.registry.chainSS58 as number
+                            ),
+                        ],
+                        amount: [
+                            Number(amountFrom),
+                            Number(swapParams.outputAmount.toString()),
+                        ],
+                        hash: tx.hash.toString(),
+                        operation: 'Swap',
+                        chainName: api.runtimeChain.toString(),
+                        tokenName: [tokenFrom.name, tokenTo.name],
+                        transactionFee: '0',
+                        timestamp: new Date().toString(),
+                    },
+                ];
                 await tx
                     .send(({ status, events }: any) => {
                         const txResSuccess = events.filter(
@@ -364,8 +392,16 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                             ({ event }: EventRecord) =>
                                 api?.events?.system?.ExtrinsicFailed.is(event)
                         );
+                        console.log(txResSuccess, 'yes');
                         if (status.isInBlock) {
                             if (txResFail.length >= 1) {
+                                transactionRecord[0].status = 'Failed';
+                                generalDispatcher(() =>
+                                    addTransaction({
+                                        transactions: transactionRecord,
+                                        publicKey: address,
+                                    })
+                                );
                                 console.log('from 1');
                                 openResponseModalForTxSuccess();
                                 setTimeout(() => {
@@ -380,6 +416,13 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                                 navigate(DASHBOARD);
                             }
                             if (txResSuccess.length >= 1) {
+                                transactionRecord[0].status = 'Success';
+                                generalDispatcher(() =>
+                                    addTransaction({
+                                        transactions: transactionRecord,
+                                        publicKey: address,
+                                    })
+                                );
                                 console.log('from 2');
                                 openResponseModalForTxSuccess();
                                 setTimeout(() => {
