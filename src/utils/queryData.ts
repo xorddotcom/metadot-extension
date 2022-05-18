@@ -66,6 +66,7 @@ query {
 }`;
 };
 
+
 const getQuery = (prefix: number, publicKey: string): string => {
     const address = encodeAddress(publicKey, prefix);
     const queryWithoutTxFees = `
@@ -150,6 +151,7 @@ export const queryDataForBatch = (
     return { query, endPoint: queryEndpoint };
 };
 
+
 export const queryDataForSwap = (
     queryEndpoint: string,
     publicKey: string,
@@ -158,3 +160,4 @@ export const queryDataForSwap = (
     const query = getQueryForSwap(prefix, publicKey);
     return { query, endPoint: queryEndpoint };
 };
+
