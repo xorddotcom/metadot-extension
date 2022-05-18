@@ -159,7 +159,6 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
                         marginLeft: '14px',
                     }}
                 />
-
                 <SubHeading ml="14px">
                     {csvFile ? csvFile.name : 'Choose File'}
                 </SubHeading>

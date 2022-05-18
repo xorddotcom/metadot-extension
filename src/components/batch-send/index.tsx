@@ -41,7 +41,6 @@ const BatchSend: React.FunctionComponent = () => {
     };
     const { tokenName } = location;
 
-    console.log('location in batch', location);
     const generalDispatcher = useDispatcher();
     const currReduxState = useSelector((state: RootState) => state);
     const api = currReduxState.api.api as unknown as ApiPromiseType;

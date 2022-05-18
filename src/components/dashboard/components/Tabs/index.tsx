@@ -9,7 +9,11 @@ import { TransactionRecord } from '../../../../redux/types';
 import AssetCard from '../../../common/asset-card';
 import TxCard from '../../../common/tx-card';
 
-import { queryData, queryDataForBatch } from '../../../../utils/queryData';
+import {
+    queryData,
+    queryDataForBatch,
+    queryDataForSwap,
+} from '../../../../utils/queryData';
 import { fonts, helpers, exponentConversion } from '../../../../utils';
 import services from '../../../../utils/services';
 import {
@@ -177,6 +181,60 @@ const AssetsAndTransactions: React.FunctionComponent<
             };
         });
 
+        console.log(
+            'transaction from sub query transactions ==>>',
+            transactions
+        );
+        dispatch(addTransaction({ transactions, publicKey }));
+    };
+
+    const handleSwapRecords = (transactionObject: any): void => {
+        console.log(
+            'transaction from sub query swap transactions 1==>>',
+            transactionObject
+        );
+        const transactions =
+            transactionObject.data.query.account.swaps.nodes.map(
+                (transaction: any) => {
+                    console.log('EACH SWAP', transaction);
+
+                    const gasFee = transaction.fees
+                        ? (parseInt(transaction.fees) / 12).toString()
+                        : '0';
+                    return {
+                        accountFrom: transaction.fromId,
+                        accountTo: [transaction.fromId],
+                        amount: [
+                            exponentConversion(
+                                parseInt(transaction.data[0].amount) / 10 ** 12
+                            ),
+                            exponentConversion(
+                                parseInt(
+                                    transaction.data[
+                                        transaction.data.length - 1
+                                    ].amount
+                                ) /
+                                    10 ** 12
+                            ),
+                        ],
+                        hash: transaction.extrinsicHash,
+                        operation: 'Swap',
+                        status: 'Success',
+                        chainName: 'KAR',
+                        tokenName: [
+                            transaction.data[0].token,
+                            transaction.data[transaction.data.length - 1].token,
+                        ],
+                        transactionFee: gasFee,
+                        timestamp: transaction.timestamp,
+                    };
+                }
+            );
+
+        console.log(
+            'transaction from sub query swap transactions ==>>',
+            transactions
+        );
         dispatch(addTransaction({ transactions, publicKey }));
     };
 
@@ -224,10 +282,13 @@ const AssetsAndTransactions: React.FunctionComponent<
             };
         });
 
-        console.log('transactions FOR BATCH', transactions);
-
+        console.log(
+            'transaction from sub query batch transactions ==>>',
+            transactions
+        );
         dispatch(addTransaction({ transactions, publicKey }));
     };
+
 
     const fetchTransactions = async (): Promise<any> => {
         const { query, endPoint } = queryData(queryEndpoint, publicKey, prefix);
@@ -261,10 +322,31 @@ const AssetsAndTransactions: React.FunctionComponent<
             .catch((e) => console.log('fetching tx records...', e));
     };
 
+    const fetchSwapRecords = async (): Promise<any> => {
+        const { query, endPoint } = queryDataForSwap(
+            queryEndpoint,
+            publicKey,
+            prefix
+        );
+        fetch(endPoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                query,
+            }),
+        })
+            .then((r) => r.json())
+            .then((r) => handleSwapRecords(r))
+            .catch((e) => console.log('fetching tx records...', e));
+    };
+
+
     useEffect(() => {
         if (publicKey) {
             fetchTransactions();
             fetchBatchRecords();
+            fetchSwapRecords();
+
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [rpcUrl, publicKey]);

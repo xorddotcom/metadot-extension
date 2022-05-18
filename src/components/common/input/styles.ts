@@ -4,6 +4,7 @@ import {
     FieldInterface,
     IconInterface,
     NewWrapperInterface,
+    TokenBoxInterface,
 } from './types';
 
 import { colors, fonts } from '../../../utils';
@@ -38,7 +39,7 @@ export const NewWrapper = styled.div<NewWrapperInterface>`
     justify-content: start;
 `;
 
-export const TokenBox = styled.div`
+export const TokenBox = styled.div<TokenBoxInterface>`
     padding: ${(props: { tokenDropDown: boolean }) =>
         props.tokenDropDown && `0px 6px`};
     position: absolute;
@@ -47,7 +48,8 @@ export const TokenBox = styled.div`
     width: 86px;
     height: 42px;
     border-radius: 8px;
-    background: #1f1f1f;
+    background: ${(props) =>
+        props.tokenBoxColor ? props.tokenBoxColor : '#1f1f1f'};
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -57,7 +59,7 @@ export const TokenBox = styled.div`
 export const TokenName = styled.p`
     font-style: normal;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 19px;
     margin-left: 6px;
 

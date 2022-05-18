@@ -301,6 +301,24 @@ const getBatchTransactionFee = async (
     }
 };
 
+const getTxTransactionFee = async (
+    tx: any,
+    sender: any,
+    tokenName: any
+): Promise<number> => {
+    try {
+        const info = await tx.paymentInfo(sender);
+
+        const txFee = convertTransactionFee(
+            tokenName,
+            info.partialFee.toHuman()
+        );
+        return txFee;
+    } catch (err) {
+        return 0;
+    }
+};
+
 const addressMapper = (address: string, prefix: number): string =>
     encodeAddress(address, prefix);
 
@@ -348,6 +366,7 @@ export default {
     getSender,
     getTransactionFee,
     getBatchTransactionFee,
+    getTxTransactionFee,
     addressMapper,
     convertTransactionFee,
     fetchBalanceWithMultipleTokens,

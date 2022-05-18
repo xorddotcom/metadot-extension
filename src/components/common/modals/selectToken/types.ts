@@ -3,6 +3,7 @@ export interface Token {
     balance: number;
     isNative: boolean;
     decimal: number;
+    image?: string;
 }
 
 export interface SelectTokenProps {

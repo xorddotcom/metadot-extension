@@ -41,6 +41,32 @@ query {
   }`;
 };
 
+const getQueryForSwap = (prefix: number, publicKey: string): string => {
+    const address = encodeAddress(publicKey, prefix);
+
+    return `{
+query {
+  account (id: "${address}") {
+    swaps {
+      nodes {
+        id
+        extrinsicHash
+        fees
+        status
+        timestamp
+        block {
+          id
+        }
+        data
+        fromId
+      }
+    }
+  }
+}
+}`;
+};
+
+
 const getQuery = (prefix: number, publicKey: string): string => {
     const address = encodeAddress(publicKey, prefix);
     const queryWithoutTxFees = `
@@ -124,3 +150,14 @@ export const queryDataForBatch = (
     const query = getQueryForBatch(prefix, publicKey);
     return { query, endPoint: queryEndpoint };
 };
+
+
+export const queryDataForSwap = (
+    queryEndpoint: string,
+    publicKey: string,
+    prefix: number
+): QueryObjectInterface => {
+    const query = getQueryForSwap(prefix, publicKey);
+    return { query, endPoint: queryEndpoint };
+};
+

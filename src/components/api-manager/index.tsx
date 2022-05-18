@@ -1,7 +1,6 @@
 import React, { useEffect, memo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
-
 import { setApi, setApiInitializationStarts } from '../../redux/slices/api';
 import {
     setBalance,
@@ -14,7 +13,6 @@ import {
 } from '../../redux/slices/activeAccount';
 import { setIsResponseModalOpen } from '../../redux/slices/modalHandling';
 import { RootState } from '../../redux/store';
-
 import { helpers, images, exponentConversion } from '../../utils';
 import services from '../../utils/services';
 import useResponseModal from '../../hooks/useResponseModal';
@@ -23,14 +21,13 @@ import { getAuthList } from '../../messaging';
 import { addTransaction } from '../../redux/slices/transactions';
 
 const { wifiOff, SuccessCheckIcon } = images;
-
 const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
-    const setIsWalletConnected = chrome.storage.local.get(
-        ['setIsWalletConnected'],
-        function (result) {
-            console.log(`Value currently is ${result.key}`);
-        }
-    );
+    // const setIsWalletConnected = chrome.storage.local.get(
+    //     ['setIsWalletConnected'],
+    //     function (result) {
+    //         console.log(`Value currently is ${result.key}`);
+    //     }
+    // );
     const currentUser = useSelector((state: RootState) => state);
     const openModal = useResponseModal({
         isOpen: true,
@@ -45,17 +42,13 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
         subText: '',
     });
     const generalDispatcher = useDispatcher();
-
     const { activeAccount, modalHandling } = currentUser;
-
     const api = currentUser.api.api as ApiPromiseType;
     const { loadingForApi } = modalHandling;
     const { apiInitializationStarts } = currentUser.api;
-
     const { convertIntoUsd, formatExtrinsic, txMadeOrReceiveByUser } = helpers;
     const { getBalance, providerInitialization, addressMapper } = services;
     const { publicKey, chainName, tokenName, balances } = activeAccount;
-
     const compareSites = (arr: any, sub: any): any => {
         const sub2 = sub.toLowerCase();
         return arr.filter((str: any) =>
@@ -64,7 +57,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                 .startsWith(sub2.slice(0, Math.max(str.length - 1, 1)))
         );
     };
-
     useEffect(() => {
         const setConnectedSites = async (): Promise<void> => {
             const arr: string[] = [];
@@ -87,27 +79,22 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
             );
         };
         setConnectedSites();
-    }, [setIsWalletConnected]);
-
+    }, []);
     useEffect(() => {
         const setAPI = async (rpcUrl: string): Promise<void> => {
             try {
                 generalDispatcher(() => setApiInitializationStarts(true));
-
                 if (window.navigator.onLine) {
                     // setting api instance of selected network
                     const newApiInstance = await providerInitialization(rpcUrl);
-
                     // getting token name
                     const tokenNameofSelectedNetwork = await newApiInstance
                         ?.registry?.chainTokens[0];
-
                     // getting token balance
                     // const balanceOfSelectedNetwork = await getBalance(
                     //     newApiInstance,
                     //     publicKey
                     // );
-
                     const balanceOfSelectedNetwork = await getBalance(
                         newApiInstance,
                         publicKey
@@ -116,41 +103,32 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                     // generalDispatcher(() =>
                     //     setBalance(exponentConversion(balanceOfSelectedNetwork))
                     // );
-
                     generalDispatcher(() =>
                         setBalances(balanceOfSelectedNetwork)
                     );
-
                     // const res = await fetchBalanceWithMultipleTokens(
                     //     newApiInstance,
                     //     publicKey
                     // );
-
                     const dollarAmount = await convertIntoUsd(
                         tokenNameofSelectedNetwork,
                         10
                     );
                     await newApiInstance.isReady;
                     generalDispatcher(() => setBalanceInUsd(dollarAmount));
-
                     generalDispatcher(() => setApi(newApiInstance));
-
                     generalDispatcher(() => setApiInitializationStarts(false));
                     generalDispatcher(() =>
                         setTokenName(tokenNameofSelectedNetwork)
                     );
-
                     const chainInfo =
                         await newApiInstance?.registry?.getChainProperties();
-
                     generalDispatcher(() =>
                         setPrefix(Number(chainInfo?.ss58Format.toString()))
                     );
-
                     // generalDispatcher(() =>
                     //     setBalances(balanceOfSelectedNetwork)
                     // );
-
                     if (loadingForApi) {
                         openModal();
                         setTimeout(() => {
@@ -161,11 +139,9 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                     }
                 } else {
                     openModalForInternetIssue();
-
                     setTimeout(() => {
                         generalDispatcher(() => setIsResponseModalOpen(false));
                     }, 2500);
-
                     setTimeout(() => {
                         generalDispatcher(() =>
                             setApiInitializationStarts(false)
@@ -176,10 +152,8 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                 console.log('In catch api manager', error);
             }
         };
-
         setAPI(rpc);
     }, [chainName, loadingForApi, rpc]);
-
     useEffect(() => {
         const accountChanged = async (): Promise<void> => {
             // getting token balance
@@ -197,7 +171,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
         };
         accountChanged();
     }, [publicKey]);
-
     useEffect(() => {
         let unsub: any;
         let unsub2: any;
@@ -236,7 +209,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                         }
                     );
                 });
-
                 unsub = await api?.query?.system?.account(
                     publicKey,
                     ({ data: balance }: any) => {
@@ -260,17 +232,14 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                         );
                     }
                 );
-
                 unsub2 = await api?.rpc?.chain?.subscribeNewHeads(
                     async (header) => {
                         const signedBlock = await api?.rpc?.chain?.getBlock(
                             header.hash
                         );
-
                         const apiAt = await api.at(header.hash);
                         const allEvents: any =
                             await apiAt?.query?.system.events();
-
                         const transactions: any = [];
                         signedBlock.block.extrinsics.forEach(
                             (extrinsic, index) => {
@@ -285,7 +254,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                 } else {
                                     blockTimeStamp = new Date().toISOString();
                                 }
-
                                 const userAddress = addressMapper(
                                     publicKey,
                                     api?.registry?.chainSS58 as number
@@ -312,7 +280,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                                 api.runtimeChain.toString();
                                             const txTokenName =
                                                 api?.registry?.chainTokens[0];
-
                                             const formattedExtrinsic =
                                                 formatExtrinsic(
                                                     extrinsic,
@@ -323,7 +290,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                                         ?.chainDecimals,
                                                     api?.registry?.chainTokens
                                                 );
-
                                             const {
                                                 accountFrom,
                                                 accountTo,
@@ -332,7 +298,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                                 operation,
                                                 tokenList,
                                             } = formattedExtrinsic;
-
                                             console.log(
                                                 'formatted result =>',
                                                 accountFrom,
@@ -342,7 +307,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                                 operation,
                                                 tokenList
                                             );
-
                                             if (!amount.includes(NaN)) {
                                                 transactions.push({
                                                     accountFrom,
@@ -365,7 +329,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                     });
                             }
                         );
-
                         const txHashes = new Set();
                         const uniqueTransactions = transactions.filter(
                             (el: any) => {
@@ -374,23 +337,18 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                 return !duplicate;
                             }
                         );
-                        if (uniqueTransactions.length > 0)
-                            console.log(
-                                'transaction hogayi:',
-                                uniqueTransactions
+                        if (uniqueTransactions.length > 0) {
+                            generalDispatcher(() =>
+                                addTransaction({
+                                    transactions: uniqueTransactions,
+                                    publicKey,
+                                })
                             );
-
-                        generalDispatcher(() =>
-                            addTransaction({
-                                transactions: uniqueTransactions,
-                                publicKey,
-                            })
-                        );
+                        }
                     }
                 );
             }
         })();
-
         return () => {
             if (unsub) {
                 unsub();
@@ -401,8 +359,6 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [api, publicKey]);
-
     return null;
 };
-
 export default memo(ApiManager);

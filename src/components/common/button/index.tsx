@@ -20,7 +20,7 @@ const Button: React.FunctionComponent<Props> = (props) => {
         startIcon: StartIcon ? (
             <img src={StartIcon} alt="icon" style={{ marginTop: '-0.2px' }} />
         ) : null,
-        disabled: !!disabled,
+        disabled: isLoading || !!disabled,
         lightBtn,
         onClick: () => handleClick(),
         className: 'myStyling',

@@ -193,7 +193,9 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                 className={subHeadingfontFamilyClass}
                                 fontSize="12px"
                             >
-                                {addressModifier(accountFrom)}
+                                {operation === 'Swap'
+                                    ? tokenName[0]
+                                    : addressModifier(accountFrom)}
                                 <div
                                     className={`tooltip ${subHeadingfontFamilyClass}`}
                                     style={{ marginLeft: 10 }}
@@ -266,7 +268,9 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                         </div>
                                     </div>
 
-                                    {addressModifier(accountTo[0])}
+                                    {operation === 'Swap'
+                                        ? tokenName[1]
+                                        : addressModifier(accountTo[0])}
                                 </SubText2>
                             </VerticalContentDiv>
                         )}

@@ -416,6 +416,7 @@ const Send: React.FunctionComponent = () => {
         address: '',
         password: ''
     ): Promise<boolean> => {
+        console.log('transfer all running', location);
         try {
             setLoading2(true);
 
@@ -820,6 +821,7 @@ const Send: React.FunctionComponent = () => {
                 open={authScreenModal}
                 handleClose={() => {
                     generalDispatcher(() => setAuthScreenModal(false));
+                    console.log('open modal handle close');
                     generalDispatcher(() => setConfirmSendModal(true));
                 }}
                 onConfirm={

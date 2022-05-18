@@ -29,19 +29,6 @@ export interface Transactions {
     [publicKey: string]: Transaction;
 }
 
-interface decimal {
-    new: number;
-    old: number;
-}
-
-interface TOKEN {
-    name: string;
-    decimals: number | decimal;
-}
-
-export interface TOKEN_INFO_INTERFACE {
-    [TokenName: string]: TOKEN;
-}
 export type BalancesType = {
     name: string;
     balance: number;
@@ -65,5 +52,19 @@ export interface ActiveAccount {
     lastVisitedTimestamp: string;
     queryEndpoint: string;
     isWalletConnected: boolean;
-    balances: [BalancesType];
+    balances: BalancesType[];
+}
+
+interface decimal {
+    new: number;
+    old: number;
+}
+
+interface TOKEN {
+    name: string;
+    decimals: number | decimal;
+}
+
+export interface TOKEN_INFO_INTERFACE {
+    [TokenName: string]: TOKEN;
 }

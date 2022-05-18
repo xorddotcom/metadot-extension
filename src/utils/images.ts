@@ -94,6 +94,12 @@ import GoUpButton from '../assets/images/icons/go_up.svg';
 import DeleteIcon from '../assets/images/icons/delete.svg';
 import EditIcon from '../assets/images/icons/edit.svg';
 
+import GovernanceDashboardIcon from '../assets/images/icons/GovernanceFeature.svg';
+import SendDashboardIcon from '../assets/images/icons/SendFeature.svg';
+import StakeDashboardIcon from '../assets/images/icons/StakeFeature.svg';
+import SwapDashboardIcon from '../assets/images/icons/SwapFeature.svg';
+
+
 import DOT from '../assets/images/tokenImg/polkadot.png';
 import ACA from '../assets/images/tokenImg/ACA.png';
 import AUSD from '../assets/images/tokenImg/AUSD.png';
@@ -216,6 +222,10 @@ const allImages: { [key: string]: string } = {
     EditIcon,
     PlusIcon,
     GoUpIcon,
+    GovernanceDashboardIcon,
+    SendDashboardIcon,
+    StakeDashboardIcon,
+    SwapDashboardIcon,
 };
 
 export default allImages;

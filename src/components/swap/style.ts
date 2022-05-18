@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import { CircleProps } from './types';
 
 export const SwapDiv = styled.div`
-    width: 90%;
-    height: 377px;
+    width: 95%;
+    height: 400px;
     background: #141414;
     border: 0.8px solid #2e9b9b;
     box-sizing: border-box;
@@ -17,10 +17,14 @@ export const SwapDiv = styled.div`
 
 export const SwapChildDiv = styled.div`
     width: 90%;
-    height: 40%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+`;
+
+export const InputAndBalanceDiv = styled.div`
+    display: flex;
+    flex-direction: column;
 `;
 
 export const SwapIconDiv = styled.div`
@@ -88,7 +92,8 @@ export const Wrapper2 = styled.div`
     align-items: center;
     min-height: 528px;
     padding-bottom: ${(props: { pb: string | boolean }) => props.pb && '0'};
-    background: rgba(20, 20, 20);
+    width: 90%;
+    align-self: center;
 `;
 
 export const Wrapper = styled.div`
@@ -99,9 +104,9 @@ export const Wrapper = styled.div`
 `;
 
 export const SwapDetailDiv = styled.div`
-    width: 90%;
+    width: 95%;
     height: 176px;
-    border: 1px solid #212121;
+    border: 1px solid rgba(248, 248, 248, 0.08);
     box-sizing: border-box;
     filter: drop-shadow(0px 0px 40px rgba(13, 13, 13, 0.2));
     border-radius: 8px;

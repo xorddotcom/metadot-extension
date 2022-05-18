@@ -44,6 +44,7 @@ const Input: React.FunctionComponent<Props> = ({
     border,
     tokenDropDown,
     tokenDropDownHandler,
+    tokenBoxColor,
 }) => {
     const blockChar = (ev: React.KeyboardEvent): void => {
         const arr = ['e', 'E', '+', '-'];
@@ -143,7 +144,10 @@ const Input: React.FunctionComponent<Props> = ({
                 </Icon>
             )}
             {tokenLogo && (
-                <TokenBox tokenDropDown={tokenDropDown === true}>
+                <TokenBox
+                    tokenDropDown={tokenDropDown === true}
+                    tokenBoxColor={tokenBoxColor}
+                >
                     <img
                         src={tokenImage}
                         alt="token"
@@ -152,7 +156,6 @@ const Input: React.FunctionComponent<Props> = ({
                     <TokenName className={subHeadingfontFamilyClass}>
                         {tokenName}
                     </TokenName>
-
                     {tokenDropDown && tokenDropDownHandler && (
                         <img
                             onClick={tokenDropDownHandler}
