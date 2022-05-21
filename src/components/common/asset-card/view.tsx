@@ -22,6 +22,8 @@ const AssetCardView: React.FunctionComponent<ViewProps> = ({
     decimal,
 }) => {
     const navigate = useNavigate();
+
+    const [tokenPrice, setTokenPrice] = useState('0');
     const sendBtn = {
         id: 'send-button',
         text: 'Send',
@@ -34,12 +36,16 @@ const AssetCardView: React.FunctionComponent<ViewProps> = ({
         },
         handleClick: () =>
             navigate(SEND, {
-                state: { tokenName, balance, isNative, decimal },
+                state: {
+                    tokenName,
+                    balance,
+                    isNative,
+                    decimal,
+                    dollarAmount: tokenPrice,
+                },
             }),
         disabled: !!apiInitializationStarts,
     };
-
-    const [tokenPrice, setTokenPrice] = useState('0');
 
     const fetchTokenPrice = async (): Promise<void> => {
         await fetch(

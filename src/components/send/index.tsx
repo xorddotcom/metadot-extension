@@ -64,6 +64,7 @@ const Send: React.FunctionComponent = () => {
         balance: number;
         isNative: boolean;
         decimal: number;
+        dollarAmount: string;
         // tokenImage: any;
     };
 
@@ -94,7 +95,7 @@ const Send: React.FunctionComponent = () => {
     const [passwordSaved, setPasswordSaved] = useState(false);
     const [chainTokens, setChainTokens] = useState<string[]>([]);
 
-    const { tokenName, isNative, decimal, balance } = location;
+    const { tokenName, isNative, decimal, balance, dollarAmount } = location;
     const { authScreenModal } = modalHandling;
     const api = currReduxState.api.api as unknown as ApiPromiseType;
 
@@ -113,6 +114,7 @@ const Send: React.FunctionComponent = () => {
     });
 
     useEffect(() => {
+        console.log('location', location);
         async function get(): Promise<void> {
             const estimatedTxFee = await getTransactionFee(
                 api,
@@ -141,6 +143,7 @@ const Send: React.FunctionComponent = () => {
     }, []);
 
     useEffect(() => {
+        console.log('active account working', activeAccount);
         setToggleButtons(
             balance,
             balances[0].balance,
@@ -149,7 +152,7 @@ const Send: React.FunctionComponent = () => {
             setDisableToggleButtons,
             isNative
         );
-    }, [transactionFee, existentialDeposit]);
+    }, [transactionFee, existentialDeposit, publicKey]);
 
     useEffect(() => {
         const tokens = api?.registry?.chainTokens;
@@ -533,6 +536,7 @@ const Send: React.FunctionComponent = () => {
         insufficientTxFee,
         setSwitchChecked,
         setSwitchCheckedSecond,
+        dollarAmount,
     };
 
     const ED = {
