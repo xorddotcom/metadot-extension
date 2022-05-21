@@ -14,8 +14,8 @@ const {
     CONTEXTFREE_CONFIG,
     ASTAR_CONFIG,
     ACALA_CONFIG,
-    // BIFROST_STAGE_TESTNET_CONFIG,
-    // BIFROST_KUSAMA_CONFIG,
+    BIFROST_STAGE_TESTNET_CONFIG,
+    BIFROST_KUSAMA_CONFIG,
 } = constants;
 
 const availableNetworks: NetworkConfigType[] = [
@@ -42,14 +42,14 @@ const KusamaMainNetworks: NetworkConfigType[] = [
     { ...KUSAMA_CONFIG },
     { ...KARURA_CONFIG },
     { ...SHIDEN_CONFIG },
-    // { ...BIFROST_KUSAMA_CONFIG },
+    { ...BIFROST_KUSAMA_CONFIG },
 ];
 
 const TestNetworks: NetworkConfigType[] = [
     { ...WESTEND_CONFIG },
     { ...CONTEXTFREE_CONFIG },
     { ...SHIBUYA_CONFIG },
-    // { ...BIFROST_STAGE_TESTNET_CONFIG },
+    { ...BIFROST_STAGE_TESTNET_CONFIG },
 ];
 
 export default {

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-duplicates */
 import KusamaIcon from '../assets/images/kusama.png';
 import KaruraIcon from '../assets/images/karura.svg';
 import MoonriverIcon from '../assets/images/moonriver.svg';
@@ -9,8 +10,8 @@ import TestNetIcon from '../assets/images/tokenImg/testnet.svg';
 // Assests Token images
 import dusty from '../assets/images/tokenImg/dusty.png';
 import contextFree from '../assets/images/contextfree.png';
-// import polkadot from '../assets/images/tokenImg/polkadot.png';
-// import westendColour from '../assets/images/tokenImg/westend_colour.svg';
+import polkadot from '../assets/images/tokenImg/polkadot.png';
+import westendColour from '../assets/images/tokenImg/westend_colour.svg';
 import acala from '../assets/images/tokenImg/acala-circle.svg';
 import bitcountry from '../assets/images/tokenImg/bitcountry.svg';
 import rococoIcon from '../assets/images/rococo.svg';
@@ -116,12 +117,18 @@ import LKSM from '../assets/images/tokenImg/LKSM.png';
 import PHA from '../assets/images/tokenImg/PHA.png';
 import TAI from '../assets/images/tokenImg/TAI.png';
 import VSKSM from '../assets/images/tokenImg/VSKSM.png';
+import MOVR from '../assets/images/tokenImg/MOVR.svg';
+import RMRK from '../assets/images/tokenImg/RMRK.png';
+import ZLK from '../assets/images/tokenImg/ZLK.jpeg';
 
 import WND from '../assets/images/tokenImg/westend_colour.svg';
 import SBY from '../assets/images/tokenImg/shibuya.svg';
 import CTX from '../assets/images/tokenImg/contextfree.png';
 
 const allImages: { [key: string]: string } = {
+    MOVR,
+    ZLK,
+    RMRK,
     DOT,
     ACA,
     AUSD,
@@ -160,8 +167,8 @@ const allImages: { [key: string]: string } = {
     BifrostIcon,
     dusty,
     contextFree,
-    // polkadot,
-    // westendColour,
+    polkadot,
+    westendColour,
     acala,
     bitcountry,
     rococoIcon,

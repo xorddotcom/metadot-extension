@@ -2,9 +2,9 @@ import { encodeAddress } from '@polkadot/util-crypto';
 import { QueryForBatchObjectInterface, QueryObjectInterface } from './types';
 
 const getQueryForMultisig = (prefix: number, publicKey: string): string => {
-  const address = encodeAddress(publicKey, prefix);
+    const address = encodeAddress(publicKey, prefix);
 
-  return `{
+    return `{
   query {
   multisigAccount(id: "${address}") {
       members
@@ -22,9 +22,9 @@ const getQueryForMultisig = (prefix: number, publicKey: string): string => {
 };
 
 const getQueryForBatch = (prefix: number, publicKey: string): string => {
-  const address = encodeAddress(publicKey, prefix);
+    const address = encodeAddress(publicKey, prefix);
 
-  return `{
+    return `{
 query {
     account (id: "${address}") {
       transferTotalCount
@@ -62,9 +62,9 @@ query {
 };
 
 const getQueryForSwap = (prefix: number, publicKey: string): string => {
-  const address = encodeAddress(publicKey, prefix);
+    const address = encodeAddress(publicKey, prefix);
 
-  return `{
+    return `{
 query {
   account (id: "${address}") {
     swaps {
@@ -87,8 +87,8 @@ query {
 };
 
 const getQuery = (prefix: number, publicKey: string): string => {
-  const address = encodeAddress(publicKey, prefix);
-  const queryWithoutTxFees = `
+    const address = encodeAddress(publicKey, prefix);
+    const queryWithoutTxFees = `
      query {
     account(id: "${address}") {
         id
@@ -118,7 +118,7 @@ const getQuery = (prefix: number, publicKey: string): string => {
         }
     }
   }`;
-  const query = `
+    const query = `
      query {
     account(id: "${address}") {
         id
@@ -150,40 +150,40 @@ const getQuery = (prefix: number, publicKey: string): string => {
         }
     }
   }`;
-  return prefix === 0 || prefix === 2 ? queryWithoutTxFees : query;
+    return prefix === 0 || prefix === 2 ? queryWithoutTxFees : query;
 };
 export const queryData = (
-  queryEndpoint: string,
-  publicKey: string,
-  prefix: number,
+    queryEndpoint: string,
+    publicKey: string,
+    prefix: number
 ): QueryObjectInterface => {
-  const query = getQuery(prefix, publicKey);
-  return { query, endPoint: queryEndpoint };
+    const query = getQuery(prefix, publicKey);
+    return { query, endPoint: queryEndpoint };
 };
 
 export const queryDataForBatch = (
-  queryEndpoint: string,
-  publicKey: string,
-  prefix: number,
+    queryEndpoint: string,
+    publicKey: string,
+    prefix: number
 ): QueryObjectInterface => {
-  const query = getQueryForBatch(prefix, publicKey);
-  return { query, endPoint: queryEndpoint };
+    const query = getQueryForBatch(prefix, publicKey);
+    return { query, endPoint: queryEndpoint };
 };
 
 export const queryDataForSwap = (
-  queryEndpoint: string,
-  publicKey: string,
-  prefix: number,
+    queryEndpoint: string,
+    publicKey: string,
+    prefix: number
 ): QueryObjectInterface => {
-  const query = getQueryForSwap(prefix, publicKey);
-  return { query, endPoint: queryEndpoint };
+    const query = getQueryForSwap(prefix, publicKey);
+    return { query, endPoint: queryEndpoint };
 };
 
 export const queryDataForMultisig = (
-  queryEndpoint: string,
-  publicKey: string,
-  prefix: number,
+    queryEndpoint: string,
+    publicKey: string,
+    prefix: number
 ): QueryObjectInterface => {
-  const query = getQueryForMultisig(prefix, publicKey);
-  return { query, endPoint: queryEndpoint };
+    const query = getQueryForMultisig(prefix, publicKey);
+    return { query, endPoint: queryEndpoint };
 };
