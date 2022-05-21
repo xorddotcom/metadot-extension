@@ -396,9 +396,58 @@ select:-webkit-autofill:focus {
   border-color: var(--tooltipColor) transparent transparent transparent;
 }
 
+
+
 .main-card-tooltip:hover .main-card-tooltiptext {
   visibility: visible;
 }
+
+
+
+
+.multisig-details {
+  position: relative;
+  display: inline-block;
+  /* border: 1px solid #777777 !important; */
+}
+
+.multisig-details .multisig-details-text {
+  visibility: hidden;
+  background-color: var(--tooltipColor) !important;
+  box-shadow: 0px 18.5334px 37.0668px rgba(0, 0, 0, 0.2) !important;
+  border-radius: 9.71px !important;
+  color: #fafafa;
+  text-align: center;
+  border-radius: 6px;
+  padding: 6px 20px !important;
+  position: absolute;
+  z-index: 1;
+  bottom: 18px !important;
+  left: 50px !important;
+  font-size: 11px;
+  font-weight: 300;
+}
+
+.multisig-details .multisig-details-text::after {
+  content: ' ';
+  position: absolute;
+  /* bottom: 90%; At the top of the tooltip */
+  top:102%;
+  left: 20%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--tooltipColor) transparent transparent transparent;
+}
+
+
+
+.multisig-details:hover .multisig-details-text {
+  visibility: visible;
+}
+
+
+
 
 
 /* Main Card Tooltip */

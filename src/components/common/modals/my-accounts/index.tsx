@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 
 import { Modal } from '@mui/material';
@@ -28,6 +29,20 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
         Object.values(state.accounts)
     );
 
+    const { activeAccount } = useSelector((state: RootState) => state);
+    const thisAccount = useSelector(
+        (state: RootState) => state.accounts[activeAccount.publicKey]
+    );
+
+    let membersToShow;
+    if (thisAccount.multisig) {
+        membersToShow = allAccounts.filter((acc) =>
+            accountList?.includes(acc.publicKey)
+        );
+    }
+
+    console.log('membersToShow', { membersToShow });
+
     return (
         <Modal open={open} onClose={handleClose} className="Dark-bg-network">
             <Box
@@ -44,8 +59,26 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
                         </CloseIconDiv>
                     </TitleDiv>
                     <NetworkModalContent>
-                        {accountList
+                        {accountList && !thisAccount.multisig
                             ? accountList.map((account) => (
+                                  <OptionRow
+                                      className="abc"
+                                      onClick={() => onSelection(account)}
+                                  >
+                                      <HorizontalContentDiv>
+                                          <PlainIcon />
+                                          <OptionText
+                                              className={
+                                                  mainHeadingfontFamilyClass
+                                              }
+                                          >
+                                              {account.accountName}
+                                          </OptionText>
+                                      </HorizontalContentDiv>
+                                  </OptionRow>
+                              ))
+                            : membersToShow && thisAccount.multisig
+                            ? membersToShow.map((account) => (
                                   <OptionRow
                                       className="abc"
                                       onClick={() => onSelection(account)}

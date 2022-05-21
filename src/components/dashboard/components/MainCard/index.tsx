@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
@@ -28,6 +28,7 @@ import {
     MultisigFlag,
 } from '../../styledComponents';
 import services from '../../../../utils/services';
+import accounts from '../../../../utils/accounts';
 import MultisigDetail from '../../../common/modals/multisig-detail';
 
 const {
@@ -40,6 +41,7 @@ const {
 const { addressModifier, trimBalance, convertIntoUsd } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { addressMapper, getBalance } = services;
+const { getMultisigDetails } = accounts;
 
 const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
     props
@@ -54,12 +56,19 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
     const { apiInitializationStarts } = useSelector(
         (state: RootState) => state.api
     );
+
+    const thisAccount = useSelector(
+        (state: RootState) => state.accounts[address]
+    );
+
     const api = useSelector(
         (state: RootState) => state.api.api as unknown as ApiPromiseType
     );
-    const {
-        activeAccount: { isWalletConnected },
-    } = useSelector((state: RootState) => state);
+    const { activeAccount } = useSelector((state: RootState) => state);
+
+    const { isWalletConnected, queryEndpoint } = activeAccount;
+    const { multisigDetails } = thisAccount;
+
     const copyText = (): void => {
         setOpen(true);
         setTimeout(() => {
@@ -94,15 +103,11 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
         className: 'topTooltiptext',
     };
 
-    const thisAccount = useSelector(
-        (state: RootState) => state.accounts[address]
-    );
-
     const [openModal, setOpenModal] = React.useState(false);
 
     return (
         <MainPanel>
-            {thisAccount.multisig && (
+            {thisAccount?.multisig && (
                 <MultisigFlag>
                     <SubHeading
                         fontSize="10px"
@@ -161,7 +166,7 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
                     >
                         {accountName}
                     </AccountName>
-                    {thisAccount.multisig && (
+                    {thisAccount?.multisig && (
                         <img
                             src={dropdownIcon}
                             alt="dropdown"
@@ -231,18 +236,14 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
                     ${balanceInUsd === 0 ? 0 : balanceInUsd.toFixed(5)}
                 </PerUnitPrice>
             </VerticalContentDiv>
-            {thisAccount.multisig && (
+            {thisAccount?.multisig && (
                 <MultisigDetail
                     open={openModal}
                     handleClose={() => setOpenModal(false)}
-                    address="9000jsh...jshdufdnf"
-                    name="Multisig"
-                    threshold={2}
-                    singatories={[
-                        '9000jshd...jshdufdnf',
-                        '9000jshd...jshdufdnf',
-                        '9000jshd...jshdufdnf',
-                    ]}
+                    address={address}
+                    name={accountName}
+                    threshold={multisigDetails?.threshold || 2}
+                    singatories={multisigDetails?.members || []}
                 />
             )}
         </MainPanel>

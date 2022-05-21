@@ -16,6 +16,10 @@ export interface MultisigViewProps {
     onRemoveAccount(index: number): void;
     handleOpenModal(index: number): void;
     onSubmit(): void;
+    threshold?: number;
+    setThreshold(v1: number): void;
+    name: string;
+    setName(v1: string): void;
 }
 
 export interface AccountBoxProps {

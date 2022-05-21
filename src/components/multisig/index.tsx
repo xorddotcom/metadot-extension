@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import { AccountInterface } from './types';
 import MultisigView from './view';
 
@@ -7,8 +8,17 @@ import { RootState } from '../../redux/store';
 import { MyAccounts, WarningModal } from '../common/modals';
 import { Account } from '../../redux/types';
 import { isValidAddressPolkadotAddress } from '../../utils/helpers';
+import createMultiSigAcc from './createMultiSigAccount';
+import useDispatcher from '../../hooks/useDispatcher';
+import { addAccount } from '../../redux/slices/accounts';
+import { setAccountName, setPublicKey } from '../../redux/slices/activeAccount';
 
 function Multisig(): JSX.Element {
+    const generalDispatcher = useDispatcher();
+    const navigate = useNavigate();
+
+    const [threshold, setThreshold] = React.useState(2);
+    const [name, setName] = React.useState('');
     const allAccounts = useSelector((state: RootState) =>
         Object.values(state.accounts)
     );
@@ -75,7 +85,7 @@ function Multisig(): JSX.Element {
         setAccountList([...newState]);
         removeAllErrors();
     };
-    const addAccount = (): void => {
+    const updateAccount = (): void => {
         setAccountList([
             ...accountList,
             { address: '', err: false, errMessage: '' },
@@ -128,22 +138,70 @@ function Multisig(): JSX.Element {
 
     const onSubmit = (): void => {
         const allAddressValidated = validateAddresses();
+        const allSignatoriesAddresses = accountList.map((acc) => acc.address);
         if (allAddressValidated) {
             console.log('saare sahi hain');
+            const multisigAddress = createMultiSigAcc(
+                allSignatoriesAddresses,
+                threshold
+            );
+            console.log(
+                'allSignatoriesAddresses, threshold',
+                { allSignatoriesAddresses, threshold },
+                'multisigAddress ',
+                multisigAddress
+            );
+            const allAccFromRedux = allAccounts;
+
+            multisigAddress
+                .then((resAdd) => {
+                    console.log('resAdd', {
+                        address: resAdd,
+                        accountName: name,
+                        multisig: true,
+                    });
+
+                    const newMultisigAccount = {
+                        // [resAdd]: {
+                        publicKey: resAdd,
+                        accountName: name,
+                        multisig: true,
+                        parentAddress: null,
+                        multisigDetails: {
+                            members: allSignatoriesAddresses,
+                            threshold,
+                        },
+                        // },
+                    };
+
+                    generalDispatcher(() =>
+                        addAccount([newMultisigAccount, ...allAccounts])
+                    );
+
+                    generalDispatcher(() => setPublicKey(resAdd));
+                    generalDispatcher(() => setAccountName(name));
+
+                    navigate('/');
+                })
+                .catch((error) => console.log('error on multisig', error));
         }
     };
 
-    console.log(accountList);
+    console.log('here', { accountList, allAccounts });
 
     return (
         <>
             <MultisigView
                 accountList={accountList}
                 onChangeAddress={onChangeAddress}
-                addAccount={addAccount}
+                addAccount={updateAccount}
                 onRemoveAccount={onRemoveAccount}
                 handleOpenModal={handleOpenModal}
                 onSubmit={onSubmit}
+                threshold={threshold}
+                setThreshold={setThreshold}
+                name={name}
+                setName={setName}
             />
             <WarningModal {...deleteWarning} />
             <MyAccounts

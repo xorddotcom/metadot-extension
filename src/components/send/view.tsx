@@ -1,5 +1,6 @@
 import '@polkadot/api-augment';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import Header from '../common/header';
 import Button from '../common/button';
 import { MainContent, CenterContent, MultisigBoxDiv } from './style';
@@ -10,14 +11,32 @@ import FromInput from '../common/from-input';
 import ToInput from '../common/to-input';
 import AmountInput from '../common/amount-input';
 import EDC from './components/existential-deposit';
-import { SendViewProps } from './types';
+import { SendViewProps, SignatoryBoxProps } from './types';
 import { SubHeading, MainText } from '../common/text';
 import { MyAccounts } from '../common/modals';
+import { Input } from '../common';
+import { RootState } from '../../redux/store';
 
 const { dropdownIcon } = images;
 const { mainHeadingfontFamilyClass } = fonts;
-const SignatoryBox: React.FunctionComponent = () => {
+const SignatoryBox: React.FunctionComponent<SignatoryBoxProps> = (props) => {
+    const { signatoryToSign, setSignatoryToSign } = props;
     const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const handleSelection = (acc: any): void => {
+        console.log('chala');
+        setSignatoryToSign(acc.publicKey);
+        setIsModalOpen(false);
+        console.log('the end chala');
+    };
+
+    const { activeAccount } = useSelector((state: RootState) => state);
+    const thisAccount = useSelector(
+        (state: RootState) => state.accounts[activeAccount.publicKey]
+    );
+
+    const onChangeHandler = (e: string): void => {
+        setSignatoryToSign(e);
+    };
     return (
         <>
             <MainText className={mainHeadingfontFamilyClass}>
@@ -31,7 +50,12 @@ const SignatoryBox: React.FunctionComponent = () => {
                     lineHeight="0px"
                     ml="18px"
                 >
-                    Add Signatory
+                    {signatoryToSign
+                        ? `${signatoryToSign.slice(
+                              0,
+                              5
+                          )} ... ${signatoryToSign.slice(-5)}`
+                        : 'Add Signatory'}
                 </SubHeading>
                 <img
                     src={dropdownIcon}
@@ -44,10 +68,24 @@ const SignatoryBox: React.FunctionComponent = () => {
                     aria-hidden="true"
                 />
             </MultisigBoxDiv>
+
+            {/* <Input
+                onChange={(e) => setSignatoryToSign(e)}
+                value={signatoryToSign}
+                id="name"
+                placeholder="Signatory Address"
+                rightIconDropDown
+                topPosition="30px"
+                rightPosition="20px"
+                rightIconDropDownHandler={() => setIsModalOpen(true)}
+                // onClick={() => setIsModalOpen(true)}
+            /> */}
+
             <MyAccounts
                 open={isModalOpen}
+                accountList={thisAccount?.multisigDetails?.members || []}
                 handleClose={() => setIsModalOpen(false)}
-                onSelection={() => console.log('a')}
+                onSelection={handleSelection}
                 style={{
                     position: 'relative',
                     width: '300px',
@@ -71,14 +109,20 @@ const SendView: React.FunctionComponent<SendViewProps> = (props) => {
         confirmSend,
         fromInput,
         multisig,
+        signatoryToSign,
+        setSignatoryToSign,
     } = props;
     console.log(multisig, 'is it multisig');
+    const signatoryBox = {
+        signatoryToSign,
+        setSignatoryToSign,
+    };
     return (
         <>
             <FromInput {...fromInput} />
             <MainContent>
                 <ToInput {...toInput} />
-                {multisig && <SignatoryBox />}
+                {multisig && <SignatoryBox {...signatoryBox} />}
                 <AmountInput {...amountInput} />
 
                 <EDC {...ED} />

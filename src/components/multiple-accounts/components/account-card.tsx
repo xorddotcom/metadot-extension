@@ -68,7 +68,7 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
             marginTop={marginTop || '10px'}
             onClick={() => activateAccount(publicKey, accountName)}
         >
-            {thisAccount.multisig && (
+            {thisAccount?.multisig && (
                 <MultisigFlag>
                     <SubHeading
                         fontSize="10px"

@@ -73,7 +73,7 @@ const InputBox: React.FunctionComponent<InputBoxProps> = ({
                 onChange={(e) => onChangeAddress(index, e)}
                 value={address}
                 id="name"
-                placeholder="Add Address Or Copy Address"
+                placeholder="Enter Address"
                 rightIconDropDown
                 topPosition="30px"
                 rightPosition="20px"
@@ -103,10 +103,14 @@ const MultisigView: React.FunctionComponent<MultisigViewProps> = ({
     handleOpenModal,
     onRemoveAccount,
     onSubmit,
+    threshold,
+    setThreshold,
+    name,
+    setName,
 }) => {
     const navigate = useNavigate();
-    const [name, setName] = React.useState('');
-    const [threshold, setThreshold] = React.useState(0);
+    // const [name, setName] = React.useState('');
+    // const [threshold, setThreshold] = React.useState();
     const mainText = {
         className: mainHeadingfontFamilyClass,
         ls: '3.2px',
