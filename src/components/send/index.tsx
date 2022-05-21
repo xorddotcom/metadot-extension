@@ -95,7 +95,9 @@ const Send: React.FunctionComponent = () => {
     const [passwordSaved, setPasswordSaved] = useState(false);
     const [chainTokens, setChainTokens] = useState<string[]>([]);
 
-    const { tokenName, isNative, decimal, balance, dollarAmount } = location;
+    const { tokenName, isNative, decimal, dollarAmount } = location;
+    const [balance, setBalance] = useState(location.balance);
+
     const { authScreenModal } = modalHandling;
     const api = currReduxState.api.api as unknown as ApiPromiseType;
 
@@ -112,6 +114,18 @@ const Send: React.FunctionComponent = () => {
         mainText: 'Transaction Successful!',
         subText: '',
     });
+    const tokenToSend = balances.filter((bal) => bal.name === tokenName);
+
+    useEffect(() => {
+        console.log('Account changed');
+        balances.forEach((bal) => {
+            if (bal.name === tokenName) {
+                console.log('new balance', bal.balance);
+                setBalance(bal.balance);
+                // setBalanaceAfterAccountSwitch(bal.balance);
+            }
+        });
+    }, [publicKey, tokenToSend[0]?.balance]);
 
     useEffect(() => {
         console.log('location', location);
@@ -418,7 +432,7 @@ const Send: React.FunctionComponent = () => {
             setLoading1(true);
 
             if (isNative) {
-                if (balance < Number(amount) + txFee) {
+                if (balance < Number(amount) + Number(txFee)) {
                     setInsufficientBal(true);
                     throw new Error('Insufficient balance');
                 } else {
