@@ -289,7 +289,6 @@ const AssetsAndTransactions: React.FunctionComponent<
         dispatch(addTransaction({ transactions, publicKey }));
     };
 
-
     const fetchTransactions = async (): Promise<any> => {
         const { query, endPoint } = queryData(queryEndpoint, publicKey, prefix);
         fetch(endPoint, {
@@ -340,13 +339,11 @@ const AssetsAndTransactions: React.FunctionComponent<
             .catch((e) => console.log('fetching tx records...', e));
     };
 
-
     useEffect(() => {
         if (publicKey) {
             fetchTransactions();
             fetchBatchRecords();
             fetchSwapRecords();
-
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [rpcUrl, publicKey]);

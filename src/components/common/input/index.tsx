@@ -147,6 +147,8 @@ const Input: React.FunctionComponent<Props> = ({
                 <TokenBox
                     tokenDropDown={tokenDropDown === true}
                     tokenBoxColor={tokenBoxColor}
+                    style={{ cursor: 'pointer' }}
+                    onClick={tokenDropDownHandler && tokenDropDownHandler}
                 >
                     <img
                         src={tokenImage}
@@ -158,7 +160,6 @@ const Input: React.FunctionComponent<Props> = ({
                     </TokenName>
                     {tokenDropDown && tokenDropDownHandler && (
                         <img
-                            onClick={tokenDropDownHandler}
                             style={{ width: '8px', margin: '0px 8px' }}
                             src={dropdownIcon}
                             alt="dropdown"

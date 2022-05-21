@@ -55,8 +55,10 @@ const SelectToken: React.FunctionComponent<SelectTokenProps> = (props) => {
 
                     <TokenModalContent>
                         {tokenList
-                            .filter((token: Token) =>
-                                token.name.includes(search)
+                            .filter(
+                                (token: Token) =>
+                                    token.name.includes(search) ||
+                                    token.name.includes(search.toUpperCase())
                             )
                             .map((token: Token) => {
                                 return (

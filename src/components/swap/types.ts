@@ -19,6 +19,7 @@ export interface SwapViewProps {
     swapParams: any;
     handleCurrencySwitch(): void;
     handleAmountChange(value: string): void;
+    handleMaxClicked(): void;
     swapClickHandler(): void;
     insufficientBalance: boolean;
     isLoading: boolean;
