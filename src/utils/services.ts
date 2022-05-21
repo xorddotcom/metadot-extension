@@ -4,13 +4,15 @@ import { WsProvider, ApiPromise, Keyring } from '@polkadot/api';
 
 import '@polkadot/api-augment';
 
-import { encodeAddress } from '@polkadot/util-crypto';
 import type { KeyringJson } from '@polkadot/ui-keyring/types';
 import {
     OverrideBundleDefinition,
     OverrideBundleType,
 } from '@polkadot/types/types';
+import { hexToU8a, isHex } from '@polkadot/util';
+import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 import constants from '../constants/onchain';
+
 import { RecepientInterface } from './types';
 import images from './images';
 
@@ -322,6 +324,18 @@ const getTxTransactionFee = async (
 const addressMapper = (address: string, prefix: number): string =>
     encodeAddress(address, prefix);
 
+const isValidAddressPolkadotAddress = (address: string): boolean => {
+    try {
+        encodeAddress(
+            isHex(address) ? hexToU8a(address) : decodeAddress(address)
+        );
+        return true;
+    } catch (err) {
+        console.log('catch', err);
+        return false;
+    }
+};
+
 const getBalancesForBatch = async (
     api: ApiPromiseType,
     recepient: RecepientInterface[]
@@ -371,4 +385,5 @@ export default {
     convertTransactionFee,
     fetchBalanceWithMultipleTokens,
     getBalancesForBatch,
+    isValidAddressPolkadotAddress,
 };

@@ -46,6 +46,22 @@ const FromInput: React.FunctionComponent<FromInputProps> = (props) => {
         fs: '15px',
         mt: '-4px',
     };
+
+    const myAccounts = {
+        open: isModalOpen,
+        handleClose: () => setIsModalOpen(false),
+        onSelection: onAccountSelection,
+        style: {
+            position: 'relative',
+            width: '300px',
+            background: '#141414',
+            pb: 3,
+            overflowY: 'scroll',
+            overflowX: 'hidden',
+            marginTop: '144px',
+        },
+    };
+
     return (
         <VerticalContentDiv>
             <MainText className={mainHeadingfontFamilyClass}>From</MainText>
@@ -82,20 +98,7 @@ const FromInput: React.FunctionComponent<FromInputProps> = (props) => {
                     ''
                 )}
             </FromAccount>
-            <MyAccounts
-                open={isModalOpen}
-                handleClose={() => setIsModalOpen(false)}
-                onSelection={onAccountSelection}
-                style={{
-                    position: 'relative',
-                    width: '300px',
-                    background: '#141414',
-                    pb: 3,
-                    overflowY: 'scroll',
-                    overflowX: 'hidden',
-                    marginTop: '144px',
-                }}
-            />
+            <MyAccounts {...myAccounts} />
         </VerticalContentDiv>
     );
 };
