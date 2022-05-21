@@ -24,6 +24,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     amount,
     tokenName,
     balance,
+    dollarAmount,
 }) => {
     const { balanceInUsd, balances, publicKey, tokenImage } = useSelector(
         (state: RootState) => state.activeAccount
@@ -38,7 +39,25 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                 setBalanaceAfterAccountSwitch(bal.balance);
             }
         });
-    }, [publicKey, tokenToSend[0]?.balance]);
+    }, [publicKey, tokenToSend[0].balance]);
+
+    const [tokenImg, setTokenImg] = useState(
+        `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenName}.png`
+    );
+    useEffect(() => {
+        console.log('amount input', dollarAmount);
+        const url = `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenName}.png`;
+        const request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.send();
+        request.onload = () => {
+            if (request.status === 200) {
+                setTokenImg(url);
+            } else {
+                setTokenImg(tokenImage);
+            }
+        };
+    }, []);
 
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
@@ -73,7 +92,6 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                 <MainText className={mainHeadingfontFamilyClass}>
                     Amount
                 </MainText>
-                {/* <Button {...btn} /> */}
             </FlexBetween>
             <Input blockInvalidChar {...styledInput} />
             {insufficientBal && (
@@ -82,7 +100,7 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                     className={subHeadingfontFamilyClass}
                     style={{ marginBottom: '16px' }}
                 >
-                    balance is too low to pay network fees!
+                    Insufficient balance !
                 </WarningText>
             )}
 

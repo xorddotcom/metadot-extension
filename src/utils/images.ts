@@ -1,5 +1,4 @@
-/* eslint-disable import/no-duplicates */
-import KusamaIcon from '../assets/images/kusama.svg';
+import KusamaIcon from '../assets/images/kusama.png';
 import KaruraIcon from '../assets/images/karura.svg';
 import MoonriverIcon from '../assets/images/moonriver.svg';
 import ShidenIcon from '../assets/images/shiden.svg';
@@ -10,8 +9,8 @@ import TestNetIcon from '../assets/images/tokenImg/testnet.svg';
 // Assests Token images
 import dusty from '../assets/images/tokenImg/dusty.png';
 import contextFree from '../assets/images/contextfree.png';
-import polkadot from '../assets/images/tokenImg/polkadot.png';
-import westendColour from '../assets/images/tokenImg/westend_colour.svg';
+// import polkadot from '../assets/images/tokenImg/polkadot.png';
+// import westendColour from '../assets/images/tokenImg/westend_colour.svg';
 import acala from '../assets/images/tokenImg/acala-circle.svg';
 import bitcountry from '../assets/images/tokenImg/bitcountry.svg';
 import rococoIcon from '../assets/images/rococo.svg';
@@ -160,8 +159,8 @@ const allImages: { [key: string]: string } = {
     BifrostIcon,
     dusty,
     contextFree,
-    polkadot,
-    westendColour,
+    // polkadot,
+    // westendColour,
     acala,
     bitcountry,
     rococoIcon,

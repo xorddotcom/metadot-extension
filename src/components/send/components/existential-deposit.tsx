@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../redux/store';
+import React from 'react';
 import { fonts, exponentConversion } from '../../../utils';
 import { Input } from '../../common';
 import { MainText } from '../../common/text';
@@ -30,14 +28,7 @@ const ExistensialDeposit: React.FunctionComponent<
     setSwitchChecked,
     setSwitchCheckedSecond,
 }) => {
-    // const { tokenName } = useSelector(
-    //     (state: RootState) => state.activeAccount
-    // );
-
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-
-    // const [switchChecked, setSwitchChecked] = useState(false);
-    // const [switchCheckedSecond, setSwitchCheckedSecond] = useState(false);
 
     const handleChangeFirst = (e: any): boolean => {
         setInsufficientBal(false);

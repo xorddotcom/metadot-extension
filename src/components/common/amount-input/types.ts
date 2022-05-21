@@ -12,6 +12,7 @@ export interface AmountInputInterface {
     amount: any;
     tokenName: string;
     balance: number;
+    dollarAmount?: string;
 }
 
 export interface CalculatedAmountInterface {

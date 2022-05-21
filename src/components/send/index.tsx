@@ -12,6 +12,7 @@ import { images } from '../../utils';
 import { RootState } from '../../redux/store';
 import accounts from '../../utils/accounts';
 import services from '../../utils/services';
+import sendScreenService from '../../utils/sendScreenService';
 import { Wrapper, HorizontalContentDiv } from '../common/wrapper';
 import { WarningModal, AuthModal } from '../common/modals';
 import {
@@ -24,8 +25,6 @@ import { DASHBOARD, BATCH_SEND } from '../../constants';
 import useDispatcher from '../../hooks/useDispatcher';
 import useResponseModal from '../../hooks/useResponseModal';
 import SendView from './view';
-import { getExistentialDepositConfig } from '../../utils/existentialDeposit';
-
 import { SubHeading } from '../common/text';
 import { Header } from '../common';
 
@@ -33,13 +32,21 @@ const { UnsuccessCheckIcon, SuccessCheckPngIcon, ToggleOff, ToggleOn } = images;
 
 const { signTransaction, isPasswordSaved } = accounts;
 
+const { fetchExistentialDeposit, signTransactionFunction, setToggleButtons } =
+    sendScreenService;
+
 const errorMessages = {
     invalidAddress: 'Invalid address',
     enterAddress: 'Enter address',
     enterAmount: 'Enter amount',
 };
 
-const { getBalance, getTransactionFee, addressMapper } = services;
+const {
+    getBalance,
+    getTransactionFee,
+    addressMapper,
+    isValidAddressPolkadotAddress,
+} = services;
 
 const Send: React.FunctionComponent = () => {
     const generalDispatcher = useDispatcher();
@@ -50,8 +57,6 @@ const Send: React.FunctionComponent = () => {
         (state: RootState) => state
     );
 
-    // const { publicKey, balance, tokenName } = activeAccount;
-
     const { publicKey, balances } = activeAccount;
 
     const location = useLocation().state as {
@@ -59,6 +64,7 @@ const Send: React.FunctionComponent = () => {
         balance: number;
         isNative: boolean;
         decimal: number;
+        dollarAmount: string;
         // tokenImage: any;
     };
 
@@ -70,7 +76,7 @@ const Send: React.FunctionComponent = () => {
     const [toAddressError, setToAddressError] = useState(false);
     const [isCorrect, setIsCorrect] = useState(true);
     const [transactionFee, setTransactionFee] = useState<number>(0);
-    const [amount, setAmount] = useState<any>('');
+    const [amount, setAmount] = useState<any>(0);
     const [receiverAddress, setReceiverAddress] = useState('');
     const [isWarningModalOpen, setIsWarningModalOpen] = useState(false);
     const [subTextForWarningModal, setSubTextForWarningModal] = useState('abc');
@@ -87,8 +93,11 @@ const Send: React.FunctionComponent = () => {
     });
     const [savePassword, setSavePassword] = useState(false);
     const [passwordSaved, setPasswordSaved] = useState(false);
+    const [chainTokens, setChainTokens] = useState<string[]>([]);
 
-    const { tokenName, isNative, decimal } = location;
+    const { tokenName, isNative, decimal, dollarAmount } = location;
+    const [balance, setBalance] = useState(location.balance);
+
     const { authScreenModal } = modalHandling;
     const api = currReduxState.api.api as unknown as ApiPromiseType;
 
@@ -105,9 +114,21 @@ const Send: React.FunctionComponent = () => {
         mainText: 'Transaction Successful!',
         subText: '',
     });
+    const tokenToSend = balances.filter((bal) => bal.name === tokenName);
 
-    // Getting estimated Transaction fee
     useEffect(() => {
+        console.log('Account changed');
+        balances.forEach((bal) => {
+            if (bal.name === tokenName) {
+                console.log('new balance', bal.balance);
+                setBalance(bal.balance);
+                // setBalanaceAfterAccountSwitch(bal.balance);
+            }
+        });
+    }, [publicKey, tokenToSend[0]?.balance]);
+
+    useEffect(() => {
+        console.log('location', location);
         async function get(): Promise<void> {
             const estimatedTxFee = await getTransactionFee(
                 api,
@@ -123,29 +144,9 @@ const Send: React.FunctionComponent = () => {
         get();
     }, []);
 
-    const fetchExistentialDeposit = (): number => {
-        const decimalPlaces = api?.registry?.chainDecimals[0];
-        let ED: number;
-        if (!isNative) {
-            ED = Number(
-                getExistentialDepositConfig(
-                    api.runtimeChain.toString(),
-                    tokenName.toUpperCase()
-                )
-            );
-        } else {
-            ED =
-                Number(api?.consts?.balances?.existentialDeposit.toString()) /
-                10 ** decimalPlaces;
-        }
-        return ED;
-    };
     useEffect(() => {
-        async function getED(): Promise<void> {
-            const res = fetchExistentialDeposit();
-            setExistentialDeposit(res);
-        }
-        getED();
+        const res = fetchExistentialDeposit(api, isNative, tokenName);
+        setExistentialDeposit(res);
     }, []);
 
     useEffect(() => {
@@ -156,44 +157,40 @@ const Send: React.FunctionComponent = () => {
     }, []);
 
     useEffect(() => {
-        if (location.balance - transactionFee > existentialDeposit) {
-            console.log('');
-        } else if (
-            location.balance.toString() === existentialDeposit.toString()
-        ) {
-            // setDisableToggleButtons({
-            //     firstToggle: true,
-            //     secondToggle: true,
-            // });
-            setDisableToggleButtons((prevState) => ({
-                ...prevState,
-                firstToggle: true,
-            }));
-        } else if (location.balance < transactionFee) {
-            setDisableToggleButtons({
-                firstToggle: true,
-                secondToggle: true,
-            });
-        }
-    }, [transactionFee, existentialDeposit]);
+        console.log('active account working', activeAccount);
+        setToggleButtons(
+            balance,
+            balances[0].balance,
+            transactionFee,
+            existentialDeposit,
+            setDisableToggleButtons,
+            isNative
+        );
+    }, [transactionFee, existentialDeposit, publicKey]);
+
+    useEffect(() => {
+        const tokens = api?.registry?.chainTokens;
+        console.log('tokens here', tokens);
+        setChainTokens(tokens);
+    }, []);
 
     const validateTxErrors = async (txFee: number): Promise<void> => {
         try {
-            console.log('validateTxErrors', txFee);
-            const tokens = await api?.registry?.chainTokens;
-
             const recipientBalance: any = await getBalance(
                 api,
                 receiverAddress
             );
-            const filterBalance = recipientBalance.filter((e: any) => {
-                return e.name === tokenName;
-            });
-            const senderBalance = location.balance;
+            const recipientBalanceForSelectedToken = recipientBalance.filter(
+                (e: any) => {
+                    return e.name === tokenName;
+                }
+            );
+            const senderBalance = balance;
 
-            const ED = existentialDeposit;
-
-            if (Number(ED) > Number(filterBalance[0].balance + amount)) {
+            if (
+                existentialDeposit >
+                Number(recipientBalanceForSelectedToken[0].balance + amount)
+            ) {
                 // Show warning modal
                 setSubTextForWarningModal(
                     `The receiver have insufficient balance
@@ -201,208 +198,152 @@ const Send: React.FunctionComponent = () => {
                  Do you still want to confirm?`
                 );
                 setIsWarningModalOpen(true);
-                // return [false, txFee];
             }
             if (
-                Number(senderBalance) -
-                    Number(amount) -
-                    Number(isNative ? txFee : 0) <
-                Number(ED)
+                senderBalance - Number(amount) - (isNative ? txFee : 0) <
+                existentialDeposit
             ) {
                 // if (tokens.length > 1) {
                 setSubTextForWarningModal(
                     `The ${
-                        tokens.length > 1 ? 'sending token' : 'sender account'
+                        chainTokens.length > 1
+                            ? 'sending token'
+                            : 'sender account'
                     } might get reaped`
                 );
-                // }
-                //  else {
-                //     setSubTextForWarningModal(
-                //         `The sender account might get reaped`
-                //     );
-                // }
                 setIsWarningModalOpen(true);
-                // return [false, txFee];
             }
-            // return [true, txFee];
         } catch (err) {
             console.log('In validate tx errors', err);
         }
     };
 
-    const signTransactionFunction = async (
-        tx: any,
-        address: string,
-        password: string
-    ): Promise<any> => {
-        const nonce = await api?.rpc?.system?.accountNextIndex(address);
-        const signer = api?.createType('SignerPayload', {
-            method: tx,
-            nonce,
-            genesisHash: api?.genesisHash,
-            blockHash: api?.genesisHash,
-            runtimeVersion: api?.runtimeVersion,
-            version: api?.extrinsicVersion,
-        });
-        const txPayload: any = api?.createType(
-            'ExtrinsicPayload',
-            signer.toPayload(),
-            { version: api?.extrinsicVersion }
-        );
-        const txU8a = txPayload.toU8a(true);
-        let txHex;
-        if (txU8a.length > 256) {
-            txHex = api.registry.hash(txU8a);
-        } else {
-            txHex = u8aToHex(txU8a);
-        }
-        let signature;
-        try {
-            signature = await signTransaction(
-                address,
-                password,
-                txHex.toString(),
-                'substrate',
-                savePassword
-            );
-        } catch (err) {
-            setLoading2(false);
-            throw new Error('Invalid Password!');
-        }
-        tx.addSignature(address, signature, txPayload);
-        return tx;
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    const dispatchAndRedirectAfterTransaction = (
+        callback: () => void
+    ): void => {
+        setLoading2(false);
+        generalDispatcher(() => setConfirmSendModal(false));
+        // openResponseModalForTxFailed();
+        callback();
+        setTimeout(() => {
+            generalDispatcher(() => setIsResponseModalOpen(false));
+        }, 4000);
+        navigate(DASHBOARD);
     };
 
+    const doTransactionCallBackForSuccess = (): void => {
+        dispatchAndRedirectAfterTransaction(openResponseModalForTxSuccess);
+    };
+
+    const doTransactionCallBackForFail = (
+        address: string,
+        signedTx: any
+    ): void => {
+        const transactionRecord = [
+            {
+                accountFrom: addressMapper(
+                    address,
+                    api.registry.chainSS58 as number
+                ),
+                accountTo: [
+                    addressMapper(
+                        receiverAddress,
+                        api.registry.chainSS58 as number
+                    ),
+                ],
+                amount: [amount],
+                hash: signedTx.hash.toString(),
+                operation: 'Send',
+                status: 'Failed',
+                chainName: api.runtimeChain.toString(),
+                tokenName: [tokenName],
+                transactionFee: '0',
+                timestamp: new Date().toString(),
+            },
+        ];
+
+        console.log('transaction record', transactionRecord);
+        console.log('public key', address);
+        generalDispatcher(() =>
+            addTransaction({
+                transactions: transactionRecord,
+                publicKey: address,
+            })
+        );
+        dispatchAndRedirectAfterTransaction(openResponseModalForTxFailed);
+    };
+
+    const doTransactionCallBackForCatch = (): boolean => {
+        dispatchAndRedirectAfterTransaction(openResponseModalForTxFailed);
+        return false;
+    };
+
+    const transactionCallBack = (
+        events: any,
+        address: string,
+        signedTx: any,
+        status: any
+    ): void => {
+        const txResSuccess = events.filter(({ event }: EventRecord) =>
+            api?.events?.system?.ExtrinsicSuccess.is(event)
+        );
+        const txResFail = events.filter(({ event }: EventRecord) =>
+            api?.events?.system?.ExtrinsicFailed.is(event)
+        );
+        if (status.isInBlock) {
+            if (txResFail.length >= 1) {
+                doTransactionCallBackForFail(address, signedTx);
+            }
+            if (txResSuccess.length >= 1) {
+                doTransactionCallBackForSuccess();
+            }
+        }
+    };
     const doTransaction = async (
         address = '',
         password = ''
     ): Promise<boolean> => {
-        console.log('handle transaction working');
         try {
             setLoading2(true);
-
             const amountSending = amount * 10 ** decimal;
-            console.log('Amount sending', amountSending);
-            const txSingle = api?.tx?.balances?.transfer(
-                receiverAddress as string,
-                BigInt(amountSending)
-            );
 
-            const txMultiple = api?.tx?.currencies?.transfer(
-                receiverAddress as string,
-                {
-                    Token: tokenName,
-                },
-                BigInt(amountSending)
-            );
-
-            const tx = isNative ? txSingle : txMultiple;
+            let tx;
+            if (isNative) {
+                tx = await api?.tx?.balances?.transfer(
+                    receiverAddress as string,
+                    BigInt(amountSending)
+                );
+            } else {
+                tx = await api?.tx?.currencies?.transfer(
+                    receiverAddress as string,
+                    {
+                        Token: tokenName,
+                    },
+                    BigInt(amountSending)
+                );
+            }
 
             const signedTx = await signTransactionFunction(
                 tx,
                 address,
-                password
+                password,
+                api,
+                savePassword,
+                setLoading2
             );
 
             await signedTx
                 .send(({ status, events }: any) => {
-                    const txResSuccess = events.filter(
-                        ({ event }: EventRecord) =>
-                            api?.events?.system?.ExtrinsicSuccess.is(event)
-                    );
-                    const txResFail = events.filter(({ event }: EventRecord) =>
-                        api?.events?.system?.ExtrinsicFailed.is(event)
-                    );
-                    if (status.isInBlock) {
-                        if (txResFail.length >= 1) {
-                            const transactionRecord = [
-                                {
-                                    accountFrom: addressMapper(
-                                        address,
-                                        api.registry.chainSS58 as number
-                                    ),
-                                    accountTo: [
-                                        addressMapper(
-                                            receiverAddress,
-                                            api.registry.chainSS58 as number
-                                        ),
-                                    ],
-                                    amount: [amount],
-                                    hash: signedTx.hash.toString(),
-                                    operation: 'Send',
-                                    status: 'Failed',
-                                    chainName: api.runtimeChain.toString(),
-                                    tokenName: [tokenName],
-                                    transactionFee: '0',
-                                    timestamp: new Date().toString(),
-                                },
-                            ];
-
-                            generalDispatcher(() =>
-                                addTransaction({
-                                    transactions: transactionRecord,
-                                    publicKey: address,
-                                })
-                            );
-                            setLoading2(false);
-                            generalDispatcher(() => setConfirmSendModal(false));
-                            openResponseModalForTxFailed();
-                            setTimeout(() => {
-                                generalDispatcher(() =>
-                                    setIsResponseModalOpen(false)
-                                );
-                            }, 4000);
-                            // navigate to dashboard on success
-                            navigate(DASHBOARD);
-                        }
-                        if (txResSuccess.length >= 1) {
-                            setLoading2(false);
-                            generalDispatcher(() => setConfirmSendModal(false));
-                            openResponseModalForTxSuccess();
-                            setTimeout(() => {
-                                generalDispatcher(() =>
-                                    setIsResponseModalOpen(false)
-                                );
-                            }, 2000);
-                            navigate(DASHBOARD);
-                        }
-                    }
+                    transactionCallBack(events, address, signedTx, status);
                 })
                 .catch(() => {
-                    setLoading2(false);
-                    generalDispatcher(() => setConfirmSendModal(false));
-                    openResponseModalForTxFailed();
-                    setTimeout(() => {
-                        generalDispatcher(() => setIsResponseModalOpen(false));
-                    }, 4000);
-                    // navigate to dashboard on success
-                    navigate(DASHBOARD);
-                    return false;
+                    doTransactionCallBackForCatch();
                 });
             return true;
         } catch (err) {
-            console.log('do transaction error', err);
             return false;
         }
-    };
-
-    const isValidAddressPolkadotAddress = (address: string): boolean => {
-        try {
-            encodeAddress(
-                isHex(address) ? hexToU8a(address) : decodeAddress(address)
-            );
-            setIsCorrect(true);
-            return true;
-        } catch (err) {
-            setIsCorrect(false);
-            return false;
-        }
-    };
-
-    const validateInputValues = (address: string): boolean => {
-        if (!isValidAddressPolkadotAddress(address)) return false;
-
-        return true;
     };
 
     const SendTx = (txFee: number): void => {
@@ -437,68 +378,31 @@ const Send: React.FunctionComponent = () => {
             const signedTx = await signTransactionFunction(
                 tx,
                 address,
-                password
+                password,
+                api,
+                savePassword,
+                setLoading2
             );
 
             await signedTx
                 .send(({ status, events }: any) => {
-                    const txResSuccess = events.filter(
-                        ({ event }: EventRecord) =>
-                            api?.events?.system?.ExtrinsicSuccess.is(event)
-                    );
-                    const txResFail = events.filter(({ event }: EventRecord) =>
-                        api?.events?.system?.ExtrinsicFailed.is(event)
-                    );
-                    if (status.isInBlock) {
-                        if (txResFail.length >= 1) {
-                            setLoading2(false);
-                            generalDispatcher(() => setConfirmSendModal(false));
-                            openResponseModalForTxFailed();
-                            setTimeout(() => {
-                                generalDispatcher(() =>
-                                    setIsResponseModalOpen(false)
-                                );
-                            }, 4000);
-                            // navigate to dashboard on success
-                            navigate(DASHBOARD);
-                        }
-                        if (txResSuccess.length >= 1) {
-                            setLoading2(false);
-                            generalDispatcher(() => setConfirmSendModal(false));
-                            openResponseModalForTxSuccess();
-                            setTimeout(() => {
-                                generalDispatcher(() =>
-                                    setIsResponseModalOpen(false)
-                                );
-                            }, 2000);
-                            navigate(DASHBOARD);
-                        }
-                    }
+                    transactionCallBack(events, address, signedTx, events);
                 })
                 .catch(() => {
-                    setLoading2(false);
-                    generalDispatcher(() => setConfirmSendModal(false));
-                    openResponseModalForTxFailed();
-                    setTimeout(() => {
-                        generalDispatcher(() => setIsResponseModalOpen(false));
-                    }, 4000);
-                    // navigate to dashboard on success
-                    navigate(DASHBOARD);
-                    return false;
+                    doTransactionCallBackForCatch();
                 });
             return true;
         } catch (err) {
-            console.log(
-                'Do transaction transfer all catch ========>>>>>>>>>',
-                err
-            );
             return false;
         }
     };
     const handleSubmit = async (): Promise<void | boolean> => {
-        console.log('handle submit');
         try {
-            const txFee = await getTransactionFee(
+            if (!isValidAddressPolkadotAddress(receiverAddress)) {
+                setIsCorrect(false);
+                throw new Error('An error occurred');
+            }
+            const txFee: number = await getTransactionFee(
                 api,
                 publicKey,
                 receiverAddress,
@@ -506,16 +410,15 @@ const Send: React.FunctionComponent = () => {
                 balances[0]?.name
             );
             if (transferAll.transferAll) {
-                if (!isNative && txFee > Number(balances[0]?.balance)) {
+                if (!isNative && txFee > balances[0]?.balance) {
                     setInsufficientTxFee(true);
                     throw new Error('Tx fee');
                 }
                 validateTxErrors(txFee);
                 if (transferAll.transferAll && !transferAll.keepAlive) {
-                    console.log('reap error!!!!!!');
                     setSubTextForWarningModal(
                         `The ${
-                            api.registry.chainTokens.length > 1
+                            chainTokens.length > 1
                                 ? 'sending token'
                                 : 'sender account'
                         } might get reaped`
@@ -527,46 +430,29 @@ const Send: React.FunctionComponent = () => {
                 return true;
             }
             setLoading1(true);
-            if (!validateInputValues(receiverAddress)) {
-                throw new Error('An error occurred');
-            }
 
             if (isNative) {
-                if (location.balance < Number(amount) + Number(txFee)) {
+                if (balance < Number(amount) + Number(txFee)) {
                     setInsufficientBal(true);
                     throw new Error('Insufficient balance');
                 } else {
                     generalDispatcher(() => setConfirmSendModal(true));
                 }
-            } else if (txFee > Number(balances[0]?.balance)) {
+            } else if (txFee > balances[0]?.balance) {
                 setInsufficientTxFee(true);
                 throw new Error('Not enough funds to pay gas fee');
-            } else if (amount > location.balance) {
+            } else if (amount > balance) {
                 setInsufficientBal(true);
                 throw new Error('Insufficient balance');
             } else {
                 generalDispatcher(() => setConfirmSendModal(true));
             }
             const isTxValid = await validateTxErrors(txFee);
-            // if (isTxValid[0]) {
 
             setTransactionFee(txFee);
             setLoading1(false);
-            // SendTx(isTxValid[1]);
-
-            // checking if balance is enough
-            // to send the amount with network fee
-            // if (balance < Number(amount) + Number(txFee)) {
-            //     setInsufficientBal(true);
-            // } else {
-            //     generalDispatcher(() => setConfirmSendModal(true));
-            // }
-            // } else {
-            //     setLoading1(false);
-            // }
             return true;
         } catch (err) {
-            console.log('in catch handle submit', err);
             setLoading1(false);
             return false;
         }
@@ -574,21 +460,68 @@ const Send: React.FunctionComponent = () => {
     const setAmountOnToggle = (toggleOn: boolean, keepAlive: boolean): void => {
         setInsufficientTxFee(false);
         setInsufficientBal(false);
-        const val = fetchExistentialDeposit();
+        const val = fetchExistentialDeposit(api, isNative, tokenName);
         if (toggleOn) {
-            const res = isNative
-                ? location.balance - transactionFee
-                : location.balance;
+            const res = isNative ? balance - transactionFee : balance;
             const data = keepAlive
-                ? (res - val).toFixed(4)
-                : Number(res).toFixed(4);
-            setAmount(Number(data) > 0 ? data : 0);
+                ? parseFloat((res - val).toFixed(4))
+                : parseFloat(res.toFixed(4));
+            setAmount(data > 0 ? data : 0);
             setIsInputEmpty(false);
         } else setAmount('');
     };
 
+    const handleBatchSwitch = (): void => {
+        navigate(BATCH_SEND, { state: location });
+    };
+
+    const resetToggles = (setAmountBool: boolean): void => {
+        setSwitchChecked(false);
+        setSwitchCheckedSecond(false);
+        setTransferAll({
+            transferAll: false,
+            keepAlive: false,
+        });
+        if (setAmountBool) setAmount('');
+    };
+
+    const amountInputOnChange = (e: string): boolean => {
+        resetToggles(false);
+        setInsufficientBal(false);
+        setInsufficientTxFee(false);
+        if (e[0] === '0' && e[1] === '0') {
+            return false;
+        }
+        if (e.length < 14) {
+            let decimalInStart = false;
+            if (e[0] === '.') {
+                // eslint-disable-next-line no-param-reassign
+                e = `0${e}`;
+                decimalInStart = true;
+            }
+            const reg = /^-?\d+\.?\d*$/;
+            const test = reg.test(e);
+
+            if (!test && e.length !== 0 && !decimalInStart) {
+                return false;
+            }
+            if (Number(e) + transactionFee >= balance) {
+                setInsufficientBal(true);
+            }
+            setInsufficientBal(false);
+            if (e.length === 0) {
+                setAmount(e);
+                setIsInputEmpty(true);
+            } else {
+                setAmount(e);
+                setIsInputEmpty(false);
+            }
+            return true;
+        }
+        return false;
+    };
+
     const toInput = {
-        setAmount,
         isCorrect,
         errorMessages,
         onChange: (e: string): void => {
@@ -600,51 +533,7 @@ const Send: React.FunctionComponent = () => {
     };
 
     const amountInput = {
-        onChange: (e: string): boolean => {
-            setSwitchChecked(false);
-            setSwitchCheckedSecond(false);
-            setTransferAll({
-                transferAll: false,
-                keepAlive: false,
-            });
-            setTransferAll({
-                transferAll: false,
-                keepAlive: false,
-            });
-            setInsufficientBal(false);
-            setInsufficientTxFee(false);
-            // if (amount > e) setAmount(e);
-            if (e[0] === '0' && e[1] === '0') {
-                return false;
-            }
-            if (e.length < 14) {
-                let decimalInStart = false;
-                if (e[0] === '.') {
-                    // eslint-disable-next-line no-param-reassign
-                    e = `0${e}`;
-                    decimalInStart = true;
-                }
-                const reg = /^-?\d+\.?\d*$/;
-                const test = reg.test(e);
-
-                if (!test && e.length !== 0 && !decimalInStart) {
-                    return false;
-                }
-                if (Number(e) + transactionFee >= location.balance) {
-                    setInsufficientBal(true);
-                }
-                setInsufficientBal(false);
-                if (e.length === 0) {
-                    setAmount(e);
-                    setIsInputEmpty(true);
-                } else {
-                    setAmount(e);
-                    setIsInputEmpty(false);
-                }
-                return true;
-            }
-            return false;
-        },
+        onChange: (e: string) => amountInputOnChange(e),
         insufficientBal,
         setInsufficientBal,
         errorMessages,
@@ -657,52 +546,14 @@ const Send: React.FunctionComponent = () => {
         disableToggleButtons,
         setDisableToggleButtons,
         tokenName,
-        balance: location.balance,
+        balance,
         insufficientTxFee,
         setSwitchChecked,
         setSwitchCheckedSecond,
+        dollarAmount,
     };
 
     const ED = {
-        onChange: (e: string): boolean => {
-            setTransferAll({
-                transferAll: false,
-                keepAlive: false,
-            });
-            setSwitchChecked(false);
-            setSwitchCheckedSecond(false);
-            // if (amount > e) setAmount(e);
-            if (e[0] === '0' && e[1] === '0') {
-                return false;
-            }
-            if (e.length < 14) {
-                let decimalInStart = false;
-                if (e[0] === '.') {
-                    // eslint-disable-next-line no-param-reassign
-                    e = `0${e}`;
-                    decimalInStart = true;
-                }
-                const reg = /^-?\d+\.?\d*$/;
-                const test = reg.test(e);
-
-                if (!test && e.length !== 0 && !decimalInStart) {
-                    return false;
-                }
-                if (Number(e) + transactionFee >= location.balance) {
-                    setInsufficientBal(true);
-                }
-                setInsufficientBal(false);
-                if (e.length === 0) {
-                    setAmount(e);
-                    setIsInputEmpty(true);
-                } else {
-                    setAmount(e);
-                    setIsInputEmpty(false);
-                }
-                return true;
-            }
-            return false;
-        },
         setTransferAll,
         setAmountOnToggle,
         disableToggleButtons,
@@ -746,7 +597,6 @@ const Send: React.FunctionComponent = () => {
     const warningModal = {
         open: isWarningModalOpen,
         handleClose: () => {
-            console.log('handle close');
             setIsWarningModalOpen(false);
             generalDispatcher(() => setConfirmSendModal(false));
         },
@@ -764,22 +614,8 @@ const Send: React.FunctionComponent = () => {
         subText: subTextForWarningModal,
     };
 
-    const handleBatchSwitch = (): void => {
-        navigate(BATCH_SEND, { state: location });
-    };
-
-    const resetToggles = (): void => {
-        setSwitchChecked(false);
-        setSwitchCheckedSecond(false);
-        setTransferAll({
-            transferAll: false,
-            keepAlive: false,
-        });
-        setAmount('');
-    };
-
     const fromInput = {
-        resetToggles: () => resetToggles(),
+        resetToggles,
         setAmount,
     };
 
@@ -794,6 +630,38 @@ const Send: React.FunctionComponent = () => {
         fromInput,
     };
 
+    const authModal = {
+        publicKey,
+        open: authScreenModal,
+        handleClose: () => {
+            generalDispatcher(() => setAuthScreenModal(false));
+            generalDispatcher(() => setConfirmSendModal(true));
+        },
+        onConfirm:
+            transferAll.transferAll && isNative
+                ? doTransactionTransferAll
+                : doTransaction,
+        functionType: passwordSaved ? 'PasswordSaved' : 'PasswordNotSaved',
+        savePassword,
+        setSavePassword,
+        style: {
+            width: '290px',
+            background: '#141414',
+            position: 'relative',
+            bottom: 30,
+            p: 2,
+            px: 2,
+            pb: 3,
+        },
+    };
+
+    const imageProps = {
+        src: ToggleOff,
+        style: { marginLeft: '10px' },
+        ariaHidden: true,
+        onClick: handleBatchSwitch,
+    };
+
     return (
         <Wrapper width="89%">
             <Header
@@ -805,48 +673,12 @@ const Send: React.FunctionComponent = () => {
                 <SubHeading onClick={handleBatchSwitch}>
                     Batch Transactions
                 </SubHeading>
-                <img
-                    src={ToggleOff}
-                    alt="Toggle"
-                    style={{ marginLeft: '10px' }}
-                    aria-hidden
-                    onClick={handleBatchSwitch}
-                />
+                <img {...imageProps} alt="Toggle" />
             </HorizontalContentDiv>
 
             <SendView {...sendView} />
 
-            <AuthModal
-                publicKey={publicKey}
-                open={authScreenModal}
-                handleClose={() => {
-                    generalDispatcher(() => setAuthScreenModal(false));
-                    console.log('open modal handle close');
-                    generalDispatcher(() => setConfirmSendModal(true));
-                }}
-                onConfirm={
-                    transferAll.transferAll && isNative
-                        ? doTransactionTransferAll
-                        : doTransaction
-                    // transferAll.transferAll
-                    //     ? doTransactionTransferAll
-                    //     : doTransaction
-                }
-                functionType={
-                    passwordSaved ? 'PasswordSaved' : 'PasswordNotSaved'
-                }
-                savePassword={savePassword}
-                setSavePassword={setSavePassword}
-                style={{
-                    width: '290px',
-                    background: '#141414',
-                    position: 'relative',
-                    bottom: 30,
-                    p: 2,
-                    px: 2,
-                    pb: 3,
-                }}
-            />
+            <AuthModal {...authModal} />
             <WarningModal {...warningModal} />
         </Wrapper>
     );

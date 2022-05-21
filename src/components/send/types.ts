@@ -65,7 +65,6 @@ export interface ExistensialDepositInterface {
     switchCheckedSecond: boolean;
     setSwitchChecked(e: boolean): void;
     setSwitchCheckedSecond(e: boolean): void;
-    // tokenImage: any;
 }
 
 type transferAllType = {
@@ -104,7 +103,7 @@ export interface SendViewProps {
     setTransferAll: React.Dispatch<SetStateAction<transferAllType>>;
     setAmountOnToggle(input: boolean, keepAlive: boolean): void;
     fromInput: {
-        resetToggles(): void;
+        resetToggles(e: boolean): void;
     };
 }
 
