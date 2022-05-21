@@ -99,7 +99,6 @@ import SendDashboardIcon from '../assets/images/icons/SendFeature.svg';
 import StakeDashboardIcon from '../assets/images/icons/StakeFeature.svg';
 import SwapDashboardIcon from '../assets/images/icons/SwapFeature.svg';
 
-
 import DOT from '../assets/images/tokenImg/polkadot.png';
 import ACA from '../assets/images/tokenImg/ACA.png';
 import AUSD from '../assets/images/tokenImg/AUSD.png';

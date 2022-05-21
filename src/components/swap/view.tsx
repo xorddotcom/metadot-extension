@@ -29,6 +29,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
     swapParams,
     handleCurrencySwitch,
     handleAmountChange,
+    handleMaxClicked,
     swapClickHandler,
     insufficientBalance,
     isLoading,
@@ -73,7 +74,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
             fontSize: '12px',
             margin: 0,
         },
-        handleClick: () => console.log('max'),
+        handleClick: () => handleMaxClicked(),
         disabled: false,
     };
 
@@ -219,7 +220,8 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
                                     color="#F63A3AB2"
                                     opacity="0.7"
                                 >
-                                    Insufficient Balance
+                                    Insufficient Balance to cover transaction
+                                    fee
                                 </SubHeading>
                             )}
                             <BalDiv>
@@ -232,7 +234,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
                                 </SubHeading>
                                 <SubHeading lineHeight="0px" fontSize="12px">
                                     Balance:
-                                    {`${tokenFrom?.balance} ${tokenFrom?.name}`}
+                                    {` ${tokenFrom?.balance} ${tokenFrom?.name}`}
                                 </SubHeading>
                             </BalDiv>
                         </InputAndBalanceDiv>
@@ -283,7 +285,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
                                 </SubHeading>
                                 <SubHeading lineHeight="0px" fontSize="12px">
                                     Balance:
-                                    {`${tokenTo?.balance} ${tokenTo?.name}`}
+                                    {` ${tokenTo?.balance} ${tokenTo?.name}`}
                                 </SubHeading>
                             </BalDiv>
                         </InputAndBalanceDiv>

@@ -244,7 +244,56 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
             }
         }
     };
+
+    function truncate(number: number, index = 2): number {
+        // cutting the number
+        return +number
+            .toString()
+            .slice(0, number.toString().indexOf('.') + (index + 1));
+    }
+
+    const handleMaxClicked = async (): Promise<void> => {
+        const decimals = tokenFrom?.decimal;
+
+        const path = swapParams.path.map((token: any) => {
+            return { TOKEN: token.name };
+        });
+
+        const supplyAmount = new FixedPointNumber(1, decimals);
+
+        const slippage = '0x0';
+
+        const tx = api.tx.dex.swapWithExactSupply(
+            path,
+            supplyAmount.toChainData(),
+            slippage
+        );
+
+        const transactionFee = await getTxTransactionFee(
+            tx,
+            publicKey,
+            balances[0].name
+        );
+
+        if (tokenFrom?.isNative) {
+            handleAmountChange(
+                truncate(
+                    Number(tokenFrom.balance) -
+                        (Number(transactionFee) +
+                            Number(swapParams.tradingFee)),
+                    4
+                ).toString()
+            );
+        } else {
+            handleAmountChange(
+                truncate(Number(tokenFrom?.balance), 4).toString()
+            );
+        }
+    };
+
     const EDandTxFeeValidation = async (): Promise<void> => {
+        setInsufficientBalance(false);
+        setInsufficientED(false);
         const decimals = tokenFrom?.decimal;
 
         const path = swapParams.path.map((token: any) => {
@@ -403,7 +452,7 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                                     })
                                 );
                                 console.log('from 1');
-                                openResponseModalForTxSuccess();
+                                openResponseModalForTxFailed();
                                 setTimeout(() => {
                                     generalDispatcher(() =>
                                         setIsResponseModalOpen(false)
@@ -461,13 +510,11 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
     };
 
     const warningModalData = {
-        open: insufficientBalance || insufficientED,
+        open: insufficientED,
         handleClose: () => {
-            setInsufficientBalance(false);
             setInsufficientED(false);
         },
         onConfirm: () => {
-            setInsufficientBalance(false);
             setInsufficientED(false);
             openAuthModal();
         },
@@ -482,18 +529,10 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
         },
 
         // eslint-disable-next-line no-nested-ternary
-        mainText: insufficientBalance
-            ? 'Transaction Fee Requirement'
-            : insufficientED
-            ? 'Account Reaping'
-            : '',
+        mainText: 'Account Reaping',
 
         // eslint-disable-next-line no-nested-ternary
-        subText: insufficientBalance
-            ? 'Insufficient native token to cover transaction fee. Transaction may fail'
-            : insufficientED
-            ? 'Swapping may cause to reap your one or both account balances'
-            : '',
+        subText: 'Swapping may cause to reap your one or both token balances',
     };
 
     return (
@@ -507,6 +546,7 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                 swapParams={swapParams}
                 handleCurrencySwitch={handleCurrencySwitch}
                 handleAmountChange={handleAmountChange}
+                handleMaxClicked={handleMaxClicked}
                 swapClickHandler={EDandTxFeeValidation}
                 insufficientBalance={insufficientBalance}
                 isLoading={isLoading}
