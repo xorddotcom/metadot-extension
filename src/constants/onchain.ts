@@ -257,35 +257,37 @@ const ACALA_CONFIG: NetworkConfig = {
     explorer: 'https://acala.subscan.io/',
 };
 
-// const BIFROST_STAGE_TESTNET_CONFIG: NetworkConfig = {
-//     name: 'Bifrost',
-//     tokenName: '',
-//     queryEndpoint: '',
-//     logo: BifrostIcon,
-//     rpcUrl: 'wss://bifrost-rpc.testnet.liebi.com/ws',
-//     // prefix: 10,
-//     disabled: true,
-//     explorer: '',
-// };
+const BIFROST_STAGE_TESTNET_CONFIG: NetworkConfig = {
+    name: 'Bifrost',
+    tokenName: '',
+    queryEndpoint:
+        'https://api.subquery.network/sq/ahmedali8/metadot-subql-bifrost-testnet',
+    logo: BifrostIcon,
+    rpcUrl: 'wss://bifrost-rpc.testnet.liebi.com/ws',
+    // prefix: 10,
+    disabled: false,
+    explorer: '',
+};
 
-// const BIFROST_KUSAMA_CONFIG: NetworkConfig = {
-//     name: 'Bifrost',
-//     tokenName: '',
-//     queryEndpoint: '',
-//     logo: BifrostIcon,
-//     rpcUrl: 'wss://eu.bifrost-rpc.liebi.com/ws',
-//     // prefix: 10,
-//     disabled: false,
-//     explorer: '',
-// };
+const BIFROST_KUSAMA_CONFIG: NetworkConfig = {
+    name: 'Bifrost',
+    tokenName: '',
+    queryEndpoint:
+        'https://api.subquery.network/sq/ahmedali8/metadot-subql-bifrost-mainnet',
+    logo: BifrostIcon,
+    rpcUrl: 'wss://eu.bifrost-rpc.liebi.com/ws',
+    // prefix: 10,
+    disabled: false,
+    explorer: '',
+};
 
 export default {
     CONTEXTFREE_CONFIG,
     // BITCOUNTRY_CONFIG,
     POLKADOT_CONFIG,
     KUSAMA_CONFIG,
-    // BIFROST_STAGE_TESTNET_CONFIG,
-    // BIFROST_KUSAMA_CONFIG,
+    BIFROST_STAGE_TESTNET_CONFIG,
+    BIFROST_KUSAMA_CONFIG,
     // BIFROST_CONFIG,
     // MOONRIVER_CONFIG,
     SHIDEN_CONFIG,

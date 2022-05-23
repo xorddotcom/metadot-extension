@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
@@ -12,6 +12,7 @@ import {
     setBalance,
     setBalanceInUsd,
 } from '../../../../redux/slices/activeAccount';
+import { SubHeading } from '../../../common/text';
 
 import {
     AccountName,
@@ -24,13 +25,23 @@ import {
     CopyIconImg,
     MoreOptions,
     ConnectionStatus,
+    MultisigFlag,
 } from '../../styledComponents';
 import services from '../../../../utils/services';
+import accounts from '../../../../utils/accounts';
+import MultisigDetail from '../../../common/modals/multisig-detail';
 
-const { refreshIcon, ContentCopyIconWhite, notConnected, connected } = images;
+const {
+    refreshIcon,
+    ContentCopyIconWhite,
+    notConnected,
+    connected,
+    dropdownIcon,
+} = images;
 const { addressModifier, trimBalance, convertIntoUsd } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { addressMapper, getBalance } = services;
+const { getMultisigDetails } = accounts;
 
 const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
     props
@@ -45,12 +56,19 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
     const { apiInitializationStarts } = useSelector(
         (state: RootState) => state.api
     );
+
+    const thisAccount = useSelector(
+        (state: RootState) => state.accounts[address]
+    );
+
     const api = useSelector(
         (state: RootState) => state.api.api as unknown as ApiPromiseType
     );
-    const {
-        activeAccount: { isWalletConnected },
-    } = useSelector((state: RootState) => state);
+    const { activeAccount } = useSelector((state: RootState) => state);
+
+    const { isWalletConnected, queryEndpoint } = activeAccount;
+    const { multisigDetails } = thisAccount;
+
     const copyText = (): void => {
         setOpen(true);
         setTimeout(() => {
@@ -85,8 +103,22 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
         className: 'topTooltiptext',
     };
 
+    const [openModal, setOpenModal] = React.useState(false);
+
     return (
         <MainPanel>
+            {thisAccount?.multisig && (
+                <MultisigFlag>
+                    <SubHeading
+                        fontSize="10px"
+                        color="#FAFAFA"
+                        lineHeight="0px"
+                        opacity="0.7"
+                    >
+                        Multisig
+                    </SubHeading>
+                </MultisigFlag>
+            )}
             <div>
                 <MoreOptions>
                     <img
@@ -122,13 +154,33 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
                 >
                     <img src={refreshIcon} alt="refresh-icon" />
                 </Refresh>
-
-                <AccountName
-                    id="account-name"
-                    className={mainHeadingfontFamilyClass}
+                <div
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'flex-start',
+                    }}
                 >
-                    {accountName}
-                </AccountName>
+                    <AccountName
+                        id="account-name"
+                        className={mainHeadingfontFamilyClass}
+                    >
+                        {accountName}
+                    </AccountName>
+                    {thisAccount?.multisig && (
+                        <img
+                            src={dropdownIcon}
+                            alt="dropdown"
+                            style={{
+                                height: '5px',
+                                width: '8px',
+                                marginTop: '30px',
+                                marginLeft: '10px',
+                            }}
+                            onClick={() => setOpenModal(true)}
+                            aria-hidden="true"
+                        />
+                    )}
+                </div>
             </div>
             <VerticalContentDiv>
                 <PublicAddress
@@ -184,6 +236,16 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
                     ${balanceInUsd === 0 ? 0 : balanceInUsd.toFixed(5)}
                 </PerUnitPrice>
             </VerticalContentDiv>
+            {thisAccount?.multisig && (
+                <MultisigDetail
+                    open={openModal}
+                    handleClose={() => setOpenModal(false)}
+                    address={address}
+                    name={accountName}
+                    threshold={multisigDetails?.threshold || 2}
+                    singatories={multisigDetails?.members || []}
+                />
+            )}
         </MainPanel>
     );
 };

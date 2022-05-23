@@ -1,6 +1,26 @@
 import { encodeAddress } from '@polkadot/util-crypto';
 import { QueryForBatchObjectInterface, QueryObjectInterface } from './types';
 
+const getQueryForMultisig = (prefix: number, publicKey: string): string => {
+    const address = encodeAddress(publicKey, prefix);
+
+    return `{
+  query {
+  multisigAccount(id: "${address}") {
+      members
+      threshold
+      record {
+        nodes {
+          confirmExtrinsicIdx
+          cancelExtrinsicIdx
+          approvals
+        }
+      }
+    }
+}
+}`;
+};
+
 const getQueryForBatch = (prefix: number, publicKey: string): string => {
     const address = encodeAddress(publicKey, prefix);
 
@@ -156,5 +176,14 @@ export const queryDataForSwap = (
     prefix: number
 ): QueryObjectInterface => {
     const query = getQueryForSwap(prefix, publicKey);
+    return { query, endPoint: queryEndpoint };
+};
+
+export const queryDataForMultisig = (
+    queryEndpoint: string,
+    publicKey: string,
+    prefix: number
+): QueryObjectInterface => {
+    const query = getQueryForMultisig(prefix, publicKey);
     return { query, endPoint: queryEndpoint };
 };

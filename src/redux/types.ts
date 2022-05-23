@@ -2,6 +2,11 @@ export interface Account {
     publicKey: string;
     accountName: string;
     parentAddress?: string;
+    multisig?: boolean;
+    multisigDetails?: {
+        members: string[];
+        threshold: number;
+    };
 }
 
 export interface Accounts {

@@ -22,6 +22,7 @@ const Input: React.FunctionComponent<Props> = ({
     id,
     type,
     rightIconDropDown,
+    rightIconDropDownHandler,
     rightIcon,
     rightIconCross,
     rightIconCrossClickHandler,
@@ -139,6 +140,9 @@ const Input: React.FunctionComponent<Props> = ({
                     topPosition={topPosition}
                     leftPosition={leftPosition}
                     rightPosition={rightPosition}
+                    onClick={
+                        rightIconDropDownHandler && rightIconDropDownHandler
+                    }
                 >
                     <img src={dropdownIcon} alt="dropdown" />
                 </Icon>

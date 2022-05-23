@@ -69,6 +69,7 @@ function App(): JSX.Element {
     useEffect(() => {
         if (accounts && accounts.length > 0) {
             if (accounts.length !== Object.keys(RdxAccounts).length) {
+                console.log('RdxAccounts', RdxAccounts);
                 dispatch(
                     updateAccounts({
                         allAccounts: accounts,
@@ -82,6 +83,7 @@ function App(): JSX.Element {
                     setAccountName(accounts[accounts.length - 1].name as string)
                 );
             } else {
+                console.log('RdxAccounts in else ', RdxAccounts);
                 dispatch(
                     updateAccounts({
                         allAccounts: accounts,

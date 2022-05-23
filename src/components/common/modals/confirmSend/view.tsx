@@ -42,6 +42,8 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
     btnConfirm,
     locationTokenName,
     isNative,
+    signatoryToSign,
+    isTxMultisig,
 }) => {
     const { publicKey, tokenName, prefix } = useSelector(
         (state: RootState) => state.activeAccount
@@ -54,6 +56,16 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
         const res = addressMapper(publicKey, prefix);
         return `${res.slice(0, 5)} ... ${res.slice(-5)}`;
     };
+
+    const signedByAddressMapper = (): string => {
+        const res = addressMapper(
+            signatoryToSign ||
+                '5GRLCKThLvNbRaRdizoaxKU6UwbNWbJ6ynXD5m2njqFE5eNS',
+            prefix
+        );
+        return `${res.slice(0, 5)} ... ${res.slice(-5)}`;
+    };
+
     const totalAmount = (valueOne: number, valueTwo: number): string => {
         if (isNative) {
             const value = valueOne + valueTwo;
@@ -145,6 +157,28 @@ const ConfirmSendView: React.FunctionComponent<ConfirmSendModalViewProps> = ({
                             )}`}</SubText2>
                         </VerticalContentDiv>
                     </HorizontalContentDiv>
+
+                    {isTxMultisig && (
+                        <VerticalContentDiv marginTop="10px">
+                            <ModalText2
+                                textAlign="start"
+                                className={mainHeadingfontFamilyClass}
+                            >
+                                Signed by
+                            </ModalText2>
+                            <SubText2
+                                id="account-from"
+                                textAlign="start"
+                                className={subHeadingfontFamilyClass}
+                            >
+                                {/* {signedByAddressMapper()} */}
+                                {`${signatoryToSign.slice(
+                                    0,
+                                    5
+                                )} ... ${signatoryToSign.slice(-5)}`}
+                            </SubText2>
+                        </VerticalContentDiv>
+                    )}
 
                     <ModalText
                         textAlign="start"

@@ -5,6 +5,8 @@ export interface ConfirmSendModalProps {
     amount: string;
     transactionFee: number;
     loading2: boolean;
+    signatoryToSign: string;
+    isTxMultisig: boolean;
 }
 
 export interface ConfirmSendModalViewProps {
@@ -17,4 +19,6 @@ export interface ConfirmSendModalViewProps {
     btnConfirm: any;
     locationTokenName?: string;
     isNative?: boolean;
+    signatoryToSign: string;
+    isTxMultisig: boolean;
 }

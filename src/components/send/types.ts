@@ -77,9 +77,15 @@ type disableToggleButtons = {
     secondToggle: boolean;
 };
 
+export interface SignatoryBoxProps {
+    signatoryToSign: string;
+    setSignatoryToSign(v: string): void;
+}
+
 export interface SendViewProps {
     toInput: ToInputInterface;
     amountInput: AmountInputInterface;
+    multisig: boolean;
     ED: any;
     nextBtn: {
         id: string;
@@ -99,12 +105,16 @@ export interface SendViewProps {
         transactionFee: number;
         handleClose(): void;
         loading2: boolean;
+        signatoryToSign: string;
+        isTxMultisig: boolean;
     };
     setTransferAll: React.Dispatch<SetStateAction<transferAllType>>;
     setAmountOnToggle(input: boolean, keepAlive: boolean): void;
     fromInput: {
         resetToggles(e: boolean): void;
     };
+    signatoryToSign: string;
+    setSignatoryToSign: any;
 }
 
 export interface BatchSendViewProps {

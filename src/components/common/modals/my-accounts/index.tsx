@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 
 import { Modal } from '@mui/material';
@@ -22,11 +23,25 @@ const { crossIcon } = images;
 const { mainHeadingfontFamilyClass } = fonts;
 
 const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
-    const { open, handleClose, style, onSelection } = props;
+    const { open, handleClose, style, onSelection, accountList } = props;
 
     const allAccounts = useSelector((state: RootState) =>
         Object.values(state.accounts)
     );
+
+    const { activeAccount } = useSelector((state: RootState) => state);
+    const thisAccount = useSelector(
+        (state: RootState) => state.accounts[activeAccount.publicKey]
+    );
+
+    let membersToShow;
+    if (thisAccount.multisig) {
+        membersToShow = allAccounts.filter((acc) =>
+            accountList?.includes(acc.publicKey)
+        );
+    }
+
+    console.log('membersToShow', { membersToShow });
 
     return (
         <Modal open={open} onClose={handleClose} className="Dark-bg-network">
@@ -44,21 +59,59 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
                         </CloseIconDiv>
                     </TitleDiv>
                     <NetworkModalContent>
-                        {allAccounts.map((account) => (
-                            <OptionRow
-                                className="abc"
-                                onClick={() => onSelection(account)}
-                            >
-                                <HorizontalContentDiv>
-                                    <PlainIcon />
-                                    <OptionText
-                                        className={mainHeadingfontFamilyClass}
-                                    >
-                                        {account.accountName}
-                                    </OptionText>
-                                </HorizontalContentDiv>
-                            </OptionRow>
-                        ))}
+                        {accountList && !thisAccount.multisig
+                            ? accountList.map((account) => (
+                                  <OptionRow
+                                      className="abc"
+                                      onClick={() => onSelection(account)}
+                                  >
+                                      <HorizontalContentDiv>
+                                          <PlainIcon />
+                                          <OptionText
+                                              className={
+                                                  mainHeadingfontFamilyClass
+                                              }
+                                          >
+                                              {account.accountName}
+                                          </OptionText>
+                                      </HorizontalContentDiv>
+                                  </OptionRow>
+                              ))
+                            : membersToShow && thisAccount.multisig
+                            ? membersToShow.map((account) => (
+                                  <OptionRow
+                                      className="abc"
+                                      onClick={() => onSelection(account)}
+                                  >
+                                      <HorizontalContentDiv>
+                                          <PlainIcon />
+                                          <OptionText
+                                              className={
+                                                  mainHeadingfontFamilyClass
+                                              }
+                                          >
+                                              {account.accountName}
+                                          </OptionText>
+                                      </HorizontalContentDiv>
+                                  </OptionRow>
+                              ))
+                            : allAccounts.map((account) => (
+                                  <OptionRow
+                                      className="abc"
+                                      onClick={() => onSelection(account)}
+                                  >
+                                      <HorizontalContentDiv>
+                                          <PlainIcon />
+                                          <OptionText
+                                              className={
+                                                  mainHeadingfontFamilyClass
+                                              }
+                                          >
+                                              {account.accountName}
+                                          </OptionText>
+                                      </HorizontalContentDiv>
+                                  </OptionRow>
+                              ))}
                     </NetworkModalContent>
                 </div>
             </Box>
