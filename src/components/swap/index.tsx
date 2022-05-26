@@ -363,7 +363,7 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                     return { TOKEN: token.name };
                 });
 
-                const supplyAmount = new FixedPointNumber(1, decimals);
+                const supplyAmount = new FixedPointNumber(amountFrom, decimals);
 
                 const slippage = '0x0';
 
