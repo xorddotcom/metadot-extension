@@ -40,7 +40,6 @@ import {
     IMPORT_WALLET,
     SHOW_SEED,
     WELCOME,
-    MULTISIG,
 } from '../../../../constants';
 
 const {
@@ -52,7 +51,6 @@ const {
     derivedAccountIcon,
     Importicon,
     AddSharpIcon,
-    MultisigAccountIcon,
 } = images;
 const { mainHeadingfontFamilyClass } = fonts;
 const { deleteAccount, renameAccount } = accounts;
@@ -151,11 +149,6 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
             name: 'Derive Account',
             image: derivedAccountIcon,
             modal: () => newDeriveAccount,
-        },
-        {
-            name: 'Create Multisig Account',
-            image: MultisigAccountIcon,
-            navigation: MULTISIG,
         },
         {
             name: 'Import Account',

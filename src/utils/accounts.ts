@@ -13,7 +13,6 @@ import {
     signTransaction as signTransactionMessage,
     isAccountLocked,
 } from '../messaging';
-import { queryDataForMultisig } from './queryData';
 
 function GenerateSeedPhrase(): string {
     const seed = mnemonicGenerate(12);
@@ -157,30 +156,6 @@ async function renameAccount(address: string, name: string): Promise<boolean> {
     return result;
 }
 
-async function getMultisigDetails(
-    address: string,
-    queryEndpoint: string,
-    prefix: number,
-    cb: any
-): Promise<any> {
-    const { query, endPoint } = queryDataForMultisig(
-        queryEndpoint,
-        address,
-        prefix
-    );
-
-    fetch(endPoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            query,
-        }),
-    })
-        .then((r) => r.json())
-        .then((r) => cb(r))
-        .catch((e) => console.log('fetching multisig details...'));
-}
-
 export default {
     GenerateSeedPhrase,
     AccountCreation,
@@ -194,5 +169,4 @@ export default {
     derivePathValidation,
     signTransaction,
     isPasswordSaved,
-    getMultisigDetails,
 };

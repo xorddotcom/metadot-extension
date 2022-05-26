@@ -122,21 +122,3 @@ export const FlexBetween = styled.div`
     justify-content: space-between;
     align-items: center;
 `;
-
-export const MultisigBoxDiv = styled.div`
-    margin-top: 12px;
-    margin-bottom: 8px;
-    color: #f8f8f8;
-    background-color: #141414;
-    font-size: 14px !important;
-    line-height: 17px;
-    border-radius: 8px;
-    border: 0px;
-    opacity: 0.6;
-    width: 100%;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-`;

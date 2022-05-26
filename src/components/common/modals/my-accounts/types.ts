@@ -1,5 +1,3 @@
-import { AccountInterface } from '../../../multisig/types';
-
 export interface Account {
     publicKey: string;
     accountName: string;
