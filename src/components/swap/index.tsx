@@ -57,6 +57,8 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
     const [passwordSaved, setPasswordSaved] = React.useState(false);
     const [amountFrom, setAmountFrom] = React.useState('0');
     const [insufficientBalance, setInsufficientBalance] = React.useState(false);
+    const [insufficientBalanceTx, setInsufficientBalanceTx] =
+        React.useState(false);
     const [insufficientED, setInsufficientED] = React.useState(false);
 
     const [edforTokenFrom, setEdforTokenFrom] = React.useState(0);
@@ -218,6 +220,7 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
     };
 
     const handleAmountChange = async (amount: string): Promise<void> => {
+        setInsufficientBalanceTx(false);
         if (tokenFrom && tokenTo) {
             if (amount[0] === '0' && amount[1] === '0') {
                 return;
@@ -237,7 +240,7 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                 }
 
                 if (Number(tokenFrom.balance) < Number(amount)) {
-                    return;
+                    setInsufficientBalanceTx(true);
                 }
 
                 setAmountFrom(amount);
@@ -548,7 +551,7 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                 handleAmountChange={handleAmountChange}
                 handleMaxClicked={handleMaxClicked}
                 swapClickHandler={EDandTxFeeValidation}
-                insufficientBalance={insufficientBalance}
+                insufficientBalance={insufficientBalanceTx}
                 isLoading={isLoading}
             />
             <SelectTokenModal

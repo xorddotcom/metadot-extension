@@ -220,8 +220,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
                                     color="#F63A3AB2"
                                     opacity="0.7"
                                 >
-                                    Insufficient Balance to cover transaction
-                                    fee
+                                    Insufficient Balance
                                 </SubHeading>
                             )}
                             <BalDiv>
