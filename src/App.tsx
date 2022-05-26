@@ -1,7 +1,12 @@
+/* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
 import { QueryClientProvider, QueryClient } from 'react-query';
+// import { useIsMountedRef } from '@polkadot/react-hooks';
+import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
+// import type { Option, StorageKey } from '@polkadot/types';
+// import type { H256, Multisig } from '@polkadot/types/interfaces';
 
 import type {
     AccountJson,
@@ -56,6 +61,79 @@ function App(): JSX.Element {
         modalHandling;
     const dispatch = useDispatch();
     const queryClient = new QueryClient();
+
+    const currReduxState = useSelector((state: RootState) => state);
+    const api = currReduxState.api.api as unknown as ApiPromiseType;
+
+    const [multiInfos, setMultiInfos] = useState<any[]>([]);
+    // const mountedRef = useIsMountedRef();
+
+    const getMultisigInfo = (): void => {
+        console.log('mark1', api);
+        const multiModule = api?.query?.multisig || api?.query?.utility;
+        console.log('mark2');
+        multiModule &&
+            multiModule?.multisigs &&
+            multiModule?.multisigs
+                .entries(activeAccount.publicKey)
+                .then((infos: any[]): void => {
+                    // mountedRef.current &&
+                    setMultiInfos(
+                        infos
+                            .filter(([, opt]) => opt.isSome)
+                            .map(([key, opt]) => [
+                                key.args[1] as any,
+                                opt.unwrap(),
+                            ])
+                    );
+                })
+                .catch((err) =>
+                    console.log('error in multimodule XXXXXXXXXXXXXX', err)
+                );
+        console.log('mark3');
+        const [, multisig] = multiInfos.find(([h]) => h.eq(hash)) || [
+            null,
+            null,
+        ];
+
+        // setMultisig({
+        //   isMultiCall: !!multisig && multisig.approvals.length + 1 >= threshold,
+        //   multisig,
+        // });
+        console.log('multisigInfo =================', {
+            multiInfos,
+            pendingHash: multiInfos?.[0][0].toHex(),
+            multisig,
+        });
+    };
+
+    // query all the entries for the multisig, extracting approvals with their hash
+    useEffect((): void => {
+        // console.log('mark1', api);
+        // const multiModule = api?.query?.multisig || api?.query?.utility;
+        // console.log('mark2');
+        // multiModule &&
+        //     multiModule?.multisigs &&
+        //     multiModule?.multisigs
+        //         .entries(activeAccount.publicKey)
+        //         .then((infos: any[]): void => {
+        //             // mountedRef.current &&
+        //             setMultiInfos(
+        //                 infos
+        //                     .filter(([, opt]) => opt.isSome)
+        //                     .map(([key, opt]) => [
+        //                         key.args[1] as any,
+        //                         opt.unwrap(),
+        //                     ])
+        //             );
+        //         })
+        //         .catch((err) =>
+        //             console.log('error in multimodule XXXXXXXXXXXXXX', err)
+        //         );
+        // console.log('mark3');
+        // console.log('multisigInfo =================', { multiInfos });
+        getMultisigInfo();
+    }, [activeAccount.publicKey, api]);
 
     useEffect(() => {
         Promise.all([
@@ -170,6 +248,9 @@ function App(): JSX.Element {
                 <ResponseModal {...responseModal} />
                 <ApiManager rpc={activeAccount.rpcUrl} />
                 <Routes>{content}</Routes>
+                <button onClick={() => getMultisigInfo()} type="button">
+                    getMultisigInfo
+                </button>
                 {/* Dynamic Modal controlled by redux for successfully and
             unsuccessfully  executed processes
             overall the application */}
