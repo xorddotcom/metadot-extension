@@ -95,9 +95,9 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
     const DetailsData = [
         {
             property: 'Price',
-            data: `${Number(swapParams.price?.toString()).toFixed(2)} ${
-                tokenTo?.name
-            }`,
+            data: `1 ${tokenFrom?.name} = ${Number(
+                swapParams.price?.toString()
+            ).toFixed(2)} ${tokenTo?.name}`,
         },
         {
             property: 'Price Impact',
