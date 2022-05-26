@@ -16,8 +16,6 @@ import PopupMeta from './popup-meta';
 import Swap from './swap';
 import SeedphraseWarning from './seedphrase-warning';
 import BatchSend from './batch-send';
-import Multisig from './multisig';
-import MultisigSign from './multisig-sign';
 
 export default {
     Welcome,
@@ -38,6 +36,4 @@ export default {
     Swap,
     SeedphraseWarning,
     BatchSend,
-    Multisig,
-    MultisigSign,
 };

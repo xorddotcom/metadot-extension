@@ -34,15 +34,6 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
         (state: RootState) => state.accounts[activeAccount.publicKey]
     );
 
-    let membersToShow;
-    if (thisAccount.multisig) {
-        membersToShow = allAccounts.filter((acc) =>
-            accountList?.includes(acc.publicKey)
-        );
-    }
-
-    console.log('membersToShow', { membersToShow });
-
     return (
         <Modal open={open} onClose={handleClose} className="Dark-bg-network">
             <Box
@@ -59,26 +50,8 @@ const MyAccounts: React.FunctionComponent<MyAccountsProps> = (props) => {
                         </CloseIconDiv>
                     </TitleDiv>
                     <NetworkModalContent>
-                        {accountList && !thisAccount.multisig
+                        {accountList
                             ? accountList.map((account) => (
-                                  <OptionRow
-                                      className="abc"
-                                      onClick={() => onSelection(account)}
-                                  >
-                                      <HorizontalContentDiv>
-                                          <PlainIcon />
-                                          <OptionText
-                                              className={
-                                                  mainHeadingfontFamilyClass
-                                              }
-                                          >
-                                              {account.accountName}
-                                          </OptionText>
-                                      </HorizontalContentDiv>
-                                  </OptionRow>
-                              ))
-                            : membersToShow && thisAccount.multisig
-                            ? membersToShow.map((account) => (
                                   <OptionRow
                                       className="abc"
                                       onClick={() => onSelection(account)}

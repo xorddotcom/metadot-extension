@@ -13,7 +13,6 @@ import {
     FlexColumn,
     CopyIconDiv,
     KebabIcon,
-    MultisigFlag,
 } from '../styles';
 import { AccountCardInterface } from '../types';
 import { fonts, images, helpers } from '../../../utils';
@@ -68,18 +67,6 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
             marginTop={marginTop || '10px'}
             onClick={() => activateAccount(publicKey, accountName)}
         >
-            {thisAccount?.multisig && (
-                <MultisigFlag>
-                    <SubHeading
-                        fontSize="10px"
-                        color="#219A9A"
-                        lineHeight="0px"
-                    >
-                        Multisig
-                    </SubHeading>
-                </MultisigFlag>
-            )}
-
             <AccountFlex>
                 <AccountCircle>
                     {activeAccount.publicKey === publicKey && (

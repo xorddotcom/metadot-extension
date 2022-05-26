@@ -320,16 +320,3 @@ export const FeatureText = styled.p`
     margin: 0;
     margin-top: 8px;
 `;
-export const MultisigFlag = styled.div`
-    background: rgba(248, 248, 248, 0.2);
-    height: 22px;
-    width: 79px;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    border-top-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;

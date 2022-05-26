@@ -27,7 +27,6 @@ import useResponseModal from '../../hooks/useResponseModal';
 import SendView from './view';
 import { SubHeading } from '../common/text';
 import { Header } from '../common';
-import createMultisigTransaction from '../multisig/createMultisigTransaction';
 
 const { UnsuccessCheckIcon, SuccessCheckPngIcon, ToggleOff, ToggleOn } = images;
 
@@ -101,8 +100,6 @@ const Send: React.FunctionComponent = () => {
 
     const { tokenName, isNative, decimal, dollarAmount } = location;
     const [balance, setBalance] = useState(location.balance);
-
-    const [signatoryToSign, setSignatoryToSign] = useState('');
 
     const { authScreenModal } = modalHandling;
     const api = currReduxState.api.api as unknown as ApiPromiseType;
@@ -588,9 +585,7 @@ const Send: React.FunctionComponent = () => {
             borderRadius: 40,
         },
         handleClick: handleSubmit,
-        disabled: thisAccount.multisig
-            ? normalChecks || !(signatoryToSign.length > 0)
-            : normalChecks,
+        disabled: normalChecks,
         isLoading: loading1,
     };
 
@@ -602,8 +597,6 @@ const Send: React.FunctionComponent = () => {
         isNative,
         handleClose: () => generalDispatcher(() => setConfirmSendModal(false)),
         loading2,
-        isTxMultisig: !!thisAccount?.multisig,
-        signatoryToSign,
     };
 
     const warningModal = {
@@ -640,133 +633,20 @@ const Send: React.FunctionComponent = () => {
         setTransferAll,
         setAmountOnToggle,
         fromInput,
-        multisig: !!thisAccount?.multisig,
-        signatoryToSign,
-        setSignatoryToSign,
-    };
-
-    console.log('signatorytosign', signatoryToSign);
-
-    const sendTransactioHandler = async (password: string): Promise<void> => {
-        const MAX_WEIGHT = 640000000;
-        const THRESHOLD = thisAccount?.multisigDetails?.threshold || 2;
-
-        console.log('multisig tx params', {
-            api,
-            MAX_WEIGHT,
-            THRESHOLD,
-            multiAddres: thisAccount?.publicKey,
-            members: thisAccount?.multisigDetails?.members || [],
-            password,
-        });
-
-        const otherAccounts = thisAccount?.multisigDetails?.members || [];
-        console.log('otherAccounts before', otherAccounts);
-        const excludingSignatory = otherAccounts.filter(
-            (acc) => acc !== signatoryToSign
-        );
-        console.log('excludingSignatory', excludingSignatory);
-        // otherAccounts.splice(indexOfSignatory, 1);
-
-        try {
-            const transaction = await createMultisigTransaction(
-                api,
-                MAX_WEIGHT,
-                THRESHOLD,
-                thisAccount?.publicKey,
-                // thisAccount?.multisigDetails?.members || [],
-                excludingSignatory,
-                password,
-                signatoryToSign
-            );
-            console.log('transaction var after main func', transaction);
-            // transaction.send(({ status, events }: any) => {
-
-            // });
-            transaction.send(({ status, events }: any) => {
-                console.log('transaction completed --------------', {
-                    status,
-                    events,
-                });
-                const txResSuccess = events.filter(({ event }: EventRecord) =>
-                    api?.events?.system?.ExtrinsicSuccess.is(event)
-                );
-                const txResFail = events.filter(({ event }: EventRecord) =>
-                    api?.events?.system?.ExtrinsicFailed.is(event)
-                );
-                if (status.isInBlock) {
-                    if (txResFail.length >= 1) {
-                        console.log(
-                            '************tx failed*************************'
-                        );
-                        setLoading2(false);
-                        generalDispatcher(() => setConfirmSendModal(false));
-                        openResponseModalForTxFailed();
-                        setTimeout(() => {
-                            generalDispatcher(() =>
-                                setIsResponseModalOpen(false)
-                            );
-                        }, 4000);
-                        // navigate to dashboard on success
-                        navigate(DASHBOARD);
-                    }
-                    if (txResSuccess.length >= 1) {
-                        console.log(
-                            '************tx success*************************'
-                        );
-                        setLoading2(false);
-                        generalDispatcher(() => setConfirmSendModal(false));
-                        openResponseModalForTxSuccess();
-                        setTimeout(() => {
-                            generalDispatcher(() =>
-                                setIsResponseModalOpen(false)
-                            );
-                        }, 2000);
-                        navigate(DASHBOARD);
-                    }
-                }
-            });
-            console.log('after the end');
-        } catch (err) {
-            console.log('sendTransactioHandler catch', err);
-        }
-    };
-
-    const doMultiSigTransaction = async (
-        address: string,
-        password: string
-    ): Promise<boolean> => {
-        setLoading2(true);
-        console.log('multisig func', {
-            signatoryToSign,
-            address,
-            password,
-        });
-        try {
-            await sendTransactioHandler(password);
-
-            setLoading2(false);
-            return true;
-        } catch (err) {
-            console.log('doMultiSigTransaction catch', err);
-            setLoading2(true);
-            return false;
-        }
     };
 
     const authModal = {
-        publicKey: thisAccount?.multisig ? signatoryToSign : publicKey,
+        publicKey,
         open: authScreenModal,
         handleClose: () => {
             generalDispatcher(() => setAuthScreenModal(false));
             generalDispatcher(() => setConfirmSendModal(true));
         },
         // eslint-disable-next-line no-nested-ternary
-        onConfirm: thisAccount?.multisig
-            ? doMultiSigTransaction
-            : transferAll.transferAll && isNative
-            ? doTransactionTransferAll
-            : doTransaction,
+        onConfirm:
+            transferAll.transferAll && isNative
+                ? doTransactionTransferAll
+                : doTransaction,
         functionType: passwordSaved ? 'PasswordSaved' : 'PasswordNotSaved',
         savePassword,
         setSavePassword,

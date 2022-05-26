@@ -25,11 +25,9 @@ import {
     CopyIconImg,
     MoreOptions,
     ConnectionStatus,
-    MultisigFlag,
 } from '../../styledComponents';
 import services from '../../../../utils/services';
 import accounts from '../../../../utils/accounts';
-import MultisigDetail from '../../../common/modals/multisig-detail';
 
 const {
     refreshIcon,
@@ -41,7 +39,6 @@ const {
 const { addressModifier, trimBalance, convertIntoUsd } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { addressMapper, getBalance } = services;
-const { getMultisigDetails } = accounts;
 
 const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
     props
@@ -67,7 +64,6 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
     const { activeAccount } = useSelector((state: RootState) => state);
 
     const { isWalletConnected, queryEndpoint } = activeAccount;
-    const { multisigDetails } = thisAccount;
 
     const copyText = (): void => {
         setOpen(true);
@@ -107,18 +103,6 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
 
     return (
         <MainPanel>
-            {thisAccount?.multisig && (
-                <MultisigFlag>
-                    <SubHeading
-                        fontSize="10px"
-                        color="#FAFAFA"
-                        lineHeight="0px"
-                        opacity="0.7"
-                    >
-                        Multisig
-                    </SubHeading>
-                </MultisigFlag>
-            )}
             <div>
                 <MoreOptions>
                     <img
@@ -166,20 +150,6 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
                     >
                         {accountName}
                     </AccountName>
-                    {thisAccount?.multisig && (
-                        <img
-                            src={dropdownIcon}
-                            alt="dropdown"
-                            style={{
-                                height: '5px',
-                                width: '8px',
-                                marginTop: '30px',
-                                marginLeft: '10px',
-                            }}
-                            onClick={() => setOpenModal(true)}
-                            aria-hidden="true"
-                        />
-                    )}
                 </div>
             </div>
             <VerticalContentDiv>
@@ -236,16 +206,6 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
                     ${balanceInUsd === 0 ? 0 : balanceInUsd.toFixed(5)}
                 </PerUnitPrice>
             </VerticalContentDiv>
-            {thisAccount?.multisig && (
-                <MultisigDetail
-                    open={openModal}
-                    handleClose={() => setOpenModal(false)}
-                    address={address}
-                    name={accountName}
-                    threshold={multisigDetails?.threshold || 2}
-                    singatories={multisigDetails?.members || []}
-                />
-            )}
         </MainPanel>
     );
 };

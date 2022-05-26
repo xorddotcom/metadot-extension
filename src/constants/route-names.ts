@@ -15,5 +15,3 @@ export const ACCOUNTS = '/accounts';
 export const CREATE_DERIVED_ACCOUNT = '/create-derived-account';
 export const SWAP = '/swap';
 export const SEEDPHRASE_WARNING = '/seedphrase-warning';
-export const MULTISIG = '/multisig';
-export const MULTSIG_SIGN = '/multisig-sign';
