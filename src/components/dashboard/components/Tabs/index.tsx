@@ -43,9 +43,9 @@ const TxView: React.FunctionComponent<TxViewProps> = (
         (state: RootState) => state.activeAccount
     );
 
-    const transactionsOfActiveAccount = Object.values(
-        transactionData[publicKey]
-    );
+    const transactionsOfActiveAccount = transactionData[publicKey]
+        ? Object.values(transactionData[publicKey])
+        : [];
     const txRecordsForSelectedNetwork = transactionsOfActiveAccount.filter(
         // eslint-disable-next-line array-callback-return
         (transaction: TransactionRecord) =>

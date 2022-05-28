@@ -26,8 +26,7 @@ export const accountsSlice = createSlice({
                         : null,
                 };
             });
-            console.log('state before newState', { ...state, ...newState });
-            return { ...state, ...newState };
+            return newState;
         },
 
         resetAccountsSlice: (state) => {

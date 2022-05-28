@@ -26,7 +26,7 @@ const POLKADOT_CONFIG: NetworkConfig = {
     name: 'Polkadot',
     tokenName: 'DOT',
     queryEndpoint:
-        'https://api.subquery.network/sq/ahmedali8/metadot-subql-polkadot',
+        'https://api.subquery.network/sq/XORD-one/metadot-subql-polkadot',
     logo: polkadot,
     rpcUrl: 'wss://rpc.polkadot.io',
     // EXISTENTIAL_DEPOSIT: 1,
@@ -44,7 +44,7 @@ const KUSAMA_CONFIG: NetworkConfig = {
     // EXISTENTIAL_DEPOSIT: 0.0000333333,
     // prefix: 2,
     queryEndpoint:
-        'https://api.subquery.network/sq/ahmedali8/metadot-subql-kusama',
+        'https://api.subquery.network/sq/XORD-one/metadot-subql-kusama',
     relayChain: true,
     disabled: false,
     explorer: 'https://kusama.subscan.io/',
@@ -56,7 +56,7 @@ const KARURA_CONFIG: NetworkConfig = {
     logo: KaruraIcon,
     rpcUrl: 'wss://karura-rpc-0.aca-api.network',
     queryEndpoint:
-        'https://api.subquery.network/sq/ahmedali8/metadot-subql-karura',
+        'https://api.subquery.network/sq/XORD-one/metadot-subql-karura',
     // prefix: 8,
     disabled: false,
     explorer: 'https://karura.subscan.io/',
@@ -80,7 +80,7 @@ const SHIDEN_CONFIG: NetworkConfig = {
     logo: ShidenIcon,
     rpcUrl: 'wss://shiden.api.onfinality.io/public-ws',
     queryEndpoint:
-        'https://api.subquery.network/sq/ahmedali8/metadot-subql-shiden',
+        'https://api.subquery.network/sq/XORD-one/metadot-subql-shiden',
     // prefix: 5,
     disabled: false,
     explorer: 'https://shiden.subscan.io/',
@@ -126,7 +126,7 @@ const WESTEND_CONFIG: NetworkConfig = {
     name: 'Westend',
     tokenName: 'WND',
     queryEndpoint:
-        'https://api.subquery.network/sq/ahmedali8/metadot-subql-westend',
+        'https://api.subquery.network/sq/XORD-one/metadot-subql-westend',
     logo: westendColour,
     rpcUrl: 'wss://westend-rpc.polkadot.io',
     // prefix: 42,
@@ -134,17 +134,17 @@ const WESTEND_CONFIG: NetworkConfig = {
     explorer: 'https://westend.subscan.io/',
 };
 
-const ROCOCO_CONFIG: NetworkConfig = {
-    name: 'Rococo',
-    tokenName: 'ROC',
-    logo: rococoIcon,
-    rpcUrl: 'wss://rococo-rpc.polkadot.io',
-    // prefix: 42,
-    queryEndpoint:
-        'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
-    disabled: true,
-    explorer: '',
-};
+// const ROCOCO_CONFIG: NetworkConfig = {
+//     name: 'Rococo',
+//     tokenName: 'ROC',
+//     logo: rococoIcon,
+//     rpcUrl: 'wss://rococo-rpc.polkadot.io',
+//     // prefix: 42,
+//     queryEndpoint:
+//         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
+//     disabled: true,
+//     explorer: '',
+// };
 
 const ACALA_MANDALA_CONFIG: NetworkConfig = {
     name: 'Acala Mandala',
@@ -201,7 +201,7 @@ const ASTAR_CONFIG: NetworkConfig = {
     rpcUrl: 'wss://rpc.astar.network',
     // prefix: 5,
     queryEndpoint:
-        'https://api.subquery.network/sq/ahmedali8/metadot-subql-astar',
+        'https://api.subquery.network/sq/XORD-one/metadot-subql-astar',
     disabled: false,
     explorer: 'https://astar.subscan.io/',
 };
@@ -210,7 +210,7 @@ const SHIBUYA_CONFIG: NetworkConfig = {
     name: 'Shibuya',
     tokenName: 'SBY',
     queryEndpoint:
-        'https://api.subquery.network/sq/ahmedali8/metadot-subql-shibuya',
+        'https://api.subquery.network/sq/XORD-one/metadot-subql-shibuya',
     logo: shibuyaIcon,
     rpcUrl: 'wss://rpc.shibuya.astar.network',
     // prefix: 5,
@@ -234,7 +234,7 @@ const CONTEXTFREE_CONFIG: NetworkConfig = {
     name: 'ContextFree',
     tokenName: 'CTX',
     queryEndpoint:
-        'https://api.subquery.network/sq/ahmedali8/metadot-subql-contextfree',
+        'https://api.subquery.network/sq/XORD-one/metadot-subql-contextfree',
     logo: contextFree,
     rpcUrl: 'wss://cf-api.ata.network',
     // rpcUrl: 'wss://contextfree.api.onfinality.io/public-ws',
@@ -249,7 +249,7 @@ const ACALA_CONFIG: NetworkConfig = {
     name: 'Acala',
     tokenName: 'ACA',
     queryEndpoint:
-        'https://api.subquery.network/sq/ahmedali8/metadot-subql-acala',
+        'https://api.subquery.network/sq/XORD-one/metadot-subql-acala',
     logo: ACA,
     rpcUrl: 'wss://acala-rpc.dwellir.com',
     // prefix: 10,
@@ -261,7 +261,7 @@ const BIFROST_STAGE_TESTNET_CONFIG: NetworkConfig = {
     name: 'Bifrost',
     tokenName: '',
     queryEndpoint:
-        'https://api.subquery.network/sq/ahmedali8/metadot-subql-bifrost-testnet',
+        'https://api.subquery.network/sq/XORD-one/metadot-subql-bifrost-testnet',
     logo: BifrostIcon,
     rpcUrl: 'wss://bifrost-rpc.testnet.liebi.com/ws',
     // prefix: 10,
@@ -273,7 +273,7 @@ const BIFROST_KUSAMA_CONFIG: NetworkConfig = {
     name: 'Bifrost',
     tokenName: '',
     queryEndpoint:
-        'https://api.subquery.network/sq/ahmedali8/metadot-subql-bifrost-mainnet',
+        'https://api.subquery.network/sq/XORD-one/metadot-subql-bifrost-mainnet',
     logo: BifrostIcon,
     rpcUrl: 'wss://eu.bifrost-rpc.liebi.com/ws',
     // prefix: 10,
@@ -293,7 +293,7 @@ export default {
     SHIDEN_CONFIG,
     KARURA_CONFIG,
     WESTEND_CONFIG,
-    ROCOCO_CONFIG,
+    // ROCOCO_CONFIG,
     // DUSTY_CONFIG,
     ACALA_MANDALA_CONFIG,
     ASTAR_CONFIG,
