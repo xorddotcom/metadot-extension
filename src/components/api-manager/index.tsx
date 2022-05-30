@@ -22,12 +22,12 @@ import { addTransaction } from '../../redux/slices/transactions';
 
 const { wifiOff, SuccessCheckIcon } = images;
 const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
-    // const setIsWalletConnected = chrome.storage.local.get(
-    //     ['setIsWalletConnected'],
-    //     function (result) {
-    //         console.log(`Value currently is ${result.key}`);
-    //     }
-    // );
+    const setIsWalletConnected = chrome.storage.local.get(
+        ['setIsWalletConnected'],
+        function (result) {
+            console.log(`Value currently is ${result.key}`);
+        }
+    );
     const currentUser = useSelector((state: RootState) => state);
     const openModal = useResponseModal({
         isOpen: true,
@@ -177,10 +177,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
         (async () => {
             const tokens = api?.registry?.chainTokens;
             const allDecimals = api?.registry?.chainDecimals;
-            console.log(
-                'api && publicKey && tokens',
-                api && publicKey && tokens
-            );
+
             if (api && publicKey && tokens) {
                 tokens.map(async (token: any, index: number) => {
                     unsub = await api?.query?.tokens?.accounts(
@@ -298,15 +295,7 @@ const ApiManager: React.FunctionComponent<{ rpc: string }> = ({ rpc }) => {
                                                 operation,
                                                 tokenList,
                                             } = formattedExtrinsic;
-                                            console.log(
-                                                'formatted result =>',
-                                                accountFrom,
-                                                accountTo,
-                                                amount,
-                                                hash,
-                                                operation,
-                                                tokenList
-                                            );
+
                                             if (!amount.includes(NaN)) {
                                                 transactions.push({
                                                     accountFrom,

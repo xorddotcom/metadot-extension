@@ -72,6 +72,7 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
         'Astar',
         'Shiden',
         'Acala',
+        'Bifrost',
     ];
     const chainNameAltered = allMainnetsName.includes(chainName)
         ? `${chainName} Main Network`

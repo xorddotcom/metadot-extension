@@ -79,7 +79,6 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
 
         return `${currentChain[0].explorer}extrinsic/${txHash}`;
     };
-    console.log('token and amount', { tokenName, amount });
     const getTotalAmount = (): number => {
         const totalAmount = amount.reduce(function (a, b) {
             return a + b;
@@ -363,17 +362,19 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                 >
                                     Amount
                                 </MainText1>
-                                <MainText1
-                                    marginTop="10px"
-                                    textAlign="start"
-                                    className={subHeadingfontFamilyClass}
-                                    fontSize="12px"
-                                    color="#FFFFFF"
-                                    fontWeight="400"
-                                    opacity="0.8"
-                                >
-                                    Transaction Fee
-                                </MainText1>
+                                {transactionFee !== '0' && (
+                                    <MainText1
+                                        marginTop="10px"
+                                        textAlign="start"
+                                        className={subHeadingfontFamilyClass}
+                                        fontSize="12px"
+                                        color="#FFFFFF"
+                                        fontWeight="400"
+                                        opacity="0.8"
+                                    >
+                                        Transaction Fee
+                                    </MainText1>
+                                )}
                             </VerticalContentDiv>
 
                             <VerticalContentDiv marginBottom="10px">
@@ -388,17 +389,19 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                         tokenName[0]
                                     }`}
                                 </MainText1>
-                                <MainText1
-                                    marginTop="10px"
-                                    textAlign="end"
-                                    className={mainHeadingfontFamilyClass}
-                                    fontSize="12px"
-                                    color="#FFFFFF"
-                                >{`${
-                                    transactionFee
-                                        ? transactionFee.slice(0, 6)
-                                        : '0'
-                                } ${tokenName[0]}`}</MainText1>
+                                {transactionFee !== '0' && (
+                                    <MainText1
+                                        marginTop="10px"
+                                        textAlign="end"
+                                        className={mainHeadingfontFamilyClass}
+                                        fontSize="12px"
+                                        color="#FFFFFF"
+                                    >{`${
+                                        transactionFee
+                                            ? transactionFee.slice(0, 6)
+                                            : '0'
+                                    } ${tokenName[0]}`}</MainText1>
+                                )}
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
 

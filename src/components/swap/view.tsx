@@ -19,6 +19,7 @@ import {
 import { SwapViewProps } from './types';
 
 const { SwapIcon } = images;
+const allTokenImages = images;
 const { subHeadingfontFamilyClass } = fonts;
 const SwapView: React.FunctionComponent<SwapViewProps> = ({
     handleOpen,
@@ -36,7 +37,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
 }) => {
     const [showDetail, setShowDetail] = useState(true);
 
-    console.log('swap params komal ==>>', swapParams);
+    console.log('token from to', { tokenTo, tokenFrom });
 
     const styledInputPay = {
         id: 'InputField',
@@ -46,7 +47,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
         blockInvalidChar: true,
         tokenLogo: true,
         tokenDropDown: true,
-        tokenImage: `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenFrom?.name}.png`,
+        tokenImage: allTokenImages[tokenFrom?.name || 'BNC'],
         bgColor: '#212121',
         tokenBoxColor: '#141414',
     };
@@ -59,7 +60,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
         blockInvalidChar: true,
         tokenLogo: true,
         tokenDropDown: true,
-        tokenImage: `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenTo?.name}.png`,
+        tokenImage: allTokenImages[tokenTo?.name || 'KUSD'],
         bgColor: '#212121',
         tokenBoxColor: '#141414',
     };
@@ -110,7 +111,6 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
             data: `${swapParams.tradingFee?.toString()} KAR`,
         },
     ];
-    console.log(swapParams.outputAmount, 'swap param amount');
 
     return (
         <>

@@ -41,8 +41,6 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
         (state: RootState) => state.accounts[publicKey]
     );
 
-    console.log(thisAccount);
-
     const [copyT, setCopyT] = useState('Copy');
 
     const copy = (e: React.ChangeEvent<EventTarget>): void => {

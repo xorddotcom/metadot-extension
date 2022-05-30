@@ -97,7 +97,6 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
         const transactionFee = await getTransactionFees();
         const balancePerToken: any = {};
         recepientList.forEach((recepient) => {
-            console.log(recepient, balancePerToken, 'kuch likh');
             if (balancePerToken[recepient.token] === undefined) {
                 balancePerToken[recepient.token] = Number(recepient.amount);
             } else {
@@ -106,7 +105,6 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                     Number(recepient.amount);
             }
         });
-        console.log(balancePerToken, 'balance per token');
         const insufficientBalanceErrorinToken: string[] = [];
 
         // eslint-disable-next-line consistent-return
@@ -164,7 +162,6 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
                         Number(recepientList[index].amount)
                 )
             ) {
-                console.log(index + 1, 'yehg ander lo');
                 reapReceiverAccounts.push(index + 1);
             }
         });
@@ -182,8 +179,6 @@ const BatchView: React.FunctionComponent<CreateBatchViewProps> = ({
         const transactionFee = await getTransactionFees();
         const balancePerToken: any = {};
         recepientList.forEach((recepient) => {
-            console.log(recepient, balancePerToken);
-
             if (balancePerToken[recepient.token] === undefined) {
                 balancePerToken[recepient.token] = Number(recepient.amount);
             } else {

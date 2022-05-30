@@ -341,8 +341,6 @@ const getBalancesForBatch = async (
     recepient: RecepientInterface[]
 ): Promise<number[]> => {
     const queries = recepient.map((rec) => {
-        console.log(api.registry.chainTokens[0], 'token dekho podina');
-        console.log(rec.token, 'token dekho podina');
         if (api.registry.chainTokens[0] === rec.token) {
             return [api.query.system.account, rec.address];
         }
@@ -358,7 +356,6 @@ const getBalancesForBatch = async (
     });
 
     const result = await api.queryMulti(queries as any);
-    console.log('result ==>>', result);
     const balances = result.map((item: any, index: number) => {
         const free = item.data ? item.data.free : item.free;
         return (

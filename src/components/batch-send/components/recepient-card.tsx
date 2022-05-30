@@ -55,7 +55,6 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
             const isNativeToken = balances.filter(
                 (bal) => bal.name === recepient.token
             );
-            console.log('isNativeToken', isNativeToken);
             if (!isNativeToken[0].isNative) {
                 const receiverBalance = await getBalancesForBatch(api, [
                     {
@@ -63,14 +62,12 @@ const RecepientCard: React.FunctionComponent<RecepientCardInterface> = ({
                         token: recepient.token,
                     },
                 ]);
-                console.log('receiverBalance', receiverBalance);
                 setBalanceOfSelectedToken(receiverBalance[0]);
             } else {
                 const nativeBalance = await getBalanceWithSingleToken(
                     api,
                     publicKey
                 );
-                console.log('nativeBalance', nativeBalance);
                 setBalanceOfSelectedToken(nativeBalance.balance);
             }
         };

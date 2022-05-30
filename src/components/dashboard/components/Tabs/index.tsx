@@ -52,12 +52,6 @@ const TxView: React.FunctionComponent<TxViewProps> = (
             transaction.tokenName[0] && transaction.tokenName[0] === tokenName
     );
 
-    console.log('transactionsOfActiveAccount', {
-        transactionsOfActiveAccount,
-        tokenName,
-        txRecordsForSelectedNetwork,
-    });
-
     return (
         // eslint-disable-next-line react/jsx-no-useless-fragment
         <>
@@ -148,13 +142,11 @@ const AssetsAndTransactions: React.FunctionComponent<
     };
 
     const handleTransaction = (transactionObject: any): void => {
-        console.log('transactionObject', { transactionObject });
         const transactions = [
             ...transactionObject.data.account.transferTo.nodes,
             ...transactionObject.data.account.transferFrom.nodes,
             // eslint-disable-next-line array-callback-return
         ].map((transaction) => {
-            console.log('transaction', transaction);
             const gasFee = transaction.fees
                 ? (
                       parseInt(transaction.fees) /
@@ -181,23 +173,13 @@ const AssetsAndTransactions: React.FunctionComponent<
             };
         });
 
-        console.log(
-            'transaction from sub query transactions ==>>',
-            transactions
-        );
         dispatch(addTransaction({ transactions, publicKey }));
     };
 
     const handleSwapRecords = (transactionObject: any): void => {
-        console.log(
-            'transaction from sub query swap transactions 1==>>',
-            transactionObject
-        );
         const transactions =
             transactionObject.data.query.account.swaps.nodes.map(
                 (transaction: any) => {
-                    console.log('EACH SWAP', transaction);
-
                     const gasFee = transaction.fees
                         ? (parseInt(transaction.fees) / 12).toString()
                         : '0';
@@ -231,26 +213,19 @@ const AssetsAndTransactions: React.FunctionComponent<
                 }
             );
 
-        console.log(
-            'transaction from sub query swap transactions ==>>',
-            transactions
-        );
         dispatch(addTransaction({ transactions, publicKey }));
     };
 
     const handleBatchRecords = (transactionObject: any): void => {
-        console.log('raw batch', transactionObject);
         const transactions = [
             ...transactionObject.data.query.account.batchRecordsFrom.nodes,
             ...transactionObject.data.query.account.batchRecordsTo.nodes,
             // eslint-disable-next-line array-callback-return
         ].map((transaction) => {
-            console.log('EACH BATCH', transaction);
             // return transaction;
             const senderId =
                 transaction.senderId ||
                 transaction.batch.sender.nodes[0].senderId;
-            console.log('senderId ======', senderId);
             const gasFee = transaction.fees
                 ? (
                       parseInt(transaction.fees) /
@@ -282,10 +257,6 @@ const AssetsAndTransactions: React.FunctionComponent<
             };
         });
 
-        console.log(
-            'transaction from sub query batch transactions ==>>',
-            transactions
-        );
         dispatch(addTransaction({ transactions, publicKey }));
     };
 

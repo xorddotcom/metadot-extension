@@ -68,7 +68,6 @@ const BatchSend: React.FunctionComponent = () => {
     };
 
     const handleNetworkSelect = (value: BalancesType): void => {
-        console.log('select network');
         const newState = [...recepientList];
         newState[activeRecepientIndex].token = value.name;
         setRecepientList([...newState]);
@@ -114,7 +113,6 @@ const BatchSend: React.FunctionComponent = () => {
                 }));
                 setRecepientList(newRecepientList);
             } else {
-                console.log(recepient, 'yeh recepient add honge 2');
                 let newRecepientList = recepientList.concat(recepient);
                 newRecepientList = newRecepientList.map((r) => ({
                     ...r,
@@ -305,7 +303,6 @@ const BatchSend: React.FunctionComponent = () => {
     ): Promise<boolean> => {
         try {
             setIsButtonLoading(true);
-            console.log('sending transaction ==>>', recepientList);
             const txs = recepientList.map((recepient) => {
                 if (api.registry.chainTokens[0] === recepient.token) {
                     return api.tx.balances.transfer(
@@ -348,7 +345,6 @@ const BatchSend: React.FunctionComponent = () => {
                     );
                     if (status.isInBlock) {
                         if (txResFail.length >= 1) {
-                            console.log('from 1');
                             openResponseModalForTxSuccess();
                             setTimeout(() => {
                                 generalDispatcher(() =>
@@ -361,7 +357,6 @@ const BatchSend: React.FunctionComponent = () => {
                             navigate(DASHBOARD);
                         }
                         if (txResSuccess.length >= 1) {
-                            console.log('from 2');
                             openResponseModalForTxSuccess();
                             setTimeout(() => {
                                 generalDispatcher(() =>
@@ -375,7 +370,6 @@ const BatchSend: React.FunctionComponent = () => {
                     }
                 })
                 .catch(() => {
-                    console.log('from 3');
                     openResponseModalForTxFailed();
                     setTimeout(() => {
                         generalDispatcher(() => setIsResponseModalOpen(false));

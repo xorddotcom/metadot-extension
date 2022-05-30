@@ -24,6 +24,7 @@ const RenderContentForKusamaMainNetwork = ({
         'Shiden',
         'Acala',
         'Astar',
+        'Bifrost',
     ];
     const chainNameAltered = allMainnetsName.includes(name)
         ? `${name} Main Network`

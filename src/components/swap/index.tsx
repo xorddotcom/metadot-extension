@@ -444,7 +444,6 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                             ({ event }: EventRecord) =>
                                 api?.events?.system?.ExtrinsicFailed.is(event)
                         );
-                        console.log(txResSuccess, 'yes');
                         if (status.isInBlock) {
                             if (txResFail.length >= 1) {
                                 transactionRecord[0].status = 'Failed';
@@ -454,7 +453,6 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                                         publicKey: address,
                                     })
                                 );
-                                console.log('from 1');
                                 openResponseModalForTxFailed();
                                 setTimeout(() => {
                                     generalDispatcher(() =>
@@ -475,7 +473,6 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                                         publicKey: address,
                                     })
                                 );
-                                console.log('from 2');
                                 openResponseModalForTxSuccess();
                                 setTimeout(() => {
                                     generalDispatcher(() =>
@@ -491,7 +488,6 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                         }
                     })
                     .catch(() => {
-                        console.log('from 3');
                         openResponseModalForTxFailed();
                         setTimeout(() => {
                             generalDispatcher(() =>

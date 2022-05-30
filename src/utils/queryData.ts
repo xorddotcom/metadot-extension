@@ -68,36 +68,6 @@ query {
 
 const getQuery = (prefix: number, publicKey: string): string => {
     const address = encodeAddress(publicKey, prefix);
-    const queryWithoutTxFees = `
-     query {
-    account(id: "${address}") {
-        id
-        transferTo {
-          nodes {
-            id
-            token
-            extrinsicHash
-            amount
-            status
-            toId
-            fromId
-            timestamp
-          }
-        }
-        transferFrom {
-          nodes {
-            id
-            token
-            extrinsicHash
-            amount
-            status
-            toId
-            fromId
-            timestamp
-          }
-        }
-    }
-  }`;
     const query = `
      query {
     account(id: "${address}") {
@@ -130,7 +100,7 @@ const getQuery = (prefix: number, publicKey: string): string => {
         }
     }
   }`;
-    return prefix === 0 || prefix === 2 ? queryWithoutTxFees : query;
+    return query;
 };
 export const queryData = (
     queryEndpoint: string,

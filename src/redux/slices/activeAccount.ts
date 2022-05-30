@@ -50,7 +50,6 @@ export const activeAccountSlice = createSlice({
             return { ...initialState };
         },
         setPublicKey: (state, action: PayloadAction<string>) => {
-            console.log('set public key working ---->>>');
             return {
                 ...state,
                 publicKey: action.payload,

@@ -227,7 +227,6 @@ const txMadeOrReceiveByUser = (
         (event.event.data[0].toString() === userAddress ||
             event.event.data[1].toString() === userAddress)
     ) {
-        console.log('from balances', event);
         return { bool: true, method: 'transfer' };
     }
     if (
@@ -236,9 +235,6 @@ const txMadeOrReceiveByUser = (
         (event.event.data[1].toString() === userAddress ||
             event.event.data[2].toString() === userAddress)
     ) {
-        console.log('from currencies');
-        console.log('eve', event);
-        console.log('exe', extrinsic);
         return { bool: true, method: 'transfer' };
     }
     if (
@@ -272,7 +268,6 @@ const txMadeOrReceiveByUser = (
             return res.args?.dest?.id?.toString();
         });
         if (signer === userAddress || receiverArray.includes(userAddress)) {
-            console.log('utility batch completed method returning');
             return { bool: true, method: 'batch' };
         }
 
@@ -338,7 +333,6 @@ const formatExtrinsic = (
         };
         const argsData = args();
         operation = accountFrom === userAddress ? 'Send' : 'Receive';
-        console.log(argsData, 'args check kero');
         accountTo = [argsData[0]?.value.id];
 
         tokenList = [
@@ -362,7 +356,6 @@ const formatExtrinsic = (
             // eslint-disable-next-line @typescript-eslint/no-shadow
             const { args, meta } = extrinsic || {};
             const { args: argsDef } = meta;
-            console.log(' From Metadot :');
             console.log(args);
             const result = args.map((arg: any, index: any) => {
                 const { name, type } = argsDef[index];
@@ -377,7 +370,6 @@ const formatExtrinsic = (
 
         operation =
             accountFrom === userAddress ? 'Batch Send' : 'Batch Receive';
-        console.log('start for batch');
         console.log(argsData);
         accountTo = argsData.map((res: any) => {
             return res.args?.dest?.id?.toString();
@@ -396,20 +388,7 @@ const formatExtrinsic = (
             );
             return convertedAmount;
         });
-
-        console.log(accountTo, amount, tokenList);
-        console.log('finish for batch');
     }
-    console.log('end of finction');
-    console.log(
-        accountFrom,
-        accountTo,
-        amount,
-        hash,
-        operation,
-        status,
-        tokenList
-    );
     return {
         accountFrom,
         accountTo,

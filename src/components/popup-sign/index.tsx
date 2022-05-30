@@ -45,12 +45,6 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
 
         isSignLocked(requests[requests.length - 1].id)
             .then(({ isLocked, remainingTime }) => {
-                console.log(
-                    '🚀 ~ file: index.tsx ~ line 39 ~ .then ~ isLocked, remainingTime',
-                    isLocked,
-                    remainingTime
-                );
-
                 setIsLock(isLocked);
                 timeout = setTimeout(() => {
                     setIsLock(true);
@@ -215,7 +209,6 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                 }}
             >
                 {Signaturedata.map((el) => {
-                    console.log('el', el);
                     if (el.copy) {
                         return (
                             <HorizontalContentDiv height="20%">

@@ -85,31 +85,20 @@ const setToggleButtons = (
     setDisableToggleButtons: any,
     isNative: boolean
 ): void => {
-    console.log('toggles', {
-        isNative,
-        balance,
-        transactionFee,
-        existentialDeposit,
-        nativeTokenBalance,
-    });
     if (isNative) {
         if (Number(nativeTokenBalance) >= Number(transactionFee)) {
-            console.log('in first IF');
             console.log('');
         } else if (nativeTokenBalance < transactionFee) {
-            console.log('in second else if');
             setDisableToggleButtons({
                 firstToggle: true,
                 secondToggle: true,
             });
         }
     } else if (balance.toString() === existentialDeposit.toString()) {
-        console.log('in else if first');
         setDisableToggleButtons((prevState: any) => ({
             ...prevState,
             firstToggle: true,
         }));
-        console.log('in else if first');
         // setDisableToggleButtons((prevState: any) => ({
         //     ...prevState,
         //     firstToggle: true,
@@ -124,23 +113,14 @@ const setToggleButtons2 = (
     setDisableToggleButtons: any,
     isNative: boolean
 ): void => {
-    console.log('toggles', {
-        isNative,
-        balance,
-        transactionFee,
-        existentialDeposit,
-    });
     if (balance - transactionFee > existentialDeposit) {
-        console.log('in first IF');
         console.log('');
     } else if (balance.toString() === existentialDeposit.toString()) {
-        console.log('in else if first');
         setDisableToggleButtons((prevState: any) => ({
             ...prevState,
             firstToggle: true,
         }));
     } else if (balance < transactionFee) {
-        console.log('in second else if');
         setDisableToggleButtons({
             firstToggle: true,
             secondToggle: true,

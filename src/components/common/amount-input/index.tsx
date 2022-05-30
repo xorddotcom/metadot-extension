@@ -45,7 +45,6 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenName}.png`
     );
     useEffect(() => {
-        console.log('amount input', dollarAmount);
         const url = `https://token-resources-git-dev-acalanetwork.vercel.app/tokens/${tokenName}.png`;
         const request = new XMLHttpRequest();
         request.open('GET', url, true);

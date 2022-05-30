@@ -36,8 +36,6 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         getTransactionFees,
     } = props;
 
-    console.log(props, 'dikha do bhai');
-
     const [amount, setAmount] = React.useState('');
     const [address, setAddress] = React.useState('');
 
@@ -83,7 +81,6 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
             const isNativeToken = balances.filter(
                 (bal) => bal.name === activeRecepient.token
             );
-            console.log('isNativeToken', isNativeToken);
             if (!isNativeToken[0].isNative) {
                 const receiverBalance = await getBalancesForBatch(api, [
                     {
@@ -91,14 +88,12 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
                         token: activeRecepient.token,
                     },
                 ]);
-                console.log('receiverBalance', receiverBalance);
                 setBalanceOfSelectedToken(receiverBalance[0]);
             } else {
                 const nativeBalance = await getBalanceWithSingleToken(
                     api,
                     publicKey
                 );
-                console.log('nativeBalance', nativeBalance);
                 setBalanceOfSelectedToken(nativeBalance.balance);
             }
         };
@@ -205,7 +200,6 @@ const EditRecepientModal: React.FunctionComponent<ResponseModalProps> = (
         const totalAmount = getTotalAmount(amount, activeRecepient.index);
 
         const transactionFee = await getTransactionFees();
-        console.log(totalAmount, transactionFee, '---> amount and fee');
         if (Number(balance) < Number(totalAmount) + Number(transactionFee)) {
             setAmountError(true);
             setAmountErrorMessage('Insufficient Funds');

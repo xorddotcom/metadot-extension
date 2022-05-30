@@ -171,17 +171,14 @@ export const getSwapParams = async (
                 !pair.token1.name.includes('//') &&
                 !pair.token2.name.includes('//')
         );
-    console.log('tradingPairs', tradingPairs);
 
     const tradeGraph = new TradeGraph(tradingPairs);
-    console.log('tradeGraph', tradeGraph);
 
     const tradingPaths = tradeGraph.getPathes(
         SDKToken.fromCurrencyId(tokenFrom.name as any),
         SDKToken.fromCurrencyId(tokenTo.name as any),
         3
     );
-    console.log('tradingPaths', tradingPaths);
 
     const tokenPairFromPaths = tradingPaths
         .reduce((acc: any, path) => {
@@ -196,15 +193,12 @@ export const getSwapParams = async (
             return acc;
         }, []);
 
-    console.log('tokenPairFromPaths', tokenPairFromPaths);
-
     const liquidityPoolsFromTokenPairs = await api.queryMulti(
         tokenPairFromPaths.map((item: any) => [
             api.query.dex.liquidityPool,
             item.toTradingPair(api),
         ])
     );
-    console.log('liquidityPoolsFromTokenPairs', liquidityPoolsFromTokenPairs);
 
     const LiqPoolsWithTokens = tokenPairFromPaths.map(
         (item: any, index: any) => {
@@ -218,7 +212,6 @@ export const getSwapParams = async (
             };
         }
     );
-    console.log('LiqPoolsWithTokens', LiqPoolsWithTokens);
 
     const fee = {
         denominator: new FixedPointNumber(
@@ -250,14 +243,10 @@ export const getSwapParams = async (
                     item.token1.isEqual(token1) && item.token2.isEqual(token2)
             );
 
-            console.log('pool bhai ==>>', pool);
-
             const [supply, target] = sortLiquidityPoolWithTokenOrder(
                 pool,
                 path[i]
             );
-
-            console.log('supply target bhai ==>>', supply, target);
 
             const outputAmount = getTargetAmount(
                 supply,
@@ -293,8 +282,6 @@ export const getSwapParams = async (
 
         return swapResult;
     });
-
-    console.log('swapResults ==>>', swapResults);
 
     const bestSwapResult = swapResults.reduce(function (prev, current) {
         return prev.outputAmount > current.outputAmount ? prev : current;

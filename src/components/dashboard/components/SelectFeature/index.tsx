@@ -8,7 +8,7 @@ import {
     FeatureImage,
     FeatureText,
 } from '../../styledComponents/index';
-import { DASHBOARD, SWAP } from '../../../../constants';
+import { DASHBOARD, SWAP, SEND } from '../../../../constants';
 
 import { images } from '../../../../utils';
 
@@ -26,15 +26,23 @@ const SelectFeature: React.FunctionComponent = () => {
 
     const { balances } = useSelector((state: RootState) => state.activeAccount);
 
+    const { name, decimal, isNative, balance } = balances[0];
+
     const featureClickHandler = (path: string): void => {
-        if (balances.length > 1) {
-            navigate(path);
-        }
+        navigate(path, {
+            state: {
+                tokenName: name,
+                balance,
+                isNative,
+                decimal,
+                dollarAmount: '10',
+            },
+        });
     };
 
     return (
         <HorizontalContentDiv justifyContent="space-around" marginTop="24px">
-            <FeatureBox onClick={() => featureClickHandler(DASHBOARD)}>
+            <FeatureBox onClick={() => featureClickHandler(SEND)}>
                 <FeatureImage src={SendDashboardIcon} alt="send" />
                 <FeatureText>Send</FeatureText>
             </FeatureBox>

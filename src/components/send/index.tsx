@@ -120,10 +120,8 @@ const Send: React.FunctionComponent = () => {
     const tokenToSend = balances.filter((bal) => bal.name === tokenName);
 
     useEffect(() => {
-        console.log('Account changed');
         balances.forEach((bal) => {
             if (bal.name === tokenName) {
-                console.log('new balance', bal.balance);
                 setBalance(bal.balance);
                 // setBalanaceAfterAccountSwitch(bal.balance);
             }
@@ -131,7 +129,6 @@ const Send: React.FunctionComponent = () => {
     }, [publicKey, tokenToSend[0]?.balance]);
 
     useEffect(() => {
-        console.log('location', location);
         async function get(): Promise<void> {
             const estimatedTxFee = await getTransactionFee(
                 api,
@@ -160,7 +157,6 @@ const Send: React.FunctionComponent = () => {
     }, []);
 
     useEffect(() => {
-        console.log('active account working', activeAccount);
         setToggleButtons(
             balance,
             balances[0].balance,
@@ -173,7 +169,6 @@ const Send: React.FunctionComponent = () => {
 
     useEffect(() => {
         const tokens = api?.registry?.chainTokens;
-        console.log('tokens here', tokens);
         setChainTokens(tokens);
     }, []);
 
@@ -266,8 +261,6 @@ const Send: React.FunctionComponent = () => {
             },
         ];
 
-        console.log('transaction record', transactionRecord);
-        console.log('public key', address);
         generalDispatcher(() =>
             addTransaction({
                 transactions: transactionRecord,
@@ -360,7 +353,6 @@ const Send: React.FunctionComponent = () => {
         address: '',
         password: ''
     ): Promise<boolean> => {
-        console.log('transfer all running', location);
         try {
             setLoading2(true);
 
