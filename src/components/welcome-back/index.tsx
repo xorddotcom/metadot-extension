@@ -17,9 +17,9 @@ import {
 } from '../../redux/slices/activeAccount';
 
 import { RootState } from '../../redux/store';
-import { DASHBOARD, IMPORT_WALLET } from '../../constants';
+import { DASHBOARD, WELCOME } from '../../constants';
 import { PASSWORD } from '../../utils/app-content';
-import { MyAccounts } from '../common/modals';
+import { MyAccounts, WarningModal } from '../common/modals';
 import { Account } from './types';
 import useDispatcher from '../../hooks/useDispatcher';
 import { ImportLink } from './styles';
@@ -33,12 +33,14 @@ const {
     // welcomeScreenMainHeadingFontSize,
 } = fonts;
 const { primaryText } = colors;
-const { validateAccount } = accounts;
+const { validateAccount, deleteAccount } = accounts;
 
 function WelcomeBack(): JSX.Element {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const [openWarnModal, setOpenWarnModal] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { accountName, publicKey } = useSelector(
         (state: RootState) => state.activeAccount
@@ -138,6 +140,43 @@ function WelcomeBack(): JSX.Element {
         if (allAccounts.length !== 1) setIsModalOpen(true);
     };
 
+    const deleteAllAccountHandler = async (): Promise<void> => {
+        try {
+            const allPromisesResult = allAccounts.map((account) => {
+                return deleteAccount(account.publicKey);
+            });
+            await Promise.all(allPromisesResult);
+            generalDispatcher(() => resetAccountsSlice());
+            generalDispatcher(() => resetAccountSlice());
+            navigate(WELCOME);
+        } catch (error) {
+            console.log('error in deleting all accounts', error);
+        }
+    };
+
+    const warningModal = {
+        open: openWarnModal,
+        handleClose: () => setOpenWarnModal(false),
+        onConfirm: () => {
+            setIsLoading(true);
+            deleteAllAccountHandler();
+            setOpenWarnModal(false);
+            setIsLoading(true);
+        },
+        style: {
+            width: '290px',
+            background: '#141414',
+            position: 'relative',
+            bottom: 30,
+            p: 2,
+            px: 2,
+            pb: 3,
+        },
+        mainText: 'Remove Account',
+        subText: `Upon continuation from here, your complete wallet will be reset which means there is no way we can recover any of your account present in this wallet.`,
+        isLoading,
+    };
+
     return (
         <div className="wrapper-wb">
             <div className="app-logo">
@@ -191,19 +230,16 @@ function WelcomeBack(): JSX.Element {
                 }}
             />
 
-            {/* <p>
+            <p>
                 <ImportLink color={primaryText}>or </ImportLink>
                 <ImportLink
                     className={subHeadingfontFamilyClass}
-                    onClick={() => {
-                        generalDispatcher(() => resetAccountsSlice());
-                        generalDispatcher(() => resetAccountSlice());
-                        // navigate(IMPORT_WALLET);
-                    }}
+                    onClick={() => setOpenWarnModal(true)}
                 >
                     Reset your Wallet
                 </ImportLink>
-            </p> */}
+            </p>
+            <WarningModal {...warningModal} />
         </div>
     );
 }

@@ -63,6 +63,7 @@ export const Account = styled.div`
         marginBottom?: string;
     }) => props.marginTop && props.marginTop};
     width: 320px;
+    position: relative;
 `;
 
 export const AccountFlex = styled.div`

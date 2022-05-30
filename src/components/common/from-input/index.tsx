@@ -1,28 +1,26 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Balance, FromAccount, PlainIcon } from '../style';
-import { MainText } from '../../common/text';
-import {
-    VerticalContentDiv,
-    HorizontalContentDiv,
-} from '../../common/wrapper/index';
+import { Balance, FromAccount, PlainIcon } from './style';
+import { MainText } from '../text';
+import { VerticalContentDiv, HorizontalContentDiv } from '../wrapper/index';
 import { fonts, helpers, images } from '../../../utils';
 import services from '../../../utils/services';
 import { RootState } from '../../../redux/store';
-import { MyAccounts } from '../../common/modals';
+import { MyAccounts } from '../modals';
 import useDispatcher from '../../../hooks/useDispatcher';
 import {
     setAccountName,
     setPublicKey,
 } from '../../../redux/slices/activeAccount';
-import { Account } from '../types';
+import { Account, FromInputProps } from './types';
 
 const { addressModifier } = helpers;
 const { addressMapper } = services;
 
 const { dropdownIcon } = images;
 
-const FromInput: React.FunctionComponent = () => {
+const FromInput: React.FunctionComponent<FromInputProps> = (props) => {
+    const { resetToggles } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const generalDispatcher = useDispatcher();
     const { accountName, publicKey, prefix } = useSelector(
@@ -30,13 +28,12 @@ const FromInput: React.FunctionComponent = () => {
     );
     const accounts = useSelector((state: RootState) => state.accounts);
 
-    // const [accountToLogin, setAccountToLogin] = useState<Account>({
-    //     publicKey,
-    //     accountName,
-    // });
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
     const onAccountSelection = (data: Account): void => {
+        if (resetToggles) {
+            resetToggles(true);
+        }
         setIsModalOpen(false);
         generalDispatcher(() => setPublicKey(data.publicKey));
         generalDispatcher(() => setAccountName(data.accountName));
@@ -49,8 +46,24 @@ const FromInput: React.FunctionComponent = () => {
         fs: '15px',
         mt: '-4px',
     };
+
+    const myAccounts = {
+        open: isModalOpen,
+        handleClose: () => setIsModalOpen(false),
+        onSelection: onAccountSelection,
+        style: {
+            position: 'relative',
+            width: '300px',
+            background: '#141414',
+            pb: 3,
+            overflowY: 'scroll',
+            overflowX: 'hidden',
+            marginTop: '144px',
+        },
+    };
+
     return (
-        <VerticalContentDiv mb="20px">
+        <VerticalContentDiv>
             <MainText className={mainHeadingfontFamilyClass}>From</MainText>
             <FromAccount
                 id="from-account"
@@ -85,20 +98,7 @@ const FromInput: React.FunctionComponent = () => {
                     ''
                 )}
             </FromAccount>
-            <MyAccounts
-                open={isModalOpen}
-                handleClose={() => setIsModalOpen(false)}
-                onSelection={onAccountSelection}
-                style={{
-                    position: 'relative',
-                    width: '300px',
-                    background: '#141414',
-                    pb: 3,
-                    overflowY: 'scroll',
-                    overflowX: 'hidden',
-                    marginTop: '144px',
-                }}
-            />
+            <MyAccounts {...myAccounts} />
         </VerticalContentDiv>
     );
 };

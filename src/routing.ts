@@ -13,6 +13,7 @@ import {
     WELCOME_BACK,
     SWAP,
     SEEDPHRASE_WARNING,
+    BATCH_SEND,
 } from './constants';
 
 const {
@@ -29,6 +30,7 @@ const {
     Send,
     Swap,
     SeedphraseWarning,
+    BatchSend,
 } = Views;
 
 export const UnAuthorizedRoutes = [
@@ -36,6 +38,7 @@ export const UnAuthorizedRoutes = [
         path: IMPORT_WALLET,
         Component: ImportWallet,
     },
+
     {
         path: SEEDPHRASE_WARNING,
         Component: SeedphraseWarning,
@@ -63,6 +66,10 @@ export const AuthorizedRoutes = [
     {
         path: DASHBOARD,
         Component: Dashboard,
+    },
+    {
+        path: BATCH_SEND,
+        Component: BatchSend,
     },
     {
         path: SEEDPHRASE_WARNING,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
@@ -12,6 +12,7 @@ import {
     setBalance,
     setBalanceInUsd,
 } from '../../../../redux/slices/activeAccount';
+import { SubHeading } from '../../../common/text';
 
 import {
     AccountName,
@@ -26,8 +27,15 @@ import {
     ConnectionStatus,
 } from '../../styledComponents';
 import services from '../../../../utils/services';
+import accounts from '../../../../utils/accounts';
 
-const { refreshIcon, ContentCopyIconWhite, notConnected, connected } = images;
+const {
+    refreshIcon,
+    ContentCopyIconWhite,
+    notConnected,
+    connected,
+    dropdownIcon,
+} = images;
 const { addressModifier, trimBalance, convertIntoUsd } = helpers;
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 const { addressMapper, getBalance } = services;
@@ -45,12 +53,18 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
     const { apiInitializationStarts } = useSelector(
         (state: RootState) => state.api
     );
+
+    const thisAccount = useSelector(
+        (state: RootState) => state.accounts[address]
+    );
+
     const api = useSelector(
         (state: RootState) => state.api.api as unknown as ApiPromiseType
     );
-    const {
-        activeAccount: { isWalletConnected },
-    } = useSelector((state: RootState) => state);
+    const { activeAccount } = useSelector((state: RootState) => state);
+
+    const { isWalletConnected, queryEndpoint } = activeAccount;
+
     const copyText = (): void => {
         setOpen(true);
         setTimeout(() => {
@@ -84,6 +98,8 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
     const addTooltipText = {
         className: 'topTooltiptext',
     };
+
+    const [openModal, setOpenModal] = React.useState(false);
 
     return (
         <MainPanel>
@@ -122,13 +138,19 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
                 >
                     <img src={refreshIcon} alt="refresh-icon" />
                 </Refresh>
-
-                <AccountName
-                    id="account-name"
-                    className={mainHeadingfontFamilyClass}
+                <div
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'flex-start',
+                    }}
                 >
-                    {accountName}
-                </AccountName>
+                    <AccountName
+                        id="account-name"
+                        className={mainHeadingfontFamilyClass}
+                    >
+                        {accountName}
+                    </AccountName>
+                </div>
             </div>
             <VerticalContentDiv>
                 <PublicAddress
@@ -147,7 +169,7 @@ const MainCard: React.FunctionComponent<MainCardPropsInterface> = (
                 <Balance id="balance" className={mainHeadingfontFamilyClass}>
                     <div className={`topTooltip ${mainHeadingfontFamilyClass}`}>
                         <span id="trim-balance">
-                            {trimBalance(exponentConversion(balance))}
+                            {String(exponentConversion(balance)).slice(0, 6)}
                         </span>
                         <span id="token-name" style={{ marginLeft: 7 }}>
                             {tokenName}

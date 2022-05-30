@@ -1,26 +1,70 @@
 import React, { useState } from 'react';
-import { images } from '../../utils';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { fonts, images } from '../../utils';
 import { HorizontalContentDiv } from '../common/wrapper';
 import { SubHeading } from '../common/text';
-import { Button, Header } from '../common';
+import { Button, Header, Input } from '../common';
 import {
     SwapDiv,
     SwapChildDiv,
-    NetworkDiv,
     AmountMaxDiv,
-    SwapIconDiv,
+    InputAndBalanceDiv,
     BalDiv,
-    SelectNetworkDiv,
-    Circle,
-    DownIcon,
     Wrapper2,
     Wrapper,
     SwapDetailDiv,
 } from './style';
 
-const { SwapIcon } = images;
+import { SwapViewProps } from './types';
 
-const SwapView: React.FunctionComponent = (): JSX.Element => {
+const { SwapIcon } = images;
+const allTokenImages = images;
+const { subHeadingfontFamilyClass } = fonts;
+const SwapView: React.FunctionComponent<SwapViewProps> = ({
+    handleOpen,
+    tokenFrom,
+    tokenTo,
+    tokenImage,
+    amountFrom,
+    swapParams,
+    handleCurrencySwitch,
+    handleAmountChange,
+    handleMaxClicked,
+    swapClickHandler,
+    insufficientBalance,
+    isLoading,
+}) => {
+    const [showDetail, setShowDetail] = useState(true);
+
+    console.log('token from to', { tokenTo, tokenFrom });
+
+    const styledInputPay = {
+        id: 'InputField',
+        placeholder: 'Amount',
+        type: 'Number',
+        className: subHeadingfontFamilyClass,
+        blockInvalidChar: true,
+        tokenLogo: true,
+        tokenDropDown: true,
+        tokenImage: allTokenImages[tokenFrom?.name || 'BNC'],
+        bgColor: '#212121',
+        tokenBoxColor: '#141414',
+    };
+
+    const styledInputGet = {
+        id: 'InputField',
+        placeholder: 'Amount',
+        type: 'Number',
+        className: subHeadingfontFamilyClass,
+        blockInvalidChar: true,
+        tokenLogo: true,
+        tokenDropDown: true,
+        tokenImage: allTokenImages[tokenTo?.name || 'KUSD'],
+        bgColor: '#212121',
+        tokenBoxColor: '#141414',
+    };
+
     const maxBtn = {
         id: 'SendBtn',
         text: 'Max',
@@ -29,101 +73,93 @@ const SwapView: React.FunctionComponent = (): JSX.Element => {
             height: '25.12px',
             borderRadius: '6px',
             fontSize: '12px',
+            margin: 0,
         },
-        handleClick: () => console.log('max'),
+        handleClick: () => handleMaxClicked(),
         disabled: false,
     };
 
-    const [confirm, setConfirm] = useState(false);
-    const [showDetail, setShowDetail] = useState(false);
-
     const btn = {
         id: 'SwapBtn',
-        text: confirm ? 'Swap' : 'Continue',
+        text: 'Swap',
         style: {
             width: '95%',
             height: 50,
             borderRadius: 40,
             marginTop: 40,
         },
-        handleClick: () => {
-            setConfirm(true);
-        },
-        disabled: false,
+        handleClick: swapClickHandler,
+        disabled: !(swapParams.outputAmount > 0),
+        isLoading,
     };
 
     const DetailsData = [
-        [
-            { property: 'Minimum Received', data: '0.2345 DOT' },
-            { property: 'Price', data: '0.2345 DOT' },
-            { property: 'Price Impact', data: '0.2345 DOT' },
-            { property: 'Gas Fee', data: '0.2345 DOT' },
-            { property: '', data: '0.2345 DOT' },
-        ],
-        [
-            { property: 'Amount', data: '0.2345 DOT' },
-            { property: 'Estimated Gas Fee', data: '0.00403 DOT' },
-            { property: 'Total', data: '0.2388 DOT' },
-            { property: 'Dollar Value', data: '$23.98' },
-        ],
+        {
+            property: 'Price',
+            data: `1 ${tokenFrom?.name} = ${Number(
+                swapParams.price?.toString()
+            ).toFixed(2)} ${tokenTo?.name}`,
+        },
+        {
+            property: 'Price Impact',
+            data: `${(Number(swapParams.priceImpact?.toString()) * 100).toFixed(
+                2
+            )}%`,
+        },
+        {
+            property: 'Gas Fee',
+            data: `${swapParams.tradingFee?.toString()} KAR`,
+        },
     ];
 
     return (
         <>
             <Wrapper>
-                <Header centerText={confirm ? 'Confirmation' : 'Swap Token'} />
+                <Header centerText="Swap Token" />
             </Wrapper>
 
             <Wrapper2 pb>
                 <SwapDiv>
-                    <SwapChildDiv>
+                    {/* <SwapChildDiv style={{ border: '1px solid red' }}>
                         <AmountMaxDiv>
                             <SubHeading
-                                lineHeight="18px"
+                                lineHeight="0px"
+                                fontSize="16px"
+                                color="#FAFAFA"
                                 style={{ fontWeight: '800' }}
                             >
-                                Amount
+                                You Pay
                             </SubHeading>
                             <Button {...maxBtn} />
                         </AmountMaxDiv>
-                        <NetworkDiv>
-                            <SubHeading
-                                lineHeight="18px"
-                                style={{ fontWeight: '800' }}
-                            >
-                                0.000
-                            </SubHeading>
-                            <SelectNetworkDiv>
-                                <Circle color="#E6007AE5" />
-                                <SubHeading
-                                    lineHeight="14px"
-                                    fontSize="12px"
-                                    style={{ fontWeight: '500' }}
-                                >
-                                    DOT
-                                </SubHeading>
-                                <DownIcon />
-                            </SelectNetworkDiv>
-                        </NetworkDiv>
+                        <Input
+                            {...styledInput}
+                            value={amountFrom}
+                            tokenName={tokenFrom?.name}
+                            onChange={(value: string) => {
+                                handleAmountChange(value);
+                            }}
+                            tokenDropDownHandler={() => handleOpen('tokenFrom')}
+                        />
                         <BalDiv>
                             <SubHeading lineHeight="14px" fontSize="12px">
                                 $23.498
                             </SubHeading>
                             <SubHeading lineHeight="14px" fontSize="12px">
-                                {' '}
-                                Balance: 712.938 DOT
+                                Balance:
+                                {`${tokenFrom?.balance} ${tokenFrom?.name}`}
                             </SubHeading>
                         </BalDiv>
                     </SwapChildDiv>
-                    <SwapIconDiv>
+                    <SwapIconDiv style={{ border: '1px solid yellow' }}>
                         <img
                             src={SwapIcon}
                             alt="swap"
                             aria-hidden
-                            onClick={() => setShowDetail(true)}
+                            onClick={() => handleCurrencySwitch()}
                         />
                     </SwapIconDiv>
-                    <SwapChildDiv>
+                    <SwapChildDiv style={{ border: '1px solid green' }}>
                         <AmountMaxDiv>
                             <SubHeading
                                 lineHeight="18px"
@@ -132,38 +168,130 @@ const SwapView: React.FunctionComponent = (): JSX.Element => {
                                 Amount
                             </SubHeading>
                         </AmountMaxDiv>
-                        <NetworkDiv>
-                            <SubHeading
-                                lineHeight="18px"
-                                style={{ fontWeight: '800' }}
-                            >
-                                0.000
-                            </SubHeading>
-                            <SelectNetworkDiv>
-                                <Circle color="#E6007AE5" />
-                                <SubHeading
-                                    lineHeight="14px"
-                                    fontSize="12px"
-                                    style={{ fontWeight: '500' }}
-                                >
-                                    DOT
-                                </SubHeading>
-                                <DownIcon />
-                            </SelectNetworkDiv>
-                        </NetworkDiv>
+                        <Input
+                            {...styledInput}
+                            value={swapParams.outputAmount.toString()}
+                            tokenName={tokenTo?.name}
+                            onChange={(value: string) => {
+                                console.log('amountTo value');
+                            }}
+                            disabled
+                            tokenDropDownHandler={() => handleOpen('tokenTo')}
+                        />
                         <BalDiv>
                             <SubHeading lineHeight="14px" fontSize="12px">
                                 $23.498
                             </SubHeading>
                             <SubHeading lineHeight="14px" fontSize="12px">
-                                {' '}
-                                Balance: 712.938
+                                Balance:
+                                {`${tokenTo?.balance} ${tokenTo?.name}`}
                             </SubHeading>
                         </BalDiv>
+                    </SwapChildDiv> */}
+                    <SwapChildDiv>
+                        <AmountMaxDiv>
+                            <SubHeading
+                                lineHeight="0px"
+                                fontSize="16px"
+                                color="#FAFAFA"
+                                style={{ fontWeight: '800' }}
+                            >
+                                You Pay
+                            </SubHeading>
+                            <Button {...maxBtn} />
+                        </AmountMaxDiv>
+                        <InputAndBalanceDiv>
+                            <Input
+                                {...styledInputPay}
+                                value={amountFrom}
+                                tokenName={tokenFrom?.name}
+                                onChange={(value: string) => {
+                                    handleAmountChange(value);
+                                }}
+                                tokenDropDownHandler={() =>
+                                    handleOpen('tokenFrom')
+                                }
+                            />
+                            {insufficientBalance && (
+                                <SubHeading
+                                    lineHeight="0px"
+                                    fontSize="12px"
+                                    marginTop="0px"
+                                    color="#F63A3AB2"
+                                    opacity="0.7"
+                                >
+                                    Insufficient Balance
+                                </SubHeading>
+                            )}
+                            <BalDiv>
+                                <SubHeading
+                                    lineHeight="0px"
+                                    fontSize="12px"
+                                    marginTop="0px"
+                                >
+                                    $23.498
+                                </SubHeading>
+                                <SubHeading lineHeight="0px" fontSize="12px">
+                                    Balance:
+                                    {` ${tokenFrom?.balance} ${tokenFrom?.name}`}
+                                </SubHeading>
+                            </BalDiv>
+                        </InputAndBalanceDiv>
+                    </SwapChildDiv>
+                    <img
+                        src={SwapIcon}
+                        alt="swap"
+                        aria-hidden
+                        onClick={handleCurrencySwitch}
+                    />
+                    <SwapChildDiv>
+                        <AmountMaxDiv>
+                            <SubHeading
+                                lineHeight="0px"
+                                fontSize="16px"
+                                color="#FAFAFA"
+                                style={{ fontWeight: '800' }}
+                            >
+                                You Get
+                            </SubHeading>
+                        </AmountMaxDiv>
+                        <InputAndBalanceDiv>
+                            <Input
+                                {...styledInputGet}
+                                value={
+                                    swapParams.outputAmount.toString() === 'NaN'
+                                        ? '0'
+                                        : Number(
+                                              swapParams.outputAmount.toString()
+                                          ).toFixed(4)
+                                }
+                                tokenName={tokenTo?.name}
+                                onChange={(value: string) => {
+                                    console.log('amountTo value');
+                                }}
+                                disabled
+                                tokenDropDownHandler={() =>
+                                    handleOpen('tokenTo')
+                                }
+                            />
+                            <BalDiv>
+                                <SubHeading
+                                    lineHeight="0px"
+                                    fontSize="12px"
+                                    marginTop="0px"
+                                >
+                                    $23.498
+                                </SubHeading>
+                                <SubHeading lineHeight="0px" fontSize="12px">
+                                    Balance:
+                                    {` ${tokenTo?.balance} ${tokenTo?.name}`}
+                                </SubHeading>
+                            </BalDiv>
+                        </InputAndBalanceDiv>
                     </SwapChildDiv>
                 </SwapDiv>
 
-                {showDetail && (
+                {swapParams.outputAmount > 0 && (
                     <SwapDetailDiv>
                         <SubHeading
                             lineHeight="0px"
@@ -172,8 +300,11 @@ const SwapView: React.FunctionComponent = (): JSX.Element => {
                         >
                             Details
                         </SubHeading>
-                        {DetailsData[confirm ? 1 : 0].map((el) => (
-                            <HorizontalContentDiv justifyContent="space-between">
+                        {DetailsData.map((el) => (
+                            <HorizontalContentDiv
+                                key={Math.random()}
+                                justifyContent="space-between"
+                            >
                                 <SubHeading
                                     lineHeight="0px"
                                     fontSize="12px"
@@ -200,6 +331,35 @@ const SwapView: React.FunctionComponent = (): JSX.Element => {
                                 </SubHeading>
                             </HorizontalContentDiv>
                         ))}
+                        <HorizontalContentDiv
+                            key={Math.random()}
+                            justifyContent="space-between"
+                        >
+                            <SubHeading
+                                lineHeight="0px"
+                                fontSize="12px"
+                                opacity="0.8"
+                            >
+                                Path
+                            </SubHeading>
+                            <SubHeading
+                                lineHeight="0px"
+                                fontSize="12px"
+                                color="#cccccc"
+                            >
+                                {swapParams.path?.map(
+                                    (element: any, index: any) => {
+                                        if (
+                                            index ===
+                                            swapParams.path.length - 1
+                                        ) {
+                                            return element.name;
+                                        }
+                                        return `${element.name} -->`;
+                                    }
+                                )}
+                            </SubHeading>
+                        </HorizontalContentDiv>
                     </SwapDetailDiv>
                 )}
                 <Button {...btn} />

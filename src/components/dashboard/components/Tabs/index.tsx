@@ -1,12 +1,19 @@
+/* eslint-disable max-len */
+/* eslint-disable no-unused-expressions */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable radix */
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { TransactionRecord } from '../../../../redux/types';
 
 import AssetCard from '../../../common/asset-card';
 import TxCard from '../../../common/tx-card';
 
-import { queryData } from '../../../../utils/queryData';
+import {
+    queryData,
+    queryDataForBatch,
+    queryDataForSwap,
+} from '../../../../utils/queryData';
 import { fonts, helpers, exponentConversion } from '../../../../utils';
 import services from '../../../../utils/services';
 import {
@@ -17,7 +24,6 @@ import {
 
 import {
     AssetsAndTransactionsPropsInterface,
-    TransactionRecord,
     TransactionRecordFromSubQuery,
     TxViewProps,
 } from '../../types';
@@ -27,7 +33,6 @@ import { ASSETS, TRANSACTIONS } from '../../../../utils/app-content';
 import { SubHeading } from '../../../common/text/index';
 
 const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-const { trimBalance } = helpers;
 const { addressMapper } = services;
 
 const TxView: React.FunctionComponent<TxViewProps> = (
@@ -37,19 +42,22 @@ const TxView: React.FunctionComponent<TxViewProps> = (
     const { publicKey } = useSelector(
         (state: RootState) => state.activeAccount
     );
+
+    const transactionsOfActiveAccount = transactionData[publicKey]
+        ? Object.values(transactionData[publicKey])
+        : [];
+    const txRecordsForSelectedNetwork = transactionsOfActiveAccount.filter(
+        // eslint-disable-next-line array-callback-return
+        (transaction: TransactionRecord) =>
+            transaction.tokenName[0] && transaction.tokenName[0] === tokenName
+    );
+
     return (
         // eslint-disable-next-line react/jsx-no-useless-fragment
         <>
-            {Object.values(transactionData[publicKey]).length > 0 &&
-            Object.values(transactionData[publicKey]).filter(
-                (transaction: TransactionRecord) =>
-                    transaction.tokenName === tokenName
-            ).length !== 0 ? (
-                Object.values(transactionData[publicKey])
-                    .filter(
-                        (transaction: TransactionRecord) =>
-                            transaction.tokenName === tokenName
-                    )
+            {transactionsOfActiveAccount.length > 0 &&
+            txRecordsForSelectedNetwork.length !== 0 ? (
+                txRecordsForSelectedNetwork
                     .sort(
                         (a: any, b: any) =>
                             Number(new Date(b.timestamp)) -
@@ -65,8 +73,8 @@ const TxView: React.FunctionComponent<TxViewProps> = (
                         } = transaction;
 
                         const txCard = {
-                            coin: tokenNames,
-                            amountInUsd: tokenNames === 'WND' ? '$0' : '$0',
+                            coin: tokenNames[0],
+                            amountInUsd: '$0',
                             handleClick: () => handleClickOnTxCard(transaction),
                             operation,
                             status,
@@ -100,11 +108,12 @@ const AssetsAndTransactions: React.FunctionComponent<
         chainName,
         tokenName,
         tokenImage,
-        balance,
         balanceInUsd,
         publicKey,
         prefix,
         queryEndpoint,
+        balance,
+        balances,
     } = assetsData;
     const [isTab1Active, setIsTab1Active] = useState(true);
     const [isTab2Active, setIsTab2Active] = useState(false);
@@ -136,20 +145,21 @@ const AssetsAndTransactions: React.FunctionComponent<
         const transactions = [
             ...transactionObject.data.account.transferTo.nodes,
             ...transactionObject.data.account.transferFrom.nodes,
+            // eslint-disable-next-line array-callback-return
         ].map((transaction) => {
             const gasFee = transaction.fees
                 ? (
                       parseInt(transaction.fees) /
-                      parseInt(transaction.decimals)
+                      parseInt(transaction.token.decimals)
                   ).toString()
                 : '0';
             return {
                 accountFrom: transaction.fromId,
-                accountTo: transaction.toId,
-                amount: (
+                accountTo: [transaction.toId],
+                amount: [
                     parseInt(transaction.amount) /
-                    parseInt(transaction.decimals)
-                ).toString(),
+                        parseInt(transaction.token.decimals),
+                ],
                 hash: transaction.extrinsicHash,
                 operation:
                     publicKey === addressMapper(transaction.fromId, 42)
@@ -157,7 +167,7 @@ const AssetsAndTransactions: React.FunctionComponent<
                         : 'Receive',
                 status: transaction.status ? 'Confirmed' : 'Failed',
                 chainName: transaction.token,
-                tokenName: transaction.token,
+                tokenName: [transaction.token.name],
                 transactionFee: gasFee,
                 timestamp: transaction.timestamp,
             };
@@ -166,9 +176,92 @@ const AssetsAndTransactions: React.FunctionComponent<
         dispatch(addTransaction({ transactions, publicKey }));
     };
 
-    const { query, endPoint } = queryData(queryEndpoint, publicKey, prefix);
+    const handleSwapRecords = (transactionObject: any): void => {
+        const transactions =
+            transactionObject.data.query.account.swaps.nodes.map(
+                (transaction: any) => {
+                    const gasFee = transaction.fees
+                        ? (parseInt(transaction.fees) / 12).toString()
+                        : '0';
+                    return {
+                        accountFrom: transaction.fromId,
+                        accountTo: [transaction.fromId],
+                        amount: [
+                            exponentConversion(
+                                parseInt(transaction.data[0].amount) / 10 ** 12
+                            ),
+                            exponentConversion(
+                                parseInt(
+                                    transaction.data[
+                                        transaction.data.length - 1
+                                    ].amount
+                                ) /
+                                    10 ** 12
+                            ),
+                        ],
+                        hash: transaction.extrinsicHash,
+                        operation: 'Swap',
+                        status: 'Success',
+                        chainName: 'KAR',
+                        tokenName: [
+                            transaction.data[0].token,
+                            transaction.data[transaction.data.length - 1].token,
+                        ],
+                        transactionFee: gasFee,
+                        timestamp: transaction.timestamp,
+                    };
+                }
+            );
 
-    const fetchTransactions = async (): Promise<any> =>
+        dispatch(addTransaction({ transactions, publicKey }));
+    };
+
+    const handleBatchRecords = (transactionObject: any): void => {
+        const transactions = [
+            ...transactionObject.data.query.account.batchRecordsFrom.nodes,
+            ...transactionObject.data.query.account.batchRecordsTo.nodes,
+            // eslint-disable-next-line array-callback-return
+        ].map((transaction) => {
+            // return transaction;
+            const senderId =
+                transaction.senderId ||
+                transaction.batch.sender.nodes[0].senderId;
+            const gasFee = transaction.fees
+                ? (
+                      parseInt(transaction.fees) /
+                      parseInt(transaction.token.decimals)
+                  ).toString()
+                : '0';
+            return {
+                accountFrom: senderId,
+                accountTo: transaction.batch.calls.map(
+                    (item: any) => item.receiver
+                ),
+                amount: transaction.batch.calls.map((item: any) => {
+                    return (
+                        parseInt(item.amount) / parseInt(item.token.decimals)
+                    );
+                }),
+                hash: transaction.batch.extrinsicHash,
+                operation:
+                    publicKey === addressMapper(senderId, 42)
+                        ? 'Batch Send'
+                        : 'Batch Receive',
+                status: 'Confirmed',
+                chainName: transaction.token,
+                tokenName: transaction.batch.calls.map(
+                    (item: any) => item.token.name
+                ),
+                transactionFee: gasFee,
+                timestamp: transaction.batch.calls[0].timestamp,
+            };
+        });
+
+        dispatch(addTransaction({ transactions, publicKey }));
+    };
+
+    const fetchTransactions = async (): Promise<any> => {
+        const { query, endPoint } = queryData(queryEndpoint, publicKey, prefix);
         fetch(endPoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -179,14 +272,52 @@ const AssetsAndTransactions: React.FunctionComponent<
             .then((r) => r.json())
             .then((r) => handleTransaction(r))
             .catch((e) => console.log('fetching tx records...'));
+    };
+
+    const fetchBatchRecords = async (): Promise<any> => {
+        const { query, endPoint } = queryDataForBatch(
+            queryEndpoint,
+            publicKey,
+            prefix
+        );
+        fetch(endPoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                query,
+            }),
+        })
+            .then((r) => r.json())
+            .then((r) => handleBatchRecords(r))
+            .catch((e) => console.log('fetching tx records...', e));
+    };
+
+    const fetchSwapRecords = async (): Promise<any> => {
+        const { query, endPoint } = queryDataForSwap(
+            queryEndpoint,
+            publicKey,
+            prefix
+        );
+        fetch(endPoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                query,
+            }),
+        })
+            .then((r) => r.json())
+            .then((r) => handleSwapRecords(r))
+            .catch((e) => console.log('fetching tx records...', e));
+    };
 
     useEffect(() => {
         if (publicKey) {
             fetchTransactions();
+            fetchBatchRecords();
+            fetchSwapRecords();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [rpcUrl, publicKey]);
-
     return (
         <AssetsAndTransactionsWrapper>
             <Tabs>
@@ -196,15 +327,57 @@ const AssetsAndTransactions: React.FunctionComponent<
                 </TabSection>
             </Tabs>
             <div className="scrollbar" style={{ marginTop: '0' }}>
-                {isTab1Active && (
+                {balances.length > 1
+                    ? isTab1Active &&
+                      balances.map((singleToken: any) => {
+                          return (
+                              <AssetCard
+                                  name={chainName}
+                                  shortName={singleToken.name}
+                                  amount={String(singleToken.balance)}
+                                  balanceInUsd={10}
+                                  logo={singleToken.tokenImage}
+                                  isNative={singleToken.isNative}
+                                  decimal={singleToken.decimal}
+                              />
+                          );
+                      })
+                    : isTab1Active && (
+                          <AssetCard
+                              name={chainName}
+                              shortName={balances[0].name}
+                              amount={String(balances[0].balance.toFixed(5))}
+                              balanceInUsd={10}
+                              logo={balances[0].tokenImage || tokenImage}
+                              isNative
+                              decimal={balances[0].decimal}
+                          />
+                      )}
+
+                {/* {isTab1Active &&
+                    balances.map((singleToken: any) => {
+                        console.log('Single token', singleToken);
+                        return (
+                            <AssetCard
+                                name={chainName}
+                                shortName={singleToken.name}
+                                amount={String(singleToken.balance)}
+                                amountInUsd={100}
+                                logo={tokenImage}
+                                isNative={singleToken.isNative}
+                            />
+                        );
+                    })}
+                 {isTab1Active && (
                     <AssetCard
                         name={chainName}
                         shortName={tokenName}
-                        amount={trimBalance(exponentConversion(balance))}
-                        balanceInUsd={balanceInUsd}
+                        amount={trimBalance(balance)}
+                        amountInUsd={balanceInUsd}
                         logo={tokenImage}
+                        isNative
                     />
-                )}
+                )}  */}
                 {isTab2Active && (
                     <TxView
                         transactionData={transactionData}

@@ -9,3 +9,19 @@ export interface QueryObjectInterface {
     query: string;
     endPoint: string;
 }
+
+export interface QueryForBatchObjectInterface {
+    queryForBatch: string;
+    endPoint: string;
+}
+
+export interface RecepientInterface {
+    amount?: string;
+    address: string;
+    token: string;
+    validateAddress?: boolean;
+    validateReaping?: boolean;
+    empytAmount?: boolean;
+    empytAaddress?: boolean;
+    insufficientError?: boolean;
+}

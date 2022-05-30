@@ -17,6 +17,12 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
     const { green, red } = colors;
     const { trimBalance, dateFormatter } = helpers;
+    const getTotalAmount = (): number => {
+        const totalAmount = amount.reduce(function (a, b) {
+            return a + b;
+        }, 0);
+        return totalAmount;
+    };
 
     return (
         <TxCardWrapper
@@ -33,12 +39,14 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
                         <VerticalContentDiv>
                             <MainText
                                 id="operation-coin"
+                                mt="0px"
                                 className={mainHeadingfontFamilyClass}
                                 fontSize="18px"
                             >{`${operation}`}</MainText>
                             <TxHorizontalContentDiv>
                                 <MainText
                                     id="status"
+                                    mt="0px"
                                     className={subHeadingfontFamilyClass}
                                     color={
                                         status === 'Failed' ? red : '#02CC53'
@@ -74,6 +82,7 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
                 >
                     <VerticalContentDiv>
                         <MainText
+                            mt="0px"
                             className={mainHeadingfontFamilyClass}
                             balOverFlow
                             fontSize="18px"
@@ -83,7 +92,7 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
                             height="20px"
                             style={{ lineHeight: '16px' }}
                         >
-                            {`${trimBalance(Number(amount))} ${coin}`}
+                            {`${trimBalance(getTotalAmount())} ${coin}`}
                         </MainText>
                     </VerticalContentDiv>
                 </div>

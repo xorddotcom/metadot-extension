@@ -1,46 +1,34 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Box } from '@material-ui/core';
-import { fontWeight } from '@mui/system';
-import { RootState } from '../../../redux/store';
-import { fonts, helpers, exponentConversion } from '../../../utils';
-import { Button, Input } from '../../common';
-import { WarningText, MainText } from '../../common/text';
+import React from 'react';
+import { fonts, exponentConversion } from '../../../utils';
+import { Input } from '../../common';
+import { MainText } from '../../common/text';
 import { HorizontalContentDiv, VerticalContentDiv } from '../../common/wrapper';
-import {
-    FlexBetween,
-    EquivalentInUSDT,
-    CalculatedAmount,
-    Balance,
-} from '../style';
-import { AmountInputInterface } from '../types';
+
+import { ExistensialDepositInterface } from '../types';
 
 import ToggleOn from '../../../assets/images/icons/transferToggleOn.svg';
 import ToggleOff from '../../../assets/images/icons/transferToggleOff.svg';
 import help from '../../../assets/images/icons/ED_help.svg';
 
-const { trimContent } = helpers;
-
-const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
+const ExistensialDeposit: React.FunctionComponent<
+    ExistensialDepositInterface
+> = ({
     onChange,
-    maxInputHandler,
-    insufficientBal,
     setInsufficientBal,
-    transactionFee,
     setTransferAll,
     setAmountOnToggle,
     disableToggleButtons,
     existentialDeposit,
-    amount,
     transferAll,
+    tokenName,
+    balance,
+    insufficientTxFee,
+    switchChecked,
+    switchCheckedSecond,
+    setSwitchChecked,
+    setSwitchCheckedSecond,
 }) => {
-    const { balance, balanceInUsd, tokenName, tokenImage } = useSelector(
-        (state: RootState) => state.activeAccount
-    );
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
-
-    const [switchChecked, setSwitchChecked] = useState(false);
-    const [switchCheckedSecond, setSwitchCheckedSecond] = useState(false);
 
     const handleChangeFirst = (e: any): boolean => {
         setInsufficientBal(false);
@@ -68,37 +56,6 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         return false;
     };
 
-    const btn = {
-        id: 'SendBtn',
-        text: 'Max',
-        style: {
-            width: '44px',
-            minWidth: '24px',
-            height: '26px',
-            borderRadius: '6px',
-            fontSize: '12px',
-        },
-        handleClick: maxInputHandler,
-        disabled: balance === 0,
-    };
-
-    const styledInput = {
-        id: 'InputField',
-        placeholder: 'Amount',
-        type: 'Number',
-        value: amount,
-        className: subHeadingfontFamilyClass,
-        onChange,
-        setSwitchChecked,
-        setSwitchCheckedSecond,
-        amount,
-        tokenLogo: true,
-        tokenName,
-        tokenImage,
-        bgColor: '#141414',
-        // isCorrect: amountState.isValid || insufficientBal,
-    };
-
     const styledInputED = {
         id: 'InputField',
         placeholder: 'Amount',
@@ -112,33 +69,22 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
         border: '1px solid rgba(255, 255, 255, 0.3)',
     };
 
-    const balanceProps = {
-        textAlign: 'end',
-        className: subHeadingfontFamilyClass,
-        style: { marginTop: '-16px' },
-    };
-
-    const txFeeProps = {
-        className: subHeadingfontFamilyClass,
-        style: { marginTop: '3.2px' },
-    };
-
     const copyIconTooltip = {
         id: 'copy-icon',
-        className: `main-card-tooltip ${mainHeadingfontFamilyClass}`,
+        className: `ed-tooltip ${mainHeadingfontFamilyClass}`,
         style: { cursor: 'pointer' },
     };
 
     const copyIconTooltipText = {
-        className: 'main-card-tooltiptext',
+        className: 'ed-tooltiptext',
         style: {
             left: '20%',
             bottom: '120%',
             fontSize: '11px',
             fontWeight: 300,
             transition: 'all 0.1s ease-in',
-            width: '160px',
-            padding: '8px',
+            width: '150px',
+            padding: '10px',
         },
     };
 
@@ -147,46 +93,6 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
 
     return (
         <VerticalContentDiv marginBottom="25px">
-            <FlexBetween>
-                <MainText className={mainHeadingfontFamilyClass}>
-                    Amount
-                </MainText>
-                {/* <Button {...btn} /> */}
-            </FlexBetween>
-            <Input blockInvalidChar {...styledInput} />
-            {insufficientBal && (
-                <WarningText
-                    id="warning-text-1"
-                    className={subHeadingfontFamilyClass}
-                    style={{ marginBottom: '16px' }}
-                >
-                    balance is too low to pay network fees!
-                </WarningText>
-            )}
-
-            <CalculatedAmount marginTop="13px">
-                <EquivalentInUSDT
-                    id="equivalent-in-usd"
-                    className={subHeadingfontFamilyClass}
-                >
-                    ${balanceInUsd === 0 ? 0 : balanceInUsd.toFixed(5)}
-                </EquivalentInUSDT>
-                <Balance {...balanceProps}>
-                    Balance:{' '}
-                    {`${trimContent(
-                        exponentConversion(balance),
-                        6
-                    )} ${tokenName}`}
-                </Balance>
-            </CalculatedAmount>
-
-            <CalculatedAmount marginTop="5px">
-                <Balance {...txFeeProps}>
-                    Estimated Tx Fee:{' '}
-                    {`${trimContent(transactionFee, 6)} ${tokenName}`}
-                </Balance>
-            </CalculatedAmount>
-
             <MainText
                 style={{ marginTop: '32px', display: 'flex' }}
                 className={mainHeadingfontFamilyClass}
@@ -277,9 +183,6 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
                     style={{
                         height: '25px',
                         width: '40px',
-                        // position: 'absolute',
-                        // left: '300px',
-                        // right: '61%',
                     }}
                     alt="img"
                 />
@@ -288,4 +191,4 @@ const AmountInput: React.FunctionComponent<AmountInputInterface> = ({
     );
 };
 
-export default AmountInput;
+export default ExistensialDeposit;

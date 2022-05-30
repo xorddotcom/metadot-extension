@@ -5,4 +5,5 @@ export interface Props {
     placeHolder: string;
     value: string;
     onChange(e: React.ChangeEvent<HTMLInputElement>): void;
+    style?: any;
 }

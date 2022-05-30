@@ -1,10 +1,9 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { WarningText, MainText } from '../../common/text';
-import { Input } from '../../common';
+import { WarningText, MainText } from '../text';
+import { Input } from '..';
 import { fonts } from '../../../utils';
-import { ToInputInterface } from '../types';
-import { VerticalContentDiv } from '../../common/wrapper/index';
+import { ToInputInterface } from './types';
+import { VerticalContentDiv } from '../wrapper/index';
 
 const ToInput: React.FunctionComponent<ToInputInterface> = ({
     errorMessages,
@@ -30,7 +29,6 @@ const ToInput: React.FunctionComponent<ToInputInterface> = ({
     return (
         <VerticalContentDiv marginBottom="12px">
             <MainText className={mainHeadingfontFamilyClass}>To</MainText>
-            {/* <StyledInput id="to-address" {...styledInput} /> */}
             <Input id="username" {...receiverAddressInput} />
             <div style={{ height: '16px', marginTop: '-8px' }}>
                 {!isCorrect && (

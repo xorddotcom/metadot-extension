@@ -1,14 +1,14 @@
 interface TransactionRecord {
-    accountFrom?: string;
-    accountTo?: string;
-    amount?: string;
-    hash?: string;
-    operation?: string;
-    status?: string;
-    chainName?: string;
-    tokenName?: string;
-    transactionFee?: string;
-    timestamp?: string;
+    accountFrom: string;
+    accountTo: string[];
+    amount: number[];
+    hash: string;
+    operation: string;
+    status: string;
+    chainName: string;
+    tokenName: string[];
+    transactionFee: string;
+    timestamp: string;
 }
 
 export interface TxDetailsProps {
@@ -25,9 +25,9 @@ export interface TxDetailsViewProps {
     txDetailsModalData: TransactionRecord;
     copy: string;
     tooltipText: {
-        onClick(v?: string): void;
+        onClick(v?: string[] | string): void;
         onMouseOver(): void;
         style: object;
     };
-    getTotalBalance(v1: string, v2: string): number;
+    getTotalBalance(v1: number[], v2: string): number;
 }

@@ -150,7 +150,7 @@ function ImportWallet(): JSX.Element {
         if (!jsonFileUploadScreen) {
             dispatch(setJsonFileUploadScreen(true));
             setSelectedType('json');
-            const url = `${chrome.extension.getURL(
+            const url = `${chrome.runtime.getURL(
                 'index.html'
             )}#${IMPORT_WALLET}`;
             openOptions(url);

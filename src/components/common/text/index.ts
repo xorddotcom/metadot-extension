@@ -36,6 +36,7 @@ export const SubHeading = styled.p<SubHeadingInterface>`
     margin-bottom: ${(props) => props.mb && props.mb};
     margin-left: ${(props) => props.ml && props.ml};
     opacity: ${(props) => props.opacity && props.opacity};
+    display: ${(props) => props.hide && 'none'};
     ${(props) =>
         props.overFlow &&
         css`
@@ -65,6 +66,7 @@ export const EquivalentInUSDT = styled.p`
     font-size: 12px;
     color: rgba(250, 250, 250, 0.8);
     margin-left: 8px;
+    visibility: hidden;
 `;
 
 export const MainText = styled.p<MainTextInterface>`
@@ -74,8 +76,9 @@ export const MainText = styled.p<MainTextInterface>`
     line-height: 14px;
     letter-spacing: 0.32px;
     color: ${(props) => (props.color ? props.color : '#ffffff')};
-    margin-top: 0px;
-    margin-bottom: 3px;
+    margin-top: ${(props) => props.mt && props.mt};
+    margin-bottom: ${(props) => (props.mb ? props.mb : '3px')};
+    margin-leftcana: ${(props) => props.ml && props.ml};
     text-align: ${(props) => (props.textAlign ? props.textAlign : 'start')};
     ${(props) =>
         props.balOverFlow &&

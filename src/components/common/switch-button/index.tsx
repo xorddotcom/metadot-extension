@@ -1,21 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-
-import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import Switch from '@mui/material/Switch';
-
-import services from '../../../utils/services';
-
-import { RootState } from '../../../redux/store';
 
 const label = {
     inputProps: { 'aria-label': 'Switch demo' },
 };
 
 export const SwitchButton: React.FunctionComponent<any> = (props) => {
-    const currentUser = useSelector((state: RootState) => state);
-    const api = currentUser.api.api as unknown as ApiPromiseType;
-    const { getTransactionFee } = services;
     const { setTransferAll, setAmountOnToggle, disableToggleButtons } = props;
     const [switchChecked, setSwitchChecked] = useState(false);
     const [switchCheckedSecond, setSwitchCheckedSecond] = useState(false);
@@ -24,9 +14,7 @@ export const SwitchButton: React.FunctionComponent<any> = (props) => {
         secondSwitch: false,
     });
 
-    const { balance } = currentUser.activeAccount;
-
-    const handleChange = (e: any): void => {
+    const handleChange = (): void => {
         setAmountOnToggle(!switchChecked, true);
         setSwitchCheckedSecond(false);
         setSwitchChecked(!switchChecked);
@@ -68,9 +56,6 @@ export const SwitchButton: React.FunctionComponent<any> = (props) => {
                     disabled.secondSwitch || disableToggleButtons.secondToggle
                 }
             />
-            {/* <button onClick={compareED} type="button">
-                Compare ED
-            </button> */}
         </div>
     );
 };

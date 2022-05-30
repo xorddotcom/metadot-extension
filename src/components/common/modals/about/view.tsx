@@ -58,7 +58,7 @@ const AboutView: React.FunctionComponent<AboutModalProps> = ({
                         marginTop="25px"
                         className={mainHeadingfontFamilyClass}
                     >
-                        Version: {`${jsonData}`}
+                        Version: {jsonData}
                     </MainText2>
                     <SubText2
                         textAlign="start"

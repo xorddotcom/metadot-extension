@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import constants from '../../constants/onchain';
+import { ActiveAccount } from '../types';
 
 const { POLKADOT_CONFIG } = constants;
 
-const initialState = {
+const initialState: ActiveAccount = {
     isLoggedIn: false,
     publicKey: '',
     accountName: '',
@@ -14,10 +15,19 @@ const initialState = {
     balance: 0,
     balanceInUsd: 0,
     jsonFileUploadScreen: false,
-    prefix: POLKADOT_CONFIG.prefix,
+    prefix: 0,
     lastVisitedTimestamp: '',
     queryEndpoint: POLKADOT_CONFIG.queryEndpoint,
     isWalletConnected: false,
+    balances: [
+        {
+            name: '',
+            balance: 0,
+            isNative: false,
+            decimal: 0,
+            tokenImage: POLKADOT_CONFIG.logo,
+        },
+    ],
 };
 
 export const activeAccountSlice = createSlice({
@@ -37,20 +47,7 @@ export const activeAccountSlice = createSlice({
             };
         },
         resetAccountSlice: (state) => {
-            return {
-                ...state,
-                publicKey: '',
-                isLoggedIn: false,
-                accountName: '',
-                balance: 0,
-                balanceInUsd: 0,
-                jsonFileUploadScreen: false,
-                rpcUrl: POLKADOT_CONFIG.rpcUrl,
-                chainName: POLKADOT_CONFIG.name,
-                tokenName: POLKADOT_CONFIG.tokenName,
-                tokenImage: POLKADOT_CONFIG.logo,
-                queryEndpoint: POLKADOT_CONFIG.queryEndpoint,
-            };
+            return { ...initialState };
         },
         setPublicKey: (state, action: PayloadAction<string>) => {
             return {
@@ -104,6 +101,20 @@ export const activeAccountSlice = createSlice({
         setWalletConnected: (state, action: PayloadAction<boolean>) => {
             return { ...state, isWalletConnected: action.payload };
         },
+        setBalances: (state, action: PayloadAction<any>) => {
+            return { ...state, balances: action.payload };
+        },
+        updateBalance: (state, action: PayloadAction<any>) => {
+            const currBalances = action.payload.balances;
+            const { token, updBalance } = action.payload;
+            const updatingLiveBalance = currBalances.map((balance: any) => {
+                if (token === balance.name) {
+                    return { ...balance, balance: updBalance };
+                }
+                return balance;
+            });
+            return { ...state, balances: updatingLiveBalance };
+        },
     },
 });
 
@@ -125,6 +136,8 @@ export const {
     setTokenImage,
     setQueryEndpoint,
     setWalletConnected,
+    setBalances,
+    updateBalance,
 } = activeAccountSlice.actions;
 
 export default activeAccountSlice.reducer;

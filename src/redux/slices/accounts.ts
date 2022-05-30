@@ -28,6 +28,7 @@ export const accountsSlice = createSlice({
             });
             return newState;
         },
+
         resetAccountsSlice: (state) => {
             return {};
         },

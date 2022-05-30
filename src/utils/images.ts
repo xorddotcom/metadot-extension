@@ -1,4 +1,5 @@
-import KusamaIcon from '../assets/images/kusama.svg';
+/* eslint-disable import/no-duplicates */
+import KusamaIcon from '../assets/images/kusama.png';
 import KaruraIcon from '../assets/images/karura.svg';
 import MoonriverIcon from '../assets/images/moonriver.svg';
 import ShidenIcon from '../assets/images/shiden.svg';
@@ -83,7 +84,69 @@ import visibilityOn from '../assets/images/icons/openEye.svg';
 import rightArrowIcon from '../assets/images/icons/rightArrowIcon.svg';
 import Importicon from '../assets/images/icons/import.svg';
 
-export default {
+import ToggleOn from '../assets/images/icons/toggle_on.svg';
+import ToggleOff from '../assets/images/icons/toggle_off.svg';
+import PlusIcon from '../assets/images/icons/plus_vector.svg';
+import GoUpIcon from '../assets/images/icons/go_up_vector.svg';
+import CSVIcon from '../assets/images/icons/csv_icon.svg';
+import AddCircle from '../assets/images/icons/add_circle.svg';
+import GoUpButton from '../assets/images/icons/go_up.svg';
+import DeleteIcon from '../assets/images/icons/delete.svg';
+import EditIcon from '../assets/images/icons/edit.svg';
+
+import GovernanceDashboardIcon from '../assets/images/icons/GovernanceFeature.svg';
+import SendDashboardIcon from '../assets/images/icons/SendFeature.svg';
+import StakeDashboardIcon from '../assets/images/icons/StakeFeature.svg';
+import SwapDashboardIcon from '../assets/images/icons/SwapFeature.svg';
+
+import DOT from '../assets/images/tokenImg/polkadot.png';
+import ACA from '../assets/images/tokenImg/ACA.png';
+import AUSD from '../assets/images/tokenImg/AUSD.png';
+import LDOT from '../assets/images/tokenImg/LDOT.png';
+import ASTR from '../assets/images/tokenImg/astar.png';
+
+import SDN from '../assets/images/tokenImg/shiden.svg';
+import BNC from '../assets/images/tokenImg/BNC.png';
+import KAR from '../assets/images/tokenImg/KAR.png';
+import KBTC from '../assets/images/tokenImg/KBTC.png';
+import KINT from '../assets/images/tokenImg/KINT.png';
+import KSM from '../assets/images/tokenImg/KSM.png';
+import KUSD from '../assets/images/tokenImg/KUSD.png';
+import LKSM from '../assets/images/tokenImg/LKSM.png';
+import PHA from '../assets/images/tokenImg/PHA.png';
+import TAI from '../assets/images/tokenImg/TAI.png';
+import VSKSM from '../assets/images/tokenImg/VSKSM.png';
+import MOVR from '../assets/images/tokenImg/MOVR.svg';
+import RMRK from '../assets/images/tokenImg/RMRK.png';
+import ZLK from '../assets/images/tokenImg/ZLK.jpeg';
+
+import WND from '../assets/images/tokenImg/westend_colour.svg';
+import SBY from '../assets/images/tokenImg/shibuya.svg';
+import CTX from '../assets/images/tokenImg/contextfree.png';
+
+const allImages: { [key: string]: string } = {
+    MOVR,
+    ZLK,
+    RMRK,
+    DOT,
+    ACA,
+    AUSD,
+    LDOT,
+    ASTR,
+    WND,
+    SBY,
+    CTX,
+    SDN,
+    BNC,
+    KAR,
+    KBTC,
+    KINT,
+    KSM,
+    KUSD,
+    LKSM,
+    PHA,
+    TAI,
+    VSKSM,
     TestNetIcon,
     crossIconRound,
     Importicon,
@@ -155,4 +218,19 @@ export default {
     greenCheck,
     connected,
     ContentCopyIconWhite,
+    ToggleOff,
+    ToggleOn,
+    CSVIcon,
+    AddCircle,
+    GoUpButton,
+    DeleteIcon,
+    EditIcon,
+    PlusIcon,
+    GoUpIcon,
+    GovernanceDashboardIcon,
+    SendDashboardIcon,
+    StakeDashboardIcon,
+    SwapDashboardIcon,
 };
+
+export default allImages;

@@ -10,7 +10,7 @@ import './index.css';
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
+            <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
                 <HashRouter>
                     <Routes>
                         <Route path="*" element={<App />} />

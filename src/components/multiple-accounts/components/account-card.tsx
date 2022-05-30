@@ -18,6 +18,7 @@ import { AccountCardInterface } from '../types';
 import { fonts, images, helpers } from '../../../utils';
 import { RootState } from '../../../redux/store';
 import services from '../../../utils/services';
+import { SubHeading } from '../../common/text';
 
 const { dropDownIcon, activeIcon, ContentCopyIconWhite } = images;
 const { subHeadingfontFamilyClass, mainHeadingfontFamilyClass } = fonts;
@@ -35,6 +36,9 @@ const AccountCard: React.FunctionComponent<AccountCardInterface> = ({
 }) => {
     const activeAccount = useSelector(
         (state: RootState) => state.activeAccount
+    );
+    const thisAccount = useSelector(
+        (state: RootState) => state.accounts[publicKey]
     );
 
     const [copyT, setCopyT] = useState('Copy');

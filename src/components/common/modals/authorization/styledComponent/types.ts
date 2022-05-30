@@ -8,6 +8,8 @@ export interface MainText1PropsInterface {
 export interface VerticalContentDivPropsInterface {
     marginTop?: string;
     mb?: string;
+    flexDirection?: string;
+    alignItems?: string;
 }
 
 export interface MainTextPropsInterface {

@@ -27,12 +27,12 @@ const { ContentCopyIcon, CheckboxDisabled, CheckboxEnabled } = images;
 const { subHeadingfontFamilyClass } = fonts;
 
 const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
+    const [copy, setCopy] = useState('Copy');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
     const [savePass, setSavePass] = useState(false);
     const [isLock, setIsLock] = useState(false);
-    const [copy, setCopy] = useState('Copy');
 
     const copySeedText = (text: string): void => {
         navigator.clipboard.writeText(text);
@@ -45,12 +45,6 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
 
         isSignLocked(requests[requests.length - 1].id)
             .then(({ isLocked, remainingTime }) => {
-                console.log(
-                    '🚀 ~ file: index.tsx ~ line 39 ~ .then ~ isLocked, remainingTime',
-                    isLocked,
-                    remainingTime
-                );
-
                 setIsLock(isLocked);
                 timeout = setTimeout(() => {
                     setIsLock(true);
@@ -71,6 +65,11 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
     function trimString(s: any): string {
         return `${s.substring(0, 7)}...${s.substring(s.length - 7)}`;
     }
+
+    const tooltipText = {
+        onMouseOver: () => setCopy('Copy'),
+        style: { cursor: 'pointer' },
+    };
 
     const Signaturedata = [
         {
@@ -126,7 +125,6 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
             console.log(e, 'check transaction error');
             setPasswordError(true);
         }
-        setPasswordError(false);
     };
 
     const handlePassword = (e: string): void => {
@@ -211,7 +209,6 @@ const PopupSign: React.FunctionComponent<any> = ({ requests }) => {
                 }}
             >
                 {Signaturedata.map((el) => {
-                    console.log('el', el);
                     if (el.copy) {
                         return (
                             <HorizontalContentDiv height="20%">

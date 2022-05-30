@@ -7,6 +7,10 @@ export interface WrapperInterface {
 export interface NewWrapperInterface {
     isCorrect?: boolean;
 }
+export interface TokenBoxInterface {
+    tokenBoxColor?: string;
+    tokenDropDown: boolean;
+}
 
 export interface FieldInterface {
     bgColor?: string;
@@ -40,6 +44,9 @@ export interface Props {
     tokenName?: string;
     tokenImage?: string;
     tokenLogo?: boolean;
+    tokenDropDown?: boolean;
+    tokenDropDownHandler?(): void;
+    tokenBoxColor?: string;
     rightPosition?: string;
     className?: string;
     placeholder?: string;
@@ -71,6 +78,7 @@ export interface Props {
     inputWrapperWidth?: string;
     searchIcon?: boolean;
     rightIconDropDown?: boolean;
+    rightIconDropDownHandler?(): void;
     border?: string;
     setSwitchCheckedSecond?(input: boolean): void;
     setSwitchChecked?(input: boolean): void;

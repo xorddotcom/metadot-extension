@@ -20,7 +20,9 @@ const Input: React.FunctionComponent<Props> = ({
     isCorrect,
     disabled,
     id,
+    type,
     rightIconDropDown,
+    rightIconDropDownHandler,
     rightIcon,
     rightIconCross,
     rightIconCrossClickHandler,
@@ -41,6 +43,9 @@ const Input: React.FunctionComponent<Props> = ({
     tokenName,
     bgColor,
     border,
+    tokenDropDown,
+    tokenDropDownHandler,
+    tokenBoxColor,
 }) => {
     const blockChar = (ev: React.KeyboardEvent): void => {
         const arr = ['e', 'E', '+', '-'];
@@ -84,7 +89,13 @@ const Input: React.FunctionComponent<Props> = ({
                 width: '100%',
             }}
         >
-            <Field {...FieldProps} autocomplete="off" />
+            <Field
+                {...FieldProps}
+                autocomplete="off"
+                onWheel={(e: React.WheelEvent<HTMLInputElement>) =>
+                    e.currentTarget.blur()
+                }
+            />
             {rightIcon && (
                 <Icon
                     onClick={hideHandler}
@@ -129,12 +140,20 @@ const Input: React.FunctionComponent<Props> = ({
                     topPosition={topPosition}
                     leftPosition={leftPosition}
                     rightPosition={rightPosition}
+                    onClick={
+                        rightIconDropDownHandler && rightIconDropDownHandler
+                    }
                 >
                     <img src={dropdownIcon} alt="dropdown" />
                 </Icon>
             )}
             {tokenLogo && (
-                <TokenBox>
+                <TokenBox
+                    tokenDropDown={tokenDropDown === true}
+                    tokenBoxColor={tokenBoxColor}
+                    style={{ cursor: 'pointer' }}
+                    onClick={tokenDropDownHandler && tokenDropDownHandler}
+                >
                     <img
                         src={tokenImage}
                         alt="token"
@@ -143,6 +162,14 @@ const Input: React.FunctionComponent<Props> = ({
                     <TokenName className={subHeadingfontFamilyClass}>
                         {tokenName}
                     </TokenName>
+                    {tokenDropDown && tokenDropDownHandler && (
+                        <img
+                            style={{ width: '8px', margin: '0px 8px' }}
+                            src={dropdownIcon}
+                            alt="dropdown"
+                            aria-hidden="true"
+                        />
+                    )}
                 </TokenBox>
             )}
         </div>

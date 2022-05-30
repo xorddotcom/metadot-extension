@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import MainCard from './components/MainCard';
+import SelectFeature from './components/SelectFeature';
 import AssetsAndTransactions from './components/Tabs';
 import DropDown from './components/Dropdown';
 import { SelectNetwork, TxDetails } from '../common/modals';
@@ -62,6 +63,8 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
         (state: RootState) => state.activeAccount
     );
 
+    const api = useSelector((state: RootState) => state);
+
     const allMainnetsName = [
         'Polkadot',
         'Kusama',
@@ -69,6 +72,7 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
         'Astar',
         'Shiden',
         'Acala',
+        'Bifrost',
     ];
     const chainNameAltered = allMainnetsName.includes(chainName)
         ? `${chainName} Main Network`
@@ -146,6 +150,7 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
                 accountName={accountName}
             />
 
+            <SelectFeature />
             <AssetsAndTransactions
                 handleOpenTxDetailsModal={() => setIsTxDetailsModalOpen(true)}
                 setTxDetailsModalData={setTxDetailsModalData}
@@ -184,6 +189,8 @@ const DashboardView: React.FunctionComponent<DashboardViewProps> = (props) => {
                     p: 2,
                     px: 2,
                     pb: 3,
+                    maxHeight: `calc(100vh - 80px)`,
+                    overflowY: 'scroll',
                 }}
             />
         </Wrapper>

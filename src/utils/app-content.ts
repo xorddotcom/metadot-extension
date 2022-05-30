@@ -26,7 +26,7 @@ enter the right words in the space provided below.`;
 
 export const ASSETS = `Assets`;
 export const AMOUNT = `Amount`;
-export const NETWORK_FEE = `Network Fee`;
+export const NETWORK_FEE = `Estimated Gas Fee`;
 export const TOTAL_AMOUNT = `Total Amount`;
 export const TRANSACTIONS = `Transactions`;
 export const FROM = `From`;

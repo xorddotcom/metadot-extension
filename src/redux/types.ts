@@ -9,16 +9,16 @@ export interface Accounts {
 }
 
 export interface TransactionRecord {
-    accountFrom?: string;
-    accountTo?: string;
-    amount?: string;
+    accountFrom: string;
+    accountTo: string[];
+    amount: number[];
     hash: string;
-    operation?: string;
-    status?: string;
-    chainName?: string;
-    tokenName?: string;
-    transactionFee?: string;
-    timestamp?: string;
+    operation: string;
+    status: string;
+    chainName: string;
+    tokenName: string[];
+    transactionFee: string;
+    timestamp: string;
 }
 
 export interface Transaction {
@@ -27,6 +27,32 @@ export interface Transaction {
 
 export interface Transactions {
     [publicKey: string]: Transaction;
+}
+
+export type BalancesType = {
+    name: string;
+    balance: number;
+    isNative: boolean;
+    decimal: number;
+    tokenImage?: string;
+};
+
+export interface ActiveAccount {
+    isLoggedIn: boolean;
+    publicKey: string;
+    accountName: string;
+    rpcUrl: string;
+    chainName: string;
+    tokenName: string;
+    tokenImage: string;
+    balance: number;
+    balanceInUsd: number;
+    jsonFileUploadScreen: boolean;
+    prefix: number;
+    lastVisitedTimestamp: string;
+    queryEndpoint: string;
+    isWalletConnected: boolean;
+    balances: BalancesType[];
 }
 
 interface decimal {
