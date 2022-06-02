@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable max-len */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/destructuring-assignment */
@@ -8,6 +9,8 @@ import { TransactionRecord } from '../../../../redux/types';
 
 import AssetCard from '../../../common/asset-card';
 import TxCard from '../../../common/tx-card';
+
+import { HorizontalContentDiv } from '../../../common/wrapper';
 
 import {
     queryData,
@@ -52,11 +55,25 @@ const TxView: React.FunctionComponent<TxViewProps> = (
             transaction.tokenName[0] && transaction.tokenName[0] === tokenName
     );
 
+    const { apiInitializationStarts } = useSelector(
+        (state: RootState) => state.api
+    );
+
     return (
         // eslint-disable-next-line react/jsx-no-useless-fragment
         <>
-            {transactionsOfActiveAccount.length > 0 &&
-            txRecordsForSelectedNetwork.length !== 0 ? (
+            {apiInitializationStarts ? (
+                <HorizontalContentDiv
+                    id="loading"
+                    className="wave"
+                    height="20px"
+                    width="90%"
+                    borderRadius="4px"
+                    marginTop="75px"
+                    ml="5%"
+                />
+            ) : transactionsOfActiveAccount.length > 0 &&
+              txRecordsForSelectedNetwork.length !== 0 ? (
                 txRecordsForSelectedNetwork
                     .sort(
                         (a: any, b: any) =>

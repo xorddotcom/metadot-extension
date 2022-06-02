@@ -46,6 +46,7 @@ export const HorizontalContentDiv = styled.div<HorizontalContentInterface>`
         props.backgroundColor && props.backgroundColor};
     border-radius: ${(props) => props.borderRadius && props.borderRadius};
     margin-top: ${(props) => props.marginTop && props.marginTop};
+    margin-left: ${(props) => props.ml && props.ml};
 `;
 
 export const VerticalContentDiv = styled.div<VerticalContentDivPropsInterface>`
