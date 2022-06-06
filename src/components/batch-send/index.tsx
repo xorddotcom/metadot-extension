@@ -474,6 +474,7 @@ const BatchSend: React.FunctionComponent = () => {
                     getTotalAmount={getTotalAmount}
                     getTransactionFees={getTxFees}
                     existentialDeposit={existentialDeposit}
+                    allTokens={allTokens}
                 />
             )}
 

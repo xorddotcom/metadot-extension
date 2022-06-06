@@ -16,7 +16,7 @@ export const RecepientDetailDiv = styled.div`
 `;
 
 export const TransactionDetailDiv = styled.div`
-    height: 143px;
+    min-height: 143px;
     border: 1px solid rgba(250, 250, 250, 0.05);
     box-sizing: border-box;
     filter: drop-shadow(0px 0px 40px rgba(13, 13, 13, 0.2));
