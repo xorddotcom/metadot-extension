@@ -549,6 +549,7 @@ const Swap: React.FunctionComponent = (): JSX.Element => {
                 swapClickHandler={EDandTxFeeValidation}
                 insufficientBalance={insufficientBalanceTx}
                 isLoading={isLoading}
+                nativeToken={balances[0].name}
             />
             <SelectTokenModal
                 open={selectTokenModalState.open}
