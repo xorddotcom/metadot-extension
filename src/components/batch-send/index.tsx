@@ -430,7 +430,7 @@ const BatchSend: React.FunctionComponent = () => {
             />
             <WarningModal {...deleteWarning} />
             <Header
-                centerText={step === 1 ? 'Batch' : 'Send'}
+                centerText={step === 0 ? 'Batch' : 'Confirm'}
                 overWriteBackHandler={
                     step === 1 ? () => setStep(0) : () => navigate(DASHBOARD)
                 }
