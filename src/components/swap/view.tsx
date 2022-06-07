@@ -264,7 +264,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
                                         ? '0'
                                         : Number(
                                               swapParams.outputAmount.toString()
-                                          ).toFixed(4)
+                                          ).toFixed(10)
                                 }
                                 tokenName={tokenTo?.name}
                                 onChange={(value: string) => {

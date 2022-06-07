@@ -258,7 +258,7 @@ const ACALA_CONFIG: NetworkConfig = {
 };
 
 const BIFROST_STAGE_TESTNET_CONFIG: NetworkConfig = {
-    name: 'Bifrost',
+    name: 'Bifrost ',
     tokenName: '',
     queryEndpoint:
         'https://api.subquery.network/sq/XORD-one/metadot-subql-bifrost-testnet',
