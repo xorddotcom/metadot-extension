@@ -7,6 +7,7 @@ export interface HorizontalContentInterface {
     borderRadius?: string;
     justifyContent?: string;
     marginTop?: string;
+    ml?: string;
 }
 
 export interface UnAuthScreensContentInterface {

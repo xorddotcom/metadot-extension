@@ -34,6 +34,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
     swapClickHandler,
     insufficientBalance,
     isLoading,
+    nativeToken,
 }) => {
     const [showDetail, setShowDetail] = useState(true);
 
@@ -108,7 +109,7 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
         },
         {
             property: 'Gas Fee',
-            data: `${swapParams.tradingFee?.toString()} KAR`,
+            data: `${swapParams.tradingFee?.toString()} ${nativeToken}`,
         },
     ];
 

@@ -1,3 +1,5 @@
+import { BalancesType } from '../../redux/types';
+
 export interface Recepient {
     amount: string;
     address: string;
@@ -45,6 +47,7 @@ export interface ConfirmBatchViewProps {
     getTotalAmount(value: string, index: number): string;
     getTransactionFees(): Promise<number>;
     existentialDeposit: number;
+    allTokens: BalancesType[];
 }
 
 export interface FileInputProps {

@@ -23,4 +23,5 @@ export interface SwapViewProps {
     swapClickHandler(): void;
     insufficientBalance: boolean;
     isLoading: boolean;
+    nativeToken: string;
 }

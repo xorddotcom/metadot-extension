@@ -173,7 +173,7 @@ function WelcomeBack(): JSX.Element {
             pb: 3,
         },
         mainText: 'Remove Account',
-        subText: `Upon continuation from here, your complete wallet will be reset which means there is no way we can recover any of your account present in this wallet.`,
+        subText: `Upon continuation from here, your complete wallet will be reset which means there is no way we can recover any of your accounts present in this wallet.`,
         isLoading,
     };
 

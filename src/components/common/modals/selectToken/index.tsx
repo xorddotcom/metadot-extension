@@ -23,9 +23,13 @@ const SelectToken: React.FunctionComponent<SelectTokenProps> = (props) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setSearch(e.target.value);
     };
+    const closeHandler = (): void => {
+        setSearch('');
+        handleClose();
+    };
 
     return (
-        <Modal open={open} onClose={handleClose} className="Dark-bg-network">
+        <Modal open={open} onClose={closeHandler} className="Dark-bg-network">
             <Box
                 sx={style}
                 className="select-network-modal-style network-scrollbar"
@@ -37,7 +41,7 @@ const SelectToken: React.FunctionComponent<SelectTokenProps> = (props) => {
                         </Title>
                         <CloseIconDiv
                             onClick={() => {
-                                handleClose();
+                                closeHandler();
                             }}
                         >
                             <img src={crossIcon} alt="cross icon" />

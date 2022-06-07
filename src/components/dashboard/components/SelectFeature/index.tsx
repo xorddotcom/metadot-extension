@@ -29,6 +29,12 @@ const SelectFeature: React.FunctionComponent = () => {
     const { name, decimal, isNative, balance } = balances[0];
 
     const featureClickHandler = (path: string): void => {
+        if (
+            path === SWAP &&
+            !(balances[0].name === 'ACA' || balances[0].name === 'KAR')
+        ) {
+            return;
+        }
         navigate(path, {
             state: {
                 tokenName: name,

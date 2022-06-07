@@ -32,7 +32,10 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
     getTotalAmount,
     getTransactionFees,
     existentialDeposit,
+    allTokens,
 }) => {
+    const [transactionFee, setTransactionFee] = React.useState(0);
+
     const [activeRecepient, setActiveRecepient] = React.useState(0);
     const [showEditModal, setShowEditModal] = React.useState(false);
     const handleEditModalClose = (): void => {
@@ -72,19 +75,58 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
 
     const calculatedAmount = (): string => {
         const dummyArray = [...recepientList];
-        const val = dummyArray.reduce((a, b) => {
-            return {
-                amount: String(Number(a.amount) + Number(b.amount)),
-                address: a.address,
-                token: a.token,
-            };
+
+        if (allTokens.length === 1) {
+            const val = dummyArray.reduce((a, b) => {
+                return {
+                    amount: String(Number(a.amount) + Number(b.amount)),
+                    address: a.address,
+                    token: a.token,
+                };
+            });
+            return `${String(Number(val.amount).toFixed(4))}+${
+                allTokens[0].name
+            }`;
+        }
+
+        let str = '';
+
+        const res = dummyArray.map((el) => {
+            str = `${String(str)}+${String(Number(el.amount).toFixed(4))}${
+                el.token
+            }`;
+            return el.address;
         });
-        return val.amount;
+        return String(str);
+    };
+
+    const calculatedAmountWithFees = (): string => {
+        const dummyArray = [...recepientList];
+
+        if (allTokens.length === 1) {
+            const val = dummyArray.reduce((a, b) => {
+                return {
+                    amount: String(Number(a.amount) + Number(b.amount)),
+                    address: a.address,
+                    token: a.token,
+                };
+            });
+            return `${
+                String(Number(val.amount).toFixed(4)) + allTokens[0].name
+            }+${transactionFee}${allTokens[0].name}`;
+        }
+
+        let str = '';
+
+        const res = dummyArray.map((el) => {
+            str = String(str) + String(Number(el.amount).toFixed(4)) + el.token;
+            return el.address;
+        });
+        return `${String(str)}+${transactionFee}${allTokens[0].name}`;
     };
 
     const { activeAccount } = useSelector((state: RootState) => state);
     const { tokenName } = activeAccount;
-    const [transactionFee, setTransactionFee] = React.useState(0);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -200,13 +242,12 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                             Total Transferable Amount
                         </SubHeading>
                         <SubHeading
-                            lineHeight="0px"
+                            lineHeight="14px"
                             color={white}
                             fontSize="12px"
+                            style={{ overflowWrap: 'anywhere', width: '30%' }}
                         >
-                            {`${Number(calculatedAmount()).toFixed(
-                                4
-                            )} ${tokenName}`}
+                            {calculatedAmount()}
                         </SubHeading>
                     </HorizontalContentDiv>
 
@@ -235,13 +276,12 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                         Total Amount
                     </SubHeading>
                     <SubHeading
-                        lineHeight="0px"
+                        lineHeight="18px"
                         fontSize="19px"
                         color={primaryBackground}
+                        style={{ overflowWrap: 'anywhere', width: '50%' }}
                     >
-                        {(Number(calculatedAmount()) + transactionFee).toFixed(
-                            4
-                        )}
+                        {calculatedAmountWithFees()}
                     </SubHeading>
                 </HorizontalContentDiv>
             </TransactionDetailDiv>

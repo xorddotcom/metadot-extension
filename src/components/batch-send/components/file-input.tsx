@@ -186,7 +186,7 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
                             />
                             <span {...copyIconTooltipText}>
                                 Your csv must contain amount and address columns
-                                with atleast 2 entries
+                                with at least 2 entries
                             </span>
                         </div>
                     )}
