@@ -8,12 +8,22 @@ const TxDetails: React.FunctionComponent<TxDetailsProps> = (props) => {
 
     const [copy, setCopy] = useState('Copy');
 
-    const getTotalBalance = (value1: number[], value2: string): number => {
+    const getTotalBalance = (
+        value1: number[],
+        value2: string,
+        tokenNameInTx: string,
+        nativeToken: any
+    ): any => {
         const sum = value1.reduce((a, b) => {
             return a + b;
         }, 0);
-        const val = sum + parseFloat(value2);
-        return Number(val.toFixed(4));
+        if (tokenNameInTx === nativeToken.name) {
+            const val = sum + parseFloat(value2);
+            return `${Number(val.toFixed(4))} ${nativeToken.name}`;
+        }
+        return `${Number(sum.toFixed(4))} ${tokenNameInTx} + ${Number(
+            value2
+        ).toFixed(4)} ${nativeToken.name}`;
     };
 
     const copyText = (stringNeedToBeCopied?: string): void => {

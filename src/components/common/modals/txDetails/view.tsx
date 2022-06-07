@@ -59,9 +59,12 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
         operation,
     } = txDetailsModalData;
 
-    const { chainName } = useSelector(
+    const { chainName, balances } = useSelector(
         (state: RootState) => state.activeAccount
     );
+
+    const nativeToken = balances.filter((balance) => balance.isNative)[0];
+
     const getURl = (txHash: string): string => {
         const chains = [
             CONTEXTFREE_CONFIG,
@@ -400,7 +403,7 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                         transactionFee
                                             ? transactionFee.slice(0, 6)
                                             : '0'
-                                    } ${tokenName[0]}`}</MainText1>
+                                    } ${nativeToken.name}`}</MainText1>
                                 )}
                             </VerticalContentDiv>
                         </HorizontalContentDiv>
@@ -442,8 +445,12 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
                                     fontWeight="600"
                                     color="#2E9B9B"
                                 >
-                                    {`${getTotalBalance(amount, transactionFee)}
-                  ${tokenName[0]}`}
+                                    {`${getTotalBalance(
+                                        amount,
+                                        transactionFee,
+                                        tokenName[0],
+                                        nativeToken
+                                    )}`}
                                 </MainText1>
                             </VerticalContentDiv>
                         </HorizontalContentDiv>

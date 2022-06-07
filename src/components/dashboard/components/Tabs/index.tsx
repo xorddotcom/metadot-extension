@@ -42,9 +42,11 @@ const TxView: React.FunctionComponent<TxViewProps> = (
     props
 ): React.ReactElement => {
     const { transactionData, tokenName, handleClickOnTxCard } = props;
-    const { publicKey } = useSelector(
+    const { publicKey, balances } = useSelector(
         (state: RootState) => state.activeAccount
     );
+
+    const allTokens = balances.map((bal) => bal.name);
 
     const transactionsOfActiveAccount = transactionData[publicKey]
         ? Object.values(transactionData[publicKey])
@@ -52,7 +54,8 @@ const TxView: React.FunctionComponent<TxViewProps> = (
     const txRecordsForSelectedNetwork = transactionsOfActiveAccount.filter(
         // eslint-disable-next-line array-callback-return
         (transaction: TransactionRecord) =>
-            transaction.tokenName[0] && transaction.tokenName[0] === tokenName
+            transaction.tokenName[0] &&
+            allTokens.includes(transaction.tokenName[0])
     );
 
     const { apiInitializationStarts } = useSelector(
@@ -194,11 +197,12 @@ const AssetsAndTransactions: React.FunctionComponent<
     };
 
     const handleSwapRecords = (transactionObject: any): void => {
+        console.log('transactionObject for swap', transactionObject);
         const transactions =
             transactionObject.data.query.account.swaps.nodes.map(
                 (transaction: any) => {
                     const gasFee = transaction.fees
-                        ? (parseInt(transaction.fees) / 12).toString()
+                        ? (parseInt(transaction.fees) / 10 ** 12).toString()
                         : '0';
                     return {
                         accountFrom: transaction.fromId,
@@ -229,6 +233,7 @@ const AssetsAndTransactions: React.FunctionComponent<
                     };
                 }
             );
+        console.log('madeup tx', transactions);
 
         dispatch(addTransaction({ transactions, publicKey }));
     };
@@ -315,6 +320,8 @@ const AssetsAndTransactions: React.FunctionComponent<
             publicKey,
             prefix
         );
+        console.log('prefix', { queryEndpoint, publicKey, prefix });
+        console.log('query, endPoint', query, endPoint);
         fetch(endPoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -324,7 +331,7 @@ const AssetsAndTransactions: React.FunctionComponent<
         })
             .then((r) => r.json())
             .then((r) => handleSwapRecords(r))
-            .catch((e) => console.log('fetching tx records...', e));
+            .catch((e) => console.log('fetching SWAP tx records...', e));
     };
 
     useEffect(() => {
@@ -334,7 +341,7 @@ const AssetsAndTransactions: React.FunctionComponent<
             fetchSwapRecords();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [rpcUrl, publicKey]);
+    }, [rpcUrl, publicKey, prefix]);
     return (
         <AssetsAndTransactionsWrapper>
             <Tabs>

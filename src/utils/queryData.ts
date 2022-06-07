@@ -45,24 +45,22 @@ const getQueryForSwap = (prefix: number, publicKey: string): string => {
     const address = encodeAddress(publicKey, prefix);
 
     return `{
-query {
-  account (id: "${address}") {
-    swaps {
-      nodes {
-        id
-        extrinsicHash
-        fees
-        status
-        timestamp
-        block {
-          id
+  query {
+    account(id: "${address}") {
+        swaps {
+          nodes {
+            id
+            extrinsicHash
+            fees
+            status
+            timestamp
+            blockId
+            data
+            fromId
+          }
         }
-        data
-        fromId
-      }
     }
   }
-}
 }`;
 };
 
