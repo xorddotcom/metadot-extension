@@ -37,6 +37,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
     const [transactionFee, setTransactionFee] = React.useState(0);
 
     const [activeRecepient, setActiveRecepient] = React.useState(0);
+    const [recepientDelete, setRecepientDelete] = React.useState(0);
     const [showEditModal, setShowEditModal] = React.useState(false);
     const handleEditModalClose = (): void => {
         setShowEditModal(false);
@@ -49,7 +50,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
     const [showWarning, setShowWarning] = React.useState(false);
 
     const handleDelete = (index: number): void => {
-        setActiveRecepient(index);
+        setRecepientDelete(index);
         setShowWarning(true);
     };
 
@@ -57,7 +58,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
         open: showWarning,
         handleClose: () => setShowWarning(false),
         onConfirm: () => {
-            deleteRecepient(activeRecepient);
+            deleteRecepient(recepientDelete);
             setShowWarning(false);
         },
         style: {
@@ -84,7 +85,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                     token: a.token,
                 };
             });
-            return `${String(Number(val.amount).toFixed(4))}+${
+            return `${String(Number(val.amount).toFixed(4))}${
                 allTokens[0].name
             }`;
         }
@@ -97,32 +98,11 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
             }`;
             return el.address;
         });
-        return String(str);
+        return String(str).slice(1);
     };
 
     const calculatedAmountWithFees = (): string => {
-        const dummyArray = [...recepientList];
-
-        if (allTokens.length === 1) {
-            const val = dummyArray.reduce((a, b) => {
-                return {
-                    amount: String(Number(a.amount) + Number(b.amount)),
-                    address: a.address,
-                    token: a.token,
-                };
-            });
-            return `${
-                String(Number(val.amount).toFixed(4)) + allTokens[0].name
-            }+${transactionFee}${allTokens[0].name}`;
-        }
-
-        let str = '';
-
-        const res = dummyArray.map((el) => {
-            str = String(str) + String(Number(el.amount).toFixed(4)) + el.token;
-            return el.address;
-        });
-        return `${String(str)}+${transactionFee}${allTokens[0].name}`;
+        return `${calculatedAmount()}+${transactionFee}${allTokens[0].name}`;
     };
 
     const { activeAccount } = useSelector((state: RootState) => state);
