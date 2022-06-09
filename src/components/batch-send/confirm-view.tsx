@@ -257,7 +257,7 @@ const BatchSendView: React.FunctionComponent<ConfirmBatchViewProps> = ({
                     </SubHeading>
                     <SubHeading
                         lineHeight="18px"
-                        fontSize="19px"
+                        fontSize="12px"
                         color={primaryBackground}
                         style={{ overflowWrap: 'anywhere', width: '50%' }}
                     >
