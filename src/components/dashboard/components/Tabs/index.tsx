@@ -248,10 +248,10 @@ const AssetsAndTransactions: React.FunctionComponent<
             const senderId =
                 transaction.senderId ||
                 transaction.batch.sender.nodes[0].senderId;
-            const gasFee = transaction.fees
+            const gasFee = transaction.batch.fees
                 ? (
-                      parseInt(transaction.fees) /
-                      parseInt(transaction.token.decimals)
+                      parseInt(transaction.batch.fees) /
+                      parseInt(transaction.batch.calls[0].token.decimals)
                   ).toString()
                 : '0';
             return {

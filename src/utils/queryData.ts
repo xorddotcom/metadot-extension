@@ -13,6 +13,7 @@ query {
         nodes {
           senderId
           batch {
+            fees
             extrinsicHash
             receivers {
               nodes {
@@ -26,6 +27,7 @@ query {
       batchRecordsTo {
         nodes {
           batch {
+            fees
             extrinsicHash
             sender {
               nodes {
