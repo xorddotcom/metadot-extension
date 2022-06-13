@@ -83,9 +83,12 @@ const TxDetailsView: React.FunctionComponent<TxDetailsViewProps> = (props) => {
         return `${currentChain[0].explorer}extrinsic/${txHash}`;
     };
     const getTotalAmount = (): number => {
-        const totalAmount = amount.reduce(function (a, b) {
-            return a + b;
-        }, 0);
+        const totalAmount =
+            operation === 'Swap'
+                ? amount[0]
+                : amount.reduce(function (a, b) {
+                      return a + b;
+                  }, 0);
         return totalAmount;
     };
     return (

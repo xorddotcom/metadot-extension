@@ -18,9 +18,12 @@ const TxCardView: React.FunctionComponent<Props> = (props) => {
     const { green, red } = colors;
     const { trimBalance, dateFormatter } = helpers;
     const getTotalAmount = (): number => {
-        const totalAmount = amount.reduce(function (a, b) {
-            return a + b;
-        }, 0);
+        const totalAmount =
+            operation === 'Swap'
+                ? amount[0]
+                : amount.reduce(function (a, b) {
+                      return a + b;
+                  }, 0);
         return totalAmount;
     };
 

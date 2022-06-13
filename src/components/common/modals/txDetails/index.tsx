@@ -14,9 +14,13 @@ const TxDetails: React.FunctionComponent<TxDetailsProps> = (props) => {
         tokenNameInTx: string,
         nativeToken: any
     ): any => {
-        const sum = value1.reduce((a, b) => {
-            return a + b;
-        }, 0);
+        const { operation } = txDetailsModalData;
+        const sum =
+            operation === 'Swap'
+                ? value1[0]
+                : value1.reduce((a, b) => {
+                      return a + b;
+                  }, 0);
         if (tokenNameInTx === nativeToken.name) {
             const val = sum + parseFloat(value2);
             return `${Number(val.toFixed(4))} ${nativeToken.name}`;
