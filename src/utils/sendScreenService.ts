@@ -87,7 +87,10 @@ const setToggleButtons = (
 ): void => {
     if (isNative) {
         if (Number(nativeTokenBalance) >= Number(transactionFee)) {
-            console.log('');
+            setDisableToggleButtons({
+                firstToggle: false,
+                secondToggle: false,
+            });
         } else if (nativeTokenBalance < transactionFee) {
             setDisableToggleButtons({
                 firstToggle: true,
