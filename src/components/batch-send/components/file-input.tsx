@@ -122,6 +122,7 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
         id: 'copy-icon',
         className: `csv-tooltip ${mainHeadingfontFamilyClass}`,
         style: { cursor: 'pointer' },
+        onClick: (e: any) => e.stopPropagation(),
     };
 
     const copyIconTooltipText = {
@@ -134,6 +135,8 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
             transition: 'all 0.1s ease-in',
         },
     };
+
+    const file = `${process.env.PUBLIC_URL}/dummy.csv`;
 
     return (
         <>
@@ -177,17 +180,24 @@ const FileInput: React.FunctionComponent<FileInputProps> = ({
                         />
                     ) : (
                         <div {...copyIconTooltip}>
-                            <img
-                                aria-hidden
-                                src={help}
-                                alt="img"
-                                height="max-content"
-                                style={{ margin: '0px 8px' }}
-                            />
-                            <span {...copyIconTooltipText}>
-                                Your csv must contain amount and address columns
-                                with at least 2 entries
-                            </span>
+                            <a
+                                href={file}
+                                download="BatchDummyFile"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <img
+                                    aria-hidden
+                                    src={help}
+                                    alt="img"
+                                    height="max-content"
+                                    style={{ margin: '0px 8px' }}
+                                />
+                                <span {...copyIconTooltipText}>
+                                    Your csv must contain amount and address
+                                    columns with at least 2 entries
+                                </span>
+                            </a>
                         </div>
                     )}
                 </div>

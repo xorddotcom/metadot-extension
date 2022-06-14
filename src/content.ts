@@ -7,7 +7,11 @@ import {
 import { chrome } from '@polkadot/extension-inject/chrome';
 
 // connect to the extension
-const port = chrome.runtime.connect({ name: PORT_CONTENT });
+let port = chrome.runtime.connect({ name: PORT_CONTENT });
+
+setInterval(() => {
+    port = chrome.runtime.connect({ name: PORT_CONTENT });
+}, 300000);
 
 // send any messages from the extension back to the page
 port.onMessage.addListener((data): void => {

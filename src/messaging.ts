@@ -37,7 +37,10 @@ interface Handler {
 
 type Handlers = Record<string, Handler>;
 
-const port = chrome.runtime.connect({ name: PORT_EXTENSION });
+let port = chrome.runtime.connect({ name: PORT_EXTENSION });
+setInterval(() => {
+    port = chrome.runtime.connect({ name: PORT_EXTENSION });
+}, 300000);
 const handlers: Handlers = {};
 
 // setup a listener for messages, any incoming resolves the promise
