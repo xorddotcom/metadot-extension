@@ -16,6 +16,9 @@ const {
     ACALA_CONFIG,
     BIFROST_STAGE_TESTNET_CONFIG,
     BIFROST_KUSAMA_CONFIG,
+    ARCADIA_CONFIG,
+    UNIQUE_CONFIG,
+    BITCOUNTRY_CONFIG,
 } = constants;
 
 const availableNetworks: NetworkConfigType[] = [
@@ -36,6 +39,7 @@ const PolkadotMainNetworks: NetworkConfigType[] = [
     { ...POLKADOT_CONFIG },
     { ...ASTAR_CONFIG },
     { ...ACALA_CONFIG },
+    // { ...UNIQUE_CONFIG },
 ];
 
 const KusamaMainNetworks: NetworkConfigType[] = [
@@ -50,6 +54,8 @@ const TestNetworks: NetworkConfigType[] = [
     { ...CONTEXTFREE_CONFIG },
     { ...SHIBUYA_CONFIG },
     { ...BIFROST_STAGE_TESTNET_CONFIG },
+    { ...ARCADIA_CONFIG },
+    { ...BITCOUNTRY_CONFIG },
 ];
 
 export default {

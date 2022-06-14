@@ -5,9 +5,9 @@ import { ActiveAccount } from '../types';
 const { POLKADOT_CONFIG } = constants;
 
 const initialState: ActiveAccount = {
-    isLoggedIn: false,
-    publicKey: '',
-    accountName: '',
+    isLoggedIn: true,
+    publicKey: '5GjSQRFYEFBY1nmVuGHTyKkRHrodQmUKdA7kWzfmfLp262xG',
+    accountName: 'Hello 1',
     rpcUrl: POLKADOT_CONFIG.rpcUrl,
     chainName: POLKADOT_CONFIG.name,
     tokenName: POLKADOT_CONFIG.tokenName,

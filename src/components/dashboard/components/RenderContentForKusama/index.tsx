@@ -17,6 +17,7 @@ const RenderContentForKusamaMainNetwork = ({
     handleClick,
 }: RenderMethodProps): JSX.Element => {
     const { name, logo, disabled } = data;
+    console.log('real data', data);
     const allMainnetsName = [
         'Polkadot',
         'Kusama',
