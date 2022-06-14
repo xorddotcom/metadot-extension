@@ -29,8 +29,6 @@ const POLKADOT_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/XORD-one/metadot-subql-polkadot',
     logo: polkadot,
     rpcUrl: 'wss://rpc.polkadot.io',
-    // EXISTENTIAL_DEPOSIT: 1,
-    // prefix: 0,
     relayChain: true,
     disabled: false,
     explorer: 'https://polkadot.subscan.io/',
@@ -41,8 +39,6 @@ const KUSAMA_CONFIG: NetworkConfig = {
     tokenName: 'KSM',
     logo: KusamaIcon,
     rpcUrl: 'wss://kusama-rpc.polkadot.io',
-    // EXISTENTIAL_DEPOSIT: 0.0000333333,
-    // prefix: 2,
     queryEndpoint:
         'https://api.subquery.network/sq/XORD-one/metadot-subql-kusama',
     relayChain: true,
@@ -57,7 +53,6 @@ const KARURA_CONFIG: NetworkConfig = {
     rpcUrl: 'wss://karura-rpc-0.aca-api.network',
     queryEndpoint:
         'https://api.subquery.network/sq/XORD-one/metadot-subql-karura',
-    // prefix: 8,
     disabled: false,
     explorer: 'https://karura.subscan.io/',
 };
@@ -69,7 +64,6 @@ const KARURA_CONFIG: NetworkConfig = {
 //     rpcUrl: '',
 //     queryEndpoint:
 //         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
-//     prefix: 0,
 //     disabled: true,
 //     explorer: '',
 // };
@@ -81,7 +75,6 @@ const SHIDEN_CONFIG: NetworkConfig = {
     rpcUrl: 'wss://shiden.api.onfinality.io/public-ws',
     queryEndpoint:
         'https://api.subquery.network/sq/XORD-one/metadot-subql-shiden',
-    // prefix: 5,
     disabled: false,
     explorer: 'https://shiden.subscan.io/',
 };
@@ -93,7 +86,6 @@ const SHIDEN_CONFIG: NetworkConfig = {
 //     rpcUrl: '',
 //     queryEndpoint:
 //         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
-//     prefix: 0,
 //     disabled: true,
 //     explorer: '',
 // };
@@ -105,7 +97,6 @@ const SHIDEN_CONFIG: NetworkConfig = {
 //     rpcUrl: '',
 //     queryEndpoint:
 //         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
-//     prefix: 0,
 //     disabled: true,
 //     explorer: '',
 // };
@@ -117,7 +108,6 @@ const SHIDEN_CONFIG: NetworkConfig = {
 //     rpcUrl: '',
 //     queryEndpoint:
 //         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
-//     prefix: 0,
 //     disabled: true,
 //     explorer: '',
 // };
@@ -129,7 +119,6 @@ const WESTEND_CONFIG: NetworkConfig = {
         'https://api.subquery.network/sq/XORD-one/metadot-subql-westend',
     logo: westendColour,
     rpcUrl: 'wss://westend-rpc.polkadot.io',
-    // prefix: 42,
     disabled: false,
     explorer: 'https://westend.subscan.io/',
 };
@@ -139,7 +128,6 @@ const WESTEND_CONFIG: NetworkConfig = {
 //     tokenName: 'ROC',
 //     logo: rococoIcon,
 //     rpcUrl: 'wss://rococo-rpc.polkadot.io',
-//     // prefix: 42,
 //     queryEndpoint:
 //         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
 //     disabled: true,
@@ -151,7 +139,6 @@ const ACALA_MANDALA_CONFIG: NetworkConfig = {
     tokenName: 'ACA',
     logo: acala,
     rpcUrl: 'wss://acala-mandala.api.onfinality.io/public-ws',
-    // prefix: 42,
     queryEndpoint:
         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
     disabled: true,
@@ -165,7 +152,6 @@ const ACALA_MANDALA_CONFIG: NetworkConfig = {
 //     rpcUrl: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
 //     queryEndpoint:
 //         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
-//     prefix: 0,
 //     disabled: false,
 //     explorer: '',
 // };
@@ -177,7 +163,6 @@ const ACALA_MANDALA_CONFIG: NetworkConfig = {
 //     rpcUrl: '',
 //     queryEndpoint:
 //         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
-//     prefix: 0,
 //     disabled: true,
 //     explorer: '',
 // };
@@ -189,7 +174,6 @@ const ACALA_MANDALA_CONFIG: NetworkConfig = {
 //         'https://api.subquery.network/sq/khuzama98/subql-dusty__a2h1e',
 //     logo: dusty,
 //     rpcUrl: 'wss://rpc.dusty.plasmnet.io/',
-//     prefix: 5,
 //     disabled: true,
 //     explorer: '',
 // };
@@ -199,7 +183,6 @@ const ASTAR_CONFIG: NetworkConfig = {
     tokenName: 'ASTR',
     logo: astarIcon,
     rpcUrl: 'wss://rpc.astar.network',
-    // prefix: 5,
     queryEndpoint:
         'https://api.subquery.network/sq/XORD-one/metadot-subql-astar',
     disabled: false,
@@ -218,17 +201,17 @@ const SHIBUYA_CONFIG: NetworkConfig = {
     explorer: 'https://shibuya.subscan.io/',
 };
 
-// const BITCOUNTRY_CONFIG: NetworkConfig = {
-//     name: 'Bit Country',
-//     tokenName: '',
-//     logo: bitcountry,
-//     rpcUrl: 'wss://tewai-rpc.bit.country',
-//     queryEndpoint:
-//         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
-//     prefix: 0,
-//     disabled: true,
-//     explorer: '',
-// };
+const BITCOUNTRY_CONFIG: NetworkConfig = {
+    name: 'Bit Country',
+    tokenName: '',
+    logo: bitcountry,
+    rpcUrl: 'wss://tewai-rpc.bit.country',
+    queryEndpoint:
+        'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
+    // prefix: 0,
+    disabled: false,
+    explorer: '',
+};
 
 const CONTEXTFREE_CONFIG: NetworkConfig = {
     name: 'ContextFree',
@@ -269,21 +252,56 @@ const BIFROST_STAGE_TESTNET_CONFIG: NetworkConfig = {
     explorer: '',
 };
 
+// const BIFROST_KUSAMA_CONFIG: NetworkConfig = {
+//     name: 'Bifrost',
+//     tokenName: '',
+//     queryEndpoint:
+//         'https://api.subquery.network/sq/XORD-one/metadot-subql-bifrost-mainnet',
+//     logo: BifrostIcon,
+//     rpcUrl: 'wss://eu.bifrost-rpc.liebi.com/ws',
+//     // prefix: 10,
+//     disabled: false,
+//     explorer: '',
+// };
+
 const BIFROST_KUSAMA_CONFIG: NetworkConfig = {
     name: 'Bifrost',
     tokenName: '',
-    queryEndpoint:
-        'https://api.subquery.network/sq/XORD-one/metadot-subql-bifrost-mainnet',
     logo: BifrostIcon,
     rpcUrl: 'wss://eu.bifrost-rpc.liebi.com/ws',
-    // prefix: 10,
+    queryEndpoint:
+        'https://api.subquery.network/sq/XORD-one/metadot-subql-karura',
+    disabled: false,
+    explorer: '',
+};
+
+const ARCADIA_CONFIG: NetworkConfig = {
+    name: 'Arcadia',
+    tokenName: '',
+    queryEndpoint:
+        'https://api.subquery.network/sq/ahmedali8/metadot-subql-bifrost-mainnet',
+    logo: BifrostIcon,
+    rpcUrl: 'wss://arcadia1.nodleprotocol.io',
+    disabled: false,
+    explorer: '',
+};
+
+const UNIQUE_CONFIG: NetworkConfig = {
+    name: 'Unique',
+    tokenName: '',
+    queryEndpoint:
+        'https://api.subquery.network/sq/ahmedali8/metadot-subql-bifrost-mainnet',
+    logo: BifrostIcon,
+    rpcUrl: ' wss://ws.unique.network/',
     disabled: false,
     explorer: '',
 };
 
 export default {
+    ARCADIA_CONFIG,
     CONTEXTFREE_CONFIG,
-    // BITCOUNTRY_CONFIG,
+    UNIQUE_CONFIG,
+    BITCOUNTRY_CONFIG,
     POLKADOT_CONFIG,
     KUSAMA_CONFIG,
     BIFROST_STAGE_TESTNET_CONFIG,

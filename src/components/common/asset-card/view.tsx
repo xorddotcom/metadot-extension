@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
-
 import { useSelector } from 'react-redux';
+import type { ApiPromise as ApiPromiseType } from '@polkadot/api';
 import { AssetCardWrapper, CoinName, NameAndAmount } from './styles';
 import { HorizontalContentDiv } from '../wrapper';
 import Button from '../button';
@@ -27,7 +26,6 @@ const AssetCardView: React.FunctionComponent<ViewProps> = ({
     const navigate = useNavigate();
     const currReduxState = useSelector((state: RootState) => state);
     const api = currReduxState.api.api as unknown as ApiPromiseType;
-
     const [tokenPrice, setTokenPrice] = useState('0');
     const sendBtn = {
         id: 'send-button',
@@ -62,6 +60,8 @@ const AssetCardView: React.FunctionComponent<ViewProps> = ({
             )
                 .then((res) => res.json())
                 .then(({ data: { price } }) => {
+                    console.log('real data', { tokenName, price: price[0] });
+                    console.log('balance details', balance);
                     const dollarAmount = (
                         Number(balance) * Number(price[0])
                     ).toFixed(2);

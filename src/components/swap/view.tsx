@@ -225,13 +225,13 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
                                 </SubHeading>
                             )}
                             <BalDiv>
-                                <SubHeading
+                                {/* <SubHeading
                                     lineHeight="0px"
                                     fontSize="12px"
                                     marginTop="0px"
                                 >
                                     $23.498
-                                </SubHeading>
+                                </SubHeading> */}
                                 <SubHeading lineHeight="0px" fontSize="12px">
                                     Balance:
                                     {` ${tokenFrom?.balance} ${tokenFrom?.name}`}
@@ -276,13 +276,13 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
                                 }
                             />
                             <BalDiv>
-                                <SubHeading
+                                {/* <SubHeading
                                     lineHeight="0px"
                                     fontSize="12px"
                                     marginTop="0px"
                                 >
                                     $23.498
-                                </SubHeading>
+                                </SubHeading> */}
                                 <SubHeading lineHeight="0px" fontSize="12px">
                                     Balance:
                                     {` ${tokenTo?.balance} ${tokenTo?.name}`}
