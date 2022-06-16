@@ -201,17 +201,17 @@ const SHIBUYA_CONFIG: NetworkConfig = {
     explorer: 'https://shibuya.subscan.io/',
 };
 
-const BITCOUNTRY_CONFIG: NetworkConfig = {
-    name: 'Bit Country',
-    tokenName: '',
-    logo: bitcountry,
-    rpcUrl: 'wss://tewai-rpc.bit.country',
-    queryEndpoint:
-        'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
-    // prefix: 0,
-    disabled: false,
-    explorer: '',
-};
+// const BITCOUNTRY_CONFIG: NetworkConfig = {
+//     name: 'Bit Country',
+//     tokenName: '',
+//     logo: bitcountry,
+//     rpcUrl: 'wss://tewai-rpc.bit.country',
+//     queryEndpoint:
+//         'https://api.subquery.network/sq/khuzama98/subql-polkadot__a2h1e',
+//     // prefix: 0,
+//     disabled: false,
+//     explorer: '',
+// };
 
 const CONTEXTFREE_CONFIG: NetworkConfig = {
     name: 'ContextFree',
@@ -275,16 +275,16 @@ const BIFROST_KUSAMA_CONFIG: NetworkConfig = {
     explorer: '',
 };
 
-const ARCADIA_CONFIG: NetworkConfig = {
-    name: 'Arcadia',
-    tokenName: '',
-    queryEndpoint:
-        'https://api.subquery.network/sq/ahmedali8/metadot-subql-bifrost-mainnet',
-    logo: BifrostIcon,
-    rpcUrl: 'wss://arcadia1.nodleprotocol.io',
-    disabled: false,
-    explorer: '',
-};
+// const ARCADIA_CONFIG: NetworkConfig = {
+//     name: 'Arcadia',
+//     tokenName: '',
+//     queryEndpoint:
+//         'https://api.subquery.network/sq/ahmedali8/metadot-subql-bifrost-mainnet',
+//     logo: BifrostIcon,
+//     rpcUrl: 'wss://arcadia1.nodleprotocol.io',
+//     disabled: false,
+//     explorer: '',
+// };
 
 const UNIQUE_CONFIG: NetworkConfig = {
     name: 'Unique',
@@ -298,10 +298,10 @@ const UNIQUE_CONFIG: NetworkConfig = {
 };
 
 export default {
-    ARCADIA_CONFIG,
+    // ARCADIA_CONFIG,
     CONTEXTFREE_CONFIG,
     UNIQUE_CONFIG,
-    BITCOUNTRY_CONFIG,
+    // BITCOUNTRY_CONFIG,
     POLKADOT_CONFIG,
     KUSAMA_CONFIG,
     BIFROST_STAGE_TESTNET_CONFIG,
