@@ -197,7 +197,6 @@ const AssetsAndTransactions: React.FunctionComponent<
     };
 
     const handleSwapRecords = (transactionObject: any): void => {
-        console.log('transactionObject for swap', transactionObject);
         const transactions =
             transactionObject.data.query.account.swaps.nodes.map(
                 (transaction: any) => {
@@ -233,7 +232,6 @@ const AssetsAndTransactions: React.FunctionComponent<
                     };
                 }
             );
-        console.log('madeup tx', transactions);
 
         dispatch(addTransaction({ transactions, publicKey }));
     };
@@ -320,8 +318,6 @@ const AssetsAndTransactions: React.FunctionComponent<
             publicKey,
             prefix
         );
-        console.log('prefix', { queryEndpoint, publicKey, prefix });
-        console.log('query, endPoint', query, endPoint);
         fetch(endPoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

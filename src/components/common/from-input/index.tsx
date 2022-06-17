@@ -31,7 +31,6 @@ const FromInput: React.FunctionComponent<FromInputProps> = (props) => {
     const { mainHeadingfontFamilyClass, subHeadingfontFamilyClass } = fonts;
 
     const onAccountSelection = (data: Account): void => {
-        console.log('data here ====>>>', data);
         if (resetToggles) {
             resetToggles(true);
         }

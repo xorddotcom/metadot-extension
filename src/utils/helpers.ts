@@ -356,21 +356,18 @@ const formatExtrinsic = (
             // eslint-disable-next-line @typescript-eslint/no-shadow
             const { args, meta } = extrinsic || {};
             const { args: argsDef } = meta;
-            console.log(args);
             const result = args.map((arg: any, index: any) => {
                 const { name, type } = argsDef[index];
                 return {
                     value: arg.toJSON(),
                 };
             });
-            console.log(result, 'logging after map');
             return result[0].value;
         };
         const argsData = args();
 
         operation =
             accountFrom === userAddress ? 'Batch Send' : 'Batch Receive';
-        console.log(argsData);
         accountTo = argsData.map((res: any) => {
             return res.args?.dest?.id?.toString();
         });

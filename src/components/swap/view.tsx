@@ -38,8 +38,6 @@ const SwapView: React.FunctionComponent<SwapViewProps> = ({
 }) => {
     const [showDetail, setShowDetail] = useState(true);
 
-    console.log('token from to', { tokenTo, tokenFrom });
-
     const styledInputPay = {
         id: 'InputField',
         placeholder: 'Amount',

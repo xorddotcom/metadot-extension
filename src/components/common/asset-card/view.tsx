@@ -60,15 +60,10 @@ const AssetCardView: React.FunctionComponent<ViewProps> = ({
             )
                 .then((res) => res.json())
                 .then(({ data: { price } }) => {
-                    console.log('real data', { tokenName, price: price[0] });
-                    console.log('balance details', balance);
                     const dollarAmount = (
                         Number(balance) * Number(price[0])
                     ).toFixed(2);
                     setTokenPrice(dollarAmount);
-                })
-                .catch((e) => {
-                    console.log('Error ...');
                 });
         } else {
             setTokenPrice('0');
